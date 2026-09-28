@@ -1,10 +1,31 @@
+/*
+ * ============================================================
+ * MAX NEWS AGENT
+ * Deno Deploy
+ *
+ * RSS -> новости
+ * Gemini -> анализ
+ * Qwen -> резервный анализ
+ * MAX -> webhook -> chat_id -> публикация
+ *
+ * WEBHOOK:
+ * - автоматически удаляет старые n8n subscriptions
+ * - создаёт текущий Deno /webhook
+ * - получает события MAX
+ * - сохраняет chat_id в Deno KV
+ * ============================================================
+ */
+
 const MAX_API = "https://platform-api2.max.ru";
 
-const GEMINI_BASE =
-  "https://generativelanguage.googleapis.com/v1beta";
+const GEMINI_MODEL = "gemini-3.8-flash";
+const GEMINI_API =
+  `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 
 const QWEN_API =
   "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions";
+
+const QWEN_MODEL = "qwen-plus";
 
 const MAX_BOT_TOKEN =
   Deno.env.get("MAX_BOT_TOKEN") || "";
@@ -15,65 +36,8 @@ const GEMINI_API_KEY =
 const QWEN_API_KEY =
   Deno.env.get("QWEN_API_KEY") || "";
 
-const GEMINI_MODELS = parseList(
-  Deno.env.get("GEMINI_MODELS") ||
-    "gemini-3.8-flash,gemini-2.5-flash"
-);
-
-const QWEN_MODELS = parseList(
-  Deno.env.get("QWEN_MODELS") ||
-    "qwen3.8-flash,qwen3.7-plus,qwen3.6-flash,qwen-plus"
-);
-
-const RETRIES =
-  numberEnv("API_RETRIES", 2);
-
-const REQUEST_TIMEOUT_MS =
-  numberEnv("API_TIMEOUT_MS", 20000);
-
-const AUTO_PIPELINE =
-  (Deno.env.get("AUTO_PIPELINE") || "false")
-    .toLowerCase() === "true";
-
-const CRON_SCHEDULE =
-  Deno.env.get("CRON_SCHEDULE") ||
-  "*/15 * * * *";
-
-const TARGET_CHAT_ID =
-  Deno.env.get("TARGET_CHAT_ID") || "";
-
-const PUBLIC_BASE_URL =
-  (Deno.env.get("PUBLIC_BASE_URL") || "")
-    .replace(/\/$/, "");
-
 const MAX_WEBHOOK_SECRET =
-  Deno.env.get("MAX_WEBHOOK_SECRET") ||
-  (MAX_BOT_TOKEN
-    ? `factor-${MAX_BOT_TOKEN.slice(0, 24)}`
-    : "");
-
-const AUTO_WEBHOOK =
-  (Deno.env.get("AUTO_WEBHOOK") || "true")
-    .toLowerCase() === "true";
-
-const MAX_NEWS_PER_RUN =
-  numberEnv("MAX_NEWS_PER_RUN", 1);
-
-const MAX_ROOT_CA_URL =
-  "https://gu-st.ru/content/lending/russian_trusted_root_ca_pem.crt";
-
-const MAX_SUB_CA_URL =
-  "https://gu-st.ru/content/lending/russian_trusted_sub_ca_pem.crt";
-
-let maxHttpClient = null;
-let maxHttpClientError = null;
-
-let maxCaStatus = {
-  loaded: false,
-  root: false,
-  sub: false,
-  error: null
-};
+  Deno.env.get("MAX_WEBHOOK_SECRET") || "";
 
 const RSS_FEEDS = [
   "https://news.google.com/rss/search?q=мир+OR+международные+события&hl=ru&gl=RU&ceid=RU:ru",
@@ -83,216 +47,92 @@ const RSS_FEEDS = [
   "https://news.google.com/rss/search?q=технологии+OR+промышленность+OR+авто&hl=ru&gl=RU&ceid=RU:ru"
 ];
 
-const recentPublished = new Map();
+/*
+ * ============================================================
+ * MAX WEBHOOK CONFIG
+ * ============================================================
+ *
+ * Эти события нужны для автоматического получения chat_id
+ * и нормальной работы бота.
+ */
 
-let discoveredGeminiModels = null;
-let discoveredQwenModels = null;
+const MAX_WEBHOOK_UPDATE_TYPES = [
+  "bot_added",
+  "bot_started",
+  "bot_removed",
+  "bot_stopped",
+  "message_created",
+  "message_edited",
+  "message_removed",
+  "message_callback",
+  "chat_title_changed",
+  "bot_admin_permissions_changed",
+  "comment_created",
+  "comment_edited",
+  "comment_removed",
+  "user_added",
+  "user_removed"
+];
 
-let kv = null;
+/*
+ * Старые webhook-и, которые уже были обнаружены
+ * в MAX у этого бота.
+ *
+ * Они удаляются автоматически.
+ */
+const KNOWN_OLD_WEBHOOKS = [
+  "https://bogdan15.app.n8n.cloud/webhook-test/m",
+  "https://bogdan15.app.n8n.cloud/webhook-test/max-callback",
+  "https://bogdan15.app.n8n.cloud/webhook/max-callback"
+];
+
+/*
+ * Deno KV.
+ *
+ * На Deno Deploy используется встроенное KV-хранилище.
+ */
+let KV = null;
 
 try {
-  kv = await Deno.openKv();
+  KV = await Deno.openKv();
 } catch (error) {
   console.error(
-    "Deno KV unavailable:",
+    "DENO KV INIT ERROR:",
     error?.message || String(error)
   );
 }
 
-function parseList(value) {
-  return [
-    ...new Set(
-      String(value || "")
-        .split(",")
-        .map((x) => x.trim())
-        .filter(Boolean)
-    )
-  ];
-}
+/*
+ * ============================================================
+ * RESPONSE HELPERS
+ * ============================================================
+ */
 
-function numberEnv(name, fallback) {
-  const value = Number(
-    Deno.env.get(name)
-  );
-
-  return Number.isFinite(value) && value > 0
-    ? value
-    : fallback;
-}
-
-function sleep(ms) {
-  return new Promise(
-    (resolve) => setTimeout(resolve, ms)
-  );
-}
-
-function isRetryableStatus(status) {
-  return (
-    status === 408 ||
-    status === 409 ||
-    status === 425 ||
-    status === 429 ||
-    status >= 500
-  );
-}
-
-function retryDelay(
-  attempt,
-  retryAfterHeader
-) {
-  const retryAfter =
-    Number(retryAfterHeader);
-
-  if (
-    Number.isFinite(retryAfter) &&
-    retryAfter >= 0
-  ) {
-    return Math.min(
-      retryAfter * 1000,
-      60000
-    );
-  }
-
-  return (
-    Math.min(
-      1000 * 2 ** attempt,
-      8000
-    ) +
-    Math.floor(
-      Math.random() * 400
-    )
-  );
-}
-
-function json(
-  data,
-  status = 200
-) {
+function json(data, status = 200) {
   return new Response(
-    JSON.stringify(
-      data,
-      null,
-      2
-    ),
+    JSON.stringify(data, null, 2),
     {
       status,
-
       headers: {
-        "Content-Type":
-          "application/json; charset=utf-8",
-
-        "Cache-Control":
-          "no-store",
-
-        "Access-Control-Allow-Origin":
-          "*",
-
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "no-store",
+        "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods":
-          "GET, POST, OPTIONS",
-
+          "GET, POST, DELETE, OPTIONS",
         "Access-Control-Allow-Headers":
-          "Content-Type, Authorization"
+          "Content-Type, Authorization, X-Max-Bot-Api-Secret"
       }
     }
   );
 }
 
-async function initMaxHttpClient() {
-  if (maxHttpClient) {
-    return maxHttpClient;
-  }
-
-  if (maxHttpClientError) {
-    return null;
-  }
-
-  try {
-    const rootResponse =
-      await fetch(
-        MAX_ROOT_CA_URL,
-        {
-          method: "GET",
-          signal:
-            AbortSignal.timeout(10000)
-        }
-      );
-
-    if (!rootResponse.ok) {
-      throw new Error(
-        `MAX root CA download failed: HTTP ${rootResponse.status}`
-      );
-    }
-
-    const rootCa =
-      await rootResponse.text();
-
-    maxCaStatus.root = true;
-
-    const subResponse =
-      await fetch(
-        MAX_SUB_CA_URL,
-        {
-          method: "GET",
-          signal:
-            AbortSignal.timeout(10000)
-        }
-      );
-
-    if (!subResponse.ok) {
-      throw new Error(
-        `MAX sub CA download failed: HTTP ${subResponse.status}`
-      );
-    }
-
-    const subCa =
-      await subResponse.text();
-
-    maxCaStatus.sub = true;
-
-    maxHttpClient =
-      Deno.createHttpClient({
-        caCerts: [
-          rootCa,
-          subCa
-        ]
-      });
-
-    maxCaStatus.loaded = true;
-    maxCaStatus.error = null;
-
-    console.log(
-      "[MAX TLS] Russian Trusted CA loaded successfully"
-    );
-
-    return maxHttpClient;
-
-  } catch (error) {
-    maxHttpClientError =
-      error?.message ||
-      String(error);
-
-    maxCaStatus.error =
-      maxHttpClientError;
-
-    console.error(
-      "[MAX TLS] Failed to load CA certificates:",
-      maxHttpClientError
-    );
-
-    return null;
-  }
-}
-
 async function readJson(response) {
-  const text =
-    await response.text();
+  const text = await response.text();
 
-  let data = null;
+  let data;
 
   try {
-    data = text
-      ? JSON.parse(text)
-      : null;
+    data = text ? JSON.parse(text) : null;
   } catch {
     data = {
       raw: text
@@ -302,199 +142,12 @@ async function readJson(response) {
   return {
     ok: response.ok,
     status: response.status,
-    statusText:
-      response.statusText || "",
-    data,
-    headers:
-      response.headers
+    statusText: response.statusText,
+    data
   };
 }
 
-async function fetchJson(
-  url,
-  options = {},
-  config = {}
-) {
-  const retries =
-    config.retries ?? RETRIES;
-
-  const timeoutMs =
-    config.timeoutMs ??
-    REQUEST_TIMEOUT_MS;
-
-  const useMaxClient =
-    config.useMaxClient === true;
-
-  let last = {
-    ok: false,
-    status: 599,
-    statusText:
-      "No HTTP response",
-    data: {
-      error:
-        "request failed before receiving a response"
-    },
-    error_type:
-      "unknown"
-  };
-
-  for (
-    let attempt = 0;
-    attempt <= retries;
-    attempt++
-  ) {
-    const controller =
-      new AbortController();
-
-    const timer =
-      setTimeout(
-        () =>
-          controller.abort(),
-        timeoutMs
-      );
-
-    try {
-      const requestOptions = {
-        ...options,
-        signal:
-          controller.signal
-      };
-
-      if (useMaxClient) {
-        const client =
-          await initMaxHttpClient();
-
-        if (client) {
-          requestOptions.client =
-            client;
-        }
-      }
-
-      const response =
-        await fetch(
-          url,
-          requestOptions
-        );
-
-      const result =
-        await readJson(
-          response
-        );
-
-      last = {
-        ...result,
-
-        error_type:
-          result.ok
-            ? null
-            : "http"
-      };
-
-      if (result.ok) {
-        return result;
-      }
-
-      if (
-        !isRetryableStatus(
-          result.status
-        )
-      ) {
-        return result;
-      }
-
-      if (
-        attempt < retries
-      ) {
-        await sleep(
-          retryDelay(
-            attempt,
-            response.headers.get(
-              "Retry-After"
-            )
-          )
-        );
-      }
-
-    } catch (error) {
-      const isTimeout =
-        error?.name ===
-        "AbortError";
-
-      last = {
-        ok: false,
-
-        status:
-          isTimeout
-            ? 504
-            : 599,
-
-        statusText:
-          isTimeout
-            ? "Gateway Timeout"
-            : "Network Error",
-
-        data: {
-          error:
-            isTimeout
-              ? "Request timeout"
-              : error?.message ||
-                String(error)
-        },
-
-        error_type:
-          isTimeout
-            ? "timeout"
-            : "network",
-
-        error_name:
-          error?.name ||
-          "Error",
-
-        error_message:
-          error?.message ||
-          String(error),
-
-        url
-      };
-
-      console.error(
-        "[HTTP ERROR]",
-        JSON.stringify(
-          {
-            url,
-            attempt,
-            error_name:
-              error?.name,
-            error_message:
-              error?.message
-          }
-        )
-      );
-
-      if (
-        attempt < retries
-      ) {
-        await sleep(
-          retryDelay(
-            attempt
-          )
-        );
-      }
-
-    } finally {
-      clearTimeout(
-        timer
-      );
-    }
-  }
-
-  return last;
-}
-
-function requireSecret(
-  value,
-  name
-) {
+function requireSecret(value, name) {
   if (!value) {
     throw new Error(
       `Secret ${name} не настроен в Deno Deploy`
@@ -502,12 +155,19 @@ function requireSecret(
   }
 }
 
+/*
+ * ============================================================
+ * MAX API REQUEST
+ * ============================================================
+ */
+
 async function maxRequest(
   path,
+  token,
   options = {}
 ) {
   requireSecret(
-    MAX_BOT_TOKEN,
+    token,
     "MAX_BOT_TOKEN"
   );
 
@@ -516,477 +176,206 @@ async function maxRequest(
       ? path
       : `/${path}`;
 
-  return await fetchJson(
-    `${MAX_API}${cleanPath}`,
+  const controller =
+    new AbortController();
 
-    {
-      ...options,
-
-      headers: {
-        Authorization:
-          MAX_BOT_TOKEN.trim(),
-
-        Accept:
-          "application/json",
-
-        ...(options.body
-          ? {
-              "Content-Type":
-                "application/json"
-            }
-          : {}),
-
-        ...(options.headers || {})
-      }
-    },
-
-    {
-      useMaxClient: true
-    }
-  );
-}
-
-function extractGeminiText(
-  data
-) {
-  return (
-    data
-      ?.candidates?.[0]
-      ?.content
-      ?.parts
-      ?.map(
-        (part) =>
-          part?.text || ""
-      )
-      .join("")
-      .trim() || ""
-  );
-}
-
-function extractQwenText(
-  data
-) {
-  return (
-    data?.choices?.[0]
-      ?.message?.content ||
-    data?.choices?.[0]
-      ?.text ||
-    ""
-  ).trim();
-}
-
-async function discoverGeminiModels() {
-  if (!GEMINI_API_KEY) {
-    return [];
-  }
-
-  if (
-    discoveredGeminiModels
-  ) {
-    return discoveredGeminiModels;
-  }
-
-  const result =
-    await fetchJson(
-      `${GEMINI_BASE}/models?key=${encodeURIComponent(
-        GEMINI_API_KEY
-      )}`,
-
-      {
-        method:
-          "GET"
-      }
+  const timeout =
+    setTimeout(
+      () => controller.abort(),
+      30000
     );
 
-  if (!result.ok) {
-    discoveredGeminiModels =
-      [];
+  try {
+    const response =
+      await fetch(
+        `${MAX_API}${cleanPath}`,
+        {
+          ...options,
+          signal:
+            controller.signal,
 
-    return [];
-  }
+          headers: {
+            "Authorization":
+              token,
 
-  discoveredGeminiModels =
-    (
-      Array.isArray(
-        result.data?.models
-      )
-        ? result.data.models
-        : []
-    )
-      .filter(
-        (model) =>
-          !Array.isArray(
-            model?.supportedGenerationMethods
-          ) ||
-          model.supportedGenerationMethods.includes(
-            "generateContent"
-          )
-      )
-      .map(
-        (model) =>
-          String(
-            model?.name ||
-              ""
-          ).replace(
-            /^models\//,
-            ""
-          )
-      )
-      .filter(Boolean);
+            "Accept":
+              "application/json",
 
-  return discoveredGeminiModels;
-}
+            ...(options.body
+              ? {
+                  "Content-Type":
+                    "application/json"
+                }
+              }
+              : {}),
 
-async function discoverQwenModels() {
-  if (!QWEN_API_KEY) {
-    return [];
-  }
-
-  if (
-    discoveredQwenModels
-  ) {
-    return discoveredQwenModels;
-  }
-
-  const base =
-    QWEN_API.replace(
-      /\/chat\/completions\/?$/,
-      ""
-    );
-
-  const result =
-    await fetchJson(
-      `${base}/models`,
-
-      {
-        method:
-          "GET",
-
-        headers: {
-          Authorization:
-            `Bearer ${QWEN_API_KEY}`,
-
-          Accept:
-            "application/json"
+            ...(options.headers || {})
+          }
         }
-      }
+      );
+
+    return await readJson(
+      response
     );
 
-  if (!result.ok) {
-    discoveredQwenModels =
-      [];
+  } catch (error) {
 
-    return [];
+    return {
+      ok: false,
+      status:
+        error?.name === "AbortError"
+          ? 504
+          : 599,
+
+      statusText:
+        error?.name === "AbortError"
+          ? "Gateway Timeout"
+          : "Network Error",
+
+      data: {
+        error:
+          error?.message ||
+          String(error),
+
+        error_name:
+          error?.name ||
+          null,
+
+        path:
+          cleanPath,
+
+        api:
+          MAX_API,
+
+        url:
+          `${MAX_API}${cleanPath}`
+      }
+    };
+
+  } finally {
+    clearTimeout(timeout);
   }
-
-  const raw =
-    Array.isArray(
-      result.data?.data
-    )
-      ? result.data.data
-      : Array.isArray(
-          result.data?.models
-        )
-        ? result.data.models
-        : [];
-
-  discoveredQwenModels =
-    raw
-      .map(
-        (model) =>
-          String(
-            model?.id ||
-              model?.name ||
-              ""
-          ).trim()
-      )
-      .filter(Boolean);
-
-  return discoveredQwenModels;
 }
 
-function uniqueModels(
-  primary,
-  discovered,
-  limit = 30
-) {
-  return [
-    ...new Set([
-      ...primary,
-      ...discovered
-    ])
-  ].slice(
-    0,
-    limit
-  );
-}
+/*
+ * ============================================================
+ * GEMINI
+ * ============================================================
+ */
 
 async function geminiGenerate(
-  model,
+  apiKey,
   prompt
 ) {
   requireSecret(
-    GEMINI_API_KEY,
+    apiKey,
     "GEMINI_API_KEY"
   );
 
-  return fetchJson(
-    `${GEMINI_BASE}/models/${encodeURIComponent(
-      model
-    )}:generateContent?key=${encodeURIComponent(
-      GEMINI_API_KEY
-    )}`,
+  const response =
+    await fetch(
+      `${GEMINI_API}?key=${encodeURIComponent(apiKey)}`,
+      {
+        method: "POST",
 
-    {
-      method:
-        "POST",
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
 
-      headers: {
-        "Content-Type":
-          "application/json"
-      },
+        body:
+          JSON.stringify({
+            contents: [
+              {
+                parts: [
+                  {
+                    text: prompt
+                  }
+                ]
+              }
+            ],
 
-      body:
-        JSON.stringify({
-          contents: [
-            {
-              parts: [
-                {
-                  text:
-                    prompt
-                }
-              ]
+            generationConfig: {
+              temperature: 0.2,
+              maxOutputTokens: 800
             }
-          ],
+          })
+      }
+    );
 
-          generationConfig: {
-            temperature:
-              0.2,
-
-            maxOutputTokens:
-              1200
-          }
-        })
-    }
+  return await readJson(
+    response
   );
 }
 
+/*
+ * ============================================================
+ * QWEN
+ * ============================================================
+ */
+
 async function qwenGenerate(
-  model,
+  apiKey,
   prompt
 ) {
   requireSecret(
-    QWEN_API_KEY,
+    apiKey,
     "QWEN_API_KEY"
   );
 
-  return fetchJson(
-    QWEN_API,
+  const response =
+    await fetch(
+      QWEN_API,
+      {
+        method: "POST",
 
-    {
-      method:
-        "POST",
+        headers: {
+          "Authorization":
+            `Bearer ${apiKey}`,
 
-      headers: {
-        Authorization:
-          `Bearer ${QWEN_API_KEY}`,
+          "Content-Type":
+            "application/json"
+        },
 
-        "Content-Type":
-          "application/json"
-      },
+        body:
+          JSON.stringify({
+            model:
+              QWEN_MODEL,
 
-      body:
-        JSON.stringify({
-          model,
+            messages: [
+              {
+                role:
+                  "system",
 
-          messages: [
-            {
-              role:
-                "system",
+                content:
+                  "Ты аналитик новостей. Отвечай кратко и фактически."
+              },
 
-              content:
-                "Ты редактор новостного канала. Пиши быстро, ясно и фактически. Не выдумывай факты, не используй агитацию и не приписывай людям мотивы без источника."
-            },
+              {
+                role:
+                  "user",
 
-            {
-              role:
-                "user",
+                content:
+                  prompt
+              }
+            ],
 
-              content:
-                prompt
-            }
-          ],
+            stream:
+              false
+          })
+      }
+    );
 
-          stream:
-            false
-        })
-    }
+  return await readJson(
+    response
   );
 }
 
-async function generateWithFallback(
-  prompt
-) {
-  const attempts =
-    [];
-
-  const geminiModels =
-    uniqueModels(
-      GEMINI_MODELS,
-      await discoverGeminiModels()
-    );
-
-  const qwenModels =
-    uniqueModels(
-      QWEN_MODELS,
-      await discoverQwenModels()
-    );
-
-  for (
-    const model
-    of geminiModels
-  ) {
-    try {
-      const result =
-        await geminiGenerate(
-          model,
-          prompt
-        );
-
-      const text =
-        extractGeminiText(
-          result.data
-        );
-
-      attempts.push({
-        provider:
-          "Google Gemini",
-
-        model,
-
-        http_status:
-          result.status,
-
-        ok:
-          result.ok,
-
-        error:
-          result.data?.error ||
-          result.error_message ||
-          null
-      });
-
-      if (
-        result.ok &&
-        text
-      ) {
-        return {
-          ok: true,
-
-          provider:
-            "Google Gemini",
-
-          model,
-
-          text,
-
-          attempts
-        };
-      }
-
-    } catch (error) {
-      attempts.push({
-        provider:
-          "Google Gemini",
-
-        model,
-
-        ok: false,
-
-        error:
-          error?.message ||
-          String(error)
-      });
-    }
-  }
-
-  for (
-    const model
-    of qwenModels
-  ) {
-    try {
-      const result =
-        await qwenGenerate(
-          model,
-          prompt
-        );
-
-      const text =
-        extractQwenText(
-          result.data
-        );
-
-      attempts.push({
-        provider:
-          "Alibaba Qwen",
-
-        model,
-
-        http_status:
-          result.status,
-
-        ok:
-          result.ok,
-
-        error:
-          result.data?.error ||
-          result.error_message ||
-          null
-      });
-
-      if (
-        result.ok &&
-        text
-      ) {
-        return {
-          ok: true,
-
-          provider:
-            "Alibaba Qwen",
-
-          model,
-
-          text,
-
-          attempts
-        };
-      }
-
-    } catch (error) {
-      attempts.push({
-        provider:
-          "Alibaba Qwen",
-
-        model,
-
-        ok: false,
-
-        error:
-          error?.message ||
-          String(error)
-      });
-    }
-  }
-
-  return {
-    ok: false,
-
-    error:
-      "Все доступные AI-модели не ответили успешно.",
-
-    attempts
-  };
-}
+/*
+ * ============================================================
+ * RSS
+ * ============================================================
+ */
 
 function extractTag(
   xml,
@@ -999,9 +388,7 @@ function extractTag(
     );
 
   const match =
-    xml.match(
-      regex
-    );
+    xml.match(regex);
 
   if (!match) {
     return "";
@@ -1034,8 +421,7 @@ function extractItems(
     ) || [];
 
   for (
-    const item
-    of matches
+    const item of matches
   ) {
     const title =
       extractTag(
@@ -1077,461 +463,72 @@ function extractItems(
 }
 
 async function fetchRSS() {
-  const results =
-    await Promise.all(
-      RSS_FEEDS.map(
-        async (feed) => {
-          const result =
-            await fetchJson(
-              feed,
+  const results = [];
 
-              {
-                method:
-                  "GET",
+  for (
+    const feed of RSS_FEEDS
+  ) {
+    try {
 
-                headers: {
-                  "User-Agent":
-                    "MAX-News-Agent/2.0"
-                }
-              },
-
-              {
-                retries:
-                  1,
-
-                timeoutMs:
-                  15000
-              }
-            );
-
-          if (!result.ok) {
-            return {
-              feed,
-
-              ok:
-                false,
-
-              status:
-                result.status,
-
-              error:
-                result.data
-                  ?.error ||
-                null
-            };
+      const response =
+        await fetch(
+          feed,
+          {
+            headers: {
+              "User-Agent":
+                "MAX-News-Agent/1.0"
+            }
           }
+        );
 
-          const xml =
-            typeof result.data ===
-              "object" &&
-            result.data?.raw
-              ? result.data.raw
-              : null;
+      if (!response.ok) {
 
-          if (!xml) {
-            return {
-              feed,
+        results.push({
+          feed,
+          ok: false,
+          status:
+            response.status
+        });
 
-              ok:
-                false,
+        continue;
+      }
 
-              status:
-                result.status,
+      const xml =
+        await response.text();
 
-              error:
-                "RSS response is not plain XML"
-            };
-          }
+      const items =
+        extractItems(xml);
 
-          const items =
-            extractItems(
-              xml
-            );
+      results.push({
+        feed,
+        ok: true,
+        count:
+          items.length,
+        items:
+          items.slice(0, 10)
+      });
 
-          return {
-            feed,
+    } catch (error) {
 
-            ok:
-              true,
+      results.push({
+        feed,
+        ok: false,
+        error:
+          error?.message ||
+          String(error)
+      });
 
-            count:
-              items.length,
-
-            items:
-              items.slice(
-                0,
-                10
-              )
-          };
-        }
-      )
-    );
+    }
+  }
 
   return results;
 }
 
-function flattenNews(
-  feeds
-) {
-  const items = [];
-
-  for (
-    const feed
-    of feeds
-  ) {
-    if (
-      !feed.ok ||
-      !Array.isArray(
-        feed.items
-      )
-    ) {
-      continue;
-    }
-
-    for (
-      const item
-      of feed.items
-    ) {
-      items.push({
-        ...item,
-
-        source_feed:
-          feed.feed
-      });
-    }
-  }
-
-  return items.sort(
-    (a, b) => {
-      const aTime =
-        Date.parse(
-          a.pubDate || ""
-        ) || 0;
-
-      const bTime =
-        Date.parse(
-          b.pubDate || ""
-        ) || 0;
-
-      return (
-        bTime - aTime
-      );
-    }
-  );
-}
-
-function buildAnalysisPrompt(
-  item
-) {
-  return `
-Ты редактор новостного канала ФАКТОР.
-
-Стиль подачи — как живая новостная лента «прямой эфир»:
-событие появляется сразу;
-главное — в первых словах;
-короткие абзацы;
-быстрый темп;
-минимум лишних объяснений.
-
-НОВОСТЬ:
-
-ЗАГОЛОВОК:
-${item.title}
-
-ДАТА:
-${item.pubDate || "не указана"}
-
-ОПИСАНИЕ:
-${item.description || "нет"}
-
-ССЫЛКА:
-${item.link || "нет"}
-
-Правила:
-
-1. Начни с короткой метки только если она оправдана фактами:
-⚡ СРОЧНО
-🔴 ВАЖНО
-🟠 ВНИМАНИЕ
-
-Если срочность не подтверждена — никакой метки.
-
-2. Первое предложение должно сразу сообщать главное событие.
-
-3. Используй 2–4 коротких абзаца.
-
-4. Общий объём:
-450–900 знаков.
-
-5. Используй 1–3 уместных эмодзи.
-Не превращай текст в россыпь эмодзи.
-
-6. После главного факта дай контекст:
-кто, где, когда и что известно.
-
-7. Если информация предварительная,
-используй:
-«по предварительным данным»,
-«сообщается»,
-«данные уточняются».
-
-8. Ничего не выдумывай:
-цифры,
-причины,
-мотивы,
-цитаты,
-последствия.
-
-9. Для политики и спорных тем сохраняй нейтральность.
-Не агитируй и не оценивай политический выбор.
-
-10. Не используй:
-«шокирующая новость»,
-«все в ужасе»,
-«сенсация»,
-«это конец»,
-«власти скрывают»,
-если такие утверждения не подтверждены источником.
-
-11. В конце отдельной строкой:
-
-Источник: ${item.link || "ссылка не указана"}
-
-12. Не используй Markdown-таблицы.
-
-Верни только готовый текст поста.
-`.trim();
-}
-
-function newsKey(
-  item
-) {
-  return (
-    item.link ||
-    `${item.title}|${item.pubDate || ""}`
-  );
-}
-
-async function publishToMax(
-  chatId,
-  text
-) {
-  if (!chatId) {
-    return {
-      ok: false,
-
-      status: 400,
-
-      data: {
-        error:
-          "TARGET_CHAT_ID не задан"
-      }
-    };
-  }
-
-  return await maxRequest(
-    `/messages?chat_id=${encodeURIComponent(
-      chatId
-    )}`,
-
-    {
-      method:
-        "POST",
-
-      body:
-        JSON.stringify({
-          text
-        })
-    }
-  );
-}
-
-async function runPipeline() {
-  const startedAt =
-    Date.now();
-
-  const feeds =
-    await fetchRSS();
-
-  const news =
-    flattenNews(
-      feeds
-    );
-
-  if (!news.length) {
-    return {
-      ok: false,
-
-      stage:
-        "rss",
-
-      error:
-        "Новых материалов из RSS не получено.",
-
-      feeds
-    };
-  }
-
-  const selected =
-    news.slice(
-      0,
-      MAX_NEWS_PER_RUN
-    );
-
-  const results = [];
-
-  for (
-    const item
-    of selected
-  ) {
-    const key =
-      newsKey(
-        item
-      );
-
-    if (
-      recentPublished.has(
-        key
-      )
-    ) {
-      results.push({
-        ok: true,
-
-        skipped:
-          true,
-
-        reason:
-          "already processed in current runtime",
-
-        item
-      });
-
-      continue;
-    }
-
-    const analysis =
-      await generateWithFallback(
-        buildAnalysisPrompt(
-          item
-        )
-      );
-
-    if (!analysis.ok) {
-      results.push({
-        ok: false,
-
-        stage:
-          "ai",
-
-        item,
-
-        analysis
-      });
-
-      continue;
-    }
-
-    const text =
-      `📰 ${item.title}\n\n` +
-      `${analysis.text}\n\n` +
-      `Источник: ${
-        item.link ||
-        "не указан"
-      }`;
-
-    let publication = {
-      ok: false,
-
-      skipped:
-        true,
-
-      reason:
-        AUTO_PIPELINE &&
-        TARGET_CHAT_ID
-          ? "not attempted"
-          : "AUTO_PIPELINE=false or TARGET_CHAT_ID is empty"
-    };
-
-    if (
-      AUTO_PIPELINE &&
-      TARGET_CHAT_ID
-    ) {
-      const publishResult =
-        await publishToMax(
-          TARGET_CHAT_ID,
-          text
-        );
-
-      publication = {
-        ok:
-          publishResult.ok,
-
-        http_status:
-          publishResult.status,
-
-        response:
-          publishResult.data,
-
-        error:
-          publishResult.error_message ||
-          null
-      };
-
-      if (
-        publishResult.ok
-      ) {
-        recentPublished.set(
-          key,
-          Date.now()
-        );
-      }
-    }
-
-    results.push({
-      ok: true,
-
-      item,
-
-      ai: {
-        provider:
-          analysis.provider,
-
-        model:
-          analysis.model,
-
-        attempts:
-          analysis.attempts
-      },
-
-      publication,
-
-      text
-    });
-  }
-
-  return {
-    ok:
-      results.some(
-        (item) =>
-          item.ok
-      ),
-
-    duration_ms:
-      Date.now() -
-      startedAt,
-
-    auto_pipeline:
-      AUTO_PIPELINE,
-
-    target_chat_configured:
-      !!TARGET_CHAT_ID,
-
-    rss_total:
-      news.length,
-
-    results
-  };
-}
+/*
+ * ============================================================
+ * CHAT ID HELPERS
+ * ============================================================
+ */
 
 function extractChatIds(
   data
@@ -1547,9 +544,9 @@ function extractChatIds(
       : [];
 
   for (
-    const update
-    of updates
+    const update of updates
   ) {
+
     if (
       update &&
       update.chat_id !==
@@ -1557,11 +554,13 @@ function extractChatIds(
       update.chat_id !==
         null
     ) {
+
       ids.add(
         String(
           update.chat_id
         )
       );
+
     }
   }
 
@@ -1581,7 +580,9 @@ function getUpdateSummary(
       : [];
 
   return updates.map(
-    (update) => ({
+    (
+      update
+    ) => ({
       update_type:
         update?.update_type ??
         null,
@@ -1607,270 +608,409 @@ function getUpdateSummary(
   );
 }
 
-async function kvGetChats() {
-  const ids =
-    new Set();
+/*
+ * ============================================================
+ * KV CHAT STORAGE
+ * ============================================================
+ */
 
-  if (TARGET_CHAT_ID) {
-    ids.add(
-      String(
-        TARGET_CHAT_ID
-      )
-    );
-  }
-
-  if (!kv) {
-    return [
-      ...ids
-    ].filter(Boolean);
-  }
-
-  try {
-    for await (
-      const entry
-      of kv.list({
-        prefix: [
-          "max-chat"
-        ]
-      })
-    ) {
-      const id =
-        entry.value?.chat_id ??
-        entry.key?.[1] ??
-        "";
-
-      if (id !== "") {
-        ids.add(
-          String(id)
-        );
-      }
-    }
-  } catch (error) {
-    console.error(
-      "KV read chats:",
-      error?.message ||
-        String(error)
-    );
-  }
-
-  return [
-    ...ids
-  ].filter(Boolean);
-}
-
-async function kvSaveChat(
-  update
+async function saveChatId(
+  chatId,
+  meta = {}
 ) {
-  const chatId =
-    update?.chat_id ??
-    update?.chat?.chat_id ??
-    update?.message?.chat_id ??
-    update?.message?.chat?.chat_id;
-
   if (
+    !KV ||
     chatId ===
       undefined ||
-    chatId ===
-      null ||
-    !kv
+    chatId === null
   ) {
-    return null;
+    return false;
   }
 
   const id =
     String(chatId);
 
-  try {
-    await kv.set(
-      [
-        "max-chat",
-        id
-      ],
-
-      {
-        chat_id:
-          id,
-
-        update_type:
-          update?.update_type ||
-          null,
-
-        is_channel:
-          update?.is_channel ??
-          null,
-
-        updated_at:
-          new Date().toISOString()
-      }
-    );
-
-    return id;
-
-  } catch (error) {
-    console.error(
-      "KV save chat:",
-      error?.message ||
-        String(error)
-    );
-
-    return null;
-  }
-}
-
-async function kvDeleteChat(
-  update
-) {
-  const chatId =
-    update?.chat_id ??
-    update?.chat?.chat_id ??
-    update?.message?.chat_id ??
-    update?.message?.chat?.chat_id;
-
-  if (
-    chatId ===
-      undefined ||
-    chatId ===
-      null ||
-    !kv
-  ) {
-    return;
-  }
-
-  try {
-    await kv.delete([
-      "max-chat",
-      String(chatId)
-    ]);
-  } catch (error) {
-    console.error(
-      "KV delete chat:",
-      error?.message ||
-        String(error)
-    );
-  }
-}
-
-function deriveWebhookUrl(
-  request = null
-) {
-  if (PUBLIC_BASE_URL) {
-    return `${PUBLIC_BASE_URL}/webhook`;
-  }
-
-  if (request) {
-    return `${
-      new URL(
-        request.url
-      ).origin
-    }/webhook`;
-  }
-
-  return "";
-}
-
-async function handleWebhook(
-  request
-) {
-  if (
-    MAX_WEBHOOK_SECRET &&
-    request.headers.get(
-      "X-Max-Bot-Api-Secret"
-    ) !==
-      MAX_WEBHOOK_SECRET
-  ) {
-    return json(
-      {
-        ok: false,
-
-        error:
-          "Invalid webhook secret"
-      },
-
-      401
-    );
-  }
-
-  let update;
-
-  try {
-    update =
-      await request.json();
-
-  } catch {
-    return json(
-      {
-        ok: false,
-
-        error:
-          "Invalid JSON"
-      },
-
-      400
-    );
-  }
-
-  const type =
-    update?.update_type ||
-    "unknown";
-
-  if (
+  await KV.set(
     [
-      "bot_started",
-      "bot_added",
-      "message_created",
-      "chat_title_changed",
-      "user_added",
-      "bot_admin_permissions_changed",
-      "message_callback"
-    ].includes(
-      type
-    )
-  ) {
-    await kvSaveChat(
-      update
-    );
-  }
-
-  if (
-    [
-      "bot_removed",
-      "bot_stopped",
-      "dialog_removed"
-    ].includes(
-      type
-    )
-  ) {
-    await kvDeleteChat(
-      update
-    );
-  }
-
-  console.log(
-    "[MAX WEBHOOK]",
-    JSON.stringify({
-      update_type:
-        type,
-
+      "max",
+      "chat",
+      id
+    ],
+    {
       chat_id:
-        update?.chat_id ??
-        update?.chat?.chat_id ??
-        update?.message?.chat_id ??
-        update?.message?.chat?.chat_id ??
+        id,
+
+      is_channel:
+        meta.is_channel ??
+        null,
+
+      update_type:
+        meta.update_type ??
         null,
 
       timestamp:
-        update?.timestamp ??
-        null
-    })
+        meta.timestamp ??
+        Date.now(),
+
+      updated_at:
+        new Date().toISOString()
+    }
   );
 
-  return json({
-    ok: true
-  });
+  return true;
 }
 
+async function deleteChatId(
+  chatId
+) {
+  if (
+    !KV ||
+    chatId ===
+      undefined ||
+    chatId === null
+  ) {
+    return false;
+  }
+
+  await KV.delete(
+    [
+      "max",
+      "chat",
+      String(chatId)
+    ]
+  );
+
+  return true;
+}
+
+async function getStoredChatIds() {
+  if (!KV) {
+    return [];
+  }
+
+  const ids = [];
+
+  for await (
+    const entry of KV.list({
+      prefix: [
+        "max",
+        "chat"
+      ]
+    })
+  ) {
+
+    if (
+      entry?.value?.chat_id
+    ) {
+
+      ids.push(
+        entry.value
+      );
+
+    }
+  }
+
+  return ids;
+}
+
+/*
+ * ============================================================
+ * WEBHOOK UPDATE PROCESSOR
+ * ============================================================
+ */
+
+async function processWebhookUpdate(
+  update
+) {
+  if (!update) {
+    return {
+      saved:
+        false,
+
+      reason:
+        "empty_update"
+    };
+  }
+
+  const updateType =
+    update.update_type ||
+    null;
+
+  const chatId =
+    update.chat_id !==
+      undefined &&
+    update.chat_id !==
+      null
+      ? String(
+          update.chat_id
+        )
+      : null;
+
+  if (
+    updateType ===
+      "bot_removed"
+  ) {
+
+    if (chatId) {
+      await deleteChatId(
+        chatId
+      );
+    }
+
+    return {
+      saved:
+        false,
+
+      deleted:
+        chatId,
+
+      update_type:
+        updateType
+    };
+  }
+
+  if (
+    chatId
+  ) {
+
+    await saveChatId(
+      chatId,
+      {
+        is_channel:
+          update.is_channel ??
+          null,
+
+        update_type:
+          updateType,
+
+        timestamp:
+          update.timestamp ??
+          Date.now()
+      }
+    );
+
+    return {
+      saved:
+        true,
+
+      chat_id:
+        chatId,
+
+      update_type:
+        updateType,
+
+      is_channel:
+        update.is_channel ??
+        null
+    };
+  }
+
+  return {
+    saved:
+      false,
+
+    update_type:
+      updateType,
+
+    reason:
+      "chat_id_not_present"
+  };
+}
+
+/*
+ * ============================================================
+ * WEBHOOK URL
+ * ============================================================
+ */
+
+function getWebhookUrl(
+  requestUrl
+) {
+  const current =
+    new URL(
+      requestUrl
+    );
+
+  return `${current.origin}/webhook`;
+}
+
+/*
+ * ============================================================
+ * MAX SUBSCRIPTIONS
+ * ============================================================
+ */
+
+async function getMaxSubscriptions() {
+  return await maxRequest(
+    "/subscriptions",
+    MAX_BOT_TOKEN,
+    {
+      method:
+        "GET"
+    }
+  );
+}
+
+async function deleteMaxSubscription(
+  webhookUrl
+) {
+  const encoded =
+    encodeURIComponent(
+      webhookUrl
+    );
+
+  return await maxRequest(
+    `/subscriptions?url=${encoded}`,
+    MAX_BOT_TOKEN,
+    {
+      method:
+        "DELETE"
+    }
+  );
+}
+
+async function createMaxSubscription(
+  webhookUrl
+) {
+  const body = {
+    url:
+      webhookUrl,
+
+    update_types:
+      MAX_WEBHOOK_UPDATE_TYPES
+  };
+
+  if (
+    MAX_WEBHOOK_SECRET
+  ) {
+    body.secret =
+      MAX_WEBHOOK_SECRET;
+  }
+
+  return await maxRequest(
+    "/subscriptions",
+    MAX_BOT_TOKEN,
+    {
+      method:
+        "POST",
+
+      body:
+        JSON.stringify(
+          body
+        )
+    }
+  );
+}
+
+/*
+ * ============================================================
+ * CLEANUP OLD WEBHOOKS
+ * ============================================================
+ */
+
+async function cleanupOldWebhooks(
+  currentWebhook
+) {
+  const candidates =
+    new Set(
+      KNOWN_OLD_WEBHOOKS
+    );
+
+  /*
+   * Сначала получаем реальные
+   * текущие подписки MAX.
+   */
+  const current =
+    await getMaxSubscriptions();
+
+  const found =
+    Array.isArray(
+      current?.data?.subscriptions
+    )
+      ? current.data.subscriptions
+      : [];
+
+  for (
+    const subscription of found
+  ) {
+
+    const url =
+      subscription?.url;
+
+    if (
+      url &&
+      url !==
+        currentWebhook
+    ) {
+
+      candidates.add(
+        url
+      );
+    }
+  }
+
+  const results = [];
+
+  for (
+    const webhookUrl of candidates
+  ) {
+
+    if (
+      !webhookUrl ||
+      webhookUrl ===
+        currentWebhook
+    ) {
+      continue;
+    }
+
+    const result =
+      await deleteMaxSubscription(
+        webhookUrl
+      );
+
+    results.push({
+      url:
+        webhookUrl,
+
+      ok:
+        result.ok,
+
+      http_status:
+        result.status,
+
+      response:
+        result.data
+    });
+  }
+
+  return {
+    current_webhook:
+      currentWebhook,
+
+    discovered_subscriptions:
+      found,
+
+    deleted:
+      results
+  };
+}
+
+/*
+ * ============================================================
+ * FULL WEBHOOK SETUP
+ * ============================================================
+ *
+ * 1. Узнаём текущий URL Deno
+ * 2. Получаем существующие подписки
+ * 3. Удаляем старые n8n
+ * 4. Удаляем любые другие старые webhook
+ * 5. Создаём текущий /webhook
+ * 6. Проверяем итог
+ * ============================================================
+ */
+
 async function setupWebhook(
-  request = null
+  requestUrl
 ) {
   requireSecret(
     MAX_BOT_TOKEN,
@@ -1878,167 +1018,104 @@ async function setupWebhook(
   );
 
   const webhookUrl =
-    deriveWebhookUrl(
-      request
+    getWebhookUrl(
+      requestUrl
     );
 
-  if (!webhookUrl) {
-    return {
-      ok: false,
+  /*
+   * Получаем исходные подписки.
+   */
+  const before =
+    await getMaxSubscriptions();
 
-      error:
-        "PUBLIC_BASE_URL не настроен. Укажите полный URL Deno Deploy без /webhook.",
-
-      webhook_url:
-        null
-    };
-  }
-
-  if (
-    !webhookUrl.startsWith(
-      "https://"
-    )
-  ) {
-    return {
-      ok: false,
-
-      error:
-        "Webhook URL должен быть HTTPS",
-
-      webhook_url:
-        webhookUrl
-    };
-  }
-
-  const result =
-    await maxRequest(
-      "/subscriptions",
-
-      {
-        method:
-          "POST",
-
-        body:
-          JSON.stringify({
-            url:
-              webhookUrl,
-
-            update_types: [
-              "bot_started",
-              "bot_added",
-              "message_created",
-              "bot_removed",
-              "bot_stopped",
-              "dialog_removed",
-              "chat_title_changed",
-              "user_added",
-              "bot_admin_permissions_changed",
-              "message_callback"
-            ],
-
-            secret:
-              MAX_WEBHOOK_SECRET
-          })
-      }
+  /*
+   * Удаляем всё старое,
+   * кроме текущего Deno webhook.
+   */
+  const cleanup =
+    await cleanupOldWebhooks(
+      webhookUrl
     );
+
+  /*
+   * Создаём текущую подписку.
+   */
+  const created =
+    await createMaxSubscription(
+      webhookUrl
+    );
+
+  /*
+   * Проверяем итог.
+   */
+  const after =
+    await getMaxSubscriptions();
 
   return {
     ok:
-      result.ok,
+      created.ok &&
+      after.ok,
 
     provider:
       "MAX",
 
-    endpoint:
-      "/subscriptions",
-
     webhook_url:
       webhookUrl,
 
-    http_status:
-      result.status,
+    update_types:
+      MAX_WEBHOOK_UPDATE_TYPES,
 
-    status_text:
-      result.statusText ||
-      null,
+    webhook_secret:
+      !!MAX_WEBHOOK_SECRET,
 
-    error_type:
-      result.error_type ||
-      null,
+    before: {
+      ok:
+        before.ok,
 
-    error_name:
-      result.error_name ||
-      null,
+      http_status:
+        before.status,
 
-    error_message:
-      result.error_message ||
-      null,
+      response:
+        before.data
+    },
 
-    response:
-      result.data
+    cleanup,
+
+    create: {
+      ok:
+        created.ok,
+
+      http_status:
+        created.status,
+
+      response:
+        created.data
+    },
+
+    after: {
+      ok:
+        after.ok,
+
+      http_status:
+        after.status,
+
+      response:
+        after.data
+    }
   };
 }
 
-if (
-  AUTO_PIPELINE
-) {
-  Deno.cron(
-    "MAX News automatic pipeline",
-
-    CRON_SCHEDULE,
-
-    {
-      backoffSchedule: [
-        5000,
-        15000,
-        60000
-      ]
-    },
-
-    async () => {
-      console.log(
-        `[CRON] MAX News pipeline started: ${new Date().toISOString()}`
-      );
-
-      if (
-        AUTO_WEBHOOK
-      ) {
-        const webhook =
-          await setupWebhook();
-
-        console.log(
-          "[CRON] Webhook setup:",
-          JSON.stringify(
-            webhook
-          )
-        );
-      }
-
-      const result =
-        await runPipeline();
-
-      console.log(
-        "[CRON] MAX News pipeline result:",
-
-        JSON.stringify(
-          result
-        )
-      );
-
-      if (
-        !result.ok
-      ) {
-        throw new Error(
-          result.error ||
-            "MAX News pipeline failed"
-        );
-      }
-    }
-  );
-}
+/*
+ * ============================================================
+ * DENO SERVE
+ * ============================================================
+ */
 
 Deno.serve(
-  async (request) => {
+  async (
+    request
+  ) => {
+
     const url =
       new URL(
         request.url
@@ -2047,34 +1124,36 @@ Deno.serve(
     const path =
       url.pathname;
 
+    /*
+     * CORS
+     */
     if (
       request.method ===
       "OPTIONS"
     ) {
       return json({
-        ok: true
+        ok:
+          true
       });
     }
 
     try {
-      if (
-        path ===
-          "/webhook" &&
-        request.method ===
-          "POST"
-      ) {
-        return await handleWebhook(
-          request
-        );
-      }
+
+      /*
+       * ======================================================
+       * /
+       * ======================================================
+       */
 
       if (
         path === "/" &&
         request.method ===
           "GET"
       ) {
+
         return json({
-          ok: true,
+          ok:
+            true,
 
           service:
             "MAX NEWS AGENT",
@@ -2088,70 +1167,48 @@ Deno.serve(
           time:
             new Date().toISOString(),
 
-          auto_pipeline:
-            AUTO_PIPELINE,
+          max_api:
+            MAX_API,
 
-          auto_webhook:
-            AUTO_WEBHOOK,
-
-          cron_schedule:
-            AUTO_PIPELINE
-              ? CRON_SCHEDULE
-              : null,
-
-          target_chat_configured:
-            !!TARGET_CHAT_ID,
-
-          stored_chat_ids:
-            await kvGetChats(),
-
-          webhook_url:
-            deriveWebhookUrl(
-              request
+          webhook:
+            getWebhookUrl(
+              request.url
             ),
-
-          tls: {
-            ca_loaded:
-              maxCaStatus.loaded,
-
-            root_ca_loaded:
-              maxCaStatus.root,
-
-            sub_ca_loaded:
-              maxCaStatus.sub,
-
-            error:
-              maxCaStatus.error
-          },
 
           endpoints: [
             "/check",
             "/rss",
-            "/models",
             "/gemini-test",
             "/qwen-test",
             "/max-test",
             "/updates",
             "/chat-ids",
-            "/subscriptions",
-            "/setup-webhook",
-            "/webhook",
+            "/stored-chat-ids",
             "/chat-test?chat_id=...",
             "/publish-test?chat_id=...",
-            "/pipeline",
-            "/run"
+            "/subscriptions",
+            "/cleanup-webhooks",
+            "/setup-webhook",
+            "/webhook"
           ]
         });
       }
 
+      /*
+       * ======================================================
+       * /check
+       * ======================================================
+       */
+
       if (
-        path ===
-          "/check" &&
+        path === "/check" &&
         request.method ===
           "GET"
       ) {
+
         const result = {
-          ok: true,
+          ok:
+            true,
 
           service:
             "MAX NEWS AGENT",
@@ -2159,32 +1216,7 @@ Deno.serve(
           runtime:
             "Deno Deploy",
 
-          time:
-            new Date().toISOString(),
-
-          max_api:
-            MAX_API,
-
-          tls: {
-            ca_loaded:
-              maxCaStatus.loaded,
-
-            root_ca_loaded:
-              maxCaStatus.root,
-
-            sub_ca_loaded:
-              maxCaStatus.sub,
-
-            error:
-              maxCaStatus.error
-          },
-
           checks: {
-            max: {
-              configured:
-                !!MAX_BOT_TOKEN
-            },
-
             gemini: {
               configured:
                 !!GEMINI_API_KEY
@@ -2195,137 +1227,185 @@ Deno.serve(
                 !!QWEN_API_KEY
             },
 
+            max: {
+              configured:
+                !!MAX_BOT_TOKEN
+            },
+
             webhook: {
               configured:
-                !!MAX_WEBHOOK_SECRET,
-
-              auto:
-                AUTO_WEBHOOK,
+                true,
 
               url:
-                deriveWebhookUrl(
-                  request
+                getWebhookUrl(
+                  request.url
                 )
             }
           }
         };
 
         if (
-          MAX_BOT_TOKEN
-        ) {
-          const test =
-            await maxRequest(
-              "/me",
-
-              {
-                method:
-                  "GET"
-              }
-            );
-
-          result.checks.max.api = {
-            ok:
-              test.ok,
-
-            http_status:
-              test.status,
-
-            status_text:
-              test.statusText ||
-              null,
-
-            error_type:
-              test.error_type ||
-              null,
-
-            error_name:
-              test.error_name ||
-              null,
-
-            error_message:
-              test.error_message ||
-              null,
-
-            response:
-              test.data
-          };
-        }
-
-        if (
           GEMINI_API_KEY
         ) {
-          const models =
-            await discoverGeminiModels();
 
-          result.checks.gemini.api = {
-            ok:
-              models.length > 0,
+          try {
 
-            discovered_models:
-              models.slice(
-                0,
-                20
-              )
-          };
+            const test =
+              await geminiGenerate(
+                GEMINI_API_KEY,
+                "Ответь одним словом: OK"
+              );
+
+            result.checks.gemini.api = {
+              ok:
+                test.ok,
+
+              http_status:
+                test.status
+            };
+
+          } catch (
+            error
+          ) {
+
+            result.checks.gemini.api = {
+              ok:
+                false,
+
+              error:
+                error?.message ||
+                String(error)
+            };
+          }
         }
 
         if (
           QWEN_API_KEY
         ) {
-          const models =
-            await discoverQwenModels();
 
-          result.checks.qwen.api = {
-            ok:
-              models.length > 0,
+          try {
 
-            discovered_models:
-              models.slice(
-                0,
-                20
-              )
-          };
+            const test =
+              await qwenGenerate(
+                QWEN_API_KEY,
+                "Ответь одним словом: OK"
+              );
+
+            result.checks.qwen.api = {
+              ok:
+                test.ok,
+
+              http_status:
+                test.status
+            };
+
+          } catch (
+            error
+          ) {
+
+            result.checks.qwen.api = {
+              ok:
+                false,
+
+              error:
+                error?.message ||
+                String(error)
+            };
+          }
+        }
+
+        if (
+          MAX_BOT_TOKEN
+        ) {
+
+          try {
+
+            const test =
+              await maxRequest(
+                "/me",
+                MAX_BOT_TOKEN,
+                {
+                  method:
+                    "GET"
+                }
+              );
+
+            result.checks.max.api = {
+              ok:
+                test.ok,
+
+              http_status:
+                test.status,
+
+              response:
+                test.data
+            };
+
+          } catch (
+            error
+          ) {
+
+            result.checks.max.api = {
+              ok:
+                false,
+
+              error:
+                error?.message ||
+                String(error)
+            };
+          }
         }
 
         result.ok =
           !!(
-            result.checks.max
-              .configured &&
-            result.checks.max
-              .api?.ok
+            result.checks.gemini.configured &&
+            result.checks.qwen.configured &&
+            result.checks.max.configured &&
+            result.checks.gemini.api?.ok &&
+            result.checks.qwen.api?.ok &&
+            result.checks.max.api?.ok
           );
 
         return json(
           result,
-
           result.ok
             ? 200
             : 503
         );
       }
 
+      /*
+       * ======================================================
+       * /rss
+       * ======================================================
+       */
+
       if (
         path === "/rss" &&
         request.method ===
           "GET"
       ) {
+
         const feeds =
           await fetchRSS();
 
         const total =
           feeds.reduce(
-            (sum, feed) =>
+            (
+              sum,
+              feed
+            ) =>
               sum +
               (
                 feed.count ||
                 0
               ),
-
             0
           );
 
         return json({
-          ok: true,
+          ok:
+            true,
 
           total_items:
             total,
@@ -2334,40 +1414,11 @@ Deno.serve(
         });
       }
 
-      if (
-        path === "/models" &&
-        request.method ===
-          "GET"
-      ) {
-        const gemini =
-          await discoverGeminiModels();
-
-        const qwen =
-          await discoverQwenModels();
-
-        return json({
-          ok: true,
-
-          configured: {
-            gemini:
-              GEMINI_MODELS,
-
-            qwen:
-              QWEN_MODELS
-          },
-
-          discovered: {
-            gemini,
-
-            qwen
-          },
-
-          fallback_order: [
-            "Gemini configured/discovered models",
-            "Qwen configured/discovered models"
-          ]
-        });
-      }
+      /*
+       * ======================================================
+       * /gemini-test
+       * ======================================================
+       */
 
       if (
         path ===
@@ -2375,32 +1426,16 @@ Deno.serve(
         request.method ===
           "GET"
       ) {
+
         const prompt =
           url.searchParams.get(
             "prompt"
           ) ||
-          "Ответь одним словом: OK";
-
-        if (
-          !GEMINI_API_KEY
-        ) {
-          return json(
-            {
-              ok: false,
-
-              provider:
-                "Google Gemini",
-
-              error:
-                "GEMINI_API_KEY не настроен"
-            },
-
-            503
-          );
-        }
+          "Ответь кратко: Gemini API работает?";
 
         const result =
-          await generateWithFallback(
+          await geminiGenerate(
+            GEMINI_API_KEY,
             prompt
           );
 
@@ -2409,26 +1444,24 @@ Deno.serve(
             result.ok,
 
           provider:
-            result.provider ||
-            null,
+            "Google Gemini",
 
           model:
-            result.model ||
-            null,
+            GEMINI_MODEL,
+
+          http_status:
+            result.status,
 
           response:
-            result.text ||
-            null,
-
-          attempts:
-            result.attempts ||
-            [],
-
-          error:
-            result.error ||
-            null
+            result.data
         });
       }
+
+      /*
+       * ======================================================
+       * /qwen-test
+       * ======================================================
+       */
 
       if (
         path ===
@@ -2436,108 +1469,42 @@ Deno.serve(
         request.method ===
           "GET"
       ) {
+
         const prompt =
           url.searchParams.get(
             "prompt"
           ) ||
-          "Ответь одним словом: OK";
+          "Ответь кратко: Qwen API работает?";
 
-        if (
-          !QWEN_API_KEY
-        ) {
-          return json(
-            {
-              ok: false,
-
-              provider:
-                "Alibaba Qwen",
-
-              error:
-                "QWEN_API_KEY не настроен"
-            },
-
-            503
-          );
-        }
-
-        const models =
-          uniqueModels(
-            QWEN_MODELS,
-            await discoverQwenModels()
+        const result =
+          await qwenGenerate(
+            QWEN_API_KEY,
+            prompt
           );
 
-        const attempts = [];
+        return json({
+          ok:
+            result.ok,
 
-        for (
-          const model
-          of models
-        ) {
-          const result =
-            await qwenGenerate(
-              model,
-              prompt
-            );
+          provider:
+            "Alibaba Qwen",
 
-          attempts.push({
-            model,
+          model:
+            QWEN_MODEL,
 
-            http_status:
-              result.status,
+          http_status:
+            result.status,
 
-            ok:
-              result.ok,
-
-            response:
-              result.ok
-                ? extractQwenText(
-                    result.data
-                  )
-                : null,
-
-            error:
-              result.data?.error ||
-              result.error_message ||
-              null
-          });
-
-          const text =
-            extractQwenText(
-              result.data
-            );
-
-          if (
-            result.ok &&
-            text
-          ) {
-            return json({
-              ok: true,
-
-              provider:
-                "Alibaba Qwen",
-
-              model,
-
-              response:
-                text,
-
-              attempts
-            });
-          }
-        }
-
-        return json(
-          {
-            ok: false,
-
-            provider:
-              "Alibaba Qwen",
-
-            attempts
-          },
-
-          503
-        );
+          response:
+            result.data
+        });
       }
+
+      /*
+       * ======================================================
+       * /max-test
+       * ======================================================
+       */
 
       if (
         path ===
@@ -2545,10 +1512,11 @@ Deno.serve(
         request.method ===
           "GET"
       ) {
+
         const result =
           await maxRequest(
             "/me",
-
+            MAX_BOT_TOKEN,
             {
               method:
                 "GET"
@@ -2569,25 +1537,279 @@ Deno.serve(
             result.status,
 
           status_text:
-            result.statusText ||
-            null,
-
-          error_type:
-            result.error_type ||
-            null,
-
-          error_name:
-            result.error_name ||
-            null,
-
-          error_message:
-            result.error_message ||
-            null,
+            result.statusText,
 
           response:
             result.data
         });
       }
+
+      /*
+       * ======================================================
+       * /subscriptions
+       * ======================================================
+       *
+       * GET текущих подписок MAX.
+       */
+
+      if (
+        path ===
+          "/subscriptions" &&
+        request.method ===
+          "GET"
+      ) {
+
+        const result =
+          await getMaxSubscriptions();
+
+        return json({
+          ok:
+            result.ok,
+
+          provider:
+            "MAX",
+
+          endpoint:
+            "/subscriptions",
+
+          http_status:
+            result.status,
+
+          status_text:
+            result.statusText,
+
+          response:
+            result.data
+        });
+      }
+
+      /*
+       * ======================================================
+       * /cleanup-webhooks
+       * ======================================================
+       *
+       * Удаляет старые n8n и любые другие
+       * существующие webhook-подписки,
+       * кроме текущего Deno /webhook.
+       */
+
+      if (
+        path ===
+          "/cleanup-webhooks" &&
+        request.method ===
+          "GET"
+      ) {
+
+        const webhookUrl =
+          getWebhookUrl(
+            request.url
+          );
+
+        const result =
+          await cleanupOldWebhooks(
+            webhookUrl
+          );
+
+        return json({
+          ok:
+            true,
+
+          provider:
+            "MAX",
+
+          operation:
+            "cleanup-webhooks",
+
+          webhook_url:
+            webhookUrl,
+
+          result
+        });
+      }
+
+      /*
+       * ======================================================
+       * /setup-webhook
+       * ======================================================
+       *
+       * ГЛАВНАЯ КОМАНДА.
+       *
+       * Делает всё автоматически:
+       *
+       * 1. получает subscriptions
+       * 2. удаляет старые n8n
+       * 3. удаляет другие старые webhook
+       * 4. создаёт текущий Deno webhook
+       * 5. проверяет результат
+       */
+
+      if (
+        path ===
+          "/setup-webhook" &&
+        request.method ===
+          "GET"
+      ) {
+
+        const result =
+          await setupWebhook(
+            request.url
+          );
+
+        return json(
+          result,
+          result.ok
+            ? 200
+            : 502
+        );
+      }
+
+      /*
+       * ======================================================
+       * /webhook
+       * ======================================================
+       *
+       * СЮДА MAX присылает события.
+       *
+       * Endpoint должен вернуть 200 быстро.
+       */
+
+      if (
+        path ===
+          "/webhook" &&
+        request.method ===
+          "POST"
+      ) {
+
+        /*
+         * Проверка секрета MAX,
+         * если MAX_WEBHOOK_SECRET задан.
+         */
+
+        if (
+          MAX_WEBHOOK_SECRET
+        ) {
+
+          const incomingSecret =
+            request.headers.get(
+              "X-Max-Bot-Api-Secret"
+            );
+
+          if (
+            incomingSecret !==
+            MAX_WEBHOOK_SECRET
+          ) {
+
+            return json({
+              ok:
+                false,
+
+              error:
+                "Invalid MAX webhook secret"
+            }, 401);
+          }
+        }
+
+        let payload;
+
+        try {
+
+          payload =
+            await request.json();
+
+        } catch (
+          error
+        ) {
+
+          return json({
+            ok:
+              false,
+
+            error:
+              "Invalid JSON",
+
+            details:
+              error?.message ||
+              String(error)
+          }, 400);
+        }
+
+        /*
+         * MAX может прислать Update
+         * напрямую.
+         *
+         * Также поддерживаем массив updates,
+         * если он придёт в пакетном формате.
+         */
+
+        const updates =
+          Array.isArray(
+            payload?.updates
+          )
+            ? payload.updates
+            : Array.isArray(
+                payload
+              )
+              ? payload
+              : [
+                  payload
+                ];
+
+        const processed = [];
+
+        for (
+          const update of updates
+        ) {
+
+          try {
+
+            const result =
+              await processWebhookUpdate(
+                update
+              );
+
+            processed.push(
+              result
+            );
+
+          } catch (
+            error
+          ) {
+
+            processed.push({
+              saved:
+                false,
+
+              error:
+                error?.message ||
+                String(error)
+            });
+          }
+        }
+
+        /*
+         * Важно:
+         * MAX ждёт HTTP 200.
+         */
+
+        return json({
+          ok:
+            true,
+
+          received:
+            true,
+
+          count:
+            updates.length,
+
+          processed
+        }, 200);
+      }
+
+      /*
+       * ======================================================
+       * /updates
+       * ======================================================
+       */
 
       if (
         path ===
@@ -2595,25 +1817,24 @@ Deno.serve(
         request.method ===
           "GET"
       ) {
+
         const params =
           new URLSearchParams();
 
         params.set(
           "limit",
-
           url.searchParams.get(
             "limit"
           ) ||
-            "100"
+          "100"
         );
 
         params.set(
           "timeout",
-
           url.searchParams.get(
             "timeout"
           ) ||
-            "0"
+          "0"
         );
 
         const marker =
@@ -2647,7 +1868,7 @@ Deno.serve(
         const result =
           await maxRequest(
             `/updates?${params.toString()}`,
-
+            MAX_BOT_TOKEN,
             {
               method:
                 "GET"
@@ -2672,49 +1893,67 @@ Deno.serve(
         });
       }
 
+      /*
+       * ======================================================
+       * /chat-ids
+       * ======================================================
+       *
+       * Оставляем старый endpoint.
+       */
+
       if (
         path ===
           "/chat-ids" &&
         request.method ===
           "GET"
       ) {
+
+        /*
+         * Сначала смотрим сохранённые ID.
+         */
+
         const stored =
-          await kvGetChats();
+          await getStoredChatIds();
 
-        return json({
-          ok: true,
+        /*
+         * Потом дополнительно проверяем
+         * очередь updates.
+         */
 
-          provider:
-            "MAX",
-
-          endpoint:
-            "/chat-ids",
-
-          chat_ids:
-            stored,
-
-          source:
-            "Deno KV + TARGET_CHAT_ID",
-
-          message:
-            stored.length
-              ? "Chat ID найдены."
-              : "Chat ID пока не найдены. Запустите бота/добавьте его в чат или канал после настройки Webhook."
-        });
-      }
-
-      if (
-        path === "/subscriptions" &&
-        request.method === "GET"
-      ) {
         const result =
           await maxRequest(
-            "/subscriptions",
+            "/updates?limit=100&timeout=0",
+            MAX_BOT_TOKEN,
             {
               method:
                 "GET"
             }
           );
+
+        const chatIds =
+          extractChatIds(
+            result.data
+          );
+
+        /*
+         * Сохраняем найденные ID.
+         */
+
+        for (
+          const id of chatIds
+        ) {
+
+          await saveChatId(
+            id,
+            {
+              update_type:
+                "updates_poll"
+            }
+          );
+        }
+
+        const allStored =
+          await getStoredChatIds();
 
         return json({
           ok:
@@ -2724,57 +1963,83 @@ Deno.serve(
             "MAX",
 
           endpoint:
-            "/subscriptions",
+            "/chat-ids",
 
           http_status:
             result.status,
 
-          status_text:
-            result.statusText ||
-            null,
+          chat_ids:
+            [
+              ...new Set(
+                [
+                  ...stored.map(
+                    x =>
+                      String(
+                        x.chat_id
+                      )
+                  ),
 
-          error_type:
-            result.error_type ||
-            null,
+                  ...chatIds,
 
-          error_name:
-            result.error_name ||
-            null,
+                  ...allStored.map(
+                    x =>
+                      String(
+                        x.chat_id
+                      )
+                  )
+                ]
+              )
+            ],
 
-          error_message:
-            result.error_message ||
-            null,
+          updates:
+            getUpdateSummary(
+              result.data
+            ),
 
-          response:
-            result.data,
+          stored:
+            allStored,
 
-          webhook_url:
-            deriveWebhookUrl(
-              request
-            )
+          raw:
+            result.data
         });
       }
 
+      /*
+       * ======================================================
+       * /stored-chat-ids
+       * ======================================================
+       */
+
       if (
-        path === "/setup-webhook" &&
-        (
-          request.method === "GET" ||
-          request.method === "POST"
-        )
+        path ===
+          "/stored-chat-ids" &&
+        request.method ===
+          "GET"
       ) {
-        const result =
-          await setupWebhook(
-            request
-          );
 
-        return json(
-          result,
+        const stored =
+          await getStoredChatIds();
 
-          result.ok
-            ? 200
-            : 503
-        );
+        return json({
+          ok:
+            true,
+
+          source:
+            "Deno KV",
+
+          count:
+            stored.length,
+
+          chat_ids:
+            stored
+        });
       }
+
+      /*
+       * ======================================================
+       * /chat-test
+       * ======================================================
+       */
 
       if (
         path ===
@@ -2782,33 +2047,30 @@ Deno.serve(
         request.method ===
           "GET"
       ) {
+
         const chatId =
           url.searchParams.get(
             "chat_id"
           );
 
         if (!chatId) {
-          return json(
-            {
-              ok: false,
 
-              error:
-                "Не указан chat_id.",
+          return json({
+            ok:
+              false,
 
-              usage:
-                "/chat-test?chat_id=123456789"
-            },
+            error:
+              "Не указан chat_id.",
 
-            400
-          );
+            usage:
+              "/chat-test?chat_id=123456789"
+          }, 400);
         }
 
         const result =
           await maxRequest(
-            `/chats/${encodeURIComponent(
-              chatId
-            )}`,
-
+            `/chats/${encodeURIComponent(chatId)}`,
+            MAX_BOT_TOKEN,
             {
               method:
                 "GET"
@@ -2836,43 +2098,78 @@ Deno.serve(
         });
       }
 
+      /*
+       * ======================================================
+       * /publish-test
+       * ======================================================
+       */
+
       if (
         path ===
           "/publish-test" &&
         request.method ===
           "GET"
       ) {
-        const chatId =
+
+        let chatId =
           url.searchParams.get(
             "chat_id"
           );
 
+        /*
+         * Если chat_id не передали,
+         * берём первый сохранённый.
+         */
+
         if (!chatId) {
-          return json(
-            {
-              ok: false,
 
-              error:
-                "Не указан chat_id.",
+          const stored =
+            await getStoredChatIds();
 
-              usage:
-                "/publish-test?chat_id=123456789"
-            },
+          if (
+            stored.length
+          ) {
 
-            400
-          );
+            chatId =
+              String(
+                stored[0].chat_id
+              );
+          }
+        }
+
+        if (!chatId) {
+
+          return json({
+            ok:
+              false,
+
+            error:
+              "Chat ID не найден.",
+
+            next_step:
+              "Сначала выполните /setup-webhook и дождитесь события bot_added или bot_started."
+          }, 400);
         }
 
         const text =
           url.searchParams.get(
             "text"
           ) ||
-          "ТЕСТ MAX NEWS AGENT\n\nWorker успешно подключён к API MAX.";
+          "ТЕСТ MAX NEWS AGENT\n\nWebhook и Worker успешно подключены к API MAX.";
 
         const result =
-          await publishToMax(
-            chatId,
-            text
+          await maxRequest(
+            `/messages?chat_id=${encodeURIComponent(chatId)}`,
+            MAX_BOT_TOKEN,
+            {
+              method:
+                "POST",
+
+              body:
+                JSON.stringify({
+                  text
+                })
+            }
           );
 
         return json({
@@ -2892,74 +2189,47 @@ Deno.serve(
             result.status,
 
           response:
-            result.data,
-
-          error:
-            result.error_message ||
-            null
+            result.data
         });
       }
 
-      if (
-        (
-          path ===
-            "/pipeline" ||
-          path ===
-            "/run"
-        ) &&
-        (
-          request.method ===
-            "GET" ||
-          request.method ===
-            "POST"
-        )
-      ) {
-        const result =
-          await runPipeline();
+      /*
+       * ======================================================
+       * UNKNOWN ROUTE
+       * ======================================================
+       */
 
-        return json(
-          result,
+      return json({
+        ok:
+          false,
 
-          result.ok
-            ? 200
-            : 503
-        );
-      }
+        error:
+          "Endpoint not found",
 
-      return json(
-        {
-          ok: false,
+        path
+      }, 404);
 
-          error:
-            "Endpoint not found",
+    } catch (
+      error
+    ) {
 
-          path
-        },
-
-        404
-      );
-
-    } catch (error) {
       console.error(
         "MAX NEWS AGENT ERROR:",
         error
       );
 
-      return json(
-        {
-          ok: false,
+      return json({
+        ok:
+          false,
 
-          error:
-            error?.message ||
-            String(error),
+        error:
+          error?.message ||
+          String(error),
 
-          error_name:
-            error?.name ||
-            "Error"
-        },
-
-        500
-      );
+        error_name:
+          error?.name ||
+          null
+      }, 500);
     }
   }
 );
