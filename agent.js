@@ -1,141 +1,684 @@
-/*
- * ============================================================
- * MAX NEWS AGENT
- * Deno Deploy
- *
- * RSS -> новости
- * Gemini -> анализ
- * Qwen -> резервный анализ
- * MAX -> проверка -> chat_id -> публикация
- * ============================================================
- */
-
 const MAX_API = "https://platform-api2.max.ru";
 
-const GEMINI_MODEL = "gemini-3.8-flash";
-const GEMINI_API =
-  `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+const GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta";
 
 const QWEN_API =
   "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions";
 
-const QWEN_MODEL = "qwen-plus";
+const MAX_BOT_TOKEN =
+  Deno.env.get("MAX_BOT_TOKEN") || "";
 
-const MAX_BOT_TOKEN = Deno.env.get("MAX_BOT_TOKEN") || "";
-const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY") || "";
-const QWEN_API_KEY = Deno.env.get("QWEN_API_KEY") || "";
+const GEMINI_API_KEY =
+  Deno.env.get("GEMINI_API_KEY") || "";
+
+const QWEN_API_KEY =
+  Deno.env.get("QWEN_API_KEY") || "";
+
+/*
+ * ============================================================
+ * AI MODEL CONFIGURATION
+ * ============================================================
+ *
+ * Можно задать свои модели через:
+ *
+ * GEMINI_MODELS
+ * QWEN_MODELS
+ *
+ * Формат:
+ * model1,model2,model3
+ *
+ * Код также пытается автоматически получить список
+ * доступных моделей у провайдера.
+ */
+
+const GEMINI_MODELS = parseList(
+  Deno.env.get("GEMINI_MODELS") ||
+    "gemini-3.8-flash,gemini-2.5-flash"
+);
+
+const QWEN_MODELS = parseList(
+  Deno.env.get("QWEN_MODELS") ||
+    "qwen3.8-flash,qwen3.7-plus,qwen3.6-flash,qwen-plus"
+);
+
+/*
+ * ============================================================
+ * GENERAL CONFIGURATION
+ * ============================================================
+ */
+
+const RETRIES =
+  numberEnv("API_RETRIES", 2);
+
+const REQUEST_TIMEOUT_MS =
+  numberEnv("API_TIMEOUT_MS", 20000);
+
+const AUTO_PIPELINE =
+  (Deno.env.get("AUTO_PIPELINE") || "false")
+    .toLowerCase() === "true";
+
+const CRON_SCHEDULE =
+  Deno.env.get("CRON_SCHEDULE") ||
+  "*/15 * * * *";
+
+const TARGET_CHAT_ID =
+  Deno.env.get("TARGET_CHAT_ID") || "";
+
+const MAX_NEWS_PER_RUN =
+  numberEnv("MAX_NEWS_PER_RUN", 1);
+
+/*
+ * ============================================================
+ * RSS SOURCES
+ * ============================================================
+ */
 
 const RSS_FEEDS = [
   "https://news.google.com/rss/search?q=мир+OR+международные+события&hl=ru&gl=RU&ceid=RU:ru",
+
   "https://news.google.com/rss/search?q=политика+OR+право&hl=ru&gl=RU&ceid=RU:ru",
+
   "https://news.google.com/rss/search?q=финансы+OR+экономика+OR+бизнес&hl=ru&gl=RU&ceid=RU:ru",
+
   "https://news.google.com/rss/search?q=происшествия+OR+катастрофы+OR+криминал&hl=ru&gl=RU&ceid=RU:ru",
+
   "https://news.google.com/rss/search?q=технологии+OR+промышленность+OR+авто&hl=ru&gl=RU&ceid=RU:ru"
 ];
 
-function json(data, status = 200) {
+/*
+ * ============================================================
+ * RUNTIME STATE
+ * ============================================================
+ */
+
+const recentPublished = new Map();
+
+let discoveredGeminiModels = null;
+
+let discoveredQwenModels = null;
+
+/*
+ * ============================================================
+ * HELPERS
+ * ============================================================
+ */
+
+function parseList(value) {
+  return [
+    ...new Set(
+      String(value || "")
+        .split(",")
+        .map((x) => x.trim())
+        .filter(Boolean)
+    )
+  ];
+}
+
+function numberEnv(name, fallback) {
+  const value = Number(
+    Deno.env.get(name)
+  );
+
+  return Number.isFinite(value) && value > 0
+    ? value
+    : fallback;
+}
+
+function sleep(ms) {
+  return new Promise(
+    (resolve) => setTimeout(resolve, ms)
+  );
+}
+
+function isRetryableStatus(status) {
+  return (
+    status === 408 ||
+    status === 409 ||
+    status === 425 ||
+    status === 429 ||
+    status >= 500
+  );
+}
+
+function retryDelay(
+  attempt,
+  retryAfterHeader
+) {
+  const retryAfter =
+    Number(retryAfterHeader);
+
+  if (
+    Number.isFinite(retryAfter) &&
+    retryAfter >= 0
+  ) {
+    return Math.min(
+      retryAfter * 1000,
+      60000
+    );
+  }
+
+  return (
+    Math.min(
+      1000 * 2 ** attempt,
+      8000
+    ) +
+    Math.floor(
+      Math.random() * 400
+    )
+  );
+}
+
+function json(
+  data,
+  status = 200
+) {
   return new Response(
-    JSON.stringify(data, null, 2),
+    JSON.stringify(
+      data,
+      null,
+      2
+    ),
     {
       status,
       headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        "Cache-Control": "no-store",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+        "Content-Type":
+          "application/json; charset=utf-8",
+
+        "Cache-Control":
+          "no-store",
+
+        "Access-Control-Allow-Origin":
+          "*",
+
+        "Access-Control-Allow-Methods":
+          "GET, POST, OPTIONS",
+
+        "Access-Control-Allow-Headers":
+          "Content-Type, Authorization"
       }
     }
   );
 }
 
-async function readJson(response) {
-  const text = await response.text();
+/*
+ * ============================================================
+ * HTTP JSON
+ * ============================================================
+ */
 
-  let data;
+async function readJson(response) {
+  const text =
+    await response.text();
+
+  let data = null;
 
   try {
-    data = text ? JSON.parse(text) : null;
+    data = text
+      ? JSON.parse(text)
+      : null;
   } catch {
-    data = { raw: text };
+    data = {
+      raw: text
+    };
   }
 
   return {
     ok: response.ok,
-    status: response.status,
-    data
+
+    status:
+      response.status,
+
+    data,
+
+    headers:
+      response.headers
   };
 }
 
-function requireSecret(value, name) {
+async function fetchJson(
+  url,
+  options = {},
+  config = {}
+) {
+  const retries =
+    config.retries ?? RETRIES;
+
+  const timeoutMs =
+    config.timeoutMs ??
+    REQUEST_TIMEOUT_MS;
+
+  let last = {
+    ok: false,
+
+    status: 599,
+
+    data: {
+      error:
+        "request failed before receiving a response"
+    }
+  };
+
+  for (
+    let attempt = 0;
+    attempt <= retries;
+    attempt++
+  ) {
+    const controller =
+      new AbortController();
+
+    const timer =
+      setTimeout(
+        () =>
+          controller.abort(),
+        timeoutMs
+      );
+
+    try {
+      const response =
+        await fetch(
+          url,
+          {
+            ...options,
+
+            signal:
+              controller.signal
+          }
+        );
+
+      const result =
+        await readJson(
+          response
+        );
+
+      last = result;
+
+      /*
+       * Успех:
+       * сразу возвращаем.
+       */
+
+      if (result.ok) {
+        return result;
+      }
+
+      /*
+       * Ошибка, которую бессмысленно
+       * повторять:
+       * 400, 401, 403, 404 и т.д.
+       */
+
+      if (
+        !isRetryableStatus(
+          result.status
+        )
+      ) {
+        return result;
+      }
+
+      /*
+       * Временная ошибка:
+       * 429 / 5xx / timeout.
+       */
+
+      if (
+        attempt < retries
+      ) {
+        await sleep(
+          retryDelay(
+            attempt,
+
+            response.headers.get(
+              "Retry-After"
+            )
+          )
+        );
+      }
+    } catch (error) {
+      last = {
+        ok: false,
+
+        status:
+          error?.name ===
+          "AbortError"
+            ? 504
+            : 599,
+
+        data: {
+          error:
+            error?.name ===
+            "AbortError"
+              ? "Request timeout"
+              : error?.message ||
+                String(error)
+        }
+      };
+
+      if (
+        attempt < retries
+      ) {
+        await sleep(
+          retryDelay(
+            attempt
+          )
+        );
+      }
+    } finally {
+      clearTimeout(
+        timer
+      );
+    }
+  }
+
+  return last;
+}
+
+/*
+ * ============================================================
+ * SECRETS
+ * ============================================================
+ */
+
+function requireSecret(
+  value,
+  name
+) {
   if (!value) {
-    throw new Error(`Secret ${name} не настроен в Deno Deploy`);
+    throw new Error(
+      `Secret ${name} не настроен в Deno Deploy`
+    );
   }
 }
 
-async function maxRequest(path, token, options = {}) {
-  requireSecret(token, "MAX_BOT_TOKEN");
+/*
+ * ============================================================
+ * MAX API
+ * ============================================================
+ */
 
-  const cleanPath = path.startsWith("/") ? path : `/${path}`;
-
-  const controller = new AbortController();
-
-  const timeout = setTimeout(
-    () => controller.abort(),
-    15000
+async function maxRequest(
+  path,
+  options = {}
+) {
+  requireSecret(
+    MAX_BOT_TOKEN,
+    "MAX_BOT_TOKEN"
   );
 
-  try {
-    const response = await fetch(
-      `${MAX_API}${cleanPath}`,
+  const cleanPath =
+    path.startsWith("/")
+      ? path
+      : `/${path}`;
+
+  return await fetchJson(
+    `${MAX_API}${cleanPath}`,
+
+    {
+      ...options,
+
+      headers: {
+        Authorization:
+          MAX_BOT_TOKEN,
+
+        Accept:
+          "application/json",
+
+        ...(options.body
+          ? {
+              "Content-Type":
+                "application/json"
+            }
+          }
+          : {}),
+
+        ...(options.headers || {})
+      }
+    }
+  );
+}
+
+/*
+ * ============================================================
+ * GEMINI RESPONSE EXTRACTION
+ * ============================================================
+ */
+
+function extractGeminiText(
+  data
+) {
+  return (
+    data
+      ?.candidates?.[0]
+      ?.content
+      ?.parts
+      ?.map(
+        (part) =>
+          part?.text || ""
+      )
+      .join("")
+      .trim() || ""
+  );
+}
+
+/*
+ * ============================================================
+ * QWEN RESPONSE EXTRACTION
+ * ============================================================
+ */
+
+function extractQwenText(
+  data
+) {
+  return (
+    data?.choices?.[0]
+      ?.message?.content ||
+    data?.choices?.[0]
+      ?.text ||
+    ""
+  ).trim();
+}
+
+/*
+ * ============================================================
+ * GEMINI MODEL DISCOVERY
+ * ============================================================
+ */
+
+async function discoverGeminiModels() {
+  if (!GEMINI_API_KEY) {
+    return [];
+  }
+
+  if (
+    discoveredGeminiModels
+  ) {
+    return discoveredGeminiModels;
+  }
+
+  const result =
+    await fetchJson(
+      `${GEMINI_BASE}/models?key=${encodeURIComponent(
+        GEMINI_API_KEY
+      )}`,
+
       {
-        ...options,
-        signal: controller.signal,
-        headers: {
-          "Authorization": token,
-          "Accept": "application/json",
-          ...(options.body ? { "Content-Type": "application/json" } : {}),
-          ...(options.headers || {})
-        }
+        method: "GET"
+      },
+
+      {
+        retries: 1
       }
     );
 
-    return await readJson(response);
-  } catch (error) {
-    if (error?.name === "AbortError") {
-      return {
-        ok: false,
-        status: 504,
-        data: {
-          error: "MAX API request timeout",
-          path: cleanPath
-        }
-      };
-    }
+  if (!result.ok) {
+    discoveredGeminiModels =
+      [];
 
-    return {
-      ok: false,
-      status: 500,
-      data: {
-        error: error?.message || String(error),
-        path: cleanPath
-      }
-    };
-  } finally {
-    clearTimeout(timeout);
+    return [];
   }
+
+  const models =
+    Array.isArray(
+      result.data?.models
+    )
+      ? result.data.models
+      : [];
+
+  discoveredGeminiModels =
+    models
+      .filter(
+        (model) =>
+          Array.isArray(
+            model
+              ?.supportedGenerationMethods
+          )
+            ? model.supportedGenerationMethods.includes(
+                "generateContent"
+              )
+            : true
+      )
+      .map(
+        (model) =>
+          String(
+            model.name || ""
+          ).replace(
+            /^models\//,
+            ""
+          )
+      )
+      .filter(Boolean);
+
+  return discoveredGeminiModels;
 }
 
-async function geminiGenerate(apiKey, prompt) {
-  requireSecret(apiKey, "GEMINI_API_KEY");
+/*
+ * ============================================================
+ * QWEN MODEL DISCOVERY
+ * ============================================================
+ */
 
-  const response = await fetch(
-    `${GEMINI_API}?key=${encodeURIComponent(apiKey)}`,
+async function discoverQwenModels() {
+  if (!QWEN_API_KEY) {
+    return [];
+  }
+
+  if (
+    discoveredQwenModels
+  ) {
+    return discoveredQwenModels;
+  }
+
+  const base =
+    QWEN_API.replace(
+      /\/chat\/completions\/?$/,
+      ""
+    );
+
+  const result =
+    await fetchJson(
+      `${base}/models`,
+
+      {
+        method: "GET",
+
+        headers: {
+          Authorization:
+            `Bearer ${QWEN_API_KEY}`,
+
+          Accept:
+            "application/json"
+        }
+      },
+
+      {
+        retries: 1
+      }
+    );
+
+  if (!result.ok) {
+    discoveredQwenModels =
+      [];
+
+    return [];
+  }
+
+  const raw =
+    Array.isArray(
+      result.data?.data
+    )
+      ? result.data.data
+      : Array.isArray(
+          result.data?.models
+        )
+        ? result.data.models
+        : [];
+
+  discoveredQwenModels =
+    raw
+      .map(
+        (model) =>
+          String(
+            model?.id ||
+              model?.name ||
+              ""
+          ).trim()
+      )
+      .filter(Boolean);
+
+  return discoveredQwenModels;
+}
+
+/*
+ * ============================================================
+ * UNIQUE MODEL LIST
+ * ============================================================
+ */
+
+function uniqueModels(
+  primary,
+  discovered,
+  limit = 12
+) {
+  return [
+    ...new Set([
+      ...primary,
+      ...discovered
+    ])
+  ].slice(
+    0,
+    limit
+  );
+}
+
+/*
+ * ============================================================
+ * GEMINI GENERATION
+ * ============================================================
+ */
+
+async function geminiGenerate(
+  model,
+  prompt
+) {
+  requireSecret(
+    GEMINI_API_KEY,
+    "GEMINI_API_KEY"
+  );
+
+  return await fetchJson(
+    `${GEMINI_BASE}/models/${encodeURIComponent(
+      model
+    )}:generateContent?key=${encodeURIComponent(
+      GEMINI_API_KEY
+    )}`,
+
     {
       method: "POST",
+
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type":
+          "application/json"
       },
+
       body: JSON.stringify({
         contents: [
           {
@@ -146,76 +689,354 @@ async function geminiGenerate(apiKey, prompt) {
             ]
           }
         ],
+
         generationConfig: {
           temperature: 0.2,
-          maxOutputTokens: 800
+
+          maxOutputTokens:
+            1200
         }
       })
     }
   );
-
-  return await readJson(response);
 }
 
-async function qwenGenerate(apiKey, prompt) {
-  requireSecret(apiKey, "QWEN_API_KEY");
+/*
+ * ============================================================
+ * QWEN GENERATION
+ * ============================================================
+ */
 
-  const response = await fetch(
+async function qwenGenerate(
+  model,
+  prompt
+) {
+  requireSecret(
+    QWEN_API_KEY,
+    "QWEN_API_KEY"
+  );
+
+  return await fetchJson(
     QWEN_API,
+
     {
       method: "POST",
+
       headers: {
-        "Authorization": `Bearer ${apiKey}`,
-        "Content-Type": "application/json"
+        Authorization:
+          `Bearer ${QWEN_API_KEY}`,
+
+        "Content-Type":
+          "application/json"
       },
+
       body: JSON.stringify({
-        model: QWEN_MODEL,
+        model,
+
         messages: [
           {
             role: "system",
-            content: "Ты аналитик новостей. Отвечай кратко и фактически."
+
+            content:
+              "Ты аналитик новостей. Отвечай кратко, фактически и не выдумывай факты."
           },
+
           {
             role: "user",
-            content: prompt
+
+            content:
+              prompt
           }
         ],
+
         stream: false
       })
     }
   );
-
-  return await readJson(response);
 }
 
-function extractTag(xml, tag) {
-  const regex = new RegExp(
-    `<${tag}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/${tag}>`,
-    "i"
-  );
+/*
+ * ============================================================
+ * UNIVERSAL AI FALLBACK
+ * ============================================================
+ *
+ * Сначала Gemini.
+ *
+ * Если:
+ * 503
+ * 429
+ * timeout
+ * другая временная ошибка
+ *
+ * -> retry
+ *
+ * Если модель окончательно не отвечает:
+ *
+ * -> следующая Gemini модель
+ *
+ * Если Gemini закончился:
+ *
+ * -> Qwen
+ *
+ * Если Qwen модель не отвечает:
+ *
+ * -> следующая Qwen модель
+ *
+ * То есть одна недоступная модель
+ * не должна останавливать цепочку.
+ */
 
-  const match = xml.match(regex);
+async function generateWithFallback(
+  prompt
+) {
+  const attempts = [];
+
+  const geminiDiscovered =
+    await discoverGeminiModels();
+
+  const qwenDiscovered =
+    await discoverQwenModels();
+
+  const geminiModels =
+    uniqueModels(
+      GEMINI_MODELS,
+      geminiDiscovered
+    );
+
+  const qwenModels =
+    uniqueModels(
+      QWEN_MODELS,
+      qwenDiscovered
+    );
+
+  /*
+   * ----------------------------------------------------------
+   * GEMINI
+   * ----------------------------------------------------------
+   */
+
+  for (
+    const model
+    of geminiModels
+  ) {
+    try {
+      const result =
+        await geminiGenerate(
+          model,
+          prompt
+        );
+
+      attempts.push({
+        provider:
+          "Google Gemini",
+
+        model,
+
+        http_status:
+          result.status,
+
+        ok:
+          result.ok
+      });
+
+      const text =
+        extractGeminiText(
+          result.data
+        );
+
+      if (
+        result.ok &&
+        text
+      ) {
+        return {
+          ok: true,
+
+          provider:
+            "Google Gemini",
+
+          model,
+
+          text,
+
+          attempts
+        };
+      }
+    } catch (error) {
+      attempts.push({
+        provider:
+          "Google Gemini",
+
+        model,
+
+        ok: false,
+
+        error:
+          error?.message ||
+          String(error)
+      });
+    }
+  }
+
+  /*
+   * ----------------------------------------------------------
+   * QWEN
+   * ----------------------------------------------------------
+   */
+
+  for (
+    const model
+    of qwenModels
+  ) {
+    try {
+      const result =
+        await qwenGenerate(
+          model,
+          prompt
+        );
+
+      attempts.push({
+        provider:
+          "Alibaba Qwen",
+
+        model,
+
+        http_status:
+          result.status,
+
+        ok:
+          result.ok
+      });
+
+      const text =
+        extractQwenText(
+          result.data
+        );
+
+      if (
+        result.ok &&
+        text
+      ) {
+        return {
+          ok: true,
+
+          provider:
+            "Alibaba Qwen",
+
+          model,
+
+          text,
+
+          attempts
+        };
+      }
+    } catch (error) {
+      attempts.push({
+        provider:
+          "Alibaba Qwen",
+
+        model,
+
+        ok: false,
+
+        error:
+          error?.message ||
+          String(error)
+      });
+    }
+  }
+
+  /*
+   * ----------------------------------------------------------
+   * ВСЁ УПАЛО
+   * ----------------------------------------------------------
+   */
+
+  return {
+    ok: false,
+
+    error:
+      "Все доступные AI-модели не ответили успешно.",
+
+    attempts
+  };
+}
+
+/*
+ * ============================================================
+ * RSS XML
+ * ============================================================
+ */
+
+function extractTag(
+  xml,
+  tag
+) {
+  const regex =
+    new RegExp(
+      `<${tag}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/${tag}>`,
+      "i"
+    );
+
+  const match =
+    xml.match(regex);
 
   if (!match) {
     return "";
   }
 
   return match[1]
-    .replace(/<!\[CDATA\[/g, "")
-    .replace(/\]\]>/g, "")
-    .replace(/<[^>]+>/g, "")
+    .replace(
+      /<!\[CDATA\[/g,
+      ""
+    )
+    .replace(
+      /\]\]>/g,
+      ""
+    )
+    .replace(
+      /<[^>]+>/g,
+      ""
+    )
     .trim();
 }
 
-function extractItems(xml) {
+function extractItems(
+  xml
+) {
   const items = [];
-  const matches = xml.match(/<item[\s\S]*?<\/item>/gi) || [];
 
-  for (const item of matches) {
-    const title = extractTag(item, "title");
-    const link = extractTag(item, "link");
-    const description = extractTag(item, "description");
-    const pubDate = extractTag(item, "pubDate");
+  const matches =
+    xml.match(
+      /<item[\s\S]*?<\/item>/gi
+    ) || [];
+
+  for (
+    const item
+    of matches
+  ) {
+    const title =
+      extractTag(
+        item,
+        "title"
+      );
+
+    const link =
+      extractTag(
+        item,
+        "link"
+      );
+
+    const description =
+      extractTag(
+        item,
+        "description"
+      );
+
+    const pubDate =
+      extractTag(
+        item,
+        "pubDate"
+      );
 
     if (!title) {
       continue;
@@ -223,8 +1044,11 @@ function extractItems(xml) {
 
     items.push({
       title,
+
       link,
+
       description,
+
       pubDate
     });
   }
@@ -232,500 +1056,1580 @@ function extractItems(xml) {
   return items;
 }
 
+/*
+ * ============================================================
+ * RSS FETCH
+ * ============================================================
+ */
+
 async function fetchRSS() {
-  const results = [];
+  const results =
+    await Promise.all(
+      RSS_FEEDS.map(
+        async (feed) => {
+          const result =
+            await fetchJson(
+              feed,
 
-  for (const feed of RSS_FEEDS) {
-    try {
-      const response = await fetch(
-        feed,
-        {
-          headers: {
-            "User-Agent": "MAX-News-Agent/1.0"
+              {
+                method: "GET",
+
+                headers: {
+                  "User-Agent":
+                    "MAX-News-Agent/2.0"
+                }
+              },
+
+              {
+                retries: 1,
+
+                timeoutMs:
+                  15000
+              }
+            );
+
+          if (!result.ok) {
+            return {
+              feed,
+
+              ok: false,
+
+              status:
+                result.status,
+
+              error:
+                result.data
+                  ?.error ||
+                null
+            };
           }
+
+          const xml =
+            typeof result.data ===
+              "object" &&
+            result.data?.raw
+              ? result.data.raw
+              : null;
+
+          if (!xml) {
+            return {
+              feed,
+
+              ok: false,
+
+              status:
+                result.status,
+
+              error:
+                "RSS response is not plain XML"
+            };
+          }
+
+          const items =
+            extractItems(
+              xml
+            );
+
+          return {
+            feed,
+
+            ok: true,
+
+            count:
+              items.length,
+
+            items:
+              items.slice(
+                0,
+                10
+              )
+          };
         }
-      );
-
-      if (!response.ok) {
-        results.push({
-          feed,
-          ok: false,
-          status: response.status
-        });
-
-        continue;
-      }
-
-      const xml = await response.text();
-      const items = extractItems(xml);
-
-      results.push({
-        feed,
-        ok: true,
-        count: items.length,
-        items: items.slice(0, 10)
-      });
-    } catch (error) {
-      results.push({
-        feed,
-        ok: false,
-        error: error?.message || String(error)
-      });
-    }
-  }
+      )
+    );
 
   return results;
 }
 
-function extractChatIds(data) {
-  const ids = new Set();
+/*
+ * ============================================================
+ * FLATTEN RSS
+ * ============================================================
+ */
 
-  const updates =
-    Array.isArray(data?.updates)
-      ? data.updates
-      : [];
+function flattenNews(
+  feeds
+) {
+  const items = [];
 
-  for (const update of updates) {
+  for (
+    const feed
+    of feeds
+  ) {
     if (
-      update &&
-      update.chat_id !== undefined &&
-      update.chat_id !== null
+      !feed.ok ||
+      !Array.isArray(
+        feed.items
+      )
     ) {
-      ids.add(String(update.chat_id));
+      continue;
+    }
+
+    for (
+      const item
+      of feed.items
+    ) {
+      items.push({
+        ...item,
+
+        source_feed:
+          feed.feed
+      });
     }
   }
 
-  return [...ids];
+  return items.sort(
+    (a, b) => {
+      const aTime =
+        Date.parse(
+          a.pubDate || ""
+        ) || 0;
+
+      const bTime =
+        Date.parse(
+          b.pubDate || ""
+        ) || 0;
+
+      return (
+        bTime - aTime
+      );
+    }
+  );
 }
 
-function getUpdateSummary(data) {
+/*
+ * ============================================================
+ * NEWS ANALYSIS PROMPT
+ * ============================================================
+ */
+
+function buildAnalysisPrompt(
+  item
+) {
+  return `
+Проанализируй новость для новостного канала.
+
+ЗАГОЛОВОК:
+${item.title}
+
+ДАТА:
+${item.pubDate || "не указана"}
+
+ССЫЛКА:
+${item.link || "нет"}
+
+ОПИСАНИЕ:
+${item.description || "нет"}
+
+Правила:
+
+1. Не выдумывай факты.
+2. Отделяй подтверждённое от предположений.
+3. Не используй эмоциональную пропагандистскую лексику.
+4. Если данных недостаточно, прямо укажи это.
+5. Ответь на русском.
+6. Не используй Markdown-таблицы.
+
+Структура ответа:
+
+КРАТКО:
+1-2 предложения.
+
+ФАКТЫ:
+3-5 пунктов.
+
+ЧТО ВАЖНО:
+1-2 предложения.
+
+ИСТОЧНИК:
+ссылка на материал.
+
+`.trim();
+}
+
+/*
+ * ============================================================
+ * NEWS KEY
+ * ============================================================
+ */
+
+function newsKey(
+  item
+) {
+  return (
+    item.link ||
+    `${item.title}|${item.pubDate || ""}`
+  );
+}
+
+/*
+ * ============================================================
+ * MAX PUBLICATION
+ * ============================================================
+ */
+
+async function publishToMax(
+  chatId,
+  text
+) {
+  if (!chatId) {
+    return {
+      ok: false,
+
+      status: 400,
+
+      data: {
+        error:
+          "TARGET_CHAT_ID не задан"
+      }
+    };
+  }
+
+  return await maxRequest(
+    `/messages?chat_id=${encodeURIComponent(
+      chatId
+    )}`,
+
+    {
+      method: "POST",
+
+      body: JSON.stringify({
+        text
+      })
+    }
+  );
+}
+
+/*
+ * ============================================================
+ * FULL PIPELINE
+ * ============================================================
+ *
+ * RSS
+ *  ↓
+ * выбор новости
+ *  ↓
+ * Gemini
+ *  ↓
+ * retry
+ *  ↓
+ * следующая Gemini модель
+ *  ↓
+ * Qwen
+ *  ↓
+ * следующая Qwen модель
+ *  ↓
+ * готовый текст
+ *  ↓
+ * MAX
+ *  ↓
+ * retry
+ *
+ * Публикация выполняется только если:
+ *
+ * AUTO_PIPELINE=true
+ *
+ * И:
+ *
+ * TARGET_CHAT_ID задан.
+ * ============================================================
+ */
+
+async function runPipeline() {
+  const startedAt =
+    Date.now();
+
+  /*
+   * RSS
+   */
+
+  const feeds =
+    await fetchRSS();
+
+  const news =
+    flattenNews(
+      feeds
+    );
+
+  if (!news.length) {
+    return {
+      ok: false,
+
+      stage:
+        "rss",
+
+      error:
+        "Новых материалов из RSS не получено.",
+
+      feeds
+    };
+  }
+
+  /*
+   * Берём самые свежие новости.
+   */
+
+  const selected =
+    news.slice(
+      0,
+      MAX_NEWS_PER_RUN
+    );
+
+  const results = [];
+
+  /*
+   * Обработка каждой новости.
+   */
+
+  for (
+    const item
+    of selected
+  ) {
+    const key =
+      newsKey(item);
+
+    /*
+     * Защита от повторной публикации
+     * в рамках текущего runtime.
+     */
+
+    if (
+      recentPublished.has(
+        key
+      )
+    ) {
+      results.push({
+        ok: true,
+
+        skipped: true,
+
+        reason:
+          "already processed in current runtime",
+
+        item
+      });
+
+      continue;
+    }
+
+    /*
+     * AI ANALYSIS
+     */
+
+    const analysis =
+      await generateWithFallback(
+        buildAnalysisPrompt(
+          item
+        )
+      );
+
+    /*
+     * Если вообще ни одна
+     * модель не сработала.
+     */
+
+    if (!analysis.ok) {
+      results.push({
+        ok: false,
+
+        stage:
+          "ai",
+
+        item,
+
+        analysis
+      });
+
+      /*
+       * ВАЖНО:
+       *
+       * не публикуем пустой/
+       * сломанный материал.
+       */
+
+      continue;
+    }
+
+    /*
+     * Формируем публикацию.
+     */
+
+    const text =
+      `📰 ${item.title}\n\n` +
+      `${analysis.text}\n\n` +
+      `Источник: ${
+        item.link ||
+        "не указан"
+      }`;
+
+    let publication = {
+      ok: false,
+
+      skipped: true,
+
+      reason:
+        AUTO_PIPELINE &&
+        TARGET_CHAT_ID
+          ? "not attempted"
+          : "AUTO_PIPELINE=false or TARGET_CHAT_ID is empty"
+    };
+
+    /*
+     * ПУБЛИКАЦИЯ
+     */
+
+    if (
+      AUTO_PIPELINE &&
+      TARGET_CHAT_ID
+    ) {
+      const publishResult =
+        await publishToMax(
+          TARGET_CHAT_ID,
+          text
+        );
+
+      publication = {
+        ok:
+          publishResult.ok,
+
+        http_status:
+          publishResult.status,
+
+        response:
+          publishResult.data
+      };
+
+      /*
+       * Только после успешной публикации
+       * считаем материал обработанным.
+       */
+
+      if (
+        publishResult.ok
+      ) {
+        recentPublished.set(
+          key,
+          Date.now()
+        );
+      }
+    }
+
+    results.push({
+      ok: true,
+
+      item,
+
+      ai: {
+        provider:
+          analysis.provider,
+
+        model:
+          analysis.model,
+
+        attempts:
+          analysis.attempts
+      },
+
+      publication,
+
+      text
+    });
+  }
+
+  return {
+    ok:
+      results.some(
+        (item) =>
+          item.ok
+      ),
+
+    duration_ms:
+      Date.now() -
+      startedAt,
+
+    auto_pipeline:
+      AUTO_PIPELINE,
+
+    target_chat_configured:
+      !!TARGET_CHAT_ID,
+
+    rss_total:
+      news.length,
+
+    results
+  };
+}
+
+/*
+ * ============================================================
+ * MAX UPDATE HELPERS
+ * ============================================================
+ */
+
+function extractChatIds(
+  data
+) {
+  const ids =
+    new Set();
+
   const updates =
-    Array.isArray(data?.updates)
+    Array.isArray(
+      data?.updates
+    )
       ? data.updates
       : [];
 
-  return updates.map((update) => ({
-    update_type: update?.update_type ?? null,
-    chat_id:
-      update?.chat_id !== undefined && update?.chat_id !== null
-        ? String(update.chat_id)
-        : null,
-    timestamp: update?.timestamp ?? null,
-    is_channel: update?.is_channel ?? null
-  }));
-}
-
-Deno.serve(async (request) => {
-  const url = new URL(request.url);
-  const path = url.pathname;
-
-  if (request.method === "OPTIONS") {
-    return json({ ok: true });
+  for (
+    const update
+    of updates
+  ) {
+    if (
+      update &&
+      update.chat_id !==
+        undefined &&
+      update.chat_id !==
+        null
+    ) {
+      ids.add(
+        String(
+          update.chat_id
+        )
+      );
+    }
   }
 
-  try {
+  return [
+    ...ids
+  ];
+}
+
+function getUpdateSummary(
+  data
+) {
+  const updates =
+    Array.isArray(
+      data?.updates
+    )
+      ? data.updates
+      : [];
+
+  return updates.map(
+    (update) => ({
+      update_type:
+        update?.update_type ??
+        null,
+
+      chat_id:
+        update?.chat_id !==
+          undefined &&
+        update?.chat_id !==
+          null
+          ? String(
+              update.chat_id
+            )
+          : null,
+
+      timestamp:
+        update?.timestamp ??
+        null,
+
+      is_channel:
+        update?.is_channel ??
+        null
+    })
+  );
+}
+
+/*
+ * ============================================================
+ * AUTOMATIC CRON
+ * ============================================================
+ *
+ * Deno Deploy обнаруживает этот cron
+ * при публикации production revision.
+ *
+ * Если AUTO_PIPELINE=false:
+ * cron НЕ создаётся.
+ *
+ * Это специально сделано для безопасного
+ * первого тестирования.
+ * ============================================================
+ */
+
+if (
+  AUTO_PIPELINE
+) {
+  Deno.cron(
+    "MAX News automatic pipeline",
+
+    CRON_SCHEDULE,
+
+    {
+      backoffSchedule: [
+        5000,
+        15000,
+        60000
+      ]
+    },
+
+    async () => {
+      console.log(
+        `[CRON] MAX News pipeline started: ${new Date().toISOString()}`
+      );
+
+      const result =
+        await runPipeline();
+
+      console.log(
+        "[CRON] MAX News pipeline result:",
+
+        JSON.stringify(
+          result
+        )
+      );
+
+      /*
+       * Если pipeline полностью
+       * не смог выполнить задачу —
+       * выбрасываем ошибку.
+       *
+       * Deno Deploy сможет выполнить
+       * cron retry по backoffSchedule.
+       */
+
+      if (
+        !result.ok
+      ) {
+        throw new Error(
+          result.error ||
+            "MAX News pipeline failed"
+        );
+      }
+    }
+  );
+}
+
+/*
+ * ============================================================
+ * HTTP SERVER
+ * ============================================================
+ */
+
+Deno.serve(
+  async (request) => {
+    const url =
+      new URL(
+        request.url
+      );
+
+    const path =
+      url.pathname;
+
     /*
-     * ==========================================================
-     * /
-     * ==========================================================
+     * CORS
      */
 
-    if (path === "/" && request.method === "GET") {
+    if (
+      request.method ===
+      "OPTIONS"
+    ) {
       return json({
-        ok: true,
-        service: "MAX NEWS AGENT",
-        runtime: "Deno Deploy",
-        status: "online",
-        time: new Date().toISOString(),
-        endpoints: [
-          "/check",
-          "/rss",
-          "/gemini-test",
-          "/qwen-test",
-          "/max-test",
-          "/updates",
-          "/chat-ids",
-          "/chat-test?chat_id=...",
-          "/publish-test?chat_id=..."
-        ]
+        ok: true
       });
     }
 
-    /*
-     * ==========================================================
-     * /check
-     * ==========================================================
-     */
+    try {
+      /*
+       * ======================================================
+       * /
+       * ======================================================
+       */
 
-    if (path === "/check" && request.method === "GET") {
-      const result = {
-        ok: true,
-        service: "MAX NEWS AGENT",
-        runtime: "Deno Deploy",
-        checks: {
-          gemini: {
-            configured: !!GEMINI_API_KEY
+      if (
+        path === "/" &&
+        request.method ===
+          "GET"
+      ) {
+        return json({
+          ok: true,
+
+          service:
+            "MAX NEWS AGENT",
+
+          runtime:
+            "Deno Deploy",
+
+          status:
+            "online",
+
+          time:
+            new Date().toISOString(),
+
+          auto_pipeline:
+            AUTO_PIPELINE,
+
+          cron_schedule:
+            AUTO_PIPELINE
+              ? CRON_SCHEDULE
+              : null,
+
+          target_chat_configured:
+            !!TARGET_CHAT_ID,
+
+          endpoints: [
+            "/check",
+
+            "/rss",
+
+            "/models",
+
+            "/gemini-test",
+
+            "/qwen-test",
+
+            "/max-test",
+
+            "/updates",
+
+            "/chat-ids",
+
+            "/chat-test?chat_id=...",
+
+            "/publish-test?chat_id=...",
+
+            "/pipeline",
+
+            "/run"
+          ]
+        });
+      }
+
+      /*
+       * ======================================================
+       * /check
+       * ======================================================
+       *
+       * ВАЖНО:
+       *
+       * Здесь Gemini/Qwen НЕ делают весь сервис
+       * нерабочим только потому, что одна модель
+       * временно ответила 503.
+       *
+       * Основной статус сервиса определяется
+       * доступностью MAX.
+       * ======================================================
+       */
+
+      if (
+        path === "/check" &&
+        request.method ===
+          "GET"
+      ) {
+        const result = {
+          ok: true,
+
+          service:
+            "MAX NEWS AGENT",
+
+          runtime:
+            "Deno Deploy",
+
+          checks: {
+            max: {
+              configured:
+                !!MAX_BOT_TOKEN
+            },
+
+            gemini: {
+              configured:
+                !!GEMINI_API_KEY
+            },
+
+            qwen: {
+              configured:
+                !!QWEN_API_KEY
+            }
+          }
+        };
+
+        /*
+         * MAX
+         */
+
+        if (
+          MAX_BOT_TOKEN
+        ) {
+          const test =
+            await maxRequest(
+              "/me",
+              {
+                method:
+                  "GET"
+              }
+            );
+
+          result.checks.max.api = {
+            ok:
+              test.ok,
+
+            http_status:
+              test.status
+          };
+        }
+
+        /*
+         * GEMINI
+         */
+
+        if (
+          GEMINI_API_KEY
+        ) {
+          const models =
+            await discoverGeminiModels();
+
+          result.checks.gemini.api = {
+            ok:
+              models.length > 0,
+
+            discovered_models:
+              models.slice(
+                0,
+                20
+              )
+          };
+        }
+
+        /*
+         * QWEN
+         */
+
+        if (
+          QWEN_API_KEY
+        ) {
+          const models =
+            await discoverQwenModels();
+
+          result.checks.qwen.api = {
+            ok:
+              models.length > 0,
+
+            discovered_models:
+              models.slice(
+                0,
+                20
+              )
+          };
+        }
+
+        /*
+         * Главное:
+         *
+         * временный 503 Gemini
+         * НЕ должен превращать
+         * весь MAX NEWS AGENT
+         * в "offline".
+         */
+
+        result.ok = !!(
+          result.checks.max
+            .configured &&
+
+          result.checks.max
+            .api?.ok
+        );
+
+        return json(
+          result,
+
+          result.ok
+            ? 200
+            : 503
+        );
+      }
+
+      /*
+       * ======================================================
+       * /rss
+       * ======================================================
+       */
+
+      if (
+        path === "/rss" &&
+        request.method ===
+          "GET"
+      ) {
+        const feeds =
+          await fetchRSS();
+
+        const total =
+          feeds.reduce(
+            (sum, feed) =>
+              sum +
+              (feed.count ||
+                0),
+
+            0
+          );
+
+        return json({
+          ok: true,
+
+          total_items:
+            total,
+
+          feeds
+        });
+      }
+
+      /*
+       * ======================================================
+       * /models
+       * ======================================================
+       *
+       * Показывает:
+       *
+       * 1. модели из переменных окружения
+       * 2. модели, найденные автоматически
+       *
+       * ======================================================
+       */
+
+      if (
+        path === "/models" &&
+        request.method ===
+          "GET"
+      ) {
+        const gemini =
+          await discoverGeminiModels();
+
+        const qwen =
+          await discoverQwenModels();
+
+        return json({
+          ok: true,
+
+          configured: {
+            gemini:
+              GEMINI_MODELS,
+
+            qwen:
+              QWEN_MODELS
           },
-          qwen: {
-            configured: !!QWEN_API_KEY
+
+          discovered: {
+            gemini,
+
+            qwen
           },
-          max: {
-            configured: !!MAX_BOT_TOKEN
+
+          fallback_order: [
+            "Gemini configured/discovered models",
+
+            "Qwen configured/discovered models"
+          ]
+        });
+      }
+
+      /*
+       * ======================================================
+       * /gemini-test
+       * ======================================================
+       *
+       * Это уже не жёсткий "один Gemini".
+       *
+       * Запускается универсальная система fallback.
+       *
+       * Поэтому если Gemini 503,
+       * система может перейти на Qwen.
+       * ======================================================
+       */
+
+      if (
+        path ===
+          "/gemini-test" &&
+        request.method ===
+          "GET"
+      ) {
+        const prompt =
+          url.searchParams.get(
+            "prompt"
+          ) ||
+          "Ответь одним словом: OK";
+
+        if (
+          !GEMINI_API_KEY
+        ) {
+          return json(
+            {
+              ok: false,
+
+              provider:
+                "Google Gemini",
+
+              error:
+                "GEMINI_API_KEY не настроен"
+            },
+
+            503
+          );
+        }
+
+        const result =
+          await generateWithFallback(
+            prompt
+          );
+
+        return json({
+          ok:
+            result.ok,
+
+          provider:
+            result.provider ||
+            null,
+
+          model:
+            result.model ||
+            null,
+
+          response:
+            result.text ||
+            null,
+
+          attempts:
+            result.attempts ||
+            [],
+
+          error:
+            result.error ||
+            null
+        });
+      }
+
+      /*
+       * ======================================================
+       * /qwen-test
+       * ======================================================
+       */
+
+      if (
+        path ===
+          "/qwen-test" &&
+        request.method ===
+          "GET"
+      ) {
+        const prompt =
+          url.searchParams.get(
+            "prompt"
+          ) ||
+          "Ответь одним словом: OK";
+
+        if (
+          !QWEN_API_KEY
+        ) {
+          return json(
+            {
+              ok: false,
+
+              provider:
+                "Alibaba Qwen",
+
+              error:
+                "QWEN_API_KEY не настроен"
+            },
+
+            503
+          );
+        }
+
+        const models =
+          uniqueModels(
+            QWEN_MODELS,
+
+            await discoverQwenModels()
+          );
+
+        const attempts = [];
+
+        for (
+          const model
+          of models
+        ) {
+          const result =
+            await qwenGenerate(
+              model,
+              prompt
+            );
+
+          attempts.push({
+            model,
+
+            ok:
+              result.ok,
+
+            http_status:
+              result.status
+          });
+
+          const text =
+            extractQwenText(
+              result.data
+            );
+
+          if (
+            result.ok &&
+            text
+          ) {
+            return json({
+              ok: true,
+
+              provider:
+                "Alibaba Qwen",
+
+              model,
+
+              response:
+                text,
+
+              attempts
+            });
           }
         }
-      };
 
-      if (GEMINI_API_KEY) {
-        try {
-          const test = await geminiGenerate(
-            GEMINI_API_KEY,
-            "Ответь одним словом: OK"
-          );
-
-          result.checks.gemini.api = {
-            ok: test.ok,
-            http_status: test.status
-          };
-        } catch (error) {
-          result.checks.gemini.api = {
+        return json(
+          {
             ok: false,
-            error: error?.message || String(error)
-          };
-        }
+
+            provider:
+              "Alibaba Qwen",
+
+            attempts
+          },
+
+          503
+        );
       }
 
-      if (QWEN_API_KEY) {
-        try {
-          const test = await qwenGenerate(
-            QWEN_API_KEY,
-            "Ответь одним словом: OK"
-          );
+      /*
+       * ======================================================
+       * /max-test
+       * ======================================================
+       */
 
-          result.checks.qwen.api = {
-            ok: test.ok,
-            http_status: test.status
-          };
-        } catch (error) {
-          result.checks.qwen.api = {
-            ok: false,
-            error: error?.message || String(error)
-          };
-        }
-      }
-
-      if (MAX_BOT_TOKEN) {
-        try {
-          const test = await maxRequest(
+      if (
+        path ===
+          "/max-test" &&
+        request.method ===
+          "GET"
+      ) {
+        const result =
+          await maxRequest(
             "/me",
-            MAX_BOT_TOKEN,
             {
-              method: "GET"
+              method:
+                "GET"
             }
           );
 
-          result.checks.max.api = {
-            ok: test.ok,
-            http_status: test.status,
-            response: test.data
-          };
-        } catch (error) {
-          result.checks.max.api = {
-            ok: false,
-            error: error?.message || String(error)
-          };
-        }
+        return json({
+          ok:
+            result.ok,
+
+          provider:
+            "MAX",
+
+          endpoint:
+            "/me",
+
+          http_status:
+            result.status,
+
+          response:
+            result.data
+        });
       }
 
-      result.ok =
-        !!(
-          result.checks.gemini.configured &&
-          result.checks.qwen.configured &&
-          result.checks.max.configured &&
-          result.checks.gemini.api?.ok &&
-          result.checks.qwen.api?.ok &&
-          result.checks.max.api?.ok
+      /*
+       * ======================================================
+       * /updates
+       * ======================================================
+       */
+
+      if (
+        path ===
+          "/updates" &&
+        request.method ===
+          "GET"
+      ) {
+        const params =
+          new URLSearchParams();
+
+        params.set(
+          "limit",
+
+          url.searchParams.get(
+            "limit"
+          ) ||
+            "100"
         );
 
-      return json(result, result.ok ? 200 : 503);
-    }
+        params.set(
+          "timeout",
 
-    /*
-     * ==========================================================
-     * /rss
-     * ==========================================================
-     */
+          url.searchParams.get(
+            "timeout"
+          ) ||
+            "0"
+        );
 
-    if (path === "/rss" && request.method === "GET") {
-      const feeds = await fetchRSS();
+        const marker =
+          url.searchParams.get(
+            "marker"
+          );
 
-      const total = feeds.reduce(
-        (sum, feed) => sum + (feed.count || 0),
-        0
-      );
-
-      return json({
-        ok: true,
-        total_items: total,
-        feeds
-      });
-    }
-
-    /*
-     * ==========================================================
-     * /gemini-test
-     * ==========================================================
-     */
-
-    if (path === "/gemini-test" && request.method === "GET") {
-      const prompt =
-        url.searchParams.get("prompt") ||
-        "Ответь кратко: Gemini API работает?";
-
-      const result = await geminiGenerate(
-        GEMINI_API_KEY,
-        prompt
-      );
-
-      return json({
-        ok: result.ok,
-        provider: "Google Gemini",
-        model: GEMINI_MODEL,
-        http_status: result.status,
-        response: result.data
-      });
-    }
-
-    /*
-     * ==========================================================
-     * /qwen-test
-     * ==========================================================
-     */
-
-    if (path === "/qwen-test" && request.method === "GET") {
-      const prompt =
-        url.searchParams.get("prompt") ||
-        "Ответь кратко: Qwen API работает?";
-
-      const result = await qwenGenerate(
-        QWEN_API_KEY,
-        prompt
-      );
-
-      return json({
-        ok: result.ok,
-        provider: "Alibaba Qwen",
-        model: QWEN_MODEL,
-        http_status: result.status,
-        response: result.data
-      });
-    }
-
-    /*
-     * ==========================================================
-     * /max-test
-     * ==========================================================
-     */
-
-    if (path === "/max-test" && request.method === "GET") {
-      const result = await maxRequest(
-        "/me",
-        MAX_BOT_TOKEN,
-        {
-          method: "GET"
+        if (
+          marker
+        ) {
+          params.set(
+            "marker",
+            marker
+          );
         }
-      );
 
-      return json({
-        ok: result.ok,
-        provider: "MAX",
-        endpoint: "/me",
-        http_status: result.status,
-        response: result.data
-      });
-    }
+        const types =
+          url.searchParams.get(
+            "types"
+          );
 
-    /*
-     * ==========================================================
-     * /updates
-     * ==========================================================
-     */
-
-    if (path === "/updates" && request.method === "GET") {
-      const params = new URLSearchParams();
-
-      params.set(
-        "limit",
-        url.searchParams.get("limit") || "100"
-      );
-
-      params.set(
-        "timeout",
-        url.searchParams.get("timeout") || "0"
-      );
-
-      const marker = url.searchParams.get("marker");
-
-      if (marker) {
-        params.set("marker", marker);
-      }
-
-      const types = url.searchParams.get("types");
-
-      if (types) {
-        params.set("types", types);
-      }
-
-      const result = await maxRequest(
-        `/updates?${params.toString()}`,
-        MAX_BOT_TOKEN,
-        {
-          method: "GET"
+        if (
+          types
+        ) {
+          params.set(
+            "types",
+            types
+          );
         }
-      );
 
-      return json({
-        ok: result.ok,
-        provider: "MAX",
-        endpoint: "/updates",
-        http_status: result.status,
-        response: result.data
-      });
-    }
+        const result =
+          await maxRequest(
+            `/updates?${params.toString()}`,
 
-    /*
-     * ==========================================================
-     * /chat-ids
-     * ==========================================================
-     */
+            {
+              method:
+                "GET"
+            }
+          );
 
-    if (path === "/chat-ids" && request.method === "GET") {
-      const result = await maxRequest(
-        "/updates?limit=100&timeout=0",
-        MAX_BOT_TOKEN,
-        {
-          method: "GET"
-        }
-      );
-
-      const chatIds = extractChatIds(result.data);
-
-      return json({
-        ok: result.ok,
-        provider: "MAX",
-        endpoint: "/chat-ids",
-        http_status: result.status,
-        chat_ids: chatIds,
-        updates: getUpdateSummary(result.data),
-        message: chatIds.length
-          ? "Chat ID найдены."
-          : "Chat ID пока не найдены. Для нового события добавьте/запустите бота в MAX и повторите запрос.",
-        raw: result.data
-      });
-    }
-
-    /*
-     * ==========================================================
-     * /chat-test
-     * Проверяет, видит ли бот конкретный чат/канал.
-     * ==========================================================
-     */
-
-    if (path === "/chat-test" && request.method === "GET") {
-      const chatId =
-        url.searchParams.get("chat_id");
-
-      if (!chatId) {
         return json({
-          ok: false,
-          error: "Не указан chat_id.",
-          usage: "/chat-test?chat_id=123456789"
-        }, 400);
+          ok:
+            result.ok,
+
+          provider:
+            "MAX",
+
+          endpoint:
+            "/updates",
+
+          http_status:
+            result.status,
+
+          response:
+            result.data
+        });
       }
 
-      const result = await maxRequest(
-        `/chats/${encodeURIComponent(chatId)}`,
-        MAX_BOT_TOKEN,
-        {
-          method: "GET"
-        }
-      );
+      /*
+       * ======================================================
+       * /chat-ids
+       * ======================================================
+       */
 
-      return json({
-        ok: result.ok,
-        provider: "MAX",
-        operation: "chat-test",
-        chat_id: chatId,
-        http_status: result.status,
-        response: result.data
-      });
-    }
+      if (
+        path ===
+          "/chat-ids" &&
+        request.method ===
+          "GET"
+      ) {
+        const result =
+          await maxRequest(
+            "/updates?limit=100&timeout=0",
 
-    /*
-     * ==========================================================
-     * /publish-test
-     * ==========================================================
-     */
+            {
+              method:
+                "GET"
+            }
+          );
 
-    if (path === "/publish-test" && request.method === "GET") {
-      const chatId =
-        url.searchParams.get("chat_id");
+        const chatIds =
+          extractChatIds(
+            result.data
+          );
 
-      if (!chatId) {
         return json({
-          ok: false,
-          error: "Не указан chat_id.",
-          usage: "/publish-test?chat_id=123456789",
-          next_step:
-            "Сначала укажите настоящий chat_id канала или чата."
-        }, 400);
+          ok:
+            result.ok,
+
+          provider:
+            "MAX",
+
+          endpoint:
+            "/chat-ids",
+
+          http_status:
+            result.status,
+
+          chat_ids:
+            chatIds,
+
+          updates:
+            getUpdateSummary(
+              result.data
+            ),
+
+          message:
+            chatIds.length
+              ? "Chat ID найдены."
+              : "Chat ID пока не найдены.",
+
+          raw:
+            result.data
+        });
       }
 
-      const text =
-        url.searchParams.get("text") ||
-        "ТЕСТ MAX NEWS AGENT\n\nWorker успешно подключён к API MAX.";
+      /*
+       * ======================================================
+       * /chat-test
+       * ======================================================
+       */
 
-      const result = await maxRequest(
-        `/messages?chat_id=${encodeURIComponent(chatId)}`,
-        MAX_BOT_TOKEN,
-        {
-          method: "POST",
-          body: JSON.stringify({
+      if (
+        path ===
+          "/chat-test" &&
+        request.method ===
+          "GET"
+      ) {
+        const chatId =
+          url.searchParams.get(
+            "chat_id"
+          );
+
+        if (!chatId) {
+          return json(
+            {
+              ok: false,
+
+              error:
+                "Не указан chat_id.",
+
+              usage:
+                "/chat-test?chat_id=123456789"
+            },
+
+            400
+          );
+        }
+
+        const result =
+          await maxRequest(
+            `/chats/${encodeURIComponent(
+              chatId
+            )}`,
+
+            {
+              method:
+                "GET"
+            }
+          );
+
+        return json({
+          ok:
+            result.ok,
+
+          provider:
+            "MAX",
+
+          operation:
+            "chat-test",
+
+          chat_id:
+            chatId,
+
+          http_status:
+            result.status,
+
+          response:
+            result.data
+        });
+      }
+
+      /*
+       * ======================================================
+       * /publish-test
+       * ======================================================
+       *
+       * Ручная тестовая публикация.
+       *
+       * Автоматический pipeline
+       * сюда не завязан.
+       * ======================================================
+       */
+
+      if (
+        path ===
+          "/publish-test" &&
+        request.method ===
+          "GET"
+      ) {
+        const chatId =
+          url.searchParams.get(
+            "chat_id"
+          );
+
+        if (!chatId) {
+          return json(
+            {
+              ok: false,
+
+              error:
+                "Не указан chat_id.",
+
+              usage:
+                "/publish-test?chat_id=123456789"
+            },
+
+            400
+          );
+        }
+
+        const text =
+          url.searchParams.get(
+            "text"
+          ) ||
+          "ТЕСТ MAX NEWS AGENT\n\nWorker успешно подключён к API MAX.";
+
+        const result =
+          await publishToMax(
+            chatId,
             text
-          })
-        }
+          );
+
+        return json({
+          ok:
+            result.ok,
+
+          provider:
+            "MAX",
+
+          operation:
+            "publish-test",
+
+          chat_id:
+            chatId,
+
+          http_status:
+            result.status,
+
+          response:
+            result.data
+        });
+      }
+
+      /*
+       * ======================================================
+       * /pipeline
+       * /run
+       * ======================================================
+       *
+       * Ручной запуск полного процесса.
+       *
+       * RSS
+       * ->
+       * AI fallback
+       * ->
+       * MAX
+       *
+       * Если AUTO_PIPELINE=false,
+       * публикация НЕ произойдёт.
+       * ======================================================
+       */
+
+      if (
+        (
+          path ===
+            "/pipeline" ||
+          path ===
+            "/run"
+        ) &&
+        (
+          request.method ===
+            "GET" ||
+          request.method ===
+            "POST"
+        )
+      ) {
+        const result =
+          await runPipeline();
+
+        return json(
+          result,
+
+          result.ok
+            ? 200
+            : 503
+        );
+      }
+
+      /*
+       * ======================================================
+       * UNKNOWN ROUTE
+       * ======================================================
+       */
+
+      return json(
+        {
+          ok: false,
+
+          error:
+            "Endpoint not found",
+
+          path
+        },
+
+        404
+      );
+    } catch (error) {
+      /*
+       * ======================================================
+       * GLOBAL ERROR HANDLER
+       * ======================================================
+       */
+
+      console.error(
+        "MAX NEWS AGENT ERROR:",
+
+        error
       );
 
-      return json({
-        ok: result.ok,
-        provider: "MAX",
-        operation: "publish-test",
-        chat_id: chatId,
-        http_status: result.status,
-        response: result.data
-      });
+      return json(
+        {
+          ok: false,
+
+          error:
+            error?.message ||
+            String(error)
+        },
+
+        500
+      );
     }
-
-    /*
-     * ==========================================================
-     * UNKNOWN ROUTE
-     * ==========================================================
-     */
-
-    return json({
-      ok: false,
-      error: "Endpoint not found",
-      path
-    }, 404);
-
-  } catch (error) {
-    console.error(
-      "MAX NEWS AGENT ERROR:",
-      error
-    );
-
-    return json({
-      ok: false,
-      error: error?.message || String(error)
-    }, 500);
   }
-});
+);
