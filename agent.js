@@ -1,6 +1,7 @@
 const MAX_API = "https://platform-api2.max.ru";
 
-const GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta";
+const GEMINI_BASE =
+  "https://generativelanguage.googleapis.com/v1beta";
 
 const QWEN_API =
   "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions";
@@ -18,17 +19,6 @@ const QWEN_API_KEY =
  * ============================================================
  * AI MODEL CONFIGURATION
  * ============================================================
- *
- * Можно задать свои модели через:
- *
- * GEMINI_MODELS
- * QWEN_MODELS
- *
- * Формат:
- * model1,model2,model3
- *
- * Код также пытается автоматически получить список
- * доступных моделей у провайдера.
  */
 
 const GEMINI_MODELS = parseList(
@@ -69,19 +59,46 @@ const MAX_NEWS_PER_RUN =
 
 /*
  * ============================================================
+ * MAX TLS / CERTIFICATES
+ * ============================================================
+ *
+ * MAX API v2 uses a certificate chain based on the
+ * Russian Trusted Root CA.
+ *
+ * Deno Deploy may not have this CA in its default trust store.
+ *
+ * We download the official CA certificates and attach them
+ * to a dedicated HTTP client.
+ *
+ * No certificate is stored in the source code.
+ */
+
+const MAX_ROOT_CA_URL =
+  "https://gu-st.ru/content/lending/russian_trusted_root_ca_pem.crt";
+
+const MAX_SUB_CA_URL =
+  "https://gu-st.ru/content/lending/russian_trusted_sub_ca_pem.crt";
+
+let maxHttpClient = null;
+let maxHttpClientError = null;
+let maxCaStatus = {
+  loaded: false,
+  root: false,
+  sub: false,
+  error: null
+};
+
+/*
+ * ============================================================
  * RSS SOURCES
  * ============================================================
  */
 
 const RSS_FEEDS = [
   "https://news.google.com/rss/search?q=мир+OR+международные+события&hl=ru&gl=RU&ceid=RU:ru",
-
   "https://news.google.com/rss/search?q=политика+OR+право&hl=ru&gl=RU&ceid=RU:ru",
-
   "https://news.google.com/rss/search?q=финансы+OR+экономика+OR+бизнес&hl=ru&gl=RU&ceid=RU:ru",
-
   "https://news.google.com/rss/search?q=происшествия+OR+катастрофы+OR+криминал&hl=ru&gl=RU&ceid=RU:ru",
-
   "https://news.google.com/rss/search?q=технологии+OR+промышленность+OR+авто&hl=ru&gl=RU&ceid=RU:ru"
 ];
 
@@ -94,7 +111,6 @@ const RSS_FEEDS = [
 const recentPublished = new Map();
 
 let discoveredGeminiModels = null;
-
 let discoveredQwenModels = null;
 
 /*
@@ -180,6 +196,7 @@ function json(
     ),
     {
       status,
+
       headers: {
         "Content-Type":
           "application/json; charset=utf-8",
@@ -198,6 +215,98 @@ function json(
       }
     }
   );
+}
+
+/*
+ * ============================================================
+ * MAX CA INITIALIZATION
+ * ============================================================
+ */
+
+async function initMaxHttpClient() {
+  if (maxHttpClient) {
+    return maxHttpClient;
+  }
+
+  if (maxHttpClientError) {
+    return null;
+  }
+
+  try {
+    const rootResponse =
+      await fetch(
+        MAX_ROOT_CA_URL,
+        {
+          method: "GET",
+          signal:
+            AbortSignal.timeout(10000)
+        }
+      );
+
+    if (!rootResponse.ok) {
+      throw new Error(
+        `MAX root CA download failed: HTTP ${rootResponse.status}`
+      );
+    }
+
+    const rootCa =
+      await rootResponse.text();
+
+    maxCaStatus.root = true;
+
+    const subResponse =
+      await fetch(
+        MAX_SUB_CA_URL,
+        {
+          method: "GET",
+          signal:
+            AbortSignal.timeout(10000)
+        }
+      );
+
+    if (!subResponse.ok) {
+      throw new Error(
+        `MAX sub CA download failed: HTTP ${subResponse.status}`
+      );
+    }
+
+    const subCa =
+      await subResponse.text();
+
+    maxCaStatus.sub = true;
+
+    maxHttpClient =
+      Deno.createHttpClient({
+        caCerts: [
+          rootCa,
+          subCa
+        ]
+      });
+
+    maxCaStatus.loaded = true;
+    maxCaStatus.error = null;
+
+    console.log(
+      "[MAX TLS] Russian Trusted CA loaded successfully"
+    );
+
+    return maxHttpClient;
+
+  } catch (error) {
+    maxHttpClientError =
+      error?.message ||
+      String(error);
+
+    maxCaStatus.error =
+      maxHttpClientError;
+
+    console.error(
+      "[MAX TLS] Failed to load CA certificates:",
+      maxHttpClientError
+    );
+
+    return null;
+  }
 }
 
 /*
@@ -228,6 +337,9 @@ async function readJson(response) {
     status:
       response.status,
 
+    statusText:
+      response.statusText || "",
+
     data,
 
     headers:
@@ -247,15 +359,24 @@ async function fetchJson(
     config.timeoutMs ??
     REQUEST_TIMEOUT_MS;
 
+  const useMaxClient =
+    config.useMaxClient === true;
+
   let last = {
     ok: false,
 
     status: 599,
 
+    statusText:
+      "No HTTP response",
+
     data: {
       error:
         "request failed before receiving a response"
-    }
+    },
+
+    error_type:
+      "unknown"
   };
 
   for (
@@ -274,15 +395,27 @@ async function fetchJson(
       );
 
     try {
+      const requestOptions = {
+        ...options,
+
+        signal:
+          controller.signal
+      };
+
+      if (useMaxClient) {
+        const client =
+          await initMaxHttpClient();
+
+        if (client) {
+          requestOptions.client =
+            client;
+        }
+      }
+
       const response =
         await fetch(
           url,
-          {
-            ...options,
-
-            signal:
-              controller.signal
-          }
+          requestOptions
         );
 
       const result =
@@ -290,7 +423,14 @@ async function fetchJson(
           response
         );
 
-      last = result;
+      last = {
+        ...result,
+
+        error_type:
+          result.ok
+            ? null
+            : "http"
+      };
 
       if (result.ok) {
         return result;
@@ -310,32 +450,68 @@ async function fetchJson(
         await sleep(
           retryDelay(
             attempt,
-
             response.headers.get(
               "Retry-After"
             )
           )
         );
       }
+
     } catch (error) {
+      const isTimeout =
+        error?.name ===
+        "AbortError";
+
       last = {
         ok: false,
 
         status:
-          error?.name ===
-          "AbortError"
+          isTimeout
             ? 504
             : 599,
 
+        statusText:
+          isTimeout
+            ? "Gateway Timeout"
+            : "Network Error",
+
         data: {
           error:
-            error?.name ===
-            "AbortError"
+            isTimeout
               ? "Request timeout"
               : error?.message ||
                 String(error)
-        }
+        },
+
+        error_type:
+          isTimeout
+            ? "timeout"
+            : "network",
+
+        error_name:
+          error?.name ||
+          "Error",
+
+        error_message:
+          error?.message ||
+          String(error),
+
+        url
       };
+
+      console.error(
+        "[HTTP ERROR]",
+        JSON.stringify(
+          {
+            url,
+            attempt,
+            error_name:
+              error?.name,
+            error_message:
+              error?.message
+          }
+        )
+      );
 
       if (
         attempt < retries
@@ -346,6 +522,7 @@ async function fetchJson(
           )
         );
       }
+
     } finally {
       clearTimeout(
         timer
@@ -401,7 +578,7 @@ async function maxRequest(
 
       headers: {
         Authorization:
-          MAX_BOT_TOKEN,
+          MAX_BOT_TOKEN.trim(),
 
         Accept:
           "application/json",
@@ -415,6 +592,10 @@ async function maxRequest(
 
         ...(options.headers || {})
       }
+    },
+
+    {
+      useMaxClient: true
     }
   );
 }
@@ -511,8 +692,7 @@ async function discoverGeminiModels() {
       .filter(
         (model) =>
           Array.isArray(
-            model
-              ?.supportedGenerationMethods
+            model?.supportedGenerationMethods
           )
             ? model.supportedGenerationMethods.includes(
                 "generateContent"
@@ -788,7 +968,11 @@ async function generateWithFallback(
           result.status,
 
         ok:
-          result.ok
+          result.ok,
+
+        error:
+          result.data?.error ||
+          null
       });
 
       const text =
@@ -813,6 +997,7 @@ async function generateWithFallback(
           attempts
         };
       }
+
     } catch (error) {
       attempts.push({
         provider:
@@ -850,7 +1035,11 @@ async function generateWithFallback(
           result.status,
 
         ok:
-          result.ok
+          result.ok,
+
+        error:
+          result.data?.error ||
+          null
       });
 
       const text =
@@ -875,6 +1064,7 @@ async function generateWithFallback(
           attempts
         };
       }
+
     } catch (error) {
       attempts.push({
         provider:
@@ -984,11 +1174,8 @@ function extractItems(
 
     items.push({
       title,
-
       link,
-
       description,
-
       pubDate
     });
   }
@@ -1193,7 +1380,6 @@ ${item.description || "нет"}
 
 ИСТОЧНИК:
 ссылка на материал.
-
 `.trim();
 }
 
@@ -1376,7 +1562,11 @@ async function runPipeline() {
           publishResult.status,
 
         response:
-          publishResult.data
+          publishResult.data,
+
+        error:
+          publishResult.error_message ||
+          null
       };
 
       if (
@@ -1628,29 +1818,21 @@ Deno.serve(
           target_chat_configured:
             !!TARGET_CHAT_ID,
 
+          max_api:
+            MAX_API,
+
           endpoints: [
             "/check",
-
             "/rss",
-
             "/models",
-
             "/gemini-test",
-
             "/qwen-test",
-
             "/max-test",
-
             "/updates",
-
             "/chat-ids",
-
             "/chat-test?chat_id=...",
-
             "/publish-test?chat_id=...",
-
             "/pipeline",
-
             "/run"
           ]
         });
@@ -1676,6 +1858,26 @@ Deno.serve(
           runtime:
             "Deno Deploy",
 
+          time:
+            new Date().toISOString(),
+
+          max_api:
+            MAX_API,
+
+          tls: {
+            ca_loaded:
+              maxCaStatus.loaded,
+
+            root_ca_loaded:
+              maxCaStatus.root,
+
+            sub_ca_loaded:
+              maxCaStatus.sub,
+
+            error:
+              maxCaStatus.error
+          },
+
           checks: {
             max: {
               configured:
@@ -1694,12 +1896,17 @@ Deno.serve(
           }
         };
 
+        /*
+         * MAX
+         */
+
         if (
           MAX_BOT_TOKEN
         ) {
           const test =
             await maxRequest(
               "/me",
+
               {
                 method:
                   "GET"
@@ -1711,9 +1918,34 @@ Deno.serve(
               test.ok,
 
             http_status:
-              test.status
+              test.status,
+
+            status_text:
+              test.statusText ||
+              null,
+
+            error_type:
+              test.error_type ||
+              null,
+
+            error_name:
+              test.error_name ||
+              null,
+
+            error_message:
+              test.error_message ||
+              null,
+
+            response:
+              test.ok
+                ? test.data
+                : null
           };
         }
+
+        /*
+         * GEMINI
+         */
 
         if (
           GEMINI_API_KEY
@@ -1732,6 +1964,10 @@ Deno.serve(
               )
           };
         }
+
+        /*
+         * QWEN
+         */
 
         if (
           QWEN_API_KEY
@@ -1754,7 +1990,6 @@ Deno.serve(
         result.ok = !!(
           result.checks.max
             .configured &&
-
           result.checks.max
             .api?.ok
         );
@@ -1788,7 +2023,6 @@ Deno.serve(
               sum +
               (feed.count ||
                 0),
-
             0
           );
 
@@ -1832,13 +2066,11 @@ Deno.serve(
 
           discovered: {
             gemini,
-
             qwen
           },
 
           fallback_order: [
             "Gemini configured/discovered models",
-
             "Qwen configured/discovered models"
           ]
         });
@@ -1950,7 +2182,6 @@ Deno.serve(
         const models =
           uniqueModels(
             QWEN_MODELS,
-
             await discoverQwenModels()
           );
 
@@ -1969,11 +2200,23 @@ Deno.serve(
           attempts.push({
             model,
 
+            http_status:
+              result.status,
+
             ok:
               result.ok,
 
-            http_status:
-              result.status
+            response:
+              result.ok
+                ? extractQwenText(
+                    result.data
+                  )
+                : null,
+
+            error:
+              result.data?.error ||
+              result.error_message ||
+              null
           });
 
           const text =
@@ -2030,6 +2273,7 @@ Deno.serve(
         const result =
           await maxRequest(
             "/me",
+
             {
               method:
                 "GET"
@@ -2048,6 +2292,22 @@ Deno.serve(
 
           http_status:
             result.status,
+
+          status_text:
+            result.statusText ||
+            null,
+
+          error_type:
+            result.error_type ||
+            null,
+
+          error_name:
+            result.error_name ||
+            null,
+
+          error_message:
+            result.error_message ||
+            null,
 
           response:
             result.data
@@ -2329,7 +2589,11 @@ Deno.serve(
             result.status,
 
           response:
-            result.data
+            result.data,
+
+          error:
+            result.error_message ||
+            null
         });
       }
 
@@ -2384,16 +2648,10 @@ Deno.serve(
 
         404
       );
-    } catch (error) {
-      /*
-       * ======================================================
-       * GLOBAL ERROR HANDLER
-       * ======================================================
-       */
 
+    } catch (error) {
       console.error(
         "MAX NEWS AGENT ERROR:",
-
         error
       );
 
@@ -2403,7 +2661,11 @@ Deno.serve(
 
           error:
             error?.message ||
-            String(error)
+            String(error),
+
+          error_name:
+            error?.name ||
+            "Error"
         },
 
         500
