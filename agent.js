@@ -422,10 +422,9 @@ async function maxRequest(
         Accept:
           "application/json",
 
-        ...(options.body
-          ? {
-              "Content-Type":
-                "application/json"
+       ...(options.body ? {
+  "Content-Type": "application/json"
+} : {}),
             }
           }
           : {}),
