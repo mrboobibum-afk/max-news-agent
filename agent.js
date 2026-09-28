@@ -1,5 +1,8 @@
 const MAX_API = "https://platform-api2.max.ru";
-const GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta";
+
+const GEMINI_BASE =
+  "https://generativelanguage.googleapis.com/v1beta";
+
 const QWEN_API =
   "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions";
 
@@ -12,15 +15,130 @@ const GEMINI_API_KEY =
 const QWEN_API_KEY =
   Deno.env.get("QWEN_API_KEY") || "";
 
-const MAX_WEBHOOK_SECRET =
-  Deno.env.get("MAX_WEBHOOK_SECRET") ||
-  (MAX_BOT_TOKEN
-    ? `factor-${MAX_BOT_TOKEN.slice(0, 24)}`
-    : "");
+/*
+ * ============================================================
+ * AI MODEL CONFIGURATION
+ * ============================================================
+ */
 
-const PUBLIC_BASE_URL =
-  (Deno.env.get("PUBLIC_BASE_URL") || "")
-    .replace(/\/$/, "");
+const GEMINI_MODELS = parseList(
+  Deno.env.get("GEMINI_MODELS") ||
+    "gemini-3.8-flash,gemini-2.5-flash"
+);
+
+const QWEN_MODELS = parseList(
+  Deno.env.get("QWEN_MODELS") ||
+    "qwen3.8-flash,qwen3.7-plus,qwen3.6-flash,qwen-plus"
+);
+
+/*
+ * ============================================================
+ * GENERAL CONFIGURATION
+ * ============================================================
+ */
+
+const RETRIES =
+  numberEnv("API_RETRIES", 2);
+
+const REQUEST_TIMEOUT_MS =
+  numberEnv("API_TIMEOUT_MS", 20000);
+
+const AUTO_PIPELINE =
+  (Deno.env.get("AUTO_PIPELINE") || "false")
+    .toLowerCase() === "true";
+
+const CRON_SCHEDULE =
+  Deno.env.get("CRON_SCHEDULE") ||
+  "*/15 * * * *";
+
+const TARGET_CHAT_ID =
+  Deno.env.get("TARGET_CHAT_ID") || "";
+
+const MAX_NEWS_PER_RUN =
+  numberEnv("MAX_NEWS_PER_RUN", 1);
+
+const MAX_WEBHOOK_SECRET =
+  Deno.env.get("MAX_WEBHOOK_SECRET") || "";
+
+const MAX_WEBHOOK_UPDATE_TYPES = [
+  "bot_added",
+  "bot_started",
+  "bot_removed",
+  "bot_stopped",
+  "dialog_removed",
+  "message_created",
+  "message_edited",
+  "message_removed",
+  "comment_created",
+  "comment_edited",
+  "comment_removed",
+  "chat_title_changed",
+  "bot_admin_permissions_changed"
+];
+
+let maxKv = null;
+
+let webhookSetupCache = {
+  url: null,
+  ok: false,
+  at: 0,
+  result: null
+};
+
+/*
+ * ============================================================
+ * MAX TLS / CERTIFICATES
+ * ============================================================
+ */
+
+const MAX_ROOT_CA_URL =
+  "https://gu-st.ru/content/lending/russian_trusted_root_ca_pem.crt";
+
+const MAX_SUB_CA_URL =
+  "https://gu-st.ru/content/lending/russian_trusted_sub_ca_pem.crt";
+
+let maxHttpClient = null;
+
+let maxHttpClientError = null;
+
+let maxCaStatus = {
+  loaded: false,
+  root: false,
+  sub: false,
+  error: null
+};
+
+/*
+ * ============================================================
+ * RSS SOURCES
+ * ============================================================
+ */
+
+const RSS_FEEDS = [
+  "https://news.google.com/rss/search?q=мир+OR+международные+события&hl=ru&gl=RU&ceid=RU:ru",
+  "https://news.google.com/rss/search?q=политика+OR+право&hl=ru&gl=RU&ceid=RU:ru",
+  "https://news.google.com/rss/search?q=финансы+OR+экономика+OR+бизнес&hl=ru&gl=RU&ceid=RU:ru",
+  "https://news.google.com/rss/search?q=происшествия+OR+катастрофы+OR+криминал&hl=ru&gl=RU&ceid=RU:ru",
+  "https://news.google.com/rss/search?q=технологии+OR+промышленность+OR+авто&hl=ru&gl=RU&ceid=RU:ru"
+];
+
+/*
+ * ============================================================
+ * RUNTIME STATE
+ * ============================================================
+ */
+
+const recentPublished = new Map();
+
+let discoveredGeminiModels = null;
+
+let discoveredQwenModels = null;
+
+/*
+ * ============================================================
+ * HELPERS
+ * ============================================================
+ */
 
 function parseList(value) {
   return [
@@ -59,7 +177,38 @@ function isRetryableStatus(status) {
   );
 }
 
-function json(data, status = 200) {
+function retryDelay(
+  attempt,
+  retryAfterHeader
+) {
+  const retryAfter =
+    Number(retryAfterHeader);
+
+  if (
+    Number.isFinite(retryAfter) &&
+    retryAfter >= 0
+  ) {
+    return Math.min(
+      retryAfter * 1000,
+      60000
+    );
+  }
+
+  return (
+    Math.min(
+      1000 * 2 ** attempt,
+      8000
+    ) +
+    Math.floor(
+      Math.random() * 400
+    )
+  );
+}
+
+function json(
+  data,
+  status = 200
+) {
   return new Response(
     JSON.stringify(
       data,
@@ -80,7 +229,7 @@ function json(data, status = 200) {
           "*",
 
         "Access-Control-Allow-Methods":
-          "GET,POST,DELETE,OPTIONS",
+          "GET, POST, OPTIONS",
 
         "Access-Control-Allow-Headers":
           "Content-Type, Authorization, X-Max-Bot-Api-Secret"
@@ -91,140 +240,112 @@ function json(data, status = 200) {
 
 /*
  * ============================================================
- * CONFIGURATION
+ * MAX CERTIFICATE CLIENT
  * ============================================================
  */
 
-const RETRIES =
-  numberEnv(
-    "API_RETRIES",
-    3
-  );
-
-const REQUEST_TIMEOUT_MS =
-  numberEnv(
-    "API_TIMEOUT_MS",
-    25000
-  );
-
-const AUTO_PIPELINE =
-  (
-    Deno.env.get(
-      "AUTO_PIPELINE"
-    ) || "false"
-  ).toLowerCase() === "true";
-
-const CRON_SCHEDULE =
-  Deno.env.get(
-    "CRON_SCHEDULE"
-  ) ||
-  "*/15 * * * *";
-
-const TARGET_CHAT_ID =
-  Deno.env.get(
-    "TARGET_CHAT_ID"
-  ) || "";
-
-const MAX_NEWS_PER_RUN =
-  numberEnv(
-    "MAX_NEWS_PER_RUN",
-    1
-  );
-
-const GEMINI_MODELS =
-  parseList(
-    Deno.env.get(
-      "GEMINI_MODELS"
-    ) ||
-      "gemini-3.8-flash,gemini-2.5-flash,gemini-3-flash-preview,gemini-2.5-pro"
-  );
-
-const QWEN_MODELS =
-  parseList(
-    Deno.env.get(
-      "QWEN_MODELS"
-    ) ||
-      "qwen3.8-flash,qwen3.7-plus,qwen3.6-flash,qwen-plus,qwen3.5-flash,qwen3.5-plus"
-  );
-
-/*
- * ============================================================
- * RSS
- * ============================================================
- */
-
-const RSS_FEEDS = [
-  "https://news.google.com/rss/search?q=мир+OR+международные+события&hl=ru&gl=RU&ceid=RU:ru",
-
-  "https://news.google.com/rss/search?q=политика+OR+право&hl=ru&gl=RU&ceid=RU:ru",
-
-  "https://news.google.com/rss/search?q=финансы+OR+экономика+OR+бизнес&hl=ru&gl=RU&ceid=RU:ru",
-
-  "https://news.google.com/rss/search?q=происшествия+OR+катастрофы+OR+криминал&hl=ru&gl=RU&ceid=RU:ru",
-
-  "https://news.google.com/rss/search?q=технологии+OR+промышленность+OR+авто&hl=ru&gl=RU&ceid=RU:ru"
-];
-
-/*
- * ============================================================
- * RUNTIME
- * ============================================================
- */
-
-let discoveredGeminiModels = null;
-let discoveredQwenModels = null;
-let kv = null;
-
-try {
-  kv = await Deno.openKv();
-} catch (error) {
-  console.error(
-    "Deno KV unavailable:",
-    error?.message ||
-      error
-  );
-}
-
-const recentPublished =
-  new Map();
-
-/*
- * ============================================================
- * HTTP HELPERS
- * ============================================================
- */
-
-async function readJson(
-  response
-) {
-  const text =
-    await response.text();
-
-  let data = null;
-
-  try {
-    data = text
-      ? JSON.parse(text)
-      : null;
-  } catch {
-    data = {
-      raw: text
-    };
+async function loadMaxCertificates() {
+  if (
+    maxHttpClient
+  ) {
+    return maxHttpClient;
   }
 
-  return {
-    ok:
-      response.ok,
+  if (
+    maxHttpClientError
+  ) {
+    return null;
+  }
 
-    status:
-      response.status,
+  try {
+    const [
+      rootResponse,
+      subResponse
+    ] = await Promise.all([
+      fetch(
+        MAX_ROOT_CA_URL
+      ),
+      fetch(
+        MAX_SUB_CA_URL
+      )
+    ]);
 
-    data,
+    if (
+      !rootResponse.ok
+    ) {
+      throw new Error(
+        `Root CA download failed: ${rootResponse.status}`
+      );
+    }
 
-    headers:
-      response.headers
-  };
+    if (
+      !subResponse.ok
+    ) {
+      throw new Error(
+        `Sub CA download failed: ${subResponse.status}`
+      );
+    }
+
+    const rootCa =
+      await rootResponse.text();
+
+    const subCa =
+      await subResponse.text();
+
+    if (
+      !rootCa.trim()
+    ) {
+      throw new Error(
+        "Root CA is empty"
+      );
+    }
+
+    if (
+      !subCa.trim()
+    ) {
+      throw new Error(
+        "Sub CA is empty"
+      );
+    }
+
+    maxCaStatus.root = true;
+
+    maxCaStatus.sub = true;
+
+    maxCaStatus.loaded = true;
+
+    /*
+     * Deno Deploy supports custom CA certificates
+     * through a custom HttpClient.
+     */
+
+    maxHttpClient =
+      Deno.createHttpClient({
+        caCerts: [
+          rootCa,
+          subCa
+        ]
+      });
+
+    return maxHttpClient;
+
+  } catch (error) {
+    maxHttpClientError =
+      error;
+
+    maxCaStatus.error =
+      error?.message ||
+      String(error);
+
+    return null;
+  }
 }
+
+/*
+ * ============================================================
+ * GENERIC HTTP
+ * ============================================================
+ */
 
 async function fetchJson(
   url,
@@ -241,13 +362,12 @@ async function fetchJson(
 
   let last = {
     ok: false,
-
-    status: 599,
-
-    data: {
-      error:
-        "request failed before receiving a response"
-    }
+    status: 0,
+    statusText: "",
+    data: null,
+    error_type: null,
+    error_name: null,
+    error_message: null
   };
 
   for (
@@ -255,115 +375,173 @@ async function fetchJson(
     attempt <= retries;
     attempt++
   ) {
-    const controller =
-      new AbortController();
-
-    const timer =
-      setTimeout(
-        () =>
-          controller.abort(),
-        timeoutMs
-      );
+    let timer = null;
 
     try {
+      const controller =
+        new AbortController();
+
+      timer =
+        setTimeout(
+          () => controller.abort(),
+          timeoutMs
+        );
+
+      const requestOptions = {
+        ...options,
+        signal:
+          controller.signal
+      };
+
+      if (
+        config.useMaxClient
+      ) {
+        const client =
+          await loadMaxCertificates();
+
+        if (
+          client
+        ) {
+          requestOptions.client =
+            client;
+        }
+      }
+
       const response =
         await fetch(
           url,
-          {
-            ...options,
-
-            signal:
-              controller.signal
-          }
+          requestOptions
         );
 
-      const result =
-        await readJson(
-          response
-        );
+      const contentType =
+        response.headers.get(
+          "content-type"
+        ) || "";
+
+      let data = null;
+
+      if (
+        contentType.includes(
+          "application/json"
+        )
+      ) {
+        try {
+          data =
+            await response.json();
+        } catch {
+          data = null;
+        }
+      } else {
+        const text =
+          await response.text();
+
+        data = {
+          raw: text
+        };
+      }
+
+      const result = {
+        ok:
+          response.ok,
+
+        status:
+          response.status,
+
+        statusText:
+          response.statusText,
+
+        data,
+
+        error_type:
+          null,
+
+        error_name:
+          null,
+
+        error_message:
+          null
+      };
+
+      if (
+        response.ok
+      ) {
+        return result;
+      }
 
       last =
         result;
 
       if (
-        result.ok
-      ) {
-        return result;
-      }
-
-      if (
         !isRetryableStatus(
-          result.status
+          response.status
         ) ||
         attempt >= retries
       ) {
         return result;
       }
 
-      const retryAfter =
-        Number(
-          response.headers.get(
-            "Retry-After"
-          )
-        );
-
-      const delay =
-        Number.isFinite(
-          retryAfter
-        ) &&
-        retryAfter >= 0
-          ? Math.min(
-              retryAfter * 1000,
-              60000
-            )
-          : Math.min(
-              1000 *
-                2 ** attempt,
-              10000
-            ) +
-            Math.floor(
-              Math.random() *
-                500
-            );
-
       await sleep(
-        delay
+        retryDelay(
+          attempt,
+          response.headers.get(
+            "retry-after"
+          )
+        )
       );
+
     } catch (error) {
       last = {
         ok: false,
 
-        status:
-          error?.name ===
-          "AbortError"
-            ? 504
-            : 599,
+        status: 599,
+
+        statusText: "",
 
         data: {
           error:
-            error?.name ===
-            "AbortError"
-              ? "Request timeout"
-              : error?.message ||
-                String(error)
-        }
+            error?.message ||
+            String(error)
+        },
+
+        error_type:
+          error?.name ===
+          "AbortError"
+            ? "timeout"
+            : "fetch_error",
+
+        error_name:
+          error?.name ||
+          null,
+
+        error_message:
+          error?.message ||
+          String(error)
       };
+
+      console.error(
+        "[HTTP ERROR]",
+        JSON.stringify(
+          {
+            url,
+            attempt,
+            error_name:
+              error?.name,
+            error_message:
+              error?.message
+          }
+        )
+      );
 
       if (
         attempt < retries
       ) {
         await sleep(
-          Math.min(
-            1000 *
-              2 ** attempt,
-            10000
-          ) +
-          Math.floor(
-            Math.random() *
-              500
+          retryDelay(
+            attempt
           )
         );
       }
+
     } finally {
       clearTimeout(
         timer
@@ -373,6 +551,12 @@ async function fetchJson(
 
   return last;
 }
+
+/*
+ * ============================================================
+ * SECRETS
+ * ============================================================
+ */
 
 function requireSecret(
   value,
@@ -405,14 +589,15 @@ async function maxRequest(
       ? path
       : `/${path}`;
 
-  return fetchJson(
+  return await fetchJson(
     `${MAX_API}${cleanPath}`,
+
     {
       ...options,
 
       headers: {
         Authorization:
-          MAX_BOT_TOKEN,
+          MAX_BOT_TOKEN.trim(),
 
         Accept:
           "application/json",
@@ -424,16 +609,19 @@ async function maxRequest(
             }
           : {}),
 
-        ...(options.headers ||
-          {})
+        ...(options.headers || {})
       }
+    },
+
+    {
+      useMaxClient: true
     }
   );
 }
 
 /*
  * ============================================================
- * GEMINI / QWEN EXTRACTION
+ * GEMINI RESPONSE EXTRACTION
  * ============================================================
  */
 
@@ -443,27 +631,30 @@ function extractGeminiText(
   return (
     data
       ?.candidates?.[0]
-      ?.content?.parts
+      ?.content
+      ?.parts
       ?.map(
         (part) =>
-          part?.text ||
-          ""
+          part?.text || ""
       )
-      .join("") ||
-    ""
-  ).trim();
+      .join("")
+      .trim() || ""
+  );
 }
+
+/*
+ * ============================================================
+ * QWEN RESPONSE EXTRACTION
+ * ============================================================
+ */
 
 function extractQwenText(
   data
 ) {
   return (
-    data
-      ?.choices?.[0]
-      ?.message
-      ?.content ||
-    data
-      ?.choices?.[0]
+    data?.choices?.[0]
+      ?.message?.content ||
+    data?.choices?.[0]
       ?.text ||
     ""
   ).trim();
@@ -476,9 +667,7 @@ function extractQwenText(
  */
 
 async function discoverGeminiModels() {
-  if (
-    !GEMINI_API_KEY
-  ) {
+  if (!GEMINI_API_KEY) {
     return [];
   }
 
@@ -493,52 +682,43 @@ async function discoverGeminiModels() {
       `${GEMINI_BASE}/models?key=${encodeURIComponent(
         GEMINI_API_KEY
       )}`,
+
       {
-        method:
-          "GET"
+        method: "GET"
       },
+
       {
-        retries:
-          1
+        retries: 1
       }
     );
 
-  if (
-    !result.ok
-  ) {
+  if (!result.ok) {
     discoveredGeminiModels =
       [];
 
     return [];
   }
 
-  discoveredGeminiModels =
-    (
-      Array.isArray(
-        result.data?.models
-      )
-        ? result.data.models
-        : []
+  const models =
+    Array.isArray(
+      result.data?.models
     )
-      .filter(
-        (model) =>
-          !Array.isArray(
-            model
-              ?.supportedGenerationMethods
-          ) ||
-          model.supportedGenerationMethods.includes(
-            "generateContent"
-          )
-      )
+      ? result.data.models
+      : [];
+
+  discoveredGeminiModels =
+    models
       .map(
         (model) =>
           String(
-            model.name ||
-              ""
-          ).replace(
-            /^models\//,
+            model?.name ||
             ""
           )
+            .replace(
+              /^models\//,
+              ""
+            )
+            .trim()
       )
       .filter(Boolean);
 
@@ -552,9 +732,7 @@ async function discoverGeminiModels() {
  */
 
 async function discoverQwenModels() {
-  if (
-    !QWEN_API_KEY
-  ) {
+  if (!QWEN_API_KEY) {
     return [];
   }
 
@@ -564,18 +742,12 @@ async function discoverQwenModels() {
     return discoveredQwenModels;
   }
 
-  const base =
-    QWEN_API.replace(
-      /\/chat\/completions\/?$/,
-      ""
-    );
-
   const result =
     await fetchJson(
-      `${base}/models`,
+      "https://dashscope-intl.aliyuncs.com/api/v1/models",
+
       {
-        method:
-          "GET",
+        method: "GET",
 
         headers: {
           Authorization:
@@ -585,26 +757,24 @@ async function discoverQwenModels() {
             "application/json"
         }
       },
+
       {
-        retries:
-          1
+        retries: 1
       }
     );
 
-  if (
-    !result.ok
-  ) {
+  if (!result.ok) {
     discoveredQwenModels =
       [];
 
     return [];
   }
 
-  const raw =
+  const models =
     Array.isArray(
-      result.data?.data
+      result.data?.output?.models
     )
-      ? result.data.data
+      ? result.data.output.models
       : Array.isArray(
           result.data?.models
         )
@@ -612,13 +782,13 @@ async function discoverQwenModels() {
         : [];
 
   discoveredQwenModels =
-    raw
+    models
       .map(
         (model) =>
           String(
-            model?.id ||
-              model?.name ||
-              ""
+            model?.name ||
+            model?.model ||
+            ""
           ).trim()
       )
       .filter(Boolean);
@@ -626,46 +796,46 @@ async function discoverQwenModels() {
   return discoveredQwenModels;
 }
 
+/*
+ * ============================================================
+ * UNIQUE MODELS
+ * ============================================================
+ */
+
 function uniqueModels(
-  primary,
-  discovered,
-  limit = 30
+  configured,
+  discovered
 ) {
   return [
     ...new Set([
-      ...primary,
+      ...configured,
       ...discovered
     ])
-  ].slice(
-    0,
-    limit
-  );
+  ];
 }
 
 /*
  * ============================================================
- * GEMINI
+ * GEMINI GENERATION
  * ============================================================
  */
 
-async function geminiGenerate(
+async function generateGemini(
   model,
   prompt
 ) {
-  requireSecret(
-    GEMINI_API_KEY,
-    "GEMINI_API_KEY"
-  );
-
-  return fetchJson(
+  const url =
     `${GEMINI_BASE}/models/${encodeURIComponent(
       model
     )}:generateContent?key=${encodeURIComponent(
       GEMINI_API_KEY
-    )}`,
+    )}`;
+
+  return await fetchJson(
+    url,
+
     {
-      method:
-        "POST",
+      method: "POST",
 
       headers: {
         "Content-Type":
@@ -686,37 +856,35 @@ async function geminiGenerate(
           ],
 
           generationConfig: {
-            temperature:
-              0.35,
-
-            maxOutputTokens:
-              1400
+            temperature: 0.45,
+            topP: 0.9,
+            maxOutputTokens: 1200
           }
         })
+    },
+
+    {
+      retries:
+        RETRIES
     }
   );
 }
 
 /*
  * ============================================================
- * QWEN
+ * QWEN GENERATION
  * ============================================================
  */
 
-async function qwenGenerate(
+async function generateQwen(
   model,
   prompt
 ) {
-  requireSecret(
-    QWEN_API_KEY,
-    "QWEN_API_KEY"
-  );
-
-  return fetchJson(
+  return await fetchJson(
     QWEN_API,
+
     {
-      method:
-        "POST",
+      method: "POST",
 
       headers: {
         Authorization:
@@ -733,14 +901,6 @@ async function qwenGenerate(
           messages: [
             {
               role:
-                "system",
-
-              content:
-                "Ты редактор новостного канала. Пиши быстро, ясно и фактически. Не выдумывай факты, не используй агитацию и не приписывай людям мотивы без источника."
-            },
-
-            {
-              role:
                 "user",
 
               content:
@@ -748,98 +908,108 @@ async function qwenGenerate(
             }
           ],
 
-          stream:
-            false
+          temperature:
+            0.45,
+
+          top_p:
+            0.9,
+
+          max_tokens:
+            1200
         })
+    },
+
+    {
+      retries:
+        RETRIES
     }
   );
 }
 
 /*
  * ============================================================
- * UNIVERSAL AI FALLBACK
+ * AI FALLBACK
  * ============================================================
  */
 
 async function generateWithFallback(
   prompt
 ) {
-  const attempts =
-    [];
+  const attempts = [];
+
+  const discoveredGemini =
+    await discoverGeminiModels();
+
+  const discoveredQwen =
+    await discoverQwenModels();
 
   const geminiModels =
     uniqueModels(
       GEMINI_MODELS,
-
-      await discoverGeminiModels()
+      discoveredGemini
     );
 
   const qwenModels =
     uniqueModels(
       QWEN_MODELS,
-
-      await discoverQwenModels()
+      discoveredQwen
     );
 
   for (
     const model
     of geminiModels
   ) {
-    try {
-      const result =
-        await geminiGenerate(
-          model,
-          prompt
-        );
+    if (
+      !GEMINI_API_KEY
+    ) {
+      break;
+    }
 
-      const text =
-        extractGeminiText(
-          result.data
-        );
-
-      attempts.push({
-        provider:
-          "Google Gemini",
-
+    const result =
+      await generateGemini(
         model,
+        prompt
+      );
 
-        http_status:
-          result.status,
+    const text =
+      extractGeminiText(
+        result.data
+      );
 
-        ok:
-          result.ok
-      });
+    attempts.push({
+      provider:
+        "Gemini",
 
-      if (
+      model,
+
+      ok:
         result.ok &&
-        text
-      ) {
-        return {
-          ok: true,
+        !!text,
 
-          provider:
-            "Google Gemini",
+      status:
+        result.status,
 
-          model,
+      error:
+        result.error_message ||
+        null
+    });
 
-          text,
+    if (
+      result.ok &&
+      text
+    ) {
+      return {
+        ok: true,
 
-          attempts
-        };
-      }
-    } catch (error) {
-      attempts.push({
         provider:
-          "Google Gemini",
+          "Gemini",
 
         model,
 
-        ok: false,
+        text,
 
-        error:
-          error?.message ||
-          String(error)
-      });
+        attempts
+      };
     }
   }
 
@@ -847,61 +1017,57 @@ async function generateWithFallback(
     const model
     of qwenModels
   ) {
-    try {
-      const result =
-        await qwenGenerate(
-          model,
-          prompt
-        );
+    if (
+      !QWEN_API_KEY
+    ) {
+      break;
+    }
 
-      const text =
-        extractQwenText(
-          result.data
-        );
-
-      attempts.push({
-        provider:
-          "Alibaba Qwen",
-
+    const result =
+      await generateQwen(
         model,
+        prompt
+      );
 
-        http_status:
-          result.status,
+    const text =
+      extractQwenText(
+        result.data
+      );
 
-        ok:
-          result.ok
-      });
+    attempts.push({
+      provider:
+        "Qwen",
 
-      if (
+      model,
+
+      ok:
         result.ok &&
-        text
-      ) {
-        return {
-          ok: true,
+        !!text,
 
-          provider:
-            "Alibaba Qwen",
+      status:
+        result.status,
 
-          model,
+      error:
+        result.error_message ||
+        null
+    });
 
-          text,
+    if (
+      result.ok &&
+      text
+    ) {
+      return {
+        ok: true,
 
-          attempts
-        };
-      }
-    } catch (error) {
-      attempts.push({
         provider:
-          "Alibaba Qwen",
+          "Qwen",
 
         model,
 
-        ok: false,
+        text,
 
-        error:
-          error?.message ||
-          String(error)
-      });
+        attempts
+      };
     }
   }
 
@@ -909,7 +1075,7 @@ async function generateWithFallback(
     ok: false,
 
     error:
-      "Все доступные AI-модели не ответили успешно.",
+      "Все настроенные AI-модели не смогли обработать запрос.",
 
     attempts
   };
@@ -921,8 +1087,63 @@ async function generateWithFallback(
  * ============================================================
  */
 
+function decodeXml(
+  value
+) {
+  return String(
+    value || ""
+  )
+    .replace(
+      /<!\[CDATA\[([\s\S]*?)\]\]>/g,
+      "$1"
+    )
+    .replace(
+      /&amp;/g,
+      "&"
+    )
+    .replace(
+      /&lt;/g,
+      "<"
+    )
+    .replace(
+      /&gt;/g,
+      ">"
+    )
+    .replace(
+      /&quot;/g,
+      '"'
+    )
+    .replace(
+      /&#39;/g,
+      "'"
+    )
+    .replace(
+      /&#x27;/gi,
+      "'"
+    );
+}
+
+function stripHtml(
+  value
+) {
+  return decodeXml(
+    String(
+      value || ""
+    )
+      .replace(
+        /<[^>]*>/g,
+        " "
+      )
+      .replace(
+        /\s+/g,
+        " "
+      )
+      .trim()
+  );
+}
+
 function extractTag(
-  xml,
+  block,
   tag
 ) {
   const regex =
@@ -932,193 +1153,227 @@ function extractTag(
     );
 
   const match =
-    xml.match(regex);
+    block.match(
+      regex
+    );
 
-  if (!match) {
-    return "";
-  }
-
-  return match[1]
-    .replace(
-      /<!\[CDATA\[/g,
-      ""
-    )
-    .replace(
-      /\]\]>/g,
-      ""
-    )
-    .replace(
-      /<[^>]+>/g,
-      ""
-    )
-    .trim();
+  return match
+    ? stripHtml(
+        match[1]
+      )
+    : "";
 }
 
 function extractItems(
   xml
 ) {
-  const items =
-    [];
+  const items = [];
 
   const matches =
-    xml.match(
-      /<item[\s\S]*?<\/item>/gi
+    String(
+      xml || ""
+    ).match(
+      /<item(?:\s[^>]*)?>[\s\S]*?<\/item>/gi
     ) || [];
 
   for (
-    const item
+    const block
     of matches
   ) {
     const title =
       extractTag(
-        item,
+        block,
         "title"
       );
 
-    if (!title) {
-      continue;
+    const link =
+      extractTag(
+        block,
+        "link"
+      );
+
+    const description =
+      extractTag(
+        block,
+        "description"
+      );
+
+    const pubDate =
+      extractTag(
+        block,
+        "pubDate"
+      );
+
+    if (
+      title
+    ) {
+      items.push({
+        title,
+        link,
+        description,
+        pubDate
+      });
     }
-
-    items.push({
-      title,
-
-      link:
-        extractTag(
-          item,
-          "link"
-        ),
-
-      description:
-        extractTag(
-          item,
-          "description"
-        ),
-
-      pubDate:
-        extractTag(
-          item,
-          "pubDate"
-        )
-    });
   }
 
   return items;
 }
 
+/*
+ * ============================================================
+ * RSS FETCH
+ * ============================================================
+ */
+
 async function fetchRSS() {
-  return Promise.all(
-    RSS_FEEDS.map(
-      async (feed) => {
-        const result =
-          await fetchJson(
-            feed,
-            {
-              method:
-                "GET",
+  const results =
+    await Promise.all(
+      RSS_FEEDS.map(
+        async (feed) => {
+          const result =
+            await fetchJson(
+              feed,
 
-              headers: {
-                "User-Agent":
-                  "FACTOR-MAX-News-Agent/3.0"
+              {
+                method:
+                  "GET",
+
+                headers: {
+                  "User-Agent":
+                    "MAX-News-Agent/2.0"
+                }
+              },
+
+              {
+                retries: 1,
+
+                timeoutMs:
+                  15000
               }
-            },
-            {
-              retries:
-                2,
+            );
 
-              timeoutMs:
-                15000
-            }
-          );
+          if (!result.ok) {
+            return {
+              feed,
 
-        const xml =
-          typeof result.data ===
-            "object" &&
-          result.data?.raw
-            ? result.data.raw
-            : null;
+              ok: false,
 
-        if (!xml) {
+              status:
+                result.status,
+
+              error:
+                result.data
+                  ?.error ||
+                null
+            };
+          }
+
+          const xml =
+            typeof result.data ===
+              "object" &&
+            result.data?.raw
+              ? result.data.raw
+              : null;
+
+          if (!xml) {
+            return {
+              feed,
+
+              ok: false,
+
+              status:
+                result.status,
+
+              error:
+                "RSS response is not plain XML"
+            };
+          }
+
+          const items =
+            extractItems(
+              xml
+            );
+
           return {
             feed,
 
-            ok: false,
+            ok: true,
 
-            status:
-              result.status,
+            count:
+              items.length,
 
-            error:
-              result.data
-                ?.error ||
-              "RSS response is not plain XML",
-
-            items: []
+            items:
+              items.slice(
+                0,
+                10
+              )
           };
         }
-
-        const items =
-          extractItems(
-            xml
-          );
-
-        return {
-          feed,
-
-          ok: true,
-
-          count:
-            items.length,
-
-          items:
-            items.slice(
-              0,
-              10
-            )
-        };
-      }
-    )
-  );
-}
-
-function flattenNews(
-  feeds
-) {
-  return feeds
-    .flatMap(
-      (feed) =>
-        feed.ok
-          ? (
-              feed.items ||
-              []
-            ).map(
-              (item) => ({
-                ...item,
-
-                source_feed:
-                  feed.feed
-              })
-            )
-          : []
-    )
-    .sort(
-      (a, b) =>
-        (
-          Date.parse(
-            b.pubDate ||
-              ""
-          ) || 0
-        ) -
-        (
-          Date.parse(
-            a.pubDate ||
-              ""
-          ) || 0
-        )
+      )
     );
+
+  return results;
 }
 
 /*
  * ============================================================
- * NEWS EDITOR
+ * FLATTEN RSS
+ * ============================================================
+ */
+
+function flattenNews(
+  feeds
+) {
+  const items = [];
+
+  for (
+    const feed
+    of feeds
+  ) {
+    if (
+      !feed.ok ||
+      !Array.isArray(
+        feed.items
+      )
+    ) {
+      continue;
+    }
+
+    for (
+      const item
+      of feed.items
+    ) {
+      items.push({
+        ...item,
+
+        source_feed:
+          feed.feed
+      });
+    }
+  }
+
+  return items.sort(
+    (a, b) => {
+      const aTime =
+        Date.parse(
+          a.pubDate || ""
+        ) || 0;
+
+      const bTime =
+        Date.parse(
+          b.pubDate || ""
+        ) || 0;
+
+      return (
+        bTime - aTime
+      );
+    }
+  );
+}
+
+/*
+ * ============================================================
+ * NEWS ANALYSIS PROMPT
  * ============================================================
  */
 
@@ -1126,16 +1381,7 @@ function buildAnalysisPrompt(
   item
 ) {
   return `
-Ты редактор новостного канала ФАКТОР.
-
-Стиль подачи — как живая новостная лента «прямой эфир»:
-событие появляется сразу;
-главное — в первых словах;
-короткие абзацы;
-быстрый темп;
-минимум лишних объяснений.
-
-НОВОСТЬ:
+Ты готовишь короткую новость для канала «ФАКТОР». Подача должна ощущаться как прямой эфир: событие произошло — сразу говорим, что случилось, почему это важно и что может измениться дальше.
 
 ЗАГОЛОВОК:
 ${item.title}
@@ -1143,67 +1389,47 @@ ${item.title}
 ДАТА:
 ${item.pubDate || "не указана"}
 
-ОПИСАНИЕ:
-${item.description || "нет"}
-
 ССЫЛКА:
 ${item.link || "нет"}
 
+ОПИСАНИЕ:
+${item.description || "нет"}
+
 Правила:
 
-1. Начни с короткой метки только если она оправдана фактами:
-⚡ СРОЧНО
-🔴 ВАЖНО
-🟠 ВНИМАНИЕ
+1. Не выдумывай факты.
+2. Отделяй подтверждённое от предположений.
+3. Пиши динамично, как ведущий новостного прямого эфира, но без кликбейта и истерики.
+4. Первый абзац сразу сообщает главное событие. Не начинай с длинного вступления.
+5. Эмоция допустима только как реакция на подтверждённый масштаб события: «это важно», «это меняет ситуацию», «главный вопрос теперь…». Не используй эмоциональную лексику ради эмоции.
+6. Для политики, войны, выборов и других спорных тем сохраняй нейтральную фактическую подачу и явно отделяй заявления сторон от установленных фактов.
+7. Не приписывай людям мотивы, которых нет в источнике.
+8. Если данных недостаточно, прямо укажи это.
+9. Ответь на русском.
+10. Не используй Markdown-таблицы.
+11. Не повторяй заголовок дословно в тексте.
 
-Если срочность не подтверждена — никакой метки.
+Структура:
 
-2. Первое предложение должно сразу сообщать главное событие.
+ГЛАВНОЕ:
+2-3 коротких предложения в динамичной новостной манере: что произошло прямо сейчас и почему это важно.
 
-3. Используй 2–4 коротких абзаца.
+ФАКТЫ:
+3-5 коротких пунктов. Только подтверждённые сведения.
 
-4. Общий объём:
-450–900 знаков.
+ЧТО ДАЛЬШЕ:
+1-2 предложения о ближайшем развитии ситуации. Если прогноз невозможен по имеющимся данным — так и скажи.
 
-5. Используй 1–3 уместных эмодзи.
-Не превращай текст в россыпь эмодзи.
-
-6. После главного факта дай контекст:
-кто, где, когда и что известно.
-
-7. Если информация предварительная,
-используй:
-«по предварительным данным»,
-«сообщается»,
-«данные уточняются».
-
-8. Ничего не выдумывай:
-цифры,
-причины,
-мотивы,
-цитаты,
-последствия.
-
-9. Для политики и спорных тем сохраняй нейтральность.
-Не агитируй и не оценивай политический выбор.
-
-10. Не используй:
-«шокирующая новость»,
-«все в ужасе»,
-«сенсация»,
-«это конец»,
-«власти скрывают»,
-если такие утверждения не подтверждены источником.
-
-11. В конце отдельной строкой:
-
-Источник: ${item.link || "ссылка не указана"}
-
-12. Не используй Markdown-таблицы.
-
-Верни только готовый текст поста.
+ИСТОЧНИК:
+ссылка на материал.
 `.trim();
 }
+
+/*
+ * ============================================================
+ * NEWS KEY
+ * ============================================================
+ */
 
 function newsKey(
   item
@@ -1212,189 +1438,6 @@ function newsKey(
     item.link ||
     `${item.title}|${item.pubDate || ""}`
   );
-}
-
-/*
- * ============================================================
- * DENO KV — CHAT IDS
- * ============================================================
- */
-
-async function kvGetChats() {
-  const ids =
-    new Set(
-      TARGET_CHAT_ID
-        ? [
-            String(
-              TARGET_CHAT_ID
-            )
-          ]
-        : []
-    );
-
-  if (!kv) {
-    return [
-      ...ids
-    ];
-  }
-
-  try {
-    for await (
-      const entry
-      of kv.list({
-        prefix: [
-          "max-chat"
-        ]
-      })
-    ) {
-      ids.add(
-        String(
-          entry.value
-            ?.chat_id ||
-          entry.key?.[1] ||
-          ""
-        )
-      );
-    }
-  } catch (error) {
-    console.error(
-      "KV read chats:",
-      error?.message ||
-        error
-    );
-  }
-
-  return [
-    ...ids
-  ].filter(Boolean);
-}
-
-async function kvSaveChat(
-  update
-) {
-  const chatId =
-    update?.chat_id ??
-    update?.chat?.chat_id;
-
-  if (
-    chatId === undefined ||
-    chatId === null ||
-    !kv
-  ) {
-    return;
-  }
-
-  const id =
-    String(chatId);
-
-  const value = {
-    chat_id:
-      id,
-
-    update_type:
-      update?.update_type ||
-      null,
-
-    is_channel:
-      update?.is_channel ??
-      null,
-
-    updated_at:
-      new Date().toISOString()
-  };
-
-  try {
-    await kv.set(
-      [
-        "max-chat",
-        id
-      ],
-      value
-    );
-  } catch (error) {
-    console.error(
-      "KV save chat:",
-      error?.message ||
-        error
-    );
-  }
-}
-
-async function kvDeleteChat(
-  update
-) {
-  const chatId =
-    update?.chat_id;
-
-  if (
-    chatId !==
-      undefined &&
-    chatId !== null &&
-    kv
-  ) {
-    try {
-      await kv.delete([
-        "max-chat",
-        String(chatId)
-      ]);
-    } catch {}
-  }
-}
-
-/*
- * ============================================================
- * DENO KV — PUBLISHED NEWS
- * ============================================================
- */
-
-async function kvPublished(
-  key
-) {
-  if (!kv) {
-    return recentPublished.has(
-      key
-    );
-  }
-
-  try {
-    const result =
-      await kv.get([
-        "published",
-        key
-      ]);
-
-    return !!result.value;
-  } catch {
-    return recentPublished.has(
-      key
-    );
-  }
-}
-
-async function kvMarkPublished(
-  key
-) {
-  recentPublished.set(
-    key,
-    Date.now()
-  );
-
-  if (!kv) {
-    return;
-  }
-
-  try {
-    await kv.set(
-      [
-        "published",
-        key
-      ],
-      {
-        published_at:
-          new Date().toISOString()
-      }
-    );
-  } catch {}
 }
 
 /*
@@ -1415,86 +1458,24 @@ async function publishToMax(
 
       data: {
         error:
-          "chat_id не задан"
+          "TARGET_CHAT_ID не задан"
       }
     };
   }
 
-  return maxRequest(
+  return await maxRequest(
     `/messages?chat_id=${encodeURIComponent(
       chatId
     )}`,
-    {
-      method:
-        "POST",
 
-      body:
-        JSON.stringify({
-          text
-        })
+    {
+      method: "POST",
+
+      body: JSON.stringify({
+        text
+      })
     }
   );
-}
-
-async function publishToAllChats(
-  text
-) {
-  const chats =
-    await kvGetChats();
-
-  const results =
-    [];
-
-  for (
-    const chatId
-    of chats
-  ) {
-    const result =
-      await publishToMax(
-        chatId,
-        text
-      );
-
-    results.push({
-      chat_id:
-        chatId,
-
-      ok:
-        result.ok,
-
-      http_status:
-        result.status,
-
-      response:
-        result.data
-    });
-
-    if (
-      !result.ok &&
-      result.status ===
-        404
-    ) {
-      await kvDeleteChat({
-        chat_id:
-          chatId
-      });
-    }
-
-    await sleep(
-      550
-    );
-  }
-
-  return {
-    ok:
-      results.some(
-        (item) =>
-          item.ok
-      ),
-
-    chats:
-      results
-  };
 }
 
 /*
@@ -1504,7 +1485,7 @@ async function publishToAllChats(
  */
 
 async function runPipeline() {
-  const started =
+  const startedAt =
     Date.now();
 
   const feeds =
@@ -1515,9 +1496,7 @@ async function runPipeline() {
       feeds
     );
 
-  if (
-    !news.length
-  ) {
+  if (!news.length) {
     return {
       ok: false,
 
@@ -1537,31 +1516,27 @@ async function runPipeline() {
       MAX_NEWS_PER_RUN
     );
 
-  const results =
-    [];
+  const results = [];
 
   for (
     const item
     of selected
   ) {
     const key =
-      newsKey(
-        item
-      );
+      newsKey(item);
 
     if (
-      await kvPublished(
+      recentPublished.has(
         key
       )
     ) {
       results.push({
         ok: true,
 
-        skipped:
-          true,
+        skipped: true,
 
         reason:
-          "already published",
+          "already processed in current runtime",
 
         item
       });
@@ -1576,9 +1551,7 @@ async function runPipeline() {
         )
       );
 
-    if (
-      !analysis.ok
-    ) {
+    if (!analysis.ok) {
       results.push({
         ok: false,
 
@@ -1594,32 +1567,118 @@ async function runPipeline() {
     }
 
     const text =
-      analysis.text.trim();
+      `📰 ${item.title}\n\n` +
+      `${analysis.text}\n\n` +
+      `Источник: ${
+        item.link ||
+        "не указан"
+      }`;
 
     let publication = {
       ok: false,
 
-      skipped:
-        true,
+      skipped: true,
 
       reason:
-        "AUTO_PIPELINE=false"
+        AUTO_PIPELINE
+          ? "no target chats configured"
+          : "AUTO_PIPELINE=false"
     };
 
     if (
       AUTO_PIPELINE
     ) {
-      publication =
-        await publishToAllChats(
-          text
-        );
+      const storedChats =
+        await getStoredMaxChatIds();
+
+      const chatIds = [
+        ...new Set([
+          ...(TARGET_CHAT_ID
+            ? [TARGET_CHAT_ID]
+            : []),
+
+          ...storedChats.map(
+            (item) =>
+              item.chat_id
+          )
+        ])
+      ];
 
       if (
-        publication.ok
+        chatIds.length
       ) {
-        await kvMarkPublished(
-          key
-        );
+        const publications = [];
+
+        for (
+          const chatId
+          of chatIds
+        ) {
+          const publishResult =
+            await publishToMax(
+              chatId,
+              text
+            );
+
+          publications.push({
+            chat_id:
+              chatId,
+
+            ok:
+              publishResult.ok,
+
+            http_status:
+              publishResult.status,
+
+            response:
+              publishResult.data,
+
+            error:
+              publishResult.error_message ||
+              null
+          });
+
+          if (
+            !publishResult.ok &&
+            [400, 403, 404].includes(
+              publishResult.status
+            ) &&
+            chatId !==
+              TARGET_CHAT_ID
+          ) {
+            await removeMaxChatId(
+              chatId
+            );
+          }
+        }
+
+        publication = {
+          ok:
+            publications.some(
+              (item) =>
+                item.ok
+            ),
+
+          attempted:
+            publications.length,
+
+          successful:
+            publications.filter(
+              (item) =>
+                item.ok
+            ).length,
+
+          results:
+            publications
+        };
+
+        if (
+          publication.ok
+        ) {
+          recentPublished.set(
+            key,
+            Date.now()
+          );
+        }
       }
     }
 
@@ -1654,16 +1713,13 @@ async function runPipeline() {
 
     duration_ms:
       Date.now() -
-      started,
+      startedAt,
 
     auto_pipeline:
       AUTO_PIPELINE,
 
     target_chat_configured:
       !!TARGET_CHAT_ID,
-
-    stored_chat_ids:
-      await kvGetChats(),
 
     rss_total:
       news.length,
@@ -1674,204 +1730,535 @@ async function runPipeline() {
 
 /*
  * ============================================================
- * MAX WEBHOOK
+ * MAX UPDATE / WEBHOOK HELPERS
  * ============================================================
  */
 
-async function handleWebhook(
-  request
+async function getMaxKv() {
+  if (
+    !maxKv
+  ) {
+    maxKv =
+      await Deno.openKv();
+  }
+
+  return maxKv;
+}
+
+async function saveMaxChatId(
+  chatId,
+  meta = {}
 ) {
   if (
-    MAX_WEBHOOK_SECRET &&
-    request.headers.get(
-      "X-Max-Bot-Api-Secret"
-    ) !==
-      MAX_WEBHOOK_SECRET
+    chatId ===
+      undefined ||
+    chatId ===
+      null ||
+    chatId ===
+      ""
   ) {
-    return json(
-      {
-        ok: false,
-
-        error:
-          "Invalid webhook secret"
-      },
-
-      401
-    );
+    return false;
   }
 
-  let update;
-
-  try {
-    update =
-      await request.json();
-  } catch {
-    return json(
-      {
-        ok: false,
-
-        error:
-          "Invalid JSON"
-      },
-
-      400
+  const id =
+    String(
+      chatId
     );
-  }
 
-  const type =
-    update?.update_type ||
-    "unknown";
+  const kv =
+    await getMaxKv();
 
-  if (
+  await kv.set(
     [
-      "bot_started",
-      "bot_added",
-      "message_created",
-      "chat_title_changed",
-      "user_added",
-      "bot_admin_permissions_changed"
-    ].includes(
-      type
-    )
-  ) {
-    await kvSaveChat(
-      update
-    );
-  }
+      "max",
+      "chat_ids",
+      id
+    ],
 
-  if (
-    [
-      "bot_removed",
-      "bot_stopped",
-      "dialog_removed"
-    ].includes(
-      type
-    )
-  ) {
-    await kvDeleteChat(
-      update
-    );
-  }
-
-  console.log(
-    "[MAX WEBHOOK]",
-    JSON.stringify({
-      update_type:
-        type,
-
+    {
       chat_id:
-        update?.chat_id ??
+        id,
+
+      is_channel:
+        meta.is_channel ??
+        null,
+
+      update_type:
+        meta.update_type ??
         null,
 
       timestamp:
-        update?.timestamp ??
-        null
-    })
+        meta.timestamp ??
+        Date.now(),
+
+      saved_at:
+        new Date().toISOString()
+    }
   );
 
-  return json({
-    ok: true
-  });
+  return true;
 }
 
-/*
- * ============================================================
- * WEBHOOK SETUP
- * ============================================================
- */
-
-function deriveWebhookUrl(
-  request
+async function removeMaxChatId(
+  chatId
 ) {
-  return `${
-    PUBLIC_BASE_URL ||
-    new URL(
-      request.url
-    ).origin
-  }/webhook`;
-}
-
-async function setupWebhook(
-  request
-) {
-  requireSecret(
-    MAX_BOT_TOKEN,
-    "MAX_BOT_TOKEN"
-  );
-
-  const webhookUrl =
-    deriveWebhookUrl(
-      request
-    );
-
   if (
-    !webhookUrl.startsWith(
-      "https://"
+    chatId ===
+      undefined ||
+    chatId ===
+      null ||
+    chatId ===
+      ""
+  ) {
+    return false;
+  }
+
+  const kv =
+    await getMaxKv();
+
+  await kv.delete(
+    [
+      "max",
+      "chat_ids",
+      String(
+        chatId
+      )
+    ]
+  );
+
+  return true;
+}
+
+async function getStoredMaxChatIds() {
+  const kv =
+    await getMaxKv();
+
+  const ids = [];
+
+  for await (
+    const entry
+    of kv.list({
+      prefix: [
+        "max",
+        "chat_ids"
+      ]
+    })
+  ) {
+    const value =
+      entry.value;
+
+    const id =
+      value?.chat_id ??
+      entry.key?.[2];
+
+    if (
+      id !==
+        undefined &&
+      id !==
+        null &&
+      String(id)
+    ) {
+      ids.push({
+        chat_id:
+          String(id),
+
+        is_channel:
+          value?.is_channel ??
+          null,
+
+        update_type:
+          value?.update_type ??
+          null,
+
+        timestamp:
+          value?.timestamp ??
+          null,
+
+        saved_at:
+          value?.saved_at ??
+          null
+      });
+    }
+  }
+
+  return ids.sort(
+    (a, b) =>
+      String(
+        a.chat_id
+      ).localeCompare(
+        String(
+          b.chat_id
+        )
+      )
+  );
+}
+
+function extractChatIds(
+  data
+) {
+  const ids =
+    new Set();
+
+  const updates =
+    Array.isArray(
+      data?.updates
     )
+      ? data.updates
+      : [];
+
+  for (
+    const update
+    of updates
+  ) {
+    if (
+      update?.chat_id !==
+        undefined &&
+      update?.chat_id !==
+        null
+    ) {
+      ids.add(
+        String(
+          update.chat_id
+        )
+      );
+    }
+  }
+
+  return [
+    ...ids
+  ];
+}
+
+async function processMaxUpdate(
+  update
+) {
+  if (
+    !update ||
+    typeof update !==
+      "object"
   ) {
     return {
-      ok: false,
-
-      error:
-        "Webhook URL должен быть HTTPS",
-
-      url:
-        webhookUrl
+      saved: [],
+      removed: []
     };
   }
 
+  const saved = [];
+
+  const removed = [];
+
+  const type =
+    update.update_type ||
+    null;
+
+  const chatId =
+    update.chat_id;
+
+  if (
+    chatId !==
+      undefined &&
+    chatId !==
+      null
+  ) {
+    if (
+      type ===
+        "bot_removed" ||
+      type ===
+        "dialog_removed" ||
+      type ===
+        "bot_stopped"
+    ) {
+      await removeMaxChatId(
+        chatId
+      );
+
+      removed.push(
+        String(
+          chatId
+        )
+      );
+
+    } else {
+      await saveMaxChatId(
+        chatId,
+
+        {
+          is_channel:
+            update.is_channel,
+
+          update_type:
+            type,
+
+          timestamp:
+            update.timestamp
+        }
+      );
+
+      saved.push(
+        String(
+          chatId
+        )
+      );
+    }
+  }
+
+  return {
+    saved,
+    removed
+  };
+}
+
+async function processMaxWebhookPayload(
+  payload
+) {
+  const updates =
+    Array.isArray(
+      payload?.updates
+    )
+      ? payload.updates
+      : payload &&
+          payload.update_type
+        ? [payload]
+        : [];
+
+  const result = {
+    received:
+      updates.length,
+
+    saved: [],
+
+    removed: []
+  };
+
+  for (
+    const update
+    of updates
+  ) {
+    const item =
+      await processMaxUpdate(
+        update
+      );
+
+    result.saved.push(
+      ...item.saved
+    );
+
+    result.removed.push(
+      ...item.removed
+    );
+  }
+
+  result.saved =
+    [
+      ...new Set(
+        result.saved
+      )
+    ];
+
+  result.removed =
+    [
+      ...new Set(
+        result.removed
+      )
+    ];
+
+  return result;
+}
+
+function getUpdateSummary(
+  data
+) {
+  const updates =
+    Array.isArray(
+      data?.updates
+    )
+      ? data.updates
+      : [];
+
+  return updates.map(
+    (update) => ({
+      update_type:
+        update?.update_type ??
+        null,
+
+      chat_id:
+        update?.chat_id !==
+          undefined &&
+        update?.chat_id !==
+          null
+          ? String(
+              update.chat_id
+            )
+          : null,
+
+      timestamp:
+        update?.timestamp ??
+        null,
+
+      is_channel:
+        update?.is_channel ??
+        null
+    })
+  );
+}
+
+function webhookSecretValid(
+  request
+) {
   if (
     !MAX_WEBHOOK_SECRET
   ) {
-    return {
-      ok: false,
+    return true;
+  }
 
-      error:
-        "MAX_WEBHOOK_SECRET не сформирован",
+  const received =
+    request.headers.get(
+      "X-Max-Bot-Api-Secret"
+    ) || "";
 
-      url:
-        webhookUrl
-    };
+  return (
+    received ===
+    MAX_WEBHOOK_SECRET
+  );
+}
+
+async function getWebhookUrl(
+  request
+) {
+  const url =
+    new URL(
+      request.url
+    );
+
+  return `${url.origin}/webhook`;
+}
+
+async function getMaxSubscriptions() {
+  return await maxRequest(
+    "/subscriptions",
+
+    {
+      method:
+        "GET"
+    }
+  );
+}
+
+async function ensureMaxWebhook(
+  request,
+  force = false
+) {
+  const webhookUrl =
+    await getWebhookUrl(
+      request
+    );
+
+  const now =
+    Date.now();
+
+  if (
+    !force &&
+    webhookSetupCache.url ===
+      webhookUrl &&
+    webhookSetupCache.ok &&
+    now -
+        webhookSetupCache.at <
+      300000
+  ) {
+    return webhookSetupCache.result;
+  }
+
+  const subscriptions =
+    await getMaxSubscriptions();
+
+  if (
+    subscriptions.ok
+  ) {
+    const list =
+      Array.isArray(
+        subscriptions.data
+          ?.subscriptions
+      )
+        ? subscriptions.data
+            .subscriptions
+        : [];
+
+    const existing =
+      list.find(
+        (item) =>
+          item?.url ===
+          webhookUrl
+      );
+
+    if (
+      existing
+    ) {
+      const result = {
+        ok: true,
+
+        created: false,
+
+        webhook_url:
+          webhookUrl,
+
+        subscriptions:
+          list
+      };
+
+      webhookSetupCache = {
+        url:
+          webhookUrl,
+
+        ok: true,
+
+        at:
+          now,
+
+        result
+      };
+
+      return result;
+    }
+  }
+
+  const body = {
+    url:
+      webhookUrl,
+
+    update_types:
+      MAX_WEBHOOK_UPDATE_TYPES
+  };
+
+  if (
+    MAX_WEBHOOK_SECRET
+  ) {
+    body.secret =
+      MAX_WEBHOOK_SECRET;
   }
 
   const result =
     await maxRequest(
       "/subscriptions",
+
       {
         method:
           "POST",
 
         body:
-          JSON.stringify({
-            url:
-              webhookUrl,
-
-            update_types: [
-              "bot_started",
-              "bot_added",
-              "message_created",
-              "bot_removed",
-              "bot_stopped",
-              "dialog_removed"
-            ],
-
-            secret:
-              MAX_WEBHOOK_SECRET
-          })
+          JSON.stringify(
+            body
+          )
       }
     );
 
-  return {
+  const response = {
     ok:
       result.ok &&
       result.data?.success !==
         false,
 
-    provider:
-      "MAX",
-
-    endpoint:
-      "/subscriptions",
+    created:
+      result.ok,
 
     webhook_url:
       webhookUrl,
@@ -1880,8 +2267,28 @@ async function setupWebhook(
       result.status,
 
     response:
-      result.data
+      result.data,
+
+    error:
+      result.error_message ||
+      null
   };
+
+  webhookSetupCache = {
+    url:
+      webhookUrl,
+
+    ok:
+      response.ok,
+
+    at:
+      now,
+
+    result:
+      response
+  };
+
+  return response;
 }
 
 /*
@@ -1895,7 +2302,9 @@ if (
 ) {
   Deno.cron(
     "MAX News automatic pipeline",
+
     CRON_SCHEDULE,
+
     {
       backoffSchedule: [
         5000,
@@ -1903,12 +2312,18 @@ if (
         60000
       ]
     },
+
     async () => {
+      console.log(
+        `[CRON] MAX News pipeline started: ${new Date().toISOString()}`
+      );
+
       const result =
         await runPipeline();
 
       console.log(
-        "[CRON]",
+        "[CRON] MAX News pipeline result:",
+
         JSON.stringify(
           result
         )
@@ -1954,23 +2369,6 @@ Deno.serve(
     try {
       /*
        * ======================================================
-       * /webhook
-       * ======================================================
-       */
-
-      if (
-        path ===
-          "/webhook" &&
-        request.method ===
-          "POST"
-      ) {
-        return await handleWebhook(
-          request
-        );
-      }
-
-      /*
-       * ======================================================
        * /
        * ======================================================
        */
@@ -1992,6 +2390,9 @@ Deno.serve(
           status:
             "online",
 
+          time:
+            new Date().toISOString(),
+
           auto_pipeline:
             AUTO_PIPELINE,
 
@@ -2003,16 +2404,14 @@ Deno.serve(
           target_chat_configured:
             !!TARGET_CHAT_ID,
 
-          stored_chat_ids:
-            await kvGetChats(),
-
-          webhook_url:
-            deriveWebhookUrl(
-              request
-            ),
+          max_api:
+            MAX_API,
 
           endpoints: [
             "/check",
+            "/webhook",
+            "/setup-webhook",
+            "/subscriptions",
             "/rss",
             "/models",
             "/gemini-test",
@@ -2020,14 +2419,166 @@ Deno.serve(
             "/max-test",
             "/updates",
             "/chat-ids",
-            "/subscriptions",
-            "/setup-webhook",
-            "/publish-test",
+            "/chat-test?chat_id=...",
+            "/publish-test?chat_id=...",
             "/pipeline",
-            "/run",
-            "/webhook"
+            "/run"
           ]
         });
+      }
+
+      /*
+       * ======================================================
+       * /webhook
+       * ======================================================
+       */
+
+      if (
+        path === "/webhook" &&
+        request.method === "POST"
+      ) {
+        if (
+          !webhookSecretValid(
+            request
+          )
+        ) {
+          return json(
+            {
+              ok: false,
+
+              error:
+                "Invalid webhook secret"
+            },
+
+            401
+          );
+        }
+
+        let payload;
+
+        try {
+          payload =
+            await request.json();
+
+        } catch {
+          return json(
+            {
+              ok: false,
+
+              error:
+                "Invalid JSON"
+            },
+
+            400
+          );
+        }
+
+        const processed =
+          await processMaxWebhookPayload(
+            payload
+          );
+
+        console.log(
+          "[MAX WEBHOOK]",
+
+          JSON.stringify(
+            processed
+          )
+        );
+
+        return json({
+          ok: true,
+
+          received:
+            processed.received,
+
+          saved_chat_ids:
+            processed.saved,
+
+          removed_chat_ids:
+            processed.removed
+        });
+      }
+
+      /*
+       * ======================================================
+       * /setup-webhook
+       * ======================================================
+       */
+
+      if (
+        path === "/setup-webhook" &&
+        (
+          request.method === "GET" ||
+          request.method === "POST"
+        )
+      ) {
+        const setup =
+          await ensureMaxWebhook(
+            request,
+            true
+          );
+
+        return json(
+          {
+            ok:
+              setup.ok,
+
+            provider:
+              "MAX",
+
+            endpoint:
+              "/subscriptions",
+
+            webhook:
+              setup
+          },
+
+          setup.ok
+            ? 200
+            : 503
+        );
+      }
+
+      /*
+       * ======================================================
+       * /subscriptions
+       * ======================================================
+       */
+
+      if (
+        path === "/subscriptions" &&
+        request.method === "GET"
+      ) {
+        const result =
+          await getMaxSubscriptions();
+
+        return json(
+          {
+            ok:
+              result.ok,
+
+            provider:
+              "MAX",
+
+            endpoint:
+              "/subscriptions",
+
+            http_status:
+              result.status,
+
+            response:
+              result.data,
+
+            error:
+              result.error_message ||
+              null
+          },
+
+          result.ok
+            ? 200
+            : 503
+        );
       }
 
       /*
@@ -2042,13 +2593,33 @@ Deno.serve(
           "GET"
       ) {
         const result = {
-          ok: false,
+          ok: true,
 
           service:
             "MAX NEWS AGENT",
 
           runtime:
             "Deno Deploy",
+
+          time:
+            new Date().toISOString(),
+
+          max_api:
+            MAX_API,
+
+          tls: {
+            ca_loaded:
+              maxCaStatus.loaded,
+
+            root_ca_loaded:
+              maxCaStatus.root,
+
+            sub_ca_loaded:
+              maxCaStatus.sub,
+
+            error:
+              maxCaStatus.error
+          },
 
           checks: {
             max: {
@@ -2064,19 +2635,13 @@ Deno.serve(
             qwen: {
               configured:
                 !!QWEN_API_KEY
-            },
-
-            webhook: {
-              configured:
-                !!MAX_WEBHOOK_SECRET,
-
-              url:
-                deriveWebhookUrl(
-                  request
-                )
             }
           }
         };
+
+        /*
+         * MAX
+         */
 
         if (
           MAX_BOT_TOKEN
@@ -2084,6 +2649,7 @@ Deno.serve(
           const test =
             await maxRequest(
               "/me",
+
               {
                 method:
                   "GET"
@@ -2097,10 +2663,44 @@ Deno.serve(
             http_status:
               test.status,
 
+            status_text:
+              test.statusText ||
+              null,
+
+            error_type:
+              test.error_type ||
+              null,
+
+            error_name:
+              test.error_name ||
+              null,
+
+            error_message:
+              test.error_message ||
+              null,
+
             response:
-              test.data
+              test.ok
+                ? test.data
+                : null
           };
         }
+
+        if (
+          MAX_BOT_TOKEN
+        ) {
+          const webhook =
+            await ensureMaxWebhook(
+              request
+            );
+
+          result.webhook =
+            webhook;
+        }
+
+        /*
+         * GEMINI
+         */
 
         if (
           GEMINI_API_KEY
@@ -2120,6 +2720,10 @@ Deno.serve(
           };
         }
 
+        /*
+         * QWEN
+         */
+
         if (
           QWEN_API_KEY
         ) {
@@ -2138,16 +2742,16 @@ Deno.serve(
           };
         }
 
-        result.ok =
-          !!(
-            result.checks.max
-              .configured &&
-            result.checks.max
-              .api?.ok
-          );
+        result.ok = !!(
+          result.checks.max
+            .configured &&
+          result.checks.max
+            .api?.ok
+        );
 
         return json(
           result,
+
           result.ok
             ? 200
             : 503
@@ -2170,16 +2774,10 @@ Deno.serve(
 
         const total =
           feeds.reduce(
-            (
-              sum,
-              feed
-            ) =>
+            (sum, feed) =>
               sum +
-              (
-                feed.count ||
-                0
-              ),
-
+              (feed.count ||
+                0),
             0
           );
 
@@ -2223,7 +2821,6 @@ Deno.serve(
 
           discovered: {
             gemini,
-
             qwen
           },
 
@@ -2252,41 +2849,53 @@ Deno.serve(
           ) ||
           "Ответь одним словом: OK";
 
+        if (
+          !GEMINI_API_KEY
+        ) {
+          return json(
+            {
+              ok: false,
+
+              provider:
+                "Google Gemini",
+
+              error:
+                "GEMINI_API_KEY не настроен"
+            },
+
+            503
+          );
+        }
+
         const result =
           await generateWithFallback(
             prompt
           );
 
-        return json(
-          {
-            ok:
-              result.ok,
+        return json({
+          ok:
+            result.ok,
 
-            provider:
-              result.provider ||
-              null,
+          provider:
+            result.provider ||
+            null,
 
-            model:
-              result.model ||
-              null,
+          model:
+            result.model ||
+            null,
 
-            response:
-              result.text ||
-              null,
+          response:
+            result.text ||
+            null,
 
-            attempts:
-              result.attempts ||
-              [],
+          attempts:
+            result.attempts ||
+            [],
 
-            error:
-              result.error ||
-              null
-          },
-
-          result.ok
-            ? 200
-            : 503
-        );
+          error:
+            result.error ||
+            null
+        });
       }
 
       /*
@@ -2331,66 +2940,62 @@ Deno.serve(
             await discoverQwenModels()
           );
 
-        const attempts =
-          [];
+        const results = [];
 
         for (
           const model
-          of models
+          of models.slice(
+            0,
+            10
+          )
         ) {
           const result =
-            await qwenGenerate(
+            await generateQwen(
               model,
               prompt
             );
 
-          const text =
-            extractQwenText(
-              result.data
-            );
-
-          attempts.push({
+          results.push({
             model,
 
             ok:
               result.ok,
 
-            http_status:
-              result.status
+            status:
+              result.status,
+
+            response:
+              extractQwenText(
+                result.data
+              ),
+
+            error:
+              result.error_message ||
+              null
           });
 
           if (
             result.ok &&
-            text
+            extractQwenText(
+              result.data
+            )
           ) {
-            return json({
-              ok: true,
-
-              provider:
-                "Alibaba Qwen",
-
-              model,
-
-              response:
-                text,
-
-              attempts
-            });
+            break;
           }
         }
 
-        return json(
-          {
-            ok: false,
+        return json({
+          ok:
+            results.some(
+              (item) =>
+                item.ok
+            ),
 
-            provider:
-              "Alibaba Qwen",
+          provider:
+            "Alibaba Qwen",
 
-            attempts
-          },
-
-          503
-        );
+          results
+        });
       }
 
       /*
@@ -2405,37 +3010,66 @@ Deno.serve(
         request.method ===
           "GET"
       ) {
+        if (
+          !MAX_BOT_TOKEN
+        ) {
+          return json(
+            {
+              ok: false,
+
+              provider:
+                "MAX",
+
+              error:
+                "MAX_BOT_TOKEN не настроен"
+            },
+
+            503
+          );
+        }
+
         const result =
           await maxRequest(
             "/me",
+
             {
               method:
                 "GET"
             }
           );
 
-        return json(
-          {
-            ok:
-              result.ok,
+        return json({
+          ok:
+            result.ok,
 
-            provider:
-              "MAX",
+          provider:
+            "MAX",
 
-            endpoint:
-              "/me",
+          endpoint:
+            "/me",
 
-            http_status:
-              result.status,
+          http_status:
+            result.status,
 
-            response:
-              result.data
-          },
+          status_text:
+            result.statusText ||
+            null,
 
-          result.ok
-            ? 200
-            : 503
-        );
+          error_type:
+            result.error_type ||
+            null,
+
+          error_name:
+            result.error_name ||
+            null,
+
+          error_message:
+            result.error_message ||
+            null,
+
+          response:
+            result.data
+        });
       }
 
       /*
@@ -2450,29 +3084,23 @@ Deno.serve(
         request.method ===
           "GET"
       ) {
-        const params =
-          new URLSearchParams();
-
-        params.set(
-          "limit",
-          url.searchParams.get(
-            "limit"
-          ) ||
-            "100"
-        );
-
-        params.set(
-          "timeout",
-          url.searchParams.get(
-            "timeout"
-          ) ||
-            "0"
-        );
-
         const marker =
           url.searchParams.get(
             "marker"
           );
+
+        const limit =
+          url.searchParams.get(
+            "limit"
+          );
+
+        const timeout =
+          url.searchParams.get(
+            "timeout"
+          );
+
+        const params =
+          new URLSearchParams();
 
         if (
           marker
@@ -2480,6 +3108,24 @@ Deno.serve(
           params.set(
             "marker",
             marker
+          );
+        }
+
+        if (
+          limit
+        ) {
+          params.set(
+            "limit",
+            limit
+          );
+        }
+
+        if (
+          timeout
+        ) {
+          params.set(
+            "timeout",
+            timeout
           );
         }
 
@@ -2500,34 +3146,29 @@ Deno.serve(
         const result =
           await maxRequest(
             `/updates?${params.toString()}`,
+
             {
               method:
                 "GET"
             }
           );
 
-        return json(
-          {
-            ok:
-              result.ok,
+        return json({
+          ok:
+            result.ok,
 
-            provider:
-              "MAX",
+          provider:
+            "MAX",
 
-            endpoint:
-              "/updates",
+          endpoint:
+            "/updates",
 
-            http_status:
-              result.status,
+          http_status:
+            result.status,
 
-            response:
-              result.data
-          },
-
-          result.ok
-            ? 200
-            : 503
-        );
+          response:
+            result.data
+        });
       }
 
       /*
@@ -2542,6 +3183,16 @@ Deno.serve(
         request.method ===
           "GET"
       ) {
+        const stored =
+          await getStoredMaxChatIds();
+
+        const setup =
+          MAX_BOT_TOKEN
+            ? await ensureMaxWebhook(
+                request
+              )
+            : null;
+
         return json({
           ok: true,
 
@@ -2552,79 +3203,92 @@ Deno.serve(
             "/chat-ids",
 
           chat_ids:
-            await kvGetChats(),
+            stored.map(
+              (item) =>
+                item.chat_id
+            ),
+
+          chats:
+            stored,
 
           source:
-            "Deno KV + TARGET_CHAT_ID"
+            "Deno KV + Webhook",
+
+          webhook:
+            setup,
+
+          message:
+            stored.length
+              ? "Chat ID найдены и сохранены автоматически."
+              : "Chat ID пока не найдены. После события bot_added/bot_started/message_created Webhook сохранит их автоматически."
         });
       }
 
       /*
        * ======================================================
-       * /subscriptions
+       * /chat-test
        * ======================================================
        */
 
       if (
         path ===
-          "/subscriptions" &&
+          "/chat-test" &&
         request.method ===
           "GET"
       ) {
+        const chatId =
+          url.searchParams.get(
+            "chat_id"
+          );
+
+        if (!chatId) {
+          return json(
+            {
+              ok: false,
+
+              error:
+                "Не указан chat_id.",
+
+              usage:
+                "/chat-test?chat_id=123456789"
+            },
+
+            400
+          );
+        }
+
         const result =
           await maxRequest(
-            "/subscriptions",
+            `/chats/${encodeURIComponent(
+              chatId
+            )}`,
+
             {
               method:
                 "GET"
             }
           );
 
-        return json(
-          {
-            ok:
-              result.ok,
+        return json({
+          ok:
+            result.ok,
 
-            provider:
-              "MAX",
+          provider:
+            "MAX",
 
-            endpoint:
-              "/subscriptions",
+          endpoint:
+            `/chats/${chatId}`,
 
-            http_status:
-              result.status,
+          http_status:
+            result.status,
 
-            response:
-              result.data
-          },
+          response:
+            result.data,
 
-          result.ok
-            ? 200
-            : 503
-        );
-      }
-
-      /*
-       * ======================================================
-       * /setup-webhook
-       * ======================================================
-       */
-
-      if (
-        path ===
-          "/setup-webhook" &&
-        (
-          request.method ===
-            "GET" ||
-          request.method ===
-            "POST"
-        )
-      ) {
-        return json(
-          await setupWebhook(
-            request
-          )
-        );
+          error:
+            result.error_message ||
+            null
+        });
       }
 
       /*
@@ -2639,25 +3303,21 @@ Deno.serve(
         request.method ===
           "GET"
       ) {
-        const stored =
-          await kvGetChats();
-
         const chatId =
           url.searchParams.get(
             "chat_id"
-          ) ||
-          stored[0] ||
-          TARGET_CHAT_ID;
+          );
 
-        if (
-          !chatId
-        ) {
+        if (!chatId) {
           return json(
             {
               ok: false,
 
               error:
-                "chat_id пока не найден. Сначала настрой Webhook и запусти бота."
+                "Не указан chat_id.",
+
+              usage:
+                "/publish-test?chat_id=123456789"
             },
 
             400
@@ -2668,7 +3328,7 @@ Deno.serve(
           url.searchParams.get(
             "text"
           ) ||
-          "⚡ ТЕСТ\n\nMAX NEWS AGENT успешно подключён и готов к публикации.";
+          "Тестовая публикация MAX NEWS AGENT.";
 
         const result =
           await publishToMax(
@@ -2676,26 +3336,48 @@ Deno.serve(
             text
           );
 
+        return json({
+          ok:
+            result.ok,
+
+          provider:
+            "MAX",
+
+          endpoint:
+            "/messages",
+
+          chat_id:
+            chatId,
+
+          http_status:
+            result.status,
+
+          response:
+            result.data,
+
+          error:
+            result.error_message ||
+            null
+        });
+      }
+
+      /*
+       * ======================================================
+       * /pipeline
+       * ======================================================
+       */
+
+      if (
+        path ===
+          "/pipeline" &&
+        request.method ===
+          "GET"
+      ) {
+        const result =
+          await runPipeline();
+
         return json(
-          {
-            ok:
-              result.ok,
-
-            provider:
-              "MAX",
-
-            operation:
-              "publish-test",
-
-            chat_id:
-              chatId,
-
-            http_status:
-              result.status,
-
-            response:
-              result.data
-          },
+          result,
 
           result.ok
             ? 200
@@ -2705,18 +3387,13 @@ Deno.serve(
 
       /*
        * ======================================================
-       * /pipeline
        * /run
        * ======================================================
        */
 
       if (
-        (
-          path ===
-            "/pipeline" ||
-          path ===
-            "/run"
-        ) &&
+        path ===
+          "/run" &&
         (
           request.method ===
             "GET" ||
@@ -2738,7 +3415,7 @@ Deno.serve(
 
       /*
        * ======================================================
-       * UNKNOWN
+       * 404
        * ======================================================
        */
 
@@ -2754,9 +3431,10 @@ Deno.serve(
 
         404
       );
+
     } catch (error) {
       console.error(
-        "MAX NEWS AGENT ERROR:",
+        "[SERVER ERROR]",
         error
       );
 
@@ -2768,7 +3446,9 @@ Deno.serve(
             error?.message ||
             String(error),
 
-          path
+          error_name:
+            error?.name ||
+            null
         },
 
         500
