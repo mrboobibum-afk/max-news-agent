@@ -974,6 +974,107 @@ function parseRSS( xml: string, feed: typeof RSS_FEEDS[number], ): NewsItem[] {
 }
 
 
+// ============================================================
+// NEWS TITLE CANONICALIZATION / BATCH DEDUP
+// ============================================================
+
+function canonicalNewsTitle( value: string, ): string {
+
+  let title =
+    stripHtml(
+      value,
+    )
+      .replace(
+        /\s+/g,
+        " ",
+      )
+      .trim();
+
+  title =
+    title.replace(
+      /\s+[—–-]\s+[^—–-]{2,80}$/u,
+      "",
+    ).trim();
+
+  title =
+    title.replace(
+      /\s+\|\s+[^|]{2,80}$/u,
+      "",
+    ).trim();
+
+  return title;
+}
+
+
+function newsTitleKey( value: string, ): string {
+
+  return normalizeForHash(
+    canonicalNewsTitle(
+      value,
+    ),
+  );
+}
+
+
+function deduplicateNewsItems( items: NewsItem[], ): NewsItem[] {
+
+  const result:
+    NewsItem[] = [];
+
+  const keys =
+    new Set<string>();
+
+  for (
+    const item of items
+  ) {
+
+    const key =
+      newsTitleKey(
+        item.title,
+      );
+
+    if (
+      !key
+    ) {
+      continue;
+    }
+
+    if (
+      keys.has(key)
+    ) {
+      continue;
+    }
+
+    const duplicate =
+      result.some(
+        (old) =>
+          similarity(
+            key,
+            newsTitleKey(
+              old.title,
+            ),
+          ) >= 0.84,
+      );
+
+    if (
+      duplicate
+    ) {
+      continue;
+    }
+
+    keys.add(
+      key,
+    );
+
+    result.push(
+      item,
+    );
+  }
+
+  return result;
+}
+
+
 async function loadRSS( feed: typeof RSS_FEEDS[number], ): Promise<NewsItem[]> {
 
   try {
@@ -2796,7 +2897,7 @@ function normalizeArticleUrl( url: string, ): string {
 async function publishedKey( item: NewsItem, articleUrl: string, ): Promise<string> {
 
   const normalizedTitle =
-    normalizeForHash(
+    newsTitleKey(
       item.title,
     );
 
@@ -2814,7 +2915,7 @@ async function publishedKey( item: NewsItem, articleUrl: string, ): Promise<stri
 async function legacyPublishedKey( item: NewsItem, ): Promise<string> {
 
   return await sha256(
-    normalizeForHash(
+    newsTitleKey(
       `${item.title}|${item.source}`,
     ),
   );
@@ -2866,9 +2967,39 @@ async function isAlreadyPublished( item: NewsItem, articleUrl = "", ): Promise<b
       ],
     );
 
-  return (
+  if (
     legacy.value === true
-  );
+  ) {
+    return true;
+  }
+
+  const recent =
+    await getRecentTitles(
+      MAX_HISTORY_CHECKED,
+    );
+
+  const currentTitle =
+    newsTitleKey(
+      item.title,
+    );
+
+  for (
+    const oldTitle of recent
+  ) {
+
+    if (
+      similarity(
+        currentTitle,
+        newsTitleKey(
+          oldTitle,
+        ),
+      ) >= 0.82
+    ) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 
@@ -3405,7 +3536,7 @@ async function callGemini( item: NewsItem, articleMedia: ArticleMedia, ): Promis
     return {
 
       headline:
-        stripHtml(
+        canonicalNewsTitle(
           String(
             json.headline ||
               item.title,
@@ -3487,7 +3618,7 @@ function makeFallbackStory( item: NewsItem, articleMedia: ArticleMedia, ): AISto
   return {
 
     headline:
-      stripHtml(
+      canonicalNewsTitle(
         articleMedia.title ||
           item.title,
       ),
@@ -3586,9 +3717,13 @@ async function isRepeatedStoryText( story: AIStory, ): Promise<boolean> {
 
     if (
       similarity(
-        story.headline,
-        oldTitle,
-      ) >= 0.72
+        newsTitleKey(
+          story.headline,
+        ),
+        newsTitleKey(
+          oldTitle,
+        ),
+      ) >= 0.82
     ) {
       return true;
     }
@@ -3656,11 +3791,45 @@ function buildPost( item: NewsItem, story: AIStory, sourceName: string, articleU
   }
 
   const bodyParts: string[] = [];
-  if (short && normalizedShort !== normalizedHeadline) {
-    bodyParts.push(escapeHtml(truncate(short, 650)));
+
+  if (
+    short &&
+    normalizedShort !== normalizedHeadline
+  ) {
+    bodyParts.push(
+      escapeHtml(
+        truncate(
+          short,
+          650,
+        ),
+      ),
+    );
   }
-  for (const line of uniqueMain.slice(0, 3)) {
-    bodyParts.push(`• ${escapeHtml(truncate(line, 350))}`);
+
+  // Только действительно новые пункты.
+  // Никаких повторных блоков "ГЛАВНОЕ" / "ЧТО ВАЖНО".
+  for (
+    const line of uniqueMain.slice(
+      0,
+      2,
+    )
+  ) {
+    if (
+      similarity(
+        line,
+        short,
+      ) >= 0.80 ||
+      similarity(
+        line,
+        story.headline || item.title,
+      ) >= 0.80
+    ) {
+      continue;
+    }
+
+    bodyParts.push(
+      `• ${escapeHtml( truncate( line, 350, ), )}`,
+    );
   }
 
   const time = new Intl.DateTimeFormat("ru-RU", {
@@ -3848,14 +4017,19 @@ async function chooseCandidate( items: NewsItem[], urgentAllowed: boolean, regul
     const articleUrl =
       articleMedia.articleUrl;
 
-    // Если Google News не удалось разрешить в реальный URL СМИ,
-    // НЕ выбрасываем новость. Публикуем её без внешней ссылки.
-    // Это важно: один неудачный redirect не должен останавливать весь поток.
-    if (!isLikelyArticleUrl(articleUrl)) {
+    // Без реального URL СМИ новость НЕ публикуем.
+    // Это защищает MAX от news.google.com, gstatic.com,
+    // w3.org и случайных ссылок из HTML.
+    if (
+      !isLikelyArticleUrl(
+        articleUrl,
+      )
+    ) {
       console.log(
-        "No direct article URL; continue without source link:",
+        "Rejected: no valid direct article URL:",
         item.title,
       );
+      continue;
     }
 
     // --------------------------------------------------------
@@ -3906,6 +4080,12 @@ async function chooseCandidate( items: NewsItem[], urgentAllowed: boolean, regul
           articleMedia,
         );
     }
+
+    story.headline =
+      canonicalNewsTitle(
+        story.headline ||
+          item.title,
+      );
 
     story.urgent =
       story.urgent ||
@@ -4345,7 +4525,7 @@ async function executePipeline( manual = false, ): Promise<any> {
         ),
       );
 
-    const items =
+    const rawItems =
       feedResults
         .flat()
         .sort(
@@ -4371,9 +4551,16 @@ async function executePipeline( manual = false, ): Promise<any> {
           MAX_RSS_ITEMS,
         );
 
+    const items =
+      deduplicateNewsItems(
+        rawItems,
+      );
+
     console.log(
       "RSS items:",
       items.length,
+      "raw:",
+      rawItems.length,
     );
 
     // --------------------------------------------------------
@@ -4566,8 +4753,25 @@ async function executePipeline( manual = false, ): Promise<any> {
         articleMedia.articleUrl,
       );
 
-    // Пустой URL допустим. Google News не должен попадать в публикацию,
-    // но отсутствие прямой ссылки не отменяет новость.
+    if (
+      !isLikelyArticleUrl(
+        finalArticleUrl,
+      )
+    ) {
+      return {
+        ok:
+          true,
+        selected:
+          0,
+        reason:
+          "invalid direct article URL",
+        rss_total:
+          items.length,
+        duration_ms:
+          Date.now() -
+          startedAt,
+      };
+    }
 
     // --------------------------------------------------------
     // FINAL DEDUP
