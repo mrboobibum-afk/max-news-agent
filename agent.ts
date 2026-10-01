@@ -11,7 +11,7 @@
 // Логика:
 // RSS
 // ↓
-// локальная + постоянная дедупликация
+// локальная дедупликация
 // ↓
 // News Score
 // ↓
@@ -31,7 +31,7 @@
 // ↓
 // MAX /messages
 // ↓
-// Deno KV (история 30 дней)
+// Deno KV
 //
 // ВАЖНО:
 // Google News URL НИКОГДА не публикуется.
@@ -872,58 +872,6 @@ function extractAttr( attrs: string, name: string, ): string {
 }
 
 
-function cleanNewsTitle( title: string, source: string, ): string {
-
-  let value = stripHtml(title)
-    .replace(/\s+/g, " ")
-    .trim();
-
-  const src = stripHtml(source)
-    .replace(/\s+/g, " ")
-    .trim();
-
-  if (src) {
-    const escaped = src.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    value = value
-      .replace(new RegExp(`\\s*[-–—|:]\\s*${escaped}\\s*$`, "i"), "")
-      .trim();
-  }
-
-  return value || stripHtml(title);
-}
-
-
-function storyFingerprint( value: string, ): string {
-
-  const stop = new Set([
-    "это", "как", "что", "для", "при", "после", "перед",
-    "из", "на", "в", "во", "и", "или", "а", "но", "по",
-    "за", "с", "со", "от", "до", "не", "об", "о", "у",
-    "the", "and", "of", "to", "in"
-  ]);
-
-  return normalizeForHash(value)
-    .split(" ")
-    .filter((w) => w.length >= 4 && !stop.has(w))
-    .slice(0, 14)
-    .join(" ");
-}
-
-
-function titleSimilarity( a: string, b: string, ): number {
-
-  const aa = new Set(storyFingerprint(a).split(" ").filter(Boolean));
-  const bb = new Set(storyFingerprint(b).split(" ").filter(Boolean));
-
-  if (!aa.size || !bb.size) return 0;
-
-  let common = 0;
-  for (const word of aa) if (bb.has(word)) common++;
-
-  return common / Math.min(aa.size, bb.size);
-}
-
-
 function parseRSS( xml: string, feed: typeof RSS_FEEDS[number], ): NewsItem[] {
 
   const items:
@@ -991,12 +939,6 @@ function parseRSS( xml: string, feed: typeof RSS_FEEDS[number], ): NewsItem[] {
       ) ||
       feed.category;
 
-    const cleanedTitle =
-      cleanNewsTitle(
-        title,
-        source,
-      );
-
     const sourceUrl =
       decodeHtmlEntities(
         extractAttr(
@@ -1013,7 +955,7 @@ function parseRSS( xml: string, feed: typeof RSS_FEEDS[number], ): NewsItem[] {
     }
 
     items.push({
-      title: cleanedTitle,
+      title,
       link,
       description,
       pubDate,
@@ -1292,11 +1234,6 @@ const BAD_HOST_PARTS = [
   "reddit.com",
   "google.com",
   "googleusercontent.com",
-  "gstatic.com",
-  "googleapis.com",
-  "w3.org",
-  "schema.org",
-  "cloudfront.net",
 ];
 
 
@@ -1317,12 +1254,6 @@ const BAD_PATH_PARTS = [
   "/privacy",
   "/terms",
   "/advert",
-  "/2000/svg",
-  "/svg",
-  "/rss",
-  "/feed",
-  "/favicon",
-  "/assets/",
 ];
 
 
@@ -1386,10 +1317,6 @@ function isLikelyArticleUrl( url: string, ): boolean {
       path === "/" ||
       path.length < 8
     ) {
-      return false;
-    }
-
-    if (/\.(png|jpe?g|gif|webp|svg|ico|css|js|xml|json)$/i.test(path)) {
       return false;
     }
 
@@ -2194,19 +2121,16 @@ async function extractArticleMedia( item: NewsItem, ): Promise<ArticleMedia> {
       item,
     );
 
-  if (
-    !isLikelyArticleUrl(
-      articleUrl,
-    )
-  ) {
-
+  if (!isLikelyArticleUrl(articleUrl)) {
+    // Используем данные RSS/GNews как резервный источник.
+    // Прямой Google News URL здесь намеренно не сохраняется.
     return {
       articleUrl: "",
       imageUrl: null,
       videoUrl: null,
-      sourceName: null,
-      title: null,
-      description: null,
+      sourceName: item.source || null,
+      title: item.title || null,
+      description: item.description || null,
     };
   }
 
@@ -3072,46 +2996,6 @@ async function rememberTitle( title: string, ): Promise<void> {
 }
 
 
-async function rememberStoryFingerprint( title: string, ): Promise<void> {
-
-  const db = await getKV();
-  const fingerprint = storyFingerprint(title);
-  if (!fingerprint) return;
-
-  const id = await sha256(fingerprint);
-
-  await db.set(
-    [
-      "factor",
-      "recent_story_v3",
-      Date.now(),
-      id,
-    ],
-    fingerprint,
-    { expireIn: HISTORY_TTL_MS },
-  );
-}
-
-
-async function hasRecentStoryFingerprint( title: string, ): Promise<boolean> {
-
-  const db = await getKV();
-  const fingerprint = storyFingerprint(title);
-  if (!fingerprint) return false;
-
-  for await (const entry of db.list<string>({
-    prefix: ["factor", "recent_story_v3"],
-    reverse: true,
-  })) {
-    if (entry.value && titleSimilarity(title, entry.value) >= 0.60) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
-
 // ============================================================
 // URGENCY
 // ============================================================
@@ -3685,25 +3569,26 @@ function similarity( a: string, b: string, ): number {
 
 async function isRepeatedStoryText( story: AIStory, ): Promise<boolean> {
 
-  if (!story.headline.trim()) {
-    return false;
-  }
-
-  if (await hasRecentStoryFingerprint(story.headline)) {
-    return true;
-  }
-
   const recent =
     await getRecentTitles(
       MAX_HISTORY_CHECKED,
     );
 
-  for (const oldTitle of recent) {
+  if (
+    !story.headline.trim()
+  ) {
+    return false;
+  }
+
+  for (
+    const oldTitle of recent
+  ) {
+
     if (
       similarity(
         story.headline,
         oldTitle,
-      ) >= 0.68
+      ) >= 0.72
     ) {
       return true;
     }
@@ -3747,7 +3632,7 @@ function buildPost( item: NewsItem, story: AIStory, sourceName: string, articleU
   const header =
     story.urgent
       ? "🔴 <b>ФАКТОР • ОПЕРАТИВНО</b>"
-      : "🔵 <b>ФАКТОР • НОВОСТЬ</b>";
+      : "🔵 <b>ФАКТОР • ГЛАВНОЕ</b>";
 
   const category =
     `${item.categoryEmoji} <b>${escapeHtml(item.category)}</b>`;
@@ -3755,21 +3640,38 @@ function buildPost( item: NewsItem, story: AIStory, sourceName: string, articleU
   const headline =
     `<b>${escapeHtml(truncate(story.headline || item.title, 260))}</b>`;
 
-  // Один смысловой блок вместо повторов «КРАТКО / ГЛАВНОЕ / ЧТО ВАЖНО».
-  const summary =
-    story.short || story.important || story.main[0] || item.description || item.title;
+  const short = stripHtml(story.short || "").trim();
+  const normalizedShort = normalizeForHash(short);
+  const normalizedHeadline = normalizeForHash(story.headline || item.title);
 
-  const time =
-    new Intl.DateTimeFormat("ru-RU", {
-      hour: "2-digit",
-      minute: "2-digit",
-      timeZone: "Europe/Moscow",
-    }).format(new Date());
+  const uniqueMain: string[] = [];
+  for (const value of story.main || []) {
+    const line = stripHtml(value).trim();
+    if (!line) continue;
+    const normalized = normalizeForHash(line);
+    if (!normalized) continue;
+    if (normalized === normalizedShort || normalized === normalizedHeadline) continue;
+    if (uniqueMain.some((x) => similarity(x, line) >= 0.80)) continue;
+    uniqueMain.push(line);
+  }
 
-  const sourceLine =
-    isLikelyArticleUrl(articleUrl)
-      ? `🔗 <a href="${escapeHtml(articleUrl)}">${escapeHtml(sourceName)}</a>`
-      : `🔗 ${escapeHtml(sourceName)}`;
+  const bodyParts: string[] = [];
+  if (short && normalizedShort !== normalizedHeadline) {
+    bodyParts.push(escapeHtml(truncate(short, 650)));
+  }
+  for (const line of uniqueMain.slice(0, 3)) {
+    bodyParts.push(`• ${escapeHtml(truncate(line, 350))}`);
+  }
+
+  const time = new Intl.DateTimeFormat("ru-RU", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Europe/Moscow",
+  }).format(new Date());
+
+  const sourceLine = isUsableArticleUrl(articleUrl)
+    ? `🔗 <a href="${escapeHtml(articleUrl)}">${escapeHtml(sourceName)}</a>`
+    : `🔗 ${escapeHtml(sourceName || item.source || "Источник")}`;
 
   const parts = [
     header,
@@ -3778,7 +3680,7 @@ function buildPost( item: NewsItem, story: AIStory, sourceName: string, articleU
     "",
     headline,
     "",
-    escapeHtml(truncate(summary, 700)),
+    bodyParts.join("\n"),
     "",
     `🕒 ${time}`,
     sourceLine,
@@ -3786,8 +3688,12 @@ function buildPost( item: NewsItem, story: AIStory, sourceName: string, articleU
     "<i>ФАКТОР</i>",
   ];
 
-  return truncate(parts.join("\n"), MAX_POST_LENGTH);
+  return truncate(
+    parts.filter((x) => x !== undefined && x !== null).join("\n"),
+    MAX_POST_LENGTH,
+  );
 }
+
 
 // ============================================================
 // MEDIA
@@ -3942,19 +3848,14 @@ async function chooseCandidate( items: NewsItem[], urgentAllowed: boolean, regul
     const articleUrl =
       articleMedia.articleUrl;
 
-    // Реального СМИ нет — пропускаем.
-    if (
-      !isLikelyArticleUrl(
-        articleUrl,
-      )
-    ) {
-
+    // Если Google News не удалось разрешить в реальный URL СМИ,
+    // НЕ выбрасываем новость. Публикуем её без внешней ссылки.
+    // Это важно: один неудачный redirect не должен останавливать весь поток.
+    if (!isLikelyArticleUrl(articleUrl)) {
       console.log(
-        "Rejected: no real article URL:",
+        "No direct article URL; continue without source link:",
         item.title,
       );
-
-      continue;
     }
 
     // --------------------------------------------------------
@@ -4665,25 +4566,8 @@ async function executePipeline( manual = false, ): Promise<any> {
         articleMedia.articleUrl,
       );
 
-    if (
-      !isLikelyArticleUrl(
-        finalArticleUrl,
-      )
-    ) {
-
-      return {
-
-        ok:
-          true,
-
-        selected:
-          0,
-
-        reason:
-          "real article URL missing",
-
-      };
-    }
+    // Пустой URL допустим. Google News не должен попадать в публикацию,
+    // но отсутствие прямой ссылки не отменяет новость.
 
     // --------------------------------------------------------
     // FINAL DEDUP
@@ -4844,10 +4728,6 @@ async function executePipeline( manual = false, ): Promise<any> {
     );
 
     await rememberTitle(
-      story.headline,
-    );
-
-    await rememberStoryFingerprint(
       story.headline,
     );
 
