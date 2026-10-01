@@ -679,6 +679,97 @@ function extractExternalLinks(html, baseUrl, preferredHost) {
     .map((x) => x.url);
 }
 // ============================================================
+// SOURCE-HOMEPAGE FALLBACK
+// ============================================================
+function normalizeSourceUrl(value) {
+  const raw = String(value ?? "").trim();
+  if (!raw) return "";
+  const withScheme = /^https?:\/\//i.test(raw) ? raw : `https://${raw}`;
+  const normalized = normalizeUrl(withScheme);
+  return isHttpUrl(normalized) ? normalized : "";
+}
+function titleUrlScore(url, title, preferredHost = "") {
+  if (!isLikelyArticleUrl(url)) return -1000;
+  let score = articleLinkScore(url, preferredHost);
+  const pathText = decodeURIComponent(new URL(url).pathname)
+    .toLowerCase()
+    .replace(/[-_/.]+/g, " ");
+  const titleWords = normalizeForHash(title)
+    .split(" ")
+    .filter((w) => w.length >= 5)
+    .slice(0, 12);
+  let hits = 0;
+  for (const word of titleWords) {
+    if (pathText.includes(word)) hits++;
+  }
+  score += hits * 12;
+  if (hits >= 2) score += 20;
+  return score;
+}
+async function resolveFromSourceHomepage(item, preferredHost) {
+  const sourceUrl = normalizeSourceUrl(item.sourceUrl);
+  if (!sourceUrl || !preferredHost) return "";
+  try {
+    const parsed = new URL(sourceUrl);
+    const origin = `${parsed.protocol}//${parsed.host}/`;
+    const response = await fetch(origin, {
+      redirect: "follow",
+      headers: {
+        "User-Agent": USER_AGENT,
+        Accept: "text/html,application/xhtml+xml,*/*;q=0.8",
+      },
+      signal: AbortSignal.timeout(12000),
+    });
+    if (!response.ok) return "";
+    const finalUrl = normalizeUrl(response.url || origin);
+    if (!isHttpUrl(finalUrl)) return "";
+    const html = await response.text();
+    if (html.length < 300) return "";
+    const rawCandidates = new Set();
+    for (const match of html.matchAll(
+      /<a\b[^>]+href=["']([^"']+)["'][^>]*>/gi
+    )) {
+      rawCandidates.add(match[1]);
+    }
+    for (const match of html.matchAll(/(?:https?:)?\/\/[^\s"'<>\\]+/gi)) {
+      rawCandidates.add(match[0]);
+    }
+    const scored = [];
+    const seen = new Set();
+    for (const raw of rawCandidates) {
+      const decoded = decodeHtmlEntities(
+        String(raw)
+          .replace(/\\\//g, "/")
+          .replace(/\\u002f/gi, "/")
+          .replace(/\\u003a/gi, ":")
+          .replace(/\\u003f/gi, "?")
+          .replace(/\\u003d/gi, "=")
+          .replace(/\\u0026/gi, "&")
+      );
+      const absolute = absoluteUrl(decoded, finalUrl);
+      if (!absolute || !hostMatches(absolute, preferredHost)) continue;
+      const normalized = normalizeUrl(absolute);
+      if (
+        !normalized ||
+        seen.has(normalized) ||
+        !isLikelyArticleUrl(normalized)
+      )
+        continue;
+      seen.add(normalized);
+      const score = titleUrlScore(normalized, item.title, preferredHost);
+      if (score > 0) scored.push({ url: normalized, score });
+    }
+    scored.sort((a, b) => b.score - a.score);
+    return scored[0]?.url || "";
+  } catch (error) {
+    console.error(
+      "Source homepage resolve:",
+      error instanceof Error ? error.message : String(error)
+    );
+    return "";
+  }
+}
+// ============================================================
 // GOOGLE NEWS URL CANDIDATES
 // ============================================================
 function normalizeHost(host) {
@@ -819,6 +910,17 @@ async function resolveArticleUrl(item) {
       "Google News resolve:",
       error instanceof Error ? error.message : String(error)
     );
+  }
+
+  // Google News can sometimes return a shell/redirect page without the
+  // publisher article URL. In that case use the <source url="..."> domain
+  // from RSS and resolve the article from the publisher homepage.
+  if (preferredHost) {
+    const sourceFallback = await resolveFromSourceHomepage(item, preferredHost);
+    if (sourceFallback) {
+      console.log("Resolved via publisher homepage:", sourceFallback);
+      return sourceFallback;
+    }
   }
   return "";
 }
@@ -1946,6 +2048,7 @@ function createDiagnostics() {
 
     duplicate_before_article: 0,
     bad_url: 0,
+    resolver_source_fallback: 0,
     duplicate_after_article: 0,
 
     gemini_fallback: 0,
