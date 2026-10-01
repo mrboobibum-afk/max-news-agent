@@ -220,7 +220,14 @@ function cleanText(value) {
     .trim();
 }
 function stripHtml(value) {
-  return cleanText(value).replace(/\*\*/g, "").replace(/__+/g, "").trim();
+  return decodeHtmlEntities(String(value ?? ""))
+    .replace(/<script\b[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style\b[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\*\*/g, "")
+    .replace(/__+/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 function escapeHtml(value) {
   return value
@@ -554,6 +561,15 @@ const BAD_PATH_PARTS = [
   "/1999/xhtml",
   "/1999/xlink",
   "/xmlns/",
+  "/gtag/",
+  "/gtm/",
+  "/analytics",
+  "/wp-json/",
+  "/feed/",
+  "/feeds/",
+  "/rss/",
+  "/sitemap",
+  "/favicon",
 ];
 function isBadHost(url) {
   try {
@@ -579,6 +595,18 @@ function isLikelyArticleUrl(url) {
       return false;
     }
     if (path === "/" || path.length < 8) {
+      return false;
+    }
+    // Never accept technical JavaScript, tracking, XML, image or API endpoints.
+    if (
+      /\.(?:js|css|xml|json|svg|png|jpe?g|gif|webp|ico|woff2?|ttf)(?:$|\?)/i.test(
+        path
+      ) ||
+      /(?:^|\/)(?:gtag|gtm|analytics|collect|pixel|track|tracking)(?:\/|$)/i.test(
+        path
+      ) ||
+      /\/(?:api|ajax)(?:\/|$)/i.test(path)
+    ) {
       return false;
     }
     // Reject namespace/technical URLs such as http://www.w3.org/2000/svg
@@ -721,6 +749,21 @@ async function resolveArticleUrl(item) {
       preferredHost = null;
     }
   }
+  // RSS feeds do not always expose sourceUrl. If source itself is a hostname,
+  // use it to strongly prefer the publisher domain over technical Google links.
+  if (!preferredHost && item.source) {
+    try {
+      const candidate = String(item.source)
+        .trim()
+        .replace(/^https?:\/\//i, "")
+        .split("/")[0];
+      if (/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(candidate)) {
+        preferredHost = normalizeHost(candidate);
+      }
+    } catch {
+      preferredHost = null;
+    }
+  }
   try {
     const response = await fetch(originalUrl, {
       redirect: "follow",
@@ -732,7 +775,12 @@ async function resolveArticleUrl(item) {
       signal: AbortSignal.timeout(15000),
     });
     const finalUrl = normalizeUrl(response.url || "");
-    if (isLikelyArticleUrl(finalUrl)) return finalUrl;
+    if (
+      isLikelyArticleUrl(finalUrl) &&
+      (!preferredHost || hostMatches(finalUrl, preferredHost))
+    ) {
+      return finalUrl;
+    }
     const html = await response.text();
     const canonical = extractCanonical(html, originalUrl);
     if (canonical && isLikelyArticleUrl(canonical)) {
