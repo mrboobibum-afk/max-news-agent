@@ -5,17 +5,22 @@
  *
  * RSS -> AI -> MAX
  *
- * MAX:
- * - Russian Trusted Root CA
- * - Russian Trusted Sub CA
- * - Deno HttpClient
- * - Webhook
- * - automatic old webhook cleanup
- * - chat_id -> Deno KV
+ * ОСНОВНАЯ СХЕМА:
  *
- * TARGET:
- * - ФАКТОР
- * - chat_id: -78887448255074
+ * RSS
+ *   ↓
+ * AI
+ *   ↓
+ * MAX
+ *
+ * CHAT ID:
+ *
+ * MAX -> Webhook -> Deno KV -> chat_id
+ *
+ * ВАЖНО:
+ * GET /updates НЕ используется для получения chat_id,
+ * потому что при активном Webhook MAX не использует
+ * Long Polling одновременно.
  * ============================================================
  */
 
@@ -36,25 +41,43 @@ const QWEN_API =
  */
 
 const MAX_BOT_TOKEN =
-  Deno.env.get("MAX_BOT_TOKEN") || "";
+  (
+    Deno.env.get("MAX_BOT_TOKEN") ||
+    ""
+  ).trim();
 
 const GEMINI_API_KEY =
-  Deno.env.get("GEMINI_API_KEY") || "";
+  (
+    Deno.env.get("GEMINI_API_KEY") ||
+    ""
+  ).trim();
 
 const QWEN_API_KEY =
-  Deno.env.get("QWEN_API_KEY") || "";
+  (
+    Deno.env.get("QWEN_API_KEY") ||
+    ""
+  ).trim();
+
 
 /*
- * Webhook secret НЕ создаётся из токена бота.
+ * MAX webhook secret.
  *
- * Если MAX_WEBHOOK_SECRET не задан,
- * Webhook работает без дополнительного secret.
+ * Если переменная MAX_WEBHOOK_SECRET задана —
+ * используем её.
  *
- * Если хочешь использовать secret —
- * добавь MAX_WEBHOOK_SECRET в Secrets Deno Deploy.
+ * Если нет —
+ * используем безопасный фиксированный fallback.
+ *
+ * ВАЖНО:
+ * этот secret должен совпадать с тем,
+ * который используется при создании подписки.
  */
+
 const MAX_WEBHOOK_SECRET =
-  Deno.env.get("MAX_WEBHOOK_SECRET") || "";
+  (
+    Deno.env.get("MAX_WEBHOOK_SECRET") ||
+    "factor-max-webhook-2026"
+  ).trim();
 
 
 /*
@@ -75,33 +98,43 @@ const REQUEST_TIMEOUT_MS =
     20000
   );
 
+
 const AUTO_PIPELINE =
   (
     Deno.env.get(
       "AUTO_PIPELINE"
-    ) || "false"
+    ) ||
+    "false"
   ).toLowerCase() === "true";
+
+
+/*
+ * По умолчанию — каждые 5 минут.
+ */
 
 const CRON_SCHEDULE =
   Deno.env.get(
     "CRON_SCHEDULE"
   ) ||
-  "*/15 * * * *";
+  "*/5 * * * *";
+
 
 /*
- * Канал ФАКТОР.
+ * Можно оставить пустым.
  *
- * Если TARGET_CHAT_ID задан в Deno Secrets —
- * используется он.
- *
- * Если не задан —
- * используется канал ФАКТОР.
+ * Если TARGET_CHAT_ID не указан,
+ * агент автоматически возьмёт первый
+ * сохранённый chat_id из Deno KV.
  */
+
 const TARGET_CHAT_ID =
-  Deno.env.get(
-    "TARGET_CHAT_ID"
-  ) ||
-  "-78887448255074";
+  (
+    Deno.env.get(
+      "TARGET_CHAT_ID"
+    ) ||
+    ""
+  ).trim();
+
 
 const MAX_NEWS_PER_RUN =
   numberEnv(
@@ -121,15 +154,16 @@ const GEMINI_MODELS =
     Deno.env.get(
       "GEMINI_MODELS"
     ) ||
-    "gemini-3.8-flash,gemini-2.5-flash"
+    "gemini-2.5-flash"
   );
+
 
 const QWEN_MODELS =
   parseList(
     Deno.env.get(
       "QWEN_MODELS"
     ) ||
-    "qwen3.8-flash,qwen3.7-plus,qwen3.6-flash,qwen-plus"
+    "qwen-plus,qwen-turbo"
   );
 
 
@@ -139,7 +173,7 @@ const QWEN_MODELS =
  *
  * НЕ МЕНЯТЬ.
  *
- * Именно эта часть была в рабочем варианте.
+ * Рабочая часть MAX TLS.
  * ============================================================
  */
 
@@ -149,11 +183,13 @@ const MAX_ROOT_CA_URL =
 const MAX_SUB_CA_URL =
   "https://gu-st.ru/content/lending/russian_trusted_sub_ca_pem.crt";
 
+
 let maxHttpClient =
   null;
 
 let maxHttpClientError =
   null;
+
 
 let maxCaStatus = {
   loaded: false,
@@ -170,6 +206,7 @@ let maxCaStatus = {
  */
 
 const RSS_FEEDS = [
+
   "https://news.google.com/rss/search?q=мир+OR+международные+события&hl=ru&gl=RU&ceid=RU:ru",
 
   "https://news.google.com/rss/search?q=политика+OR+право&hl=ru&gl=RU&ceid=RU:ru",
@@ -179,6 +216,7 @@ const RSS_FEEDS = [
   "https://news.google.com/rss/search?q=происшествия+OR+катастрофы+OR+криминал&hl=ru&gl=RU&ceid=RU:ru",
 
   "https://news.google.com/rss/search?q=технологии+OR+промышленность+OR+авто&hl=ru&gl=RU&ceid=RU:ru"
+
 ];
 
 
@@ -189,6 +227,7 @@ const RSS_FEEDS = [
  */
 
 const MAX_WEBHOOK_UPDATE_TYPES = [
+
   "bot_added",
   "bot_started",
   "bot_stopped",
@@ -214,6 +253,7 @@ const MAX_WEBHOOK_UPDATE_TYPES = [
   "user_removed",
 
   "bot_admin_permissions_changed"
+
 ];
 
 
@@ -224,9 +264,13 @@ const MAX_WEBHOOK_UPDATE_TYPES = [
  */
 
 const KNOWN_OLD_WEBHOOKS = [
+
   "https://bogdan15.app.n8n.cloud/webhook-test/m",
+
   "https://bogdan15.app.n8n.cloud/webhook-test/max-callback",
+
   "https://bogdan15.app.n8n.cloud/webhook/max-callback"
+
 ];
 
 
@@ -242,6 +286,7 @@ let discoveredGeminiModels =
 let discoveredQwenModels =
   null;
 
+
 const recentPublished =
   new Map();
 
@@ -255,6 +300,7 @@ const recentPublished =
 let kv =
   null;
 
+
 try {
 
   kv =
@@ -267,6 +313,7 @@ try {
     error?.message ||
     String(error)
   );
+
 }
 
 
@@ -282,14 +329,24 @@ function parseList(
 
   return [
     ...new Set(
-      String(value || "")
+
+      String(
+        value ||
+        ""
+      )
+
         .split(",")
+
         .map(
-          x => x.trim()
+          x =>
+            x.trim()
         )
+
         .filter(Boolean)
+
     )
   ];
+
 }
 
 
@@ -305,11 +362,16 @@ function numberEnv(
       )
     );
 
+
   return Number.isFinite(
     value
-  ) && value > 0
+  ) &&
+  value > 0
+
     ? value
+
     : fallback;
+
 }
 
 
@@ -324,6 +386,7 @@ function sleep(
         ms
       )
   );
+
 }
 
 
@@ -332,12 +395,19 @@ function isRetryableStatus(
 ) {
 
   return (
+
     status === 408 ||
+
     status === 409 ||
+
     status === 425 ||
+
     status === 429 ||
+
     status >= 500
+
   );
+
 }
 
 
@@ -351,29 +421,41 @@ function retryDelay(
       retryAfterHeader
     );
 
+
   if (
+
     Number.isFinite(
       retryAfter
     ) &&
+
     retryAfter >= 0
+
   ) {
 
     return Math.min(
       retryAfter * 1000,
       60000
     );
+
   }
 
+
   return (
+
     Math.min(
       1000 *
-        2 ** attempt,
+      2 ** attempt,
       8000
-    ) +
+    )
+
+    +
+
     Math.floor(
       Math.random() * 400
     )
+
   );
+
 }
 
 
@@ -383,15 +465,19 @@ function json(
 ) {
 
   return new Response(
+
     JSON.stringify(
       data,
       null,
       2
     ),
+
     {
+
       status,
 
       headers: {
+
         "Content-Type":
           "application/json; charset=utf-8",
 
@@ -406,9 +492,13 @@ function json(
 
         "Access-Control-Allow-Headers":
           "Content-Type, Authorization, X-Max-Bot-Api-Secret"
+
       }
+
     }
+
   );
+
 }
 
 
@@ -422,7 +512,9 @@ function requireSecret(
     throw new Error(
       `Secret ${name} не настроен в Deno Deploy`
     );
+
   }
+
 }
 
 
@@ -434,20 +526,33 @@ function requireSecret(
 
 async function initMaxHttpClient() {
 
-  if (maxHttpClient) {
+  if (
+    maxHttpClient
+  ) {
+
     return maxHttpClient;
+
   }
 
-  if (maxHttpClientError) {
+
+  if (
+    maxHttpClientError
+  ) {
+
     return null;
+
   }
+
 
   try {
 
     const rootResponse =
       await fetch(
+
         MAX_ROOT_CA_URL,
+
         {
+
           method:
             "GET",
 
@@ -455,18 +560,26 @@ async function initMaxHttpClient() {
             AbortSignal.timeout(
               10000
             )
+
         }
+
       );
 
-    if (!rootResponse.ok) {
+
+    if (
+      !rootResponse.ok
+    ) {
 
       throw new Error(
         `MAX root CA download failed: HTTP ${rootResponse.status}`
       );
+
     }
+
 
     const rootCa =
       await rootResponse.text();
+
 
     maxCaStatus.root =
       true;
@@ -474,8 +587,11 @@ async function initMaxHttpClient() {
 
     const subResponse =
       await fetch(
+
         MAX_SUB_CA_URL,
+
         {
+
           method:
             "GET",
 
@@ -483,18 +599,26 @@ async function initMaxHttpClient() {
             AbortSignal.timeout(
               10000
             )
+
         }
+
       );
 
-    if (!subResponse.ok) {
+
+    if (
+      !subResponse.ok
+    ) {
 
       throw new Error(
         `MAX sub CA download failed: HTTP ${subResponse.status}`
       );
+
     }
+
 
     const subCa =
       await subResponse.text();
+
 
     maxCaStatus.sub =
       true;
@@ -502,11 +626,14 @@ async function initMaxHttpClient() {
 
     maxHttpClient =
       Deno.createHttpClient({
+
         caCerts: [
           rootCa,
           subCa
         ]
+
       });
+
 
     maxCaStatus.loaded =
       true;
@@ -514,11 +641,14 @@ async function initMaxHttpClient() {
     maxCaStatus.error =
       null;
 
+
     console.log(
       "[MAX TLS] Russian Trusted CA loaded successfully"
     );
 
+
     return maxHttpClient;
+
 
   } catch (error) {
 
@@ -526,16 +656,21 @@ async function initMaxHttpClient() {
       error?.message ||
       String(error);
 
+
     maxCaStatus.error =
       maxHttpClientError;
+
 
     console.error(
       "[MAX TLS] Failed to load CA certificates:",
       maxHttpClientError
     );
 
+
     return null;
+
   }
+
 }
 
 
@@ -552,8 +687,10 @@ async function readJson(
   const text =
     await response.text();
 
+
   let data =
     null;
+
 
   try {
 
@@ -570,9 +707,12 @@ async function readJson(
       raw:
         text
     };
+
   }
 
+
   return {
+
     ok:
       response.ok,
 
@@ -587,7 +727,9 @@ async function readJson(
 
     headers:
       response.headers
+
   };
+
 }
 
 
@@ -601,16 +743,21 @@ async function fetchJson(
     config.retries ??
     RETRIES;
 
+
   const timeoutMs =
     config.timeoutMs ??
     REQUEST_TIMEOUT_MS;
+
 
   const useMaxClient =
     config.useMaxClient ===
     true;
 
+
   let last = {
-    ok: false,
+
+    ok:
+      false,
 
     status:
       599,
@@ -619,39 +766,52 @@ async function fetchJson(
       "No HTTP response",
 
     data: {
+
       error:
         "request failed before receiving a response"
+
     },
 
     error_type:
       "unknown"
+
   };
 
 
   for (
+
     let attempt = 0;
+
     attempt <= retries;
+
     attempt++
+
   ) {
 
     const controller =
       new AbortController();
 
+
     const timer =
       setTimeout(
+
         () =>
           controller.abort(),
+
         timeoutMs
+
       );
 
 
     try {
 
       const requestOptions = {
+
         ...options,
 
         signal:
           controller.signal
+
       };
 
 
@@ -662,18 +822,24 @@ async function fetchJson(
         const client =
           await initMaxHttpClient();
 
+
         if (client) {
 
           requestOptions.client =
             client;
+
         }
+
       }
 
 
       const response =
         await fetch(
+
           url,
+
           requestOptions
+
         );
 
 
@@ -684,12 +850,14 @@ async function fetchJson(
 
 
       last = {
+
         ...result,
 
         error_type:
           result.ok
             ? null
             : "http"
+
       };
 
 
@@ -698,6 +866,7 @@ async function fetchJson(
       ) {
 
         return result;
+
       }
 
 
@@ -708,6 +877,7 @@ async function fetchJson(
       ) {
 
         return result;
+
       }
 
 
@@ -716,14 +886,21 @@ async function fetchJson(
       ) {
 
         await sleep(
+
           retryDelay(
+
             attempt,
+
             response.headers.get(
               "Retry-After"
             )
+
           )
+
         );
+
       }
+
 
     } catch (error) {
 
@@ -733,7 +910,9 @@ async function fetchJson(
 
 
       last = {
-        ok: false,
+
+        ok:
+          false,
 
         status:
           isTimeout
@@ -746,11 +925,13 @@ async function fetchJson(
             : "Network Error",
 
         data: {
+
           error:
             isTimeout
               ? "Request timeout"
               : error?.message ||
                 String(error)
+
         },
 
         error_type:
@@ -767,12 +948,16 @@ async function fetchJson(
           String(error),
 
         url
+
       };
 
 
       console.error(
+
         "[HTTP ERROR]",
+
         JSON.stringify({
+
           url,
 
           attempt,
@@ -782,7 +967,9 @@ async function fetchJson(
 
           error_message:
             error?.message
+
         })
+
       );
 
 
@@ -795,18 +982,23 @@ async function fetchJson(
             attempt
           )
         );
+
       }
+
 
     } finally {
 
       clearTimeout(
         timer
       );
+
     }
+
   }
 
 
   return last;
+
 }
 
 
@@ -834,36 +1026,48 @@ async function maxRequest(
 
 
   return await fetchJson(
+
     `${MAX_API}${cleanPath}`,
 
     {
+
       ...options,
 
       headers: {
 
         Authorization:
-          MAX_BOT_TOKEN.trim(),
+          MAX_BOT_TOKEN,
 
         Accept:
           "application/json",
 
         ...(options.body
+
           ? {
+
               "Content-Type":
                 "application/json"
+
             }
+
           : {}),
 
         ...(options.headers ||
           {})
+
       }
+
     },
 
     {
+
       useMaxClient:
         true
+
     }
+
   );
+
 }
 
 
@@ -876,12 +1080,18 @@ async function maxRequest(
 async function getSubscriptions() {
 
   return await maxRequest(
+
     "/subscriptions",
+
     {
+
       method:
         "GET"
+
     }
+
   );
+
 }
 
 
@@ -896,13 +1106,18 @@ async function deleteSubscription(
 
 
   return await maxRequest(
+
     `/subscriptions?url=${encoded}`,
 
     {
+
       method:
         "DELETE"
+
     }
+
   );
+
 }
 
 
@@ -911,27 +1126,25 @@ async function createSubscription(
 ) {
 
   const body = {
+
     url:
       webhookUrl,
 
     update_types:
-      MAX_WEBHOOK_UPDATE_TYPES
+      MAX_WEBHOOK_UPDATE_TYPES,
+
+    secret:
+      MAX_WEBHOOK_SECRET
+
   };
 
 
-  if (
-    MAX_WEBHOOK_SECRET
-  ) {
-
-    body.secret =
-      MAX_WEBHOOK_SECRET;
-  }
-
-
   return await maxRequest(
+
     "/subscriptions",
 
     {
+
       method:
         "POST",
 
@@ -939,8 +1152,11 @@ async function createSubscription(
         JSON.stringify(
           body
         )
+
     }
+
   );
+
 }
 
 
@@ -959,9 +1175,13 @@ function getWebhookUrl(
       requestUrl
     );
 
+
   return (
+
     `${current.origin}/webhook`
+
   );
+
 }
 
 
@@ -991,9 +1211,11 @@ async function cleanupWebhooks(
         ?.data
         ?.subscriptions
     )
+
       ? subscriptionResult
           .data
           .subscriptions
+
       : [];
 
 
@@ -1015,7 +1237,9 @@ async function cleanupWebhooks(
       candidates.add(
         subscription.url
       );
+
     }
+
   }
 
 
@@ -1028,11 +1252,16 @@ async function cleanupWebhooks(
   ) {
 
     if (
+
       !webhookUrl ||
+
       webhookUrl ===
         currentWebhook
+
     ) {
+
       continue;
+
     }
 
 
@@ -1043,6 +1272,7 @@ async function cleanupWebhooks(
 
 
     deleted.push({
+
       url:
         webhookUrl,
 
@@ -1054,11 +1284,14 @@ async function cleanupWebhooks(
 
       response:
         result.data
+
     });
+
   }
 
 
   return {
+
     current_webhook:
       currentWebhook,
 
@@ -1069,7 +1302,9 @@ async function cleanupWebhooks(
       discovered.length,
 
     deleted
+
   };
+
 }
 
 
@@ -1102,6 +1337,7 @@ async function setupWebhook(
   if (!client) {
 
     return {
+
       ok:
         false,
 
@@ -1117,7 +1353,9 @@ async function setupWebhook(
       error:
         maxHttpClientError ||
         "MAX HTTP client не создан"
+
     };
+
   }
 
 
@@ -1163,6 +1401,7 @@ async function setupWebhook(
       MAX_WEBHOOK_UPDATE_TYPES,
 
     before: {
+
       ok:
         before.ok,
 
@@ -1171,11 +1410,13 @@ async function setupWebhook(
 
       response:
         before.data
+
     },
 
     cleanup,
 
     create: {
+
       ok:
         created.ok,
 
@@ -1184,9 +1425,11 @@ async function setupWebhook(
 
       response:
         created.data
+
     },
 
     after: {
+
       ok:
         after.ok,
 
@@ -1195,8 +1438,11 @@ async function setupWebhook(
 
       response:
         after.data
+
     }
+
   };
+
 }
 
 
@@ -1212,22 +1458,28 @@ async function saveChatId(
 ) {
 
   if (
+
     !kv ||
-    chatId ===
-      undefined ||
-    chatId ===
-      null
+
+    chatId === undefined ||
+
+    chatId === null
+
   ) {
 
     return false;
+
   }
 
 
   const id =
-    String(chatId);
+    String(
+      chatId
+    );
 
 
   await kv.set(
+
     [
       "max",
       "chat",
@@ -1235,6 +1487,7 @@ async function saveChatId(
     ],
 
     {
+
       chat_id:
         id,
 
@@ -1253,11 +1506,14 @@ async function saveChatId(
       updated_at:
         new Date()
           .toISOString()
+
     }
+
   );
 
 
   return true;
+
 }
 
 
@@ -1266,34 +1522,44 @@ async function deleteChatId(
 ) {
 
   if (
+
     !kv ||
-    chatId ===
-      undefined ||
-    chatId ===
-      null
+
+    chatId === undefined ||
+
+    chatId === null
+
   ) {
 
     return false;
+
   }
 
 
   await kv.delete(
+
     [
       "max",
       "chat",
-      String(chatId)
+      String(
+        chatId
+      )
     ]
+
   );
 
 
   return true;
+
 }
 
 
 async function getStoredChatIds() {
 
   if (!kv) {
+
     return [];
+
   }
 
 
@@ -1301,28 +1567,85 @@ async function getStoredChatIds() {
 
 
   for await (
+
     const entry
+
     of kv.list({
+
       prefix: [
         "max",
         "chat"
       ]
+
     })
+
   ) {
 
     if (
+
       entry?.value
         ?.chat_id
+
     ) {
 
       result.push(
         entry.value
       );
+
     }
+
   }
 
 
   return result;
+
+}
+
+
+/*
+ * ============================================================
+ * GET ACTIVE TARGET CHAT
+ * ============================================================
+ */
+
+async function getTargetChatId() {
+
+  /*
+   * 1. Если TARGET_CHAT_ID задан вручную —
+   * используем его.
+   */
+
+  if (
+    TARGET_CHAT_ID
+  ) {
+
+    return TARGET_CHAT_ID;
+
+  }
+
+
+  /*
+   * 2. Иначе берём первый chat_id
+   * из Deno KV.
+   */
+
+  const stored =
+    await getStoredChatIds();
+
+
+  if (
+    stored.length > 0
+  ) {
+
+    return String(
+      stored[0].chat_id
+    );
+
+  }
+
+
+  return "";
+
 }
 
 
@@ -1338,7 +1661,9 @@ async function saveWebhookLog(
 ) {
 
   if (!kv) {
+
     return false;
+
   }
 
 
@@ -1347,6 +1672,7 @@ async function saveWebhookLog(
 
 
   await kv.set(
+
     [
       "max",
       "webhook_log",
@@ -1354,10 +1680,12 @@ async function saveWebhookLog(
     ],
 
     {
+
       id,
 
       received_at:
-        new Date().toISOString(),
+        new Date()
+          .toISOString(),
 
       method:
         meta.method ||
@@ -1380,11 +1708,14 @@ async function saveWebhookLog(
         null,
 
       payload
+
     }
+
   );
 
 
   return true;
+
 }
 
 
@@ -1393,7 +1724,9 @@ async function getWebhookLogs(
 ) {
 
   if (!kv) {
+
     return [];
+
   }
 
 
@@ -1401,21 +1734,32 @@ async function getWebhookLogs(
 
 
   for await (
+
     const entry
+
     of kv.list({
+
       prefix: [
         "max",
         "webhook_log"
       ],
-      reverse: true,
-      limit: Math.min(
-        100,
-        Math.max(
-          1,
-          Number(limit) || 20
+
+      reverse:
+        true,
+
+      limit:
+        Math.min(
+          100,
+          Math.max(
+            1,
+            Number(
+              limit
+            ) || 20
+          )
         )
-      )
+
     })
+
   ) {
 
     if (
@@ -1425,11 +1769,14 @@ async function getWebhookLogs(
       result.push(
         entry.value
       );
+
     }
+
   }
 
 
   return result;
+
 }
 
 
@@ -1444,35 +1791,44 @@ function extractChatId(
 ) {
 
   const value =
+
     update?.chat_id ??
+
     update?.message
       ?.recipient
       ?.chat_id ??
+
     update?.message
       ?.recipient
       ?.chatId ??
+
     update?.message
       ?.chat_id ??
+
     update?.chat
       ?.chat_id ??
+
     update?.chat
       ?.id;
 
 
   if (
-    value ===
-      undefined ||
-    value ===
-      null
+
+    value === undefined ||
+
+    value === null
+
   ) {
 
     return null;
+
   }
 
 
   return String(
     value
   );
+
 }
 
 
@@ -1489,12 +1845,15 @@ async function processWebhookUpdate(
   if (!update) {
 
     return {
+
       saved:
         false,
 
       reason:
         "empty_update"
+
     };
+
   }
 
 
@@ -1510,23 +1869,29 @@ async function processWebhookUpdate(
 
 
   /*
-   * Бот удалён из чата.
+   * Бот удалён.
    */
 
   if (
+
     updateType ===
       "bot_removed"
+
   ) {
 
-    if (chatId) {
+    if (
+      chatId
+    ) {
 
       await deleteChatId(
         chatId
       );
+
     }
 
 
     return {
+
       saved:
         false,
 
@@ -1535,7 +1900,9 @@ async function processWebhookUpdate(
 
       update_type:
         updateType
+
     };
+
   }
 
 
@@ -1544,12 +1911,16 @@ async function processWebhookUpdate(
    * сохраняем.
    */
 
-  if (chatId) {
+  if (
+    chatId
+  ) {
 
     await saveChatId(
+
       chatId,
 
       {
+
         is_channel:
           update.is_channel ??
           null,
@@ -1560,11 +1931,14 @@ async function processWebhookUpdate(
         timestamp:
           update.timestamp ??
           Date.now()
+
       }
+
     );
 
 
     return {
+
       saved:
         true,
 
@@ -1577,11 +1951,14 @@ async function processWebhookUpdate(
       is_channel:
         update.is_channel ??
         null
+
     };
+
   }
 
 
   return {
+
     saved:
       false,
 
@@ -1590,7 +1967,9 @@ async function processWebhookUpdate(
 
     reason:
       "chat_id_not_present"
+
   };
+
 }
 
 
@@ -1608,11 +1987,14 @@ function getUpdateSummary(
     Array.isArray(
       data?.updates
     )
+
       ? data.updates
+
       : [];
 
 
   return updates.map(
+
     update => ({
 
       update_type:
@@ -1631,8 +2013,11 @@ function getUpdateSummary(
       is_channel:
         update?.is_channel ??
         null
+
     })
+
   );
+
 }
 
 
@@ -1640,22 +2025,27 @@ function getUpdateSummary(
  * ============================================================
  * MAX UPDATES
  *
- * ОСТАВЛЯЕМ ТОЛЬКО ДЛЯ ДИАГНОСТИКИ.
+ * ТОЛЬКО ДИАГНОСТИКА.
  *
- * /chat-ids БОЛЬШЕ НЕ ИСПОЛЬЗУЕТ /updates.
+ * НЕ ИСПОЛЬЗУЕТСЯ ДЛЯ CHAT ID.
  * ============================================================
  */
 
 async function getUpdates() {
 
   return await maxRequest(
+
     "/updates?limit=100&timeout=0",
 
     {
+
       method:
         "GET"
+
     }
+
   );
+
 }
 
 
@@ -1672,8 +2062,11 @@ function extractTag(
 
   const regex =
     new RegExp(
+
       `<${tag}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/${tag}>`,
+
       "i"
+
     );
 
 
@@ -1684,24 +2077,31 @@ function extractTag(
 
 
   if (!match) {
+
     return "";
+
   }
 
 
   return match[1]
+
     .replace(
       /<!\[CDATA\[/g,
       ""
     )
+
     .replace(
       /\]\]>/g,
       ""
     )
+
     .replace(
       /<[^>]+>/g,
       ""
     )
+
     .trim();
+
 }
 
 
@@ -1729,17 +2129,20 @@ function extractItems(
         "title"
       );
 
+
     const link =
       extractTag(
         item,
         "link"
       );
 
+
     const description =
       extractTag(
         item,
         "description"
       );
+
 
     const pubDate =
       extractTag(
@@ -1749,20 +2152,29 @@ function extractItems(
 
 
     if (!title) {
+
       continue;
+
     }
 
 
     items.push({
+
       title,
+
       link,
+
       description,
+
       pubDate
+
     });
+
   }
 
 
   return items;
+
 }
 
 
@@ -1770,30 +2182,40 @@ async function fetchRSS() {
 
   const results =
     await Promise.all(
+
       RSS_FEEDS.map(
+
         async feed => {
 
           const result =
             await fetchJson(
+
               feed,
 
               {
+
                 method:
                   "GET",
 
                 headers: {
+
                   "User-Agent":
                     "MAX-News-Agent/3.0"
+
                 }
+
               },
 
               {
+
                 retries:
                   1,
 
                 timeoutMs:
                   15000
+
               }
+
             );
 
 
@@ -1802,6 +2224,7 @@ async function fetchRSS() {
           ) {
 
             return {
+
               feed,
 
               ok:
@@ -1814,21 +2237,27 @@ async function fetchRSS() {
                 result.data
                   ?.error ||
                 null
+
             };
+
           }
 
 
           const xml =
             typeof result.data ===
               "object" &&
+
             result.data?.raw
+
               ? result.data.raw
+
               : null;
 
 
           if (!xml) {
 
             return {
+
               feed,
 
               ok:
@@ -1839,7 +2268,9 @@ async function fetchRSS() {
 
               error:
                 "RSS response is not plain XML"
+
             };
+
           }
 
 
@@ -1850,6 +2281,7 @@ async function fetchRSS() {
 
 
           return {
+
             feed,
 
             ok:
@@ -1863,13 +2295,18 @@ async function fetchRSS() {
                 0,
                 10
               )
+
           };
+
         }
+
       )
+
     );
 
 
   return results;
+
 }
 
 
@@ -1886,13 +2323,17 @@ function flattenNews(
   ) {
 
     if (
+
       !feed.ok ||
+
       !Array.isArray(
         feed.items
       )
+
     ) {
 
       continue;
+
     }
 
 
@@ -1902,16 +2343,21 @@ function flattenNews(
     ) {
 
       items.push({
+
         ...item,
 
         source_feed:
           feed.feed
+
       });
+
     }
+
   }
 
 
   return items.sort(
+
     (a, b) => {
 
       const aTime =
@@ -1919,6 +2365,7 @@ function flattenNews(
           a.pubDate ||
           ""
         ) || 0;
+
 
       const bTime =
         Date.parse(
@@ -1931,8 +2378,11 @@ function flattenNews(
         bTime -
         aTime
       );
+
     }
+
   );
+
 }
 
 
@@ -1947,17 +2397,25 @@ function extractGeminiText(
 ) {
 
   return (
+
     data
       ?.candidates?.[0]
       ?.content?.parts
+
       ?.map(
         part =>
           part?.text ||
           ""
       )
-      .join("") ||
+
+      .join("")
+
+      ||
+
     ""
+
   ).trim();
+
 }
 
 
@@ -1966,6 +2424,7 @@ function extractQwenText(
 ) {
 
   return (
+
     data?.choices?.[0]
       ?.message?.content ||
 
@@ -1973,7 +2432,9 @@ function extractQwenText(
       ?.text ||
 
     ""
+
   ).trim();
+
 }
 
 
@@ -1984,6 +2445,7 @@ async function discoverGeminiModels() {
   ) {
 
     return [];
+
   }
 
 
@@ -1992,24 +2454,31 @@ async function discoverGeminiModels() {
   ) {
 
     return discoveredGeminiModels;
+
   }
 
 
   const result =
     await fetchJson(
+
       `${GEMINI_BASE}/models?key=${encodeURIComponent(
         GEMINI_API_KEY
       )}`,
 
       {
+
         method:
           "GET"
+
       },
 
       {
+
         retries:
           1
+
       }
+
     );
 
 
@@ -2021,6 +2490,7 @@ async function discoverGeminiModels() {
       [];
 
     return [];
+
   }
 
 
@@ -2028,38 +2498,56 @@ async function discoverGeminiModels() {
     Array.isArray(
       result.data?.models
     )
+
       ? result.data.models
+
       : [];
 
 
   discoveredGeminiModels =
+
     models
+
       .filter(
+
         model =>
+
           !Array.isArray(
             model
               ?.supportedGenerationMethods
-          ) ||
+          )
+
+          ||
+
           model
             .supportedGenerationMethods
             .includes(
               "generateContent"
             )
+
       )
+
       .map(
+
         model =>
+
           String(
             model.name ||
             ""
-          ).replace(
+          )
+
+          .replace(
             /^models\//,
             ""
           )
+
       )
+
       .filter(Boolean);
 
 
   return discoveredGeminiModels;
+
 }
 
 
@@ -2070,6 +2558,7 @@ async function discoverQwenModels() {
   ) {
 
     return [];
+
   }
 
 
@@ -2078,37 +2567,49 @@ async function discoverQwenModels() {
   ) {
 
     return discoveredQwenModels;
+
   }
 
 
   const base =
     QWEN_API.replace(
+
       /\/chat\/completions\/?$/,
+
       ""
+
     );
 
 
   const result =
     await fetchJson(
+
       `${base}/models`,
 
       {
+
         method:
           "GET",
 
         headers: {
+
           Authorization:
             `Bearer ${QWEN_API_KEY}`,
 
           Accept:
             "application/json"
+
         }
+
       },
 
       {
+
         retries:
           1
+
       }
+
     );
 
 
@@ -2120,35 +2621,52 @@ async function discoverQwenModels() {
       [];
 
     return [];
+
   }
 
 
   const raw =
+
     Array.isArray(
       result.data?.data
     )
+
       ? result.data.data
+
       : Array.isArray(
           result.data?.models
         )
+
         ? result.data.models
+
         : [];
 
 
   discoveredQwenModels =
+
     raw
+
       .map(
+
         model =>
+
           String(
+
             model?.id ||
+
             model?.name ||
+
             ""
+
           ).trim()
+
       )
+
       .filter(Boolean);
 
 
   return discoveredQwenModels;
+
 }
 
 
@@ -2159,14 +2677,23 @@ function uniqueModels(
 ) {
 
   return [
+
     ...new Set([
+
       ...primary,
+
       ...discovered
+
     ])
+
   ].slice(
+
     0,
+
     limit
+
   );
+
 }
 
 
@@ -2182,6 +2709,7 @@ async function geminiGenerate(
 
 
   return await fetchJson(
+
     `${GEMINI_BASE}/models/${encodeURIComponent(
       model
     )}:generateContent?key=${encodeURIComponent(
@@ -2189,37 +2717,55 @@ async function geminiGenerate(
     )}`,
 
     {
+
       method:
         "POST",
 
       headers: {
+
         "Content-Type":
           "application/json"
+
       },
 
       body:
         JSON.stringify({
+
           contents: [
+
             {
+
               parts: [
+
                 {
+
                   text:
                     prompt
+
                 }
+
               ]
+
             }
+
           ],
 
           generationConfig: {
+
             temperature:
               0.2,
 
             maxOutputTokens:
               1200
+
           }
+
         })
+
     }
+
   );
+
 }
 
 
@@ -2235,47 +2781,62 @@ async function qwenGenerate(
 
 
   return await fetchJson(
+
     QWEN_API,
 
     {
+
       method:
         "POST",
 
       headers: {
+
         Authorization:
           `Bearer ${QWEN_API_KEY}`,
 
         "Content-Type":
           "application/json"
+
       },
 
       body:
         JSON.stringify({
+
           model,
 
           messages: [
+
             {
+
               role:
                 "system",
 
               content:
                 "Ты аналитик новостей. Отвечай кратко, фактически и не выдумывай факты."
+
             },
 
             {
+
               role:
                 "user",
 
               content:
                 prompt
+
             }
+
           ],
 
           stream:
             false
+
         })
+
     }
+
   );
+
 }
 
 
@@ -2289,21 +2850,28 @@ async function generateWithFallback(
   const geminiDiscovered =
     await discoverGeminiModels();
 
+
   const qwenDiscovered =
     await discoverQwenModels();
 
 
   const geminiModels =
     uniqueModels(
+
       GEMINI_MODELS,
+
       geminiDiscovered
+
     );
 
 
   const qwenModels =
     uniqueModels(
+
       QWEN_MODELS,
+
       qwenDiscovered
+
     );
 
 
@@ -2322,6 +2890,7 @@ async function generateWithFallback(
 
 
       attempts.push({
+
         provider:
           "Google Gemini",
 
@@ -2336,6 +2905,7 @@ async function generateWithFallback(
         error:
           result.data?.error ||
           null
+
       });
 
 
@@ -2346,11 +2916,15 @@ async function generateWithFallback(
 
 
       if (
+
         result.ok &&
+
         text
+
       ) {
 
         return {
+
           ok:
             true,
 
@@ -2362,12 +2936,16 @@ async function generateWithFallback(
           text,
 
           attempts
+
         };
+
       }
+
 
     } catch (error) {
 
       attempts.push({
+
         provider:
           "Google Gemini",
 
@@ -2379,8 +2957,11 @@ async function generateWithFallback(
         error:
           error?.message ||
           String(error)
+
       });
+
     }
+
   }
 
 
@@ -2399,6 +2980,7 @@ async function generateWithFallback(
 
 
       attempts.push({
+
         provider:
           "Alibaba Qwen",
 
@@ -2413,6 +2995,7 @@ async function generateWithFallback(
         error:
           result.data?.error ||
           null
+
       });
 
 
@@ -2423,11 +3006,15 @@ async function generateWithFallback(
 
 
       if (
+
         result.ok &&
+
         text
+
       ) {
 
         return {
+
           ok:
             true,
 
@@ -2439,12 +3026,16 @@ async function generateWithFallback(
           text,
 
           attempts
+
         };
+
       }
+
 
     } catch (error) {
 
       attempts.push({
+
         provider:
           "Alibaba Qwen",
 
@@ -2456,12 +3047,16 @@ async function generateWithFallback(
         error:
           error?.message ||
           String(error)
+
       });
+
     }
+
   }
 
 
   return {
+
     ok:
       false,
 
@@ -2469,7 +3064,9 @@ async function generateWithFallback(
       "Все доступные AI-модели не ответили успешно.",
 
     attempts
+
   };
+
 }
 
 
@@ -2484,6 +3081,7 @@ function buildAnalysisPrompt(
 ) {
 
   return `
+
 Проанализируй новость для новостного канала.
 
 ЗАГОЛОВОК:
@@ -2520,7 +3118,9 @@ ${item.description || "нет"}
 
 ИСТОЧНИК:
 ссылка на материал.
+
 `.trim();
+
 }
 
 
@@ -2538,6 +3138,7 @@ async function publishToMax(
   if (!chatId) {
 
     return {
+
       ok:
         false,
 
@@ -2545,28 +3146,39 @@ async function publishToMax(
         400,
 
       data: {
+
         error:
-          "TARGET_CHAT_ID не задан"
+          "TARGET_CHAT_ID не задан и сохранённый chat_id не найден"
+
       }
+
     };
+
   }
 
 
   return await maxRequest(
+
     `/messages?chat_id=${encodeURIComponent(
       chatId
     )}`,
 
     {
+
       method:
         "POST",
 
       body:
         JSON.stringify({
+
           text
+
         })
+
     }
+
   );
+
 }
 
 
@@ -2581,9 +3193,13 @@ function newsKey(
 ) {
 
   return (
+
     item.link ||
+
     `${item.title}|${item.pubDate || ""}`
+
   );
+
 }
 
 
@@ -2606,6 +3222,7 @@ async function runPipeline() {
   if (!news.length) {
 
     return {
+
       ok:
         false,
 
@@ -2616,15 +3233,24 @@ async function runPipeline() {
         "Новых материалов из RSS не получено.",
 
       feeds
+
     };
+
   }
 
 
   const selected =
     news.slice(
+
       0,
+
       MAX_NEWS_PER_RUN
+
     );
+
+
+  const targetChatId =
+    await getTargetChatId();
 
 
   const results = [];
@@ -2642,12 +3268,15 @@ async function runPipeline() {
 
 
     if (
+
       recentPublished.has(
         key
       )
+
     ) {
 
       results.push({
+
         ok:
           true,
 
@@ -2658,17 +3287,21 @@ async function runPipeline() {
           "already processed in current runtime",
 
         item
+
       });
 
       continue;
+
     }
 
 
     const analysis =
       await generateWithFallback(
+
         buildAnalysisPrompt(
           item
         )
+
       );
 
 
@@ -2677,6 +3310,7 @@ async function runPipeline() {
     ) {
 
       results.push({
+
         ok:
           false,
 
@@ -2686,15 +3320,20 @@ async function runPipeline() {
         item,
 
         analysis
+
       });
 
       continue;
+
     }
 
 
     const text =
+
       `📰 ${item.title}\n\n` +
+
       `${analysis.text}\n\n` +
+
       `Источник: ${
         item.link ||
         "не указан"
@@ -2702,6 +3341,7 @@ async function runPipeline() {
 
 
     let publication = {
+
       ok:
         false,
 
@@ -2709,26 +3349,37 @@ async function runPipeline() {
         true,
 
       reason:
+
         AUTO_PIPELINE &&
-        TARGET_CHAT_ID
+        targetChatId
+
           ? "not attempted"
-          : "AUTO_PIPELINE=false or TARGET_CHAT_ID is empty"
+
+          : "AUTO_PIPELINE=false or chat_id not found"
+
     };
 
 
     if (
+
       AUTO_PIPELINE &&
-      TARGET_CHAT_ID
+
+      targetChatId
+
     ) {
 
       const publishResult =
         await publishToMax(
-          TARGET_CHAT_ID,
+
+          targetChatId,
+
           text
+
         );
 
 
       publication = {
+
         ok:
           publishResult.ok,
 
@@ -2741,6 +3392,7 @@ async function runPipeline() {
         error:
           publishResult.error_message ||
           null
+
       };
 
 
@@ -2749,20 +3401,27 @@ async function runPipeline() {
       ) {
 
         recentPublished.set(
+
           key,
+
           Date.now()
+
         );
+
       }
+
     }
 
 
     results.push({
+
       ok:
         true,
 
       item,
 
       ai: {
+
         provider:
           analysis.provider,
 
@@ -2771,16 +3430,20 @@ async function runPipeline() {
 
         attempts:
           analysis.attempts
+
       },
 
       publication,
 
       text
+
     });
+
   }
 
 
   return {
+
     ok:
       results.some(
         item =>
@@ -2795,16 +3458,19 @@ async function runPipeline() {
       AUTO_PIPELINE,
 
     target_chat_configured:
-      !!TARGET_CHAT_ID,
+      !!targetChatId,
 
     target_chat_id:
-      TARGET_CHAT_ID,
+      targetChatId ||
+      null,
 
     rss_total:
       news.length,
 
     results
+
   };
+
 }
 
 
@@ -2819,22 +3485,31 @@ if (
 ) {
 
   Deno.cron(
+
     "MAX News automatic pipeline",
 
     CRON_SCHEDULE,
 
     {
+
       backoffSchedule: [
+
         5000,
+
         15000,
+
         60000
+
       ]
+
     },
 
     async () => {
 
       console.log(
+
         `[CRON] MAX News pipeline started: ${new Date().toISOString()}`
+
       );
 
 
@@ -2843,10 +3518,13 @@ if (
 
 
       console.log(
+
         "[CRON] MAX News pipeline result:",
+
         JSON.stringify(
           result
         )
+
       );
 
 
@@ -2855,12 +3533,19 @@ if (
       ) {
 
         throw new Error(
+
           result.error ||
+
           "MAX News pipeline failed"
+
         );
+
       }
+
     }
+
   );
+
 }
 
 
@@ -2871,6 +3556,7 @@ if (
  */
 
 Deno.serve(
+
   async request => {
 
     const url =
@@ -2890,14 +3576,19 @@ Deno.serve(
      */
 
     if (
+
       request.method ===
       "OPTIONS"
+
     ) {
 
       return json({
+
         ok:
           true
+
       });
+
     }
 
 
@@ -2911,9 +3602,12 @@ Deno.serve(
        */
 
       if (
+
         path === "/" &&
+
         request.method ===
           "GET"
+
       ) {
 
         return json({
@@ -2941,15 +3635,23 @@ Deno.serve(
             AUTO_PIPELINE,
 
           cron_schedule:
+
             AUTO_PIPELINE
+
               ? CRON_SCHEDULE
+
               : null,
 
           target_chat_configured:
-            !!TARGET_CHAT_ID,
+            !!(
+              TARGET_CHAT_ID
+            ),
 
-          target_chat_id:
-            TARGET_CHAT_ID,
+          stored_chat_ids:
+
+            (
+              await getStoredChatIds()
+            ).length,
 
           webhook:
             getWebhookUrl(
@@ -2957,25 +3659,45 @@ Deno.serve(
             ),
 
           endpoints: [
+
             "/check",
+
             "/tls-test",
+
             "/rss",
+
             "/models",
+
             "/max-test",
+
             "/subscriptions",
+
             "/cleanup-webhooks",
+
             "/setup-webhook",
+
             "/updates",
+
             "/chat-ids",
+
             "/stored-chat-ids",
+
             "/webhook-log",
+
             "/chat-test?chat_id=...",
+
             "/publish-test?chat_id=...",
+
             "/pipeline",
+
             "/run",
+
             "/webhook"
+
           ]
+
         });
+
       }
 
 
@@ -2986,10 +3708,13 @@ Deno.serve(
        */
 
       if (
+
         path ===
           "/tls-test" &&
+
         request.method ===
           "GET"
+
       ) {
 
         const client =
@@ -3013,7 +3738,9 @@ Deno.serve(
           error:
             maxHttpClientError ||
             null
+
         });
+
       }
 
 
@@ -3024,10 +3751,13 @@ Deno.serve(
        */
 
       if (
+
         path ===
           "/check" &&
+
         request.method ===
           "GET"
+
       ) {
 
         const result = {
@@ -3047,26 +3777,31 @@ Deno.serve(
           tls:
             maxCaStatus,
 
-          target_chat_id:
-            TARGET_CHAT_ID,
-
           checks: {
 
             max: {
+
               configured:
                 !!MAX_BOT_TOKEN
+
             },
 
             gemini: {
+
               configured:
                 !!GEMINI_API_KEY
+
             },
 
             qwen: {
+
               configured:
                 !!QWEN_API_KEY
+
             }
+
           }
+
         };
 
 
@@ -3080,12 +3815,16 @@ Deno.serve(
 
           const test =
             await maxRequest(
+
               "/me",
 
               {
+
                 method:
                   "GET"
+
               }
+
             );
 
 
@@ -3115,7 +3854,9 @@ Deno.serve(
 
             response:
               test.data
+
           };
+
         }
 
 
@@ -3142,7 +3883,9 @@ Deno.serve(
                 0,
                 20
               )
+
           };
+
         }
 
 
@@ -3169,26 +3912,34 @@ Deno.serve(
                 0,
                 20
               )
+
           };
+
         }
 
 
         result.ok =
           !!(
+
             result.checks.max
               .configured &&
+
             result.checks.max
               .api?.ok
+
           );
 
 
         return json(
+
           result,
 
           result.ok
             ? 200
             : 503
+
         );
+
       }
 
 
@@ -3199,9 +3950,12 @@ Deno.serve(
        */
 
       if (
+
         path === "/rss" &&
+
         request.method ===
           "GET"
+
       ) {
 
         const feeds =
@@ -3210,16 +3964,24 @@ Deno.serve(
 
         const total =
           feeds.reduce(
+
             (
               sum,
               feed
             ) =>
+
               sum +
+
               (
+
                 feed.count ||
+
                 0
+
               ),
+
             0
+
           );
 
 
@@ -3232,7 +3994,9 @@ Deno.serve(
             total,
 
           feeds
+
         });
+
       }
 
 
@@ -3243,14 +4007,18 @@ Deno.serve(
        */
 
       if (
+
         path ===
           "/models" &&
+
         request.method ===
           "GET"
+
       ) {
 
         const gemini =
           await discoverGeminiModels();
+
 
         const qwen =
           await discoverQwenModels();
@@ -3268,6 +4036,7 @@ Deno.serve(
 
             qwen:
               QWEN_MODELS
+
           },
 
           discovered: {
@@ -3275,8 +4044,11 @@ Deno.serve(
             gemini,
 
             qwen
+
           }
+
         });
+
       }
 
 
@@ -3287,20 +4059,27 @@ Deno.serve(
        */
 
       if (
+
         path ===
           "/max-test" &&
+
         request.method ===
           "GET"
+
       ) {
 
         const result =
           await maxRequest(
+
             "/me",
 
             {
+
               method:
                 "GET"
+
             }
+
           );
 
 
@@ -3336,7 +4115,9 @@ Deno.serve(
 
           response:
             result.data
+
         });
+
       }
 
 
@@ -3347,10 +4128,13 @@ Deno.serve(
        */
 
       if (
+
         path ===
           "/subscriptions" &&
+
         request.method ===
           "GET"
+
       ) {
 
         const result =
@@ -3380,7 +4164,9 @@ Deno.serve(
 
           tls:
             maxCaStatus
+
         });
+
       }
 
 
@@ -3391,10 +4177,13 @@ Deno.serve(
        */
 
       if (
+
         path ===
           "/cleanup-webhooks" &&
+
         request.method ===
           "GET"
+
       ) {
 
         const result =
@@ -3412,23 +4201,26 @@ Deno.serve(
             "cleanup-webhooks",
 
           result
+
         });
+
       }
 
 
       /*
        * ======================================================
        * /setup-webhook
-       *
-       * ГЛАВНАЯ КОМАНДА.
        * ======================================================
        */
 
       if (
+
         path ===
           "/setup-webhook" &&
+
         request.method ===
           "GET"
+
       ) {
 
         const result =
@@ -3438,12 +4230,15 @@ Deno.serve(
 
 
         return json(
+
           result,
 
           result.ok
             ? 200
             : 502
+
         );
+
       }
 
 
@@ -3451,15 +4246,21 @@ Deno.serve(
        * ======================================================
        * /updates
        *
-       * ТОЛЬКО ДИАГНОСТИКА.
+       * Только диагностика.
+       *
+       * При активном webhook здесь могут быть пустые
+       * updates — это нормально.
        * ======================================================
        */
 
       if (
+
         path ===
           "/updates" &&
+
         request.method ===
           "GET"
+
       ) {
 
         const params =
@@ -3467,22 +4268,26 @@ Deno.serve(
 
 
         params.set(
+
           "limit",
 
           url.searchParams.get(
             "limit"
           ) ||
           "100"
+
         );
 
 
         params.set(
+
           "timeout",
 
           url.searchParams.get(
             "timeout"
           ) ||
           "0"
+
         );
 
 
@@ -3500,6 +4305,7 @@ Deno.serve(
             "marker",
             marker
           );
+
         }
 
 
@@ -3517,17 +4323,22 @@ Deno.serve(
             "types",
             types
           );
+
         }
 
 
         const result =
           await maxRequest(
+
             `/updates?${params.toString()}`,
 
             {
+
               method:
                 "GET"
+
             }
+
           );
 
 
@@ -3545,9 +4356,14 @@ Deno.serve(
           http_status:
             result.status,
 
+          note:
+            "При активном Webhook MAX может возвращать пустой updates. Используйте /chat-ids и /webhook-log.",
+
           response:
             result.data
+
         });
+
       }
 
 
@@ -3555,37 +4371,53 @@ Deno.serve(
        * ======================================================
        * /chat-ids
        *
-       * ВАЖНО:
-       * БОЛЬШЕ НЕ ВЫЗЫВАЕТ /updates.
+       * НОВАЯ ЛОГИКА.
        *
-       * Показывает данные из Deno KV.
+       * Никакого /updates.
+       *
+       * Берём chat_id из Deno KV,
+       * куда его сохраняет Webhook.
        * ======================================================
        */
 
       if (
+
         path ===
           "/chat-ids" &&
+
         request.method ===
           "GET"
+
       ) {
 
         const stored =
           await getStoredChatIds();
 
 
-        const chatIds =
-          [
-            ...new Set(
-              stored
-                .map(
-                  item =>
-                    String(
-                      item.chat_id
-                    )
-                )
-                .filter(Boolean)
-            )
-          ];
+        const logs =
+          await getWebhookLogs(
+            10
+          );
+
+
+        const chatIds = [
+
+          ...new Set(
+
+            stored
+
+              .map(
+                item =>
+                  String(
+                    item.chat_id
+                  )
+              )
+
+              .filter(Boolean)
+
+          )
+
+        ];
 
 
         return json({
@@ -3600,20 +4432,33 @@ Deno.serve(
             "/chat-ids",
 
           source:
-            "Deno KV",
+            "Deno KV / Webhook",
 
           chat_ids:
             chatIds,
 
-          stored:
-            stored,
+          count:
+            chatIds.length,
 
-          target_chat_id:
-            TARGET_CHAT_ID,
+          stored,
 
-          note:
-            "MAX /updates здесь не используется. Chat ID сохраняются через Webhook."
+          recent_webhook_events:
+            logs.map(
+
+              log => ({
+
+                received_at:
+                  log.received_at,
+
+                payload:
+                  log.payload
+
+              })
+
+            )
+
         });
+
       }
 
 
@@ -3624,10 +4469,13 @@ Deno.serve(
        */
 
       if (
+
         path ===
           "/stored-chat-ids" &&
+
         request.method ===
           "GET"
+
       ) {
 
         const stored =
@@ -3646,11 +4494,10 @@ Deno.serve(
             stored.length,
 
           chat_ids:
-            stored,
+            stored
 
-          target_chat_id:
-            TARGET_CHAT_ID
         });
+
       }
 
 
@@ -3661,18 +4508,24 @@ Deno.serve(
        */
 
       if (
+
         path ===
           "/webhook-log" &&
+
         request.method ===
           "GET"
+
       ) {
 
         const limit =
           Number(
+
             url.searchParams.get(
               "limit"
             ) ||
+
             "20"
+
           );
 
 
@@ -3694,7 +4547,9 @@ Deno.serve(
             logs.length,
 
           logs
+
         });
+
       }
 
 
@@ -3705,50 +4560,67 @@ Deno.serve(
        */
 
       if (
+
         path ===
           "/chat-test" &&
+
         request.method ===
           "GET"
+
       ) {
 
-        const chatId =
+        let chatId =
           url.searchParams.get(
             "chat_id"
-          ) ||
-          TARGET_CHAT_ID;
+          );
+
+
+        if (!chatId) {
+
+          chatId =
+            await getTargetChatId();
+
+        }
 
 
         if (!chatId) {
 
           return json(
+
             {
 
               ok:
                 false,
 
               error:
-                "Не указан chat_id.",
+                "Chat ID не найден.",
 
-              usage:
-                "/chat-test?chat_id=123456789"
+              next_step:
+                "Добавьте/пере-добавьте бота в канал после установки Webhook."
 
             },
 
             400
+
           );
+
         }
 
 
         const result =
           await maxRequest(
+
             `/chats/${encodeURIComponent(
               chatId
             )}`,
 
             {
+
               method:
                 "GET"
+
             }
+
           );
 
 
@@ -3771,7 +4643,9 @@ Deno.serve(
 
           response:
             result.data
+
         });
+
       }
 
 
@@ -3782,50 +4656,71 @@ Deno.serve(
        */
 
       if (
+
         path ===
           "/publish-test" &&
+
         request.method ===
           "GET"
+
       ) {
 
-        const chatId =
+        let chatId =
           url.searchParams.get(
             "chat_id"
-          ) ||
-          TARGET_CHAT_ID;
+          );
+
+
+        if (!chatId) {
+
+          chatId =
+            await getTargetChatId();
+
+        }
 
 
         if (!chatId) {
 
           return json(
+
             {
 
               ok:
                 false,
 
               error:
-                "Chat ID не найден."
+                "Chat ID не найден.",
+
+              next_step:
+                "Сначала добавьте/пере-добавьте бота в MAX-канал после установки Webhook."
 
             },
 
             400
+
           );
+
         }
 
 
         const text =
+
           url.searchParams.get(
             "text"
           ) ||
 
           "ТЕСТ MAX NEWS AGENT\n\n" +
-          "Webhook, TLS и API MAX работают.";
+
+          "Webhook, TLS, API MAX и сохранение chat_id работают.";
 
 
         const result =
           await publishToMax(
+
             chatId,
+
             text
+
           );
 
 
@@ -3852,7 +4747,9 @@ Deno.serve(
           error:
             result.error_message ||
             null
+
         });
+
       }
 
 
@@ -3864,18 +4761,27 @@ Deno.serve(
        */
 
       if (
+
         (
+
           path ===
             "/pipeline" ||
+
           path ===
             "/run"
+
         ) &&
+
         (
+
           request.method ===
             "GET" ||
+
           request.method ===
             "POST"
+
         )
+
       ) {
 
         const result =
@@ -3883,12 +4789,15 @@ Deno.serve(
 
 
         return json(
+
           result,
 
           result.ok
             ? 200
             : 503
+
         );
+
       }
 
 
@@ -3901,46 +4810,50 @@ Deno.serve(
        */
 
       if (
+
         path ===
           "/webhook" &&
+
         request.method ===
           "POST"
+
       ) {
 
         /*
-         * Проверяем secret только если
-         * он задан в Deno Secrets.
+         * Проверяем secret.
          */
 
+        const incomingSecret =
+          request.headers.get(
+            "X-Max-Bot-Api-Secret"
+          );
+
+
         if (
-          MAX_WEBHOOK_SECRET
+
+          MAX_WEBHOOK_SECRET &&
+
+          incomingSecret !==
+            MAX_WEBHOOK_SECRET
+
         ) {
 
-          const incomingSecret =
-            request.headers.get(
-              "X-Max-Bot-Api-Secret"
-            );
+          return json(
 
+            {
 
-          if (
-            incomingSecret !==
-            MAX_WEBHOOK_SECRET
-          ) {
+              ok:
+                false,
 
-            return json(
-              {
+              error:
+                "Invalid MAX webhook secret"
 
-                ok:
-                  false,
+            },
 
-                error:
-                  "Invalid MAX webhook secret"
+            401
 
-              },
+          );
 
-              401
-            );
-          }
         }
 
 
@@ -3955,6 +4868,7 @@ Deno.serve(
         } catch (error) {
 
           return json(
+
             {
 
               ok:
@@ -3970,17 +4884,22 @@ Deno.serve(
             },
 
             400
+
           );
+
         }
 
 
         /*
-         * Сохраняем сырой payload MAX.
+         * Сохраняем сырой payload.
          */
 
         await saveWebhookLog(
+
           payload,
+
           {
+
             method:
               request.method,
 
@@ -3998,31 +4917,37 @@ Deno.serve(
               request.headers.get(
                 "User-Agent"
               )
+
           }
+
         );
 
 
         /*
-         * Поддерживаем:
+         * MAX обычно присылает один Update.
          *
-         * 1. один Update
-         * 2. { updates: [...] }
-         * 3. массив Updates
+         * Но поддерживаем и массив,
+         * и объект с updates.
          */
 
         const updates =
+
           Array.isArray(
             payload?.updates
           )
+
             ? payload.updates
 
             : Array.isArray(
                 payload
               )
+
               ? payload
 
               : [
+
                   payload
+
                 ];
 
 
@@ -4046,6 +4971,7 @@ Deno.serve(
               result
             );
 
+
           } catch (error) {
 
             processed.push({
@@ -4056,13 +4982,16 @@ Deno.serve(
               error:
                 error?.message ||
                 String(error)
+
             });
+
           }
+
         }
 
 
         /*
-         * MAX должен получить HTTP 200.
+         * MAX должен получить 200.
          */
 
         return json({
@@ -4076,11 +5005,10 @@ Deno.serve(
           count:
             updates.length,
 
-          processed,
+          processed
 
-          target_chat_id:
-            TARGET_CHAT_ID
         });
+
       }
 
 
@@ -4105,14 +5033,18 @@ Deno.serve(
         },
 
         404
+
       );
 
 
     } catch (error) {
 
       console.error(
+
         "MAX NEWS AGENT ERROR:",
+
         error
+
       );
 
 
@@ -4134,7 +5066,11 @@ Deno.serve(
         },
 
         500
+
       );
+
     }
+
   }
+
 );
