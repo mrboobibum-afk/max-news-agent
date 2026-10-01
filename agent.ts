@@ -64,6 +64,10 @@ const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
   "AppleWebKit/537.36 (KHTML, like Gecko) " +
   "Chrome/140.0.0.0 Safari/537.36";
+// News freshness is evaluated by the channel's editorial timezone.
+// Only publications dated TODAY in Moscow are eligible.
+const NEWS_TIME_ZONE = "Europe/Moscow";
+const NEWS_FUTURE_TOLERANCE_MS = 5 * 60 * 1000;
 // ============================================================
 // MAX CERTIFICATES
 // ============================================================
@@ -254,6 +258,73 @@ function truncate(value, max) {
 }
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+// ============================================================
+// NEWS FRESHNESS
+// ============================================================
+function calendarDateInTimeZone(timestamp, timeZone = NEWS_TIME_ZONE) {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(new Date(timestamp));
+  const map = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  return `${map.year}-${map.month}-${map.day}`;
+}
+
+function newsDateStatus(pubDate, now = Date.now()) {
+  const timestamp = Date.parse(pubDate || "");
+  if (!Number.isFinite(timestamp) || timestamp <= 0) {
+    return "invalid";
+  }
+  if (timestamp > now + NEWS_FUTURE_TOLERANCE_MS) {
+    return "future";
+  }
+  return calendarDateInTimeZone(timestamp) === calendarDateInTimeZone(now)
+    ? "today"
+    : "old";
+}
+
+function isNewsFromToday(pubDate, now = Date.now()) {
+  return newsDateStatus(pubDate, now) === "today";
+}
+
+function extractArticlePublishedAt(html) {
+  const meta =
+    findMeta(html, "article:published_time") || findMeta(html, "datePublished");
+  if (meta && Number.isFinite(Date.parse(meta))) {
+    return new Date(meta).toISOString();
+  }
+
+  const jsonLd = extractJsonLd(html);
+  const articles = [];
+  for (const block of jsonLd) {
+    collectArticleJsonLd(block, articles);
+  }
+  for (const article of articles) {
+    const raw = article?.datePublished ?? article?.dateCreated ?? "";
+    if (raw && Number.isFinite(Date.parse(String(raw)))) {
+      return new Date(String(raw)).toISOString();
+    }
+  }
+
+  const timeMatch =
+    html.match(/<time[^>]+datetime=["']([^"']+)["'][^>]*>/i)?.[1] ||
+    html.match(
+      /itemprop=["']datePublished["'][^>]+content=["']([^"']+)["']/i
+    )?.[1] ||
+    html.match(
+      /content=["']([^"']+)["'][^>]+itemprop=["']datePublished["']/i
+    )?.[1] ||
+    "";
+
+  if (timeMatch && Number.isFinite(Date.parse(timeMatch))) {
+    return new Date(timeMatch).toISOString();
+  }
+
+  return null;
 }
 // ============================================================
 // URL UTILS
@@ -733,230 +804,19 @@ function articleTitleMatches(itemTitle, pageTitle) {
   if (a === b || a.includes(b) || b.includes(a)) return true;
   return articleTitleSimilarity(itemTitle, pageTitle) >= 0.45;
 }
-async function decodeGoogleNewsArticleUrl(sourceUrl) {
-  // Google News changed its RSS article IDs. The old ID-only
-  // batchexecute request is no longer sufficient for current links.
-  // Current flow: GET the Google News article page -> read c-wiz[data-p]
-  // -> build the signed garturlreq payload -> batchexecute -> publisher URL.
-  let parsed;
-  try {
-    parsed = new URL(sourceUrl);
-  } catch {
-    return "";
-  }
-
-  if (parsed.hostname.toLowerCase() !== "news.google.com") return "";
-
-  const parts = parsed.pathname.split("/").filter(Boolean);
-  const articleIndex = parts.lastIndexOf("articles");
-  if (articleIndex < 0 || !parts[articleIndex + 1]) return "";
-
-  const id = parts[articleIndex + 1];
-  if (!id || id.length < 20) return "";
-
-  // 1. Get Google's current article bootstrap data.
-  try {
-    const response = await fetch(sourceUrl, {
-      redirect: "follow",
-      headers: {
-        "User-Agent": USER_AGENT,
-        Accept:
-          "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-      },
-      signal: AbortSignal.timeout(12000),
-    });
-
-    if (response.ok) {
-      const html = await response.text();
-
-      // Current Google News embeds the garturl parameters in
-      // <c-wiz data-p="...">. Do not try to manufacture timestamp /
-      // signature values from the article ID: Google requires the
-      // values supplied by this bootstrap payload.
-      const dataPMatch = html.match(
-        /<c-wiz\b[^>]*\bdata-p\s*=\s*(["'])([\s\S]*?)\1/i
-      );
-
-      if (dataPMatch) {
-        try {
-          const rawData = decodeHtmlEntities(dataPMatch[2]).replace(
-            /%.@\./,
-            '["garturlreq",'
-          );
-          const obj = JSON.parse(rawData);
-
-          if (Array.isArray(obj) && obj.length >= 2) {
-            // Equivalent to the known current Google News
-            // decoder: obj[:-6] + obj[-2:].
-            const reqObj = obj.slice(0, -6).concat(obj.slice(-2));
-            const articlesReq = [
-              "Fbv4je",
-              JSON.stringify(reqObj),
-              null,
-              "generic",
-            ];
-            const batchRequest = [[articlesReq]];
-
-            const batchResponse = await fetch(
-              "https://news.google.com/_/DotsSplashUi/data/batchexecute",
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type":
-                    "application/x-www-form-urlencoded;charset=UTF-8",
-                  Referer: "https://news.google.com/",
-                  "User-Agent": USER_AGENT,
-                },
-                body:
-                  "f.req=" + encodeURIComponent(JSON.stringify(batchRequest)),
-                signal: AbortSignal.timeout(15000),
-              }
-            );
-
-            if (batchResponse.ok) {
-              const text = await batchResponse.text();
-
-              // Preferred response shape used by current
-              // batchexecute implementations.
-              try {
-                const cleaned = text.replace(/^\)\]\}'\s*/, "");
-                const outer = JSON.parse(cleaned);
-                const payload = outer?.[0]?.[2];
-                if (typeof payload === "string") {
-                  const nested = JSON.parse(payload);
-                  const decoded = nested?.[1];
-                  if (
-                    typeof decoded === "string" &&
-                    isUsableArticleUrl(decoded) &&
-                    !isGoogleNewsUrl(decoded)
-                  ) {
-                    return normalizeUrl(decoded);
-                  }
-                }
-              } catch {
-                // Continue with the garturlres text fallback.
-              }
-
-              // Some responses are returned in the older
-              // escaped marker form.
-              const marker = '[\\"garturlres\\",\\"';
-              const markerIndex = text.indexOf(marker);
-              if (markerIndex >= 0) {
-                const startIndex = markerIndex + marker.length;
-                const endMarker = '\\",';
-                const endIndex = text.indexOf(endMarker, startIndex);
-                if (endIndex > startIndex) {
-                  const decoded = text
-                    .slice(startIndex, endIndex)
-                    .replace(/\\"/g, '"')
-                    .replace(/\\\\/g, "\\");
-                  if (
-                    isUsableArticleUrl(decoded) &&
-                    !isGoogleNewsUrl(decoded)
-                  ) {
-                    return normalizeUrl(decoded);
-                  }
-                }
-              }
-            }
-          }
-        } catch (error) {
-          console.warn(
-            "Google News data-p decode:",
-            error instanceof Error ? error.message : String(error)
-          );
-        }
-      }
-    }
-  } catch (error) {
-    console.warn(
-      "Google News bootstrap:",
-      error instanceof Error ? error.message : String(error)
-    );
-  }
-
-  // 2. Legacy ID-only decoder. Keep it as a fallback for older Google
-  // News formats; current links normally use the signed data-p flow above.
-  try {
-    const reqInner =
-      '["garturlreq",[["en-US","US",["FINANCE_TOP_INDICES","WEB_TEST_1_0_0"],null,null,1,1,"US:en",null,180,null,null,null,null,null,0,null,null,[1608992183,723341000]],"en-US","US",1,[2,3,4,8],1,0,"655000234",0,0,null,0],"' +
-      id +
-      '"]';
-    const req = `[[["Fbv4je",${JSON.stringify(reqInner)},null,"generic"]]]`;
-    const response = await fetch(
-      "https://news.google.com/_/DotsSplashUi/data/batchexecute?rpcids=Fbv4je",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          Referer: "https://news.google.com/",
-          "User-Agent": USER_AGENT,
-        },
-        body: "f.req=" + encodeURIComponent(req),
-        signal: AbortSignal.timeout(12000),
-      }
-    );
-    if (response.ok) {
-      const text = await response.text();
-      const marker = '[\\"garturlres\\",\\"';
-      const markerIndex = text.indexOf(marker);
-      if (markerIndex >= 0) {
-        const startIndex = markerIndex + marker.length;
-        const endIndex = text.indexOf('\\",', startIndex);
-        if (endIndex > startIndex) {
-          const decoded = text
-            .slice(startIndex, endIndex)
-            .replace(/\\"/g, '"')
-            .replace(/\\\\/g, "\\");
-          if (isUsableArticleUrl(decoded) && !isGoogleNewsUrl(decoded)) {
-            return normalizeUrl(decoded);
-          }
-        }
-      }
-    }
-  } catch {
-    // Keep the resolver fail-closed.
-  }
-
-  return "";
-}
-async function resolveArticleUrl(item, diagnostics = null) {
+async function resolveArticleUrl(item) {
   const originalUrl = normalizeUrl(item.link);
-
   if (!isGoogleNewsUrl(originalUrl)) {
     return isLikelyArticleUrl(originalUrl) ? originalUrl : "";
   }
-
-  // IMPORTANT: do not treat the Google News landing page as the article.
-  // Resolve the encoded RSS ID to the publisher URL first.
-  const decodedUrl = await decodeGoogleNewsArticleUrl(originalUrl);
-
-  if (decodedUrl && isLikelyArticleUrl(decodedUrl)) {
-    const page = await loadArticlePage(decodedUrl);
-
-    if (page) {
-      const pageTitle = extractPageTitle(page.html);
-      if (!pageTitle || articleTitleMatches(item.title, pageTitle)) {
-        return page.finalUrl;
-      }
-
-      console.warn(
-        "Rejected decoded Google News URL title mismatch:",
-        item.title,
-        "=>",
-        pageTitle,
-        page.finalUrl
-      );
-      if (diagnostics) diagnostics.article_title_mismatch++;
-      return "";
+  let preferredHost = null;
+  if (item.sourceUrl) {
+    try {
+      preferredHost = normalizeHost(new URL(item.sourceUrl).hostname);
+    } catch {
+      preferredHost = null;
     }
   }
-
-  if (diagnostics) diagnostics.google_decode_failed++;
-  console.warn("Google News decode failed:", item.title, originalUrl);
-
-  // Last-resort extraction from the Google News page. This is only
-  // accepted when the publisher article itself passes title validation.
   try {
     const response = await fetch(originalUrl, {
       redirect: "follow",
@@ -965,37 +825,71 @@ async function resolveArticleUrl(item, diagnostics = null) {
         Accept:
           "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
       },
-      signal: AbortSignal.timeout(12000),
+      signal: AbortSignal.timeout(15000),
     });
-
-    if (response.ok) {
-      const html = await response.text();
-      const candidates = extractGoogleNewsUrlCandidates(
-        html,
-        originalUrl,
-        item.sourceUrl ? normalizeHost(new URL(item.sourceUrl).hostname) : null
-      );
-
-      for (const candidateUrl of candidates.slice(0, 5)) {
-        const page = await loadArticlePage(candidateUrl);
-        if (!page) continue;
-
-        const pageTitle = extractPageTitle(page.html);
-        if (!pageTitle || articleTitleMatches(item.title, pageTitle)) {
-          return page.finalUrl;
-        }
+    const finalUrl = normalizeUrl(response.url || "");
+    const html = await response.text();
+    const candidates = new Set();
+    const addCandidate = (url) => {
+      const normalized = normalizeUrl(url || "");
+      if (normalized && isLikelyArticleUrl(normalized))
+        candidates.add(normalized);
+    };
+    addCandidate(finalUrl);
+    addCandidate(extractCanonical(html, originalUrl));
+    const ogUrl = findMeta(html, "og:url");
+    if (ogUrl) addCandidate(absoluteUrl(ogUrl, originalUrl));
+    const jsonLd = extractJsonLd(html);
+    const articles = [];
+    for (const block of jsonLd) collectArticleJsonLd(block, articles);
+    for (const article of articles) {
+      for (const candidate of [article.url, article.mainEntityOfPage]) {
+        let raw = "";
+        if (typeof candidate === "string") raw = candidate;
+        else if (candidate && typeof candidate === "object")
+          raw = String(candidate["@id"] ?? candidate.url ?? "");
+        if (raw) addCandidate(absoluteUrl(raw, originalUrl));
       }
     }
+    for (const url of extractGoogleNewsUrlCandidates(
+      html,
+      originalUrl,
+      preferredHost
+    ))
+      addCandidate(url);
+    for (const url of extractExternalLinks(html, originalUrl, preferredHost))
+      addCandidate(url);
+    const ranked = [...candidates].sort((a, b) => {
+      const ah = hostMatches(a, preferredHost) ? 1 : 0;
+      const bh = hostMatches(b, preferredHost) ? 1 : 0;
+      if (ah !== bh) return bh - ah;
+      return (
+        articleLinkScore(b, preferredHost) - articleLinkScore(a, preferredHost)
+      );
+    });
+    for (const candidateUrl of ranked.slice(0, 8)) {
+      const page = await loadArticlePage(candidateUrl);
+      if (!page) continue;
+      const pageTitle = extractPageTitle(page.html);
+      if (articleTitleMatches(item.title, pageTitle)) return page.finalUrl;
+      console.warn(
+        "Rejected resolver title mismatch:",
+        item.title,
+        "=>",
+        pageTitle,
+        candidateUrl
+      );
+    }
+    // Google News: если заголовок не совпал, новость НЕ публикуем.
+    return "";
   } catch (error) {
-    console.warn(
-      "Google News fallback:",
+    console.error(
+      "Google News resolve:",
       error instanceof Error ? error.message : String(error)
     );
   }
-
   return "";
 }
-
 // ============================================================
 // ARTICLE PAGE
 // ============================================================
@@ -1230,8 +1124,8 @@ function findImageCandidatesFromHtml(html, baseUrl) {
 // ============================================================
 // ARTICLE MEDIA
 // ============================================================
-async function extractArticleMedia(item, diagnostics = null) {
-  const articleUrl = await resolveArticleUrl(item, diagnostics);
+async function extractArticleMedia(item) {
+  const articleUrl = await resolveArticleUrl(item);
   if (!isLikelyArticleUrl(articleUrl)) {
     return {
       articleUrl: "",
@@ -1240,6 +1134,7 @@ async function extractArticleMedia(item, diagnostics = null) {
       sourceName: null,
       title: null,
       description: null,
+      publishedAt: null,
       rejectedReason: "bad_url",
     };
   }
@@ -1254,6 +1149,7 @@ async function extractArticleMedia(item, diagnostics = null) {
       sourceName: item.source || null,
       title: null,
       description: null,
+      publishedAt: null,
       rejectedReason: "page_unavailable",
     };
   }
@@ -1274,6 +1170,7 @@ async function extractArticleMedia(item, diagnostics = null) {
       sourceName: null,
       title: pageTitle,
       description: null,
+      publishedAt: extractArticlePublishedAt(html),
       rejectedReason: "article_title_mismatch",
     };
   }
@@ -1292,6 +1189,7 @@ async function extractArticleMedia(item, diagnostics = null) {
     sourceName,
     title: pageTitle || item.title,
     description: pageDescription,
+    publishedAt: extractArticlePublishedAt(html),
     rejectedReason: "",
   };
 }
@@ -2208,6 +2106,20 @@ async function chooseCandidate( items, urgentAllowed, regularAllowed, diagnostic
   // ----------------------------------------------------------
   const scored = items
     .filter((item) => {
+      const freshness = newsDateStatus(item.pubDate);
+      if (freshness !== "today") {
+        if (freshness === "old") diagnostics && diagnostics.old_news++;
+        else if (freshness === "future")
+          diagnostics && diagnostics.future_news++;
+        else diagnostics && diagnostics.invalid_pub_date++;
+        console.log(
+          "Rejected: news is not from today:",
+          freshness,
+          item.pubDate,
+          item.title
+        );
+        return false;
+      }
       if (item.title.length < 15) {
         diagnostics && diagnostics.short_title++;
         return false;
@@ -2254,8 +2166,23 @@ async function chooseCandidate( items, urgentAllowed, regularAllowed, diagnostic
       continue;
     }
 
-    const articleMedia = await extractArticleMedia(item, diagnostics);
+    const articleMedia = await extractArticleMedia(item);
     const articleUrl = articleMedia.articleUrl;
+
+    // RSS can be fresh while the resolved article itself is an old/reposted page.
+    // If the publisher exposes a publication date, it must also be TODAY.
+    if (
+      articleMedia.publishedAt &&
+      !isNewsFromToday(articleMedia.publishedAt)
+    ) {
+      diagnostics && diagnostics.article_old_news++;
+      console.log(
+        "Rejected: article publication date is not today:",
+        articleMedia.publishedAt,
+        item.title
+      );
+      continue;
+    }
 
     if (articleMedia.rejectedReason === "article_title_mismatch") {
       diagnostics && diagnostics.article_title_mismatch++;
@@ -2336,6 +2263,21 @@ async function chooseCandidate( items, urgentAllowed, regularAllowed, diagnostic
       continue;
     }
 
+    // Final hard guard: never allow an old/future RSS item to reach publication.
+    if (!isNewsFromToday(item.pubDate)) {
+      const freshness = newsDateStatus(item.pubDate);
+      if (freshness === "old") diagnostics && diagnostics.old_news++;
+      else if (freshness === "future") diagnostics && diagnostics.future_news++;
+      else diagnostics && diagnostics.invalid_pub_date++;
+      console.log(
+        "Rejected at final freshness guard:",
+        freshness,
+        item.pubDate,
+        item.title
+      );
+      continue;
+    }
+
     diagnostics && diagnostics.accepted++;
     return {
       item,
@@ -2360,10 +2302,13 @@ function createDiagnostics() {
     short_title: 0,
     urgent_interval: 0,
     regular_interval: 0,
+    old_news: 0,
+    invalid_pub_date: 0,
+    future_news: 0,
+    article_old_news: 0,
 
     duplicate_before_article: 0,
     bad_url: 0,
-    google_decode_failed: 0,
     article_title_mismatch: 0,
     duplicate_after_article: 0,
 
@@ -2534,7 +2479,12 @@ async function executePipeline(manual = false) {
         return bd - ad;
       })
       .slice(0, MAX_RSS_ITEMS);
-    console.log("RSS items:", items.length);
+    console.log(
+      "RSS items:",
+      items.length,
+      "Editorial date:",
+      calendarDateInTimeZone(Date.now())
+    );
     // --------------------------------------------------------
     // INTERVALS
     // --------------------------------------------------------
