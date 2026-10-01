@@ -6,36 +6,36 @@
 // АВТОМАТИЧЕСКАЯ СИСТЕМА НОВОСТЕЙ
 //
 // Cron:
-//   каждые 5 минут
+// каждые 5 минут
 //
 // Логика:
-//   RSS
-//    ↓
-//   локальная дедупликация
-//    ↓
-//   News Score
-//    ↓
-//   TOP кандидаты
-//    ↓
-//   определение реального URL СМИ
-//    ↓
-//   проверка статьи
-//    ↓
-//   Gemini
-//    ↓
-//   VIDEO → IMAGE → TEXT
-//    ↓
-//   MAX /uploads
-//    ↓
-//   ожидание обработки media
-//    ↓
-//   MAX /messages
-//    ↓
-//   Deno KV
+// RSS
+// ↓
+// локальная дедупликация
+// ↓
+// News Score
+// ↓
+// TOP кандидаты
+// ↓
+// определение реального URL СМИ
+// ↓
+// проверка статьи
+// ↓
+// Gemini
+// ↓
+// VIDEO → IMAGE → TEXT
+// ↓
+// MAX /uploads
+// ↓
+// ожидание обработки media
+// ↓
+// MAX /messages
+// ↓
+// Deno KV
 //
 // ВАЖНО:
-//   Google News URL НИКОГДА не публикуется.
-//   Если реальный URL СМИ не найден — кандидат отбрасывается.
+// Google News URL НИКОГДА не публикуется.
+// Если реальный URL СМИ не найден — кандидат отбрасывается.
 // ============================================================
 
 
@@ -433,9 +433,7 @@ async function getKV():
 // TEXT UTILS
 // ============================================================
 
-function cleanText(
-  value: unknown,
-): string {
+function cleanText( value: unknown, ): string {
 
   return String(value ?? "")
     .replace(
@@ -499,9 +497,7 @@ function cleanText(
 }
 
 
-function stripHtml(
-  value: string,
-): string {
+function stripHtml( value: string, ): string {
 
   return cleanText(value)
     .replace(
@@ -516,9 +512,7 @@ function stripHtml(
 }
 
 
-function escapeHtml(
-  value: string,
-): string {
+function escapeHtml( value: string, ): string {
 
   return value
     .replace(
@@ -540,9 +534,7 @@ function escapeHtml(
 }
 
 
-function normalizeForHash(
-  value: string,
-): string {
+function normalizeForHash( value: string, ): string {
 
   return stripHtml(value)
     .toLowerCase()
@@ -566,9 +558,7 @@ function normalizeForHash(
 }
 
 
-async function sha256(
-  value: string,
-): Promise<string> {
+async function sha256( value: string, ): Promise<string> {
 
   const data =
     new TextEncoder().encode(
@@ -598,10 +588,7 @@ async function sha256(
 }
 
 
-function truncate(
-  value: string,
-  max: number,
-): string {
+function truncate( value: string, max: number, ): string {
 
   const s =
     value.trim();
@@ -624,9 +611,7 @@ function truncate(
 }
 
 
-function sleep(
-  ms: number,
-): Promise<void> {
+function sleep( ms: number, ): Promise<void> {
 
   return new Promise(
     (resolve) =>
@@ -642,9 +627,7 @@ function sleep(
 // URL UTILS
 // ============================================================
 
-function isHttpUrl(
-  url: string,
-): boolean {
+function isHttpUrl( url: string, ): boolean {
 
   return /^https?:\/\//i.test(
     url,
@@ -652,9 +635,7 @@ function isHttpUrl(
 }
 
 
-function isGoogleNewsUrl(
-  url: string,
-): boolean {
+function isGoogleNewsUrl( url: string, ): boolean {
 
   try {
 
@@ -678,9 +659,7 @@ function isGoogleNewsUrl(
 }
 
 
-function normalizeUrl(
-  url: string,
-): string {
+function normalizeUrl( url: string, ): string {
 
   try {
 
@@ -719,9 +698,7 @@ function normalizeUrl(
 }
 
 
-function isUsableArticleUrl(
-  url: string,
-): boolean {
+function isUsableArticleUrl( url: string, ): boolean {
 
   if (
     !isHttpUrl(url) ||
@@ -771,9 +748,7 @@ function isUsableArticleUrl(
 }
 
 
-function decodeHtmlEntities(
-  value: string,
-): string {
+function decodeHtmlEntities( value: string, ): string {
 
   return value
     .replace(
@@ -803,10 +778,7 @@ function decodeHtmlEntities(
 }
 
 
-function absoluteUrl(
-  value: string,
-  baseUrl: string,
-): string | null {
+function absoluteUrl( value: string, baseUrl: string, ): string | null {
 
   try {
 
@@ -822,9 +794,7 @@ function absoluteUrl(
 }
 
 
-function normalizeMediaUrl(
-  value: string,
-): string {
+function normalizeMediaUrl( value: string, ): string {
 
   return decodeHtmlEntities(
     value
@@ -853,10 +823,7 @@ function normalizeMediaUrl(
 // RSS XML
 // ============================================================
 
-function extractXmlTag(
-  xml: string,
-  tag: string,
-): string {
+function extractXmlTag( xml: string, tag: string, ): string {
 
   const pattern =
     `<${tag}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/${tag}>`;
@@ -873,10 +840,7 @@ function extractXmlTag(
 }
 
 
-function extractXmlTagWithAttrs(
-  xml: string,
-  tag: string,
-): {
+function extractXmlTagWithAttrs( xml: string, tag: string, ): {
   value: string;
   attrs: string;
 } {
@@ -896,10 +860,7 @@ function extractXmlTagWithAttrs(
 }
 
 
-function extractAttr(
-  attrs: string,
-  name: string,
-): string {
+function extractAttr( attrs: string, name: string, ): string {
 
   const match =
     new RegExp(
@@ -911,10 +872,7 @@ function extractAttr(
 }
 
 
-function parseRSS(
-  xml: string,
-  feed: typeof RSS_FEEDS[number],
-): NewsItem[] {
+function parseRSS( xml: string, feed: typeof RSS_FEEDS[number], ): NewsItem[] {
 
   const items:
     NewsItem[] = [];
@@ -1016,9 +974,7 @@ function parseRSS(
 }
 
 
-async function loadRSS(
-  feed: typeof RSS_FEEDS[number],
-): Promise<NewsItem[]> {
+async function loadRSS( feed: typeof RSS_FEEDS[number], ): Promise<NewsItem[]> {
 
   try {
 
@@ -1078,10 +1034,7 @@ async function loadRSS(
 // HTML META
 // ============================================================
 
-function findMeta(
-  html: string,
-  property: string,
-): string | null {
+function findMeta( html: string, property: string, ): string | null {
 
   const escaped =
     property.replace(
@@ -1136,10 +1089,7 @@ function findMeta(
 }
 
 
-function extractCanonical(
-  html: string,
-  baseUrl: string,
-): string | null {
+function extractCanonical( html: string, baseUrl: string, ): string | null {
 
   const canonical =
     html.match(
@@ -1164,9 +1114,7 @@ function extractCanonical(
 }
 
 
-function extractJsonLd(
-  html: string,
-): any[] {
+function extractJsonLd( html: string, ): any[] {
 
   const blocks =
     html.match(
@@ -1209,10 +1157,7 @@ function extractJsonLd(
 }
 
 
-function collectArticleJsonLd(
-  value: any,
-  result: any[],
-): void {
+function collectArticleJsonLd( value: any, result: any[], ): void {
 
   if (
     Array.isArray(value)
@@ -1312,9 +1257,7 @@ const BAD_PATH_PARTS = [
 ];
 
 
-function isBadHost(
-  url: string,
-): boolean {
+function isBadHost( url: string, ): boolean {
 
   try {
 
@@ -1338,9 +1281,7 @@ function isBadHost(
 }
 
 
-function isLikelyArticleUrl(
-  url: string,
-): boolean {
+function isLikelyArticleUrl( url: string, ): boolean {
 
   if (
     !isUsableArticleUrl(url)
@@ -1388,10 +1329,7 @@ function isLikelyArticleUrl(
 }
 
 
-function articleLinkScore(
-  url: string,
-  sourceHost: string | null,
-): number {
+function articleLinkScore( url: string, sourceHost: string | null, ): number {
 
   if (
     !isLikelyArticleUrl(url)
@@ -1455,11 +1393,7 @@ function articleLinkScore(
 }
 
 
-function extractExternalLinks(
-  html: string,
-  baseUrl: string,
-  preferredHost: string | null,
-): string[] {
+function extractExternalLinks( html: string, baseUrl: string, preferredHost: string | null, ): string[] {
 
   const scored:
     {
@@ -1541,284 +1475,176 @@ function extractExternalLinks(
 
 
 // ============================================================
+// GOOGLE NEWS URL CANDIDATES
+// ============================================================
+
+function normalizeHost( host: string, ): string {
+  return host.toLowerCase().replace(/^www\./, "");
+}
+
+function hostMatches( url: string, preferredHost: string | null, ): boolean {
+  if (!preferredHost) return false;
+  try {
+    const host = normalizeHost(new URL(url).hostname);
+    const preferred = normalizeHost(preferredHost);
+    return (
+      host === preferred ||
+      host.endsWith("." + preferred) ||
+      preferred.endsWith("." + host)
+    );
+  } catch {
+    return false;
+  }
+}
+
+function extractGoogleNewsUrlCandidates( html: string, baseUrl: string, preferredHost: string | null, ): string[] {
+  const rawCandidates = new Set<string>();
+
+  for (const match of html.matchAll(
+    /<a\b[^>]+href=["']([^"']+)["'][^>]*>/gi,
+  )) rawCandidates.add(match[1]);
+
+  for (const match of html.matchAll(
+    /\bdata-(?:href|url)=["']([^"']+)["']/gi,
+  )) rawCandidates.add(match[1]);
+
+  for (const match of html.matchAll(
+    /https?:\\?\/\\?\/[^\s"'<>\\]+/gi,
+  )) rawCandidates.add(match[0]);
+
+  const scored: { url: string; score: number }[] = [];
+  const seen = new Set<string>();
+
+  for (const rawValue of rawCandidates) {
+    const decoded = decodeHtmlEntities(
+      String(rawValue)
+        .replace(/\\\//g, "/")
+        .replace(/\\u002f/gi, "/")
+        .replace(/\\u003a/gi, ":")
+        .replace(/\\u0026/gi, "&")
+        .replace(/\\u003d/gi, "=")
+        .replace(/\\u003f/gi, "?")
+        .replace(/\\u0025/gi, "%"),
+    );
+
+    const absolute = absoluteUrl(decoded, baseUrl);
+    if (!absolute || !isLikelyArticleUrl(absolute)) continue;
+
+    const normalized = normalizeUrl(absolute);
+    if (!normalized || seen.has(normalized)) continue;
+    seen.add(normalized);
+
+    let score = articleLinkScore(normalized, preferredHost);
+    if (hostMatches(normalized, preferredHost)) score += 100;
+    if (score > 0) scored.push({ url: normalized, score });
+  }
+
+  return scored
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 20)
+    .map((entry) => entry.url);
+}
+
+
+// ============================================================
 // GOOGLE NEWS RESOLUTION
 // ============================================================
 
-async function resolveArticleUrl(
-  item: NewsItem,
-): Promise<string> {
+async function resolveArticleUrl( item: NewsItem, ): Promise<string> {
 
-  const originalUrl =
-    item.link;
+  const originalUrl = normalizeUrl(item.link);
 
-  if (
-    !isGoogleNewsUrl(
-      originalUrl,
-    )
-  ) {
-
-    return isLikelyArticleUrl(
-      originalUrl,
-    )
-      ? normalizeUrl(
-          originalUrl,
-        )
+  if (!isGoogleNewsUrl(originalUrl)) {
+    return isLikelyArticleUrl(originalUrl)
+      ? originalUrl
       : "";
   }
 
-  try {
-
-    const response =
-      await fetch(
-        originalUrl,
-        {
-          redirect:
-            "follow",
-
-          headers: {
-            "User-Agent":
-              USER_AGENT,
-
-            "Accept":
-              "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-          },
-
-          signal:
-            AbortSignal.timeout(
-              15000,
-            ),
-        },
+  let preferredHost: string | null = null;
+  if (item.sourceUrl) {
+    try {
+      preferredHost = normalizeHost(
+        new URL(item.sourceUrl).hostname,
       );
-
-    const finalUrl =
-      response.url;
-
-    if (
-      isLikelyArticleUrl(
-        finalUrl,
-      )
-    ) {
-
-      return normalizeUrl(
-        finalUrl,
-      );
+    } catch {
+      preferredHost = null;
     }
-
-    const html =
-      await response.text();
-
-    const canonical =
-      extractCanonical(
-        html,
-        originalUrl,
-      );
-
-    if (
-      canonical &&
-      isLikelyArticleUrl(
-        canonical,
-      )
-    ) {
-
-      return normalizeUrl(
-        canonical,
-      );
-    }
-
-    const ogUrl =
-      findMeta(
-        html,
-        "og:url",
-      );
-
-    if (
-      ogUrl
-    ) {
-
-      const resolved =
-        absoluteUrl(
-          ogUrl,
-          originalUrl,
-        );
-
-      if (
-        resolved &&
-        isLikelyArticleUrl(
-          resolved,
-        )
-      ) {
-
-        return normalizeUrl(
-          resolved,
-        );
-      }
-    }
-
-    const jsonLd =
-      extractJsonLd(
-        html,
-      );
-
-    const articles:
-      any[] = [];
-
-    for (
-      const block of jsonLd
-    ) {
-
-      collectArticleJsonLd(
-        block,
-        articles,
-      );
-    }
-
-    for (
-      const article of articles
-    ) {
-
-      const candidates = [
-        article.url,
-        article.mainEntityOfPage,
-      ];
-
-      for (
-        const candidate of candidates
-      ) {
-
-        let raw =
-          "";
-
-        if (
-          typeof candidate ===
-          "string"
-        ) {
-          raw = candidate;
-        } else if (
-          candidate &&
-          typeof candidate ===
-            "object"
-        ) {
-          raw =
-            String(
-              candidate["@id"] ??
-              candidate.url ??
-              "",
-            );
-        }
-
-        if (!raw) {
-          continue;
-        }
-
-        const resolved =
-          absoluteUrl(
-            raw,
-            originalUrl,
-          );
-
-        if (
-          resolved &&
-          isLikelyArticleUrl(
-            resolved,
-          )
-        ) {
-
-          return normalizeUrl(
-            resolved,
-          );
-        }
-      }
-    }
-
-    let preferredHost:
-      string | null = null;
-
-    if (
-      item.sourceUrl
-    ) {
-
-      try {
-
-        preferredHost =
-          new URL(
-            item.sourceUrl,
-          )
-            .hostname
-            .toLowerCase();
-
-      } catch {
-        preferredHost = null;
-      }
-    }
-
-    const links =
-      extractExternalLinks(
-        html,
-        originalUrl,
-        preferredHost,
-      );
-
-    if (
-      links.length === 1
-    ) {
-
-      return links[0];
-    }
-
-    if (
-      links.length > 1
-    ) {
-
-      // Только если источник RSS явно совпадает
-      // с доменом кандидата.
-
-      if (
-        preferredHost
-      ) {
-
-        for (
-          const link of links
-        ) {
-
-          try {
-
-            const host =
-              new URL(link)
-                .hostname
-                .toLowerCase();
-
-            if (
-              host ===
-                preferredHost ||
-              host.endsWith(
-                "." +
-                  preferredHost,
-              )
-            ) {
-
-              return link;
-            }
-
-          } catch {
-            // ignore
-          }
-        }
-      }
-    }
-
-  } catch (error) {
-
-    console.error(
-      "Google News resolve:",
-      error instanceof Error
-        ? error.message
-        : String(error),
-    );
   }
 
-  // ВАЖНО:
-  // никогда не возвращаем Google News
-  // и не используем случайную ссылку.
+  try {
+    const response = await fetch(originalUrl, {
+      redirect: "follow",
+      headers: {
+        "User-Agent": USER_AGENT,
+        "Accept":
+          "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      },
+      signal: AbortSignal.timeout(15000),
+    });
+
+    const finalUrl = normalizeUrl(response.url || "");
+    if (isLikelyArticleUrl(finalUrl)) return finalUrl;
+
+    const html = await response.text();
+
+    const canonical = extractCanonical(html, originalUrl);
+    if (canonical && isLikelyArticleUrl(canonical)) {
+      return normalizeUrl(canonical);
+    }
+
+    const ogUrl = findMeta(html, "og:url");
+    if (ogUrl) {
+      const resolved = absoluteUrl(ogUrl, originalUrl);
+      if (resolved && isLikelyArticleUrl(resolved)) {
+        return normalizeUrl(resolved);
+      }
+    }
+
+    const jsonLd = extractJsonLd(html);
+    const articles: any[] = [];
+    for (const block of jsonLd) {
+      collectArticleJsonLd(block, articles);
+    }
+
+    for (const article of articles) {
+      for (const candidate of [
+        article.url,
+        article.mainEntityOfPage,
+      ]) {
+        let raw = "";
+        if (typeof candidate === "string") {
+          raw = candidate;
+        } else if (candidate && typeof candidate === "object") {
+          raw = String(candidate["@id"] ?? candidate.url ?? "");
+        }
+        if (!raw) continue;
+
+        const resolved = absoluteUrl(raw, originalUrl);
+        if (resolved && isLikelyArticleUrl(resolved)) {
+          return normalizeUrl(resolved);
+        }
+      }
+    }
+
+    const candidates = extractGoogleNewsUrlCandidates(
+      html,
+      originalUrl,
+      preferredHost,
+    );
+    if (candidates.length > 0) return candidates[0];
+
+    const links = extractExternalLinks(
+      html,
+      originalUrl,
+      preferredHost,
+    );
+    if (links.length > 0) return links[0];
+  } catch (error) {
+    console.error(
+      "Google News resolve:",
+      error instanceof Error ? error.message : String(error),
+    );
+  }
 
   return "";
 }
@@ -1828,9 +1654,7 @@ async function resolveArticleUrl(
 // ARTICLE PAGE
 // ============================================================
 
-async function loadArticlePage(
-  articleUrl: string,
-): Promise<{
+async function loadArticlePage( articleUrl: string, ): Promise<{
   finalUrl: string;
   html: string;
 } | null> {
@@ -1937,9 +1761,7 @@ async function loadArticlePage(
 // VIDEO EXTRACTION
 // ============================================================
 
-function isDirectVideoUrl(
-  url: string,
-): boolean {
+function isDirectVideoUrl( url: string, ): boolean {
 
   const lower =
     url.toLowerCase();
@@ -1964,10 +1786,7 @@ function isDirectVideoUrl(
 }
 
 
-function collectVideoUrls(
-  value: unknown,
-  result: string[],
-): void {
+function collectVideoUrls( value: unknown, result: string[], ): void {
 
   if (
     typeof value ===
@@ -2057,10 +1876,7 @@ function collectVideoUrls(
 }
 
 
-function findVideoFromHtml(
-  html: string,
-  baseUrl: string,
-): string | null {
+function findVideoFromHtml( html: string, baseUrl: string, ): string | null {
 
   const candidates:
     string[] = [];
@@ -2192,9 +2008,7 @@ function findVideoFromHtml(
 // ARTICLE MEDIA
 // ============================================================
 
-async function extractArticleMedia(
-  item: NewsItem,
-): Promise<ArticleMedia> {
+async function extractArticleMedia( item: NewsItem, ): Promise<ArticleMedia> {
 
   const articleUrl =
     await resolveArticleUrl(
@@ -2222,15 +2036,20 @@ async function extractArticleMedia(
       articleUrl,
     );
 
+  // Publisher can block server-side HTML requests. Keep the
+  // resolved article URL and publish a text-only fallback.
   if (!page) {
 
     return {
-      articleUrl: "",
+      articleUrl,
       imageUrl: null,
       videoUrl: null,
-      sourceName: null,
-      title: null,
-      description: null,
+      sourceName:
+        item.source || null,
+      title:
+        item.title || null,
+      description:
+        item.description || null,
     };
   }
 
@@ -2319,13 +2138,7 @@ async function extractArticleMedia(
 // MEDIA DOWNLOAD
 // ============================================================
 
-function extensionFromType(
-  type:
-    | "video"
-    | "image",
-  contentType: string,
-  url: string,
-): string {
+function extensionFromType( type: | "video" | "image", contentType: string, url: string, ): string {
 
   const ct =
     contentType.toLowerCase();
@@ -2411,12 +2224,7 @@ function extensionFromType(
 }
 
 
-async function downloadMedia(
-  url: string,
-  type:
-    | "video"
-    | "image",
-): Promise<DownloadedMedia | null> {
+async function downloadMedia( url: string, type: | "video" | "image", ): Promise<DownloadedMedia | null> {
 
   try {
 
@@ -2596,10 +2404,7 @@ async function downloadMedia(
 // MAX API
 // ============================================================
 
-async function maxFetch(
-  path: string,
-  options: RequestInit = {},
-): Promise<Response> {
+async function maxFetch( path: string, options: RequestInit = {}, ): Promise<Response> {
 
   if (
     !MAX_BOT_TOKEN
@@ -2680,9 +2485,7 @@ async function maxJson<T>(
   ) {
 
     throw new Error(
-      `MAX ${response.status}: ${JSON.stringify(
-        data,
-      )}`,
+      `MAX ${response.status}: ${JSON.stringify( data, )}`,
     );
   }
 
@@ -2694,18 +2497,14 @@ async function maxJson<T>(
 // MAX UPLOAD
 // ============================================================
 
-async function uploadMedia(
-  media: DownloadedMedia,
-): Promise<string> {
+async function uploadMedia( media: DownloadedMedia, ): Promise<string> {
 
   const init =
     await maxJson<{
       url: string;
       token?: string;
     }>(
-      `/uploads?type=${encodeURIComponent(
-        media.type,
-      )}`,
+      `/uploads?type=${encodeURIComponent( media.type, )}`,
       {
         method:
           "POST",
@@ -2771,12 +2570,7 @@ async function uploadMedia(
   ) {
 
     throw new Error(
-      `Media upload HTTP ${
-        uploadResponse.status
-      }: ${uploadText.slice(
-        0,
-        1500,
-      )}`,
+      `Media upload HTTP ${ uploadResponse.status }: ${uploadText.slice( 0, 1500, )}`,
     );
   }
 
@@ -2811,10 +2605,7 @@ async function uploadMedia(
 
     throw new Error(
       `MAX media token missing for ${media.type}. ` +
-        `Upload response: ${uploadText.slice(
-          0,
-          1500,
-        )}`,
+        `Upload response: ${uploadText.slice( 0, 1500, )}`,
     );
   }
 
@@ -2826,16 +2617,7 @@ async function uploadMedia(
 // MAX PUBLISH
 // ============================================================
 
-async function publishToMax(
-  text: string,
-  mediaToken?: {
-    type:
-      | "video"
-      | "image";
-
-    token: string;
-  },
-): Promise<any> {
+async function publishToMax( text: string, mediaToken?: { type: | "video" | "image"; token: string; }, ): Promise<any> {
 
   if (
     !TARGET_CHAT_ID
@@ -2877,9 +2659,7 @@ async function publishToMax(
   }
 
   return await maxJson(
-    `/messages?chat_id=${encodeURIComponent(
-      TARGET_CHAT_ID,
-    )}`,
+    `/messages?chat_id=${encodeURIComponent( TARGET_CHAT_ID, )}`,
     {
       method:
         "POST",
@@ -2905,9 +2685,7 @@ async function publishToMax(
 // DEDUPLICATION
 // ============================================================
 
-function normalizeArticleUrl(
-  url: string,
-): string {
+function normalizeArticleUrl( url: string, ): string {
 
   return normalizeUrl(
     isUsableArticleUrl(url)
@@ -2917,10 +2695,7 @@ function normalizeArticleUrl(
 }
 
 
-async function publishedKey(
-  item: NewsItem,
-  articleUrl: string,
-): Promise<string> {
+async function publishedKey( item: NewsItem, articleUrl: string, ): Promise<string> {
 
   const normalizedTitle =
     normalizeForHash(
@@ -2938,9 +2713,7 @@ async function publishedKey(
 }
 
 
-async function legacyPublishedKey(
-  item: NewsItem,
-): Promise<string> {
+async function legacyPublishedKey( item: NewsItem, ): Promise<string> {
 
   return await sha256(
     normalizeForHash(
@@ -2950,10 +2723,7 @@ async function legacyPublishedKey(
 }
 
 
-async function isAlreadyPublished(
-  item: NewsItem,
-  articleUrl = "",
-): Promise<boolean> {
+async function isAlreadyPublished( item: NewsItem, articleUrl = "", ): Promise<boolean> {
 
   const db =
     await getKV();
@@ -3004,10 +2774,7 @@ async function isAlreadyPublished(
 }
 
 
-async function markPublished(
-  item: NewsItem,
-  articleUrl: string,
-): Promise<void> {
+async function markPublished( item: NewsItem, articleUrl: string, ): Promise<void> {
 
   const db =
     await getKV();
@@ -3060,10 +2827,7 @@ async function markPublished(
 // RECENT TITLES
 // ============================================================
 
-async function getRecentTitles(
-  limit =
-    MAX_HISTORY_CHECKED,
-): Promise<string[]> {
+async function getRecentTitles( limit = MAX_HISTORY_CHECKED, ): Promise<string[]> {
 
   const db =
     await getKV();
@@ -3106,9 +2870,7 @@ async function getRecentTitles(
 }
 
 
-async function rememberTitle(
-  title: string,
-): Promise<void> {
+async function rememberTitle( title: string, ): Promise<void> {
 
   const db =
     await getKV();
@@ -3140,9 +2902,7 @@ async function rememberTitle(
 // URGENCY
 // ============================================================
 
-function detectUrgency(
-  item: NewsItem,
-): boolean {
+function detectUrgency( item: NewsItem, ): boolean {
 
   const text =
     normalizeForHash(
@@ -3194,9 +2954,7 @@ function detectUrgency(
 // NEWS SCORE
 // ============================================================
 
-function scoreNewsItem(
-  item: NewsItem,
-): ScoredCandidate {
+function scoreNewsItem( item: NewsItem, ): ScoredCandidate {
 
   const title =
     normalizeForHash(
@@ -3390,9 +3148,7 @@ function scoreNewsItem(
 // GEMINI
 // ============================================================
 
-function extractJson(
-  text: string,
-): any | null {
+function extractJson( text: string, ): any | null {
 
   const cleaned =
     text
@@ -3443,11 +3199,7 @@ function extractJson(
 }
 
 
-async function callGemini(
-  item: NewsItem,
-  articleMedia:
-    ArticleMedia,
-): Promise<AIStory | null> {
+async function callGemini( item: NewsItem, articleMedia: ArticleMedia, ): Promise<AIStory | null> {
 
   if (
     !GEMINI_API_KEY
@@ -3455,65 +3207,7 @@ async function callGemini(
     return null;
   }
 
-  const prompt = `
-
-Ты редактор новостного канала ФАКТОР.
-
-Работай ТОЛЬКО с информацией,
-которая присутствует в исходных данных.
-
-НЕ ДОБАВЛЯЙ факты из памяти.
-НЕ ДОДУМЫВАЙ причины.
-НЕ ДОДУМЫВАЙ последствия.
-НЕ ПРИДУМЫВАЙ цифры.
-
-ИСХОДНЫЙ ЗАГОЛОВОК:
-${item.title}
-
-ИСТОЧНИК:
-${item.source}
-
-ЗАГОЛОВОК СТРАНИЦЫ:
-${articleMedia.title ?? ""}
-
-ОПИСАНИЕ RSS:
-${item.description}
-
-ОПИСАНИЕ СТРАНИЦЫ:
-${articleMedia.description ?? ""}
-
-Верни ТОЛЬКО JSON:
-
-{
-  "headline": "короткий точный заголовок",
-  "short": "одно короткое предложение о событии",
-  "main": [
-    "конкретный факт 1",
-    "конкретный факт 2",
-    "конкретный факт 3"
-  ],
-  "important": "конкретная информация, которую читателю важно знать",
-  "urgent": false
-}
-
-ПРАВИЛА:
-
-1. Никаких выдуманных фактов.
-2. headline должен описывать именно событие.
-3. Не используй кликбейт.
-4. Не используй вопросительные заголовки.
-5. Не пиши "стало известно".
-6. Не пиши "ситуация развивается".
-7. Не пиши рекламные формулировки.
-8. Не повторяй одну мысль в разных блоках.
-9. Если фактов мало — используй меньше пунктов.
-10. main может содержать от 0 до 3 пунктов.
-11. urgent=true только если событие действительно срочное.
-12. Не делай выводов, которых нет в исходных данных.
-13. Не меняй смысл новости.
-14. Не добавляй географию, даты, цифры или имена, которых нет в исходных данных.
-
-`;
+  const prompt = ` Ты редактор новостного канала ФАКТОР. Работай ТОЛЬКО с информацией, которая присутствует в исходных данных. НЕ ДОБАВЛЯЙ факты из памяти. НЕ ДОДУМЫВАЙ причины. НЕ ДОДУМЫВАЙ последствия. НЕ ПРИДУМЫВАЙ цифры. ИСХОДНЫЙ ЗАГОЛОВОК: ${item.title} ИСТОЧНИК: ${item.source} ЗАГОЛОВОК СТРАНИЦЫ: ${articleMedia.title ?? ""} ОПИСАНИЕ RSS: ${item.description} ОПИСАНИЕ СТРАНИЦЫ: ${articleMedia.description ?? ""} Верни ТОЛЬКО JSON: { "headline": "короткий точный заголовок", "short": "одно короткое предложение о событии", "main": [ "конкретный факт 1", "конкретный факт 2", "конкретный факт 3" ], "important": "конкретная информация, которую читателю важно знать", "urgent": false } ПРАВИЛА: 1. Никаких выдуманных фактов. 2. headline должен описывать именно событие. 3. Не используй кликбейт. 4. Не используй вопросительные заголовки. 5. Не пиши "стало известно". 6. Не пиши "ситуация развивается". 7. Не пиши рекламные формулировки. 8. Не повторяй одну мысль в разных блоках. 9. Если фактов мало — используй меньше пунктов. 10. main может содержать от 0 до 3 пунктов. 11. urgent=true только если событие действительно срочное. 12. Не делай выводов, которых нет в исходных данных. 13. Не меняй смысл новости. 14. Не добавляй географию, даты, цифры или имена, которых нет в исходных данных. `;
 
   try {
 
@@ -3682,11 +3376,7 @@ ${articleMedia.description ?? ""}
 // FALLBACK
 // ============================================================
 
-function makeFallbackStory(
-  item: NewsItem,
-  articleMedia:
-    ArticleMedia,
-): AIStory {
+function makeFallbackStory( item: NewsItem, articleMedia: ArticleMedia, ): AIStory {
 
   const short =
     truncate(
@@ -3726,9 +3416,7 @@ function makeFallbackStory(
 // TEXT DUPLICATES
 // ============================================================
 
-function textWords(
-  value: string,
-): Set<string> {
+function textWords( value: string, ): Set<string> {
 
   return new Set(
     normalizeForHash(
@@ -3743,10 +3431,7 @@ function textWords(
 }
 
 
-function similarity(
-  a: string,
-  b: string,
-): number {
+function similarity( a: string, b: string, ): number {
 
   const aw =
     textWords(a);
@@ -3784,9 +3469,7 @@ function similarity(
 }
 
 
-async function isRepeatedStoryText(
-  story: AIStory,
-): Promise<boolean> {
+async function isRepeatedStoryText( story: AIStory, ): Promise<boolean> {
 
   const recent =
     await getRecentTitles(
@@ -3821,11 +3504,7 @@ async function isRepeatedStoryText(
 // SOURCE
 // ============================================================
 
-function cleanSourceName(
-  source: string,
-  articleMedia:
-    ArticleMedia,
-): string {
+function cleanSourceName( source: string, articleMedia: ArticleMedia, ): string {
 
   const candidate =
     articleMedia.sourceName ||
@@ -3850,12 +3529,7 @@ function cleanSourceName(
 // POST
 // ============================================================
 
-function buildPost(
-  item: NewsItem,
-  story: AIStory,
-  sourceName: string,
-  articleUrl: string,
-): string {
+function buildPost( item: NewsItem, story: AIStory, sourceName: string, articleUrl: string, ): string {
 
   const header =
     story.urgent
@@ -3863,17 +3537,10 @@ function buildPost(
       : "🔵 <b>ФАКТОР • ГЛАВНОЕ</b>";
 
   const category =
-    `${item.categoryEmoji} <b>${escapeHtml(
-      item.category,
-    )}</b>`;
+    `${item.categoryEmoji} <b>${escapeHtml( item.category, )}</b>`;
 
   const headline =
-    `<b>${escapeHtml(
-      truncate(
-        story.headline,
-        260,
-      ),
-    )}</b>`;
+    `<b>${escapeHtml( truncate( story.headline, 260, ), )}</b>`;
 
   const short =
     escapeHtml(
@@ -3888,12 +3555,7 @@ function buildPost(
       .filter(Boolean)
       .map(
         (x) =>
-          `• ${escapeHtml(
-            truncate(
-              x,
-              350,
-            ),
-          )}`,
+          `• ${escapeHtml( truncate( x, 350, ), )}`,
       )
       .join("\n");
 
@@ -3926,11 +3588,7 @@ function buildPost(
     isUsableArticleUrl(
       articleUrl,
     )
-      ? `🔗 <a href="${escapeHtml(
-          articleUrl,
-        )}">${escapeHtml(
-          sourceName,
-        )}</a>`
+      ? `🔗 <a href="${escapeHtml( articleUrl, )}">${escapeHtml( sourceName, )}</a>`
       : "";
 
   const parts = [
@@ -4003,10 +3661,7 @@ function buildPost(
 // MEDIA
 // ============================================================
 
-async function findBestMedia(
-  articleMedia:
-    ArticleMedia,
-): Promise<DownloadedMedia | null> {
+async function findBestMedia( articleMedia: ArticleMedia, ): Promise<DownloadedMedia | null> {
 
   // ----------------------------------------------------------
   // 1. VIDEO
@@ -4072,11 +3727,7 @@ async function findBestMedia(
 // CANDIDATE SELECTION
 // ============================================================
 
-async function chooseCandidate(
-  items: NewsItem[],
-  urgentAllowed: boolean,
-  regularAllowed: boolean,
-): Promise<{
+async function chooseCandidate( items: NewsItem[], urgentAllowed: boolean, regularAllowed: boolean, ): Promise<{
   item: NewsItem;
   story: AIStory;
   articleMedia: ArticleMedia;
@@ -4329,9 +3980,7 @@ async function acquirePipelineLock():
 }
 
 
-async function releasePipelineLock(
-  token: string,
-): Promise<void> {
+async function releasePipelineLock( token: string, ): Promise<void> {
 
   const db =
     await getKV();
@@ -4513,16 +4162,7 @@ async function getState():
 // MEDIA PROCESSING RETRY
 // ============================================================
 
-async function publishWithMediaRetry(
-  text: string,
-  mediaInfo: {
-    type:
-      | "video"
-      | "image";
-
-    token: string;
-  },
-): Promise<any> {
+async function publishWithMediaRetry( text: string, mediaInfo: { type: | "video" | "image"; token: string; }, ): Promise<any> {
 
   const delays = [
 
@@ -4613,9 +4253,7 @@ async function publishWithMediaRetry(
 // PIPELINE
 // ============================================================
 
-async function runPipeline(
-  manual = false,
-): Promise<any> {
+async function runPipeline( manual = false, ): Promise<any> {
 
   const lock =
     await acquirePipelineLock();
@@ -4653,9 +4291,7 @@ async function runPipeline(
 }
 
 
-async function executePipeline(
-  manual = false,
-): Promise<any> {
+async function executePipeline( manual = false, ): Promise<any> {
 
   const db =
     await getKV();
@@ -5223,21 +4859,7 @@ async function publishTest():
 
     "",
 
-    `🕒 ${new Intl.DateTimeFormat(
-      "ru-RU",
-      {
-        hour:
-          "2-digit",
-
-        minute:
-          "2-digit",
-
-        timeZone:
-          "Europe/Moscow",
-      },
-    ).format(
-      new Date(),
-    )}`,
+    `🕒 ${new Intl.DateTimeFormat( "ru-RU", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Moscow", }, ).format( new Date(), )}`,
 
     "",
 
@@ -5257,10 +4879,7 @@ async function publishTest():
 // JSON
 // ============================================================
 
-function json(
-  value: unknown,
-  status = 200,
-): Response {
+function json( value: unknown, status = 200, ): Response {
 
   return new Response(
     JSON.stringify(
