@@ -39,6 +39,96 @@ const GEMINI_API_KEY =
   Deno.env.get("GEMINI_API_KEY") ?? "";
 
 // ------------------------------------------------------------
+// MAX CERTIFICATES
+// ------------------------------------------------------------
+
+const MAX_ROOT_CA_URL =
+  "https://gu-st.ru/content/lending/russian_trusted_root_ca_pem.crt";
+
+const MAX_SUB_CA_URL =
+  "https://gu-st.ru/content/lending/russian_trusted_sub_ca_pem.crt";
+
+let maxHttpClient: Deno.HttpClient | null = null;
+
+let maxHttpClientError: string | null = null;
+
+let maxCaStatus = {
+  loaded: false,
+  root: false,
+  sub: false,
+  error: null as string | null,
+};
+
+async function initMaxHttpClient(): Promise<Deno.HttpClient | null> {
+  if (maxHttpClient) {
+    return maxHttpClient;
+  }
+
+  if (maxHttpClientError) {
+    return null;
+  }
+
+  try {
+    const rootResponse = await fetch(
+      MAX_ROOT_CA_URL,
+    );
+
+    if (!rootResponse.ok) {
+      throw new Error(
+        `Root CA HTTP ${rootResponse.status}`,
+      );
+    }
+
+    const rootCa =
+      await rootResponse.text();
+
+    maxCaStatus.root = true;
+
+    const subResponse = await fetch(
+      MAX_SUB_CA_URL,
+    );
+
+    if (!subResponse.ok) {
+      throw new Error(
+        `Sub CA HTTP ${subResponse.status}`,
+      );
+    }
+
+    const subCa =
+      await subResponse.text();
+
+    maxCaStatus.sub = true;
+
+    maxHttpClient =
+      Deno.createHttpClient({
+        caCerts: [
+          rootCa,
+          subCa,
+        ],
+      });
+
+    maxCaStatus.loaded = true;
+
+    return maxHttpClient;
+  } catch (error) {
+    maxHttpClientError =
+      error instanceof Error
+        ? error.message
+        : String(error);
+
+    maxCaStatus.error =
+      maxHttpClientError;
+
+    console.error(
+      "MAX CA initialization failed:",
+      maxHttpClientError,
+    );
+
+    return null;
+  }
+}
+
+// ------------------------------------------------------------
 // НАСТРОЙКИ
 // ------------------------------------------------------------
 
@@ -1044,7 +1134,6 @@ function findVideoFromHtml(
     }
   }
 
-  // <video src="">
   for (
     const match of html.matchAll(
       /<video[^>]+src=["']([^"']+)["'][^>]*>/gi,
@@ -1055,7 +1144,6 @@ function findVideoFromHtml(
     );
   }
 
-  // <source src="">
   for (
     const match of html.matchAll(
       /<source[^>]+src=["']([^"']+)["'][^>]*>/gi,
@@ -1066,7 +1154,6 @@ function findVideoFromHtml(
     );
   }
 
-  // JSON contentUrl / videoUrl / file
   for (
     const match of html.matchAll(
       /["'](?:contentUrl|videoUrl|video_url|file)["']\s*:\s*["']([^"']+)["']/gi,
@@ -1077,7 +1164,6 @@ function findVideoFromHtml(
     );
   }
 
-  // Иногда URL экранирован
   for (
     const match of html.matchAll(
       /https?:\\?\/\\?\/[^"'\\\s]+?\.(?:mp4|mov|webm|mkv)(?:\?[^"'\\\s]+)?/gi,
@@ -1113,10 +1199,6 @@ function findVideoFromHtml(
       return url;
     }
   }
-
-  // ----------------------------------------------------------
-  // JSON-LD
-  // ----------------------------------------------------------
 
   const jsonLdBlocks =
     html.match(
@@ -1173,7 +1255,7 @@ function findVideoFromHtml(
         }
       }
     } catch {
-      // malformed JSON-LD — ignore
+      // ignore
     }
   }
 
@@ -1593,10 +1675,17 @@ async function maxFetch(
     MAX_BOT_TOKEN,
   );
 
+  const client =
+    await initMaxHttpClient();
+
   return fetch(
     `${MAX_API}${path}`,
     {
       ...options,
+
+      client:
+        client ?? undefined,
+
       headers,
     },
   );
@@ -1754,9 +1843,6 @@ async function uploadMedia(
       null;
   }
 
-  // MAX /uploads возвращает token.
-  // Для image/video именно он используется
-  // в attachments.payload.token.
   const finalToken =
     init.token ||
     uploadResult?.token ||
@@ -2592,12 +2678,6 @@ function buildPost(
 async function findBestMedia(
   articleMedia: ArticleMedia,
 ): Promise<DownloadedMedia | null> {
-  // СТРОГО:
-  //
-  // 1. VIDEO
-  // 2. IMAGE
-  // 3. TEXT
-
   if (
     articleMedia.videoUrl
   ) {
@@ -2807,10 +2887,6 @@ async function executePipeline(
     Date.now();
 
   try {
-    // --------------------------------------------------------
-    // RSS
-    // --------------------------------------------------------
-
     const feedResults =
       await Promise.all(
         RSS_FEEDS.map(
@@ -2830,10 +2906,6 @@ async function executePipeline(
       "RSS items:",
       items.length,
     );
-
-    // --------------------------------------------------------
-    // CANDIDATE
-    // --------------------------------------------------------
 
     const candidate =
       await chooseCandidate(
@@ -2877,10 +2949,6 @@ async function executePipeline(
       articleMedia,
     } =
       candidate;
-
-    // --------------------------------------------------------
-    // INTERVALS
-    // --------------------------------------------------------
 
     const now =
       Date.now();
@@ -2981,18 +3049,10 @@ async function executePipeline(
       }
     }
 
-    // --------------------------------------------------------
-    // MEDIA
-    // --------------------------------------------------------
-
     const media =
       await findBestMedia(
         articleMedia,
       );
-
-    // --------------------------------------------------------
-    // ARTICLE URL
-    // --------------------------------------------------------
 
     const sourceName =
       cleanSourceName(
@@ -3010,10 +3070,6 @@ async function executePipeline(
             item.link,
           );
 
-    // --------------------------------------------------------
-    // POST TEXT
-    // --------------------------------------------------------
-
     const text =
       buildPost(
         item,
@@ -3021,10 +3077,6 @@ async function executePipeline(
         sourceName,
         articleUrl,
       );
-
-    // --------------------------------------------------------
-    // MEDIA UPLOAD
-    // --------------------------------------------------------
 
     let mediaInfo:
       | {
@@ -3083,19 +3135,11 @@ async function executePipeline(
       }
     }
 
-    // --------------------------------------------------------
-    // PUBLISH
-    // --------------------------------------------------------
-
     const publication =
       await publishToMax(
         text,
         mediaInfo,
       );
-
-    // --------------------------------------------------------
-    // SAVE
-    // --------------------------------------------------------
 
     await markPublished(
       item,
@@ -3285,10 +3329,6 @@ function json(
 // ------------------------------------------------------------
 // CRON
 // ------------------------------------------------------------
-//
-// Deno Deploy автоматически обнаруживает Deno.cron()
-// на верхнем уровне при production deployment.
-// ------------------------------------------------------------
 
 Deno.cron(
   "FAKTOR news pipeline",
@@ -3395,6 +3435,20 @@ Deno.serve(
 
           auto_pipeline:
             true,
+
+          max_connection: {
+            ca_loaded:
+              maxCaStatus.loaded,
+
+            root_ca:
+              maxCaStatus.root,
+
+            sub_ca:
+              maxCaStatus.sub,
+
+            error:
+              maxCaStatus.error,
+          },
 
           ...(await getState()),
         });
