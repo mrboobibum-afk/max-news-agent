@@ -12,6 +12,10 @@
  * - Webhook
  * - automatic old webhook cleanup
  * - chat_id -> Deno KV
+ *
+ * TARGET:
+ * - ФАКТОР
+ * - chat_id: -78887448255074
  * ============================================================
  */
 
@@ -40,13 +44,17 @@ const GEMINI_API_KEY =
 const QWEN_API_KEY =
   Deno.env.get("QWEN_API_KEY") || "";
 
+/*
+ * Webhook secret НЕ создаётся из токена бота.
+ *
+ * Если MAX_WEBHOOK_SECRET не задан,
+ * Webhook работает без дополнительного secret.
+ *
+ * Если хочешь использовать secret —
+ * добавь MAX_WEBHOOK_SECRET в Secrets Deno Deploy.
+ */
 const MAX_WEBHOOK_SECRET =
-  Deno.env.get("MAX_WEBHOOK_SECRET") ||
-  (
-    MAX_BOT_TOKEN
-      ? `factor-${MAX_BOT_TOKEN.slice(0, 24)}`
-      : ""
-  );
+  Deno.env.get("MAX_WEBHOOK_SECRET") || "";
 
 
 /*
@@ -80,10 +88,20 @@ const CRON_SCHEDULE =
   ) ||
   "*/15 * * * *";
 
+/*
+ * Канал ФАКТОР.
+ *
+ * Если TARGET_CHAT_ID задан в Deno Secrets —
+ * используется он.
+ *
+ * Если не задан —
+ * используется канал ФАКТОР.
+ */
 const TARGET_CHAT_ID =
   Deno.env.get(
     "TARGET_CHAT_ID"
-  ) || "";
+  ) ||
+  "-78887448255074";
 
 const MAX_NEWS_PER_RUN =
   numberEnv(
@@ -202,8 +220,6 @@ const MAX_WEBHOOK_UPDATE_TYPES = [
 /*
  * ============================================================
  * OLD N8N WEBHOOKS
- *
- * Эти адреса удаляются автоматически.
  * ============================================================
  */
 
@@ -240,9 +256,12 @@ let kv =
   null;
 
 try {
+
   kv =
     await Deno.openKv();
+
 } catch (error) {
+
   console.error(
     "Deno KV unavailable:",
     error?.message ||
@@ -260,6 +279,7 @@ try {
 function parseList(
   value
 ) {
+
   return [
     ...new Set(
       String(value || "")
@@ -277,6 +297,7 @@ function numberEnv(
   name,
   fallback
 ) {
+
   const value =
     Number(
       Deno.env.get(
@@ -295,6 +316,7 @@ function numberEnv(
 function sleep(
   ms
 ) {
+
   return new Promise(
     resolve =>
       setTimeout(
@@ -308,6 +330,7 @@ function sleep(
 function isRetryableStatus(
   status
 ) {
+
   return (
     status === 408 ||
     status === 409 ||
@@ -322,6 +345,7 @@ function retryDelay(
   attempt,
   retryAfterHeader
 ) {
+
   const retryAfter =
     Number(
       retryAfterHeader
@@ -333,6 +357,7 @@ function retryDelay(
     ) &&
     retryAfter >= 0
   ) {
+
     return Math.min(
       retryAfter * 1000,
       60000
@@ -356,6 +381,7 @@ function json(
   data,
   status = 200
 ) {
+
   return new Response(
     JSON.stringify(
       data,
@@ -390,7 +416,9 @@ function requireSecret(
   value,
   name
 ) {
+
   if (!value) {
+
     throw new Error(
       `Secret ${name} не настроен в Deno Deploy`
     );
@@ -401,8 +429,6 @@ function requireSecret(
 /*
  * ============================================================
  * MAX CA INITIALIZATION
- *
- * ЭТОТ БЛОК СОХРАНЁН ИЗ РАБОЧЕГО КОДА.
  * ============================================================
  */
 
@@ -433,6 +459,7 @@ async function initMaxHttpClient() {
       );
 
     if (!rootResponse.ok) {
+
       throw new Error(
         `MAX root CA download failed: HTTP ${rootResponse.status}`
       );
@@ -460,6 +487,7 @@ async function initMaxHttpClient() {
       );
 
     if (!subResponse.ok) {
+
       throw new Error(
         `MAX sub CA download failed: HTTP ${subResponse.status}`
       );
@@ -471,11 +499,6 @@ async function initMaxHttpClient() {
     maxCaStatus.sub =
       true;
 
-
-    /*
-     * КЛЮЧЕВОЙ МОМЕНТ:
-     * сертификаты передаются Deno HTTP client.
-     */
 
     maxHttpClient =
       Deno.createHttpClient({
@@ -525,6 +548,7 @@ async function initMaxHttpClient() {
 async function readJson(
   response
 ) {
+
   const text =
     await response.text();
 
@@ -631,12 +655,6 @@ async function fetchJson(
       };
 
 
-      /*
-       * НЕ УБИРАТЬ.
-       *
-       * MAX идёт через CA-aware Deno client.
-       */
-
       if (
         useMaxClient
       ) {
@@ -678,6 +696,7 @@ async function fetchJson(
       if (
         result.ok
       ) {
+
         return result;
       }
 
@@ -687,6 +706,7 @@ async function fetchJson(
           result.status
         )
       ) {
+
         return result;
       }
 
@@ -1075,10 +1095,6 @@ async function setupWebhook(
     );
 
 
-  /*
-   * Проверяем MAX TLS первым.
-   */
-
   const client =
     await initMaxHttpClient();
 
@@ -1105,17 +1121,9 @@ async function setupWebhook(
   }
 
 
-  /*
-   * Получаем текущие subscriptions.
-   */
-
   const before =
     await getSubscriptions();
 
-
-  /*
-   * Удаляем старые.
-   */
 
   const cleanup =
     await cleanupWebhooks(
@@ -1123,19 +1131,11 @@ async function setupWebhook(
     );
 
 
-  /*
-   * Создаём новый Deno webhook.
-   */
-
   const created =
     await createSubscription(
       webhookUrl
     );
 
-
-  /*
-   * Проверяем итог.
-   */
 
   const after =
     await getSubscriptions();
@@ -1218,6 +1218,7 @@ async function saveChatId(
     chatId ===
       null
   ) {
+
     return false;
   }
 
@@ -1271,6 +1272,7 @@ async function deleteChatId(
     chatId ===
       null
   ) {
+
     return false;
   }
 
@@ -1339,8 +1341,10 @@ async function saveWebhookLog(
     return false;
   }
 
+
   const id =
     `${Date.now()}-${crypto.randomUUID()}`;
+
 
   await kv.set(
     [
@@ -1348,6 +1352,7 @@ async function saveWebhookLog(
       "webhook_log",
       id
     ],
+
     {
       id,
 
@@ -1355,23 +1360,29 @@ async function saveWebhookLog(
         new Date().toISOString(),
 
       method:
-        meta.method || null,
+        meta.method ||
+        null,
 
       path:
-        meta.path || null,
+        meta.path ||
+        null,
 
       secret_valid:
-        meta.secret_valid ?? null,
+        meta.secret_valid ??
+        null,
 
       content_type:
-        meta.content_type || null,
+        meta.content_type ||
+        null,
 
       user_agent:
-        meta.user_agent || null,
+        meta.user_agent ||
+        null,
 
       payload
     }
   );
+
 
   return true;
 }
@@ -1385,7 +1396,9 @@ async function getWebhookLogs(
     return [];
   }
 
+
   const result = [];
+
 
   for await (
     const entry
@@ -1405,10 +1418,16 @@ async function getWebhookLogs(
     })
   ) {
 
-    if (entry?.value) {
-      result.push(entry.value);
+    if (
+      entry?.value
+    ) {
+
+      result.push(
+        entry.value
+      );
     }
   }
+
 
   return result;
 }
@@ -1446,6 +1465,7 @@ function extractChatId(
     value ===
       null
   ) {
+
     return null;
   }
 
@@ -1619,6 +1639,10 @@ function getUpdateSummary(
 /*
  * ============================================================
  * MAX UPDATES
+ *
+ * ОСТАВЛЯЕМ ТОЛЬКО ДЛЯ ДИАГНОСТИКИ.
+ *
+ * /chat-ids БОЛЬШЕ НЕ ИСПОЛЬЗУЕТ /updates.
  * ============================================================
  */
 
@@ -1867,6 +1891,7 @@ function flattenNews(
         feed.items
       )
     ) {
+
       continue;
     }
 
@@ -1957,6 +1982,7 @@ async function discoverGeminiModels() {
   if (
     !GEMINI_API_KEY
   ) {
+
     return [];
   }
 
@@ -1964,6 +1990,7 @@ async function discoverGeminiModels() {
   if (
     discoveredGeminiModels
   ) {
+
     return discoveredGeminiModels;
   }
 
@@ -2041,6 +2068,7 @@ async function discoverQwenModels() {
   if (
     !QWEN_API_KEY
   ) {
+
     return [];
   }
 
@@ -2048,6 +2076,7 @@ async function discoverQwenModels() {
   if (
     discoveredQwenModels
   ) {
+
     return discoveredQwenModels;
   }
 
@@ -2768,6 +2797,9 @@ async function runPipeline() {
     target_chat_configured:
       !!TARGET_CHAT_ID,
 
+    target_chat_id:
+      TARGET_CHAT_ID,
+
     rss_total:
       news.length,
 
@@ -2916,6 +2948,9 @@ Deno.serve(
           target_chat_configured:
             !!TARGET_CHAT_ID,
 
+          target_chat_id:
+            TARGET_CHAT_ID,
+
           webhook:
             getWebhookUrl(
               request.url
@@ -3012,6 +3047,9 @@ Deno.serve(
           tls:
             maxCaStatus,
 
+          target_chat_id:
+            TARGET_CHAT_ID,
+
           checks: {
 
             max: {
@@ -3076,9 +3114,7 @@ Deno.serve(
               null,
 
             response:
-              test.ok
-                ? test.data
-                : test.data
+              test.data
           };
         }
 
@@ -3414,6 +3450,8 @@ Deno.serve(
       /*
        * ======================================================
        * /updates
+       *
+       * ТОЛЬКО ДИАГНОСТИКА.
        * ======================================================
        */
 
@@ -3516,6 +3554,11 @@ Deno.serve(
       /*
        * ======================================================
        * /chat-ids
+       *
+       * ВАЖНО:
+       * БОЛЬШЕ НЕ ВЫЗЫВАЕТ /updates.
+       *
+       * Показывает данные из Deno KV.
        * ======================================================
        */
 
@@ -3526,50 +3569,19 @@ Deno.serve(
           "GET"
       ) {
 
-        const result =
-          await getUpdates();
-
-
-        const updates =
-          Array.isArray(
-            result.data?.updates
-          )
-            ? result.data
-                .updates
-            : [];
-
-
-        const saved = [];
-
-
-        for (
-          const update
-          of updates
-        ) {
-
-          const processed =
-            await processWebhookUpdate(
-              update
-            );
-
-
-          if (
-            processed.chat_id
-          ) {
-
-            saved.push(
-              processed
-            );
-          }
-        }
+        const stored =
+          await getStoredChatIds();
 
 
         const chatIds =
           [
             ...new Set(
-              updates
+              stored
                 .map(
-                  extractChatId
+                  item =>
+                    String(
+                      item.chat_id
+                    )
                 )
                 .filter(Boolean)
             )
@@ -3579,7 +3591,7 @@ Deno.serve(
         return json({
 
           ok:
-            result.ok,
+            true,
 
           provider:
             "MAX",
@@ -3587,21 +3599,20 @@ Deno.serve(
           endpoint:
             "/chat-ids",
 
-          http_status:
-            result.status,
+          source:
+            "Deno KV",
 
           chat_ids:
             chatIds,
 
-          updates:
-            getUpdateSummary(
-              result.data
-            ),
+          stored:
+            stored,
 
-          saved,
+          target_chat_id:
+            TARGET_CHAT_ID,
 
-          raw:
-            result.data
+          note:
+            "MAX /updates здесь не используется. Chat ID сохраняются через Webhook."
         });
       }
 
@@ -3635,7 +3646,10 @@ Deno.serve(
             stored.length,
 
           chat_ids:
-            stored
+            stored,
+
+          target_chat_id:
+            TARGET_CHAT_ID
         });
       }
 
@@ -3661,10 +3675,12 @@ Deno.serve(
             "20"
           );
 
+
         const logs =
           await getWebhookLogs(
             limit
           );
+
 
         return json({
 
@@ -3698,7 +3714,8 @@ Deno.serve(
         const chatId =
           url.searchParams.get(
             "chat_id"
-          );
+          ) ||
+          TARGET_CHAT_ID;
 
 
         if (!chatId) {
@@ -3771,34 +3788,11 @@ Deno.serve(
           "GET"
       ) {
 
-        let chatId =
+        const chatId =
           url.searchParams.get(
             "chat_id"
-          );
-
-
-        /*
-         * Если ID не передан —
-         * берём первый сохранённый.
-         */
-
-        if (!chatId) {
-
-          const stored =
-            await getStoredChatIds();
-
-
-          if (
-            stored.length
-          ) {
-
-            chatId =
-              String(
-                stored[0]
-                  .chat_id
-              );
-          }
-        }
+          ) ||
+          TARGET_CHAT_ID;
 
 
         if (!chatId) {
@@ -3810,10 +3804,7 @@ Deno.serve(
                 false,
 
               error:
-                "Chat ID не найден.",
-
-              next_step:
-                "Сначала /setup-webhook, затем добавьте/запустите бота в MAX-чате."
+                "Chat ID не найден."
 
             },
 
@@ -3918,7 +3909,7 @@ Deno.serve(
 
         /*
          * Проверяем secret только если
-         * он задан.
+         * он задан в Deno Secrets.
          */
 
         if (
@@ -3984,8 +3975,7 @@ Deno.serve(
 
 
         /*
-         * Сохраняем сырой payload MAX для диагностики.
-         * Секрет в лог не записывается.
+         * Сохраняем сырой payload MAX.
          */
 
         await saveWebhookLog(
@@ -4013,8 +4003,11 @@ Deno.serve(
 
 
         /*
-         * Поддерживаем как один Update,
-         * так и массив updates.
+         * Поддерживаем:
+         *
+         * 1. один Update
+         * 2. { updates: [...] }
+         * 3. массив Updates
          */
 
         const updates =
@@ -4069,7 +4062,7 @@ Deno.serve(
 
 
         /*
-         * MAX должен получить 200.
+         * MAX должен получить HTTP 200.
          */
 
         return json({
@@ -4083,7 +4076,10 @@ Deno.serve(
           count:
             updates.length,
 
-          processed
+          processed,
+
+          target_chat_id:
+            TARGET_CHAT_ID
         });
       }
 
