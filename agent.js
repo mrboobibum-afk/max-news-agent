@@ -1,2937 +1,2236 @@
-const MAX_API='https://platform-api2.max.ru';
-const GEMINI_BASE='https://generativelanguage.googleapis.com/v1beta';
-const QWEN_API='https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions';
+// ============================================================
+// MAX NEWS AGENT — ФАКТОР
+// Deno Deploy
+// ============================================================
+//
+// ЛОГИКА:
+//
+// 1. Cron запускается каждые 5 минут.
+// 2. Каждые 5 минут сканируются RSS.
+// 3. Срочная новость может выйти сразу, если прошло >= 5 минут
+//    с предыдущей срочной публикации.
+// 4. Обычная новость выходит не чаще одного раза в 30 минут.
+// 5. Повторные новости блокируются через Deno KV.
+// 6. Повторяющиеся формулировки блокируются отдельно.
+// 7. Google News URL не публикуется как источник.
+// 8. Сначала открывается сама статья СМИ.
+// 9. Из статьи ищется:
+//       video -> image -> text
+// 10. Видео/фото берётся именно из страницы СМИ.
+// 11. HTML публикуется как HTML, поэтому <b> не будет виден
+//     обычным текстом.
+// 12. /pipeline-state существует.
+// 13. /status существует.
+// 14. /publish-test существует.
+// ============================================================
 
-const MAX_BOT_TOKEN=Deno.env.get('MAX_BOT_TOKEN')||'';
-const GEMINI_API_KEY=Deno.env.get('GEMINI_API_KEY')||'';
-const QWEN_API_KEY=Deno.env.get('QWEN_API_KEY')||'';
-const TARGET_CHAT_ID=Deno.env.get('TARGET_CHAT_ID')||'';
+const MAX_API = "https://platform-api2.max.ru";
 
-const AUTO_PIPELINE=(Deno.env.get('AUTO_PIPELINE')||'false').toLowerCase()==='true';
-const CRON_SCHEDULE=Deno.env.get('CRON_SCHEDULE')||'*/5 * * * *';
+const MAX_BOT_TOKEN = Deno.env.get("MAX_BOT_TOKEN") ?? "";
+const TARGET_CHAT_ID = Deno.env.get("TARGET_CHAT_ID") ?? "";
 
-const NORMAL_PUBLISH_INTERVAL_MS=Number(
-  Deno.env.get('NORMAL_PUBLISH_INTERVAL_MS')||1800000
-);
+const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? "";
+const QWEN_API_KEY = Deno.env.get("QWEN_API_KEY") ?? "";
 
-const URGENT_MIN_GAP_MS=Number(
-  Deno.env.get('URGENT_MIN_GAP_MS')||300000
-);
+const AUTO_PIPELINE =
+  (Deno.env.get("AUTO_PIPELINE") ?? "true").toLowerCase() === "true";
 
-const NEWS_HISTORY_TTL_MS=Number(
-  Deno.env.get('NEWS_HISTORY_TTL_MS')||2592000000
-);
+const CRON_SCHEDULE =
+  Deno.env.get("CRON_SCHEDULE") ?? "*/5 * * * *";
 
-const DEDUP_SIMILARITY=Number(
-  Deno.env.get('DEDUP_SIMILARITY')||0.58
-);
+// ------------------------------------------------------------
+// НАСТРОЙКИ
+// ------------------------------------------------------------
 
-const CANDIDATES_PER_SCAN=Number(
-  Deno.env.get('CANDIDATES_PER_SCAN')||15
-);
+const URGENT_INTERVAL_MS = 5 * 60 * 1000;
+const REGULAR_INTERVAL_MS = 30 * 60 * 1000;
 
-const MAX_VIDEO_MB=Number(
-  Deno.env.get('MAX_VIDEO_MB')||60
-);
+const HISTORY_TTL_MS = 30 * 24 * 60 * 60 * 1000;
 
-const MAX_IMAGE_MB=Number(
-  Deno.env.get('MAX_IMAGE_MB')||15
-);
+const MAX_VIDEO_BYTES =
+  Number(Deno.env.get("MAX_VIDEO_MB") ?? "60") * 1024 * 1024;
 
-const API_TIMEOUT_MS=Number(
-  Deno.env.get('API_TIMEOUT_MS')||20000
-);
+const MAX_IMAGE_BYTES =
+  Number(Deno.env.get("MAX_IMAGE_MB") ?? "15") * 1024 * 1024;
 
-const RETRIES=Number(
-  Deno.env.get('API_RETRIES')||2
-);
+const RSS_LIMIT_PER_FEED = 30;
+const MAX_RSS_ITEMS = 150;
 
-const MAX_WEBHOOK_SECRET=
-  Deno.env.get('MAX_WEBHOOK_SECRET')||
-  (
-    MAX_BOT_TOKEN
-      ? `factor-${MAX_BOT_TOKEN.slice(0,24)}`
-      : ''
-  );
+const USER_AGENT =
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/140 Safari/537.36";
 
-const RSS_FEEDS=[
-  'https://news.google.com/rss/search?q=мир+OR+международные+события&hl=ru&gl=RU&ceid=RU:ru',
-  'https://news.google.com/rss/search?q=политика+OR+право&hl=ru&gl=RU&ceid=RU:ru',
-  'https://news.google.com/rss/search?q=финансы+OR+экономика+OR+бизнес&hl=ru&gl=RU&ceid=RU:ru',
-  'https://news.google.com/rss/search?q=происшествия+OR+катастрофы+OR+криминал&hl=ru&gl=RU&ceid=RU:ru',
-  'https://news.google.com/rss/search?q=технологии+OR+промышленность+OR+авто&hl=ru&gl=RU&ceid=RU:ru'
+// ------------------------------------------------------------
+// RSS
+// ------------------------------------------------------------
+
+const RSS_FEEDS = [
+  {
+    category: "МИР",
+    emoji: "🌍",
+    url:
+      "https://news.google.com/rss/search?q=world+OR+мир+OR+международные+события&hl=ru&gl=RU&ceid=RU:ru",
+  },
+  {
+    category: "ПОЛИТИКА",
+    emoji: "🏛️",
+    url:
+      "https://news.google.com/rss/search?q=политика+OR+правительство+OR+президент&hl=ru&gl=RU&ceid=RU:ru",
+  },
+  {
+    category: "ЭКОНОМИКА",
+    emoji: "📈",
+    url:
+      "https://news.google.com/rss/search?q=экономика+OR+инфляция+OR+ставка+OR+рынки&hl=ru&gl=RU&ceid=RU:ru",
+  },
+  {
+    category: "БИЗНЕС",
+    emoji: "💼",
+    url:
+      "https://news.google.com/rss/search?q=бизнес+OR+компания+OR+корпорация+OR+инвестиции&hl=ru&gl=RU&ceid=RU:ru",
+  },
+  {
+    category: "ФИНАНСЫ",
+    emoji: "💰",
+    url:
+      "https://news.google.com/rss/search?q=финансы+OR+банки+OR+биржа+OR+рубль+OR+доллар&hl=ru&gl=RU&ceid=RU:ru",
+  },
+  {
+    category: "ПРАВО",
+    emoji: "⚖️",
+    url:
+      "https://news.google.com/rss/search?q=закон+OR+суд+OR+право+OR+законопроект&hl=ru&gl=RU&ceid=RU:ru",
+  },
+  {
+    category: "ПРОИСШЕСТВИЯ",
+    emoji: "🚨",
+    url:
+      "https://news.google.com/rss/search?q=происшествие+OR+ДТП+OR+пожар+OR+авария+OR+катастрофа&hl=ru&gl=RU&ceid=RU:ru",
+  },
+  {
+    category: "ТЕХНОЛОГИИ",
+    emoji: "💻",
+    url:
+      "https://news.google.com/rss/search?q=технологии+OR+ИИ+OR+искусственный+интеллект+OR+кибербезопасность&hl=ru&gl=RU&ceid=RU:ru",
+  },
+  {
+    category: "ПРОМЫШЛЕННОСТЬ",
+    emoji: "🏭",
+    url:
+      "https://news.google.com/rss/search?q=промышленность+OR+производство+OR+энергетика&hl=ru&gl=RU&ceid=RU:ru",
+  },
+  {
+    category: "АВТО",
+    emoji: "🚗",
+    url:
+      "https://news.google.com/rss/search?q=авто+OR+автомобили+OR+транспорт&hl=ru&gl=RU&ceid=RU:ru",
+  },
 ];
 
-const CATEGORY_EMOJI={
-  МИР:'🌍',
-  ПОЛИТИКА:'🏛️',
-  ЭКОНОМИКА:'📈',
-  ФИНАНСЫ:'💰',
-  БИЗНЕС:'💼',
-  ПРАВО:'⚖️',
-  ПРОИСШЕСТВИЯ:'🚨',
-  ТЕХНОЛОГИИ:'💻',
-  ОБЩЕСТВО:'👥'
+// ------------------------------------------------------------
+// DENO KV
+// ------------------------------------------------------------
+
+let kv: Deno.Kv | null = null;
+
+async function getKV(): Promise<Deno.Kv> {
+  if (!kv) {
+    kv = await Deno.openKv();
+  }
+  return kv;
+}
+
+// ------------------------------------------------------------
+// СОСТОЯНИЕ
+// ------------------------------------------------------------
+
+type PipelineState = {
+  running: boolean;
+  cron: string;
+
+  regular: {
+    interval_minutes: number;
+    last: number | null;
+    can_publish: boolean;
+  };
+
+  urgent: {
+    interval_minutes: number;
+    last: number | null;
+    can_publish: boolean;
+  };
+
+  media: {
+    max_video_mb: number;
+    max_image_mb: number;
+    priority: string;
+  };
+
+  dedup: {
+    persistent: boolean;
+    ttl_days: number;
+    max_history_checked: number;
+  };
+
+  last_pipeline: unknown;
 };
 
-const STOP=new Set(
-  'это этот эта эти также который которая которые после перед между через более менее будет были было есть при для как что его ее их они она ему из на в во и или но а по с со к у за от до не ни же ли да нет год года году сегодня вчера'
-  .split(' ')
-);
+async function getState(): Promise<PipelineState> {
+  const db = await getKV();
 
-const recentPublished=new Map();
+  const regular =
+    (await db.get<number>(["factor", "state", "last_regular"])).value ?? null;
 
-let kv=null;
-let maxClient=null;
+  const urgent =
+    (await db.get<number>(["factor", "state", "last_urgent"])).value ?? null;
 
-let maxTls={
-  loaded:false,
-  root:false,
-  sub:false,
-  error:null
-};
+  const lastPipeline =
+    (await db.get<any>(["factor", "state", "last_pipeline"])).value ?? null;
 
-let lastPipeline=null;
-let running=false;
+  const running =
+    (await db.get<boolean>(["factor", "state", "running"])).value ?? false;
 
-try{
-  kv=await Deno.openKv();
-}catch(e){
-  console.error('[KV]',e?.message||e);
+  const now = Date.now();
+
+  return {
+    running,
+    cron: CRON_SCHEDULE,
+
+    regular: {
+      interval_minutes: 30,
+      last: regular,
+      can_publish:
+        regular === null || now - regular >= REGULAR_INTERVAL_MS,
+    },
+
+    urgent: {
+      interval_minutes: 5,
+      last: urgent,
+      can_publish:
+        urgent === null || now - urgent >= URGENT_INTERVAL_MS,
+    },
+
+    media: {
+      max_video_mb: MAX_VIDEO_BYTES / 1024 / 1024,
+      max_image_mb: MAX_IMAGE_BYTES / 1024 / 1024,
+      priority: "video -> image -> text",
+    },
+
+    dedup: {
+      persistent: true,
+      ttl_days: 30,
+      max_history_checked: 300,
+    },
+
+    last_pipeline: lastPipeline,
+  };
 }
 
-function json(data,status=200){
-  return new Response(
-    JSON.stringify(data,null,2),
-    {
-      status,
-      headers:{
-        'content-type':'application/json; charset=utf-8',
-        'cache-control':'no-store',
-        'access-control-allow-origin':'*',
-        'access-control-allow-methods':'GET,POST,OPTIONS',
-        'access-control-allow-headers':
-          'Content-Type,Authorization,X-Max-Bot-Api-Secret'
-      }
-    }
-  );
-}
+// ------------------------------------------------------------
+// TEXT UTILS
+// ------------------------------------------------------------
 
-function sleep(ms){
-  return new Promise(r=>setTimeout(r,ms));
-}
-
-function esc(s){
-  return String(s||'')
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;');
-}
-
-function cleanText(s){
-  return String(s||'')
-    .replace(/<[^>]*>/g,' ')
-    .replace(/&nbsp;/gi,' ')
-    .replace(/&amp;/gi,'&')
-    .replace(/&quot;/gi,'"')
-    .replace(/&#39;/gi,"'")
-    .replace(/\s+/g,' ')
+function cleanText(value: unknown): string {
+  return String(value ?? "")
+    .replace(/<!\[CDATA\[/gi, "")
+    .replace(/\]\]>/gi, "")
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .replace(/\s+/g, " ")
     .trim();
 }
 
-function norm(s){
-  return cleanText(s)
+function stripHtml(value: string): string {
+  return cleanText(value)
+    .replace(/\*\*/g, "")
+    .replace(/__+/g, "")
+    .trim();
+}
+
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function normalizeForHash(value: string): string {
+  return stripHtml(value)
     .toLowerCase()
-    .replace(/ё/g,'е')
-    .replace(/https?:\/\/\S+/g,' ')
-    .replace(/[^a-zа-я0-9]+/gi,' ')
-    .replace(/\s+/g,' ')
+    .replace(/ё/g, "е")
+    .replace(/[«»"“”'`]/g, "")
+    .replace(/[^a-zа-я0-9]+/gi, " ")
+    .replace(/\s+/g, " ")
     .trim();
 }
 
-function tokens(s){
-  return new Set(
-    norm(s)
-      .split(' ')
-      .map(x=>{
-        if(x.length<=4)return x;
+async function sha256(value: string): Promise<string> {
+  const data = new TextEncoder().encode(value);
 
-        return x.replace(
-          /(иями|ами|ями|ого|ему|ому|ыми|ими|ее|ие|ые|ое|ей|ий|ый|ой|ем|им|ым|ом|ам|ям|ах|ях|ов|ев|ы|и|а|я|е|о|у|ю)$/,
-          ''
-        );
-      })
-      .filter(
-        x=>x.length>=4&&!STOP.has(x)
-      )
+  const hash = await crypto.subtle.digest("SHA-256", data);
+
+  return [...new Uint8Array(hash)]
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+function truncate(value: string, max: number): string {
+  const s = value.trim();
+
+  if (s.length <= max) return s;
+
+  return s.slice(0, max - 1).trimEnd() + "…";
+}
+
+// ------------------------------------------------------------
+// RSS PARSER
+// ------------------------------------------------------------
+
+type NewsItem = {
+  title: string;
+  link: string;
+  description: string;
+  pubDate: string;
+  source: string;
+  category: string;
+  categoryEmoji: string;
+  sourceFeed: string;
+};
+
+function extractXmlTag(xml: string, tag: string): string {
+  const re = new RegExp(
+    `<${tag}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/${tag}>`,
+    "i",
   );
+
+  return re.exec(xml)?.[1] ?? "";
 }
 
-function similarity(a,b){
-  if(!a.size||!b.size)return 0;
-
-  let n=0;
-
-  for(const x of a){
-    if(b.has(x))n++;
-  }
-
-  return n/
-    new Set([
-      ...a,
-      ...b
-    ]).size;
-}
-
-function fingerprint(item){
-  return `${norm(item.title)}|${norm(item.description).slice(0,700)}`
-    .slice(0,1800);
-}
-
-function compact(item){
-  return [
-    ...tokens(
-      `${item.title} ${item.description||''}`
-    )
-  ]
-    .sort()
-    .join(' ');
-}
-
-function sourceHost(url){
-  try{
-    return new URL(url)
-      .hostname
-      .replace(/^www\./,'');
-  }catch{
-    return '';
-  }
-}
-
-function isGoogleHost(url){
-  const h=sourceHost(url);
-
-  return (
-    /(^|\.)news\.google\./i.test(h)||
-    /(^|\.)google\.(com|ru|co\.)/i.test(h)||
-    /googleusercontent\.com$/i.test(h)
+function extractAttribute(
+  tagText: string,
+  attribute: string,
+): string {
+  const re = new RegExp(
+    `${attribute}\\s*=\\s*["']([^"']+)["']`,
+    "i",
   );
+
+  return re.exec(tagText)?.[1] ?? "";
 }
 
-function absoluteUrl(base,u){
-  try{
-    return new URL(u,base).toString();
-  }catch{
-    return '';
-  }
-}
+function parseRSS(xml: string, feed: typeof RSS_FEEDS[number]): NewsItem[] {
+  const items: NewsItem[] = [];
 
-async function initMaxClient(){
+  const itemMatches = xml.match(/<item\b[\s\S]*?<\/item>/gi) ?? [];
 
-  if(maxClient)return maxClient;
-  if(maxTls.error)return null;
+  for (const itemXml of itemMatches.slice(0, RSS_LIMIT_PER_FEED)) {
+    const title = cleanText(extractXmlTag(itemXml, "title"));
 
-  try{
+    const link =
+      cleanText(extractXmlTag(itemXml, "link")) ||
+      cleanText(extractXmlTag(itemXml, "guid"));
 
-    const a=await fetch(
-      'https://gu-st.ru/content/lending/russian_trusted_root_ca_pem.crt',
-      {
-        signal:
-          AbortSignal.timeout(10000)
-      }
+    const description = cleanText(
+      extractXmlTag(itemXml, "description"),
     );
 
-    if(!a.ok){
-      throw Error(
-        `root CA HTTP ${a.status}`
-      );
-    }
-
-    const b=await fetch(
-      'https://gu-st.ru/content/lending/russian_trusted_sub_ca_pem.crt',
-      {
-        signal:
-          AbortSignal.timeout(10000)
-      }
+    const pubDate = cleanText(
+      extractXmlTag(itemXml, "pubDate"),
     );
 
-    if(!b.ok){
-      throw Error(
-        `sub CA HTTP ${b.status}`
-      );
-    }
+    const sourceBlock = extractXmlTag(itemXml, "source");
 
-    maxTls.root=true;
-    maxTls.sub=true;
+    const source =
+      cleanText(sourceBlock) ||
+      feed.category;
 
-    maxClient=Deno.createHttpClient({
-      caCerts:[
-        await a.text(),
-        await b.text()
-      ]
+    if (!title || !link) continue;
+
+    items.push({
+      title,
+      link,
+      description,
+      pubDate,
+      source,
+      category: feed.category,
+      categoryEmoji: feed.emoji,
+      sourceFeed: feed.url,
+    });
+  }
+
+  return items;
+}
+
+async function loadRSS(
+  feed: typeof RSS_FEEDS[number],
+): Promise<NewsItem[]> {
+  try {
+    const response = await fetch(feed.url, {
+      headers: {
+        "User-Agent": USER_AGENT,
+        "Accept": "application/rss+xml, application/xml, text/xml",
+      },
+      signal: AbortSignal.timeout(12000),
     });
 
-    maxTls.loaded=true;
+    if (!response.ok) {
+      console.error(
+        `RSS ${feed.category}: HTTP ${response.status}`,
+      );
 
-    return maxClient;
+      return [];
+    }
 
-  }catch(e){
+    const xml = await response.text();
 
-    maxTls.error=
-      e?.message||String(e);
+    return parseRSS(xml, feed);
+  } catch (error) {
+    console.error(
+      `RSS ${feed.category}:`,
+      error instanceof Error ? error.message : String(error),
+    );
 
+    return [];
+  }
+}
+
+// ------------------------------------------------------------
+// GOOGLE NEWS RESOLVER
+// ------------------------------------------------------------
+
+function isGoogleNewsUrl(url: string): boolean {
+  try {
+    const host = new URL(url).hostname.toLowerCase();
+
+    return (
+      host === "news.google.com" ||
+      host.endsWith(".news.google.com")
+    );
+  } catch {
+    return false;
+  }
+}
+
+async function resolveArticleUrl(
+  originalUrl: string,
+): Promise<string> {
+  if (!isGoogleNewsUrl(originalUrl)) {
+    return originalUrl;
+  }
+
+  try {
+    const response = await fetch(originalUrl, {
+      redirect: "follow",
+      headers: {
+        "User-Agent": USER_AGENT,
+        "Accept":
+          "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      },
+      signal: AbortSignal.timeout(15000),
+    });
+
+    const finalUrl = response.url;
+
+    if (
+      finalUrl &&
+      !isGoogleNewsUrl(finalUrl) &&
+      /^https?:\/\//i.test(finalUrl)
+    ) {
+      return finalUrl;
+    }
+
+    const html = await response.text();
+
+    const canonical =
+      html.match(
+        /<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i,
+      )?.[1];
+
+    if (
+      canonical &&
+      !isGoogleNewsUrl(canonical) &&
+      /^https?:\/\//i.test(canonical)
+    ) {
+      return canonical;
+    }
+
+    const ogUrl =
+      html.match(
+        /<meta[^>]+property=["']og:url["'][^>]+content=["']([^"']+)["']/i,
+      )?.[1];
+
+    if (
+      ogUrl &&
+      !isGoogleNewsUrl(ogUrl) &&
+      /^https?:\/\//i.test(ogUrl)
+    ) {
+      return ogUrl;
+    }
+  } catch (error) {
+    console.error(
+      "Google News resolve:",
+      error instanceof Error ? error.message : String(error),
+    );
+  }
+
+  return originalUrl;
+}
+
+// ------------------------------------------------------------
+// ARTICLE MEDIA
+// ------------------------------------------------------------
+
+type ArticleMedia = {
+  articleUrl: string;
+  imageUrl: string | null;
+  videoUrl: string | null;
+  sourceName: string | null;
+};
+
+function absoluteUrl(
+  value: string,
+  baseUrl: string,
+): string | null {
+  try {
+    return new URL(value, baseUrl).href;
+  } catch {
     return null;
   }
 }
 
-function retryable(s){
-  return (
-    s===408||
-    s===409||
-    s===425||
-    s===429||
-    s>=500
-  );
-}
-
-async function request(
-  url,
-  options={},
-  cfg={}
-){
-
-  let last={
-    ok:false,
-    status:599,
-    data:{
-      error:'request failed'
-    }
-  };
-
-  const retries=
-    cfg.retries??RETRIES;
-
-  for(
-    let i=0;
-    i<=retries;
-    i++
-  ){
-
-    const controller=
-      new AbortController();
-
-    const timer=setTimeout(
-      ()=>controller.abort(),
-      cfg.timeoutMs??API_TIMEOUT_MS
-    );
-
-    try{
-
-      const o={
-        ...options,
-        signal:controller.signal
-      };
-
-      if(cfg.max){
-
-        const client=
-          await initMaxClient();
-
-        if(client){
-          o.client=client;
-        }
-      }
-
-      const r=await fetch(
-        url,
-        o
-      );
-
-      const text=
-        await r.text();
-
-      let data;
-
-      try{
-        data=
-          text
-            ? JSON.parse(text)
-            : null;
-      }catch{
-        data={
-          raw:text
-        };
-      }
-
-      last={
-        ok:r.ok,
-        status:r.status,
-        statusText:r.statusText,
-        data
-      };
-
-      if(
-        r.ok||
-        !retryable(r.status)||
-        i===retries
-      ){
-        return last;
-      }
-
-      await sleep(
-        Math.min(
-          8000,
-          1000*2**i
-        )
-      );
-
-    }catch(e){
-
-      last={
-        ok:false,
-        status:
-          e?.name==='AbortError'
-            ? 504
-            : 599,
-        data:{
-          error:
-            e?.message||
-            String(e)
-        }
-      };
-
-      if(i<retries){
-        await sleep(
-          Math.min(
-            8000,
-            1000*2**i
-          )
-        );
-      }
-
-    }finally{
-      clearTimeout(timer);
-    }
-  }
-
-  return last;
-}
-
-async function maxRequest(
-  path,
-  options={}
-){
-
-  if(!MAX_BOT_TOKEN){
-    throw Error(
-      'MAX_BOT_TOKEN не задан'
-    );
-  }
-
-  return request(
-    `${MAX_API}${
-      path.startsWith('/')
-        ? path
-        : '/'+path
-    }`,
-    {
-      ...options,
-      headers:{
-        Authorization:
-          MAX_BOT_TOKEN.trim(),
-        Accept:
-          'application/json',
-        ...(options.body
-          ? {
-              'content-type':
-                'application/json'
-            }
-          : {}),
-        ...(options.headers||{})
-      }
-    },
-    {
-      max:true
-    }
-  );
-}
-
-/* ================= RSS ================= */
-
-function tag(xml,tagName){
-
-  const m=String(xml).match(
+function findMeta(
+  html: string,
+  property: string,
+): string | null {
+  const patterns = [
     new RegExp(
-      `<${tagName}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/${tagName}>`,
-      'i'
-    )
-  );
+      `<meta[^>]+property=["']${property}["'][^>]+content=["']([^"']+)["']`,
+      "i",
+    ),
+    new RegExp(
+      `<meta[^>]+content=["']([^"']+)["'][^>]+property=["']${property}["']`,
+      "i",
+    ),
+    new RegExp(
+      `<meta[^>]+name=["']${property}["'][^>]+content=["']([^"']+)["']`,
+      "i",
+    ),
+  ];
 
-  return m
-    ? cleanText(
-        m[1]
-          .replace(
-            /<!\[CDATA\[|\]\]>/g,
-            ''
-          )
-      )
-    : '';
-}
+  for (const pattern of patterns) {
+    const match = html.match(pattern);
 
-function parseRSS(xml,feed){
-
-  const out=[];
-
-  for(
-    const raw
-    of String(xml)
-      .match(
-        /<item[\s\S]*?<\/item>/gi
-      )||[]
-  ){
-
-    const title=
-      tag(raw,'title');
-
-    if(!title)continue;
-
-    out.push({
-      title,
-      link:tag(raw,'link'),
-      description:tag(raw,'description'),
-      pubDate:tag(raw,'pubDate'),
-      source:tag(raw,'source'),
-      source_feed:feed
-    });
-  }
-
-  return out;
-}
-
-async function fetchRSS(){
-
-  return Promise.all(
-    RSS_FEEDS.map(
-      async feed=>{
-
-        const r=
-          await request(
-            feed,
-            {
-              headers:{
-                'user-agent':
-                  'FACTOR-News-Agent/4.0'
-              }
-            },
-            {
-              timeoutMs:15000,
-              retries:1
-            }
-          );
-
-        if(!r.ok){
-          return{
-            feed,
-            ok:false,
-            error:r.data
-          };
-        }
-
-        const xml=
-          r.data?.raw||'';
-
-        const items=
-          parseRSS(
-            xml,
-            feed
-          );
-
-        return{
-          feed,
-          ok:true,
-          count:items.length,
-          items:items.slice(0,15)
-        };
-      }
-    )
-  );
-}
-
-function flatten(feeds){
-
-  return feeds
-    .flatMap(
-      x=>x.ok?x.items:[]
-    )
-    .sort(
-      (a,b)=>
-        (Date.parse(b.pubDate)||0)-
-        (Date.parse(a.pubDate)||0)
-    );
-}
-
-/* ================= AI ================= */
-
-function extractGemini(data){
-
-  return data
-    ?.candidates?.[0]
-    ?.content?.parts
-    ?.map(
-      x=>x?.text||''
-    )
-    .join('')
-    .trim()||'';
-}
-
-function extractQwen(data){
-
-  return (
-    data?.choices?.[0]
-      ?.message?.content||
-    data?.choices?.[0]
-      ?.text||
-    ''
-  );
-}
-
-async function gemini(
-  model,
-  prompt
-){
-
-  return request(
-    `${GEMINI_BASE}/models/${
-      encodeURIComponent(model)
-    }:generateContent?key=${
-      encodeURIComponent(
-        GEMINI_API_KEY
-      )
-    }`,
-    {
-      method:'POST',
-      headers:{
-        'content-type':
-          'application/json'
-      },
-      body:JSON.stringify({
-        contents:[
-          {
-            parts:[
-              {
-                text:prompt
-              }
-            ]
-          }
-        ],
-        generationConfig:{
-          temperature:0.15,
-          maxOutputTokens:1000
-        }
-      })
-    },
-    {
-      retries:1
+    if (match?.[1]) {
+      return match[1].trim();
     }
-  );
-}
-
-async function qwen(
-  model,
-  prompt
-){
-
-  return request(
-    QWEN_API,
-    {
-      method:'POST',
-      headers:{
-        authorization:
-          `Bearer ${QWEN_API_KEY}`,
-        'content-type':
-          'application/json'
-      },
-      body:JSON.stringify({
-        model,
-        messages:[
-          {
-            role:'system',
-            content:
-              'Ты редактор новостей. Только подтвержденные факты, без повторов и выдумок.'
-          },
-          {
-            role:'user',
-            content:prompt
-          }
-        ],
-        stream:false
-      })
-    },
-    {
-      retries:1
-    }
-  );
-}
-
-async function ai(prompt){
-
-  const attempts=[];
-
-  for(
-    const model
-    of [
-      'gemini-2.5-flash',
-      'gemini-2.0-flash'
-    ]
-  ){
-
-    if(!GEMINI_API_KEY)break;
-
-    const r=
-      await gemini(
-        model,
-        prompt
-      );
-
-    const text=
-      extractGemini(
-        r.data
-      );
-
-    attempts.push({
-      provider:
-        'Google Gemini',
-      model,
-      http_status:
-        r.status,
-      ok:r.ok
-    });
-
-    if(
-      r.ok&&
-      text
-    ){
-      return{
-        ok:true,
-        provider:
-          'Google Gemini',
-        model,
-        text,
-        attempts
-      };
-    }
-  }
-
-  for(
-    const model
-    of [
-      'qwen-plus',
-      'qwen-turbo'
-    ]
-  ){
-
-    if(!QWEN_API_KEY)break;
-
-    const r=
-      await qwen(
-        model,
-        prompt
-      );
-
-    const text=
-      extractQwen(
-        r.data
-      );
-
-    attempts.push({
-      provider:
-        'Alibaba Qwen',
-      model,
-      http_status:
-        r.status,
-      ok:r.ok
-    });
-
-    if(
-      r.ok&&
-      text
-    ){
-      return{
-        ok:true,
-        provider:
-          'Alibaba Qwen',
-        model,
-        text,
-        attempts
-      };
-    }
-  }
-
-  return{
-    ok:false,
-    attempts,
-    error:
-      'AI не ответил'
-  };
-}
-
-function parseJSON(text){
-
-  const s=String(text||'')
-    .replace(
-      /```json/gi,
-      ''
-    )
-    .replace(
-      /```/g,
-      ''
-    )
-    .trim();
-
-  try{
-    return JSON.parse(s);
-  }catch{}
-
-  const a=s.indexOf('{');
-  const b=s.lastIndexOf('}');
-
-  if(a>=0&&b>a){
-
-    try{
-      return JSON.parse(
-        s.slice(a,b+1)
-      );
-    }catch{}
   }
 
   return null;
 }
 
-function category(item){
+function findVideoFromHtml(
+  html: string,
+  baseUrl: string,
+): string | null {
+  const candidates: string[] = [];
 
-  const f=
-    (item.source_feed||'')
-      .toLowerCase();
+  const ogVideo = findMeta(html, "og:video");
 
-  if(
-    f.includes('технолог')||
-    f.includes('промышлен')||
-    f.includes('авто')
-  ){
-    return 'ТЕХНОЛОГИИ';
+  if (ogVideo) candidates.push(ogVideo);
+
+  const ogVideoSecure = findMeta(
+    html,
+    "og:video:secure_url",
+  );
+
+  if (ogVideoSecure) {
+    candidates.push(ogVideoSecure);
   }
 
-  if(
-    f.includes('происше')||
-    f.includes('катастроф')||
-    f.includes('криминал')
-  ){
-    return 'ПРОИСШЕСТВИЯ';
-  }
-
-  if(
-    f.includes('финанс')||
-    f.includes('эконом')||
-    f.includes('бизнес')
-  ){
-    return 'ЭКОНОМИКА';
-  }
-
-  if(
-    f.includes('политик')||
-    f.includes('право')
-  ){
-    return 'ПОЛИТИКА';
-  }
-
-  return 'МИР';
-}
-
-function heuristicUrgent(item){
-
-  return /(взрыв|теракт|террорист|ракета|ракетн|обстрел|землетряс|цунами|эвакуац|захват залож|крушение самол|массовая гибель|погибли|погиб |чрезвычайное положение|военное положение)/i
-    .test(
-      norm(
-        `${item.title} ${item.description}`
-      )
+  const contentUrlMatches =
+    html.matchAll(
+      /"contentUrl"\s*:\s*"([^"]+)"/gi,
     );
+
+  for (const match of contentUrlMatches) {
+    candidates.push(match[1]);
+  }
+
+  const sourceMatches =
+    html.matchAll(
+      /<source[^>]+src=["']([^"']+)["'][^>]*>/gi,
+    );
+
+  for (const match of sourceMatches) {
+    candidates.push(match[1]);
+  }
+
+  const videoSrcMatches =
+    html.matchAll(
+      /<video[^>]+src=["']([^"']+)["'][^>]*>/gi,
+    );
+
+  for (const match of videoSrcMatches) {
+    candidates.push(match[1]);
+  }
+
+  for (const candidate of candidates) {
+    const url = absoluteUrl(candidate, baseUrl);
+
+    if (!url) continue;
+
+    const lower = url.toLowerCase();
+
+    if (
+      lower.includes(".mp4") ||
+      lower.includes(".mov") ||
+      lower.includes(".webm") ||
+      lower.includes(".mkv") ||
+      lower.includes("video")
+    ) {
+      return url;
+    }
+  }
+
+  return null;
 }
 
-function normalizeAnalysis(
-  x,
-  item
-){
+async function extractArticleMedia(
+  originalUrl: string,
+): Promise<ArticleMedia> {
+  const articleUrl = await resolveArticleUrl(originalUrl);
 
-  const c=
-    Object.keys(
-      CATEGORY_EMOJI
-    ).includes(
-      String(
-        x?.category||''
-      ).toUpperCase()
-    )
-      ? String(
-          x.category
-        ).toUpperCase()
-      : category(item);
+  try {
+    const response = await fetch(articleUrl, {
+      redirect: "follow",
+      headers: {
+        "User-Agent": USER_AGENT,
+        "Accept":
+          "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      },
+      signal: AbortSignal.timeout(15000),
+    });
 
-  const p=
-    (
-      String(
-        x?.priority||'normal'
-      ).toLowerCase()==='urgent'||
-      heuristicUrgent(item)
-    )
-      ? 'urgent'
-      : 'normal';
+    if (!response.ok) {
+      return {
+        articleUrl,
+        imageUrl: null,
+        videoUrl: null,
+        sourceName: null,
+      };
+    }
 
-  return{
-    category:c,
-    emoji:CATEGORY_EMOJI[c],
-    priority:p,
+    const finalArticleUrl = response.url || articleUrl;
 
-    summary:
-      cleanText(
-        x?.summary
-      )||
-      cleanText(
-        item.description
-      )||
-      cleanText(
-        item.title
+    const html = await response.text();
+
+    const imageMeta =
+      findMeta(html, "og:image") ||
+      findMeta(html, "twitter:image");
+
+    const imageUrl = imageMeta
+      ? absoluteUrl(imageMeta, finalArticleUrl)
+      : null;
+
+    const videoUrl =
+      findVideoFromHtml(html, finalArticleUrl);
+
+    const sourceName =
+      findMeta(html, "og:site_name") ||
+      findMeta(html, "application-name");
+
+    return {
+      articleUrl: finalArticleUrl,
+      imageUrl,
+      videoUrl,
+      sourceName,
+    };
+  } catch (error) {
+    console.error(
+      "Article media:",
+      error instanceof Error ? error.message : String(error),
+    );
+
+    return {
+      articleUrl,
+      imageUrl: null,
+      videoUrl: null,
+      sourceName: null,
+    };
+  }
+}
+
+// ------------------------------------------------------------
+// MEDIA DOWNLOAD
+// ------------------------------------------------------------
+
+type DownloadedMedia = {
+  type: "video" | "image";
+  bytes: Uint8Array;
+  contentType: string;
+  extension: string;
+  sourceUrl: string;
+};
+
+function extensionFromType(
+  type: "video" | "image",
+  contentType: string,
+  url: string,
+): string {
+  const ct = contentType.toLowerCase();
+
+  if (type === "video") {
+    if (ct.includes("webm")) return "webm";
+    if (ct.includes("quicktime")) return "mov";
+    if (ct.includes("matroska")) return "mkv";
+    return "mp4";
+  }
+
+  if (ct.includes("png")) return "png";
+  if (ct.includes("gif")) return "gif";
+  if (ct.includes("webp")) return "webp";
+
+  try {
+    const path = new URL(url).pathname;
+
+    const match = path.match(
+      /\.([a-z0-9]{2,5})$/i,
+    );
+
+    if (match) return match[1].toLowerCase();
+  } catch {
+    // ignore
+  }
+
+  return "jpg";
+}
+
+async function downloadMedia(
+  url: string,
+  type: "video" | "image",
+): Promise<DownloadedMedia | null> {
+  try {
+    const response = await fetch(url, {
+      redirect: "follow",
+      headers: {
+        "User-Agent": USER_AGENT,
+        "Accept":
+          type === "video"
+            ? "video/mp4,video/*;q=0.9,*/*;q=0.5"
+            : "image/avif,image/webp,image/apng,image/*,*/*;q=0.5",
+      },
+      signal: AbortSignal.timeout(
+        type === "video" ? 25000 : 15000,
       ),
+    });
 
-    facts:
-      Array.isArray(x?.facts)
-        ? x.facts
-            .map(cleanText)
-            .filter(Boolean)
-            .slice(0,3)
-        : [],
+    if (!response.ok) {
+      return null;
+    }
 
-    important:
-      cleanText(
-        x?.important
+    const contentLength =
+      Number(response.headers.get("content-length") ?? "0");
+
+    const limit =
+      type === "video"
+        ? MAX_VIDEO_BYTES
+        : MAX_IMAGE_BYTES;
+
+    if (contentLength > limit) {
+      console.log(
+        `Media too large: ${Math.round(contentLength / 1024 / 1024)} MB`,
+      );
+
+      return null;
+    }
+
+    const buffer = new Uint8Array(
+      await response.arrayBuffer(),
+    );
+
+    if (buffer.byteLength > limit) {
+      return null;
+    }
+
+    const contentType =
+      response.headers.get("content-type") ||
+      (type === "video"
+        ? "video/mp4"
+        : "image/jpeg");
+
+    return {
+      type,
+      bytes: buffer,
+      contentType,
+      extension: extensionFromType(
+        type,
+        contentType,
+        response.url || url,
       ),
+      sourceUrl: response.url || url,
+    };
+  } catch (error) {
+    console.error(
+      "Download media:",
+      error instanceof Error ? error.message : String(error),
+    );
 
-    source_name:
-      cleanText(
-        x?.source_name
-      )||
-      item.source||
-      sourceHost(item.link)||
-      'Источник'
+    return null;
+  }
+}
+
+// ------------------------------------------------------------
+// MAX API
+// ------------------------------------------------------------
+
+async function maxFetch(
+  path: string,
+  options: RequestInit = {},
+): Promise<Response> {
+  if (!MAX_BOT_TOKEN) {
+    throw new Error("MAX_BOT_TOKEN is missing");
+  }
+
+  const headers = new Headers(
+    options.headers ?? {},
+  );
+
+  headers.set(
+    "Authorization",
+    MAX_BOT_TOKEN,
+  );
+
+  if (
+    options.body &&
+    !headers.has("Content-Type")
+  ) {
+    headers.set(
+      "Content-Type",
+      "application/json",
+    );
+  }
+
+  return fetch(
+    `${MAX_API}${path}`,
+    {
+      ...options,
+      headers,
+    },
+  );
+}
+
+async function maxJson<T>(
+  path: string,
+  options: RequestInit = {},
+): Promise<T> {
+  const response = await maxFetch(path, options);
+
+  const text = await response.text();
+
+  let data: any;
+
+  try {
+    data = text ? JSON.parse(text) : null;
+  } catch {
+    data = {
+      raw: text,
+    };
+  }
+
+  if (!response.ok) {
+    throw new Error(
+      `MAX ${response.status}: ${JSON.stringify(data)}`,
+    );
+  }
+
+  return data as T;
+}
+
+// ------------------------------------------------------------
+// MAX MEDIA UPLOAD
+// ------------------------------------------------------------
+
+async function uploadMedia(
+  media: DownloadedMedia,
+): Promise<string> {
+  const init = await maxJson<{
+    url: string;
+    token?: string;
+  }>(
+    `/uploads?type=${media.type}`,
+    {
+      method: "POST",
+    },
+  );
+
+  if (!init.url) {
+    throw new Error(
+      `MAX upload URL missing for ${media.type}`,
+    );
+  }
+
+  const form = new FormData();
+
+  const blob = new Blob(
+    [media.bytes],
+    {
+      type: media.contentType,
+    },
+  );
+
+  form.append(
+    "data",
+    blob,
+    `factor.${media.extension}`,
+  );
+
+  const uploadResponse =
+    await fetch(init.url, {
+      method: "POST",
+      body: form,
+      headers: {
+        "Authorization": MAX_BOT_TOKEN,
+      },
+      signal: AbortSignal.timeout(30000),
+    });
+
+  if (!uploadResponse.ok) {
+    throw new Error(
+      `Media upload HTTP ${uploadResponse.status}`,
+    );
+  }
+
+  // MAX может вернуть только результат загрузки,
+  // а token уже может находиться в первом ответе.
+  // Если token не был там — пытаемся разобрать ответ.
+  let uploadResult: any = null;
+
+  const uploadText =
+    await uploadResponse.text();
+
+  try {
+    uploadResult =
+      uploadText
+        ? JSON.parse(uploadText)
+        : null;
+  } catch {
+    // MAX upload может вернуть XML/текстовый ответ.
+  }
+
+  const token =
+    init.token ||
+    uploadResult?.token ||
+    uploadResult?.mediafile_token;
+
+  if (!token) {
+    throw new Error(
+      `MAX media token missing for ${media.type}`,
+    );
+  }
+
+  return token;
+}
+
+// ------------------------------------------------------------
+// MAX PUBLISH
+// ------------------------------------------------------------
+
+async function publishToMax(
+  text: string,
+  mediaToken?: {
+    type: "video" | "image";
+    token: string;
+  },
+): Promise<any> {
+  const attachments = mediaToken
+    ? [
+        {
+          type: mediaToken.type,
+          payload: {
+            token: mediaToken.token,
+          },
+        },
+      ]
+    : undefined;
+
+  const body: any = {
+    text,
+    format: "html",
+    notify: true,
   };
+
+  if (attachments) {
+    body.attachments = attachments;
+  }
+
+  return await maxJson(
+    `/messages?chat_id=${encodeURIComponent(
+      TARGET_CHAT_ID,
+    )}`,
+    {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  );
 }
 
-function analysisPrompt(item){
+// ------------------------------------------------------------
+// DEDUP
+// ------------------------------------------------------------
 
-  return `
+async function isAlreadyPublished(
+  item: NewsItem,
+): Promise<boolean> {
+  const db = await getKV();
+
+  const key = await sha256(
+    normalizeForHash(
+      `${item.title}|${item.source}`,
+    ),
+  );
+
+  const result =
+    await db.get<boolean>([
+      "factor",
+      "published",
+      key,
+    ]);
+
+  return result.value === true;
+}
+
+async function markPublished(
+  item: NewsItem,
+): Promise<void> {
+  const db = await getKV();
+
+  const key = await sha256(
+    normalizeForHash(
+      `${item.title}|${item.source}`,
+    ),
+  );
+
+  await db.set(
+    ["factor", "published", key],
+    true,
+    {
+      expireIn: HISTORY_TTL_MS,
+    },
+  );
+}
+
+async function getRecentTitles(
+  limit = 300,
+): Promise<string[]> {
+  const db = await getKV();
+
+  const titles: string[] = [];
+
+  for await (
+    const entry of db.list<string>({
+      prefix: ["factor", "recent_title"],
+    })
+  ) {
+    if (entry.value) {
+      titles.push(entry.value);
+    }
+
+    if (titles.length >= limit) {
+      break;
+    }
+  }
+
+  return titles;
+}
+
+async function rememberTitle(
+  title: string,
+): Promise<void> {
+  const db = await getKV();
+
+  const id = await sha256(
+    normalizeForHash(title),
+  );
+
+  await db.set(
+    ["factor", "recent_title", id],
+    title,
+    {
+      expireIn: HISTORY_TTL_MS,
+    },
+  );
+}
+
+// ------------------------------------------------------------
+// URGENCY
+// ------------------------------------------------------------
+
+function detectUrgency(item: NewsItem): boolean {
+  const text =
+    normalizeForHash(
+      `${item.title} ${item.description}`,
+    );
+
+  const urgentPatterns = [
+    "теракт",
+    "террорист",
+    "атака",
+    "взрыв",
+    "взрыва",
+    "пожар",
+    "землетрясение",
+    "цунами",
+    "катастроф",
+    "авария",
+    "крушение",
+    "самолет разбился",
+    "самолет потерпел",
+    "погиб",
+    "погибли",
+    "убит",
+    "убиты",
+    "захват заложников",
+    "военные действия",
+    "началась война",
+    "обстрел",
+    "ракетн",
+    "санкции",
+    "чрезвычайное положение",
+    "эвакуация",
+    "прорыв дамбы",
+    "массовое отключение",
+  ];
+
+  return urgentPatterns.some(
+    (pattern) => text.includes(pattern),
+  );
+}
+
+// ------------------------------------------------------------
+// GEMINI
+// ------------------------------------------------------------
+
+type AIStory = {
+  headline: string;
+  short: string;
+  main: string[];
+  important: string;
+  urgent: boolean;
+};
+
+function extractJson(
+  text: string,
+): any | null {
+  const cleaned = text
+    .replace(/^```json/i, "")
+    .replace(/^```/i, "")
+    .replace(/```$/i, "")
+    .trim();
+
+  try {
+    return JSON.parse(cleaned);
+  } catch {
+    const match =
+      cleaned.match(/\{[\s\S]*\}/);
+
+    if (!match) return null;
+
+    try {
+      return JSON.parse(match[0]);
+    } catch {
+      return null;
+    }
+  }
+}
+
+async function callGemini(
+  item: NewsItem,
+): Promise<AIStory | null> {
+  if (!GEMINI_API_KEY) {
+    return null;
+  }
+
+  const prompt = `
 Ты редактор новостного канала ФАКТОР.
 
-Верни ТОЛЬКО валидный JSON без markdown.
+Работай ТОЛЬКО с информацией из исходной новости.
 
-ЗАГОЛОВОК:
+ИСХОДНЫЙ ЗАГОЛОВОК:
 ${item.title}
 
 ИСТОЧНИК:
-${item.source||''}
+${item.source}
 
 ОПИСАНИЕ:
-${cleanText(item.description)}
+${item.description}
 
-ФОРМАТ:
+Верни ТОЛЬКО JSON.
+
+Формат:
 {
-  "category":"МИР|ПОЛИТИКА|ЭКОНОМИКА|ФИНАНСЫ|БИЗНЕС|ПРАВО|ПРОИСШЕСТВИЯ|ТЕХНОЛОГИИ|ОБЩЕСТВО",
-  "priority":"urgent|normal",
-  "summary":"1-2 предложения без повторения заголовка",
-  "facts":["до 3 новых фактов"],
-  "important":"одно предложение только если есть реальное значение события",
-  "source_name":"источник"
+  "headline": "короткий точный заголовок",
+  "short": "одно короткое предложение, которое объясняет событие",
+  "main": [
+    "конкретный факт 1",
+    "конкретный факт 2",
+    "конкретный факт 3"
+  ],
+  "important": "один конкретный вывод только из источника",
+  "urgent": true
 }
 
-ПРАВИЛА:
+ЖЁСТКИЕ ПРАВИЛА:
 
-1. Не выдумывать факты.
-2. summary НЕ копирует заголовок.
-3. facts НЕ повторяют summary.
-4. Максимум 3 факта.
-5. Не писать «Ситуация развивается» без подтвержденной причины.
-6. Обычный пресс-релиз, анонс, мероприятие или локальное ДТП = normal.
-7. urgent только для действительно немедленно значимого события.
-8. Писать по-русски.
-`.trim();
-}
+1. Никаких выдуманных фактов.
+2. Не повторяй одну и ту же мысль разными словами.
+3. short, main и important должны давать РАЗНУЮ информацию.
+4. Если в источнике недостаточно данных — не додумывай.
+5. Не пиши "ситуация развивается".
+6. Не пиши "стало известно".
+7. Не пиши рекламные формулировки.
+8. Не копируй исходный заголовок дословно, если его можно сделать короче.
+9. headline должен быть конкретным.
+10. urgent=true только для реально срочного события:
+теракт, крупная авария, катастрофа, нападение, стихийное бедствие,
+резкое политическое/экономическое решение или другое событие,
+которое имеет смысл публиковать вне обычного расписания.
+11. Для обычной новости urgent=false.
+12. main может содержать 1–3 пункта.
+13. Если фактов мало — лучше 1 хороший пункт, чем 3 повторения.
+`;
 
-async function analyze(item){
-
-  const r=
-    await ai(
-      analysisPrompt(item)
-    );
-
-  if(!r.ok){
-    return{
-      ok:false,
-      ai:r
-    };
-  }
-
-  return{
-    ok:true,
-    analysis:
-      normalizeAnalysis(
-        parseJSON(r.text)||{},
-        item
-      ),
-    ai:r
-  };
-}
-
-/* ================= KV / DEDUP ================= */
-
-async function kvGet(key){
-
-  if(!kv)return null;
-
-  try{
-    return (
-      await kv.get(key)
-    )?.value??null;
-  }catch{
-    return null;
-  }
-}
-
-async function kvSet(
-  key,
-  value,
-  expireIn=NEWS_HISTORY_TTL_MS
-){
-
-  if(!kv)return false;
-
-  try{
-    await kv.set(
-      key,
-      value,
+  try {
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(
+        GEMINI_API_KEY,
+      )}`,
       {
-        expireIn
-      }
-    );
-
-    return true;
-  }catch{
-    return false;
-  }
-}
-
-async function history(){
-
-  if(!kv)return[];
-
-  const a=[];
-
-  try{
-
-    for await(
-      const e
-      of kv.list({
-        prefix:[
-          'news',
-          'published'
-        ],
-        reverse:true,
-        limit:300
-      })
-    ){
-
-      if(e.value){
-        a.push(
-          e.value
-        );
-      }
-    }
-
-  }catch{}
-
-  return a;
-}
-
-async function channelHistory(
-  chatId
-){
-
-  if(!chatId)return[];
-
-  try{
-
-    const r=
-      await maxRequest(
-        `/messages?chat_id=${
-          encodeURIComponent(
-            chatId
-          )
-        }&count=50`,
-        {
-          method:'GET'
-        }
-      );
-
-    const ms=
-      Array.isArray(
-        r.data?.messages
-      )
-        ? r.data.messages
-        : [];
-
-    return ms
-      .map(m=>{
-
-        const t=
-          m?.body?.text||
-          m?.text||
-          '';
-
-        return{
-          link:'',
-          title:t,
-          fingerprint:'',
-          compact_fingerprint:
-            [
-              ...tokens(t)
-            ]
-              .sort()
-              .join(' ')
-        };
-      })
-      .filter(
-        x=>x.compact_fingerprint
-      );
-
-  }catch(e){
-
-    console.error(
-      '[CHANNEL HISTORY]',
-      e?.message||e
-    );
-
-    return null;
-  }
-}
-
-async function duplicate(
-  item,
-  h
-){
-
-  const link=
-    String(
-      item.link||''
-    );
-
-  const fp=
-    fingerprint(item);
-
-  const tok=
-    tokens(
-      `${item.title} ${
-        item.description||''
-      }`
-    );
-
-  for(
-    const old
-    of h
-  ){
-
-    if(
-      link&&
-      old.link&&
-      link===old.link
-    ){
-      return{
-        duplicate:true,
-        reason:'same_link'
-      };
-    }
-
-    if(
-      fp&&
-      old.fingerprint===fp
-    ){
-      return{
-        duplicate:true,
-        reason:'same_fingerprint'
-      };
-    }
-
-    const ot=
-      new Set(
-        String(
-          old.compact_fingerprint||''
-        )
-          .split(' ')
-          .filter(Boolean)
-      );
-
-    const sim=
-      similarity(
-        tok,
-        ot
-      );
-
-    if(
-      sim>=DEDUP_SIMILARITY
-    ){
-
-      return{
-        duplicate:true,
-        reason:'similar_event',
-        similarity:
-          +sim.toFixed(3)
-      };
-    }
-  }
-
-  return{
-    duplicate:false
-  };
-}
-
-async function mark(
-  item,
-  a
-){
-
-  await kvSet(
-    [
-      'news',
-      'published',
-      `${Date.now()}-${crypto.randomUUID()}`
-    ],
-    {
-      link:item.link,
-      title:item.title,
-      fingerprint:
-        fingerprint(item),
-      compact_fingerprint:
-        compact(item),
-      category:a.category,
-      priority:a.priority,
-      published_at:
-        Date.now()
-    }
-  );
-
-  recentPublished.set(
-    item.link||item.title,
-    Date.now()
-  );
-}
-
-/* ================= MEDIA ================= */
-
-function meta(
-  html,
-  name
-){
-
-  const re=[
-    new RegExp(
-      `<meta[^>]+property=["']${name}["'][^>]+content=["']([^"']+)["']`,
-      'i'
-    ),
-
-    new RegExp(
-      `<meta[^>]+content=["']([^"']+)["'][^>]+property=["']${name}["']`,
-      'i'
-    ),
-
-    new RegExp(
-      `<meta[^>]+name=["']${name}["'][^>]+content=["']([^"']+)["']`,
-      'i'
-    )
-  ];
-
-  for(
-    const x
-    of re
-  ){
-
-    const m=
-      String(html)
-        .match(x);
-
-    if(m?.[1]){
-      return cleanText(
-        m[1]
-      );
-    }
-  }
-
-  return '';
-}
-
-function canonical(html){
-
-  return(
-    meta(
-      html,
-      'og:url'
-    )||
-    String(html)
-      .match(
-        /<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i
-      )
-      ?. [1]||
-    ''
-  );
-}
-
-function mediaUrls(
-  html,
-  base
-){
-
-  const found=[];
-
-  const push=(
-    u,
-    type
-  )=>{
-
-    const x=
-      absoluteUrl(
-        base,
-        u
-      );
-
-    if(
-      !x||
-      isGoogleHost(x)||
-      found.some(
-        a=>a.url===x
-      )
-    ){
-      return;
-    }
-
-    found.push({
-      url:x,
-      type
-    });
-  };
-
-  for(
-    const n
-    of [
-      'og:video',
-      'og:video:url',
-      'og:video:secure_url',
-      'twitter:player:stream'
-    ]
-  ){
-
-    push(
-      meta(
-        html,
-        n
-      ),
-      'video'
-    );
-  }
-
-  for(
-    const m
-    of String(html)
-      .matchAll(
-        /<video[^>]+(?:src|data-src)=["']([^"']+)["'][^>]*>/gi
-      )
-  ){
-
-    push(
-      m[1],
-      'video'
-    );
-  }
-
-  for(
-    const m
-    of String(html)
-      .matchAll(
-        /<source[^>]+src=["']([^"']+)["'][^>]*>/gi
-      )
-  ){
-
-    push(
-      m[1],
-      'video'
-    );
-  }
-
-  for(
-    const m
-    of String(html)
-      .matchAll(
-        /"(?:contentUrl|videoUrl)"\s*:\s*"(https?:\/\/[^"]+)"/gi
-      )
-  ){
-
-    push(
-      m[1].replace(
-        /\\\//g,
-        '/'
-      ),
-      'video'
-    );
-  }
-
-  const img=
-    meta(
-      html,
-      'og:image'
-    )||
-    meta(
-      html,
-      'twitter:image'
-    );
-
-  if(
-    img&&
-    !isGoogleHost(img)
-  ){
-
-    push(
-      img,
-      'image'
-    );
-  }
-
-  return found;
-}
-
-async function fetchPage(
-  url
-){
-
-  try{
-
-    const r=
-      await fetch(
-        url,
-        {
-          redirect:'follow',
-          headers:{
-            'user-agent':
-              'Mozilla/5.0 (compatible; FACTOR/4.0)'
-          },
-          signal:
-            AbortSignal.timeout(
-              12000
-            )
-        }
-      );
-
-    if(!r.ok)return null;
-
-    return{
-      html:
-        await r.text(),
-      finalUrl:
-        r.url||url
-    };
-
-  }catch{
-
-    return null;
-  }
-}
-
-async function mediaSize(
-  url
-){
-
-  try{
-
-    const r=
-      await fetch(
-        url,
-        {
-          method:'HEAD',
-          redirect:'follow',
-          signal:
-            AbortSignal.timeout(
-              8000
-            )
-        }
-      );
-
-    return{
-      ok:r.ok,
-      size:Number(
-        r.headers.get(
-          'content-length'
-        )||0
-      ),
-      type:
-        r.headers.get(
-          'content-type'
-        )||''
-    };
-
-  }catch{
-
-    return{
-      ok:false,
-      size:0,
-      type:''
-    };
-  }
-}
-
-async function findMedia(
-  item,
-  prefer='video'
-){
-
-  if(!item.link)return null;
-
-  try{
-
-    let p=
-      await fetchPage(
-        item.link
-      );
-
-    if(!p)return null;
-
-    let urls=
-      mediaUrls(
-        p.html,
-        p.finalUrl||item.link
-      );
-
-    const canon=
-      absoluteUrl(
-        p.finalUrl||item.link,
-        canonical(p.html)
-      );
-
-    /*
-     * Если Google News не отдал оригинальную
-     * страницу — идём по canonical.
-     */
-
-    if(
-      canon&&
-      canon!==p.finalUrl&&
-      !isGoogleHost(canon)
-    ){
-
-      const q=
-        await fetchPage(
-          canon
-        );
-
-      if(q){
-
-        p=q;
-
-        urls=
-          mediaUrls(
-            q.html,
-            q.finalUrl||canon
-          );
-      }
-    }
-
-    const ordered=
-      prefer==='image'
-        ? [
-            ...urls.filter(
-              x=>x.type==='image'
-            ),
-            ...urls.filter(
-              x=>x.type==='video'
-            )
-          ]
-        : [
-            ...urls.filter(
-              x=>x.type==='video'
-            ),
-            ...urls.filter(
-              x=>x.type==='image'
-            )
-          ];
-
-    for(
-      const m
-      of ordered
-    ){
-
-      const limit=
-        m.type==='video'
-          ? MAX_VIDEO_MB
-          : MAX_IMAGE_MB;
-
-      const size=
-        await mediaSize(
-          m.url
-        );
-
-      if(
-        size.size&&
-        size.size>
-          limit*1024*1024
-      ){
-        continue;
-      }
-
-      return{
-        ...m,
-        source_url:
-          p.finalUrl||
-          item.link
-      };
-    }
-
-    return null;
-
-  }catch(e){
-
-    console.error(
-      '[MEDIA]',
-      e?.message||e
-    );
-
-    return null;
-  }
-}
-
-/* ================= MAX MEDIA ================= */
-
-async function uploadVideo(
-  url
-){
-
-  try{
-
-    const info=
-      await mediaSize(
-        url
-      );
-
-    if(
-      info.size>
-        MAX_VIDEO_MB*
-        1024*
-        1024
-    ){
-
-      return{
-        ok:false,
-        error:
-          'video_too_large'
-      };
-    }
-
-    const init=
-      await maxRequest(
-        '/uploads?type=video',
-        {
-          method:'POST'
-        }
-      );
-
-    const uploadUrl=
-      init.data?.url;
-
-    const token=
-      init.data?.token;
-
-    if(
-      !init.ok||
-      !uploadUrl||
-      !token
-    ){
-
-      return{
-        ok:false,
-        error:
-          'max_upload_init_failed',
-        response:
-          init.data
-      };
-    }
-
-    const src=
-      await fetch(
-        url,
-        {
-          redirect:'follow',
-          headers:{
-            'user-agent':
-              'Mozilla/5.0'
-          },
-          signal:
-            AbortSignal.timeout(
-              30000
-            )
-        }
-      );
-
-    if(!src.ok){
-
-      return{
-        ok:false,
-        error:
-          `media_http_${src.status}`
-      };
-    }
-
-    const bytes=
-      await src.arrayBuffer();
-
-    if(
-      bytes.byteLength>
-        MAX_VIDEO_MB*
-        1024*
-        1024
-    ){
-
-      return{
-        ok:false,
-        error:
-          'video_too_large'
-      };
-    }
-
-    const contentType=
-      (
-        src.headers.get(
-          'content-type'
-        )||
-        'video/mp4'
-      )
-      .split(';')[0];
-
-    const form=
-      new FormData();
-
-    form.append(
-      'data',
-      new Blob(
-        [bytes],
-        {
-          type:
-            contentType
-        }
-      ),
-      'factor-video.mp4'
-    );
-
-    const sent=
-      await fetch(
-        uploadUrl,
-        {
-          method:'POST',
-          body:form,
-          signal:
-            AbortSignal.timeout(
-              90000
-            )
-        }
-      );
-
-    if(!sent.ok){
-
-      return{
-        ok:false,
-        error:
-          `max_upload_http_${sent.status}`
-      };
-    }
-
-    /*
-     * MAX может ещё обрабатывать
-     * загруженное видео.
-     */
-
-    await sleep(3000);
-
-    return{
-      ok:true,
-      token
-    };
-
-  }catch(e){
-
-    return{
-      ok:false,
-      error:
-        e?.message||
-        String(e)
-    };
-  }
-}
-
-/* ================= PUBLICATION ================= */
-
-function formatTime(){
-
-  return new Intl.DateTimeFormat(
-    'ru-RU',
-    {
-      hour:'2-digit',
-      minute:'2-digit',
-      hour12:false
-    }
-  ).format(
-    new Date()
-  );
-}
-
-function publicationText(
-  item,
-  a
-){
-
-  const urgent=
-    a.priority==='urgent';
-
-  const head=
-    urgent
-      ? '🔴 <b>ФАКТОР • ОПЕРАТИВНО</b>'
-      : '🟡 <b>ФАКТОР • НОВОСТИ</b>';
-
-  const cat=
-    `${a.emoji} <b>${esc(
-      a.category
-    )}</b>`;
-
-  const title=
-    `<b>${esc(
-      cleanText(
-        item.title
-      )
-    )}</b>`;
-
-  let s=
-    `${head}\n\n`+
-    `${cat}\n\n`+
-    `${title}\n\n`+
-    `<b>КРАТКО</b>\n`+
-    `${esc(
-      a.summary
-    )}`;
-
-  if(a.facts.length){
-
-    s+=
-      `\n\n<b>ГЛАВНОЕ</b>\n`+
-      a.facts
-        .map(
-          x=>
-            `• ${esc(x)}`
-        )
-        .join('\n');
-  }
-
-  if(a.important){
-
-    s+=
-      `\n\n<b>ЧТО ВАЖНО</b>\n`+
-      esc(
-        a.important
-      );
-  }
-
-  let src=
-    esc(
-      a.source_name||
-      sourceHost(
-        item.link
-      )||
-      'Источник'
-    );
-
-  try{
-
-    const u=
-      new URL(
-        item.link
-      );
-
-    src=
-      `<a href="${esc(
-        u.toString()
-      )}">${src}</a>`;
-
-  }catch{}
-
-  return(
-    `${s}\n\n`+
-    `🕒 ${formatTime()}\n`+
-    `🔗 ${src}`
-  ).slice(
-    0,
-    3950
-  );
-}
-
-async function publish(
-  chatId,
-  text,
-  media
-){
-
-  const body={
-    text,
-    format:'html',
-    notify:true
-  };
-
-  if(
-    media?.type==='image'
-  ){
-
-    body.attachments=[
-      {
-        type:'image',
-        payload:{
-          url:
-            media.url
-        }
-      }
-    ];
-  }
-
-  if(
-    media?.type==='video'
-  ){
-
-    const up=
-      await uploadVideo(
-        media.url
-      );
-
-    if(!up.ok){
-
-      return{
-        ok:false,
-        status:0,
-        data:{
-          error:
-            up.error
-        }
-      };
-    }
-
-    body.attachments=[
-      {
-        type:'video',
-        payload:{
-          token:
-            up.token
-        }
-      }
-    ];
-  }
-
-  return maxRequest(
-    `/messages?chat_id=${
-      encodeURIComponent(
-        chatId
-      )
-    }`,
-    {
-      method:'POST',
-      body:
-        JSON.stringify(
-          body
-        )
-    }
-  );
-}
-
-/* ================= PIPELINE ================= */
-
-function newsKey(item){
-
-  return(
-    item.link||
-    `${item.title}|${
-      item.pubDate||''
-    }`
-  );
-}
-
-function normalOpen(
-  last,
-  now
-){
-
-  return(
-    !last||
-    now-
-      Number(last)
-      >=
-      NORMAL_PUBLISH_INTERVAL_MS
-  );
-}
-
-async function runPipeline(){
-
-  if(running){
-
-    return{
-      ok:true,
-      skipped:true,
-      reason:
-        'pipeline_already_running'
-    };
-  }
-
-  running=true;
-
-  const started=
-    Date.now();
-
-  try{
-
-    const feeds=
-      await fetchRSS();
-
-    const news=
-      flatten(
-        feeds
-      );
-
-    if(!news.length){
-
-      return{
-        ok:false,
-        error:'RSS пуст'
-      };
-    }
-
-    let hist=
-      await history();
-
-    const ch=
-      await channelHistory(
-        TARGET_CHAT_ID
-      );
-
-    /*
-     * Если историю канала получить нельзя,
-     * не рискуем отправить повтор.
-     */
-
-    if(
-      ch===null&&
-      hist.length===0
-    ){
-
-      return{
-        ok:true,
-        skipped:true,
-        reason:
-          'channel_history_unavailable',
-        rss_total:
-          news.length
-      };
-    }
-
-    hist=[
-      ...hist,
-      ...(ch||[])
-    ];
-
-    const now=
-      Date.now();
-
-    const lastNormal=
-      await kvGet([
-        'news',
-        'state',
-        'last_normal_publish'
-      ]);
-
-    const lastUrgent=
-      await kvGet([
-        'news',
-        'state',
-        'last_urgent_publish'
-      ]);
-
-    const nOpen=
-      normalOpen(
-        lastNormal,
-        now
-      );
-
-    const uOpen=
-      !lastUrgent||
-      now-
-        Number(lastUrgent)
-        >=
-        URGENT_MIN_GAP_MS;
-
-    /*
-     * Каждые 5 минут сканируем.
-     * Но публикуем максимум одну новость.
-     */
-
-    const scan=
-      nOpen
-        ? CANDIDATES_PER_SCAN
-        : Math.min(
-            5,
-            CANDIDATES_PER_SCAN
-          );
-
-    const results=[];
-
-    for(
-      const item
-      of news.slice(
-        0,
-        scan
-      )
-    ){
-
-      const key=
-        newsKey(item);
-
-      if(
-        recentPublished.has(
-          key
-        )
-      ){
-
-        results.push({
-          skip:
-            'runtime_duplicate',
-          item
-        });
-
-        continue;
-      }
-
-      const d=
-        await duplicate(
-          item,
-          hist
-        );
-
-      if(d.duplicate){
-
-        results.push({
-          skip:
-            d.reason,
-          similarity:
-            d.similarity||null,
-          item
-        });
-
-        continue;
-      }
-
-      const an=
-        await analyze(
-          item
-        );
-
-      if(!an.ok){
-
-        results.push({
-          ok:false,
-          stage:'ai',
-          item,
-          ai:an.ai
-        });
-
-        continue;
-      }
-
-      const a=
-        an.analysis;
-
-      if(
-        a.priority==='urgent'&&
-        !uOpen
-      ){
-
-        results.push({
-          skip:
-            'urgent_cooldown',
-          item
-        });
-
-        continue;
-      }
-
-      if(
-        a.priority!=='urgent'&&
-        !nOpen
-      ){
-
-        results.push({
-          skip:
-            'normal_publish_interval',
-          item
-        });
-
-        continue;
-      }
-
-      /*
-       * Сначала пытаемся найти видео.
-       * Если видео нет — изображение.
-       * Google News image отбрасывается.
-       */
-
-      const media=
-        await findMedia(
-          item,
-          'video'
-        );
-
-      const publicationItem=
-        media?.source_url
-          ? {
-              ...item,
-              link:
-                media.source_url
-            }
-          : item;
-
-      const text=
-        publicationText(
-          publicationItem,
-          a
-        );
-
-      let pub={
-        ok:false,
-        media:
-          media?.type||
-          'none'
-      };
-
-      if(
-        AUTO_PIPELINE&&
-        TARGET_CHAT_ID
-      ){
-
-        let r=
-          await publish(
-            TARGET_CHAT_ID,
-            text,
-            media
-          );
-
-        /*
-         * Если видео не прошло:
-         * ищем именно картинку.
-         */
-
-        if(
-          !r.ok&&
-          media?.type==='video'
-        ){
-
-          const img=
-            await findMedia(
-              item,
-              'image'
-            );
-
-          if(
-            img?.type==='image'
-          ){
-
-            r=
-              await publish(
-                TARGET_CHAT_ID,
-                text,
-                img
-              );
-          }
-        }
-
-        /*
-         * Если и медиа не прошло —
-         * не теряем новость.
-         */
-
-        if(
-          !r.ok&&
-          media
-        ){
-
-          r=
-            await publish(
-              TARGET_CHAT_ID,
-              text,
-              null
-            );
-        }
-
-        pub={
-          ok:r.ok,
-          status:r.status,
-          response:r.data,
-          media:
-            media?.type||
-            'none'
-        };
-
-        if(r.ok){
-
-          await mark(
-            item,
-            a
-          );
-
-          if(
-            a.priority==='urgent'
-          ){
-
-            await kvSet(
-              [
-                'news',
-                'state',
-                'last_urgent_publish'
-              ],
-              now,
-              86400000
-            );
-
-          }else{
-
-            await kvSet(
-              [
-                'news',
-                'state',
-                'last_normal_publish'
-              ],
-              now,
-              604800000
-            );
-          }
-        }
-      }
-
-      results.push({
-        ok:true,
-        item,
-        priority:
-          a.priority,
-        media,
-        ai:{
-          provider:
-            an.ai.provider,
-          model:
-            an.ai.model
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        publication:pub,
-        text
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                {
+                  text: prompt,
+                },
+              ],
+            },
+          ],
+          generationConfig: {
+            temperature: 0.15,
+            responseMimeType: "application/json",
+          },
+        }),
+        signal: AbortSignal.timeout(20000),
+      },
+    );
+
+    if (!response.ok) {
+      console.error(
+        "Gemini HTTP:",
+        response.status,
+      );
+
+      return null;
+    }
+
+    const data = await response.json();
+
+    const text =
+      data?.candidates?.[0]?.content?.parts
+        ?.map((p: any) => p.text ?? "")
+        .join("")
+        .trim();
+
+    if (!text) return null;
+
+    const json = extractJson(text);
+
+    if (!json) return null;
+
+    return {
+      headline:
+        stripHtml(
+          json.headline ||
+            item.title,
+        ),
+
+      short:
+        stripHtml(
+          json.short ||
+            item.description ||
+            item.title,
+        ),
+
+      main:
+        Array.isArray(json.main)
+          ? json.main
+              .map((x: any) =>
+                stripHtml(String(x)),
+              )
+              .filter(Boolean)
+              .slice(0, 3)
+          : [],
+
+      important:
+        stripHtml(
+          json.important ||
+            "",
+        ),
+
+      urgent:
+        Boolean(json.urgent) ||
+        detectUrgency(item),
+    };
+  } catch (error) {
+    console.error(
+      "Gemini:",
+      error instanceof Error ? error.message : String(error),
+    );
+
+    return null;
+  }
+}
+
+// ------------------------------------------------------------
+// FALLBACK AI/TEXT
+// ------------------------------------------------------------
+
+function makeFallbackStory(
+  item: NewsItem,
+): AIStory {
+  return {
+    headline: stripHtml(item.title),
+
+    short:
+      truncate(
+        item.description ||
+          item.title,
+        280,
+      ),
+
+    main: [
+      truncate(
+        item.description ||
+          item.title,
+        300,
+      ),
+    ],
+
+    important:
+      truncate(
+        item.description ||
+          item.title,
+        280,
+      ),
+
+    urgent:
+      detectUrgency(item),
+  };
+}
+
+// ------------------------------------------------------------
+// DUPLICATE CONTENT PROTECTION
+// ------------------------------------------------------------
+
+async function isRepeatedStoryText(
+  story: AIStory,
+): Promise<boolean> {
+  const recent =
+    await getRecentTitles(300);
+
+  const candidate = normalizeForHash(
+    [
+      story.headline,
+      story.short,
+      ...story.main,
+      story.important,
+    ].join(" "),
+  );
+
+  if (!candidate) return false;
+
+  for (const oldTitle of recent) {
+    const old = normalizeForHash(oldTitle);
+
+    if (!old) continue;
+
+    const candidateWords =
+      new Set(candidate.split(" "));
+
+    const oldWords =
+      new Set(old.split(" "));
+
+    let same = 0;
+
+    for (const word of candidateWords) {
+      if (
+        word.length > 4 &&
+        oldWords.has(word)
+      ) {
+        same++;
+      }
+    }
+
+    if (
+      same >= 8 &&
+      same / Math.max(
+        candidateWords.size,
+        1,
+      ) >= 0.55
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+// ------------------------------------------------------------
+// SOURCE NAME
+// ------------------------------------------------------------
+
+function cleanSourceName(
+  source: string,
+  articleMedia: ArticleMedia,
+): string {
+  const candidate =
+    articleMedia.sourceName ||
+    source ||
+    "Источник";
+
+  return cleanText(
+    candidate
+      .replace(/^https?:\/\//i, "")
+      .replace(/^www\./i, ""),
+  );
+}
+
+// ------------------------------------------------------------
+// FORMAT POST
+// ------------------------------------------------------------
+
+function buildPost(
+  item: NewsItem,
+  story: AIStory,
+  sourceName: string,
+  articleUrl: string,
+): string {
+  const header =
+    story.urgent
+      ? "🔴 <b>ФАКТОР • ОПЕРАТИВНО</b>"
+      : "🔵 <b>ФАКТОР • ГЛАВНОЕ</b>";
+
+  const category =
+    `${item.categoryEmoji} <b>${escapeHtml(
+      item.category,
+    )}</b>`;
+
+  const headline =
+    `<b>${escapeHtml(
+      truncate(story.headline, 260),
+    )}</b>`;
+
+  const short =
+    escapeHtml(
+      truncate(story.short, 420),
+    );
+
+  const main =
+    story.main
+      .filter(Boolean)
+      .map(
+        (x) =>
+          `• ${escapeHtml(
+            truncate(x, 300),
+          )}`,
+      )
+      .join("\n");
+
+  const important =
+    escapeHtml(
+      truncate(
+        story.important,
+        350,
+      ),
+    );
+
+  const time =
+    new Intl.DateTimeFormat(
+      "ru-RU",
+      {
+        hour: "2-digit",
+        minute: "2-digit",
+        timeZone: "Europe/Moscow",
+      },
+    ).format(new Date());
+
+  return [
+    header,
+    "",
+    category,
+    "",
+    headline,
+    "",
+    "<b>КРАТКО</b>",
+    short,
+    "",
+    "<b>ГЛАВНОЕ</b>",
+    main || `• ${short}`,
+    "",
+    "<b>ЧТО ВАЖНО</b>",
+    important || short,
+    "",
+    `🕒 ${time}`,
+    `🔗 <a href="${escapeHtml(
+      articleUrl,
+    )}">${escapeHtml(
+      sourceName,
+    )}</a>`,
+  ].join("\n");
+}
+
+// ------------------------------------------------------------
+// MEDIA SELECTION
+// ------------------------------------------------------------
+
+async function findBestMedia(
+  articleMedia: ArticleMedia,
+): Promise<DownloadedMedia | null> {
+  // СТРОГО:
+  // VIDEO -> IMAGE -> TEXT
+
+  if (articleMedia.videoUrl) {
+    const video =
+      await downloadMedia(
+        articleMedia.videoUrl,
+        "video",
+      );
+
+    if (video) {
+      return video;
+    }
+  }
+
+  if (articleMedia.imageUrl) {
+    const image =
+      await downloadMedia(
+        articleMedia.imageUrl,
+        "image",
+      );
+
+    if (image) {
+      return image;
+    }
+  }
+
+  return null;
+}
+
+// ------------------------------------------------------------
+// CANDIDATE SELECTION
+// ------------------------------------------------------------
+
+async function chooseCandidate(
+  items: NewsItem[],
+): Promise<{
+  item: NewsItem;
+  story: AIStory;
+  articleMedia: ArticleMedia;
+} | null> {
+  const sorted =
+    [...items]
+      .filter(
+        (item) =>
+          item.title.length >= 15,
+      )
+      .sort((a, b) => {
+        const ad =
+          Date.parse(a.pubDate) || 0;
+
+        const bd =
+          Date.parse(b.pubDate) || 0;
+
+        return bd - ad;
       });
 
-      if(
-        pub.ok||
-        !AUTO_PIPELINE
-      ){
-        break;
+  for (const item of sorted) {
+    if (
+      await isAlreadyPublished(item)
+    ) {
+      continue;
+    }
+
+    const articleMedia =
+      await extractArticleMedia(
+        item.link,
+      );
+
+    const story =
+      (await callGemini(item)) ||
+      makeFallbackStory(item);
+
+    story.urgent =
+      story.urgent ||
+      detectUrgency(item);
+
+    if (
+      await isRepeatedStoryText(
+        story,
+      )
+    ) {
+      continue;
+    }
+
+    return {
+      item,
+      story,
+      articleMedia,
+    };
+  }
+
+  return null;
+}
+
+// ------------------------------------------------------------
+// PIPELINE
+// ------------------------------------------------------------
+
+let pipelinePromise: Promise<any> | null = null;
+
+async function runPipeline(
+  manual = false,
+): Promise<any> {
+  if (pipelinePromise) {
+    return {
+      ok: false,
+      skipped: true,
+      reason: "pipeline already running",
+    };
+  }
+
+  pipelinePromise =
+    executePipeline(manual)
+      .finally(() => {
+        pipelinePromise = null;
+      });
+
+  return pipelinePromise;
+}
+
+async function executePipeline(
+  manual = false,
+): Promise<any> {
+  const db = await getKV();
+
+  const state =
+    await db.get<boolean>([
+      "factor",
+      "state",
+      "running",
+    ]);
+
+  if (state.value === true) {
+    return {
+      ok: false,
+      skipped: true,
+      reason: "running",
+    };
+  }
+
+  await db.set(
+    ["factor", "state", "running"],
+    true,
+  );
+
+  const startedAt = Date.now();
+
+  try {
+    // --------------------------------------------------------
+    // RSS
+    // --------------------------------------------------------
+
+    const feedResults =
+      await Promise.all(
+        RSS_FEEDS.map(loadRSS),
+      );
+
+    const items =
+      feedResults
+        .flat()
+        .slice(0, MAX_RSS_ITEMS);
+
+    // --------------------------------------------------------
+    // Candidate
+    // --------------------------------------------------------
+
+    const candidate =
+      await chooseCandidate(items);
+
+    if (!candidate) {
+      const result = {
+        ok: true,
+        selected: 0,
+        reason:
+          "no new non-duplicate candidate",
+        rss_total: items.length,
+        duration_ms:
+          Date.now() - startedAt,
+      };
+
+      await db.set(
+        ["factor", "state", "last_pipeline"],
+        result,
+      );
+
+      return result;
+    }
+
+    const {
+      item,
+      story,
+      articleMedia,
+    } = candidate;
+
+    // --------------------------------------------------------
+    // Interval control
+    // --------------------------------------------------------
+
+    const now = Date.now();
+
+    const lastRegular =
+      (await db.get<number>([
+        "factor",
+        "state",
+        "last_regular",
+      ])).value ?? null;
+
+    const lastUrgent =
+      (await db.get<number>([
+        "factor",
+        "state",
+        "last_urgent",
+      ])).value ?? null;
+
+    const urgent =
+      story.urgent ||
+      detectUrgency(item);
+
+    const urgentAllowed =
+      manual ||
+      lastUrgent === null ||
+      now - lastUrgent >=
+        URGENT_INTERVAL_MS;
+
+    const regularAllowed =
+      manual ||
+      lastRegular === null ||
+      now - lastRegular >=
+        REGULAR_INTERVAL_MS;
+
+    // --------------------------------------------------------
+    // URGENT
+    // --------------------------------------------------------
+
+    if (urgent) {
+      if (!urgentAllowed) {
+        return {
+          ok: true,
+          selected: 0,
+          reason:
+            "urgent interval not reached",
+          title: item.title,
+        };
+      }
+    } else {
+      // ------------------------------------------------------
+      // REGULAR
+      // ------------------------------------------------------
+
+      if (!regularAllowed) {
+        return {
+          ok: true,
+          selected: 0,
+          reason:
+            "regular interval not reached",
+          title: item.title,
+        };
       }
     }
 
-    return{
-      ok:true,
+    // --------------------------------------------------------
+    // MEDIA
+    // --------------------------------------------------------
+
+    const media =
+      await findBestMedia(
+        articleMedia,
+      );
+
+    // --------------------------------------------------------
+    // TEXT
+    // --------------------------------------------------------
+
+    const sourceName =
+      cleanSourceName(
+        item.source,
+        articleMedia,
+      );
+
+    const articleUrl =
+      articleMedia.articleUrl &&
+      !isGoogleNewsUrl(
+        articleMedia.articleUrl,
+      )
+        ? articleMedia.articleUrl
+        : await resolveArticleUrl(
+            item.link,
+          );
+
+    const text =
+      buildPost(
+        item,
+        story,
+        sourceName,
+        articleUrl,
+      );
+
+    // --------------------------------------------------------
+    // UPLOAD MEDIA
+    // --------------------------------------------------------
+
+    let mediaInfo:
+      | {
+          type: "video" | "image";
+          token: string;
+        }
+      | undefined;
+
+    if (media) {
+      try {
+        const token =
+          await uploadMedia(media);
+
+        mediaInfo = {
+          type: media.type,
+          token,
+        };
+
+        // MAX обрабатывает загруженный файл
+        // некоторое время перед публикацией.
+        await new Promise(
+          (resolve) =>
+            setTimeout(resolve, 2500),
+        );
+      } catch (error) {
+        console.error(
+          "Media upload failed:",
+          error instanceof Error
+            ? error.message
+            : String(error),
+        );
+
+        mediaInfo = undefined;
+      }
+    }
+
+    // --------------------------------------------------------
+    // PUBLISH
+    // --------------------------------------------------------
+
+    const publication =
+      await publishToMax(
+        text,
+        mediaInfo,
+      );
+
+    // --------------------------------------------------------
+    // SAVE STATE
+    // --------------------------------------------------------
+
+    await markPublished(item);
+
+    await rememberTitle(
+      story.headline,
+    );
+
+    if (urgent) {
+      await db.set(
+        ["factor", "state", "last_urgent"],
+        now,
+      );
+    } else {
+      await db.set(
+        ["factor", "state", "last_regular"],
+        now,
+      );
+    }
+
+    const result = {
+      ok: true,
+      selected: 1,
+      urgent,
+      manual,
+      rss_total: items.length,
+
+      item: {
+        title: item.title,
+        source: sourceName,
+        article_url: articleUrl,
+        category: item.category,
+      },
+
+      media: media
+        ? {
+            type: media.type,
+            source_url: media.sourceUrl,
+          }
+        : null,
+
+      publication,
+
       duration_ms:
-        Date.now()-
-        started,
-      cron:
-        CRON_SCHEDULE,
-      normal_interval_minutes:
-        Math.round(
-          NORMAL_PUBLISH_INTERVAL_MS/
-          60000
-        ),
-      urgent_interval_minutes:
-        Math.round(
-          URGENT_MIN_GAP_MS/
-          60000
-        ),
-      history_count:
-        hist.length,
-      rss_total:
-        news.length,
-      candidates_scanned:
-        Math.min(
-          news.length,
-          scan
-        ),
-      selected:
-        results.filter(
-          x=>
-            x.publication?.ok
-        ).length,
-      results
+        Date.now() - startedAt,
     };
 
-  }finally{
-
-    running=false;
-  }
-}
-
-/* ================= WEBHOOK ================= */
-
-async function subscriptions(){
-
-  return maxRequest(
-    '/subscriptions',
-    {
-      method:'GET'
-    }
-  );
-}
-
-async function setupWebhook(
-  reqUrl
-){
-
-  const origin=
-    new URL(
-      reqUrl
-    ).origin;
-
-  const webhook=
-    `${origin}/webhook`;
-
-  const r=
-    await subscriptions();
-
-  const arr=
-    r.data?.subscriptions||
-    [];
-
-  for(
-    const s
-    of arr
-  ){
-
-    if(
-      s.url&&
-      s.url!==webhook
-    ){
-
-      await maxRequest(
-        `/subscriptions?url=${
-          encodeURIComponent(
-            s.url
-          )
-        }`,
-        {
-          method:'DELETE'
-        }
-      );
-    }
-  }
-
-  const body={
-    url:webhook,
-    update_types:[
-      'bot_added',
-      'bot_started',
-      'bot_stopped',
-      'bot_removed',
-      'message_created',
-      'message_edited',
-      'message_removed',
-      'user_added',
-      'user_removed',
-      'bot_admin_permissions_changed'
-    ]
-  };
-
-  if(
-    MAX_WEBHOOK_SECRET
-  ){
-    body.secret=
-      MAX_WEBHOOK_SECRET;
-  }
-
-  const c=
-    await maxRequest(
-      '/subscriptions',
-      {
-        method:'POST',
-        body:
-          JSON.stringify(
-            body
-          )
-      }
+    await db.set(
+      ["factor", "state", "last_pipeline"],
+      result,
     );
 
-  return{
-    ok:c.ok,
-    webhook_url:
-      webhook,
-    response:
-      c.data,
-    tls:
-      maxTls
-  };
+    return result;
+  } catch (error) {
+    const result = {
+      ok: false,
+      error:
+        error instanceof Error
+          ? error.message
+          : String(error),
+      duration_ms:
+        Date.now() - startedAt,
+    };
+
+    await db.set(
+      ["factor", "state", "last_pipeline"],
+      result,
+    );
+
+    console.error(
+      "PIPELINE ERROR:",
+      result,
+    );
+
+    return result;
+  } finally {
+    await db.set(
+      ["factor", "state", "running"],
+      false,
+    );
+  }
 }
 
-async function webhook(
-  request
-){
+// ------------------------------------------------------------
+// TEST PUBLISH
+// ------------------------------------------------------------
 
-  if(
-    MAX_WEBHOOK_SECRET&&
-    request.headers.get(
-      'X-Max-Bot-Api-Secret'
-    )!==
-    MAX_WEBHOOK_SECRET
-  ){
-
-    return json(
+async function publishTest(): Promise<any> {
+  const text = [
+    "🔴 <b>ФАКТОР • ТЕСТ</b>",
+    "",
+    "📡 Система публикации работает.",
+    "",
+    `🕒 ${new Intl.DateTimeFormat(
+      "ru-RU",
       {
-        ok:false,
-        error:
-          'Invalid MAX webhook secret'
+        hour: "2-digit",
+        minute: "2-digit",
+        timeZone: "Europe/Moscow",
       },
-      401
-    );
-  }
+    ).format(new Date())}`,
+  ].join("\n");
 
-  let p;
+  return await publishToMax(text);
+}
 
-  try{
+// ------------------------------------------------------------
+// STATUS
+// ------------------------------------------------------------
 
-    p=
-      await request.json();
-
-  }catch{
-
-    return json(
-      {
-        ok:false,
-        error:
-          'Invalid JSON'
-      },
-      400
-    );
-  }
-
-  const ups=
-    Array.isArray(
-      p?.updates
-    )
-      ? p.updates
-      : Array.isArray(p)
-        ? p
-        : [p];
-
-  for(
-    const u
-    of ups
-  ){
-
-    const id=
-      u?.chat_id||
-      u?.message
-        ?.recipient
-        ?.chat_id||
-      u?.chat
-        ?.chat_id||
-      u?.chat
-        ?.id;
-
-    if(
-      id&&
-      kv
-    ){
-
-      await kv.set(
-        [
-          'max',
-          'chat',
-          String(id)
-        ],
-        {
-          chat_id:
-            String(id),
-          timestamp:
-            Date.now()
-        },
-        {
-          expireIn:
-            2592000000
-        }
-      );
-    }
-  }
+async function statusResponse(): Promise<Response> {
+  const state =
+    await getState();
 
   return json({
-    ok:true,
-    received:true,
-    count:
-      ups.length
+    ok: true,
+    now: new Date().toISOString(),
+
+    service:
+      "MAX NEWS AGENT — ФАКТОР",
+
+    runtime:
+      "Deno Deploy",
+
+    auto_pipeline:
+      AUTO_PIPELINE,
+
+    ...state,
   });
 }
 
-/* ================= CRON ================= */
+// ------------------------------------------------------------
+// JSON RESPONSE
+// ------------------------------------------------------------
 
-if(AUTO_PIPELINE){
-
-  Deno.cron(
-    'FACTOR News automatic pipeline',
-    CRON_SCHEDULE,
+function json(
+  value: unknown,
+  status = 200,
+): Response {
+  return new Response(
+    JSON.stringify(
+      value,
+      null,
+      2,
+    ),
     {
-      backoffSchedule:[
-        5000,
-        15000,
-        60000
-      ]
+      status,
+      headers: {
+        "Content-Type":
+          "application/json; charset=utf-8",
+        "Cache-Control":
+          "no-store",
+      },
     },
-    async()=>{
-
-      lastPipeline=
-        await runPipeline();
-
-      console.log(
-        '[CRON]',
-        JSON.stringify(
-          lastPipeline
-        )
-      );
-    }
   );
 }
 
-/* ================= HTTP ================= */
+// ------------------------------------------------------------
+// CRON
+// ------------------------------------------------------------
+
+if (AUTO_PIPELINE) {
+  Deno.cron(
+    "FAKTOR news pipeline",
+    CRON_SCHEDULE,
+    {
+      backoffSchedule: [
+        5000,
+        15000,
+        30000,
+      ],
+    },
+    async () => {
+      console.log(
+        "CRON: starting pipeline",
+      );
+
+      const result =
+        await runPipeline(false);
+
+      console.log(
+        "CRON: finished",
+        JSON.stringify(result),
+      );
+    },
+  );
+}
+
+// ------------------------------------------------------------
+// HTTP SERVER
+// ------------------------------------------------------------
 
 Deno.serve(
-  async request=>{
+  async (request) => {
+    const url =
+      new URL(request.url);
 
-    const url=
-      new URL(
-        request.url
-      );
+    const path =
+      url.pathname.replace(
+        /\/$/,
+        "",
+      ) || "/";
 
-    const path=
-      url.pathname;
+    try {
+      // ------------------------------------------------------
+      // ROOT
+      // ------------------------------------------------------
 
-    if(
-      request.method==='OPTIONS'
-    ){
-
-      return json({
-        ok:true
-      });
-    }
-
-    try{
-
-      if(
-        path==='/'&&
-        request.method==='GET'
-      ){
-
+      if (
+        request.method === "GET" &&
+        path === "/"
+      ) {
         return json({
-          ok:true,
+          ok: true,
           service:
-            'MAX NEWS AGENT — ФАКТОР',
+            "MAX NEWS AGENT — ФАКТОР",
           runtime:
-            'Deno Deploy',
-          auto_pipeline:
-            AUTO_PIPELINE,
-          cron_schedule:
-            CRON_SCHEDULE,
-          target_chat_configured:
-            !!TARGET_CHAT_ID,
-          endpoints:[
-            '/check',
-            '/tls-test',
-            '/rss',
-            '/max-test',
-            '/subscriptions',
-            '/setup-webhook',
-            '/pipeline',
-            '/pipeline-state',
-            '/run',
-            '/webhook',
-            '/publish-test'
-          ]
-        });
-      }
-
-      if(
-        path==='/tls-test'
-      ){
-
-        return json({
-          ok:
-            !!(
-              await initMaxClient()
-            ),
-          tls:
-            maxTls
-        });
-      }
-
-      if(
-        path==='/check'
-      ){
-
-        return json({
-          ok:true,
-          service:
-            'MAX NEWS AGENT — ФАКТОР',
-          runtime:
-            'Deno Deploy',
-          tls:
-            maxTls,
-          environment:{
-            MAX_BOT_TOKEN:
-              !!MAX_BOT_TOKEN,
-            GEMINI_API_KEY:
-              !!GEMINI_API_KEY,
-            QWEN_API_KEY:
-              !!QWEN_API_KEY,
-            TARGET_CHAT_ID:
-              !!TARGET_CHAT_ID,
-            AUTO_PIPELINE,
-            CRON_SCHEDULE
-          }
-        });
-      }
-
-      if(
-        path==='/rss'
-      ){
-
-        return json(
-          await fetchRSS()
-        );
-      }
-
-      if(
-        path==='/max-test'
-      ){
-
-        return json(
-          await maxRequest(
-            '/me',
-            {
-              method:'GET'
-            }
-          )
-        );
-      }
-
-      if(
-        path==='/subscriptions'
-      ){
-
-        return json(
-          await subscriptions()
-        );
-      }
-
-      if(
-        path==='/setup-webhook'
-      ){
-
-        return json(
-          await setupWebhook(
-            request.url
-          )
-        );
-      }
-
-      if(
-        path==='/pipeline'||
-        path==='/run'
-      ){
-
-        const result=
-          await runPipeline();
-
-        lastPipeline=
-          result;
-
-        return json(
-          result
-        );
-      }
-
-      if(
-        path==='/pipeline-state'
-      ){
-
-        const lastNormal=
-          await kvGet([
-            'news',
-            'state',
-            'last_normal_publish'
-          ]);
-
-        const lastUrgent=
-          await kvGet([
-            'news',
-            'state',
-            'last_urgent_publish'
-          ]);
-
-        const now=
-          Date.now();
-
-        return json({
-
-          ok:true,
-
-          now:
-            new Date()
-              .toISOString(),
-
-          running,
-
+            "Deno Deploy",
           cron:
             CRON_SCHEDULE,
-
-          regular:{
-            interval_minutes:
-              Math.round(
-                NORMAL_PUBLISH_INTERVAL_MS/
-                60000
-              ),
-            last:
-              lastNormal,
-            can_publish:
-              normalOpen(
-                lastNormal,
-                now
-              )
-          },
-
-          urgent:{
-            interval_minutes:
-              Math.round(
-                URGENT_MIN_GAP_MS/
-                60000
-              ),
-            last:
-              lastUrgent,
-            can_publish:
-              !lastUrgent||
-              now-
-                Number(lastUrgent)
-                >=
-                URGENT_MIN_GAP_MS
-          },
-
-          media:{
-            max_video_mb:
-              MAX_VIDEO_MB,
-            max_image_mb:
-              MAX_IMAGE_MB,
-            priority:
-              'video -> image -> text'
-          },
-
-          dedup:{
-            persistent:
-              !!kv,
-            ttl_days:
-              NEWS_HISTORY_TTL_MS/
-              86400000,
-            max_history_checked:
-              300
-          },
-
-          last_pipeline:
-            lastPipeline
+          endpoints: [
+            "/",
+            "/status",
+            "/pipeline-state",
+            "/run",
+            "/publish-test",
+            "/me",
+          ],
         });
       }
 
-      if(
-        path==='/publish-test'
-      ){
+      // ------------------------------------------------------
+      // STATUS
+      // ------------------------------------------------------
 
-        const chatId=
-          url.searchParams.get(
-            'chat_id'
-          )||
-          TARGET_CHAT_ID;
+      if (
+        request.method === "GET" &&
+        path === "/status"
+      ) {
+        return await statusResponse();
+      }
 
-        return json(
-          await maxRequest(
-            `/messages?chat_id=${
-              encodeURIComponent(
-                chatId
-              )
-            }`,
+      // ------------------------------------------------------
+      // PIPELINE STATE
+      // ------------------------------------------------------
+
+      if (
+        request.method === "GET" &&
+        path === "/pipeline-state"
+      ) {
+        const state =
+          await getState();
+
+        return json({
+          ok: true,
+          ...state,
+        });
+      }
+
+      // ------------------------------------------------------
+      // MANUAL RUN
+      // ------------------------------------------------------
+
+      if (
+        request.method === "GET" &&
+        path === "/run"
+      ) {
+        const result =
+          await runPipeline(true);
+
+        return json(result);
+      }
+
+      if (
+        request.method === "POST" &&
+        path === "/run"
+      ) {
+        const result =
+          await runPipeline(true);
+
+        return json(result);
+      }
+
+      // ------------------------------------------------------
+      // TEST PUBLISH
+      // ------------------------------------------------------
+
+      if (
+        request.method === "GET" &&
+        path === "/publish-test"
+      ) {
+        const result =
+          await publishTest();
+
+        return json({
+          ok: true,
+          provider: "MAX",
+          operation:
+            "publish-test",
+          chat_id:
+            TARGET_CHAT_ID,
+          response: result,
+        });
+      }
+
+      // ------------------------------------------------------
+      // MAX BOT INFO
+      // ------------------------------------------------------
+
+      if (
+        request.method === "GET" &&
+        path === "/me"
+      ) {
+        const me =
+          await maxJson(
+            "/me",
             {
-              method:'POST',
-              body:
-                JSON.stringify({
-                  text:
-                    '🔴 <b>ФАКТОР • ТЕСТ</b>\n\n'+
-                    '📡 Система публикации работает.\n\n'+
-                    `🕒 ${formatTime()}`,
-                  format:'html',
-                  notify:true
-                })
-            }
-          )
-        );
+              method: "GET",
+            },
+          );
+
+        return json({
+          ok: true,
+          max_me: me,
+        });
       }
 
-      if(
-        path==='/webhook'&&
-        request.method==='POST'
-      ){
+      // ------------------------------------------------------
+      // WEBHOOK
+      // ------------------------------------------------------
 
-        return webhook(
-          request
+      if (
+        request.method === "POST" &&
+        path === "/webhook"
+      ) {
+        const body =
+          await request.text();
+
+        console.log(
+          "WEBHOOK:",
+          body.slice(0, 2000),
         );
+
+        return json({
+          ok: true,
+          received: true,
+        });
       }
 
       return json(
         {
-          ok:false,
+          ok: false,
           error:
-            'Endpoint not found',
-          path
+            "Endpoint not found",
+          path,
         },
-        404
+        404,
       );
-
-    }catch(e){
-
+    } catch (error) {
       console.error(
-        '[FACTOR ERROR]',
-        e
+        "HTTP ERROR:",
+        error,
       );
 
       return json(
         {
-          ok:false,
+          ok: false,
           error:
-            e?.message||
-            String(e)
+            error instanceof Error
+              ? error.message
+              : String(error),
+          path,
         },
-        500
+        500,
       );
     }
-  }
+  },
 );
