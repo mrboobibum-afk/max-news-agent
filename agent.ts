@@ -3,98 +3,96 @@
 // DENO DEPLOY
 // ============================================================
 //
-// АВТОМАТИЧЕСКИЙ НОВОСТНОЙ АГЕНТ
+// АВТОМАТИЧЕСКАЯ СИСТЕМА НОВОСТЕЙ
 //
 // 1. Cron — каждые 5 минут.
-// 2. RSS — мир / политика / экономика / бизнес / финансы +
-//    право / происшествия / технологии / промышленность / авто.
-// 3. Обычная новость — не чаще 1 раза в 30 минут.
-// 4. Срочная новость — отдельный интервал 5 минут.
-// 5. Максимум 1 публикация за один цикл.
-// 6. Deno KV хранит историю 30 дней.
-// 7. Повторяющиеся новости блокируются.
-// 8. Повторяющиеся формулировки блокируются.
-// 9. Google News URL НЕ публикуется.
+// 2. RSS — мир, политика, экономика, бизнес, финансы,
+//    право, происшествия, технологии, промышленность, авто.
+// 3. Срочная новость — не чаще 1 раза в 5 минут.
+// 4. Обычная новость — не чаще 1 раза в 30 минут.
+// 5. Deno KV — история публикаций 30 дней.
+// 6. Атомарный KV-lock против параллельных запусков.
+// 7. Дедупликация по заголовку + реальному URL.
+// 8. Поддержка старых ключей дедупликации.
+// 9. Google News URL НЕ публикуется как источник.
 // 10. Сначала определяется реальная страница СМИ.
-// 11. Медиа берётся только со страницы СМИ.
-// 12. Приоритет: VIDEO -> IMAGE -> TEXT.
-// 13. Медиа загружается в MAX.
-// 14. После upload ждём обработку MAX.
-// 15. attachment.not.ready автоматически повторяется.
-// 16. Gemini делает редакторскую упаковку.
-// 17. При недоступности Gemini используется fallback.
-// 18. /status
-// 19. /pipeline-state
-// 20. /run
-// 21. /publish-test
-// 22. /me
-// 23. /webhook
-// 24. /updates
-// 25. /subscriptions
-// 26. /resolve-test
+// 11. Медиа берётся со страницы СМИ:
+//       VIDEO -> IMAGE -> TEXT
+// 12. Медиа скачивается на сервер агента.
+// 13. Медиа загружается в MAX через /uploads.
+// 14. Пост отправляется через /messages.
+// 15. HTML-формат публикации.
+// 16. Root CA + Sub CA для MAX.
+// 17. Gemini 2.5 Flash для редакторской обработки.
+// 18. Без Gemini работает fallback.
+// 19. /status
+// 20. /pipeline-state
+// 21. /run
+// 22. /publish-test
+// 23. /me
+// 24. /webhook
+// ============================================================
+
+
+// ============================================================
+// CONFIG
 // ============================================================
 
 const MAX_API =
   "https://platform-api2.max.ru";
 
 const MAX_BOT_TOKEN =
-  Deno.env.get("MAX_BOT_TOKEN")?.trim() ?? "";
+  Deno.env.get("MAX_BOT_TOKEN") ?? "";
 
 const TARGET_CHAT_ID =
-  Deno.env.get("TARGET_CHAT_ID")?.trim() ?? "";
+  Deno.env.get("TARGET_CHAT_ID") ?? "";
 
 const GEMINI_API_KEY =
-  Deno.env.get("GEMINI_API_KEY")?.trim() ?? "";
+  Deno.env.get("GEMINI_API_KEY") ?? "";
 
-// ------------------------------------------------------------
-// ENV
-// ------------------------------------------------------------
+const CRON_SCHEDULE =
+  "*/5 * * * *";
 
-const AUTO_PIPELINE =
-  (
-    Deno.env.get("AUTO_PIPELINE") ??
-    "true"
-  ).toLowerCase() === "true";
+const URGENT_INTERVAL_MS =
+  5 * 60 * 1000;
 
-const MAX_EVENT_MODE =
-  (
-    Deno.env.get("MAX_EVENT_MODE") ??
-    "webhook"
-  ).toLowerCase();
+const REGULAR_INTERVAL_MS =
+  30 * 60 * 1000;
 
-const REQUIRE_REAL_SOURCE_URL =
-  (
-    Deno.env.get(
-      "REQUIRE_REAL_SOURCE_URL",
-    ) ??
-    "true"
-  ).toLowerCase() === "true";
+const HISTORY_TTL_MS =
+  30 * 24 * 60 * 60 * 1000;
 
-const MAX_NEWS_AGE_HOURS =
+const LOCK_TTL_MS =
+  8 * 60 * 1000;
+
+const MAX_VIDEO_BYTES =
   Number(
-    Deno.env.get(
-      "MAX_NEWS_AGE_HOURS",
-    ) ??
-      "24",
-  );
+    Deno.env.get("MAX_VIDEO_MB") ?? "60",
+  ) * 1024 * 1024;
 
-const GOOGLE_RESOLVE_ENABLED =
-  (
-    Deno.env.get(
-      "GOOGLE_RESOLVE_ENABLED",
-    ) ??
-    "true"
-  ).toLowerCase() === "true";
+const MAX_IMAGE_BYTES =
+  Number(
+    Deno.env.get("MAX_IMAGE_MB") ?? "15",
+  ) * 1024 * 1024;
 
-const DEBUG =
-  (
-    Deno.env.get("DEBUG") ??
-    "false"
-  ).toLowerCase() === "true";
+const RSS_LIMIT_PER_FEED =
+  30;
 
-// ------------------------------------------------------------
+const MAX_RSS_ITEMS =
+  300;
+
+const MAX_HISTORY_CHECKED =
+  300;
+
+const USER_AGENT =
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
+  "AppleWebKit/537.36 (KHTML, like Gecko) " +
+  "Chrome/140 Safari/537.36";
+
+
+// ============================================================
 // MAX CERTIFICATES
-// ------------------------------------------------------------
+// ============================================================
 
 const MAX_ROOT_CA_URL =
   "https://gu-st.ru/content/lending/russian_trusted_root_ca_pem.crt";
@@ -102,11 +100,9 @@ const MAX_ROOT_CA_URL =
 const MAX_SUB_CA_URL =
   "https://gu-st.ru/content/lending/russian_trusted_sub_ca_pem.crt";
 
-let maxHttpClient:
-  Deno.HttpClient | null = null;
+let maxHttpClient: Deno.HttpClient | null = null;
 
-let maxHttpClientError:
-  string | null = null;
+let maxHttpClientError: string | null = null;
 
 const maxCaStatus = {
   loaded: false,
@@ -115,9 +111,8 @@ const maxCaStatus = {
   error: null as string | null,
 };
 
-async function initMaxHttpClient(): Promise<
-  Deno.HttpClient | null
-> {
+
+async function initMaxHttpClient(): Promise<Deno.HttpClient | null> {
   if (maxHttpClient) {
     return maxHttpClient;
   }
@@ -127,21 +122,15 @@ async function initMaxHttpClient(): Promise<
   }
 
   try {
-    const rootResponse =
-      await fetch(
-        MAX_ROOT_CA_URL,
-        {
-          headers: {
-            "User-Agent":
-              USER_AGENT,
-          },
-
-          signal:
-            AbortSignal.timeout(
-              15000,
-            ),
+    const rootResponse = await fetch(
+      MAX_ROOT_CA_URL,
+      {
+        headers: {
+          "User-Agent": USER_AGENT,
         },
-      );
+        signal: AbortSignal.timeout(15000),
+      },
+    );
 
     if (!rootResponse.ok) {
       throw new Error(
@@ -152,34 +141,23 @@ async function initMaxHttpClient(): Promise<
     const rootCa =
       await rootResponse.text();
 
-    if (
-      !rootCa.includes(
-        "BEGIN CERTIFICATE",
-      )
-    ) {
+    if (!rootCa.includes("BEGIN CERTIFICATE")) {
       throw new Error(
         "Root CA certificate content is invalid",
       );
     }
 
-    maxCaStatus.root =
-      true;
+    maxCaStatus.root = true;
 
-    const subResponse =
-      await fetch(
-        MAX_SUB_CA_URL,
-        {
-          headers: {
-            "User-Agent":
-              USER_AGENT,
-          },
-
-          signal:
-            AbortSignal.timeout(
-              15000,
-            ),
+    const subResponse = await fetch(
+      MAX_SUB_CA_URL,
+      {
+        headers: {
+          "User-Agent": USER_AGENT,
         },
-      );
+        signal: AbortSignal.timeout(15000),
+      },
+    );
 
     if (!subResponse.ok) {
       throw new Error(
@@ -190,18 +168,13 @@ async function initMaxHttpClient(): Promise<
     const subCa =
       await subResponse.text();
 
-    if (
-      !subCa.includes(
-        "BEGIN CERTIFICATE",
-      )
-    ) {
+    if (!subCa.includes("BEGIN CERTIFICATE")) {
       throw new Error(
         "Sub CA certificate content is invalid",
       );
     }
 
-    maxCaStatus.sub =
-      true;
+    maxCaStatus.sub = true;
 
     maxHttpClient =
       Deno.createHttpClient({
@@ -211,8 +184,7 @@ async function initMaxHttpClient(): Promise<
         ],
       });
 
-    maxCaStatus.loaded =
-      true;
+    maxCaStatus.loaded = true;
 
     return maxHttpClient;
   } catch (error) {
@@ -233,77 +205,10 @@ async function initMaxHttpClient(): Promise<
   }
 }
 
-// ------------------------------------------------------------
-// SETTINGS
-// ------------------------------------------------------------
 
-const CRON_SCHEDULE =
-  "*/5 * * * *";
-
-const URGENT_INTERVAL_MS =
-  5 * 60 * 1000;
-
-const REGULAR_INTERVAL_MS =
-  30 * 60 * 1000;
-
-const HISTORY_TTL_MS =
-  30 *
-  24 *
-  60 *
-  60 *
-  1000;
-
-const MAX_VIDEO_BYTES =
-  Number(
-    Deno.env.get(
-      "MAX_VIDEO_MB",
-    ) ??
-      "60",
-  ) *
-  1024 *
-  1024;
-
-const MAX_IMAGE_BYTES =
-  Number(
-    Deno.env.get(
-      "MAX_IMAGE_MB",
-    ) ??
-      "15",
-  ) *
-  1024 *
-  1024;
-
-const RSS_LIMIT_PER_FEED =
-  30;
-
-const MAX_RSS_ITEMS =
-  300;
-
-const MAX_ARTICLE_CANDIDATES =
-  25;
-
-const USER_AGENT =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
-  "AppleWebKit/537.36 (KHTML, like Gecko) " +
-  "Chrome/140 Safari/537.36";
-
-const sleep =
-  (
-    ms: number,
-  ) =>
-    new Promise<void>(
-      (
-        resolve,
-      ) =>
-        setTimeout(
-          resolve,
-          ms,
-        ),
-    );
-
-// ------------------------------------------------------------
-// RSS
-// ------------------------------------------------------------
+// ============================================================
+// RSS FEEDS
+// ============================================================
 
 const RSS_FEEDS = [
   {
@@ -317,35 +222,35 @@ const RSS_FEEDS = [
     category: "ПОЛИТИКА",
     emoji: "🏛️",
     url:
-      "https://news.google.com/rss/search?q=политика+OR+правительство+OR+президент+OR+выборы&hl=ru&gl=RU&ceid=RU:ru",
+      "https://news.google.com/rss/search?q=политика+OR+правительство+OR+президент&hl=ru&gl=RU&ceid=RU:ru",
   },
 
   {
     category: "ЭКОНОМИКА",
     emoji: "📈",
     url:
-      "https://news.google.com/rss/search?q=экономика+OR+инфляция+OR+ставка+OR+рынки+OR+ВВП&hl=ru&gl=RU&ceid=RU:ru",
+      "https://news.google.com/rss/search?q=экономика+OR+инфляция+OR+ставка+OR+рынки&hl=ru&gl=RU&ceid=RU:ru",
   },
 
   {
     category: "БИЗНЕС",
     emoji: "💼",
     url:
-      "https://news.google.com/rss/search?q=бизнес+OR+компания+OR+корпорация+OR+инвестиции+OR+стартап&hl=ru&gl=RU&ceid=RU:ru",
+      "https://news.google.com/rss/search?q=бизнес+OR+компания+OR+корпорация+OR+инвестиции&hl=ru&gl=RU&ceid=RU:ru",
   },
 
   {
     category: "ФИНАНСЫ",
     emoji: "💰",
     url:
-      "https://news.google.com/rss/search?q=финансы+OR+банки+OR+биржа+OR+рубль+OR+доллар+OR+евро&hl=ru&gl=RU&ceid=RU:ru",
+      "https://news.google.com/rss/search?q=финансы+OR+банки+OR+биржа+OR+рубль+OR+доллар&hl=ru&gl=RU&ceid=RU:ru",
   },
 
   {
     category: "ПРАВО",
     emoji: "⚖️",
     url:
-      "https://news.google.com/rss/search?q=закон+OR+суд+OR+право+OR+законопроект+OR+регулирование&hl=ru&gl=RU&ceid=RU:ru",
+      "https://news.google.com/rss/search?q=закон+OR+суд+OR+право+OR+законопроект&hl=ru&gl=RU&ceid=RU:ru",
   },
 
   {
@@ -366,50 +271,21 @@ const RSS_FEEDS = [
     category: "ПРОМЫШЛЕННОСТЬ",
     emoji: "🏭",
     url:
-      "https://news.google.com/rss/search?q=промышленность+OR+производство+OR+энергетика+OR+сырье&hl=ru&gl=RU&ceid=RU:ru",
+      "https://news.google.com/rss/search?q=промышленность+OR+производство+OR+энергетика&hl=ru&gl=RU&ceid=RU:ru",
   },
 
   {
     category: "АВТО",
     emoji: "🚗",
     url:
-      "https://news.google.com/rss/search?q=авто+OR+автомобили+OR+транспорт+OR+электромобили&hl=ru&gl=RU&ceid=RU:ru",
-  },
-
-  {
-    category: "WORLD BUSINESS",
-    emoji: "🌐",
-    url:
-      "https://news.google.com/rss/search?q=global+business+OR+global+economy+OR+international+markets&hl=en&gl=US&ceid=US:en",
-  },
-
-  {
-    category: "WORLD TECHNOLOGY",
-    emoji: "🌐",
-    url:
-      "https://news.google.com/rss/search?q=technology+OR+AI+OR+cybersecurity&hl=en&gl=US&ceid=US:en",
+      "https://news.google.com/rss/search?q=авто+OR+автомобили+OR+транспорт&hl=ru&gl=RU&ceid=RU:ru",
   },
 ];
 
-// ------------------------------------------------------------
-// DENO KV
-// ------------------------------------------------------------
 
-let kv:
-  Deno.Kv | null = null;
-
-async function getKV(): Promise<Deno.Kv> {
-  if (!kv) {
-    kv =
-      await Deno.openKv();
-  }
-
-  return kv;
-}
-
-// ------------------------------------------------------------
+// ============================================================
 // TYPES
-// ------------------------------------------------------------
+// ============================================================
 
 type NewsItem = {
   title: string;
@@ -430,16 +306,10 @@ type ArticleMedia = {
 };
 
 type DownloadedMedia = {
-  type:
-    | "video"
-    | "image";
-
+  type: "video" | "image";
   bytes: Uint8Array;
-
   contentType: string;
-
   extension: string;
-
   sourceUrl: string;
 };
 
@@ -479,334 +349,100 @@ type PipelineState = {
     max_history_checked: number;
   };
 
-  source: {
-    require_real_url: boolean;
-    google_resolver: boolean;
+  lock: {
+    atomic: boolean;
+    ttl_minutes: number;
   };
 
-  last_pipeline:
-    unknown;
-
-  max: {
-    configured: boolean;
-    chat_configured: boolean;
-    ca_loaded: boolean;
-  };
+  last_pipeline: unknown;
 };
 
-// ------------------------------------------------------------
-// STATE
-// ------------------------------------------------------------
 
-async function getState(): Promise<
-  PipelineState
-> {
-  const db =
-    await getKV();
+// ============================================================
+// DENO KV
+// ============================================================
 
-  const regular =
-    (
-      await db.get<number>(
-        [
-          "factor",
-          "state",
-          "last_regular",
-        ],
-      )
-    ).value ?? null;
+let kv: Deno.Kv | null = null;
 
-  const urgent =
-    (
-      await db.get<number>(
-        [
-          "factor",
-          "state",
-          "last_urgent",
-        ],
-      )
-    ).value ?? null;
 
-  const lastPipeline =
-    (
-      await db.get<unknown>(
-        [
-          "factor",
-          "state",
-          "last_pipeline",
-        ],
-      )
-    ).value ?? null;
+async function getKV(): Promise<Deno.Kv> {
+  if (!kv) {
+    kv = await Deno.openKv();
+  }
 
-  const running =
-    (
-      await db.get<boolean>(
-        [
-          "factor",
-          "state",
-          "running",
-        ],
-      )
-    ).value ?? false;
-
-  const now =
-    Date.now();
-
-  return {
-    running,
-
-    cron:
-      CRON_SCHEDULE,
-
-    regular: {
-      interval_minutes:
-        30,
-
-      last:
-        regular,
-
-      can_publish:
-        regular === null ||
-        now -
-            regular >=
-          REGULAR_INTERVAL_MS,
-    },
-
-    urgent: {
-      interval_minutes:
-        5,
-
-      last:
-        urgent,
-
-      can_publish:
-        urgent === null ||
-        now -
-            urgent >=
-          URGENT_INTERVAL_MS,
-    },
-
-    media: {
-      max_video_mb:
-        MAX_VIDEO_BYTES /
-        1024 /
-        1024,
-
-      max_image_mb:
-        MAX_IMAGE_BYTES /
-        1024 /
-        1024,
-
-      priority:
-        "video -> image -> text",
-    },
-
-    dedup: {
-      persistent:
-        true,
-
-      ttl_days:
-        30,
-
-      max_history_checked:
-        300,
-    },
-
-    source: {
-      require_real_url:
-        REQUIRE_REAL_SOURCE_URL,
-
-      google_resolver:
-        GOOGLE_RESOLVE_ENABLED,
-    },
-
-    last_pipeline:
-      lastPipeline,
-
-    max: {
-      configured:
-        Boolean(
-          MAX_BOT_TOKEN,
-        ),
-
-      chat_configured:
-        Boolean(
-          TARGET_CHAT_ID,
-        ),
-
-      ca_loaded:
-        maxCaStatus.loaded,
-    },
-  };
+  return kv;
 }
 
-// ------------------------------------------------------------
-// TEXT
-// ------------------------------------------------------------
+
+// ============================================================
+// TEXT UTILS
+// ============================================================
 
 function cleanText(
   value: unknown,
 ): string {
   return String(value ?? "")
-    .replace(
-      /<!\[CDATA\[/gi,
-      "",
-    )
-    .replace(
-      /\]\]>/gi,
-      "",
-    )
-    .replace(
-      /<br\s*\/?>/gi,
-      "\n",
-    )
-    .replace(
-      /<[^>]+>/g,
-      " ",
-    )
-    .replace(
-      /&nbsp;/gi,
-      " ",
-    )
-    .replace(
-      /&amp;/gi,
-      "&",
-    )
-    .replace(
-      /&quot;/gi,
-      '"',
-    )
-    .replace(
-      /&#39;/gi,
-      "'",
-    )
-    .replace(
-      /&#x27;/gi,
-      "'",
-    )
+    .replace(/<!\[CDATA\[/gi, "")
+    .replace(/\]\]>/gi, "")
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .replace(/&#x27;/gi, "'")
     .replace(
       /&#(\d+);/g,
-      (
-        _,
-        code,
-      ) =>
+      (_, code) =>
         String.fromCodePoint(
           Number(code),
         ),
     )
     .replace(
       /&#x([0-9a-f]+);/gi,
-      (
-        _,
-        code,
-      ) =>
+      (_, code) =>
         String.fromCodePoint(
-          parseInt(
-            code,
-            16,
-          ),
+          parseInt(code, 16),
         ),
     )
-    .replace(
-      /\s+/g,
-      " ",
-    )
+    .replace(/\s+/g, " ")
     .trim();
 }
+
 
 function stripHtml(
   value: string,
 ): string {
-  return cleanText(
-    value,
-  )
-    .replace(
-      /\*\*/g,
-      "",
-    )
-    .replace(
-      /__+/g,
-      "",
-    )
+  return cleanText(value)
+    .replace(/\*\*/g, "")
+    .replace(/__+/g, "")
     .trim();
 }
+
 
 function escapeHtml(
   value: string,
 ): string {
   return value
-    .replace(
-      /&/g,
-      "&amp;",
-    )
-    .replace(
-      /</g,
-      "&lt;",
-    )
-    .replace(
-      />/g,
-      "&gt;",
-    )
-    .replace(
-      /"/g,
-      "&quot;",
-    );
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 }
 
-function decodeHtmlEntities(
-  value: string,
-): string {
-  return value
-    .replace(
-      /&amp;/gi,
-      "&",
-    )
-    .replace(
-      /&quot;/gi,
-      '"',
-    )
-    .replace(
-      /&#39;/gi,
-      "'",
-    )
-    .replace(
-      /&#x27;/gi,
-      "'",
-    )
-    .replace(
-      /&lt;/gi,
-      "<",
-    )
-    .replace(
-      /&gt;/gi,
-      ">",
-    );
-}
 
 function normalizeForHash(
   value: string,
 ): string {
-  return stripHtml(
-    value,
-  )
+  return stripHtml(value)
     .toLowerCase()
-    .replace(
-      /ё/g,
-      "е",
-    )
-    .replace(
-      /[«»"“”'`]/g,
-      "",
-    )
-    .replace(
-      /[^a-zа-я0-9]+/gi,
-      " ",
-    )
-    .replace(
-      /\s+/g,
-      " ",
-    )
+    .replace(/ё/g, "е")
+    .replace(/[«»"“”'`]/g, "")
+    .replace(/[^a-zа-я0-9]+/gi, " ")
+    .replace(/\s+/g, " ")
     .trim();
 }
+
 
 async function sha256(
   value: string,
@@ -822,22 +458,17 @@ async function sha256(
       data,
     );
 
-  return [
-    ...new Uint8Array(hash),
-  ]
+  return Array
+    .from(new Uint8Array(hash))
     .map(
-      (
-        b,
-      ) =>
+      (b) =>
         b
           .toString(16)
-          .padStart(
-            2,
-            "0",
-          ),
+          .padStart(2, "0"),
     )
     .join("");
 }
+
 
 function truncate(
   value: string,
@@ -846,49 +477,149 @@ function truncate(
   const s =
     value.trim();
 
-  if (
-    s.length <= max
-  ) {
+  if (s.length <= max) {
     return s;
   }
 
   return (
     s
-      .slice(
-        0,
-        max - 1,
-      )
+      .slice(0, max - 1)
       .trimEnd() +
     "…"
   );
 }
 
-// ------------------------------------------------------------
+
+// ============================================================
+// URL UTILS
+// ============================================================
+
+function isHttpUrl(
+  url: string,
+): boolean {
+  return /^https?:\/\//i.test(
+    url,
+  );
+}
+
+
+function isGoogleNewsUrl(
+  url: string,
+): boolean {
+  try {
+    const host =
+      new URL(url)
+        .hostname
+        .toLowerCase();
+
+    return (
+      host === "news.google.com" ||
+      host.endsWith(".news.google.com")
+    );
+  } catch {
+    return false;
+  }
+}
+
+
+function isUsableArticleUrl(
+  url: string,
+): boolean {
+  if (!isHttpUrl(url)) {
+    return false;
+  }
+
+  if (isGoogleNewsUrl(url)) {
+    return false;
+  }
+
+  try {
+    const parsed =
+      new URL(url);
+
+    if (
+      !["http:", "https:"].includes(
+        parsed.protocol,
+      )
+    ) {
+      return false;
+    }
+
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+
+function decodeHtmlEntities(
+  value: string,
+): string {
+  return value
+    .replace(/&amp;/gi, "&")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .replace(/&#x27;/gi, "'")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">");
+}
+
+
+function absoluteUrl(
+  value: string,
+  baseUrl: string,
+): string | null {
+  try {
+    return new URL(
+      value,
+      baseUrl,
+    ).href;
+  } catch {
+    return null;
+  }
+}
+
+
+function normalizeMediaUrl(
+  value: string,
+): string {
+  return decodeHtmlEntities(
+    value
+      .replace(/\\\//g, "/")
+      .replace(/\\u0026/gi, "&")
+      .replace(/\\u003A/gi, ":")
+      .replace(/\\u002F/gi, "/")
+      .trim(),
+  );
+}
+
+
+// ============================================================
 // RSS
-// ------------------------------------------------------------
+// ============================================================
 
 function extractXmlTag(
   xml: string,
   tag: string,
 ): string {
-  const re =
-    new RegExp(
-      `<${tag}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/${tag}>`,
-      "i",
-    );
+  const pattern =
+    `<${tag}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/${tag}>`;
 
-  return (
-    re.exec(xml)?.[1] ??
-    ""
-  );
+  const match =
+    new RegExp(
+      pattern,
+      "i",
+    ).exec(xml);
+
+  return match?.[1] ?? "";
 }
+
 
 function parseRSS(
   xml: string,
   feed: typeof RSS_FEEDS[number],
 ): NewsItem[] {
-  const items:
-    NewsItem[] = [];
+  const items: NewsItem[] = [];
 
   const matches =
     xml.match(
@@ -948,10 +679,7 @@ function parseRSS(
       ) ||
       feed.category;
 
-    if (
-      !title ||
-      !link
-    ) {
+    if (!title || !link) {
       continue;
     }
 
@@ -972,6 +700,7 @@ function parseRSS(
 
   return items;
 }
+
 
 async function loadRSS(
   feed: typeof RSS_FEEDS[number],
@@ -996,9 +725,7 @@ async function loadRSS(
         },
       );
 
-    if (
-      !response.ok
-    ) {
+    if (!response.ok) {
       console.error(
         `RSS ${feed.category}: HTTP ${response.status}`,
       );
@@ -1025,527 +752,10 @@ async function loadRSS(
   }
 }
 
-// ------------------------------------------------------------
-// URL
-// ------------------------------------------------------------
 
-function isGoogleNewsUrl(
-  url: string,
-): boolean {
-  try {
-    const host =
-      new URL(
-        url,
-      )
-        .hostname
-        .toLowerCase();
-
-    return (
-      host ===
-        "news.google.com" ||
-      host.endsWith(
-        ".news.google.com",
-      )
-    );
-  } catch {
-    return false;
-  }
-}
-
-function isHttpUrl(
-  url: string,
-): boolean {
-  return /^https?:\/\//i.test(
-    url,
-  );
-}
-
-function isUsableArticleUrl(
-  url: string,
-): boolean {
-  if (
-    !isHttpUrl(url)
-  ) {
-    return false;
-  }
-
-  if (
-    isGoogleNewsUrl(url)
-  ) {
-    return false;
-  }
-
-  try {
-    const u =
-      new URL(url);
-
-    if (
-      u.hostname
-        .toLowerCase()
-        .includes(
-          "google.",
-        )
-    ) {
-      return false;
-    }
-
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-function absoluteUrl(
-  value: string,
-  baseUrl: string,
-): string | null {
-  try {
-    return new URL(
-      value,
-      baseUrl,
-    ).href;
-  } catch {
-    return null;
-  }
-}
-
-// ------------------------------------------------------------
-// GOOGLE NEWS RESOLUTION
-// ------------------------------------------------------------
-
-function extractGoogleArticleId(
-  url: string,
-): string | null {
-  try {
-    const u =
-      new URL(url);
-
-    const parts =
-      u.pathname.split(
-        "/",
-      );
-
-    const index =
-      parts.lastIndexOf(
-        "articles",
-      );
-
-    if (
-      index ===
-      -1 ||
-      !parts[index + 1]
-    ) {
-      return null;
-    }
-
-    return parts[
-      index + 1
-    ];
-  } catch {
-    return null;
-  }
-}
-
-function tryLegacyGoogleBase64Decode(
-  url: string,
-): string | null {
-  const id =
-    extractGoogleArticleId(
-      url,
-    );
-
-  if (!id) {
-    return null;
-  }
-
-  try {
-    const padded =
-      id +
-      "=".repeat(
-        (
-          4 -
-          (id.length %
-            4)
-        ) % 4,
-      );
-
-    const binary =
-      atob(
-        padded
-          .replace(
-            /-/g,
-            "+",
-          )
-          .replace(
-            /_/g,
-            "/",
-          ),
-      );
-
-    const bytes =
-      new Uint8Array(
-        binary.length,
-      );
-
-    for (
-      let i = 0;
-      i < binary.length;
-      i++
-    ) {
-      bytes[i] =
-        binary.charCodeAt(
-          i,
-        );
-    }
-
-    const text =
-      new TextDecoder()
-        .decode(
-          bytes,
-        );
-
-    const match =
-      text.match(
-        /https?:\/\/[^\x00-\x20"'<>\\]+/,
-      );
-
-    if (
-      match &&
-      isUsableArticleUrl(
-        match[0],
-      )
-    ) {
-      return match[0];
-    }
-  } catch {
-    // legacy format not applicable
-  }
-
-  return null;
-}
-
-function extractGoogleSignatureParams(
-  html: string,
-): {
-  signature: string;
-  timestamp: string;
-} | null {
-  const signature =
-    html.match(
-      /data-n-a-sg=["']([^"']+)["']/i,
-    )?.[1] ??
-    html.match(
-      /"data-n-a-sg"\s*:\s*"([^"]+)"/i,
-    )?.[1];
-
-  const timestamp =
-    html.match(
-      /data-n-a-ts=["']([^"']+)["']/i,
-    )?.[1] ??
-    html.match(
-      /"data-n-a-ts"\s*:\s*"([^"]+)"/i,
-    )?.[1];
-
-  if (
-    !signature ||
-    !timestamp
-  ) {
-    return null;
-  }
-
-  return {
-    signature,
-    timestamp,
-  };
-}
-
-async function resolveGoogleViaBatchExecute(
-  googleUrl: string,
-): Promise<string | null> {
-  if (
-    !GOOGLE_RESOLVE_ENABLED
-  ) {
-    return null;
-  }
-
-  const articleId =
-    extractGoogleArticleId(
-      googleUrl,
-    );
-
-  if (!articleId) {
-    return null;
-  }
-
-  try {
-    const articleResponse =
-      await fetch(
-        googleUrl,
-        {
-          headers: {
-            "User-Agent":
-              USER_AGENT,
-
-            "Accept":
-              "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-
-            "Referer":
-              "https://news.google.com/",
-          },
-
-          signal:
-            AbortSignal.timeout(
-              12000,
-            ),
-        },
-      );
-
-    if (
-      !articleResponse.ok
-    ) {
-      return null;
-    }
-
-    const articleHtml =
-      await articleResponse.text();
-
-    const params =
-      extractGoogleSignatureParams(
-        articleHtml,
-      );
-
-    if (!params) {
-      return null;
-    }
-
-    const requestArray = [
-      "garturlreq",
-      [
-        [
-          "X",
-          "X",
-          [
-            "X",
-            "X",
-          ],
-          null,
-          null,
-          1,
-          1,
-          "US:en",
-          null,
-          1,
-          null,
-          null,
-          null,
-          null,
-          null,
-          0,
-          1,
-        ],
-        "X",
-        "X",
-        1,
-        [
-          1,
-          1,
-          1,
-        ],
-        1,
-        1,
-        null,
-        0,
-        0,
-        null,
-      ],
-      articleId,
-      Number(
-        params.timestamp,
-      ),
-      params.signature,
-    ];
-
-    const rpc =
-      JSON.stringify(
-        [
-          [
-            [
-              "Fbv4je",
-              JSON.stringify(
-                requestArray,
-              ),
-              null,
-              "generic",
-            ],
-          ],
-        ],
-      );
-
-    const body =
-      "f.req=" +
-      encodeURIComponent(
-        rpc,
-      );
-
-    const response =
-      await fetch(
-        "https://news.google.com/_/DotsSplashUi/data/batchexecute",
-        {
-          method:
-            "POST",
-
-          headers: {
-            "Content-Type":
-              "application/x-www-form-urlencoded;charset=UTF-8",
-
-            "User-Agent":
-              USER_AGENT,
-
-            "Referer":
-              "https://news.google.com/",
-          },
-
-          body,
-
-          signal:
-            AbortSignal.timeout(
-              15000,
-            ),
-        },
-      );
-
-    if (
-      !response.ok
-    ) {
-      return null;
-    }
-
-    const text =
-      await response.text();
-
-    const markers = [
-      '\\"garturlres\\",\\"',
-      '"garturlres","',
-    ];
-
-    for (
-      const marker of markers
-    ) {
-      const start =
-        text.indexOf(
-          marker,
-        );
-
-      if (
-        start ===
-        -1
-      ) {
-        continue;
-      }
-
-      const from =
-        start +
-        marker.length;
-
-      const end =
-        text.indexOf(
-          '\\"',
-          from,
-        );
-
-      if (
-        end ===
-        -1
-      ) {
-        continue;
-      }
-
-      const raw =
-        text.slice(
-          from,
-          end,
-        );
-
-      const decoded =
-        decodeGoogleEscapedUrl(
-          raw,
-        );
-
-      if (
-        isUsableArticleUrl(
-          decoded,
-        )
-      ) {
-        return decoded;
-      }
-    }
-
-    const direct =
-      text.match(
-        /https?:\\?\/\\?\/[^\\"'\s]+/g,
-      ) ?? [];
-
-    for (
-      const raw of direct
-    ) {
-      const decoded =
-        decodeGoogleEscapedUrl(
-          raw,
-        );
-
-      if (
-        isUsableArticleUrl(
-          decoded,
-        )
-      ) {
-        return decoded;
-      }
-    }
-  } catch (error) {
-    if (DEBUG) {
-      console.error(
-        "Google batch resolver:",
-        error,
-      );
-    }
-  }
-
-  return null;
-}
-
-function decodeGoogleEscapedUrl(
-  value: string,
-): string {
-  return value
-    .replace(
-      /\\u003d/gi,
-      "=",
-    )
-    .replace(
-      /\\u0026/gi,
-      "&",
-    )
-    .replace(
-      /\\u002f/gi,
-      "/",
-    )
-    .replace(
-      /\\u003a/gi,
-      ":",
-    )
-    .replace(
-      /\\\//g,
-      "/",
-    )
-    .replace(
-      /\\\\/g,
-      "\\",
-    )
-    .replace(
-      /\\+"/g,
-      '"',
-    );
-}
+// ============================================================
+// HTML META
+// ============================================================
 
 function findMeta(
   html: string,
@@ -1583,17 +793,11 @@ function findMeta(
     const pattern of patterns
   ) {
     const match =
-      html.match(
-        pattern,
-      );
+      html.match(pattern);
 
-    if (
-      match?.[1]
-    ) {
+    if (match?.[1]) {
       return decodeHtmlEntities(
-        cleanText(
-          match[1],
-        ),
+        cleanText(match[1]),
       );
     }
   }
@@ -1601,12 +805,37 @@ function findMeta(
   return null;
 }
 
+
+function extractCanonical(
+  html: string,
+  baseUrl: string,
+): string | null {
+  const canonical =
+    html.match(
+      /<link[^>]+rel=["'][^"']*canonical[^"']*["'][^>]+href=["']([^"']+)["']/i,
+    )?.[1] ??
+    html.match(
+      /<link[^>]+href=["']([^"']+)["'][^>]+rel=["'][^"']*canonical[^"']*["']/i,
+    )?.[1];
+
+  if (!canonical) {
+    return null;
+  }
+
+  return absoluteUrl(
+    decodeHtmlEntities(
+      canonical,
+    ),
+    baseUrl,
+  );
+}
+
+
 function extractExternalLinks(
   html: string,
   baseUrl: string,
 ): string[] {
-  const result:
-    string[] = [];
+  const result: string[] = [];
 
   const seen =
     new Set<string>();
@@ -1627,58 +856,50 @@ function extractExternalLinks(
         baseUrl,
       );
 
+    if (!url) {
+      continue;
+    }
+
     if (
-      !url ||
-      !isUsableArticleUrl(
-        url,
-      )
+      !isUsableArticleUrl(url)
     ) {
       continue;
     }
 
     try {
-      const parsed =
-        new URL(url);
-
       const host =
-        parsed.hostname.toLowerCase();
+        new URL(url)
+          .hostname
+          .toLowerCase();
 
       if (
-        host.includes(
-          "google.",
-        ) ||
-        host.includes(
-          "gstatic.",
-        ) ||
-        host.includes(
-          "googleusercontent.",
-        )
+        host.includes("google.")
       ) {
         continue;
       }
-
-      if (
-        seen.has(url)
-      ) {
-        continue;
-      }
-
-      seen.add(url);
-      result.push(url);
     } catch {
-      // ignore
+      continue;
     }
 
-    if (
-      result.length >=
-      MAX_ARTICLE_CANDIDATES
-    ) {
+    if (seen.has(url)) {
+      continue;
+    }
+
+    seen.add(url);
+    result.push(url);
+
+    if (result.length >= 30) {
       break;
     }
   }
 
   return result;
 }
+
+
+// ============================================================
+// GOOGLE NEWS RESOLUTION
+// ============================================================
 
 async function resolveArticleUrl(
   originalUrl: string,
@@ -1691,32 +912,6 @@ async function resolveArticleUrl(
     return originalUrl;
   }
 
-  // Старый формат Google News иногда всё ещё
-  // содержит URL в Base64-блоке.
-  const legacy =
-    tryLegacyGoogleBase64Decode(
-      originalUrl,
-    );
-
-  if (
-    legacy
-  ) {
-    return legacy;
-  }
-
-  // Современный способ.
-  const decoded =
-    await resolveGoogleViaBatchExecute(
-      originalUrl,
-    );
-
-  if (
-    decoded
-  ) {
-    return decoded;
-  }
-
-  // Дополнительная проверка страницы Google.
   try {
     const response =
       await fetch(
@@ -1756,32 +951,18 @@ async function resolveArticleUrl(
       await response.text();
 
     const canonical =
-      html.match(
-        /<link[^>]+rel=["'][^"']*canonical[^"']*["'][^>]+href=["']([^"']+)["']/i,
-      )?.[1] ??
-      html.match(
-        /<link[^>]+href=["']([^"']+)["'][^>]+rel=["'][^"']*canonical[^"']*["']/i,
-      )?.[1];
+      extractCanonical(
+        html,
+        originalUrl,
+      );
 
     if (
-      canonical
+      canonical &&
+      isUsableArticleUrl(
+        canonical,
+      )
     ) {
-      const url =
-        absoluteUrl(
-          decodeHtmlEntities(
-            canonical,
-          ),
-          originalUrl,
-        );
-
-      if (
-        url &&
-        isUsableArticleUrl(
-          url,
-        )
-      ) {
-        return url;
-      }
+      return canonical;
     }
 
     const ogUrl =
@@ -1790,22 +971,20 @@ async function resolveArticleUrl(
         "og:url",
       );
 
-    if (
-      ogUrl
-    ) {
-      const url =
+    if (ogUrl) {
+      const resolved =
         absoluteUrl(
           ogUrl,
           originalUrl,
         );
 
       if (
-        url &&
+        resolved &&
         isUsableArticleUrl(
-          url,
+          resolved,
         )
       ) {
-        return url;
+        return resolved;
       }
     }
 
@@ -1815,79 +994,26 @@ async function resolveArticleUrl(
         originalUrl,
       );
 
-    if (
-      links.length
-    ) {
+    if (links.length > 0) {
       return links[0];
     }
   } catch (error) {
-    if (DEBUG) {
-      console.error(
-        "Google News fallback:",
-        error,
-      );
-    }
+    console.error(
+      "Google News resolve:",
+      error instanceof Error
+        ? error.message
+        : String(error),
+    );
   }
 
+  // НИКОГДА не возвращаем Google News
   return "";
 }
 
-// ------------------------------------------------------------
-// FRESHNESS
-// ------------------------------------------------------------
 
-function getPublicationTime(
-  item: NewsItem,
-): number {
-  const parsed =
-    Date.parse(
-      item.pubDate,
-    );
-
-  return Number.isFinite(
-    parsed,
-  )
-    ? parsed
-    : 0;
-}
-
-function isFreshEnough(
-  item: NewsItem,
-): boolean {
-  const published =
-    getPublicationTime(
-      item,
-    );
-
-  if (
-    published <=
-    0
-  ) {
-    return true;
-  }
-
-  const age =
-    Date.now() -
-    published;
-
-  if (
-    age < 0
-  ) {
-    return true;
-  }
-
-  return (
-    age <=
-    MAX_NEWS_AGE_HOURS *
-      60 *
-      60 *
-      1000
-  );
-}
-
-// ------------------------------------------------------------
-// VIDEO
-// ------------------------------------------------------------
+// ============================================================
+// VIDEO EXTRACTION
+// ============================================================
 
 function isDirectVideoUrl(
   url: string,
@@ -1896,92 +1022,39 @@ function isDirectVideoUrl(
     url.toLowerCase();
 
   if (
-    lower.includes(
-      ".m3u8",
-    ) ||
-    lower.includes(
-      ".mpd",
-    )
+    lower.includes(".m3u8") ||
+    lower.includes(".mpd")
   ) {
     return false;
   }
 
   return (
-    lower.includes(
-      ".mp4",
-    ) ||
-    lower.includes(
-      ".mov",
-    ) ||
-    lower.includes(
-      ".webm",
-    ) ||
-    lower.includes(
-      ".mkv",
-    )
+    lower.includes(".mp4") ||
+    lower.includes(".mov") ||
+    lower.includes(".webm") ||
+    lower.includes(".mkv")
   );
 }
 
-function normalizeMediaUrl(
-  value: string,
-): string {
-  return decodeHtmlEntities(
-    value
-      .replace(
-        /\\\//g,
-        "/",
-      )
-      .replace(
-        /\\u0026/gi,
-        "&",
-      )
-      .replace(
-        /\\u003A/gi,
-        ":",
-      )
-      .replace(
-        /\\u003a/gi,
-        ":",
-      )
-      .replace(
-        /\\u002F/gi,
-        "/",
-      )
-      .replace(
-        /\\u002f/gi,
-        "/",
-      )
-      .trim(),
-  );
-}
 
 function collectVideoUrls(
   value: unknown,
   result: string[],
 ): void {
   if (
-    typeof value ===
-    "string"
+    typeof value === "string"
   ) {
     if (
-      isDirectVideoUrl(
-        value,
-      )
+      isDirectVideoUrl(value)
     ) {
-      result.push(
-        value,
-      );
+      result.push(value);
     }
 
     return;
   }
 
-  if (
-    Array.isArray(value)
-  ) {
-    for (
-      const item of value
-    ) {
+  if (Array.isArray(value)) {
+    for (const item of value) {
       collectVideoUrls(
         item,
         result,
@@ -1993,8 +1066,7 @@ function collectVideoUrls(
 
   if (
     value &&
-    typeof value ===
-      "object"
+    typeof value === "object"
   ) {
     for (
       const [
@@ -2014,9 +1086,7 @@ function collectVideoUrls(
           "video_url",
           "url",
           "file",
-        ].includes(
-          key,
-        )
+        ].includes(key)
       ) {
         collectVideoUrls(
           item,
@@ -2025,14 +1095,10 @@ function collectVideoUrls(
       }
 
       if (
-        [
-          "@graph",
-          "video",
-          "content",
-          "associatedMedia",
-        ].includes(
-          key,
-        )
+        key === "@graph" ||
+        key === "video" ||
+        key === "content" ||
+        key === "associatedMedia"
       ) {
         collectVideoUrls(
           item,
@@ -2043,12 +1109,12 @@ function collectVideoUrls(
   }
 }
 
+
 function findVideoFromHtml(
   html: string,
   baseUrl: string,
 ): string | null {
-  const candidates:
-    string[] = [];
+  const candidates: string[] = [];
 
   const metaNames = [
     "og:video",
@@ -2066,12 +1132,8 @@ function findVideoFromHtml(
         name,
       );
 
-    if (
-      value
-    ) {
-      candidates.push(
-        value,
-      );
+    if (value) {
+      candidates.push(value);
     }
   }
 
@@ -2106,32 +1168,19 @@ function findVideoFromHtml(
   }
 
   for (
-    const match of html.matchAll(
-      /https?:\\?\/\\?\/[^"'\\\s]+?\.(?:mp4|mov|webm|mkv)(?:\?[^"'\\\s]+)?/gi,
-    )
-  ) {
-    candidates.push(
-      match[0],
-    );
-  }
-
-  for (
     const candidate of candidates
   ) {
     const url =
       absoluteUrl(
         normalizeMediaUrl(
           candidate,
-        baseUrl,
-      ),
+        ),
         baseUrl,
       );
 
     if (
       url &&
-      isDirectVideoUrl(
-        url,
-      )
+      isDirectVideoUrl(url)
     ) {
       return url;
     }
@@ -2163,8 +1212,7 @@ function findVideoFromHtml(
           jsonText,
         );
 
-      const urls:
-        string[] = [];
+      const urls: string[] = [];
 
       collectVideoUrls(
         data,
@@ -2184,24 +1232,23 @@ function findVideoFromHtml(
 
         if (
           url &&
-          isDirectVideoUrl(
-            url,
-          )
+          isDirectVideoUrl(url)
         ) {
           return url;
         }
       }
     } catch {
-      // ignore invalid JSON-LD
+      // JSON-LD может быть некорректным
     }
   }
 
   return null;
 }
 
-// ------------------------------------------------------------
-// ARTICLE
-// ------------------------------------------------------------
+
+// ============================================================
+// ARTICLE MEDIA
+// ============================================================
 
 async function extractArticleMedia(
   originalUrl: string,
@@ -2247,9 +1294,7 @@ async function extractArticleMedia(
         },
       );
 
-    if (
-      !response.ok
-    ) {
+    if (!response.ok) {
       return {
         articleUrl,
         imageUrl: null,
@@ -2259,8 +1304,7 @@ async function extractArticleMedia(
     }
 
     const finalArticleUrl =
-      response.url ||
-      articleUrl;
+      response.url || articleUrl;
 
     if (
       !isUsableArticleUrl(
@@ -2341,9 +1385,10 @@ async function extractArticleMedia(
   }
 }
 
-// ------------------------------------------------------------
+
+// ============================================================
 // MEDIA DOWNLOAD
-// ------------------------------------------------------------
+// ============================================================
 
 function extensionFromType(
   type:
@@ -2355,77 +1400,45 @@ function extensionFromType(
   const ct =
     contentType.toLowerCase();
 
-  if (
-    type ===
-    "video"
-  ) {
-    if (
-      ct.includes(
-        "webm",
-      )
-    ) {
+  if (type === "video") {
+    if (ct.includes("webm")) {
       return "webm";
     }
 
-    if (
-      ct.includes(
-        "quicktime",
-      )
-    ) {
+    if (ct.includes("quicktime")) {
       return "mov";
     }
 
-    if (
-      ct.includes(
-        "matroska",
-      )
-    ) {
+    if (ct.includes("matroska")) {
       return "mkv";
     }
 
     return "mp4";
   }
 
-  if (
-    ct.includes(
-      "png",
-    )
-  ) {
+  if (ct.includes("png")) {
     return "png";
   }
 
-  if (
-    ct.includes(
-      "gif",
-    )
-  ) {
+  if (ct.includes("gif")) {
     return "gif";
   }
 
-  if (
-    ct.includes(
-      "webp",
-    )
-  ) {
+  if (ct.includes("webp")) {
     return "webp";
   }
 
   try {
     const path =
-      new URL(
-        url,
-      ).pathname;
+      new URL(url).pathname;
 
     const match =
       path.match(
         /\.([a-z0-9]{2,5})$/i,
       );
 
-    if (
-      match
-    ) {
-      return match[1]
-        .toLowerCase();
+    if (match) {
+      return match[1].toLowerCase();
     }
   } catch {
     // ignore
@@ -2434,6 +1447,7 @@ function extensionFromType(
   return "jpg";
 }
 
+
 async function downloadMedia(
   url: string,
   type:
@@ -2441,9 +1455,7 @@ async function downloadMedia(
     | "image",
 ): Promise<DownloadedMedia | null> {
   try {
-    if (
-      !isHttpUrl(url)
-    ) {
+    if (!isHttpUrl(url)) {
       return null;
     }
 
@@ -2459,29 +1471,21 @@ async function downloadMedia(
               USER_AGENT,
 
             "Accept":
-              type ===
-              "video"
+              type === "video"
                 ? "video/mp4,video/quicktime,video/webm,video/*;q=0.9,*/*;q=0.3"
                 : "image/avif,image/webp,image/apng,image/*,*/*;q=0.5",
           },
 
           signal:
             AbortSignal.timeout(
-              type ===
-                "video"
+              type === "video"
                 ? 30000
                 : 15000,
             ),
         },
       );
 
-    if (
-      !response.ok
-    ) {
-      console.error(
-        `Media HTTP ${response.status}: ${url}`,
-      );
-
+    if (!response.ok) {
       return null;
     }
 
@@ -2510,20 +1514,23 @@ async function downloadMedia(
       Number(
         response.headers.get(
           "content-length",
-        ) ??
-          "0",
+        ) ?? "0",
       );
 
     const limit =
-      type ===
-      "video"
+      type === "video"
         ? MAX_VIDEO_BYTES
         : MAX_IMAGE_BYTES;
 
     if (
-      contentLength >
-      limit
+      contentLength > 0 &&
+      contentLength > limit
     ) {
+      console.log(
+        "Media too large:",
+        contentLength,
+      );
+
       return null;
     }
 
@@ -2533,19 +1540,16 @@ async function downloadMedia(
       );
 
     if (
-      buffer.byteLength >
-      limit
+      buffer.byteLength > limit
     ) {
       return null;
     }
 
     const finalUrl =
-      response.url ||
-      url;
+      response.url || url;
 
     if (
-      type ===
-        "video" &&
+      type === "video" &&
       !contentType.startsWith(
         "video/",
       )
@@ -2560,19 +1564,15 @@ async function downloadMedia(
     }
 
     if (
-      type ===
-        "image" &&
+      type === "image" &&
       !contentType.startsWith(
         "image/",
       )
     ) {
-      const imageExtension =
-        /\.(jpg|jpeg|png|gif|webp|tiff|bmp|heic)(?:\?|$)/i.test(
-          finalUrl,
-        );
-
       if (
-        !imageExtension
+        !/\.(jpg|jpeg|png|gif|webp|tiff|bmp|heic)(?:\?|$)/i.test(
+          finalUrl,
+        )
       ) {
         return null;
       }
@@ -2587,8 +1587,7 @@ async function downloadMedia(
       contentType:
         contentType ||
         (
-          type ===
-          "video"
+          type === "video"
             ? "video/mp4"
             : "image/jpeg"
         ),
@@ -2615,17 +1614,16 @@ async function downloadMedia(
   }
 }
 
-// ------------------------------------------------------------
+
+// ============================================================
 // MAX API
-// ------------------------------------------------------------
+// ============================================================
 
 async function maxFetch(
   path: string,
   options: RequestInit = {},
 ): Promise<Response> {
-  if (
-    !MAX_BOT_TOKEN
-  ) {
+  if (!MAX_BOT_TOKEN) {
     throw new Error(
       "MAX_BOT_TOKEN is missing",
     );
@@ -2633,8 +1631,7 @@ async function maxFetch(
 
   const headers =
     new Headers(
-      options.headers ??
-        {},
+      options.headers ?? {},
     );
 
   headers.set(
@@ -2650,7 +1647,8 @@ async function maxFetch(
   const client =
     await initMaxHttpClient();
 
-  const requestOptions =
+  return await fetch(
+    `${MAX_API}${path}`,
     {
       ...options,
 
@@ -2658,26 +1656,10 @@ async function maxFetch(
         client ?? undefined,
 
       headers,
-    } as RequestInit & {
-      client?: Deno.HttpClient;
-    };
-
-  try {
-    return await fetch(
-      `${MAX_API}${path}`,
-      requestOptions,
-    );
-  } catch (error) {
-    console.error(
-      "MAX fetch error:",
-      error instanceof Error
-        ? error.message
-        : String(error),
-    );
-
-    throw error;
-  }
+    },
+  );
 }
+
 
 async function maxJson<T>(
   path: string,
@@ -2692,15 +1674,12 @@ async function maxJson<T>(
   const text =
     await response.text();
 
-  let data:
-    any;
+  let data: any;
 
   try {
     data =
       text
-        ? JSON.parse(
-            text,
-          )
+        ? JSON.parse(text)
         : null;
   } catch {
     data = {
@@ -2708,9 +1687,7 @@ async function maxJson<T>(
     };
   }
 
-  if (
-    !response.ok
-  ) {
+  if (!response.ok) {
     throw new Error(
       `MAX ${response.status}: ${JSON.stringify(
         data,
@@ -2721,9 +1698,10 @@ async function maxJson<T>(
   return data as T;
 }
 
-// ------------------------------------------------------------
+
+// ============================================================
 // MAX UPLOAD
-// ------------------------------------------------------------
+// ============================================================
 
 async function uploadMedia(
   media: DownloadedMedia,
@@ -2737,8 +1715,7 @@ async function uploadMedia(
         media.type,
       )}`,
       {
-        method:
-          "POST",
+        method: "POST",
 
         headers: {
           "Accept":
@@ -2747,9 +1724,7 @@ async function uploadMedia(
       },
     );
 
-  if (
-    !init.url
-  ) {
+  if (!init.url) {
     throw new Error(
       `MAX upload URL missing for ${media.type}`,
     );
@@ -2760,9 +1735,7 @@ async function uploadMedia(
 
   const blob =
     new Blob(
-      [
-        media.bytes,
-      ],
+      [media.bytes],
       {
         type:
           media.contentType,
@@ -2779,15 +1752,14 @@ async function uploadMedia(
     await fetch(
       init.url,
       {
-        method:
-          "POST",
+        method: "POST",
 
         body:
           form,
 
         signal:
           AbortSignal.timeout(
-            120000,
+            90000,
           ),
       },
     );
@@ -2795,9 +1767,7 @@ async function uploadMedia(
   const uploadText =
     await uploadResponse.text();
 
-  if (
-    !uploadResponse.ok
-  ) {
+  if (!uploadResponse.ok) {
     throw new Error(
       `Media upload HTTP ${
         uploadResponse.status
@@ -2808,8 +1778,7 @@ async function uploadMedia(
     );
   }
 
-  let uploadResult:
-    any = null;
+  let uploadResult: any = null;
 
   try {
     uploadResult =
@@ -2819,24 +1788,18 @@ async function uploadMedia(
           )
         : null;
   } catch {
-    uploadResult =
-      null;
+    // Некоторые upload endpoints могут вернуть не JSON.
   }
 
   const finalToken =
     init.token ||
     uploadResult?.token ||
-    uploadResult
-      ?.mediafile_token ||
-    uploadResult
-      ?.photos
-      ?.photoIds
-      ?.token ||
+    uploadResult?.mediafile_token ||
+    uploadResult?.photos?.photoIds?.token ||
     null;
 
   if (
-    typeof finalToken !==
-      "string" ||
+    typeof finalToken !== "string" ||
     !finalToken
   ) {
     throw new Error(
@@ -2851,27 +1814,10 @@ async function uploadMedia(
   return finalToken;
 }
 
-// ------------------------------------------------------------
+
+// ============================================================
 // MAX PUBLISH
-// ------------------------------------------------------------
-
-function isAttachmentNotReady(
-  error: unknown,
-): boolean {
-  const text =
-    error instanceof Error
-      ? error.message
-      : String(error);
-
-  return (
-    text.includes(
-      "attachment.not.ready",
-    ) ||
-    text.includes(
-      "errors.process.attachment.file.not.processed",
-    )
-  );
-}
+// ============================================================
 
 async function publishToMax(
   text: string,
@@ -2883,162 +1829,226 @@ async function publishToMax(
     token: string;
   },
 ): Promise<any> {
-  if (
-    !TARGET_CHAT_ID
-  ) {
+  if (!TARGET_CHAT_ID) {
     throw new Error(
       "TARGET_CHAT_ID is missing",
     );
   }
 
-  const body:
-    any = {
-      text,
+  const body: any = {
+    text,
 
-      format:
-        "html",
+    format:
+      "html",
 
-      notify:
-        true,
-    };
+    notify:
+      true,
+  };
 
-  if (
-    mediaToken
-  ) {
-    body.attachments =
-      [
-        {
-          type:
-            mediaToken.type,
+  if (mediaToken) {
+    body.attachments = [
+      {
+        type:
+          mediaToken.type,
 
-          payload: {
-            token:
-              mediaToken.token,
-          },
+        payload: {
+          token:
+            mediaToken.token,
         },
-      ];
+      },
+    ];
   }
 
-  const delays = [
-    0,
-    4000,
-    7000,
-    10000,
-    15000,
-  ];
+  return await maxJson(
+    `/messages?chat_id=${encodeURIComponent(
+      TARGET_CHAT_ID,
+    )}`,
+    {
+      method: "POST",
 
-  let lastError:
-    unknown = null;
+      headers: {
+        "Content-Type":
+          "application/json",
 
-  for (
-    const delay of delays
-  ) {
-    if (
-      delay > 0
-    ) {
-      await sleep(
-        delay,
-      );
-    }
+        "Accept":
+          "application/json",
+      },
 
-    try {
-      return await maxJson(
-        `/messages?chat_id=${encodeURIComponent(
-          TARGET_CHAT_ID,
-        )}`,
-        {
-          method:
-            "POST",
-
-          headers: {
-            "Content-Type":
-              "application/json",
-
-            "Accept":
-              "application/json",
-          },
-
-          body:
-            JSON.stringify(
-              body,
-            ),
-        },
-      );
-    } catch (error) {
-      lastError =
-        error;
-
-      if (
-        !mediaToken ||
-        !isAttachmentNotReady(
-          error,
-        )
-      ) {
-        throw error;
-      }
-
-      console.log(
-        "MAX attachment is not ready. Retrying...",
-      );
-    }
-  }
-
-  throw lastError ??
-    new Error(
-      "MAX publish failed",
-    );
+      body:
+        JSON.stringify(
+          body,
+        ),
+    },
+  );
 }
 
-// ------------------------------------------------------------
-// DEDUP
-// ------------------------------------------------------------
+
+// ============================================================
+// DEDUPLICATION
+// ============================================================
+
+function normalizeArticleUrl(
+  url: string,
+): string {
+  if (!isUsableArticleUrl(url)) {
+    return "";
+  }
+
+  try {
+    const parsed =
+      new URL(url);
+
+    const removeParams = [
+      "utm_source",
+      "utm_medium",
+      "utm_campaign",
+      "utm_term",
+      "utm_content",
+      "gclid",
+      "fbclid",
+      "yclid",
+      "mc_cid",
+      "mc_eid",
+    ];
+
+    for (
+      const param of removeParams
+    ) {
+      parsed.searchParams.delete(
+        param,
+      );
+    }
+
+    parsed.hash = "";
+
+    return parsed.href;
+  } catch {
+    return "";
+  }
+}
+
+
+async function publishedKey(
+  item: NewsItem,
+  articleUrl: string,
+): Promise<string> {
+  const normalizedTitle =
+    normalizeForHash(
+      item.title,
+    );
+
+  const normalizedUrl =
+    normalizeArticleUrl(
+      articleUrl,
+    );
+
+  return await sha256(
+    `${normalizedTitle}|${normalizedUrl}`,
+  );
+}
+
+
+async function legacyPublishedKey(
+  item: NewsItem,
+): Promise<string> {
+  return await sha256(
+    normalizeForHash(
+      `${item.title}|${item.source}`,
+    ),
+  );
+}
+
 
 async function isAlreadyPublished(
   item: NewsItem,
+  articleUrl = "",
 ): Promise<boolean> {
   const db =
     await getKV();
 
-  const key =
-    await sha256(
-      normalizeForHash(
-        `${item.title}|${item.source}`,
-      ),
+  // Новая схема: title + real URL
+  if (articleUrl) {
+    const key =
+      await publishedKey(
+        item,
+        articleUrl,
+      );
+
+    const result =
+      await db.get<boolean>(
+        [
+          "factor",
+          "published_v2",
+          key,
+        ],
+      );
+
+    if (result.value === true) {
+      return true;
+    }
+  }
+
+  // Старая схема: title + source
+  const oldKey =
+    await legacyPublishedKey(
+      item,
     );
 
-  const result =
+  const legacy =
     await db.get<boolean>(
       [
         "factor",
         "published",
-        key,
+        oldKey,
       ],
     );
 
-  return (
-    result.value ===
-    true
-  );
+  return legacy.value === true;
 }
+
 
 async function markPublished(
   item: NewsItem,
+  articleUrl: string,
 ): Promise<void> {
   const db =
     await getKV();
 
+  const normalizedUrl =
+    normalizeArticleUrl(
+      articleUrl,
+    );
+
   const key =
-    await sha256(
-      normalizeForHash(
-        `${item.title}|${item.source}`,
-      ),
+    await publishedKey(
+      item,
+      normalizedUrl,
+    );
+
+  await db.set(
+    [
+      "factor",
+      "published_v2",
+      key,
+    ],
+    true,
+    {
+      expireIn:
+        HISTORY_TTL_MS,
+    },
+  );
+
+  // Сохраняем также старый формат.
+  const oldKey =
+    await legacyPublishedKey(
+      item,
     );
 
   await db.set(
     [
       "factor",
       "published",
-      key,
+      oldKey,
     ],
     true,
     {
@@ -3048,14 +2058,14 @@ async function markPublished(
   );
 }
 
+
 async function getRecentTitles(
-  limit = 300,
+  limit = MAX_HISTORY_CHECKED,
 ): Promise<string[]> {
   const db =
     await getKV();
 
-  const titles:
-    string[] = [];
+  const titles: string[] = [];
 
   for await (
     const entry of db.list<string>(
@@ -3064,12 +2074,11 @@ async function getRecentTitles(
           "factor",
           "recent_title",
         ],
+        reverse: true,
       },
     )
   ) {
-    if (
-      entry.value
-    ) {
+    if (entry.value) {
       titles.push(
         entry.value,
       );
@@ -3085,6 +2094,7 @@ async function getRecentTitles(
 
   return titles;
 }
+
 
 async function rememberTitle(
   title: string,
@@ -3113,9 +2123,10 @@ async function rememberTitle(
   );
 }
 
-// ------------------------------------------------------------
+
+// ============================================================
 // URGENCY
-// ------------------------------------------------------------
+// ============================================================
 
 function detectUrgency(
   item: NewsItem,
@@ -3156,18 +2167,15 @@ function detectUrgency(
   ];
 
   return urgentPatterns.some(
-    (
-      pattern,
-    ) =>
-      text.includes(
-        pattern,
-      ),
+    (pattern) =>
+      text.includes(pattern),
   );
 }
 
-// ------------------------------------------------------------
+
+// ============================================================
 // GEMINI
-// ------------------------------------------------------------
+// ============================================================
 
 function extractJson(
   text: string,
@@ -3198,9 +2206,7 @@ function extractJson(
         /\{[\s\S]*\}/,
       );
 
-    if (
-      !match
-    ) {
+    if (!match) {
       return null;
     }
 
@@ -3214,21 +2220,18 @@ function extractJson(
   }
 }
 
+
 async function callGemini(
   item: NewsItem,
 ): Promise<AIStory | null> {
-  if (
-    !GEMINI_API_KEY
-  ) {
+  if (!GEMINI_API_KEY) {
     return null;
   }
 
   const prompt = `
 Ты редактор новостного канала ФАКТОР.
 
-Твоя задача — переписать исходную новость в короткую плотную русскоязычную новостную подачу.
-
-Работай ТОЛЬКО с информацией из исходного материала.
+Работай ТОЛЬКО с информацией из исходной новости.
 
 ИСХОДНЫЙ ЗАГОЛОВОК:
 ${item.title}
@@ -3244,36 +2247,30 @@ ${item.description}
 Формат:
 
 {
-  "headline": "короткий конкретный заголовок на русском",
-  "short": "одно короткое предложение о событии",
+  "headline": "короткий точный заголовок",
+  "short": "одно короткое предложение, объясняющее событие",
   "main": [
-    "факт 1",
-    "факт 2",
-    "факт 3"
+    "конкретный факт 1",
+    "конкретный факт 2",
+    "конкретный факт 3"
   ],
-  "important": "конкретно что важно в этой новости",
+  "important": "один конкретный вывод только из источника",
   "urgent": false
 }
 
 ПРАВИЛА:
 
-1. Пиши на русском языке.
-2. Никаких выдуманных фактов.
-3. Не добавляй сведения, которых нет в исходном материале.
-4. Не меняй смысл новости.
-5. Не повторяй одну и ту же мысль.
-6. headline должен быть конкретным.
-7. Не начинай headline словами "Стало известно".
-8. Не используй "ситуация развивается".
-9. Не используй "по данным СМИ", если источник уже указан.
-10. short должен быть кратким.
-11. main должен содержать 1–3 разных факта.
-12. Если фактов недостаточно — используй 1 пункт.
-13. important должен объяснять значение события только на основании исходного материала.
-14. urgent=true только для действительно срочного события.
-15. Обычная новость = urgent=false.
-16. Не используй рекламные формулировки.
-17. Не используй кликбейт, которого нет в исходном материале.
+1. Никаких выдуманных фактов.
+2. Не додумывай отсутствующую информацию.
+3. Не повторяй одну и ту же мысль.
+4. short, main и important должны различаться.
+5. Если фактов мало — используй меньше пунктов.
+6. Не пиши "ситуация развивается".
+7. Не пиши "стало известно".
+8. Не используй рекламные формулировки.
+9. headline должен быть конкретным.
+10. urgent=true только если новость действительно срочная.
+11. Обычная новость = urgent=false.
 `;
 
   try {
@@ -3284,8 +2281,7 @@ ${item.description}
             GEMINI_API_KEY,
           ),
         {
-          method:
-            "POST",
+          method: "POST",
 
           headers: {
             "Content-Type":
@@ -3321,16 +2317,13 @@ ${item.description}
         },
       );
 
-    if (
-      !response.ok
-    ) {
-      const errorText =
-        await response.text();
-
+    if (!response.ok) {
       console.error(
         "Gemini HTTP:",
         response.status,
-        errorText.slice(
+        (
+          await response.text()
+        ).slice(
           0,
           1000,
         ),
@@ -3347,29 +2340,20 @@ ${item.description}
         ?.candidates?.[0]
         ?.content?.parts
         ?.map(
-          (
-            p: any,
-          ) =>
-            p.text ??
-            "",
+          (p: any) =>
+            p.text ?? "",
         )
         .join("")
         .trim();
 
-    if (
-      !text
-    ) {
+    if (!text) {
       return null;
     }
 
-    const parsed =
-      extractJson(
-        text,
-      );
+    const json =
+      extractJson(text);
 
-    if (
-      !parsed
-    ) {
+    if (!json) {
       return null;
     }
 
@@ -3377,7 +2361,7 @@ ${item.description}
       headline:
         stripHtml(
           String(
-            parsed.headline ||
+            json.headline ||
               item.title,
           ),
         ),
@@ -3385,7 +2369,7 @@ ${item.description}
       short:
         stripHtml(
           String(
-            parsed.short ||
+            json.short ||
               item.description ||
               item.title,
           ),
@@ -3393,41 +2377,32 @@ ${item.description}
 
       main:
         Array.isArray(
-          parsed.main,
+          json.main,
         )
-          ? parsed.main
+          ? json.main
               .map(
-                (
-                  x: unknown,
-                ) =>
+                (x: any) =>
                   stripHtml(
                     String(x),
                   ),
               )
-              .filter(
-                Boolean,
-              )
-              .slice(
-                0,
-                3,
-              )
+              .filter(Boolean)
+              .slice(0, 3)
           : [],
 
       important:
         stripHtml(
           String(
-            parsed.important ||
+            json.important ||
               "",
           ),
         ),
 
       urgent:
         Boolean(
-          parsed.urgent,
+          json.urgent,
         ) ||
-        detectUrgency(
-          item,
-        ),
+        detectUrgency(item),
     };
   } catch (error) {
     console.error(
@@ -3441,9 +2416,10 @@ ${item.description}
   }
 }
 
-// ------------------------------------------------------------
+
+// ============================================================
 // FALLBACK
-// ------------------------------------------------------------
+// ============================================================
 
 function makeFallbackStory(
   item: NewsItem,
@@ -3452,7 +2428,7 @@ function makeFallbackStory(
     truncate(
       item.description ||
         item.title,
-      350,
+      500,
     );
 
   return {
@@ -3465,23 +2441,22 @@ function makeFallbackStory(
       text,
 
     main:
-      [
-        text,
-      ],
+      text
+        ? [text]
+        : [],
 
     important:
       text,
 
     urgent:
-      detectUrgency(
-        item,
-      ),
+      detectUrgency(item),
   };
 }
 
-// ------------------------------------------------------------
-// TEXT DUPLICATE
-// ------------------------------------------------------------
+
+// ============================================================
+// TEXT DUPLICATES
+// ============================================================
 
 function textWords(
   value: string,
@@ -3492,14 +2467,12 @@ function textWords(
     )
       .split(" ")
       .filter(
-        (
-          word,
-        ) =>
-          word.length >=
-          5,
+        (word) =>
+          word.length >= 5,
       ),
   );
 }
+
 
 function similarity(
   a: string,
@@ -3512,23 +2485,18 @@ function similarity(
     textWords(b);
 
   if (
-    aw.size ===
-      0 ||
-    bw.size ===
-      0
+    aw.size === 0 ||
+    bw.size === 0
   ) {
     return 0;
   }
 
-  let common =
-    0;
+  let common = 0;
 
   for (
     const word of aw
   ) {
-    if (
-      bw.has(word)
-    ) {
+    if (bw.has(word)) {
       common++;
     }
   }
@@ -3542,13 +2510,20 @@ function similarity(
   );
 }
 
+
 async function isRepeatedStoryText(
   story: AIStory,
 ): Promise<boolean> {
   const recent =
     await getRecentTitles(
-      300,
+      MAX_HISTORY_CHECKED,
     );
+
+  if (
+    !story.headline.trim()
+  ) {
+    return false;
+  }
 
   for (
     const oldTitle of recent
@@ -3557,8 +2532,7 @@ async function isRepeatedStoryText(
       similarity(
         story.headline,
         oldTitle,
-      ) >=
-      0.72
+      ) >= 0.72
     ) {
       return true;
     }
@@ -3567,9 +2541,10 @@ async function isRepeatedStoryText(
   return false;
 }
 
-// ------------------------------------------------------------
+
+// ============================================================
 // SOURCE
-// ------------------------------------------------------------
+// ============================================================
 
 function cleanSourceName(
   source: string,
@@ -3593,9 +2568,10 @@ function cleanSourceName(
   );
 }
 
-// ------------------------------------------------------------
+
+// ============================================================
 // POST
-// ------------------------------------------------------------
+// ============================================================
 
 function buildPost(
   item: NewsItem,
@@ -3625,7 +2601,7 @@ function buildPost(
     escapeHtml(
       truncate(
         story.short,
-        420,
+        500,
       ),
     );
 
@@ -3633,13 +2609,11 @@ function buildPost(
     story.main
       .filter(Boolean)
       .map(
-        (
-          x,
-        ) =>
+        (x) =>
           `• ${escapeHtml(
             truncate(
               x,
-              300,
+              350,
             ),
           )}`,
       )
@@ -3649,7 +2623,7 @@ function buildPost(
     escapeHtml(
       truncate(
         story.important,
-        350,
+        400,
       ),
     );
 
@@ -3670,10 +2644,17 @@ function buildPost(
       new Date(),
     );
 
+  const safeUrl =
+    isUsableArticleUrl(
+      articleUrl,
+    )
+      ? articleUrl
+      : "";
+
   const sourceLine =
-    articleUrl
+    safeUrl
       ? `🔗 <a href="${escapeHtml(
-          articleUrl,
+          safeUrl,
         )}">${escapeHtml(
           sourceName,
         )}</a>`
@@ -3717,21 +2698,28 @@ function buildPost(
     `🕒 ${time}`,
 
     sourceLine,
+
+    "",
+
+    "<i>ФАКТОР</i>",
   ].join("\n");
 }
 
-// ------------------------------------------------------------
+
+// ============================================================
 // MEDIA
-// ------------------------------------------------------------
+// ============================================================
 
 async function findBestMedia(
   articleMedia: ArticleMedia,
 ): Promise<DownloadedMedia | null> {
+  // 1. VIDEO
+
   if (
     articleMedia.videoUrl
   ) {
     console.log(
-      "Trying article VIDEO:",
+      "Trying article video:",
       articleMedia.videoUrl,
     );
 
@@ -3741,18 +2729,18 @@ async function findBestMedia(
         "video",
       );
 
-    if (
-      video
-    ) {
+    if (video) {
       return video;
     }
   }
+
+  // 2. IMAGE
 
   if (
     articleMedia.imageUrl
   ) {
     console.log(
-      "Trying article IMAGE:",
+      "Trying article image:",
       articleMedia.imageUrl,
     );
 
@@ -3762,22 +2750,24 @@ async function findBestMedia(
         "image",
       );
 
-    if (
-      image
-    ) {
+    if (image) {
       return image;
     }
   }
 
+  // 3. TEXT
   return null;
 }
 
-// ------------------------------------------------------------
+
+// ============================================================
 // CANDIDATE
-// ------------------------------------------------------------
+// ============================================================
 
 async function chooseCandidate(
   items: NewsItem[],
+  urgentAllowed: boolean,
+  regularAllowed: boolean,
 ): Promise<{
   item: NewsItem;
   story: AIStory;
@@ -3786,47 +2776,45 @@ async function chooseCandidate(
   const sorted =
     [...items]
       .filter(
-        (
-          item,
-        ) =>
-          item.title.length >=
-          15,
-      )
-      .filter(
-        isFreshEnough,
+        (item) =>
+          item.title.length >= 15,
       )
       .sort(
-        (
-          a,
-          b,
-        ) =>
-          getPublicationTime(
-            b,
-          ) -
-          getPublicationTime(
-            a,
-          ),
-      );
+        (a, b) => {
+          const ad =
+            Date.parse(
+              a.pubDate,
+            ) || 0;
 
-  let checked =
-    0;
+          const bd =
+            Date.parse(
+              b.pubDate,
+            ) || 0;
+
+          return bd - ad;
+        },
+      );
 
   for (
     const item of sorted
   ) {
+    // Сначала определяем локальную срочность,
+    // чтобы не тратить Gemini на очевидно неподходящие
+    // старые повторы.
+
+    const locallyUrgent =
+      detectUrgency(item);
+
     if (
-      checked >=
-      MAX_ARTICLE_CANDIDATES
+      locallyUrgent &&
+      !urgentAllowed
     ) {
-      break;
+      continue;
     }
 
-    checked++;
-
     if (
-      await isAlreadyPublished(
-        item,
-      )
+      !locallyUrgent &&
+      !regularAllowed
     ) {
       continue;
     }
@@ -3836,17 +2824,15 @@ async function chooseCandidate(
         item.link,
       );
 
+    const articleUrl =
+      articleMedia.articleUrl;
+
     if (
-      REQUIRE_REAL_SOURCE_URL &&
-      !isUsableArticleUrl(
-        articleMedia.articleUrl,
+      await isAlreadyPublished(
+        item,
+        articleUrl,
       )
     ) {
-      console.log(
-        "Skipping candidate: real source URL not resolved",
-        item.title,
-      );
-
       continue;
     }
 
@@ -3860,20 +2846,27 @@ async function chooseCandidate(
 
     story.urgent =
       story.urgent ||
-      detectUrgency(
-        item,
-      );
+      locallyUrgent;
+
+    if (
+      story.urgent &&
+      !urgentAllowed
+    ) {
+      continue;
+    }
+
+    if (
+      !story.urgent &&
+      !regularAllowed
+    ) {
+      continue;
+    }
 
     if (
       await isRepeatedStoryText(
         story,
       )
     ) {
-      console.log(
-        "Skipping repeated wording:",
-        story.headline,
-      );
-
       continue;
     }
 
@@ -3887,20 +2880,231 @@ async function chooseCandidate(
   return null;
 }
 
-// ------------------------------------------------------------
-// PIPELINE LOCK
-// ------------------------------------------------------------
 
-let pipelinePromise:
-  Promise<any> | null =
-  null;
+// ============================================================
+// ATOMIC KV LOCK
+// ============================================================
+
+const PIPELINE_LOCK_KEY = [
+  "factor",
+  "lock",
+];
+
+
+async function acquirePipelineLock(): Promise<string | null> {
+  const db =
+    await getKV();
+
+  const token =
+    crypto.randomUUID();
+
+  const result =
+    await db
+      .atomic()
+      .check({
+        key:
+          PIPELINE_LOCK_KEY,
+        versionstamp:
+          null,
+      })
+      .set(
+        PIPELINE_LOCK_KEY,
+        {
+          token,
+          created_at:
+            Date.now(),
+        },
+        {
+          expireIn:
+            LOCK_TTL_MS,
+        },
+      )
+      .commit();
+
+  if (!result.ok) {
+    return null;
+  }
+
+  return token;
+}
+
+
+async function releasePipelineLock(
+  token: string,
+): Promise<void> {
+  const db =
+    await getKV();
+
+  const current =
+    await db.get<{
+      token: string;
+      created_at: number;
+    }>(
+      PIPELINE_LOCK_KEY,
+    );
+
+  if (
+    current.value?.token !==
+    token
+  ) {
+    return;
+  }
+
+  await db
+    .atomic()
+    .check({
+      key:
+        PIPELINE_LOCK_KEY,
+      versionstamp:
+        current.versionstamp,
+    })
+    .delete(
+      PIPELINE_LOCK_KEY,
+    )
+    .commit();
+}
+
+
+// ============================================================
+// STATE
+// ============================================================
+
+async function getState(): Promise<PipelineState> {
+  const db =
+    await getKV();
+
+  const regular =
+    (
+      await db.get<number>(
+        [
+          "factor",
+          "state",
+          "last_regular",
+        ],
+      )
+    ).value ?? null;
+
+  const urgent =
+    (
+      await db.get<number>(
+        [
+          "factor",
+          "state",
+          "last_urgent",
+        ],
+      )
+    ).value ?? null;
+
+  const lastPipeline =
+    (
+      await db.get<unknown>(
+        [
+          "factor",
+          "state",
+          "last_pipeline",
+        ],
+      )
+    ).value ?? null;
+
+  const lock =
+    await db.get<unknown>(
+      PIPELINE_LOCK_KEY,
+    );
+
+  const running =
+    Boolean(
+      lock.value,
+    );
+
+  const now =
+    Date.now();
+
+  return {
+    running,
+
+    cron:
+      CRON_SCHEDULE,
+
+    regular: {
+      interval_minutes:
+        30,
+
+      last:
+        regular,
+
+      can_publish:
+        regular === null ||
+        now -
+            regular >=
+          REGULAR_INTERVAL_MS,
+    },
+
+    urgent: {
+      interval_minutes:
+        5,
+
+      last:
+        urgent,
+
+      can_publish:
+        urgent === null ||
+        now -
+            urgent >=
+          URGENT_INTERVAL_MS,
+    },
+
+    media: {
+      max_video_mb:
+        MAX_VIDEO_BYTES /
+        1024 /
+        1024,
+
+      max_image_mb:
+        MAX_IMAGE_BYTES /
+        1024 /
+        1024,
+
+      priority:
+        "video -> image -> text",
+    },
+
+    dedup: {
+      persistent:
+        true,
+
+      ttl_days:
+        30,
+
+      max_history_checked:
+        MAX_HISTORY_CHECKED,
+    },
+
+    lock: {
+      atomic:
+        true,
+
+      ttl_minutes:
+        LOCK_TTL_MS /
+        60000,
+    },
+
+    last_pipeline:
+      lastPipeline,
+  };
+}
+
+
+// ============================================================
+// PIPELINE
+// ============================================================
 
 async function runPipeline(
   manual = false,
 ): Promise<any> {
-  if (
-    pipelinePromise
-  ) {
+  const lock =
+    await acquirePipelineLock();
+
+  if (!lock) {
     return {
       ok: false,
 
@@ -3911,22 +3115,17 @@ async function runPipeline(
     };
   }
 
-  pipelinePromise =
-    executePipeline(
+  try {
+    return await executePipeline(
       manual,
-    ).finally(
-      () => {
-        pipelinePromise =
-          null;
-      },
     );
-
-  return pipelinePromise;
+  } finally {
+    await releasePipelineLock(
+      lock,
+    );
+  }
 }
 
-// ------------------------------------------------------------
-// PIPELINE
-// ------------------------------------------------------------
 
 async function executePipeline(
   manual = false,
@@ -3934,59 +3133,10 @@ async function executePipeline(
   const db =
     await getKV();
 
-  const currentRunning =
-    (
-      await db.get<boolean>(
-        [
-          "factor",
-          "state",
-          "running",
-        ],
-      )
-    ).value ?? false;
-
-  if (
-    currentRunning
-  ) {
-    return {
-      ok: false,
-
-      skipped: true,
-
-      reason:
-        "running",
-    };
-  }
-
-  await db.set(
-    [
-      "factor",
-      "state",
-      "running",
-    ],
-    true,
-  );
-
   const startedAt =
     Date.now();
 
   try {
-    if (
-      !MAX_BOT_TOKEN
-    ) {
-      throw new Error(
-        "MAX_BOT_TOKEN is missing",
-      );
-    }
-
-    if (
-      !TARGET_CHAT_ID
-    ) {
-      throw new Error(
-        "TARGET_CHAT_ID is missing",
-      );
-    }
-
     const feedResults =
       await Promise.all(
         RSS_FEEDS.map(
@@ -3997,6 +3147,21 @@ async function executePipeline(
     const items =
       feedResults
         .flat()
+        .sort(
+          (a, b) => {
+            const ad =
+              Date.parse(
+                a.pubDate,
+              ) || 0;
+
+            const bd =
+              Date.parse(
+                b.pubDate,
+              ) || 0;
+
+            return bd - ad;
+          },
+        )
         .slice(
           0,
           MAX_RSS_ITEMS,
@@ -4007,9 +3172,48 @@ async function executePipeline(
       items.length,
     );
 
+    const now =
+      Date.now();
+
+    const lastRegular =
+      (
+        await db.get<number>(
+          [
+            "factor",
+            "state",
+            "last_regular",
+          ],
+        )
+      ).value ?? null;
+
+    const lastUrgent =
+      (
+        await db.get<number>(
+          [
+            "factor",
+            "state",
+            "last_urgent",
+          ],
+        )
+      ).value ?? null;
+
+    const urgentAllowed =
+      manual ||
+      lastUrgent === null ||
+      now -
+          lastUrgent >=
+        URGENT_INTERVAL_MS;
+
+    const regularAllowed =
+      manual ||
+      lastRegular === null ||
+      now -
+          lastRegular >=
+        REGULAR_INTERVAL_MS;
+
     if (
-      items.length ===
-      0
+      !urgentAllowed &&
+      !regularAllowed
     ) {
       const result = {
         ok: true,
@@ -4017,9 +3221,10 @@ async function executePipeline(
         selected: 0,
 
         reason:
-          "RSS returned no items",
+          "publication intervals not reached",
 
-        rss_total: 0,
+        rss_total:
+          items.length,
 
         duration_ms:
           Date.now() -
@@ -4041,18 +3246,18 @@ async function executePipeline(
     const candidate =
       await chooseCandidate(
         items,
+        urgentAllowed,
+        regularAllowed,
       );
 
-    if (
-      !candidate
-    ) {
+    if (!candidate) {
       const result = {
         ok: true,
 
         selected: 0,
 
         reason:
-          "no new fresh non-duplicate candidate",
+          "no new non-duplicate candidate",
 
         rss_total:
           items.length,
@@ -4081,109 +3286,58 @@ async function executePipeline(
     } =
       candidate;
 
-    const now =
-      Date.now();
-
-    const lastRegular =
-      (
-        await db.get<number>(
-          [
-            "factor",
-            "state",
-            "last_regular",
-          ],
-        )
-      ).value ?? null;
-
-    const lastUrgent =
-      (
-        await db.get<number>(
-          [
-            "factor",
-            "state",
-            "last_urgent",
-          ],
-        )
-      ).value ?? null;
-
     const urgent =
       story.urgent ||
-      detectUrgency(
-        item,
-      );
-
-    const urgentAllowed =
-      manual ||
-      lastUrgent ===
-        null ||
-      now -
-          lastUrgent >=
-        URGENT_INTERVAL_MS;
-
-    const regularAllowed =
-      manual ||
-      lastRegular ===
-        null ||
-      now -
-          lastRegular >=
-        REGULAR_INTERVAL_MS;
+      detectUrgency(item);
 
     if (
-      urgent
+      urgent &&
+      !urgentAllowed &&
+      !manual
     ) {
-      if (
-        !urgentAllowed
-      ) {
-        const result = {
-          ok: true,
+      return {
+        ok: true,
+        selected: 0,
+        reason:
+          "urgent interval not reached",
+      };
+    }
 
-          selected: 0,
+    if (
+      !urgent &&
+      !regularAllowed &&
+      !manual
+    ) {
+      return {
+        ok: true,
+        selected: 0,
+        reason:
+          "regular interval not reached",
+      };
+    }
 
-          reason:
-            "urgent interval not reached",
+    const finalArticleUrl =
+      isUsableArticleUrl(
+        articleMedia.articleUrl,
+      )
+        ? articleMedia.articleUrl
+        : "";
 
-          title:
-            item.title,
-        };
+    // Повторная защита от публикации.
+    if (
+      await isAlreadyPublished(
+        item,
+        finalArticleUrl,
+      )
+    ) {
+      return {
+        ok: true,
 
-        await db.set(
-          [
-            "factor",
-            "state",
-            "last_pipeline",
-          ],
-          result,
-        );
+        selected: 0,
 
-        return result;
-      }
-    } else {
-      if (
-        !regularAllowed
-      ) {
-        const result = {
-          ok: true,
-
-          selected: 0,
-
-          reason:
-            "regular interval not reached",
-
-          title:
-            item.title,
-        };
-
-        await db.set(
-          [
-            "factor",
-            "state",
-            "last_pipeline",
-          ],
-          result,
-        );
-
-        return result;
-      }
+        reason:
+          "duplicate detected before publish",
+      };
     }
 
     const media =
@@ -4196,22 +3350,6 @@ async function executePipeline(
         item.source,
         articleMedia,
       );
-
-    const finalArticleUrl =
-      isUsableArticleUrl(
-        articleMedia.articleUrl,
-      )
-        ? articleMedia.articleUrl
-        : "";
-
-    if (
-      REQUIRE_REAL_SOURCE_URL &&
-      !finalArticleUrl
-    ) {
-      throw new Error(
-        "Real publisher URL was not resolved",
-      );
-    }
 
     const text =
       buildPost(
@@ -4231,9 +3369,7 @@ async function executePipeline(
         }
       | undefined;
 
-    if (
-      media
-    ) {
+    if (media) {
       try {
         console.log(
           "Uploading media:",
@@ -4252,72 +3388,101 @@ async function executePipeline(
 
           token,
         };
-
-        await sleep(
-          media.type ===
-            "video"
-            ? 6000
-            : 3000,
-        );
       } catch (error) {
         console.error(
-          "Media upload failed. Publishing text only:",
+          "Media upload failed:",
           error instanceof Error
             ? error.message
             : String(error),
         );
 
+        // Важное правило:
+        // если медиа не загрузилось,
+        // текстовая публикация всё равно возможна.
         mediaInfo =
           undefined;
       }
     }
 
-    let publication;
+    let publication:
+      any;
 
-    try {
-      publication =
-        await publishToMax(
-          text,
-          mediaInfo,
-        );
-    } catch (error) {
-      /*
-       * Если медиа не прошло даже после retry,
-       * второй раз отправляем текст без медиа.
-       */
-      if (
-        mediaInfo
-      ) {
-        console.error(
-          "MAX media publication failed. Retrying TEXT ONLY.",
-          error instanceof Error
-            ? error.message
-            : String(error),
+    if (mediaInfo) {
+      try {
+        await new Promise(
+          (resolve) =>
+            setTimeout(
+              resolve,
+              mediaInfo.type ===
+                "video"
+                ? 5000
+                : 2500,
+            ),
         );
 
         publication =
           await publishToMax(
             text,
+            mediaInfo,
+          );
+      } catch (error) {
+        const message =
+          error instanceof Error
+            ? error.message
+            : String(error);
+
+        // MAX может вернуть attachment.not.ready.
+        // Повторяем публикацию без повторной загрузки файла.
+
+        if (
+          message.includes(
+            "attachment.not.ready",
+          ) ||
+          message.includes(
+            "not.processed",
+          )
+        ) {
+          console.log(
+            "MAX attachment not ready. Retrying...",
           );
 
-        mediaInfo =
-          undefined;
-      } else {
-        throw error;
+          await new Promise(
+            (resolve) =>
+              setTimeout(
+                resolve,
+                8000,
+              ),
+          );
+
+          publication =
+            await publishToMax(
+              text,
+              mediaInfo,
+            );
+        } else {
+          throw error;
+        }
       }
+    } else {
+      publication =
+        await publishToMax(
+          text,
+        );
     }
+
+    // Только после успешной публикации
+    // отмечаем новость как опубликованную.
 
     await markPublished(
       item,
+      finalArticleUrl,
     );
 
     await rememberTitle(
       story.headline,
     );
 
-    if (
-      urgent
-    ) {
+    if (urgent) {
       await db.set(
         [
           "factor",
@@ -4365,10 +3530,13 @@ async function executePipeline(
       },
 
       media:
-        mediaInfo
+        media
           ? {
               type:
-                mediaInfo.type,
+                media.type,
+
+              source_url:
+                media.sourceUrl,
             }
           : null,
 
@@ -4418,21 +3586,13 @@ async function executePipeline(
     );
 
     return result;
-  } finally {
-    await db.set(
-      [
-        "factor",
-        "state",
-        "running",
-      ],
-      false,
-    );
   }
 }
 
-// ------------------------------------------------------------
+
+// ============================================================
 // TEST PUBLISH
-// ------------------------------------------------------------
+// ============================================================
 
 async function publishTest(): Promise<any> {
   const text = [
@@ -4459,6 +3619,10 @@ async function publishTest(): Promise<any> {
     ).format(
       new Date(),
     )}`,
+
+    "",
+
+    "<i>ФАКТОР</i>",
   ].join("\n");
 
   return await publishToMax(
@@ -4466,125 +3630,10 @@ async function publishTest(): Promise<any> {
   );
 }
 
-// ------------------------------------------------------------
-// MAX UPDATES
-// ------------------------------------------------------------
 
-async function getMaxUpdates(
-  marker?: number | null,
-): Promise<any> {
-  const params =
-    new URLSearchParams();
-
-  params.set(
-    "limit",
-    "100",
-  );
-
-  params.set(
-    "timeout",
-    "0",
-  );
-
-  if (
-    marker !==
-      undefined &&
-    marker !==
-      null
-  ) {
-    params.set(
-      "marker",
-      String(marker),
-    );
-  }
-
-  return await maxJson(
-    `/updates?${params.toString()}`,
-    {
-      method:
-        "GET",
-    },
-  );
-}
-
-// ------------------------------------------------------------
-// MAX SUBSCRIPTIONS
-// ------------------------------------------------------------
-
-async function getSubscriptions(): Promise<any> {
-  return await maxJson(
-    "/subscriptions",
-    {
-      method:
-        "GET",
-    },
-  );
-}
-
-// ------------------------------------------------------------
-// WEBHOOK EVENT
-// ------------------------------------------------------------
-
-async function saveWebhookEvent(
-  body: any,
-): Promise<void> {
-  const db =
-    await getKV();
-
-  await db.set(
-    [
-      "factor",
-      "events",
-      "last",
-    ],
-    body,
-    {
-      expireIn:
-        7 *
-        24 *
-        60 *
-        60 *
-        1000,
-    },
-  );
-
-  if (
-    body &&
-    typeof body ===
-      "object"
-  ) {
-    const chatId =
-      body.chat_id;
-
-    if (
-      chatId !==
-        undefined &&
-      chatId !==
-        null
-    ) {
-      await db.set(
-        [
-          "factor",
-          "max",
-          "last_chat_id",
-        ],
-        String(chatId),
-        {
-          expireIn:
-            30 *
-            24 *
-            60 *
-            60 *
-            1000,
-        },
-      );
-    }
-  }
-}
-
-// ------------------------------------------------------------
+// ============================================================
 // JSON
-// ------------------------------------------------------------
+// ============================================================
 
 function json(
   value: unknown,
@@ -4610,55 +3659,53 @@ function json(
   );
 }
 
-// ------------------------------------------------------------
-// CRON
-// ------------------------------------------------------------
 
-if (
-  AUTO_PIPELINE
-) {
-  Deno.cron(
-    "FAKTOR news pipeline",
-    CRON_SCHEDULE,
-    {
-      backoffSchedule: [
-        5000,
-        15000,
-        30000,
-      ],
-    },
-    async () => {
+// ============================================================
+// CRON
+// ============================================================
+
+Deno.cron(
+  "FAKTOR news pipeline",
+  CRON_SCHEDULE,
+  {
+    backoffSchedule: [
+      5000,
+      15000,
+      30000,
+    ],
+  },
+  async () => {
+    console.log(
+      "CRON: starting pipeline",
+    );
+
+    try {
+      const result =
+        await runPipeline(
+          false,
+        );
+
       console.log(
-        "CRON: starting pipeline",
+        "CRON: finished",
+        JSON.stringify(
+          result,
+        ),
+      );
+    } catch (error) {
+      console.error(
+        "CRON ERROR:",
+        error,
       );
 
-      try {
-        const result =
-          await runPipeline(
-            false,
-          );
+      throw error;
+    }
+  },
+);
 
-        console.log(
-          "CRON: finished",
-          JSON.stringify(
-            result,
-          ),
-        );
-      } catch (error) {
-        console.error(
-          "CRON ERROR:",
-          error,
-        );
 
-        throw error;
-      }
-    },
-  );
-}
-
-// ------------------------------------------------------------
-// HTTP
-// ------------------------------------------------------------
+// ============================================================
+// HTTP SERVER
+// ============================================================
 
 Deno.serve(
   async (
@@ -4681,8 +3728,7 @@ Deno.serve(
       // ------------------------------------------------------
 
       if (
-        request.method ===
-          "GET" &&
+        request.method === "GET" &&
         path === "/"
       ) {
         return json({
@@ -4694,16 +3740,8 @@ Deno.serve(
           runtime:
             "Deno Deploy",
 
-          auto_pipeline:
-            AUTO_PIPELINE,
-
           cron:
-            AUTO_PIPELINE
-              ? CRON_SCHEDULE
-              : null,
-
-          event_mode:
-            MAX_EVENT_MODE,
+            CRON_SCHEDULE,
 
           endpoints: [
             "/",
@@ -4712,10 +3750,6 @@ Deno.serve(
             "/run",
             "/publish-test",
             "/me",
-            "/updates",
-            "/subscriptions",
-            "/resolve-test",
-            "/webhook",
           ],
         });
       }
@@ -4725,10 +3759,8 @@ Deno.serve(
       // ------------------------------------------------------
 
       if (
-        request.method ===
-          "GET" &&
-        path ===
-          "/status"
+        request.method === "GET" &&
+        path === "/status"
       ) {
         return json({
           ok: true,
@@ -4743,10 +3775,21 @@ Deno.serve(
             "Deno Deploy",
 
           auto_pipeline:
-            AUTO_PIPELINE,
+            true,
 
-          event_mode:
-            MAX_EVENT_MODE,
+          max_connection: {
+            ca_loaded:
+              maxCaStatus.loaded,
+
+            root_ca:
+              maxCaStatus.root,
+
+            sub_ca:
+              maxCaStatus.sub,
+
+            error:
+              maxCaStatus.error,
+          },
 
           configuration: {
             max_token:
@@ -4763,32 +3806,6 @@ Deno.serve(
               Boolean(
                 GEMINI_API_KEY,
               ),
-
-            require_real_source:
-              REQUIRE_REAL_SOURCE_URL,
-
-            google_resolver:
-              GOOGLE_RESOLVE_ENABLED,
-
-            max_news_age_hours:
-              MAX_NEWS_AGE_HOURS,
-          },
-
-          max_connection: {
-            api:
-              MAX_API,
-
-            ca_loaded:
-              maxCaStatus.loaded,
-
-            root_ca:
-              maxCaStatus.root,
-
-            sub_ca:
-              maxCaStatus.sub,
-
-            error:
-              maxCaStatus.error,
           },
 
           ...(await getState()),
@@ -4800,8 +3817,7 @@ Deno.serve(
       // ------------------------------------------------------
 
       if (
-        request.method ===
-          "GET" &&
+        request.method === "GET" &&
         path ===
           "/pipeline-state"
       ) {
@@ -4818,10 +3834,8 @@ Deno.serve(
 
       if (
         (
-          request.method ===
-            "GET" ||
-          request.method ===
-            "POST"
+          request.method === "GET" ||
+          request.method === "POST"
         ) &&
         path === "/run"
       ) {
@@ -4840,8 +3854,7 @@ Deno.serve(
       // ------------------------------------------------------
 
       if (
-        request.method ===
-          "GET" &&
+        request.method === "GET" &&
         path ===
           "/publish-test"
       ) {
@@ -4870,16 +3883,14 @@ Deno.serve(
       // ------------------------------------------------------
 
       if (
-        request.method ===
-          "GET" &&
+        request.method === "GET" &&
         path === "/me"
       ) {
         const me =
           await maxJson(
             "/me",
             {
-              method:
-                "GET",
+              method: "GET",
             },
           );
 
@@ -4892,174 +3903,22 @@ Deno.serve(
       }
 
       // ------------------------------------------------------
-      // UPDATES
-      // ------------------------------------------------------
-
-      if (
-        request.method ===
-          "GET" &&
-        path ===
-          "/updates"
-      ) {
-        const markerParam =
-          url.searchParams.get(
-            "marker",
-          );
-
-        const marker =
-          markerParam
-            ? Number(
-                markerParam,
-              )
-            : undefined;
-
-        const result =
-          await getMaxUpdates(
-            marker,
-          );
-
-        return json({
-          ok: true,
-
-          warning:
-            "MAX recommends Webhook for production. Long Polling is intended for development/testing.",
-
-          event_mode:
-            MAX_EVENT_MODE,
-
-          response:
-            result,
-        });
-      }
-
-      // ------------------------------------------------------
-      // SUBSCRIPTIONS
-      // ------------------------------------------------------
-
-      if (
-        request.method ===
-          "GET" &&
-        path ===
-          "/subscriptions"
-      ) {
-        const result =
-          await getSubscriptions();
-
-        return json({
-          ok: true,
-
-          response:
-            result,
-        });
-      }
-
-      // ------------------------------------------------------
-      // RESOLVE TEST
-      // ------------------------------------------------------
-
-      if (
-        request.method ===
-          "GET" &&
-        path ===
-          "/resolve-test"
-      ) {
-        const sourceUrl =
-          url.searchParams.get(
-            "url",
-          );
-
-        if (
-          !sourceUrl
-        ) {
-          return json(
-            {
-              ok: false,
-
-              error:
-                "Pass ?url=https://news.google.com/...",
-            },
-            400,
-          );
-        }
-
-        const resolved =
-          await resolveArticleUrl(
-            sourceUrl,
-          );
-
-        return json({
-          ok: Boolean(
-            resolved,
-          ),
-
-          input:
-            sourceUrl,
-
-          resolved:
-            resolved ||
-            null,
-
-          is_google:
-            resolved
-              ? isGoogleNewsUrl(
-                  resolved,
-                )
-              : null,
-
-          is_real_source:
-            resolved
-              ? isUsableArticleUrl(
-                  resolved,
-                )
-              : false,
-        });
-      }
-
-      // ------------------------------------------------------
       // WEBHOOK
       // ------------------------------------------------------
 
       if (
-        request.method ===
-          "POST" &&
-        path ===
-          "/webhook"
+        request.method === "POST" &&
+        path === "/webhook"
       ) {
-        const bodyText =
+        const body =
           await request.text();
-
-        let body:
-          any;
-
-        try {
-          body =
-            bodyText
-              ? JSON.parse(
-                  bodyText,
-                )
-              : null;
-        } catch {
-          body = {
-            raw:
-              bodyText.slice(
-                0,
-                5000,
-              ),
-          };
-        }
 
         console.log(
           "WEBHOOK:",
-          JSON.stringify(
-            body,
-          ).slice(
+          body.slice(
             0,
-            5000,
+            2000,
           ),
-        );
-
-        await saveWebhookEvent(
-          body,
         );
 
         return json({
@@ -5067,14 +3926,6 @@ Deno.serve(
 
           received:
             true,
-
-          update_type:
-            body?.update_type ??
-            null,
-
-          chat_id:
-            body?.chat_id ??
-            null,
         });
       }
 
@@ -5091,7 +3942,6 @@ Deno.serve(
 
           path,
         },
-
         404,
       );
     } catch (error) {
@@ -5111,7 +3961,6 @@ Deno.serve(
 
           path,
         },
-
         500,
       );
     }
