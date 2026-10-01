@@ -1925,7 +1925,7 @@ async function callGemini(item, articleMedia) {
   if (!GEMINI_API_KEY) {
     return null;
   }
-  const prompt = ` Ты редактор новостного канала ФАКТОР. Работай ТОЛЬКО с информацией, которая присутствует в исходных данных. НЕ ДОБАВЛЯЙ факты из памяти. НЕ ДОДУМЫВАЙ причины. НЕ ДОДУМЫВАЙ последствия. НЕ ПРИДУМЫВАЙ цифры. ИСХОДНЫЙ ЗАГОЛОВОК: ${item.title} ИСТОЧНИК: ${item.source} ЗАГОЛОВОК СТРАНИЦЫ: ${articleMedia.title ?? ""} ОПИСАНИЕ RSS: ${stripHtml(item.description)} ОПИСАНИЕ СТРАНИЦЫ: ${stripHtml(articleMedia.description ?? "")} Верни ТОЛЬКО JSON: { "headline": "короткий точный заголовок", "short": "одно короткое предложение о событии", "main": [ "конкретный факт 1", "конкретный факт 2", "конкретный факт 3" ], "important": "конкретная информация, которую читателю важно знать", "urgent": false } ПРАВИЛА: 1. Никаких выдуманных фактов. 2. headline должен описывать именно событие. 3. Не используй кликбейт. 4. Не используй вопросительные заголовки. 5. Не пиши "стало известно". 6. Не пиши "ситуация развивается". 7. Не пиши рекламные формулировки. 8. Не повторяй одну мысль в разных блоках. 9. Если фактов мало — используй меньше пунктов. 10. main может содержать от 0 до 3 пунктов. 11. urgent=true только если событие действительно срочное. 12. Не делай выводов, которых нет в исходных данных. 13. Не меняй смысл новости. 14. Не добавляй географию, даты, цифры или имена, которых нет в исходных данных. `;
+  const prompt = ` Ты редактор новостного канала ФАКТОР. Работай ТОЛЬКО с информацией, которая присутствует в исходных данных. НЕ ДОБАВЛЯЙ факты из памяти. НЕ ДОДУМЫВАЙ причины. НЕ ДОДУМЫВАЙ последствия. НЕ ПРИДУМЫВАЙ цифры. ИСХОДНЫЙ ЗАГОЛОВОК: ${item.title} ИСТОЧНИК: ${item.source} ЗАГОЛОВОК СТРАНИЦЫ: ${articleMedia.title ?? ""} ОПИСАНИЕ RSS: ${stripHtml(item.description)} ОПИСАНИЕ СТРАНИЦЫ: ${stripHtml(articleMedia.description ?? "")} Верни ТОЛЬКО JSON: { "headline": "короткий точный заголовок", "short": "одно короткое предложение о событии", "main": [ "конкретный факт 1", "конкретный факт 2", "конкретный факт 3" ], "important": "конкретная информация, которую читателю важно знать", "urgent": false } ПРАВИЛА: 1. Никаких выдуманных фактов. 2. headline должен описывать именно событие. 3. Не используй кликбейт. 4. Не используй вопросительные заголовки. 5. Не пиши "стало известно". 6. Не пиши "ситуация развивается". 7. Не пиши рекламные формулировки. 8. Каждый блок обязан добавлять НОВУЮ фактическую информацию. Нельзя пересказывать одну и ту же мысль другими словами. 9. КРАТКО отвечает на вопрос: ЧТО КОНКРЕТНО произошло? Не повторяй формулировку headline. 10. ГЛАВНОЕ содержит только дополнительные факты, которых нет в headline и КРАТКО: кто, где, когда, причина, обстоятельства, цифры, действия ведомств или другие конкретные детали, если они есть в исходных данных. 11. ЧТО ВАЖНО содержит только новый факт/итог, которого ещё нет в предыдущих блоках. Если нового факта нет — верни пустую строку. 12. Если исходные данные не раскрывают конкретную причину или объяснение, НЕ пиши "объяснило", "сообщило причину", "ответило" и подобные пустые формулировки. Лучше оставить блок пустым. 13. Запрещены повторяющиеся конструкции вроде: "МЧС объяснило..." → "МЧС ответило..." → "МЧС сообщило...". Это считается повтором, даже если слова немного отличаются. 14. Если фактов мало — используй меньше пунктов. main может содержать от 0 до 3 пунктов. 15. urgent=true только если событие действительно срочное. 16. Не делай выводов, которых нет в исходных данных. 17. Не меняй смысл новости. 18. Не добавляй географию, даты, цифры или имена, которых нет в исходных данных. 19. Перед возвратом JSON мысленно проверь каждый блок: если его можно удалить без потери новой информации, удали его. 20. Никаких заполнителей ради объёма. Лучше короткий пост с 1–2 конкретными фактами, чем длинный пост с повторами. `;
   try {
     const response = await fetch(
       "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" +
@@ -2067,22 +2067,28 @@ function buildPost(item, story, sourceName, articleUrl) {
   const shortText = stripHtml(
     truncate(story.short || item.description || item.title, 500)
   );
+  // Publication-level anti-repeat guard. Gemini is instructed to produce
+  // distinct facts, but the final post must enforce that rule locally too.
+  // This block changes only presentation logic; media/article selection is untouched.
   const mainItems = [];
   for (const raw of story.main || []) {
     const text = stripHtml(truncate(String(raw || ""), 350));
     if (!text) continue;
-    if (storySimilarity(text, headlineText) >= 0.72) continue;
-    if (storySimilarity(text, shortText) >= 0.72) continue;
-    if (mainItems.some((x) => storySimilarity(x, text) >= 0.8)) continue;
+    // Do not repeat the headline or the short summary. A lower threshold
+    // is intentional here: paraphrases such as "МЧС объяснило" /
+    // "МЧС сообщило причину" must also be treated as duplicates.
+    if (storySimilarity(text, headlineText) >= 0.55) continue;
+    if (storySimilarity(text, shortText) >= 0.55) continue;
+    if (mainItems.some((x) => storySimilarity(x, text) >= 0.6)) continue;
     mainItems.push(text);
     if (mainItems.length >= 3) break;
   }
   const importantText = stripHtml(truncate(story.important || "", 400));
   const uniqueImportant =
     importantText &&
-    storySimilarity(importantText, headlineText) < 0.72 &&
-    storySimilarity(importantText, shortText) < 0.72 &&
-    !mainItems.some((x) => storySimilarity(x, importantText) >= 0.72)
+    storySimilarity(importantText, headlineText) < 0.55 &&
+    storySimilarity(importantText, shortText) < 0.55 &&
+    !mainItems.some((x) => storySimilarity(x, importantText) >= 0.6)
       ? importantText
       : "";
   const time = new Intl.DateTimeFormat("ru-RU", {
