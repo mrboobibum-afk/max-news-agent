@@ -1234,6 +1234,9 @@ const BAD_HOST_PARTS = [
   "reddit.com",
   "google.com",
   "googleusercontent.com",
+  "gstatic.com",
+  "gstaticusercontent.com",
+  "ggpht.com",
 ];
 
 
@@ -2687,11 +2690,29 @@ async function publishToMax( text: string, mediaToken?: { type: | "video" | "ima
 
 function normalizeArticleUrl( url: string, ): string {
 
-  return normalizeUrl(
-    isUsableArticleUrl(url)
-      ? url
-      : "",
-  );
+  if (!isUsableArticleUrl(url)) return "";
+
+  try {
+    const parsed = new URL(url);
+    const host = parsed.hostname.toLowerCase();
+    const path = parsed.pathname.toLowerCase();
+
+    // Never treat Google News logos/images or generic media files as articles.
+    if (
+      host === "gstatic.com" ||
+      host.endsWith(".gstatic.com") ||
+      host === "ggpht.com" ||
+      host.endsWith(".ggpht.com") ||
+      /(^|\/)(google_news|google-news|logo)[^\/]*\.(png|jpg|jpeg|webp|gif)$/i.test(path) ||
+      /\.(png|jpe?g|webp|gif|svg|mp4|webm|m3u8|mpd)$/i.test(path)
+    ) {
+      return "";
+    }
+  } catch {
+    return "";
+  }
+
+  return normalizeUrl(url);
 }
 
 
@@ -2722,6 +2743,53 @@ async function legacyPublishedKey( item: NewsItem, ): Promise<string> {
   );
 }
 
+
+// Semantic fingerprint for the STORY itself.
+// It deliberately does not include source or URL because the same
+// event is often published by several RSS feeds with different URLs.
+const STORY_STOP_WORDS = new Set([
+  "это", "этот", "эта", "эти", "после", "перед", "когда",
+  "который", "которая", "которые", "также", "стало", "стали",
+  "сообщил", "сообщили", "рассказал", "рассказали", "заявил",
+  "заявили", "известно", "новости", "новость", "сегодня",
+  "вчера", "теперь", "против", "согласно", "сообщает",
+]);
+
+function storyTokens(value: string): Set<string> {
+  const normalized = normalizeForHash(value);
+  const words = normalized.split(" ").filter((w) => w.length >= 4);
+  const tokens = new Set<string>();
+
+  for (const word of words) {
+    if (STORY_STOP_WORDS.has(word)) continue;
+    // Prefix normalization catches simple Russian inflections:
+    // погиб / погибла / погибли, столкновение / столкновении, etc.
+    tokens.add(word.length > 6 ? word.slice(0, 6) : word);
+  }
+
+  return tokens;
+}
+
+function storySimilarity(a: string, b: string): number {
+  const aw = storyTokens(a);
+  const bw = storyTokens(b);
+
+  if (aw.size === 0 || bw.size === 0) return 0;
+
+  let common = 0;
+  for (const token of aw) {
+    if (bw.has(token)) common++;
+  }
+
+  return common / Math.max(aw.size, bw.size);
+}
+
+async function semanticStoryKey(item: NewsItem): Promise<string> {
+  const title = normalizeForHash(item.title);
+  const desc = normalizeForHash(item.description);
+  const tokens = [...storyTokens(`${title} ${desc}`)].sort();
+  return sha256(tokens.join("|"));
+}
 
 async function isAlreadyPublished( item: NewsItem, articleUrl = "", ): Promise<boolean> {
 
@@ -2754,6 +2822,7 @@ async function isAlreadyPublished( item: NewsItem, articleUrl = "", ): Promise<b
     }
   }
 
+  // Exact legacy key.
   const oldKey =
     await legacyPublishedKey(
       item,
@@ -2768,9 +2837,29 @@ async function isAlreadyPublished( item: NewsItem, articleUrl = "", ): Promise<b
       ],
     );
 
-  return (
-    legacy.value === true
-  );
+  if (legacy.value === true) return true;
+
+  // Semantic duplicate protection: same event, different RSS source/title/URL.
+  const semanticKey = await semanticStoryKey(item);
+  if (semanticKey) {
+    const semantic = await db.get<boolean>([
+      "factor",
+      "published_story_v3",
+      semanticKey,
+    ]);
+    if (semantic.value === true) return true;
+  }
+
+  // Last line of defence for slightly different headlines.
+  const recent = await getRecentTitles(MAX_HISTORY_CHECKED);
+  const candidateTitle = item.title.trim();
+  for (const oldTitle of recent) {
+    if (storySimilarity(candidateTitle, oldTitle) >= 0.78) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 
@@ -2820,6 +2909,23 @@ async function markPublished( item: NewsItem, articleUrl: string, ): Promise<voi
         HISTORY_TTL_MS,
     },
   );
+
+  // Persist a source-independent story key. This is what prevents
+  // the same event from returning through another RSS feed.
+  const semanticKey = await semanticStoryKey(item);
+  if (semanticKey) {
+    await db.set(
+      [
+        "factor",
+        "published_story_v3",
+        semanticKey,
+      ],
+      true,
+      {
+        expireIn: HISTORY_TTL_MS,
+      },
+    );
+  }
 }
 
 
@@ -3396,13 +3502,10 @@ function makeFallbackStory( item: NewsItem, articleMedia: ArticleMedia, ): AISto
 
     short,
 
-    main:
-      short
-        ? [short]
-        : [],
+    // Do not fabricate duplicate sections when there are no extra facts.
+    main: [],
 
-    important:
-      short,
+    important: "",
 
     urgent:
       detectUrgency(
@@ -3537,120 +3640,79 @@ function buildPost( item: NewsItem, story: AIStory, sourceName: string, articleU
       : "🔵 <b>ФАКТОР • ГЛАВНОЕ</b>";
 
   const category =
-    `${item.categoryEmoji} <b>${escapeHtml( item.category, )}</b>`;
+    `${item.categoryEmoji} <b>${escapeHtml(item.category)}</b>`;
 
-  const headline =
-    `<b>${escapeHtml( truncate( story.headline, 260, ), )}</b>`;
+  const headlineText = stripHtml(
+    truncate(story.headline || item.title, 260),
+  );
+  const shortText = stripHtml(
+    truncate(story.short || item.description || item.title, 500),
+  );
 
-  const short =
-    escapeHtml(
-      truncate(
-        story.short,
-        500,
-      ),
-    );
+  const mainItems: string[] = [];
+  for (const raw of story.main || []) {
+    const text = stripHtml(truncate(String(raw || ""), 350));
+    if (!text) continue;
+    if (storySimilarity(text, headlineText) >= 0.72) continue;
+    if (storySimilarity(text, shortText) >= 0.72) continue;
+    if (mainItems.some((x) => storySimilarity(x, text) >= 0.80)) continue;
+    mainItems.push(text);
+    if (mainItems.length >= 3) break;
+  }
 
-  const main =
-    story.main
-      .filter(Boolean)
-      .map(
-        (x) =>
-          `• ${escapeHtml( truncate( x, 350, ), )}`,
-      )
-      .join("\n");
-
-  const important =
-    escapeHtml(
-      truncate(
-        story.important,
-        400,
-      ),
-    );
-
-  const time =
-    new Intl.DateTimeFormat(
-      "ru-RU",
-      {
-        hour:
-          "2-digit",
-
-        minute:
-          "2-digit",
-
-        timeZone:
-          "Europe/Moscow",
-      },
-    ).format(
-      new Date(),
-    );
-
-  const sourceLine =
-    isUsableArticleUrl(
-      articleUrl,
-    )
-      ? `🔗 <a href="${escapeHtml( articleUrl, )}">${escapeHtml( sourceName, )}</a>`
+  const importantText = stripHtml(
+    truncate(story.important || "", 400),
+  );
+  const uniqueImportant =
+    importantText &&
+    storySimilarity(importantText, headlineText) < 0.72 &&
+    storySimilarity(importantText, shortText) < 0.72 &&
+    !mainItems.some((x) => storySimilarity(x, importantText) >= 0.72)
+      ? importantText
       : "";
 
-  const parts = [
+  const time = new Intl.DateTimeFormat("ru-RU", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Europe/Moscow",
+  }).format(new Date());
 
+  const sourceLine = isLikelyArticleUrl(articleUrl)
+    ? `🔗 <a href="${escapeHtml(articleUrl)}">${escapeHtml(sourceName)}</a>`
+    : "";
+
+  const parts: string[] = [
     header,
-
     "",
-
     category,
-
     "",
-
-    headline,
-
+    `<b>${escapeHtml(headlineText)}</b>`,
     "",
-
     "<b>КРАТКО</b>",
-
-    short,
-
-    "",
-
-    "<b>ГЛАВНОЕ</b>",
-
-    main ||
-      `• ${short}`,
-
-    "",
-
-    "<b>ЧТО ВАЖНО</b>",
-
-    important ||
-      short,
-
-    "",
-
-    `🕒 ${time}`,
-
-    sourceLine,
-
-    "",
-
-    "<i>ФАКТОР</i>",
-
+    escapeHtml(shortText),
   ];
 
-  let result =
-    parts.join(
-      "\n",
-    );
+  if (mainItems.length > 0) {
+    parts.push("", "<b>ГЛАВНОЕ</b>");
+    for (const text of mainItems) {
+      parts.push(`• ${escapeHtml(text)}`);
+    }
+  }
 
-  if (
-    result.length >
-    MAX_POST_LENGTH
-  ) {
+  if (uniqueImportant) {
+    parts.push("", "<b>ЧТО ВАЖНО</b>", escapeHtml(uniqueImportant));
+  }
 
-    result =
-      result.slice(
-        0,
-        MAX_POST_LENGTH - 1,
-      ) +
-      "…";
+  parts.push("", `🕒 ${time}`);
+
+  if (sourceLine) parts.push(sourceLine);
+
+  parts.push("", "<i>ФАКТОР</i>");
+
+  let result = parts.join("\n");
+
+  if (result.length > MAX_POST_LENGTH) {
+    result = result.slice(0, MAX_POST_LENGTH - 1).trimEnd() + "…";
   }
 
   return result;
@@ -3801,6 +3863,12 @@ async function chooseCandidate( items: NewsItem[], urgentAllowed: boolean, regul
       score,
     } =
       candidate;
+
+    // Fast duplicate rejection before expensive article/Gemini work.
+    if (await isAlreadyPublished(item)) {
+      console.log("Rejected: semantic duplicate before article fetch:", item.title);
+      continue;
+    }
 
     const articleMedia =
       await extractArticleMedia(
