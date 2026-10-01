@@ -1,6 +1,6 @@
 // ============================================================
 // MAX NEWS AGENT — ФАКТОР
-// FIX v6: Google News batchexecute decoder + strict article validation
+// FIX v2: Google News HTML/URL sanitization + encoded RSS HTML cleanup
 // DENO DEPLOY
 // ============================================================
 //
@@ -206,6 +206,8 @@ function cleanText(value) {
       .replace(/&quot;/gi, '"')
       .replace(/&#39;/gi, "'")
       .replace(/&#x27;/gi, "'")
+      .replace(/&lt;/gi, "<")
+      .replace(/&gt;/gi, ">")
       .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
       .replace(/&#x([0-9a-f]+);/gi, (_, code) =>
         String.fromCodePoint(parseInt(code, 16))
@@ -393,6 +395,181 @@ function parseRSS(xml, feed) {
   }
   return items;
 }
+function inferCategory(item) {
+  const title = normalizeForHash(item.title);
+  const desc = normalizeForHash(item.description);
+  const text = `${title} ${desc}`;
+  const rules = [
+    [
+      "ПРОИСШЕСТВИЯ",
+      [
+        "дтп",
+        "авария",
+        "пожар",
+        "взрыв",
+        "погиб",
+        "погибли",
+        "убит",
+        "крушение",
+        "катастроф",
+        "эвакуац",
+      ],
+      4,
+    ],
+    [
+      "ПРАВО",
+      [
+        "суд",
+        "судья",
+        "приговор",
+        "осужден",
+        "закон",
+        "законопроект",
+        "прокуратур",
+        "иск",
+        "юрист",
+      ],
+      4,
+    ],
+    [
+      "ФИНАНСЫ",
+      [
+        "ставка",
+        "вклад",
+        "депозит",
+        "рубль",
+        "доллар",
+        "евро",
+        "курс валют",
+        "банк",
+        "банки",
+        "ипотек",
+        "кредит",
+        "биржа",
+        "акции",
+        "облигац",
+        "цб",
+        "центральный банк",
+      ],
+      4,
+    ],
+    [
+      "ЭКОНОМИКА",
+      [
+        "инфляц",
+        "ввп",
+        "экономик",
+        "безработиц",
+        "зарплат",
+        "доход",
+        "расход",
+        "бюджет",
+        "налог",
+        "рынок",
+      ],
+      3,
+    ],
+    [
+      "БИЗНЕС",
+      [
+        "компани",
+        "корпорац",
+        "бизнес",
+        "сделк",
+        "инвестиц",
+        "стартап",
+        "предпринимател",
+      ],
+      3,
+    ],
+    [
+      "ПОЛИТИКА",
+      [
+        "президент",
+        "правительств",
+        "министр",
+        "парламент",
+        "депутат",
+        "выбор",
+        "санкци",
+        "внешняя политика",
+        "госдум",
+      ],
+      3,
+    ],
+    [
+      "ТЕХНОЛОГИИ",
+      [
+        "технолог",
+        "искусственный интеллект",
+        "ии ",
+        "нейросет",
+        "кибербезопас",
+        "робот",
+        "смартфон",
+        "процессор",
+      ],
+      3,
+    ],
+    [
+      "ПРОМЫШЛЕННОСТЬ",
+      [
+        "производств",
+        "завод",
+        "промышлен",
+        "энергетик",
+        "нефть",
+        "газ",
+        "электроэнерг",
+      ],
+      3,
+    ],
+    [
+      "АВТО",
+      [
+        "автомобил",
+        "машин",
+        "автопроизвод",
+        "дорог",
+        "транспорт",
+        "toyota",
+        "nissan",
+        "лада",
+      ],
+      3,
+    ],
+  ];
+  let best = item.category || "МИР";
+  let bestScore = 0;
+  for (const [category, patterns, weight] of rules) {
+    let score = 0;
+    for (const pattern of patterns) {
+      if (title.includes(pattern)) score += weight;
+      else if (desc.includes(pattern)) score += Math.max(1, weight - 2);
+    }
+    if (score > bestScore) {
+      bestScore = score;
+      best = category;
+    }
+  }
+  const emoji = {
+    МИР: "🌍",
+    ПОЛИТИКА: "🏛️",
+    ЭКОНОМИКА: "📈",
+    БИЗНЕС: "💼",
+    ФИНАНСЫ: "💰",
+    ПРАВО: "⚖️",
+    ПРОИСШЕСТВИЯ: "🚨",
+    ТЕХНОЛОГИИ: "💻",
+    ПРОМЫШЛЕННОСТЬ: "🏭",
+    АВТО: "🚗",
+  };
+  return {
+    category: best,
+    categoryEmoji: emoji[best] || item.categoryEmoji || "📰",
+  };
+}
+
 async function loadRSS(feed) {
   try {
     const response = await fetch(feed.url, {
@@ -733,226 +910,92 @@ function articleTitleMatches(itemTitle, pageTitle) {
   if (a === b || a.includes(b) || b.includes(a)) return true;
   return articleTitleSimilarity(itemTitle, pageTitle) >= 0.45;
 }
-
-// ============================================================
-// GOOGLE NEWS DECODER (post-2024 CBMi... links)
-// ============================================================
-// Google News RSS links are no longer plain base64 URLs. Modern
-// /rss/articles/CBMi... links require Google's internal Fbv4je RPC.
-// We use the signed request first and keep a legacy direct-RPC fallback.
-function googleNewsArticleId(url) {
-  try {
-    const parsed = new URL(url);
-    const parts = parsed.pathname.split("/").filter(Boolean);
-    const idx = parts.lastIndexOf("articles");
-    if (idx >= 0 && parts[idx + 1]) {
-      return parts[idx + 1];
-    }
-    return "";
-  } catch {
-    return "";
-  }
-}
-function normalizeBase64Url(value) {
-  let s = String(value ?? "").replace(/\s+/g, "");
-  s = s.replace(/-/g, "+").replace(/_/g, "/");
-  while (s.length % 4) s += "=";
-  return s;
-}
-function extractGoogleDecodeUrl(text) {
-  // Fast path: Google returns the URL in an escaped JSON fragment.
-  const marker = '[\\"garturlres\\",\\"';
-  const pos = text.indexOf(marker);
-  if (pos >= 0) {
-    const start = pos + marker.length;
-    const end = text.indexOf('\\",', start);
-    if (end > start) {
-      const raw = text
-        .slice(start, end)
-        .replace(/\\\\\\"/g, '"')
-        .replace(/\\\\/g, "\\");
-      if (isUsableArticleUrl(raw)) return normalizeUrl(raw);
-    }
-  }
-
-  // More robust path: parse the batchexecute JSON and recursively find
-  // ["garturlres", "https://publisher/...", ...].
-  const chunks = text.split("\n\n");
-  for (const chunk of chunks) {
-    let root;
-    try {
-      root = JSON.parse(chunk);
-    } catch {
-      continue;
-    }
-    const stack = [root];
-    while (stack.length) {
-      const node = stack.pop();
-      if (Array.isArray(node)) {
-        if (node[0] === "garturlres" && typeof node[1] === "string") {
-          const candidate = decodeURIComponent(node[1]);
-          if (isUsableArticleUrl(candidate)) return normalizeUrl(candidate);
-        }
-        for (let i = node.length - 1; i >= 0; i--) stack.push(node[i]);
-      } else if (node && typeof node === "object") {
-        for (const value of Object.values(node)) stack.push(value);
-      }
-    }
-  }
-  return "";
-}
-async function googleNewsBatchExecute( articleId, timestamp = null, signature = null ) {
-  let inner;
-  if (timestamp != null && signature) {
-    inner = JSON.stringify([
-      "garturlreq",
-      [
-        [
-          "X",
-          "X",
-          ["X", "X"],
-          null,
-          null,
-          1,
-          1,
-          "US:en",
-          null,
-          1,
-          null,
-          null,
-          null,
-          null,
-          null,
-          0,
-          1,
-        ],
-        "X",
-        "X",
-        1,
-        [1, 1, 1],
-        1,
-        1,
-        null,
-        0,
-        0,
-        null,
-        0,
-      ],
-      articleId,
-      Number(timestamp),
-      String(signature),
-    ]);
-  } else {
-    // Legacy public form still works for some Google News deployments.
-    inner = `[ "garturlreq", [["en-US","US",["FINANCE_TOP_INDICES","WEB_TEST_1_0_0"],null,null,1,1,"US:en",null,180,null,null,null,null,null,0,null,null,[1608992183,723341000]],"en-US","US",1,[2,3,4,8],1,0,"655000234",0,0,null,0], "${articleId}" ]`;
-  }
-
-  const request = [["Fbv4je", inner]];
-  const body = "f.req=" + encodeURIComponent(JSON.stringify([request]));
-  const response = await fetch(
-    "https://news.google.com/_/DotsSplashUi/data/batchexecute?rpcids=Fbv4je",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-        Referer: "https://news.google.com/",
-        "User-Agent": USER_AGENT,
-      },
-      body,
-      signal: AbortSignal.timeout(15000),
-    }
-  );
-  if (!response.ok)
-    throw new Error(`Google batchexecute HTTP ${response.status}`);
-  return extractGoogleDecodeUrl(await response.text());
-}
-async function decodeGoogleNewsUrlModern(sourceUrl) {
-  const articleId = googleNewsArticleId(sourceUrl);
-  if (!articleId) return "";
-
-  // 1) Current signed RPC: obtain per-article signature + timestamp.
-  try {
-    const response = await fetch(
-      `https://news.google.com/rss/articles/${encodeURIComponent(articleId)}`,
-      {
-        headers: {
-          "User-Agent": USER_AGENT,
-          Accept: "text/html,application/xhtml+xml,*/*;q=0.8",
-          Referer: "https://news.google.com/",
-        },
-        redirect: "follow",
-        signal: AbortSignal.timeout(12000),
-      }
-    );
-    if (response.ok) {
-      const html = await response.text();
-      const sg =
-        html.match(/data-n-a-sg=["']([^"']+)["']/i)?.[1] ??
-        html.match(/data-n-a-sg\\?=["']([^"']+)["']/i)?.[1] ??
-        "";
-      const ts =
-        html.match(/data-n-a-ts=["']([^"']+)["']/i)?.[1] ??
-        html.match(/data-n-a-ts\\?=["']([^"']+)["']/i)?.[1] ??
-        "";
-      if (sg && ts) {
-        const decoded = await googleNewsBatchExecute(
-          articleId,
-          ts,
-          decodeHtmlEntities(sg)
-        );
-        if (decoded) return decoded;
-      }
-    }
-  } catch (error) {
-    console.warn(
-      "Google signed decode failed:",
-      error instanceof Error ? error.message : String(error)
-    );
-  }
-
-  // 2) Fallback to the older direct Fbv4je form.
-  try {
-    const decoded = await googleNewsBatchExecute(articleId);
-    if (decoded) return decoded;
-  } catch (error) {
-    console.warn(
-      "Google direct decode failed:",
-      error instanceof Error ? error.message : String(error)
-    );
-  }
-
-  // 3) Old pre-July-2024 format could contain the source URL directly.
-  try {
-    const raw = atob(normalizeBase64Url(articleId));
-    const bytes = Uint8Array.from(raw, (ch) => ch.charCodeAt(0));
-    const text = new TextDecoder("utf-8", { fatal: false }).decode(bytes);
-    const urls = text.match(/https?:\/\/[^\x00\s"']+/g) ?? [];
-    for (const candidate of urls) {
-      if (isUsableArticleUrl(candidate)) return normalizeUrl(candidate);
-    }
-  } catch {
-    // Modern opaque IDs are expected to fail here.
-  }
-  return "";
-}
-
-async function resolveArticleUrl(item, diagnostics = null) {
+async function resolveArticleUrl(item) {
   const originalUrl = normalizeUrl(item.link);
   if (!isGoogleNewsUrl(originalUrl)) {
     return isLikelyArticleUrl(originalUrl) ? originalUrl : "";
   }
-
-  // The RSS link itself is never treated as an article. Decode it first.
-  const decodedUrl = await decodeGoogleNewsUrlModern(originalUrl);
-  if (decodedUrl && isLikelyArticleUrl(decodedUrl)) {
-    return decodedUrl;
+  let preferredHost = null;
+  if (item.sourceUrl) {
+    try {
+      preferredHost = normalizeHost(new URL(item.sourceUrl).hostname);
+    } catch {
+      preferredHost = null;
+    }
   }
-
-  diagnostics && diagnostics.google_decode_failed++;
-  console.warn("Google News URL could not be decoded:", originalUrl);
+  try {
+    const response = await fetch(originalUrl, {
+      redirect: "follow",
+      headers: {
+        "User-Agent": USER_AGENT,
+        Accept:
+          "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      },
+      signal: AbortSignal.timeout(15000),
+    });
+    const finalUrl = normalizeUrl(response.url || "");
+    const html = await response.text();
+    const candidates = new Set();
+    const addCandidate = (url) => {
+      const normalized = normalizeUrl(url || "");
+      if (normalized && isLikelyArticleUrl(normalized))
+        candidates.add(normalized);
+    };
+    addCandidate(finalUrl);
+    addCandidate(extractCanonical(html, originalUrl));
+    const ogUrl = findMeta(html, "og:url");
+    if (ogUrl) addCandidate(absoluteUrl(ogUrl, originalUrl));
+    const jsonLd = extractJsonLd(html);
+    const articles = [];
+    for (const block of jsonLd) collectArticleJsonLd(block, articles);
+    for (const article of articles) {
+      for (const candidate of [article.url, article.mainEntityOfPage]) {
+        let raw = "";
+        if (typeof candidate === "string") raw = candidate;
+        else if (candidate && typeof candidate === "object")
+          raw = String(candidate["@id"] ?? candidate.url ?? "");
+        if (raw) addCandidate(absoluteUrl(raw, originalUrl));
+      }
+    }
+    for (const url of extractGoogleNewsUrlCandidates(
+      html,
+      originalUrl,
+      preferredHost
+    ))
+      addCandidate(url);
+    for (const url of extractExternalLinks(html, originalUrl, preferredHost))
+      addCandidate(url);
+    const ranked = [...candidates].sort((a, b) => {
+      const ah = hostMatches(a, preferredHost) ? 1 : 0;
+      const bh = hostMatches(b, preferredHost) ? 1 : 0;
+      if (ah !== bh) return bh - ah;
+      return (
+        articleLinkScore(b, preferredHost) - articleLinkScore(a, preferredHost)
+      );
+    });
+    for (const candidateUrl of ranked.slice(0, 8)) {
+      const page = await loadArticlePage(candidateUrl);
+      if (!page) continue;
+      const pageTitle = extractPageTitle(page.html);
+      if (articleTitleMatches(item.title, pageTitle)) return page.finalUrl;
+      console.warn(
+        "Rejected resolver title mismatch:",
+        item.title,
+        "=>",
+        pageTitle,
+        candidateUrl
+      );
+    }
+    // Google News: если заголовок не совпал, новость НЕ публикуем.
+    return "";
+  } catch (error) {
+    console.error(
+      "Google News resolve:",
+      error instanceof Error ? error.message : String(error)
+    );
+  }
   return "";
 }
-
 // ============================================================
 // ARTICLE PAGE
 // ============================================================
@@ -1048,6 +1091,108 @@ function collectVideoUrls(value, result) {
     }
   }
 }
+function isBadImageUrl(url) {
+  if (!url) return true;
+  try {
+    const parsed = new URL(url);
+    const value = `${parsed.hostname}${parsed.pathname}`.toLowerCase();
+    return [
+      /logo/,
+      /favicon/,
+      /avatar/,
+      /author/,
+      /icon/,
+      /sprite/,
+      /placeholder/,
+      /default[-_]?image/,
+      /share[-_]?image/,
+      /google[-_]?news/,
+      /oneme\.ru/,
+      /gstatic/,
+      /ggpht/,
+      /pixel/,
+      /tracking/,
+      /1x1/,
+    ].some((rx) => rx.test(value));
+  } catch {
+    return true;
+  }
+}
+
+function collectImageUrlsFromJsonLd(value, result, baseUrl) {
+  if (typeof value === "string") {
+    const url = absoluteUrl(normalizeMediaUrl(value), baseUrl);
+    if (url && isHttpUrl(url) && !isBadImageUrl(url)) result.push(url);
+    return;
+  }
+  if (Array.isArray(value)) {
+    for (const item of value) collectImageUrlsFromJsonLd(item, result, baseUrl);
+    return;
+  }
+  if (!value || typeof value !== "object") return;
+  for (const [key, item] of Object.entries(value)) {
+    if (["image", "thumbnailUrl", "thumbnail", "contentUrl"].includes(key)) {
+      collectImageUrlsFromJsonLd(item, result, baseUrl);
+    } else if (
+      key === "@graph" ||
+      key === "mainEntity" ||
+      key === "associatedMedia"
+    ) {
+      collectImageUrlsFromJsonLd(item, result, baseUrl);
+    }
+  }
+}
+
+function findImageFromHtml(html, baseUrl) {
+  const candidates = [];
+  const push = (raw) => {
+    if (!raw) return;
+    const url = absoluteUrl(normalizeMediaUrl(raw), baseUrl);
+    if (!url || !isHttpUrl(url) || isBadImageUrl(url)) return;
+    if (!candidates.includes(url)) candidates.push(url);
+  };
+
+  // 1. Standard social/article metadata.
+  for (const name of [
+    "og:image:secure_url",
+    "og:image",
+    "twitter:image",
+    "twitter:image:src",
+  ]) {
+    push(findMeta(html, name));
+  }
+
+  // 2. JSON-LD Article image/thumbnail.
+  for (const data of extractJsonLd(html)) {
+    const urls = [];
+    collectImageUrlsFromJsonLd(data, urls, baseUrl);
+    for (const url of urls) push(url);
+  }
+
+  // 3. Common article image markup. Prefer images with useful size hints.
+  const imgCandidates = [];
+  for (const match of html.matchAll(/<img\b([^>]*?)>/gi)) {
+    const attrs = match[1] || "";
+    const raw =
+      extractAttr(attrs, "data-src") ||
+      extractAttr(attrs, "data-lazy-src") ||
+      extractAttr(attrs, "src");
+    const width = Number(extractAttr(attrs, "width") || 0);
+    const height = Number(extractAttr(attrs, "height") || 0);
+    const url = absoluteUrl(normalizeMediaUrl(raw), baseUrl);
+    if (!url || !isHttpUrl(url) || isBadImageUrl(url)) continue;
+    const score =
+      (width >= 600 ? 4 : 0) +
+      (height >= 300 ? 3 : 0) +
+      (width * height > 0 ? Math.min(3, (width * height) / 200000) : 0);
+    imgCandidates.push({ url, score });
+  }
+  imgCandidates.sort((a, b) => b.score - a.score);
+  for (const entry of imgCandidates.slice(0, 8)) push(entry.url);
+
+  return candidates[0] || null;
+}
+
 function findVideoFromHtml(html, baseUrl) {
   const candidates = [];
   const metaNames = [
@@ -1099,8 +1244,8 @@ function findVideoFromHtml(html, baseUrl) {
 // ============================================================
 // ARTICLE MEDIA
 // ============================================================
-async function extractArticleMedia(item, diagnostics = null) {
-  const articleUrl = await resolveArticleUrl(item, diagnostics);
+async function extractArticleMedia(item) {
+  const articleUrl = await resolveArticleUrl(item);
   if (!isLikelyArticleUrl(articleUrl)) {
     return {
       articleUrl: "",
@@ -1109,9 +1254,7 @@ async function extractArticleMedia(item, diagnostics = null) {
       sourceName: null,
       title: null,
       description: null,
-      rejectedReason: isGoogleNewsUrl(normalizeUrl(item.link))
-        ? "google_decode_failed"
-        : "bad_url",
+      rejectedReason: "bad_url",
     };
   }
   const page = await loadArticlePage(articleUrl);
@@ -1148,11 +1291,7 @@ async function extractArticleMedia(item, diagnostics = null) {
       rejectedReason: "article_title_mismatch",
     };
   }
-  const imageMeta =
-    findMeta(html, "og:image") || findMeta(html, "twitter:image");
-  const imageUrl = imageMeta
-    ? absoluteUrl(normalizeMediaUrl(imageMeta), finalUrl)
-    : null;
+  const imageUrl = findImageFromHtml(html, finalUrl);
   const videoUrl = findVideoFromHtml(html, finalUrl);
   const sourceName =
     findMeta(html, "og:site_name") || findMeta(html, "application-name");
@@ -1359,7 +1498,7 @@ async function uploadMedia(media) {
 // ============================================================
 // MAX PUBLISH
 // ============================================================
-async function publishToMax(text, mediaToken) {
+async function publishToMax(text, mediaInfo) {
   if (!TARGET_CHAT_ID) {
     throw new Error("TARGET_CHAT_ID is missing");
   }
@@ -1369,13 +1508,18 @@ async function publishToMax(text, mediaToken) {
     notify: true,
     disable_link_preview: true,
   };
-  if (mediaToken) {
+  if (mediaInfo?.type === "image" && mediaInfo?.url) {
     body.attachments = [
       {
-        type: mediaToken.type,
-        payload: {
-          token: mediaToken.token,
-        },
+        type: "image",
+        payload: { url: mediaInfo.url },
+      },
+    ];
+  } else if (mediaInfo?.type && mediaInfo?.token) {
+    body.attachments = [
+      {
+        type: mediaInfo.type,
+        payload: { token: mediaInfo.token },
       },
     ];
   }
@@ -2019,7 +2163,7 @@ async function chooseCandidate( items, urgentAllowed, regularAllowed, diagnostic
       continue;
     }
 
-    const articleMedia = await extractArticleMedia(item, diagnostics);
+    const articleMedia = await extractArticleMedia(item);
     const articleUrl = articleMedia.articleUrl;
 
     if (articleMedia.rejectedReason === "article_title_mismatch") {
@@ -2028,14 +2172,8 @@ async function chooseCandidate( items, urgentAllowed, regularAllowed, diagnostic
     }
 
     if (!isLikelyArticleUrl(articleUrl)) {
-      if (articleMedia.rejectedReason !== "google_decode_failed") {
-        diagnostics && diagnostics.bad_url++;
-      }
-      console.log(
-        "Rejected: no real article URL:",
-        item.title,
-        articleMedia.rejectedReason || "bad_url"
-      );
+      diagnostics && diagnostics.bad_url++;
+      console.log("Rejected: no real article URL:", item.title);
       continue;
     }
 
@@ -2134,7 +2272,6 @@ function createDiagnostics() {
 
     duplicate_before_article: 0,
     bad_url: 0,
-    google_decode_failed: 0,
     article_title_mismatch: 0,
     duplicate_after_article: 0,
 
@@ -2292,6 +2429,10 @@ async function executePipeline(manual = false) {
     const feedResults = await Promise.all(RSS_FEEDS.map(loadRSS));
     const items = feedResults
       .flat()
+      .map((item) => {
+        const inferred = inferCategory(item);
+        return { ...item, ...inferred };
+      })
       .sort((a, b) => {
         const ad = Date.parse(a.pubDate) || 0;
         const bd = Date.parse(b.pubDate) || 0;
@@ -2396,41 +2537,56 @@ async function executePipeline(manual = false) {
     // --------------------------------------------------------
     const text = buildPost(item, story, sourceName, finalArticleUrl);
     let mediaInfo;
+    let mediaMode = "none";
+    let mediaUploadAttempted = false;
+    let mediaAttachmentSent = false;
     // --------------------------------------------------------
-    // UPLOAD
-    // --------------------------------------------------------
-    if (media) {
-      try {
-        console.log("Uploading media:", media.type, media.bytes.byteLength);
-        const token = await uploadMedia(media);
-        mediaInfo = {
-          type: media.type,
-          token,
-        };
-      } catch (error) {
-        console.error(
-          "Media upload failed:",
-          error instanceof Error ? error.message : String(error)
-        );
-        mediaInfo = undefined;
-      }
-    }
-    // --------------------------------------------------------
-    // PUBLISH
+    // PUBLISH WITH MEDIA
+    // First use the direct image URL supported by MAX. If the
+    // external URL is rejected, download/upload it and retry with
+    // a MAX media token. This avoids losing good article images.
     // --------------------------------------------------------
     let publication;
-    if (mediaInfo) {
+    if (media?.type === "image" && media.sourceUrl) {
+      mediaInfo = {
+        type: "image",
+        url: media.sourceUrl,
+      };
       try {
+        console.log("Publishing image by URL:", media.sourceUrl);
         publication = await publishWithMediaRetry(text, mediaInfo);
+        mediaMode = "url";
+        mediaAttachmentSent = true;
       } catch (error) {
         console.error(
-          "Media publication failed. " + "Falling back to text:",
+          "Image URL publication failed; trying MAX upload:",
           error instanceof Error ? error.message : String(error)
         );
-        publication = await publishToMax(text);
+        mediaUploadAttempted = true;
       }
-    } else {
+    }
+    if (!publication && media) {
+      try {
+        console.log(
+          "Uploading media to MAX:",
+          media.type,
+          media.bytes.byteLength
+        );
+        const token = await uploadMedia(media);
+        mediaInfo = { type: media.type, token };
+        publication = await publishWithMediaRetry(text, mediaInfo);
+        mediaMode = "token";
+        mediaAttachmentSent = true;
+      } catch (error) {
+        console.error(
+          "MAX media upload/publication failed; falling back to text:",
+          error instanceof Error ? error.message : String(error)
+        );
+      }
+    }
+    if (!publication) {
       publication = await publishToMax(text);
+      mediaMode = "text";
     }
     // --------------------------------------------------------
     // MARK AS PUBLISHED
@@ -2462,6 +2618,14 @@ async function executePipeline(manual = false) {
             source_url: media.sourceUrl,
           }
         : null,
+      media_diagnostics: {
+        found: Boolean(media),
+        type: media?.type || null,
+        source_url: media?.sourceUrl || null,
+        mode: mediaMode,
+        upload_attempted: mediaUploadAttempted,
+        attachment_sent: mediaAttachmentSent,
+      },
       publication,
       duration_ms: Date.now() - startedAt,
     };
