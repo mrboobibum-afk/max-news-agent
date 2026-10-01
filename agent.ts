@@ -1,6 +1,6 @@
 // ============================================================
-// MAX NEWS AGENT — ФАКТОР
-// FIX v2: Google News HTML/URL sanitization + encoded RSS HTML cleanup
+// MAX NEWS AGENT v8 — ФАКТОР
+// FIX v3: verified article resolution + title consistency guard
 // DENO DEPLOY
 // ============================================================
 //
@@ -760,7 +760,8 @@ async function resolveFromSourceHomepage(item, preferredHost) {
       if (score > 0) scored.push({ url: normalized, score });
     }
     scored.sort((a, b) => b.score - a.score);
-    return scored[0]?.url || "";
+    const candidates = scored.slice(0, 8).map((x) => x.url);
+    return await pickVerifiedArticleCandidate(item, candidates, 8);
   } catch (error) {
     console.error(
       "Source homepage resolve:",
@@ -827,10 +828,83 @@ function extractGoogleNewsUrlCandidates(html, baseUrl, preferredHost) {
 // ============================================================
 // GOOGLE NEWS RESOLUTION
 // ============================================================
+function extractTitleTag(html) {
+  const match = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
+  return match ? cleanText(match[1]) : "";
+}
+
+function articleTitleMatches(itemTitle, pageTitle) {
+  const a = normalizeForHash(itemTitle);
+  const b = normalizeForHash(pageTitle);
+  if (!a || !b) return false;
+  if (a === b) return true;
+  const aw = a.split(" ").filter((w) => w.length >= 5);
+  const bw = new Set(b.split(" ").filter((w) => w.length >= 5));
+  if (aw.length === 0 || bw.size === 0) return false;
+  let common = 0;
+  for (const word of aw) {
+    if (bw.has(word)) common++;
+  }
+  const ratio = common / Math.max(aw.length, bw.size);
+  return ratio >= 0.3 || common >= 2;
+}
+
+async function verifyArticleCandidate(item, url) {
+  if (!isLikelyArticleUrl(url)) return null;
+  try {
+    const page = await loadArticlePage(url);
+    if (!page) return null;
+    const { finalUrl, html } = page;
+    const title =
+      findMeta(html, "og:title") ||
+      findMeta(html, "twitter:title") ||
+      extractTitleTag(html) ||
+      "";
+    const description =
+      findMeta(html, "og:description") || findMeta(html, "description") || "";
+    if (!articleTitleMatches(item.title, title)) {
+      console.log("Rejected article candidate: title mismatch", {
+        rss_title: item.title,
+        page_title: title,
+        url: finalUrl,
+      });
+      return null;
+    }
+    return {
+      url: finalUrl,
+      title: stripHtml(title),
+      description: stripHtml(description),
+    };
+  } catch (error) {
+    console.error(
+      "Verify article candidate:",
+      error instanceof Error ? error.message : String(error)
+    );
+    return null;
+  }
+}
+
+async function pickVerifiedArticleCandidate(item, candidates, limit = 6) {
+  const seen = new Set();
+  let checked = 0;
+  for (const raw of candidates) {
+    const url = normalizeUrl(raw);
+    if (!url || seen.has(url) || !isLikelyArticleUrl(url)) continue;
+    seen.add(url);
+    if (checked >= limit) break;
+    checked++;
+    const verified = await verifyArticleCandidate(item, url);
+    if (verified) return verified.url;
+  }
+  return "";
+}
+
 async function resolveArticleUrl(item) {
   const originalUrl = normalizeUrl(item.link);
   if (!isGoogleNewsUrl(originalUrl)) {
-    return isLikelyArticleUrl(originalUrl) ? originalUrl : "";
+    if (!isLikelyArticleUrl(originalUrl)) return "";
+    const verified = await verifyArticleCandidate(item, originalUrl);
+    return verified?.url || "";
   }
   let preferredHost = null;
   if (item.sourceUrl) {
@@ -851,60 +925,60 @@ async function resolveArticleUrl(item) {
       signal: AbortSignal.timeout(15000),
     });
     const finalUrl = normalizeUrl(response.url || "");
-    if (isLikelyArticleUrl(finalUrl)) return finalUrl;
     const html = await response.text();
+    const directCandidates = [];
+    if (isLikelyArticleUrl(finalUrl)) directCandidates.push(finalUrl);
     const canonical = extractCanonical(html, originalUrl);
-    if (canonical && isLikelyArticleUrl(canonical)) {
-      return normalizeUrl(canonical);
-    }
+    if (canonical && isLikelyArticleUrl(canonical))
+      directCandidates.push(canonical);
     const ogUrl = findMeta(html, "og:url");
     if (ogUrl) {
       const resolved = absoluteUrl(ogUrl, originalUrl);
-      if (resolved && isLikelyArticleUrl(resolved)) {
-        return normalizeUrl(resolved);
-      }
+      if (resolved && isLikelyArticleUrl(resolved))
+        directCandidates.push(resolved);
     }
     const jsonLd = extractJsonLd(html);
     const articles = [];
-    for (const block of jsonLd) {
-      collectArticleJsonLd(block, articles);
-    }
+    for (const block of jsonLd) collectArticleJsonLd(block, articles);
     for (const article of articles) {
       for (const candidate of [article.url, article.mainEntityOfPage]) {
         let raw = "";
-        if (typeof candidate === "string") {
-          raw = candidate;
-        } else if (candidate && typeof candidate === "object") {
+        if (typeof candidate === "string") raw = candidate;
+        else if (candidate && typeof candidate === "object")
           raw = String(candidate["@id"] ?? candidate.url ?? "");
-        }
         if (!raw) continue;
         const resolved = absoluteUrl(raw, originalUrl);
-        if (resolved && isLikelyArticleUrl(resolved)) {
-          return normalizeUrl(resolved);
-        }
+        if (resolved && isLikelyArticleUrl(resolved))
+          directCandidates.push(resolved);
       }
     }
+    const directVerified = await pickVerifiedArticleCandidate(
+      item,
+      directCandidates,
+      4
+    );
+    if (directVerified) return directVerified;
+
     const candidates = extractGoogleNewsUrlCandidates(
       html,
       originalUrl,
       preferredHost
     );
-    if (candidates.length > 0) {
-      const preferred = preferredHost
-        ? candidates.find((url) => hostMatches(url, preferredHost))
-        : null;
-      if (preferred) return preferred;
-      // Never accept a technical/foreign host merely because it has a long URL.
-      if (!preferredHost) return candidates[0];
+    const candidateList = [];
+    for (const url of candidates) {
+      if (!preferredHost || hostMatches(url, preferredHost))
+        candidateList.push(url);
     }
+    const verifiedGoogleCandidate = await pickVerifiedArticleCandidate(
+      item,
+      candidateList,
+      6
+    );
+    if (verifiedGoogleCandidate) return verifiedGoogleCandidate;
+
     const links = extractExternalLinks(html, originalUrl, preferredHost);
-    if (links.length > 0) {
-      const preferred = preferredHost
-        ? links.find((url) => hostMatches(url, preferredHost))
-        : null;
-      if (preferred) return preferred;
-      if (!preferredHost) return links[0];
-    }
+    const verifiedExternal = await pickVerifiedArticleCandidate(item, links, 6);
+    if (verifiedExternal) return verifiedExternal;
   } catch (error) {
     console.error(
       "Google News resolve:",
@@ -912,18 +986,19 @@ async function resolveArticleUrl(item) {
     );
   }
 
-  // Google News can sometimes return a shell/redirect page without the
-  // publisher article URL. In that case use the <source url="..."> domain
-  // from RSS and resolve the article from the publisher homepage.
   if (preferredHost) {
     const sourceFallback = await resolveFromSourceHomepage(item, preferredHost);
     if (sourceFallback) {
-      console.log("Resolved via publisher homepage:", sourceFallback);
+      console.log(
+        "Resolved via publisher homepage and verified title:",
+        sourceFallback
+      );
       return sourceFallback;
     }
   }
   return "";
 }
+
 // ============================================================
 // ARTICLE PAGE
 // ============================================================
@@ -1096,6 +1171,27 @@ async function extractArticleMedia(item) {
     };
   }
   const { finalUrl, html } = page;
+  const verifiedTitle =
+    findMeta(html, "og:title") ||
+    findMeta(html, "twitter:title") ||
+    extractTitleTag(html) ||
+    "";
+  if (!articleTitleMatches(item.title, verifiedTitle)) {
+    console.log("Article title mismatch after resolution:", {
+      rss_title: item.title,
+      page_title: verifiedTitle,
+      url: finalUrl,
+    });
+    return {
+      articleUrl: "",
+      imageUrl: null,
+      videoUrl: null,
+      sourceName: null,
+      title: verifiedTitle || null,
+      description: null,
+      titleMismatch: true,
+    };
+  }
   const imageMeta =
     findMeta(html, "og:image") || findMeta(html, "twitter:image");
   const imageUrl = imageMeta
@@ -1969,6 +2065,11 @@ async function chooseCandidate( items, urgentAllowed, regularAllowed, diagnostic
     }
 
     const articleMedia = await extractArticleMedia(item);
+    if (articleMedia.titleMismatch) {
+      diagnostics && diagnostics.article_title_mismatch++;
+      console.log("Rejected: article title mismatch:", item.title);
+      continue;
+    }
     const articleUrl = articleMedia.articleUrl;
 
     if (!isLikelyArticleUrl(articleUrl)) {
@@ -2001,6 +2102,21 @@ async function chooseCandidate( items, urgentAllowed, regularAllowed, diagnostic
     }
 
     story.urgent = story.urgent || candidate.urgency;
+
+    // FINAL CONTENT SAFETY: Gemini must not publish a story about a different event.
+    const referenceTitle = articleMedia.title || item.title;
+    if (
+      !articleTitleMatches(item.title, story.headline) ||
+      !articleTitleMatches(referenceTitle, story.headline)
+    ) {
+      console.log("Rejected: Gemini headline mismatch:", {
+        rss_title: item.title,
+        article_title: referenceTitle,
+        gemini_headline: story.headline,
+      });
+      diagnostics && diagnostics.text_duplicate++;
+      continue;
+    }
 
     if (story.urgent && !urgentAllowed) {
       diagnostics && diagnostics.urgent_interval_after_gemini++;
@@ -2048,6 +2164,7 @@ function createDiagnostics() {
 
     duplicate_before_article: 0,
     bad_url: 0,
+    article_title_mismatch: 0,
     resolver_source_fallback: 0,
     duplicate_after_article: 0,
 
