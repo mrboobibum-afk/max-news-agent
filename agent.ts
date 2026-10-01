@@ -52,7 +52,7 @@ let maxHttpClient: Deno.HttpClient | null = null;
 
 let maxHttpClientError: string | null = null;
 
-let maxCaStatus = {
+const maxCaStatus = {
   loaded: false,
   root: false,
   sub: false,
@@ -71,6 +71,12 @@ async function initMaxHttpClient(): Promise<Deno.HttpClient | null> {
   try {
     const rootResponse = await fetch(
       MAX_ROOT_CA_URL,
+      {
+        headers: {
+          "User-Agent": USER_AGENT,
+        },
+        signal: AbortSignal.timeout(15000),
+      },
     );
 
     if (!rootResponse.ok) {
@@ -79,13 +85,24 @@ async function initMaxHttpClient(): Promise<Deno.HttpClient | null> {
       );
     }
 
-    const rootCa =
-      await rootResponse.text();
+    const rootCa = await rootResponse.text();
+
+    if (!rootCa.includes("BEGIN CERTIFICATE")) {
+      throw new Error(
+        "Root CA certificate content is invalid",
+      );
+    }
 
     maxCaStatus.root = true;
 
     const subResponse = await fetch(
       MAX_SUB_CA_URL,
+      {
+        headers: {
+          "User-Agent": USER_AGENT,
+        },
+        signal: AbortSignal.timeout(15000),
+      },
     );
 
     if (!subResponse.ok) {
@@ -94,18 +111,22 @@ async function initMaxHttpClient(): Promise<Deno.HttpClient | null> {
       );
     }
 
-    const subCa =
-      await subResponse.text();
+    const subCa = await subResponse.text();
+
+    if (!subCa.includes("BEGIN CERTIFICATE")) {
+      throw new Error(
+        "Sub CA certificate content is invalid",
+      );
+    }
 
     maxCaStatus.sub = true;
 
-    maxHttpClient =
-      Deno.createHttpClient({
-        caCerts: [
-          rootCa,
-          subCa,
-        ],
-      });
+    maxHttpClient = Deno.createHttpClient({
+      caCerts: [
+        rootCa,
+        subCa,
+      ],
+    });
 
     maxCaStatus.loaded = true;
 
@@ -358,7 +379,7 @@ async function getState(): Promise<PipelineState> {
 
   const lastPipeline =
     (
-      await db.get<any>([
+      await db.get<unknown>([
         "factor",
         "state",
         "last_pipeline",
@@ -494,6 +515,19 @@ function cleanText(
       ) =>
         String.fromCodePoint(
           Number(code),
+        ),
+    )
+    .replace(
+      /&#x([0-9a-f]+);/gi,
+      (
+        _,
+        code,
+      ) =>
+        String.fromCodePoint(
+          parseInt(
+            code,
+            16,
+          ),
         ),
     )
     .replace(
@@ -806,6 +840,23 @@ function isGoogleNewsUrl(
   }
 }
 
+function isHttpUrl(
+  url: string,
+): boolean {
+  return /^https?:\/\//i.test(
+    url,
+  );
+}
+
+function isUsableArticleUrl(
+  url: string,
+): boolean {
+  return (
+    isHttpUrl(url) &&
+    !isGoogleNewsUrl(url)
+  );
+}
+
 async function resolveArticleUrl(
   originalUrl: string,
 ): Promise<string> {
@@ -845,10 +896,7 @@ async function resolveArticleUrl(
 
     if (
       finalUrl &&
-      !isGoogleNewsUrl(
-        finalUrl,
-      ) &&
-      /^https?:\/\//i.test(
+      isUsableArticleUrl(
         finalUrl,
       )
     ) {
@@ -860,19 +908,31 @@ async function resolveArticleUrl(
 
     const canonical =
       html.match(
-        /<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i,
+        /<link[^>]+rel=["'][^"']*canonical[^"']*["'][^>]+href=["']([^"']+)["']/i,
+      )?.[1] ??
+      html.match(
+        /<link[^>]+href=["']([^"']+)["'][^>]+rel=["'][^"']*canonical[^"']*["']/i,
       )?.[1];
 
     if (
-      canonical &&
-      !isGoogleNewsUrl(
-        canonical,
-      ) &&
-      /^https?:\/\//i.test(
-        canonical,
-      )
+      canonical
     ) {
-      return canonical;
+      const canonicalUrl =
+        absoluteUrl(
+          decodeHtmlEntities(
+            canonical,
+          ),
+          originalUrl,
+        );
+
+      if (
+        canonicalUrl &&
+        isUsableArticleUrl(
+          canonicalUrl,
+        )
+      ) {
+        return canonicalUrl;
+      }
     }
 
     const ogUrl =
@@ -882,15 +942,34 @@ async function resolveArticleUrl(
       );
 
     if (
-      ogUrl &&
-      !isGoogleNewsUrl(
-        ogUrl,
-      ) &&
-      /^https?:\/\//i.test(
-        ogUrl,
-      )
+      ogUrl
     ) {
-      return ogUrl;
+      const ogAbsolute =
+        absoluteUrl(
+          ogUrl,
+          originalUrl,
+        );
+
+      if (
+        ogAbsolute &&
+        isUsableArticleUrl(
+          ogAbsolute,
+        )
+      ) {
+        return ogAbsolute;
+      }
+    }
+
+    const articleLinks =
+      extractExternalLinks(
+        html,
+        originalUrl,
+      );
+
+    if (
+      articleLinks.length > 0
+    ) {
+      return articleLinks[0];
     }
   } catch (error) {
     console.error(
@@ -907,6 +986,36 @@ async function resolveArticleUrl(
 // ------------------------------------------------------------
 // HTML META
 // ------------------------------------------------------------
+
+function decodeHtmlEntities(
+  value: string,
+): string {
+  return value
+    .replace(
+      /&amp;/gi,
+      "&",
+    )
+    .replace(
+      /&quot;/gi,
+      '"',
+    )
+    .replace(
+      /&#39;/gi,
+      "'",
+    )
+    .replace(
+      /&#x27;/gi,
+      "'",
+    )
+    .replace(
+      /&lt;/gi,
+      "<",
+    )
+    .replace(
+      /&gt;/gi,
+      ">",
+    );
+}
 
 function findMeta(
   html: string,
@@ -944,13 +1053,17 @@ function findMeta(
     const pattern of patterns
   ) {
     const match =
-      html.match(pattern);
+      html.match(
+        pattern,
+      );
 
     if (
       match?.[1]
     ) {
-      return cleanText(
-        match[1],
+      return decodeHtmlEntities(
+        cleanText(
+          match[1],
+        ),
       );
     }
   }
@@ -970,6 +1083,78 @@ function absoluteUrl(
   } catch {
     return null;
   }
+}
+
+function extractExternalLinks(
+  html: string,
+  baseUrl: string,
+): string[] {
+  const result:
+    string[] = [];
+
+  const seen =
+    new Set<string>();
+
+  for (
+    const match of html.matchAll(
+      /<a\b[^>]+href=["']([^"']+)["'][^>]*>/gi,
+    )
+  ) {
+    const raw =
+      decodeHtmlEntities(
+        match[1],
+      );
+
+    const url =
+      absoluteUrl(
+        raw,
+        baseUrl,
+      );
+
+    if (
+      !url ||
+      !isUsableArticleUrl(
+        url,
+      )
+    ) {
+      continue;
+    }
+
+    try {
+      const parsed =
+        new URL(url);
+
+      if (
+        parsed.hostname
+          .toLowerCase()
+          .includes(
+            "google.",
+          )
+      ) {
+        continue;
+      }
+
+      if (
+        seen.has(url)
+      ) {
+        continue;
+      }
+
+      seen.add(url);
+      result.push(url);
+    } catch {
+      // ignore
+    }
+
+    if (
+      result.length >=
+      20
+    ) {
+      break;
+    }
+  }
+
+  return result;
 }
 
 // ------------------------------------------------------------
@@ -1005,20 +1190,26 @@ function isDirectVideoUrl(
 function normalizeMediaUrl(
   value: string,
 ): string {
-  return value
-    .replace(
-      /\\\//g,
-      "/",
-    )
-    .replace(
-      /\\u0026/gi,
-      "&",
-    )
-    .replace(
-      /&amp;/gi,
-      "&",
-    )
-    .trim();
+  return decodeHtmlEntities(
+    value
+      .replace(
+        /\\\//g,
+        "/",
+      )
+      .replace(
+        /\\u0026/gi,
+        "&",
+      )
+      .replace(
+        /\\u003A/gi,
+        ":",
+      )
+      .replace(
+        /\\u002F/gi,
+        "/",
+      )
+      .trim(),
+  );
 }
 
 function collectVideoUrls(
@@ -1063,7 +1254,10 @@ function collectVideoUrls(
       "object"
   ) {
     for (
-      const [key, item] of Object.entries(
+      const [
+        key,
+        item,
+      ] of Object.entries(
         value as Record<
           string,
           unknown
@@ -1093,7 +1287,9 @@ function collectVideoUrls(
         key ===
           "video" ||
         key ===
-          "content"
+          "content" ||
+        key ===
+          "associatedMedia"
       ) {
         collectVideoUrls(
           item,
@@ -1127,7 +1323,9 @@ function findVideoFromHtml(
         name,
       );
 
-    if (value) {
+    if (
+      value
+    ) {
       candidates.push(
         value,
       );
@@ -1255,7 +1453,7 @@ function findVideoFromHtml(
         }
       }
     } catch {
-      // ignore
+      // ignore invalid JSON-LD
     }
   }
 
@@ -1273,6 +1471,22 @@ async function extractArticleMedia(
     await resolveArticleUrl(
       originalUrl,
     );
+
+  if (
+    !isUsableArticleUrl(
+      articleUrl,
+    )
+  ) {
+    return {
+      articleUrl,
+      imageUrl:
+        null,
+      videoUrl:
+        null,
+      sourceName:
+        null,
+    };
+  }
 
   try {
     const response =
@@ -1314,6 +1528,23 @@ async function extractArticleMedia(
     const finalArticleUrl =
       response.url ||
       articleUrl;
+
+    if (
+      isGoogleNewsUrl(
+        finalArticleUrl,
+      )
+    ) {
+      return {
+        articleUrl:
+          articleUrl,
+        imageUrl:
+          null,
+        videoUrl:
+          null,
+        sourceName:
+          null,
+      };
+    }
 
     const html =
       await response.text();
@@ -1422,6 +1653,7 @@ function extensionFromType(
       ct.includes(
         "matroska",
       )
+    )
     ) {
       return "mkv";
     }
@@ -1484,6 +1716,12 @@ async function downloadMedia(
     | "image",
 ): Promise<DownloadedMedia | null> {
   try {
+    if (
+      !isHttpUrl(url)
+    ) {
+      return null;
+    }
+
     const response =
       await fetch(
         url,
@@ -1535,6 +1773,9 @@ async function downloadMedia(
       ) ||
       contentType.includes(
         "dash",
+      ) ||
+      contentType.includes(
+        "application/vnd.apple.mpegurl",
       )
     ) {
       console.log(
@@ -1582,6 +1823,10 @@ async function downloadMedia(
       buffer.byteLength >
       limit
     ) {
+      console.log(
+        "Media exceeds configured limit after download",
+      );
+
       return null;
     }
 
@@ -1603,6 +1848,31 @@ async function downloadMedia(
       ) {
         console.log(
           "Not a direct video response:",
+          contentType,
+          finalUrl,
+        );
+
+        return null;
+      }
+    }
+
+    if (
+      type ===
+        "image" &&
+      !contentType.startsWith(
+        "image/",
+      )
+    ) {
+      const imageExtension =
+        /\.(jpg|jpeg|png|gif|webp|tiff|bmp|heic)(?:\?|$)/i.test(
+          finalUrl,
+        );
+
+      if (
+        !imageExtension
+      ) {
+        console.log(
+          "Not a direct image response:",
           contentType,
           finalUrl,
         );
@@ -1675,20 +1945,36 @@ async function maxFetch(
     MAX_BOT_TOKEN,
   );
 
+  headers.set(
+    "Accept",
+    "application/json",
+  );
+
   const client =
     await initMaxHttpClient();
 
-  return fetch(
-    `${MAX_API}${path}`,
-    {
-      ...options,
+  try {
+    return await fetch(
+      `${MAX_API}${path}`,
+      {
+        ...options,
 
-      client:
-        client ?? undefined,
+        client:
+          client ?? undefined,
 
-      headers,
-    },
-  );
+        headers,
+      },
+    );
+  } catch (error) {
+    console.error(
+      "MAX fetch error:",
+      error instanceof Error
+        ? error.message
+        : String(error),
+    );
+
+    throw error;
+  }
 }
 
 async function maxJson<T>(
@@ -1767,6 +2053,12 @@ async function uploadMedia(
     );
   }
 
+  /*
+   * MAX может вернуть token уже на этапе POST /uploads.
+   * В таком случае второй запрос всё равно выполняем,
+   * потому что файл необходимо передать по полученному URL.
+   */
+
   const form =
     new FormData();
 
@@ -1797,36 +2089,28 @@ async function uploadMedia(
         body:
           form,
 
-        headers: {
-          "Authorization":
-            MAX_BOT_TOKEN,
-        },
-
         signal:
           AbortSignal.timeout(
-            60000,
+            90000,
           ),
       },
     );
 
+  const uploadText =
+    await uploadResponse.text();
+
   if (
     !uploadResponse.ok
   ) {
-    const errorText =
-      await uploadResponse.text();
-
     throw new Error(
       `Media upload HTTP ${
         uploadResponse.status
-      }: ${errorText.slice(
+      }: ${uploadText.slice(
         0,
-        1000,
+        1500,
       )}`,
     );
   }
-
-  const uploadText =
-    await uploadResponse.text();
 
   let uploadResult:
     any = null;
@@ -1843,6 +2127,12 @@ async function uploadMedia(
       null;
   }
 
+  /*
+   * Основной token возвращается MAX в ответе POST /uploads.
+   * Сохраняем дополнительные варианты на случай отличающегося
+   * ответа upload-сервера.
+   */
+
   const finalToken =
     init.token ||
     uploadResult?.token ||
@@ -1855,14 +2145,15 @@ async function uploadMedia(
 
   if (
     typeof finalToken !==
-    "string" ||
+      "string" ||
     !finalToken
   ) {
     throw new Error(
-      `MAX media token missing for ${media.type}. Response: ${uploadText.slice(
-        0,
-        1500,
-      )}`,
+      `MAX media token missing for ${media.type}. ` +
+        `Upload response: ${uploadText.slice(
+          0,
+          1500,
+        )}`,
     );
   }
 
@@ -2628,6 +2919,24 @@ function buildPost(
       new Date(),
     );
 
+  const safeArticleUrl =
+    isUsableArticleUrl(
+      articleUrl,
+    )
+      ? articleUrl
+      : "";
+
+  const sourceLine =
+    safeArticleUrl
+      ? `🔗 <a href="${escapeHtml(
+          safeArticleUrl,
+        )}">${escapeHtml(
+          sourceName,
+        )}</a>`
+      : `🔗 ${escapeHtml(
+          sourceName,
+        )}`;
+
   return [
     header,
 
@@ -2663,11 +2972,7 @@ function buildPost(
 
     `🕒 ${time}`,
 
-    `🔗 <a href="${escapeHtml(
-      articleUrl,
-    )}">${escapeHtml(
-      sourceName,
-    )}</a>`,
+    sourceLine,
   ].join("\n");
 }
 
@@ -2678,6 +2983,18 @@ function buildPost(
 async function findBestMedia(
   articleMedia: ArticleMedia,
 ): Promise<DownloadedMedia | null> {
+  /*
+   * ВАЖНО:
+   * Приоритет строго:
+   *
+   * 1. VIDEO
+   * 2. IMAGE
+   * 3. TEXT
+   *
+   * Если видео найдено, но скачать его нельзя,
+   * переходим к фотографии.
+   */
+
   if (
     articleMedia.videoUrl
   ) {
@@ -3005,9 +3322,12 @@ async function executePipeline(
       ) {
         const result = {
           ok: true,
+
           selected: 0,
+
           reason:
             "urgent interval not reached",
+
           title:
             item.title,
         };
@@ -3029,9 +3349,12 @@ async function executePipeline(
       ) {
         const result = {
           ok: true,
+
           selected: 0,
+
           reason:
             "regular interval not reached",
+
           title:
             item.title,
         };
@@ -3060,22 +3383,37 @@ async function executePipeline(
         articleMedia,
       );
 
-    const articleUrl =
-      articleMedia.articleUrl &&
-      !isGoogleNewsUrl(
-        articleMedia.articleUrl,
+    let articleUrl =
+      articleMedia.articleUrl;
+
+    if (
+      !isUsableArticleUrl(
+        articleUrl,
       )
-        ? articleMedia.articleUrl
-        : await resolveArticleUrl(
-            item.link,
-          );
+    ) {
+      articleUrl =
+        await resolveArticleUrl(
+          item.link,
+        );
+    }
+
+    /*
+     * Если Google News так и не дал реальную страницу СМИ,
+     * мы НЕ подставляем Google News как источник.
+     */
+    const finalArticleUrl =
+      isUsableArticleUrl(
+        articleUrl,
+      )
+        ? articleUrl
+        : "";
 
     const text =
       buildPost(
         item,
         story,
         sourceName,
-        articleUrl,
+        finalArticleUrl,
       );
 
     let mediaInfo:
@@ -3110,6 +3448,10 @@ async function executePipeline(
           token,
         };
 
+        /*
+         * MAX обрабатывает видео не мгновенно.
+         * Даём серверу время обработать файл.
+         */
         await new Promise(
           (
             resolve,
@@ -3191,7 +3533,8 @@ async function executePipeline(
           sourceName,
 
         article_url:
-          articleUrl,
+          finalArticleUrl ||
+          null,
 
         category:
           item.category,
@@ -3273,9 +3616,13 @@ async function executePipeline(
 async function publishTest(): Promise<any> {
   const text = [
     "🔴 <b>ФАКТОР • ТЕСТ</b>",
+
     "",
+
     "📡 Система публикации работает.",
+
     "",
+
     `🕒 ${new Intl.DateTimeFormat(
       "ru-RU",
       {
@@ -3332,7 +3679,7 @@ function json(
 
 Deno.cron(
   "FAKTOR news pipeline",
-  "*/5 * * * *",
+  CRON_SCHEDULE,
   {
     backoffSchedule: [
       5000,
@@ -3345,17 +3692,26 @@ Deno.cron(
       "CRON: starting pipeline",
     );
 
-    const result =
-      await runPipeline(
-        false,
+    try {
+      const result =
+        await runPipeline(
+          false,
+        );
+
+      console.log(
+        "CRON: finished",
+        JSON.stringify(
+          result,
+        ),
+      );
+    } catch (error) {
+      console.error(
+        "CRON ERROR:",
+        error,
       );
 
-    console.log(
-      "CRON: finished",
-      JSON.stringify(
-        result,
-      ),
-    );
+      throw error;
+    }
   },
 );
 
@@ -3448,6 +3804,23 @@ Deno.serve(
 
             error:
               maxCaStatus.error,
+          },
+
+          configuration: {
+            max_token:
+              Boolean(
+                MAX_BOT_TOKEN,
+              ),
+
+            target_chat:
+              Boolean(
+                TARGET_CHAT_ID,
+              ),
+
+            gemini:
+              Boolean(
+                GEMINI_API_KEY,
+              ),
           },
 
           ...(await getState()),
