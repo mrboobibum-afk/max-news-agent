@@ -11,7 +11,7 @@
 // Логика:
 // RSS
 // ↓
-// локальная дедупликация
+// локальная + постоянная дедупликация
 // ↓
 // News Score
 // ↓
@@ -31,7 +31,7 @@
 // ↓
 // MAX /messages
 // ↓
-// Deno KV
+// Deno KV (история 30 дней)
 //
 // ВАЖНО:
 // Google News URL НИКОГДА не публикуется.
@@ -872,6 +872,58 @@ function extractAttr( attrs: string, name: string, ): string {
 }
 
 
+function cleanNewsTitle( title: string, source: string, ): string {
+
+  let value = stripHtml(title)
+    .replace(/\s+/g, " ")
+    .trim();
+
+  const src = stripHtml(source)
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (src) {
+    const escaped = src.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    value = value
+      .replace(new RegExp(`\\s*[-–—|:]\\s*${escaped}\\s*$`, "i"), "")
+      .trim();
+  }
+
+  return value || stripHtml(title);
+}
+
+
+function storyFingerprint( value: string, ): string {
+
+  const stop = new Set([
+    "это", "как", "что", "для", "при", "после", "перед",
+    "из", "на", "в", "во", "и", "или", "а", "но", "по",
+    "за", "с", "со", "от", "до", "не", "об", "о", "у",
+    "the", "and", "of", "to", "in"
+  ]);
+
+  return normalizeForHash(value)
+    .split(" ")
+    .filter((w) => w.length >= 4 && !stop.has(w))
+    .slice(0, 14)
+    .join(" ");
+}
+
+
+function titleSimilarity( a: string, b: string, ): number {
+
+  const aa = new Set(storyFingerprint(a).split(" ").filter(Boolean));
+  const bb = new Set(storyFingerprint(b).split(" ").filter(Boolean));
+
+  if (!aa.size || !bb.size) return 0;
+
+  let common = 0;
+  for (const word of aa) if (bb.has(word)) common++;
+
+  return common / Math.min(aa.size, bb.size);
+}
+
+
 function parseRSS( xml: string, feed: typeof RSS_FEEDS[number], ): NewsItem[] {
 
   const items:
@@ -939,6 +991,12 @@ function parseRSS( xml: string, feed: typeof RSS_FEEDS[number], ): NewsItem[] {
       ) ||
       feed.category;
 
+    const cleanedTitle =
+      cleanNewsTitle(
+        title,
+        source,
+      );
+
     const sourceUrl =
       decodeHtmlEntities(
         extractAttr(
@@ -955,7 +1013,7 @@ function parseRSS( xml: string, feed: typeof RSS_FEEDS[number], ): NewsItem[] {
     }
 
     items.push({
-      title,
+      title: cleanedTitle,
       link,
       description,
       pubDate,
@@ -1235,8 +1293,10 @@ const BAD_HOST_PARTS = [
   "google.com",
   "googleusercontent.com",
   "gstatic.com",
-  "gstaticusercontent.com",
-  "ggpht.com",
+  "googleapis.com",
+  "w3.org",
+  "schema.org",
+  "cloudfront.net",
 ];
 
 
@@ -1257,6 +1317,12 @@ const BAD_PATH_PARTS = [
   "/privacy",
   "/terms",
   "/advert",
+  "/2000/svg",
+  "/svg",
+  "/rss",
+  "/feed",
+  "/favicon",
+  "/assets/",
 ];
 
 
@@ -1320,6 +1386,10 @@ function isLikelyArticleUrl( url: string, ): boolean {
       path === "/" ||
       path.length < 8
     ) {
+      return false;
+    }
+
+    if (/\.(png|jpe?g|gif|webp|svg|ico|css|js|xml|json)$/i.test(path)) {
       return false;
     }
 
@@ -1478,176 +1548,282 @@ function extractExternalLinks( html: string, baseUrl: string, preferredHost: str
 
 
 // ============================================================
-// GOOGLE NEWS URL CANDIDATES
-// ============================================================
-
-function normalizeHost( host: string, ): string {
-  return host.toLowerCase().replace(/^www\./, "");
-}
-
-function hostMatches( url: string, preferredHost: string | null, ): boolean {
-  if (!preferredHost) return false;
-  try {
-    const host = normalizeHost(new URL(url).hostname);
-    const preferred = normalizeHost(preferredHost);
-    return (
-      host === preferred ||
-      host.endsWith("." + preferred) ||
-      preferred.endsWith("." + host)
-    );
-  } catch {
-    return false;
-  }
-}
-
-function extractGoogleNewsUrlCandidates( html: string, baseUrl: string, preferredHost: string | null, ): string[] {
-  const rawCandidates = new Set<string>();
-
-  for (const match of html.matchAll(
-    /<a\b[^>]+href=["']([^"']+)["'][^>]*>/gi,
-  )) rawCandidates.add(match[1]);
-
-  for (const match of html.matchAll(
-    /\bdata-(?:href|url)=["']([^"']+)["']/gi,
-  )) rawCandidates.add(match[1]);
-
-  for (const match of html.matchAll(
-    /https?:\\?\/\\?\/[^\s"'<>\\]+/gi,
-  )) rawCandidates.add(match[0]);
-
-  const scored: { url: string; score: number }[] = [];
-  const seen = new Set<string>();
-
-  for (const rawValue of rawCandidates) {
-    const decoded = decodeHtmlEntities(
-      String(rawValue)
-        .replace(/\\\//g, "/")
-        .replace(/\\u002f/gi, "/")
-        .replace(/\\u003a/gi, ":")
-        .replace(/\\u0026/gi, "&")
-        .replace(/\\u003d/gi, "=")
-        .replace(/\\u003f/gi, "?")
-        .replace(/\\u0025/gi, "%"),
-    );
-
-    const absolute = absoluteUrl(decoded, baseUrl);
-    if (!absolute || !isLikelyArticleUrl(absolute)) continue;
-
-    const normalized = normalizeUrl(absolute);
-    if (!normalized || seen.has(normalized)) continue;
-    seen.add(normalized);
-
-    let score = articleLinkScore(normalized, preferredHost);
-    if (hostMatches(normalized, preferredHost)) score += 100;
-    if (score > 0) scored.push({ url: normalized, score });
-  }
-
-  return scored
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 20)
-    .map((entry) => entry.url);
-}
-
-
-// ============================================================
 // GOOGLE NEWS RESOLUTION
 // ============================================================
 
 async function resolveArticleUrl( item: NewsItem, ): Promise<string> {
 
-  const originalUrl = normalizeUrl(item.link);
+  const originalUrl =
+    item.link;
 
-  if (!isGoogleNewsUrl(originalUrl)) {
-    return isLikelyArticleUrl(originalUrl)
-      ? originalUrl
+  if (
+    !isGoogleNewsUrl(
+      originalUrl,
+    )
+  ) {
+
+    return isLikelyArticleUrl(
+      originalUrl,
+    )
+      ? normalizeUrl(
+          originalUrl,
+        )
       : "";
   }
 
-  let preferredHost: string | null = null;
-  if (item.sourceUrl) {
-    try {
-      preferredHost = normalizeHost(
-        new URL(item.sourceUrl).hostname,
-      );
-    } catch {
-      preferredHost = null;
-    }
-  }
-
   try {
-    const response = await fetch(originalUrl, {
-      redirect: "follow",
-      headers: {
-        "User-Agent": USER_AGENT,
-        "Accept":
-          "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-      },
-      signal: AbortSignal.timeout(15000),
-    });
 
-    const finalUrl = normalizeUrl(response.url || "");
-    if (isLikelyArticleUrl(finalUrl)) return finalUrl;
+    const response =
+      await fetch(
+        originalUrl,
+        {
+          redirect:
+            "follow",
 
-    const html = await response.text();
+          headers: {
+            "User-Agent":
+              USER_AGENT,
 
-    const canonical = extractCanonical(html, originalUrl);
-    if (canonical && isLikelyArticleUrl(canonical)) {
-      return normalizeUrl(canonical);
+            "Accept":
+              "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+          },
+
+          signal:
+            AbortSignal.timeout(
+              15000,
+            ),
+        },
+      );
+
+    const finalUrl =
+      response.url;
+
+    if (
+      isLikelyArticleUrl(
+        finalUrl,
+      )
+    ) {
+
+      return normalizeUrl(
+        finalUrl,
+      );
     }
 
-    const ogUrl = findMeta(html, "og:url");
-    if (ogUrl) {
-      const resolved = absoluteUrl(ogUrl, originalUrl);
-      if (resolved && isLikelyArticleUrl(resolved)) {
-        return normalizeUrl(resolved);
+    const html =
+      await response.text();
+
+    const canonical =
+      extractCanonical(
+        html,
+        originalUrl,
+      );
+
+    if (
+      canonical &&
+      isLikelyArticleUrl(
+        canonical,
+      )
+    ) {
+
+      return normalizeUrl(
+        canonical,
+      );
+    }
+
+    const ogUrl =
+      findMeta(
+        html,
+        "og:url",
+      );
+
+    if (
+      ogUrl
+    ) {
+
+      const resolved =
+        absoluteUrl(
+          ogUrl,
+          originalUrl,
+        );
+
+      if (
+        resolved &&
+        isLikelyArticleUrl(
+          resolved,
+        )
+      ) {
+
+        return normalizeUrl(
+          resolved,
+        );
       }
     }
 
-    const jsonLd = extractJsonLd(html);
-    const articles: any[] = [];
-    for (const block of jsonLd) {
-      collectArticleJsonLd(block, articles);
+    const jsonLd =
+      extractJsonLd(
+        html,
+      );
+
+    const articles:
+      any[] = [];
+
+    for (
+      const block of jsonLd
+    ) {
+
+      collectArticleJsonLd(
+        block,
+        articles,
+      );
     }
 
-    for (const article of articles) {
-      for (const candidate of [
+    for (
+      const article of articles
+    ) {
+
+      const candidates = [
         article.url,
         article.mainEntityOfPage,
-      ]) {
-        let raw = "";
-        if (typeof candidate === "string") {
-          raw = candidate;
-        } else if (candidate && typeof candidate === "object") {
-          raw = String(candidate["@id"] ?? candidate.url ?? "");
-        }
-        if (!raw) continue;
+      ];
 
-        const resolved = absoluteUrl(raw, originalUrl);
-        if (resolved && isLikelyArticleUrl(resolved)) {
-          return normalizeUrl(resolved);
+      for (
+        const candidate of candidates
+      ) {
+
+        let raw =
+          "";
+
+        if (
+          typeof candidate ===
+          "string"
+        ) {
+          raw = candidate;
+        } else if (
+          candidate &&
+          typeof candidate ===
+            "object"
+        ) {
+          raw =
+            String(
+              candidate["@id"] ??
+              candidate.url ??
+              "",
+            );
+        }
+
+        if (!raw) {
+          continue;
+        }
+
+        const resolved =
+          absoluteUrl(
+            raw,
+            originalUrl,
+          );
+
+        if (
+          resolved &&
+          isLikelyArticleUrl(
+            resolved,
+          )
+        ) {
+
+          return normalizeUrl(
+            resolved,
+          );
         }
       }
     }
 
-    const candidates = extractGoogleNewsUrlCandidates(
-      html,
-      originalUrl,
-      preferredHost,
-    );
-    if (candidates.length > 0) return candidates[0];
+    let preferredHost:
+      string | null = null;
 
-    const links = extractExternalLinks(
-      html,
-      originalUrl,
-      preferredHost,
-    );
-    if (links.length > 0) return links[0];
+    if (
+      item.sourceUrl
+    ) {
+
+      try {
+
+        preferredHost =
+          new URL(
+            item.sourceUrl,
+          )
+            .hostname
+            .toLowerCase();
+
+      } catch {
+        preferredHost = null;
+      }
+    }
+
+    const links =
+      extractExternalLinks(
+        html,
+        originalUrl,
+        preferredHost,
+      );
+
+    if (
+      links.length === 1
+    ) {
+
+      return links[0];
+    }
+
+    if (
+      links.length > 1
+    ) {
+
+      // Только если источник RSS явно совпадает
+      // с доменом кандидата.
+
+      if (
+        preferredHost
+      ) {
+
+        for (
+          const link of links
+        ) {
+
+          try {
+
+            const host =
+              new URL(link)
+                .hostname
+                .toLowerCase();
+
+            if (
+              host ===
+                preferredHost ||
+              host.endsWith(
+                "." +
+                  preferredHost,
+              )
+            ) {
+
+              return link;
+            }
+
+          } catch {
+            // ignore
+          }
+        }
+      }
+    }
+
   } catch (error) {
+
     console.error(
       "Google News resolve:",
-      error instanceof Error ? error.message : String(error),
+      error instanceof Error
+        ? error.message
+        : String(error),
     );
   }
+
+  // ВАЖНО:
+  // никогда не возвращаем Google News
+  // и не используем случайную ссылку.
 
   return "";
 }
@@ -2039,20 +2215,15 @@ async function extractArticleMedia( item: NewsItem, ): Promise<ArticleMedia> {
       articleUrl,
     );
 
-  // Publisher can block server-side HTML requests. Keep the
-  // resolved article URL and publish a text-only fallback.
   if (!page) {
 
     return {
-      articleUrl,
+      articleUrl: "",
       imageUrl: null,
       videoUrl: null,
-      sourceName:
-        item.source || null,
-      title:
-        item.title || null,
-      description:
-        item.description || null,
+      sourceName: null,
+      title: null,
+      description: null,
     };
   }
 
@@ -2690,29 +2861,11 @@ async function publishToMax( text: string, mediaToken?: { type: | "video" | "ima
 
 function normalizeArticleUrl( url: string, ): string {
 
-  if (!isUsableArticleUrl(url)) return "";
-
-  try {
-    const parsed = new URL(url);
-    const host = parsed.hostname.toLowerCase();
-    const path = parsed.pathname.toLowerCase();
-
-    // Never treat Google News logos/images or generic media files as articles.
-    if (
-      host === "gstatic.com" ||
-      host.endsWith(".gstatic.com") ||
-      host === "ggpht.com" ||
-      host.endsWith(".ggpht.com") ||
-      /(^|\/)(google_news|google-news|logo)[^\/]*\.(png|jpg|jpeg|webp|gif)$/i.test(path) ||
-      /\.(png|jpe?g|webp|gif|svg|mp4|webm|m3u8|mpd)$/i.test(path)
-    ) {
-      return "";
-    }
-  } catch {
-    return "";
-  }
-
-  return normalizeUrl(url);
+  return normalizeUrl(
+    isUsableArticleUrl(url)
+      ? url
+      : "",
+  );
 }
 
 
@@ -2743,53 +2896,6 @@ async function legacyPublishedKey( item: NewsItem, ): Promise<string> {
   );
 }
 
-
-// Semantic fingerprint for the STORY itself.
-// It deliberately does not include source or URL because the same
-// event is often published by several RSS feeds with different URLs.
-const STORY_STOP_WORDS = new Set([
-  "это", "этот", "эта", "эти", "после", "перед", "когда",
-  "который", "которая", "которые", "также", "стало", "стали",
-  "сообщил", "сообщили", "рассказал", "рассказали", "заявил",
-  "заявили", "известно", "новости", "новость", "сегодня",
-  "вчера", "теперь", "против", "согласно", "сообщает",
-]);
-
-function storyTokens(value: string): Set<string> {
-  const normalized = normalizeForHash(value);
-  const words = normalized.split(" ").filter((w) => w.length >= 4);
-  const tokens = new Set<string>();
-
-  for (const word of words) {
-    if (STORY_STOP_WORDS.has(word)) continue;
-    // Prefix normalization catches simple Russian inflections:
-    // погиб / погибла / погибли, столкновение / столкновении, etc.
-    tokens.add(word.length > 6 ? word.slice(0, 6) : word);
-  }
-
-  return tokens;
-}
-
-function storySimilarity(a: string, b: string): number {
-  const aw = storyTokens(a);
-  const bw = storyTokens(b);
-
-  if (aw.size === 0 || bw.size === 0) return 0;
-
-  let common = 0;
-  for (const token of aw) {
-    if (bw.has(token)) common++;
-  }
-
-  return common / Math.max(aw.size, bw.size);
-}
-
-async function semanticStoryKey(item: NewsItem): Promise<string> {
-  const title = normalizeForHash(item.title);
-  const desc = normalizeForHash(item.description);
-  const tokens = [...storyTokens(`${title} ${desc}`)].sort();
-  return sha256(tokens.join("|"));
-}
 
 async function isAlreadyPublished( item: NewsItem, articleUrl = "", ): Promise<boolean> {
 
@@ -2822,7 +2928,6 @@ async function isAlreadyPublished( item: NewsItem, articleUrl = "", ): Promise<b
     }
   }
 
-  // Exact legacy key.
   const oldKey =
     await legacyPublishedKey(
       item,
@@ -2837,29 +2942,9 @@ async function isAlreadyPublished( item: NewsItem, articleUrl = "", ): Promise<b
       ],
     );
 
-  if (legacy.value === true) return true;
-
-  // Semantic duplicate protection: same event, different RSS source/title/URL.
-  const semanticKey = await semanticStoryKey(item);
-  if (semanticKey) {
-    const semantic = await db.get<boolean>([
-      "factor",
-      "published_story_v3",
-      semanticKey,
-    ]);
-    if (semantic.value === true) return true;
-  }
-
-  // Last line of defence for slightly different headlines.
-  const recent = await getRecentTitles(MAX_HISTORY_CHECKED);
-  const candidateTitle = item.title.trim();
-  for (const oldTitle of recent) {
-    if (storySimilarity(candidateTitle, oldTitle) >= 0.78) {
-      return true;
-    }
-  }
-
-  return false;
+  return (
+    legacy.value === true
+  );
 }
 
 
@@ -2909,23 +2994,6 @@ async function markPublished( item: NewsItem, articleUrl: string, ): Promise<voi
         HISTORY_TTL_MS,
     },
   );
-
-  // Persist a source-independent story key. This is what prevents
-  // the same event from returning through another RSS feed.
-  const semanticKey = await semanticStoryKey(item);
-  if (semanticKey) {
-    await db.set(
-      [
-        "factor",
-        "published_story_v3",
-        semanticKey,
-      ],
-      true,
-      {
-        expireIn: HISTORY_TTL_MS,
-      },
-    );
-  }
 }
 
 
@@ -3001,6 +3069,46 @@ async function rememberTitle( title: string, ): Promise<void> {
         HISTORY_TTL_MS,
     },
   );
+}
+
+
+async function rememberStoryFingerprint( title: string, ): Promise<void> {
+
+  const db = await getKV();
+  const fingerprint = storyFingerprint(title);
+  if (!fingerprint) return;
+
+  const id = await sha256(fingerprint);
+
+  await db.set(
+    [
+      "factor",
+      "recent_story_v3",
+      Date.now(),
+      id,
+    ],
+    fingerprint,
+    { expireIn: HISTORY_TTL_MS },
+  );
+}
+
+
+async function hasRecentStoryFingerprint( title: string, ): Promise<boolean> {
+
+  const db = await getKV();
+  const fingerprint = storyFingerprint(title);
+  if (!fingerprint) return false;
+
+  for await (const entry of db.list<string>({
+    prefix: ["factor", "recent_story_v3"],
+    reverse: true,
+  })) {
+    if (entry.value && titleSimilarity(title, entry.value) >= 0.60) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 
@@ -3502,10 +3610,13 @@ function makeFallbackStory( item: NewsItem, articleMedia: ArticleMedia, ): AISto
 
     short,
 
-    // Do not fabricate duplicate sections when there are no extra facts.
-    main: [],
+    main:
+      short
+        ? [short]
+        : [],
 
-    important: "",
+    important:
+      short,
 
     urgent:
       detectUrgency(
@@ -3574,26 +3685,25 @@ function similarity( a: string, b: string, ): number {
 
 async function isRepeatedStoryText( story: AIStory, ): Promise<boolean> {
 
+  if (!story.headline.trim()) {
+    return false;
+  }
+
+  if (await hasRecentStoryFingerprint(story.headline)) {
+    return true;
+  }
+
   const recent =
     await getRecentTitles(
       MAX_HISTORY_CHECKED,
     );
 
-  if (
-    !story.headline.trim()
-  ) {
-    return false;
-  }
-
-  for (
-    const oldTitle of recent
-  ) {
-
+  for (const oldTitle of recent) {
     if (
       similarity(
         story.headline,
         oldTitle,
-      ) >= 0.72
+      ) >= 0.68
     ) {
       return true;
     }
@@ -3637,87 +3747,47 @@ function buildPost( item: NewsItem, story: AIStory, sourceName: string, articleU
   const header =
     story.urgent
       ? "🔴 <b>ФАКТОР • ОПЕРАТИВНО</b>"
-      : "🔵 <b>ФАКТОР • ГЛАВНОЕ</b>";
+      : "🔵 <b>ФАКТОР • НОВОСТЬ</b>";
 
   const category =
     `${item.categoryEmoji} <b>${escapeHtml(item.category)}</b>`;
 
-  const headlineText = stripHtml(
-    truncate(story.headline || item.title, 260),
-  );
-  const shortText = stripHtml(
-    truncate(story.short || item.description || item.title, 500),
-  );
+  const headline =
+    `<b>${escapeHtml(truncate(story.headline || item.title, 260))}</b>`;
 
-  const mainItems: string[] = [];
-  for (const raw of story.main || []) {
-    const text = stripHtml(truncate(String(raw || ""), 350));
-    if (!text) continue;
-    if (storySimilarity(text, headlineText) >= 0.72) continue;
-    if (storySimilarity(text, shortText) >= 0.72) continue;
-    if (mainItems.some((x) => storySimilarity(x, text) >= 0.80)) continue;
-    mainItems.push(text);
-    if (mainItems.length >= 3) break;
-  }
+  // Один смысловой блок вместо повторов «КРАТКО / ГЛАВНОЕ / ЧТО ВАЖНО».
+  const summary =
+    story.short || story.important || story.main[0] || item.description || item.title;
 
-  const importantText = stripHtml(
-    truncate(story.important || "", 400),
-  );
-  const uniqueImportant =
-    importantText &&
-    storySimilarity(importantText, headlineText) < 0.72 &&
-    storySimilarity(importantText, shortText) < 0.72 &&
-    !mainItems.some((x) => storySimilarity(x, importantText) >= 0.72)
-      ? importantText
-      : "";
+  const time =
+    new Intl.DateTimeFormat("ru-RU", {
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: "Europe/Moscow",
+    }).format(new Date());
 
-  const time = new Intl.DateTimeFormat("ru-RU", {
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: "Europe/Moscow",
-  }).format(new Date());
+  const sourceLine =
+    isLikelyArticleUrl(articleUrl)
+      ? `🔗 <a href="${escapeHtml(articleUrl)}">${escapeHtml(sourceName)}</a>`
+      : `🔗 ${escapeHtml(sourceName)}`;
 
-  const sourceLine = isLikelyArticleUrl(articleUrl)
-    ? `🔗 <a href="${escapeHtml(articleUrl)}">${escapeHtml(sourceName)}</a>`
-    : "";
-
-  const parts: string[] = [
+  const parts = [
     header,
     "",
     category,
     "",
-    `<b>${escapeHtml(headlineText)}</b>`,
+    headline,
     "",
-    "<b>КРАТКО</b>",
-    escapeHtml(shortText),
+    escapeHtml(truncate(summary, 700)),
+    "",
+    `🕒 ${time}`,
+    sourceLine,
+    "",
+    "<i>ФАКТОР</i>",
   ];
 
-  if (mainItems.length > 0) {
-    parts.push("", "<b>ГЛАВНОЕ</b>");
-    for (const text of mainItems) {
-      parts.push(`• ${escapeHtml(text)}`);
-    }
-  }
-
-  if (uniqueImportant) {
-    parts.push("", "<b>ЧТО ВАЖНО</b>", escapeHtml(uniqueImportant));
-  }
-
-  parts.push("", `🕒 ${time}`);
-
-  if (sourceLine) parts.push(sourceLine);
-
-  parts.push("", "<i>ФАКТОР</i>");
-
-  let result = parts.join("\n");
-
-  if (result.length > MAX_POST_LENGTH) {
-    result = result.slice(0, MAX_POST_LENGTH - 1).trimEnd() + "…";
-  }
-
-  return result;
+  return truncate(parts.join("\n"), MAX_POST_LENGTH);
 }
-
 
 // ============================================================
 // MEDIA
@@ -3863,12 +3933,6 @@ async function chooseCandidate( items: NewsItem[], urgentAllowed: boolean, regul
       score,
     } =
       candidate;
-
-    // Fast duplicate rejection before expensive article/Gemini work.
-    if (await isAlreadyPublished(item)) {
-      console.log("Rejected: semantic duplicate before article fetch:", item.title);
-      continue;
-    }
 
     const articleMedia =
       await extractArticleMedia(
@@ -4780,6 +4844,10 @@ async function executePipeline( manual = false, ): Promise<any> {
     );
 
     await rememberTitle(
+      story.headline,
+    );
+
+    await rememberStoryFingerprint(
       story.headline,
     );
 
