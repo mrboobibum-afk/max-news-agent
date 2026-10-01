@@ -733,19 +733,187 @@ function articleTitleMatches(itemTitle, pageTitle) {
   if (a === b || a.includes(b) || b.includes(a)) return true;
   return articleTitleSimilarity(itemTitle, pageTitle) >= 0.45;
 }
-async function resolveArticleUrl(item) {
+async function decodeGoogleNewsArticleUrl(sourceUrl) {
+  // Google News RSS /rss/articles/<id> no longer reliably redirects
+  // with a normal GET. The current encoded format is resolved through
+  // Google's batchexecute endpoint.
+  let parsed;
+  try {
+    parsed = new URL(sourceUrl);
+  } catch {
+    return "";
+  }
+
+  if (parsed.hostname.toLowerCase() !== "news.google.com") return "";
+
+  const parts = parsed.pathname.split("/").filter(Boolean);
+  const articleIndex = parts.lastIndexOf("articles");
+  if (articleIndex < 0 || !parts[articleIndex + 1]) return "";
+
+  const id = parts[articleIndex + 1];
+  if (!id || id.length < 20) return "";
+
+  // First try the current batchexecute protocol.
+  try {
+    const reqInner =
+      '["garturlreq",[["en-US","US",["FINANCE_TOP_INDICES","WEB_TEST_1_0_0"],null,null,1,1,"US:en",null,180,null,null,null,null,null,0,null,null,[1608992183,723341000]],"en-US","US",1,[2,3,4,8],1,0,"655000234",0,0,null,0],"' +
+      id +
+      '"]';
+
+    const req = `[[["Fbv4je",${JSON.stringify(reqInner)},null,"generic"]]]`;
+    const response = await fetch(
+      "https://news.google.com/_/DotsSplashUi/data/batchexecute?rpcids=Fbv4je",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          Referer: "https://news.google.com/",
+          "User-Agent": USER_AGENT,
+        },
+        body: "f.req=" + encodeURIComponent(req),
+        signal: AbortSignal.timeout(15000),
+      }
+    );
+
+    if (response.ok) {
+      const text = await response.text();
+
+      // Current response contains the escaped garturlres record.
+      const marker = '[\\"garturlres\\",\\"';
+      const markerIndex = text.indexOf(marker);
+
+      if (markerIndex >= 0) {
+        const startIndex = markerIndex + marker.length;
+        const endMarker = '\\",';
+        const endIndex = text.indexOf(endMarker, startIndex);
+
+        if (endIndex > startIndex) {
+          const decoded = text
+            .slice(startIndex, endIndex)
+            .replace(/\\"/g, '"')
+            .replace(/\\\\/g, "\\");
+
+          if (isUsableArticleUrl(decoded) && !isGoogleNewsUrl(decoded)) {
+            return normalizeUrl(decoded);
+          }
+        }
+      }
+
+      // Some Google responses are returned as nested JSON.
+      // Keep this fallback deliberately conservative.
+      try {
+        const blocks = text.split("\n\n").filter(Boolean);
+        for (const block of blocks) {
+          const cleaned = block.replace(/^\)\]\}'\s*/, "");
+          const outer = JSON.parse(cleaned);
+          const rows = Array.isArray(outer) ? outer : [];
+          for (const row of rows) {
+            if (!Array.isArray(row) || row.length < 3) continue;
+            const payload = row[2];
+            if (typeof payload !== "string") continue;
+
+            let nested;
+            try {
+              nested = JSON.parse(payload);
+            } catch {
+              continue;
+            }
+
+            if (Array.isArray(nested)) {
+              const possible = nested.find(
+                (value) =>
+                  typeof value === "string" &&
+                  isUsableArticleUrl(value) &&
+                  !isGoogleNewsUrl(value)
+              );
+              if (possible) return normalizeUrl(possible);
+            }
+          }
+        }
+      } catch {
+        // Ignore parser fallback errors and continue below.
+      }
+    }
+  } catch (error) {
+    console.warn(
+      "Google News batchexecute:",
+      error instanceof Error ? error.message : String(error)
+    );
+  }
+
+  // Legacy encoded format fallback. This handles older Google News IDs
+  // without weakening the article-host validation.
+  try {
+    const bytes = Uint8Array.from(atob(id), (char) => char.charCodeAt(0));
+
+    let offset = 0;
+    if (
+      bytes.length >= 3 &&
+      bytes[0] === 0x08 &&
+      bytes[1] === 0x13 &&
+      bytes[2] === 0x22
+    ) {
+      offset = 3;
+    }
+
+    if (offset < bytes.length) {
+      let length = bytes[offset++];
+      if (length >= 0x80 && offset < bytes.length) {
+        length = (length & 0x7f) | (bytes[offset++] << 7);
+      }
+
+      const end = offset + length;
+      if (end <= bytes.length) {
+        const candidate = new TextDecoder().decode(bytes.slice(offset, end));
+        if (isUsableArticleUrl(candidate) && !isGoogleNewsUrl(candidate)) {
+          return normalizeUrl(candidate);
+        }
+      }
+    }
+  } catch {
+    // Not an offline-decodable legacy ID.
+  }
+
+  return "";
+}
+
+async function resolveArticleUrl(item, diagnostics = null) {
   const originalUrl = normalizeUrl(item.link);
+
   if (!isGoogleNewsUrl(originalUrl)) {
     return isLikelyArticleUrl(originalUrl) ? originalUrl : "";
   }
-  let preferredHost = null;
-  if (item.sourceUrl) {
-    try {
-      preferredHost = normalizeHost(new URL(item.sourceUrl).hostname);
-    } catch {
-      preferredHost = null;
+
+  // IMPORTANT: do not treat the Google News landing page as the article.
+  // Resolve the encoded RSS ID to the publisher URL first.
+  const decodedUrl = await decodeGoogleNewsArticleUrl(originalUrl);
+
+  if (decodedUrl && isLikelyArticleUrl(decodedUrl)) {
+    const page = await loadArticlePage(decodedUrl);
+
+    if (page) {
+      const pageTitle = extractPageTitle(page.html);
+      if (!pageTitle || articleTitleMatches(item.title, pageTitle)) {
+        return page.finalUrl;
+      }
+
+      console.warn(
+        "Rejected decoded Google News URL title mismatch:",
+        item.title,
+        "=>",
+        pageTitle,
+        page.finalUrl
+      );
+      if (diagnostics) diagnostics.article_title_mismatch++;
+      return "";
     }
   }
+
+  if (diagnostics) diagnostics.google_decode_failed++;
+  console.warn("Google News decode failed:", item.title, originalUrl);
+
+  // Last-resort extraction from the Google News page. This is only
+  // accepted when the publisher article itself passes title validation.
   try {
     const response = await fetch(originalUrl, {
       redirect: "follow",
@@ -754,71 +922,37 @@ async function resolveArticleUrl(item) {
         Accept:
           "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
       },
-      signal: AbortSignal.timeout(15000),
+      signal: AbortSignal.timeout(12000),
     });
-    const finalUrl = normalizeUrl(response.url || "");
-    const html = await response.text();
-    const candidates = new Set();
-    const addCandidate = (url) => {
-      const normalized = normalizeUrl(url || "");
-      if (normalized && isLikelyArticleUrl(normalized))
-        candidates.add(normalized);
-    };
-    addCandidate(finalUrl);
-    addCandidate(extractCanonical(html, originalUrl));
-    const ogUrl = findMeta(html, "og:url");
-    if (ogUrl) addCandidate(absoluteUrl(ogUrl, originalUrl));
-    const jsonLd = extractJsonLd(html);
-    const articles = [];
-    for (const block of jsonLd) collectArticleJsonLd(block, articles);
-    for (const article of articles) {
-      for (const candidate of [article.url, article.mainEntityOfPage]) {
-        let raw = "";
-        if (typeof candidate === "string") raw = candidate;
-        else if (candidate && typeof candidate === "object")
-          raw = String(candidate["@id"] ?? candidate.url ?? "");
-        if (raw) addCandidate(absoluteUrl(raw, originalUrl));
+
+    if (response.ok) {
+      const html = await response.text();
+      const candidates = extractGoogleNewsUrlCandidates(
+        html,
+        originalUrl,
+        item.sourceUrl ? normalizeHost(new URL(item.sourceUrl).hostname) : null
+      );
+
+      for (const candidateUrl of candidates.slice(0, 5)) {
+        const page = await loadArticlePage(candidateUrl);
+        if (!page) continue;
+
+        const pageTitle = extractPageTitle(page.html);
+        if (!pageTitle || articleTitleMatches(item.title, pageTitle)) {
+          return page.finalUrl;
+        }
       }
     }
-    for (const url of extractGoogleNewsUrlCandidates(
-      html,
-      originalUrl,
-      preferredHost
-    ))
-      addCandidate(url);
-    for (const url of extractExternalLinks(html, originalUrl, preferredHost))
-      addCandidate(url);
-    const ranked = [...candidates].sort((a, b) => {
-      const ah = hostMatches(a, preferredHost) ? 1 : 0;
-      const bh = hostMatches(b, preferredHost) ? 1 : 0;
-      if (ah !== bh) return bh - ah;
-      return (
-        articleLinkScore(b, preferredHost) - articleLinkScore(a, preferredHost)
-      );
-    });
-    for (const candidateUrl of ranked.slice(0, 8)) {
-      const page = await loadArticlePage(candidateUrl);
-      if (!page) continue;
-      const pageTitle = extractPageTitle(page.html);
-      if (articleTitleMatches(item.title, pageTitle)) return page.finalUrl;
-      console.warn(
-        "Rejected resolver title mismatch:",
-        item.title,
-        "=>",
-        pageTitle,
-        candidateUrl
-      );
-    }
-    // Google News: если заголовок не совпал, новость НЕ публикуем.
-    return "";
   } catch (error) {
-    console.error(
-      "Google News resolve:",
+    console.warn(
+      "Google News fallback:",
       error instanceof Error ? error.message : String(error)
     );
   }
+
   return "";
 }
+
 // ============================================================
 // ARTICLE PAGE
 // ============================================================
@@ -1053,8 +1187,8 @@ function findImageCandidatesFromHtml(html, baseUrl) {
 // ============================================================
 // ARTICLE MEDIA
 // ============================================================
-async function extractArticleMedia(item) {
-  const articleUrl = await resolveArticleUrl(item);
+async function extractArticleMedia(item, diagnostics = null) {
+  const articleUrl = await resolveArticleUrl(item, diagnostics);
   if (!isLikelyArticleUrl(articleUrl)) {
     return {
       articleUrl: "",
@@ -2077,7 +2211,7 @@ async function chooseCandidate( items, urgentAllowed, regularAllowed, diagnostic
       continue;
     }
 
-    const articleMedia = await extractArticleMedia(item);
+    const articleMedia = await extractArticleMedia(item, diagnostics);
     const articleUrl = articleMedia.articleUrl;
 
     if (articleMedia.rejectedReason === "article_title_mismatch") {
@@ -2186,6 +2320,7 @@ function createDiagnostics() {
 
     duplicate_before_article: 0,
     bad_url: 0,
+    google_decode_failed: 0,
     article_title_mismatch: 0,
     duplicate_after_article: 0,
 
@@ -2712,4 +2847,3 @@ Deno.serve(async (request) => {
     );
   }
 });
-
