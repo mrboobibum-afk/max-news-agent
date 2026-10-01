@@ -1,58 +1,32 @@
 /*
  * ============================================================
- * ФАКТОР — MAX NEWS AGENT
- * FINAL PRODUCTION VERSION
- *
+ * ФАКТОР — MAX NEWS AGENT FINAL
  * DENO DEPLOY
  *
- * RSS -> AI -> EDITORIAL FORMAT -> MAX
+ * RSS -> ARTICLE -> MEDIA -> AI -> DEDUP -> MAX
  *
- * ОСНОВНЫЕ ПРИНЦИПЫ:
+ * ЛОГИКА:
+ * - cron сканирует каждые 5 минут;
+ * - срочная новость может публиковаться на каждом сканировании,
+ *   если она новая и прошла фильтр;
+ * - обычная новость — не чаще 1 раза в 30 минут;
+ * - Deno KV хранит историю публикаций и интервалы после рестарта;
+ * - проверяются последние посты MAX, чтобы не повторять уже
+ *   опубликованные материалы;
+ * - сначала ищется видео именно внутри исходной статьи СМИ;
+ * - если видео нет — используется изображение статьи;
+ * - если нет ни видео, ни изображения — допускается текстовый пост;
+ * - MAX media upload -> token -> POST /messages;
+ * - Gemini -> Qwen fallback;
+ * - MAX TLS через Russian Trusted CA.
  *
- * 1. Deno KV НЕ используется.
- * 2. Webhook НЕ управляет публикацией.
- * 3. TARGET_CHAT_ID используется напрямую.
- * 4. Автопубликация каждые 5 минут.
- * 5. Gemini -> Qwen fallback.
- * 6. Дедупликация через историю постов MAX.
- * 7. Максимум 1 публикация за цикл.
- * 8. Новость должна быть свежей.
- * 9. Собственная оперативная новостная подача.
- * 10. HTML-форматирование MAX.
- *
- * СТИЛЬ ПУБЛИКАЦИИ:
- *
- * 🔴 ФАКТОР • ОПЕРАТИВНО
- *
- * 📊 ЭКОНОМИКА
- *
- * ЗАГОЛОВОК
- *
- * Коротко:
- * ...
- *
- * Главное:
- * • ...
- * • ...
- *
- * Что важно:
- * ...
- *
- * 🕒 10:30
- * 🔗 Источник
- *
+ * ВАЖНО:
+ * Видео берётся только из HTML исходной статьи или её media URL.
+ * Случайные YouTube/стоковые ролики по ключевым словам НЕ берутся.
  * ============================================================
  */
 
-
-/*
- * ============================================================
- * API
- * ============================================================
- */
-
-const MAX_API =
-  "https://platform-api2.max.ru";
+const MAX_API = "https://platform-api2.max.ru";
 
 const GEMINI_BASE =
   "https://generativelanguage.googleapis.com/v1beta";
@@ -60,10 +34,16 @@ const GEMINI_BASE =
 const QWEN_API =
   "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions";
 
+const MAX_ROOT_CA_URL =
+  "https://gu-st.ru/content/lending/russian_trusted_root_ca_pem.crt";
+
+const MAX_SUB_CA_URL =
+  "https://gu-st.ru/content/lending/russian_trusted_sub_ca_pem.crt";
+
 
 /*
  * ============================================================
- * ENV
+ * ENVIRONMENT
  * ============================================================
  */
 
@@ -79,8 +59,6 @@ const QWEN_API_KEY =
 const TARGET_CHAT_ID =
   (Deno.env.get("TARGET_CHAT_ID") || "").trim();
 
-const MAX_WEBHOOK_SECRET =
-  (Deno.env.get("MAX_WEBHOOK_SECRET") || "").trim();
 
 const AUTO_PIPELINE =
   (
@@ -89,38 +67,109 @@ const AUTO_PIPELINE =
   ).toLowerCase() === "true";
 
 
-/*
- * ВАЖНО:
- *
- * Не делаем cron динамическим через ENV.
- * Deno Deploy должен видеть регистрацию
- * cron на верхнем уровне файла.
- */
-
 const CRON_SCHEDULE =
+  Deno.env.get("CRON_SCHEDULE") ||
   "*/5 * * * *";
 
 
-/*
- * ============================================================
- * LIMITS
- * ============================================================
- */
-
 const MAX_NEWS_PER_RUN =
-  1;
+  numberEnv(
+    "MAX_NEWS_PER_RUN",
+    1
+  );
 
-const MAX_NEWS_AGE_HOURS =
-  24;
 
 const API_RETRIES =
-  2;
+  numberEnv(
+    "API_RETRIES",
+    2
+  );
+
 
 const API_TIMEOUT_MS =
-  20000;
+  numberEnv(
+    "API_TIMEOUT_MS",
+    20000
+  );
 
-const MAX_HISTORY_COUNT =
-  100;
+
+/*
+ * Обычная публикация:
+ * максимум одна каждые 30 минут.
+ */
+
+const REGULAR_INTERVAL_MS =
+  numberEnv(
+    "REGULAR_INTERVAL_MINUTES",
+    30
+  ) * 60_000;
+
+
+/*
+ * Срочные новости:
+ * проверяются каждые 5 минут.
+ */
+
+const URGENT_INTERVAL_MS =
+  numberEnv(
+    "URGENT_INTERVAL_MINUTES",
+    5
+  ) * 60_000;
+
+
+/*
+ * Максимальный размер скачиваемого видео.
+ *
+ * MAX разрешает до 250 MB,
+ * но для бесплатного Deno безопаснее
+ * не держать огромные ролики в памяти.
+ */
+
+const MAX_VIDEO_BYTES =
+  numberEnv(
+    "MAX_VIDEO_MB",
+    80
+  ) * 1024 * 1024;
+
+
+const MAX_IMAGE_BYTES =
+  numberEnv(
+    "MAX_IMAGE_MB",
+    15
+  ) * 1024 * 1024;
+
+
+const MAX_ARTICLE_BYTES =
+  numberEnv(
+    "MAX_ARTICLE_MB",
+    8
+  ) * 1024 * 1024;
+
+
+const HISTORY_TTL_MS =
+  numberEnv(
+    "DEDUP_HISTORY_DAYS",
+    30
+  ) *
+  24 *
+  60 *
+  60 *
+  1000;
+
+
+const MAX_RECENT_MESSAGES =
+  numberEnv(
+    "MAX_RECENT_MESSAGES",
+    50
+  );
+
+
+const MEDIA_WAIT_MS =
+  numberEnv(
+    "MEDIA_PROCESS_WAIT_SECONDS",
+    4
+  ) *
+  1000;
 
 
 /*
@@ -131,104 +180,81 @@ const MAX_HISTORY_COUNT =
 
 const GEMINI_MODELS =
   parseList(
-    Deno.env.get("GEMINI_MODELS") ||
-    [
-      "gemini-2.5-flash",
-      "gemini-flash-latest",
-      "gemini-2.5-flash-lite",
-      "gemini-3-flash-preview"
-    ].join(",")
+    Deno.env.get(
+      "GEMINI_MODELS"
+    ) ||
+    "gemini-2.5-flash,gemini-flash-latest"
   );
 
 
 const QWEN_MODELS =
   parseList(
-    Deno.env.get("QWEN_MODELS") ||
-    [
-      "qwen3.8-flash",
-      "qwen3.8-max",
-      "qwen3.8-max-0902",
-      "qwen3.8-27b",
-      "qwen3.7-plus",
-      "qwen-plus"
-    ].join(",")
+    Deno.env.get(
+      "QWEN_MODELS"
+    ) ||
+    "qwen-plus,qwen-turbo"
   );
 
 
-let discoveredGeminiModels = null;
-
-let discoveredQwenModels = null;
-
-
 /*
  * ============================================================
- * MAX TLS
- * ============================================================
- */
-
-const MAX_ROOT_CA_URL =
-  "https://gu-st.ru/content/lending/russian_trusted_root_ca_pem.crt";
-
-const MAX_SUB_CA_URL =
-  "https://gu-st.ru/content/lending/russian_trusted_sub_ca_pem.crt";
-
-
-let maxHttpClient = null;
-
-let maxHttpClientError = null;
-
-let maxCaStatus = {
-
-  loaded: false,
-
-  root: false,
-
-  sub: false,
-
-  error: null
-
-};
-
-
-/*
- * ============================================================
- * RSS
+ * RSS SOURCES
  * ============================================================
  */
 
 const RSS_FEEDS = [
 
   {
-    category: "МИР",
-    emoji: "🌍",
+    name:
+      "МИР",
+
+    emoji:
+      "🌍",
+
     url:
       "https://news.google.com/rss/search?q=мир+OR+международные+события&hl=ru&gl=RU&ceid=RU:ru"
   },
 
   {
-    category: "ПОЛИТИКА",
-    emoji: "🏛️",
+    name:
+      "ПОЛИТИКА",
+
+    emoji:
+      "🏛️",
+
     url:
       "https://news.google.com/rss/search?q=политика+OR+право&hl=ru&gl=RU&ceid=RU:ru"
   },
 
   {
-    category: "ЭКОНОМИКА",
-    emoji: "📊",
+    name:
+      "ЭКОНОМИКА",
+
+    emoji:
+      "💰",
+
     url:
       "https://news.google.com/rss/search?q=финансы+OR+экономика+OR+бизнес&hl=ru&gl=RU&ceid=RU:ru"
   },
 
   {
-    category: "ПРОИСШЕСТВИЯ",
-    emoji: "🚨",
+    name:
+      "ПРОИСШЕСТВИЯ",
+
+    emoji:
+      "🚨",
+
     url:
       "https://news.google.com/rss/search?q=происшествия+OR+катастрофы+OR+криминал&hl=ru&gl=RU&ceid=RU:ru"
   },
 
   {
-    category: "ТЕХНОЛОГИИ",
-    emoji: "💻",
+    name:
+      "ТЕХНОЛОГИИ",
+
+    emoji:
+      "💻",
+
     url:
       "https://news.google.com/rss/search?q=технологии+OR+промышленность+OR+авто&hl=ru&gl=RU&ceid=RU:ru"
   }
@@ -263,12 +289,6 @@ const MAX_WEBHOOK_UPDATE_TYPES = [
 ];
 
 
-/*
- * ============================================================
- * OLD WEBHOOKS
- * ============================================================
- */
-
 const KNOWN_OLD_WEBHOOKS = [
 
   "https://bogdan15.app.n8n.cloud/webhook-test/m",
@@ -280,19 +300,89 @@ const KNOWN_OLD_WEBHOOKS = [
 ];
 
 
+const MAX_WEBHOOK_SECRET =
+  (
+    Deno.env.get(
+      "MAX_WEBHOOK_SECRET"
+    ) || ""
+  ).trim();
+
+
 /*
  * ============================================================
- * RUNTIME STATE
+ * RUNTIME
  * ============================================================
  */
 
-const webhookLogs = [];
+let maxHttpClient =
+  null;
 
-let lastPipelineResult = null;
 
-let lastPipelineStartedAt = null;
+let maxHttpClientError =
+  null;
 
-let lastPipelineFinishedAt = null;
+
+let maxCaStatus = {
+
+  loaded:
+    false,
+
+  root:
+    false,
+
+  sub:
+    false,
+
+  error:
+    null
+
+};
+
+
+let kv =
+  null;
+
+
+try {
+
+  kv =
+    await Deno.openKv();
+
+} catch (
+  error
+) {
+
+  console.error(
+    "[KV]",
+    error?.message ||
+    String(error)
+  );
+
+}
+
+
+let discoveredGeminiModels =
+  null;
+
+
+let discoveredQwenModels =
+  null;
+
+
+let lastPipeline =
+  null;
+
+
+let lastPipelineStartedAt =
+  null;
+
+
+let lastPipelineFinishedAt =
+  null;
+
+
+let pipelineRunning =
+  false;
 
 
 /*
@@ -301,31 +391,83 @@ let lastPipelineFinishedAt = null;
  * ============================================================
  */
 
-function parseList(value) {
+function parseList(
+  value
+) {
 
   return [
+
     ...new Set(
-      String(value || "")
+
+      String(
+        value || ""
+      )
+
         .split(",")
-        .map(x => x.trim())
+
+        .map(
+          x =>
+            x.trim()
+        )
+
         .filter(Boolean)
+
     )
+
   ];
 
 }
 
 
-function sleep(ms) {
+function numberEnv(
+  name,
+  fallback
+) {
+
+  const n =
+    Number(
+      Deno.env.get(
+        name
+      )
+    );
+
+
+  return (
+
+    Number.isFinite(
+      n
+    ) &&
+
+    n > 0
+
+  )
+
+    ? n
+
+    : fallback;
+
+}
+
+
+function sleep(
+  ms
+) {
 
   return new Promise(
     resolve =>
-      setTimeout(resolve, ms)
+      setTimeout(
+        resolve,
+        ms
+      )
   );
 
 }
 
 
-function json(data, status = 200) {
+function json(
+  data,
+  status = 200
+) {
 
   return new Response(
 
@@ -365,9 +507,14 @@ function json(data, status = 200) {
 }
 
 
-function requireSecret(value, name) {
+function requireSecret(
+  value,
+  name
+) {
 
-  if (!value) {
+  if (
+    !value
+  ) {
 
     throw new Error(
       `Secret ${name} не настроен`
@@ -378,50 +525,190 @@ function requireSecret(value, name) {
 }
 
 
-/*
- * ============================================================
- * HTML
- * ============================================================
- */
+function isRetryableStatus(
+  status
+) {
 
-function escapeHtml(value) {
+  return (
 
-  return String(value || "")
+    [
+      408,
+      409,
+      425,
+      429
+    ].includes(
+      status
+    )
+
+    ||
+
+    status >= 500
+
+  );
+
+}
+
+
+function retryDelay(
+  attempt,
+  retryAfter
+) {
+
+  const n =
+    Number(
+      retryAfter
+    );
+
+
+  if (
+
+    Number.isFinite(
+      n
+    )
+
+    &&
+
+    n >= 0
+
+  ) {
+
+    return Math.min(
+      n * 1000,
+      60000
+    );
+
+  }
+
+
+  return (
+
+    Math.min(
+      1000 *
+      (
+        2 **
+        attempt
+      ),
+      8000
+    )
+
+    +
+
+    Math.floor(
+      Math.random() *
+      400
+    )
+
+  );
+
+}
+
+
+function cleanText(
+  value
+) {
+
+  return decodeEntities(
+
+    String(
+      value || ""
+    )
+
+      .replace(
+        /<script[\s\S]*?<\/script>/gi,
+        " "
+      )
+
+      .replace(
+        /<style[\s\S]*?<\/style>/gi,
+        " "
+      )
+
+      .replace(
+        /<[^>]+>/g,
+        " "
+      )
+
+      .replace(
+        /\s+/g,
+        " "
+      )
+
+      .trim()
+
+  );
+
+}
+
+
+function decodeEntities(
+  value
+) {
+
+  return String(
+    value || ""
+  )
 
     .replace(
-      /&/g,
-      "&amp;"
+      /&amp;/gi,
+      "&"
     )
 
     .replace(
-      /</g,
-      "&lt;"
+      /&lt;/gi,
+      "<"
     )
 
     .replace(
-      />/g,
-      "&gt;"
+      /&gt;/gi,
+      ">"
     )
 
     .replace(
-      /"/g,
-      "&quot;"
+      /&quot;/gi,
+      '"'
     )
 
     .replace(
-      /'/g,
-      "&#39;"
+      /&#39;/gi,
+      "'"
+    )
+
+    .replace(
+      /&#x27;/gi,
+      "'"
+    )
+
+    .replace(
+      /&nbsp;/gi,
+      " "
+
     );
 
 }
 
 
-function stripHtml(value) {
+function normalizeText(
+  value
+) {
 
-  return String(value || "")
+  return cleanText(
+    value
+  )
+
+    .toLowerCase()
 
     .replace(
-      /<[^>]*>/g,
+      /ё/g,
+      "е"
+    )
+
+    .replace(
+      /[«»"“”'’`]/g,
+      ""
+    )
+
+    .replace(
+      /[^a-zа-я0-9]+/gi,
       " "
     )
 
@@ -435,57 +722,86 @@ function stripHtml(value) {
 }
 
 
-/*
- * ============================================================
- * HTTP
- * ============================================================
- */
+function tokens(
+  value
+) {
 
-function isRetryableStatus(status) {
+  return new Set(
 
-  return (
+    normalizeText(
+      value
+    )
 
-    status === 408 ||
+      .split(" ")
 
-    status === 409 ||
-
-    status === 425 ||
-
-    status === 429 ||
-
-    status >= 500
+      .filter(
+        x =>
+          x.length >= 4
+      )
 
   );
 
 }
 
 
-function retryDelay(attempt, retryAfterHeader) {
+function similarity(
+  a,
+  b
+) {
 
-  const retryAfter =
-    Number(retryAfterHeader);
+  const A =
+    tokens(
+      a
+    );
+
+  const B =
+    tokens(
+      b
+    );
+
 
   if (
-    Number.isFinite(retryAfter) &&
-    retryAfter >= 0
+    !A.size ||
+    !B.size
   ) {
 
-    return Math.min(
-      retryAfter * 1000,
-      60000
-    );
+    return 0;
 
   }
 
+
+  let same =
+    0;
+
+
+  for (
+    const x
+    of A
+  ) {
+
+    if (
+      B.has(
+        x
+      )
+    ) {
+
+      same++;
+
+    }
+
+  }
+
+
   return (
 
-    Math.min(
-      1000 * (2 ** attempt),
-      8000
-    ) +
+    same /
 
-    Math.floor(
-      Math.random() * 400
+    Math.max(
+      1,
+      Math.min(
+        A.size,
+        B.size
+      )
     )
 
   );
@@ -493,122 +809,124 @@ function retryDelay(attempt, retryAfterHeader) {
 }
 
 
-async function initMaxHttpClient() {
+function hashString(
+  value
+) {
 
-  if (maxHttpClient) {
+  const s =
+    String(
+      value || ""
+    );
 
-    return maxHttpClient;
+
+  let h1 =
+    0x811c9dc5;
+
+
+  let h2 =
+    0x01000193;
+
+
+  for (
+    let i = 0;
+    i < s.length;
+    i++
+  ) {
+
+    const c =
+      s.charCodeAt(
+        i
+      );
+
+
+    h1 ^=
+      c;
+
+
+    h1 =
+      Math.imul(
+        h1,
+        16777619
+      );
+
+
+    h2 ^=
+      c +
+      i;
+
+
+    h2 =
+      Math.imul(
+        h2,
+        2246822519
+      );
 
   }
 
 
-  if (maxHttpClientError) {
+  return (
 
-    return null;
+    (
+      h1 >>> 0
+    )
+      .toString(16)
+      .padStart(
+        8,
+        "0"
+      )
 
-  }
+    +
 
+    (
+      h2 >>> 0
+    )
+      .toString(16)
+      .padStart(
+        8,
+        "0"
+      )
+
+  );
+
+}
+
+
+function safeUrl(
+  value,
+  base = null
+) {
 
   try {
 
-    const rootResponse =
-      await fetch(
-        MAX_ROOT_CA_URL,
-        {
-          method: "GET",
-          signal:
-            AbortSignal.timeout(10000)
-        }
+    const u =
+      new URL(
+        String(
+          value || ""
+        ),
+        base ||
+        undefined
       );
 
 
-    if (!rootResponse.ok) {
+    if (
 
-      throw new Error(
-        `MAX root CA: HTTP ${rootResponse.status}`
-      );
+      ![
+        "http:",
+        "https:"
+      ].includes(
+        u.protocol
+      )
+
+    ) {
+
+      return null;
 
     }
 
 
-    const rootCa =
-      await rootResponse.text();
+    return u.href;
 
-
-    maxCaStatus.root =
-      true;
-
-
-    const subResponse =
-      await fetch(
-        MAX_SUB_CA_URL,
-        {
-          method: "GET",
-          signal:
-            AbortSignal.timeout(10000)
-        }
-      );
-
-
-    if (!subResponse.ok) {
-
-      throw new Error(
-        `MAX sub CA: HTTP ${subResponse.status}`
-      );
-
-    }
-
-
-    const subCa =
-      await subResponse.text();
-
-
-    maxCaStatus.sub =
-      true;
-
-
-    maxHttpClient =
-      Deno.createHttpClient({
-
-        caCerts: [
-          rootCa,
-          subCa
-        ]
-
-      });
-
-
-    maxCaStatus.loaded =
-      true;
-
-    maxCaStatus.error =
-      null;
-
-
-    console.log(
-      "[MAX TLS] loaded"
-    );
-
-
-    return maxHttpClient;
-
-
-  } catch (error) {
-
-    maxHttpClientError =
-      error?.message ||
-      String(error);
-
-
-    maxCaStatus.error =
-      maxHttpClientError;
-
-
-    console.error(
-      "[MAX TLS ERROR]",
-      maxHttpClientError
-    );
-
+  } catch {
 
     return null;
 
@@ -617,26 +935,94 @@ async function initMaxHttpClient() {
 }
 
 
-async function readJson(response) {
+function sourceNameFromUrl(
+  url
+) {
+
+  try {
+
+    return new URL(
+      url
+    )
+
+      .hostname
+
+      .replace(
+        /^www\./,
+        ""
+      )
+
+      .replace(
+        /^m\./,
+        ""
+      );
+
+  } catch {
+
+    return "СМИ";
+
+  }
+
+}
+
+
+function formatTime(
+  date = new Date()
+) {
+
+  return new Intl.DateTimeFormat(
+    "ru-RU",
+    {
+
+      hour:
+        "2-digit",
+
+      minute:
+        "2-digit"
+
+    }
+
+  ).format(
+    date
+  );
+
+}
+
+
+/*
+ * ============================================================
+ * HTTP
+ * ============================================================
+ */
+
+async function readResponse(
+  response
+) {
 
   const text =
     await response.text();
 
 
-  let data = null;
+  let data =
+    null;
 
 
   try {
 
     data =
       text
-        ? JSON.parse(text)
+        ? JSON.parse(
+            text
+          )
         : null;
 
   } catch {
 
     data = {
-      raw: text
+
+      raw:
+        text
+
     };
 
   }
@@ -651,7 +1037,8 @@ async function readJson(response) {
       response.status,
 
     statusText:
-      response.statusText || "",
+      response.statusText ||
+      "",
 
     data,
 
@@ -673,24 +1060,34 @@ async function fetchJson(
     config.retries ??
     API_RETRIES;
 
+
   const timeoutMs =
     config.timeoutMs ??
     API_TIMEOUT_MS;
 
+
   const useMaxClient =
-    config.useMaxClient === true;
+    config.useMaxClient ===
+    true;
 
 
   let last = {
 
-    ok: false,
+    ok:
+      false,
 
-    status: 599,
+    status:
+      599,
 
     statusText:
-      "No HTTP response",
+      "No response",
 
-    data: null
+    data: {
+
+      error:
+        "request failed"
+
+    }
 
   };
 
@@ -707,9 +1104,12 @@ async function fetchJson(
 
     const timer =
       setTimeout(
+
         () =>
           controller.abort(),
+
         timeoutMs
+
       );
 
 
@@ -725,13 +1125,17 @@ async function fetchJson(
       };
 
 
-      if (useMaxClient) {
+      if (
+        useMaxClient
+      ) {
 
         const client =
           await initMaxHttpClient();
 
 
-        if (client) {
+        if (
+          client
+        ) {
 
           requestOptions.client =
             client;
@@ -743,28 +1147,34 @@ async function fetchJson(
 
       const response =
         await fetch(
+
           url,
+
           requestOptions
+
         );
 
 
       const result =
-        await readJson(
+        await readResponse(
           response
         );
 
 
-      last = result;
+      last = {
 
+        ...result,
 
-      if (result.ok) {
+        error_type:
+          result.ok
+            ? null
+            : "http"
 
-        return result;
-
-      }
+      };
 
 
       if (
+        result.ok ||
         !isRetryableStatus(
           result.status
         )
@@ -780,30 +1190,42 @@ async function fetchJson(
       ) {
 
         await sleep(
+
           retryDelay(
+
             attempt,
+
             response.headers.get(
               "Retry-After"
             )
+
           )
+
         );
 
       }
 
+    } catch (
+      error
+    ) {
 
-    } catch (error) {
+      const timeout =
+        error?.name ===
+        "AbortError";
+
 
       last = {
 
-        ok: false,
+        ok:
+          false,
 
         status:
-          error?.name === "AbortError"
+          timeout
             ? 504
             : 599,
 
         statusText:
-          error?.name === "AbortError"
+          timeout
             ? "Gateway Timeout"
             : "Network Error",
 
@@ -815,27 +1237,22 @@ async function fetchJson(
 
         },
 
+        error_type:
+          timeout
+            ? "timeout"
+            : "network",
+
         error_name:
           error?.name ||
           "Error",
 
         error_message:
           error?.message ||
-          String(error)
+          String(error),
+
+        url
 
       };
-
-
-      console.error(
-        "[HTTP ERROR]",
-        JSON.stringify({
-          url,
-          attempt,
-          error:
-            error?.message ||
-            String(error)
-        })
-      );
 
 
       if (
@@ -843,16 +1260,20 @@ async function fetchJson(
       ) {
 
         await sleep(
+
           retryDelay(
             attempt
           )
+
         );
 
       }
 
     } finally {
 
-      clearTimeout(timer);
+      clearTimeout(
+        timer
+      );
 
     }
 
@@ -860,6 +1281,417 @@ async function fetchJson(
 
 
   return last;
+
+}
+
+
+async function fetchBytes(
+  url,
+  options = {},
+  maxBytes = MAX_VIDEO_BYTES
+) {
+
+  const controller =
+    new AbortController();
+
+
+  const timer =
+    setTimeout(
+
+      () =>
+        controller.abort(),
+
+      Math.max(
+        API_TIMEOUT_MS,
+        45000
+      )
+
+    );
+
+
+  try {
+
+    const response =
+      await fetch(
+
+        url,
+
+        {
+
+          ...options,
+
+          signal:
+            controller.signal,
+
+          redirect:
+            "follow"
+
+        }
+
+      );
+
+
+    if (
+      !response.ok
+    ) {
+
+      return {
+
+        ok:
+          false,
+
+        status:
+          response.status,
+
+        error:
+          `HTTP ${response.status}`
+
+      };
+
+    }
+
+
+    const length =
+      Number(
+        response.headers.get(
+          "content-length"
+        ) ||
+        0
+      );
+
+
+    if (
+
+      length &&
+
+      length >
+        maxBytes
+
+    ) {
+
+      return {
+
+        ok:
+          false,
+
+        status:
+          413,
+
+        error:
+          `media_too_large:${length}`
+
+      };
+
+    }
+
+
+    if (
+      !response.body
+    ) {
+
+      const bytes =
+        new Uint8Array(
+
+          await response.arrayBuffer()
+
+        );
+
+
+      if (
+        bytes.byteLength >
+        maxBytes
+      ) {
+
+        return {
+
+          ok:
+            false,
+
+          status:
+            413,
+
+          error:
+            "media_too_large"
+
+        };
+
+      }
+
+
+      return {
+
+        ok:
+          true,
+
+        bytes,
+
+        contentType:
+          response.headers.get(
+            "content-type"
+          ) ||
+          ""
+
+      };
+
+    }
+
+
+    const reader =
+      response.body.getReader();
+
+
+    const chunks =
+      [];
+
+
+    let total =
+      0;
+
+
+    while (
+      true
+    ) {
+
+      const {
+        done,
+        value
+      } =
+        await reader.read();
+
+
+      if (
+        done
+      ) {
+
+        break;
+
+      }
+
+
+      total +=
+        value.byteLength;
+
+
+      if (
+        total >
+        maxBytes
+      ) {
+
+        await reader.cancel();
+
+
+        return {
+
+          ok:
+            false,
+
+          status:
+            413,
+
+          error:
+            `media_too_large:${total}`
+
+        };
+
+      }
+
+
+      chunks.push(
+        value
+      );
+
+    }
+
+
+    const bytes =
+      new Uint8Array(
+        total
+      );
+
+
+    let offset =
+      0;
+
+
+    for (
+      const chunk
+      of chunks
+    ) {
+
+      bytes.set(
+        chunk,
+        offset
+      );
+
+
+      offset +=
+        chunk.byteLength;
+
+    }
+
+
+    return {
+
+      ok:
+        true,
+
+      bytes,
+
+      contentType:
+        response.headers.get(
+          "content-type"
+        ) ||
+        ""
+
+    };
+
+  } catch (
+    error
+  ) {
+
+    return {
+
+      ok:
+        false,
+
+      status:
+        599,
+
+      error:
+        error?.message ||
+        String(error)
+
+    };
+
+  } finally {
+
+    clearTimeout(
+      timer
+    );
+
+  }
+
+}
+
+
+/*
+ * ============================================================
+ * MAX TLS
+ * ============================================================
+ */
+
+async function initMaxHttpClient() {
+
+  if (
+    maxHttpClient
+  ) {
+
+    return maxHttpClient;
+
+  }
+
+
+  if (
+    maxHttpClientError
+  ) {
+
+    return null;
+
+  }
+
+
+  try {
+
+    const root =
+      await fetch(
+        MAX_ROOT_CA_URL
+      );
+
+
+    if (
+      !root.ok
+    ) {
+
+      throw new Error(
+        `root CA HTTP ${root.status}`
+      );
+
+    }
+
+
+    const rootCa =
+      await root.text();
+
+
+    maxCaStatus.root =
+      true;
+
+
+    const sub =
+      await fetch(
+        MAX_SUB_CA_URL
+      );
+
+
+    if (
+      !sub.ok
+    ) {
+
+      throw new Error(
+        `sub CA HTTP ${sub.status}`
+      );
+
+    }
+
+
+    const subCa =
+      await sub.text();
+
+
+    maxCaStatus.sub =
+      true;
+
+
+    maxHttpClient =
+      Deno.createHttpClient({
+
+        caCerts: [
+
+          rootCa,
+
+          subCa
+
+        ]
+
+      });
+
+
+    maxCaStatus.loaded =
+      true;
+
+
+    maxCaStatus.error =
+      null;
+
+
+    return maxHttpClient;
+
+  } catch (
+    error
+  ) {
+
+    maxHttpClientError =
+      error?.message ||
+      String(error);
+
+
+    maxCaStatus.error =
+      maxHttpClientError;
+
+
+    return null;
+
+  }
 
 }
 
@@ -887,7 +1719,7 @@ async function maxRequest(
       : `/${path}`;
 
 
-  return await fetchJson(
+  return fetchJson(
 
     `${MAX_API}${cleanPath}`,
 
@@ -905,12 +1737,16 @@ async function maxRequest(
 
         ...(options.body
           ? {
+
               "Content-Type":
                 "application/json"
+
             }
+
           : {}),
 
-        ...(options.headers || {})
+        ...(options.headers ||
+          {})
 
       }
 
@@ -930,566 +1766,276 @@ async function maxRequest(
 
 /*
  * ============================================================
- * MAX METHODS
+ * DENO KV
  * ============================================================
  */
 
-async function maxMe() {
-
-  return await maxRequest(
-    "/me",
-    {
-      method: "GET"
-    }
-  );
-
-}
-
-
-async function getSubscriptions() {
-
-  return await maxRequest(
-    "/subscriptions",
-    {
-      method: "GET"
-    }
-  );
-
-}
-
-
-async function deleteSubscription(
-  webhookUrl
+async function kvGet(
+  key
 ) {
 
-  return await maxRequest(
+  if (
+    !kv
+  ) {
 
-    `/subscriptions?url=${encodeURIComponent(
-      webhookUrl
-    )}`,
-
-    {
-      method: "DELETE"
-    }
-
-  );
-
-}
-
-
-async function getTargetChat() {
-
-  if (!TARGET_CHAT_ID) {
-
-    return {
-
-      ok: false,
-
-      status: 400,
-
-      data: {
-        error:
-          "TARGET_CHAT_ID не задан"
-      }
-
-    };
+    return null;
 
   }
 
 
-  return await maxRequest(
+  try {
 
-    `/chats/${encodeURIComponent(
-      TARGET_CHAT_ID
-    )}`,
-
-    {
-      method: "GET"
-    }
-
-  );
-
-}
+    const result =
+      await kv.get(
+        key
+      );
 
 
-async function getRecentMessages() {
-
-  if (!TARGET_CHAT_ID) {
-
-    return {
-
-      ok: false,
-
-      status: 400,
-
-      data: {
-        error:
-          "TARGET_CHAT_ID не задан"
-      }
-
-    };
-
-  }
-
-
-  return await maxRequest(
-
-    `/messages?chat_id=${encodeURIComponent(
-      TARGET_CHAT_ID
-    )}&count=${MAX_HISTORY_COUNT}`,
-
-    {
-      method: "GET"
-    }
-
-  );
-
-}
-
-
-/*
- * ============================================================
- * WEBHOOK URL
- * ============================================================
- */
-
-function getWebhookUrl(requestUrl) {
-
-  const current =
-    new URL(requestUrl);
-
-
-  return `${current.origin}/webhook`;
-
-}
-
-
-/*
- * ============================================================
- * WEBHOOK CLEANUP
- * ============================================================
- */
-
-async function cleanupWebhooks(
-  requestUrl
-) {
-
-  const currentWebhook =
-    getWebhookUrl(
-      requestUrl
+    return (
+      result?.value ??
+      null
     );
+
+  } catch {
+
+    return null;
+
+  }
+
+}
+
+
+async function kvSet(
+  key,
+  value,
+  expireIn
+) {
+
+  if (
+    !kv
+  ) {
+
+    return false;
+
+  }
+
+
+  try {
+
+    const operation =
+      kv.set(
+        key,
+        value
+      );
+
+
+    if (
+      expireIn
+    ) {
+
+      operation.expireIn(
+        expireIn
+      );
+
+    }
+
+
+    await operation;
+
+
+    return true;
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      "[KV SET]",
+      error?.message ||
+      String(error)
+    );
+
+
+    return false;
+
+  }
+
+}
+
+
+async function kvList(
+  prefix,
+  limit = 100
+) {
+
+  if (
+    !kv
+  ) {
+
+    return [];
+
+  }
 
 
   const result =
-    await getSubscriptions();
+    [];
 
 
-  const subscriptions =
-    Array.isArray(
-      result?.data?.subscriptions
-    )
-      ? result.data.subscriptions
-      : [];
+  try {
 
+    for await (
+      const entry
+      of kv.list({
 
-  const candidates =
-    new Set(
-      KNOWN_OLD_WEBHOOKS
-    );
+        prefix,
 
+        reverse:
+          true,
 
-  for (
-    const subscription
-    of subscriptions
-  ) {
+        limit
 
-    if (
-      subscription?.url
+      })
     ) {
 
-      candidates.add(
-        subscription.url
-      );
+      if (
+        entry?.value
+      ) {
 
-    }
-
-  }
-
-
-  const deleted = [];
-
-
-  for (
-    const webhookUrl
-    of candidates
-  ) {
-
-    if (
-      !webhookUrl ||
-      webhookUrl === currentWebhook
-    ) {
-
-      continue;
-
-    }
-
-
-    const result =
-      await deleteSubscription(
-        webhookUrl
-      );
-
-
-    deleted.push({
-
-      url:
-        webhookUrl,
-
-      ok:
-        result.ok,
-
-      http_status:
-        result.status,
-
-      response:
-        result.data
-
-    });
-
-  }
-
-
-  return {
-
-    current_webhook:
-      currentWebhook,
-
-    subscriptions_before:
-      subscriptions,
-
-    discovered_count:
-      subscriptions.length,
-
-    deleted
-
-  };
-
-}
-
-
-/*
- * ============================================================
- * WEBHOOK SETUP
- * ============================================================
- */
-
-async function setupWebhook(
-  requestUrl
-) {
-
-  requireSecret(
-    MAX_BOT_TOKEN,
-    "MAX_BOT_TOKEN"
-  );
-
-
-  const webhookUrl =
-    getWebhookUrl(
-      requestUrl
-    );
-
-
-  const tls =
-    await initMaxHttpClient();
-
-
-  if (!tls) {
-
-    return {
-
-      ok: false,
-
-      stage:
-        "max_tls",
-
-      webhook_url:
-        webhookUrl,
-
-      tls:
-        maxCaStatus,
-
-      error:
-        maxHttpClientError
-
-    };
-
-  }
-
-
-  const cleanup =
-    await cleanupWebhooks(
-      requestUrl
-    );
-
-
-  const body = {
-
-    url:
-      webhookUrl,
-
-    update_types:
-      MAX_WEBHOOK_UPDATE_TYPES
-
-  };
-
-
-  if (
-    MAX_WEBHOOK_SECRET
-  ) {
-
-    body.secret =
-      MAX_WEBHOOK_SECRET;
-
-  }
-
-
-  const created =
-    await maxRequest(
-
-      "/subscriptions",
-
-      {
-
-        method:
-          "POST",
-
-        body:
-          JSON.stringify(
-            body
-          )
+        result.push(
+          entry.value
+        );
 
       }
 
-    );
-
-
-  const after =
-    await getSubscriptions();
-
-
-  return {
-
-    ok:
-      created.ok &&
-      after.ok,
-
-    provider:
-      "MAX",
-
-    webhook_url:
-      webhookUrl,
-
-    tls:
-      maxCaStatus,
-
-    webhook_secret:
-      !!MAX_WEBHOOK_SECRET,
-
-    update_types:
-      MAX_WEBHOOK_UPDATE_TYPES,
-
-    cleanup,
-
-    create: {
-
-      ok:
-        created.ok,
-
-      http_status:
-        created.status,
-
-      response:
-        created.data
-
-    },
-
-    after: {
-
-      ok:
-        after.ok,
-
-      http_status:
-        after.status,
-
-      response:
-        after.data
-
     }
 
-  };
+  } catch {}
+
+  return result;
 
 }
 
 
 /*
  * ============================================================
- * XML
+ * RSS
  * ============================================================
  */
-
-function decodeXml(value) {
-
-  return String(value || "")
-
-    .replace(
-      /&amp;/g,
-      "&"
-    )
-
-    .replace(
-      /&lt;/g,
-      "<"
-    )
-
-    .replace(
-      /&gt;/g,
-      ">"
-    )
-
-    .replace(
-      /&quot;/g,
-      '"'
-    )
-
-    .replace(
-      /&#39;/g,
-      "'"
-    );
-
-}
-
-
-function extractTagRaw(
-  xml,
-  tag
-) {
-
-  const regex =
-    new RegExp(
-      `<${tag}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/${tag}>`,
-      "i"
-    );
-
-
-  const match =
-    xml.match(regex);
-
-
-  return match
-    ? match[1]
-    : "";
-
-}
-
 
 function extractTag(
   xml,
   tag
 ) {
 
-  return stripHtml(
-    decodeXml(
-      extractTagRaw(
-        xml,
-        tag
+  const regex =
+    new RegExp(
+
+      `<${tag}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/${tag}>`,
+
+      "i"
+
+    );
+
+
+  const match =
+    String(
+      xml || ""
+    ).match(
+      regex
+    );
+
+
+  if (
+    !match
+  ) {
+
+    return "";
+
+  }
+
+
+  return cleanText(
+
+    match[1]
+
+      .replace(
+        /<!\[CDATA\[/gi,
+        ""
       )
-    )
+
+      .replace(
+        /\]\]>/g,
+        ""
+      )
+
   );
 
 }
 
 
-function extractSource(
-  item
-) {
-
-  const raw =
-    extractTagRaw(
-      item,
-      "source"
-    );
-
-
-  return stripHtml(
-    decodeXml(
-      raw
-    )
-  ) || "Источник";
-
-}
-
-
 function extractItems(
-  xml,
-  feed
+  xml
 ) {
 
-  const items = [];
+  const items =
+    [];
 
 
   const matches =
-    xml.match(
+    String(
+      xml || ""
+    ).match(
+
       /<item[\s\S]*?<\/item>/gi
-    ) || [];
+
+    ) ||
+    [];
 
 
   for (
-    const item
+    const raw
     of matches
   ) {
 
     const title =
       extractTag(
-        item,
+        raw,
         "title"
       );
 
 
     const link =
       extractTag(
-        item,
+        raw,
         "link"
       );
 
 
     const description =
       extractTag(
-        item,
+        raw,
         "description"
       );
 
 
     const pubDate =
       extractTag(
-        item,
+        raw,
         "pubDate"
       );
 
 
     const source =
-      extractSource(
-        item
-      );
-
-
-    const guid =
       extractTag(
-        item,
-        "guid"
+        raw,
+        "source"
       );
 
 
-    if (!title) {
+    if (
+      !title ||
+      !link
+    ) {
 
       continue;
 
@@ -1500,24 +2046,16 @@ function extractItems(
 
       title,
 
-      link,
+      link:
+        safeUrl(
+          link
+        ),
 
       description,
 
       pubDate,
 
-      source,
-
-      guid,
-
-      category:
-        feed.category,
-
-      category_emoji:
-        feed.emoji,
-
-      source_feed:
-        feed.url
+      source
 
     });
 
@@ -1529,186 +2067,119 @@ function extractItems(
 }
 
 
-/*
- * ============================================================
- * RSS
- * ============================================================
- */
-
 async function fetchRSS() {
 
-  const results =
-    await Promise.all(
+  return Promise.all(
 
-      RSS_FEEDS.map(
-        async feed => {
+    RSS_FEEDS.map(
 
-          const result =
-            await fetchJson(
+      async feed => {
 
-              feed.url,
+        const result =
+          await fetchJson(
 
-              {
+            feed.url,
 
-                method:
-                  "GET",
+            {
 
-                headers: {
+              method:
+                "GET",
 
-                  "User-Agent":
-                    "Factor-News-Agent/1.0",
+              headers: {
 
-                  Accept:
-                    "application/rss+xml, application/xml, text/xml"
-
-                }
-
-              },
-
-              {
-
-                retries:
-                  1,
-
-                timeoutMs:
-                  15000
+                "User-Agent":
+                  "Mozilla/5.0 (compatible; FactorNewsAgent/1.0)"
 
               }
 
-            );
+            },
+
+            {
+
+              retries:
+                1,
+
+              timeoutMs:
+                15000
+
+            }
+
+          );
 
 
-          if (!result.ok) {
+        if (
 
-            return {
+          !result.ok ||
 
-              category:
-                feed.category,
+          typeof result.data?.raw !==
+            "string"
 
-              ok: false,
-
-              status:
-                result.status,
-
-              error:
-                result.data?.error ||
-                null
-
-            };
-
-          }
-
-
-          const xml =
-            result.data?.raw;
-
-
-          if (
-            typeof xml !== "string"
-          ) {
-
-            return {
-
-              category:
-                feed.category,
-
-              ok: false,
-
-              status:
-                result.status,
-
-              error:
-                "RSS response is not XML"
-
-            };
-
-          }
-
-
-          const items =
-            extractItems(
-              xml,
-              feed
-            );
-
+        ) {
 
           return {
 
-            category:
-              feed.category,
+            ...feed,
 
-            ok: true,
+            ok:
+              false,
 
             count:
-              items.length,
+              0,
 
             items:
-              items.slice(
-                0,
-                20
-              )
+              [],
+
+            error:
+              result.data?.error ||
+              result.status
 
           };
 
         }
-      )
-
-    );
 
 
-  return results;
+        const items =
+          extractItems(
+            result.data.raw
+          )
 
-}
+            .map(
+              item => ({
+
+                ...item,
+
+                category:
+                  feed.name,
+
+                categoryEmoji:
+                  feed.emoji,
+
+                sourceFeed:
+                  feed.url
+
+              })
+            );
 
 
-/*
- * ============================================================
- * NEWS
- * ============================================================
- */
+        return {
 
-function newsKey(item) {
+          ...feed,
 
-  return (
+          ok:
+            true,
 
-    item.guid ||
+          count:
+            items.length,
 
-    item.link ||
+          items
 
-    `${item.title}|${item.pubDate || ""}`
+        };
+
+      }
+
+    )
 
   );
-
-}
-
-
-function normalizeText(value) {
-
-  return String(value || "")
-
-    .toLowerCase()
-
-    .replace(
-      /<[^>]*>/g,
-      " "
-    )
-
-    .replace(
-      /https?:\/\/\S+/g,
-      ""
-    )
-
-    .replace(
-      /[^\p{L}\p{N}\s]/gu,
-      " "
-    )
-
-    .replace(
-      /\s+/g,
-      " "
-    )
-
-    .trim();
 
 }
 
@@ -1717,7 +2188,8 @@ function flattenNews(
   feeds
 ) {
 
-  const all = [];
+  const all =
+    [];
 
 
   for (
@@ -1726,9 +2198,62 @@ function flattenNews(
   ) {
 
     if (
-      !feed.ok ||
-      !Array.isArray(
-        feed.items
+      feed.ok
+    ) {
+
+      all.push(
+        ...feed.items
+      );
+
+    }
+
+  }
+
+
+  const unique =
+    [];
+
+
+  const seen =
+    new Set();
+
+
+  for (
+    const item
+    of all.sort(
+
+      (a, b) =>
+
+        (
+          Date.parse(
+            b.pubDate ||
+            ""
+          ) ||
+          0
+        )
+
+        -
+
+        (
+          Date.parse(
+            a.pubDate ||
+            ""
+          ) ||
+          0
+        )
+
+    )
+  ) {
+
+    const key =
+      newsKey(
+        item
+      );
+
+
+    if (
+      seen.has(
+        key
       )
     ) {
 
@@ -1737,61 +2262,14 @@ function flattenNews(
     }
 
 
-    all.push(
-      ...feed.items
+    seen.add(
+      key
     );
 
-  }
 
-
-  all.sort(
-    (a, b) => {
-
-      const aTime =
-        Date.parse(
-          a.pubDate || ""
-        ) || 0;
-
-
-      const bTime =
-        Date.parse(
-          b.pubDate || ""
-        ) || 0;
-
-
-      return bTime - aTime;
-
-    }
-  );
-
-
-  const unique = [];
-
-  const seen =
-    new Set();
-
-
-  for (
-    const item
-    of all
-  ) {
-
-    const key =
-      newsKey(item);
-
-
-    if (
-      seen.has(key)
-    ) {
-
-      continue;
-
-    }
-
-
-    seen.add(key);
-
-    unique.push(item);
+    unique.push(
+      item
+    );
 
   }
 
@@ -1803,40 +2281,1046 @@ function flattenNews(
 
 /*
  * ============================================================
- * FRESHNESS
+ * ARTICLE MEDIA
  * ============================================================
  */
 
-function isFresh(item) {
+function extractAttr(
+  tag,
+  attr
+) {
 
-  const timestamp =
-    Date.parse(
-      item.pubDate || ""
+  const regex =
+    new RegExp(
+
+      `${attr}\\s*=\\s*["']([^"']+)["']`,
+
+      "i"
+
     );
 
 
-  if (!timestamp) {
+  return (
+    tag.match(
+      regex
+    )?.[1] ||
+    ""
+  );
 
-    return true;
+}
+
+
+function extractMeta(
+  html,
+  propertyNames
+) {
+
+  const metas =
+    String(
+      html || ""
+    ).match(
+
+      /<meta\b[^>]*>/gi
+
+    ) ||
+    [];
+
+
+  for (
+    const name
+    of propertyNames
+  ) {
+
+    for (
+      const tag
+      of metas
+    ) {
+
+      const property =
+
+        (
+
+          extractAttr(
+            tag,
+            "property"
+          )
+
+          ||
+
+          extractAttr(
+            tag,
+            "name"
+          )
+
+          ||
+
+          extractAttr(
+            tag,
+            "itemprop"
+          )
+
+        )
+
+          .toLowerCase();
+
+
+      if (
+        property ===
+        name.toLowerCase()
+      ) {
+
+        const content =
+          extractAttr(
+            tag,
+            "content"
+          );
+
+
+        if (
+          content
+        ) {
+
+          return decodeEntities(
+            content
+          );
+
+        }
+
+      }
+
+    }
 
   }
 
 
-  const age =
-    Date.now() -
-    timestamp;
+  return "";
+
+}
 
 
-  const maxAge =
-    MAX_NEWS_AGE_HOURS *
-    60 *
-    60 *
-    1000;
+function extractLinks(
+  html,
+  pattern
+) {
+
+  const out =
+    [];
 
 
-  return (
-    age >= 0 &&
-    age <= maxAge
+  const tags =
+    String(
+      html || ""
+    ).match(
+
+      /<(?:video|source|a|link|meta)\b[^>]*>/gi
+
+    ) ||
+    [];
+
+
+  for (
+    const tag
+    of tags
+  ) {
+
+    const values = [
+
+      extractAttr(
+        tag,
+        "src"
+      ),
+
+      extractAttr(
+        tag,
+        "href"
+      ),
+
+      extractAttr(
+        tag,
+        "content"
+      )
+
+    ].filter(
+      Boolean
+    );
+
+
+    for (
+      const value
+      of values
+    ) {
+
+      const decoded =
+        decodeEntities(
+          value
+        );
+
+
+      if (
+        pattern.test(
+          decoded
+        )
+      ) {
+
+        out.push(
+          decoded
+        );
+
+      }
+
+    }
+
+  }
+
+
+  return [
+
+    ...new Set(
+      out
+    )
+
+  ];
+
+}
+
+
+function isDirectVideoUrl(
+  url
+) {
+
+  try {
+
+    const u =
+      new URL(
+        url
+      );
+
+
+    const path =
+      u.pathname.toLowerCase();
+
+
+    return (
+
+      /\.(mp4|mov|mkv|webm)(?:$|\?)/i.test(
+        path
+      )
+
+      ||
+
+      /(?:video|videofile|media|stream)/i.test(
+        path
+      )
+
+    );
+
+  } catch {
+
+    return false;
+
+  }
+
+}
+
+
+function isHlsUrl(
+  url
+) {
+
+  return /\.m3u8(?:$|\?)/i.test(
+    url
+  );
+
+}
+
+
+function extractArticleMedia(
+  html,
+  articleUrl
+) {
+
+  const videoCandidates =
+    [];
+
+
+  const ogVideo =
+    extractMeta(
+
+      html,
+
+      [
+
+        "og:video",
+
+        "og:video:url",
+
+        "og:video:secure_url",
+
+        "twitter:player:stream"
+
+      ]
+
+    );
+
+
+  if (
+    ogVideo
+  ) {
+
+    videoCandidates.push(
+
+      safeUrl(
+        ogVideo,
+        articleUrl
+      )
+
+    );
+
+  }
+
+
+  for (
+    const raw
+    of extractLinks(
+
+      html,
+
+      /\.(mp4|mov|mkv|webm|m3u8)(?:[?#]|$)/i
+
+    )
+  ) {
+
+    videoCandidates.push(
+
+      safeUrl(
+        raw,
+        articleUrl
+      )
+
+    );
+
+  }
+
+
+  const videos =
+    [
+
+      ...new Set(
+
+        videoCandidates
+          .filter(
+            Boolean
+          )
+
+      )
+
+    ];
+
+
+  const directVideo =
+    videos.find(
+      isDirectVideoUrl
+    ) ||
+    null;
+
+
+  const hlsVideo =
+    videos.find(
+      isHlsUrl
+    ) ||
+    null;
+
+
+  const image =
+
+    safeUrl(
+
+      extractMeta(
+
+        html,
+
+        [
+
+          "og:image",
+
+          "twitter:image",
+
+          "twitter:image:src"
+
+        ]
+
+      ),
+
+      articleUrl
+
+    ) ||
+
+    null;
+
+
+  return {
+
+    video:
+      directVideo,
+
+    hls:
+      hlsVideo,
+
+    image
+
+  };
+
+}
+
+
+async function loadArticle(
+  item
+) {
+
+  const url =
+    safeUrl(
+      item.link
+    );
+
+
+  if (
+    !url
+  ) {
+
+    return {
+
+      ok:
+        false,
+
+      error:
+        "invalid_article_url"
+
+    };
+
+  }
+
+
+  const result =
+    await fetchBytes(
+
+      url,
+
+      {
+
+        headers: {
+
+          "User-Agent":
+            "Mozilla/5.0 (compatible; FactorNewsAgent/1.0)",
+
+          Accept:
+            "text/html,application/xhtml+xml"
+
+        }
+
+      },
+
+      MAX_ARTICLE_BYTES
+
+    );
+
+
+  if (
+    !result.ok
+  ) {
+
+    return {
+
+      ok:
+        false,
+
+      finalUrl:
+        url,
+
+      error:
+        result.error
+
+    };
+
+  }
+
+
+  const html =
+    new TextDecoder()
+      .decode(
+        result.bytes
+      );
+
+
+  const finalUrl =
+    url;
+
+
+  const media =
+    extractArticleMedia(
+
+      html,
+
+      finalUrl
+
+    );
+
+
+  return {
+
+    ok:
+      true,
+
+    finalUrl,
+
+    html,
+
+    media,
+
+    source:
+      sourceNameFromUrl(
+        finalUrl
+      )
+
+  };
+
+}
+
+
+/*
+ * ============================================================
+ * MEDIA DOWNLOAD
+ * ============================================================
+ */
+
+async function downloadVideo(
+  url
+) {
+
+  if (
+
+    !url ||
+
+    !isDirectVideoUrl(
+      url
+    )
+
+  ) {
+
+    return {
+
+      ok:
+        false,
+
+      error:
+        "no_direct_video"
+
+    };
+
+  }
+
+
+  const result =
+    await fetchBytes(
+
+      url,
+
+      {
+
+        headers: {
+
+          "User-Agent":
+            "Mozilla/5.0 (compatible; FactorNewsAgent/1.0)",
+
+          Accept:
+            "video/mp4,video/webm,video/*;q=0.9,*/*;q=0.5"
+
+        }
+
+      },
+
+      MAX_VIDEO_BYTES
+
+    );
+
+
+  if (
+    !result.ok
+  ) {
+
+    return result;
+
+  }
+
+
+  const contentType =
+    result.contentType.toLowerCase();
+
+
+  if (
+
+    contentType &&
+
+    !contentType.includes(
+      "video"
+    ) &&
+
+    !contentType.includes(
+      "octet-stream"
+    )
+
+  ) {
+
+    return {
+
+      ok:
+        false,
+
+      status:
+        415,
+
+      error:
+        `not_video_content_type:${contentType}`
+
+    };
+
+  }
+
+
+  return result;
+
+}
+
+
+async function downloadImage(
+  url
+) {
+
+  if (
+    !url
+  ) {
+
+    return {
+
+      ok:
+        false,
+
+      error:
+        "no_image"
+
+    };
+
+  }
+
+
+  const result =
+    await fetchBytes(
+
+      url,
+
+      {
+
+        headers: {
+
+          "User-Agent":
+            "Mozilla/5.0 (compatible; FactorNewsAgent/1.0)",
+
+          Accept:
+            "image/avif,image/webp,image/jpeg,image/png,image/*;q=0.8"
+
+        }
+
+      },
+
+      MAX_IMAGE_BYTES
+
+    );
+
+
+  if (
+    !result.ok
+  ) {
+
+    return result;
+
+  }
+
+
+  if (
+
+    result.contentType &&
+
+    !result.contentType
+      .toLowerCase()
+      .startsWith(
+        "image/"
+      )
+
+  ) {
+
+    return {
+
+      ok:
+        false,
+
+      status:
+        415,
+
+      error:
+        "not_image"
+
+    };
+
+  }
+
+
+  return result;
+
+}
+
+
+/*
+ * ============================================================
+ * MAX MEDIA UPLOAD
+ * ============================================================
+ */
+
+async function maxUploadUrl(
+  type
+) {
+
+  return maxRequest(
+
+    `/uploads?type=${encodeURIComponent(
+      type
+    )}`,
+
+    {
+
+      method:
+        "POST"
+
+    }
+
+  );
+
+}
+
+
+async function uploadMediaToMax(
+  type,
+  bytes,
+  contentType,
+  filename
+) {
+
+  const init =
+    await maxUploadUrl(
+      type
+    );
+
+
+  if (
+
+    !init.ok ||
+
+    !init.data?.url
+
+  ) {
+
+    return {
+
+      ok:
+        false,
+
+      stage:
+        "max_upload_init",
+
+      status:
+        init.status,
+
+      response:
+        init.data
+
+    };
+
+  }
+
+
+  const form =
+    new FormData();
+
+
+  const blob =
+    new Blob(
+
+      [bytes],
+
+      {
+
+        type:
+
+          contentType ||
+
+          (
+
+            type === "video"
+
+              ? "video/mp4"
+
+              : "image/jpeg"
+
+          )
+
+      }
+
+    );
+
+
+  form.append(
+
+    "data",
+
+    new File(
+
+      [blob],
+
+      filename ||
+
+      (
+
+        type === "video"
+
+          ? "factor-news.mp4"
+
+          : "factor-news.jpg"
+
+      ),
+
+      {
+
+        type:
+          blob.type
+
+      }
+
+    )
+
+  );
+
+
+  const upload =
+    await fetch(
+
+      init.data.url,
+
+      {
+
+        method:
+          "POST",
+
+        body:
+          form,
+
+        headers: {
+
+          Authorization:
+            MAX_BOT_TOKEN
+
+        }
+
+      }
+
+    );
+
+
+  const uploadBody =
+    await readResponse(
+      upload
+    );
+
+
+  if (
+    !upload.ok
+  ) {
+
+    return {
+
+      ok:
+        false,
+
+      stage:
+        "max_media_upload",
+
+      status:
+        upload.status,
+
+      response:
+        uploadBody.data
+
+    };
+
+  }
+
+
+  const token =
+
+    init.data.token ||
+
+    uploadBody.data?.token ||
+
+    uploadBody.data?.mediafile_token ||
+
+    uploadBody.data?.photos
+      ?.photoIds
+      ?.token;
+
+
+  if (
+    !token
+  ) {
+
+    return {
+
+      ok:
+        false,
+
+      stage:
+        "max_media_token",
+
+      status:
+        upload.status,
+
+      response:
+        uploadBody.data
+
+    };
+
+  }
+
+
+  return {
+
+    ok:
+      true,
+
+    token
+
+  };
+
+}
+
+
+/*
+ * ============================================================
+ * MAX PUBLISH
+ * ============================================================
+ */
+
+async function publishToMax(
+  chatId,
+  text,
+  media = null
+) {
+
+  if (
+    !chatId
+  ) {
+
+    return {
+
+      ok:
+        false,
+
+      status:
+        400,
+
+      data: {
+
+        error:
+          "TARGET_CHAT_ID не задан"
+
+      }
+
+    };
+
+  }
+
+
+  const body = {
+
+    text
+
+  };
+
+
+  if (
+    media?.token
+  ) {
+
+    body.attachments = [
+
+      {
+
+        type:
+          media.type,
+
+        payload: {
+
+          token:
+            media.token
+
+        }
+
+      }
+
+    ];
+
+  }
+
+
+  if (
+    media?.payload?.url
+  ) {
+
+    body.attachments = [
+
+      {
+
+        type:
+          media.type,
+
+        payload: {
+
+          url:
+            media.payload.url
+
+        }
+
+      }
+
+    ];
+
+  }
+
+
+  return maxRequest(
+
+    `/messages?chat_id=${encodeURIComponent(
+      chatId
+    )}`,
+
+    {
+
+      method:
+        "POST",
+
+      body:
+        JSON.stringify(
+          body
+        )
+
+    }
+
   );
 
 }
@@ -1844,11 +3328,349 @@ function isFresh(item) {
 
 /*
  * ============================================================
- * ALREADY PUBLISHED
+ * DEDUP
  * ============================================================
  */
 
-function extractMessageText(
+function newsKey(
+  item
+) {
+
+  return (
+
+    item.link ||
+
+    `${normalizeText(
+      item.title
+    )}|${item.pubDate || ""}`
+
+  );
+
+}
+
+
+function newsFingerprint(
+  item
+) {
+
+  return hashString(
+
+    [
+
+      normalizeText(
+        item.title
+      ),
+
+      normalizeText(
+        item.description
+      ),
+
+      sourceNameFromUrl(
+        item.resolvedUrl ||
+        item.link ||
+        ""
+      )
+
+    ].join("|")
+
+  );
+
+}
+
+
+async function wasProcessed(
+  item
+) {
+
+  const key =
+    newsKey(
+      item
+    );
+
+
+  const fp =
+    newsFingerprint(
+      item
+    );
+
+
+  const a =
+    await kvGet(
+
+      [
+        "factor",
+        "news",
+        "url",
+        key
+      ]
+
+    );
+
+
+  if (
+    a
+  ) {
+
+    return true;
+
+  }
+
+
+  const b =
+    await kvGet(
+
+      [
+        "factor",
+        "news",
+        "fp",
+        fp
+      ]
+
+    );
+
+
+  if (
+    b
+  ) {
+
+    return true;
+
+  }
+
+
+  return false;
+
+}
+
+
+async function markProcessed(
+  item,
+  extra = {}
+) {
+
+  const key =
+    newsKey(
+      item
+    );
+
+
+  const fp =
+    newsFingerprint(
+      item
+    );
+
+
+  const value = {
+
+    key,
+
+    fingerprint:
+      fp,
+
+    title:
+      item.title,
+
+    url:
+      item.resolvedUrl ||
+      item.link,
+
+    publishedAt:
+      new Date()
+        .toISOString(),
+
+    ...extra
+
+  };
+
+
+  await kvSet(
+
+    [
+      "factor",
+      "news",
+      "url",
+      key
+    ],
+
+    value,
+
+    HISTORY_TTL_MS
+
+  );
+
+
+  await kvSet(
+
+    [
+      "factor",
+      "news",
+      "fp",
+      fp
+    ],
+
+    value,
+
+    HISTORY_TTL_MS
+
+  );
+
+}
+
+
+async function getLastPublish(
+  type
+) {
+
+  return await kvGet(
+
+    [
+      "factor",
+      "schedule",
+      type
+    ]
+
+  );
+
+}
+
+
+async function setLastPublish(
+  type
+) {
+
+  await kvSet(
+
+    [
+      "factor",
+      "schedule",
+      type
+    ],
+
+    {
+
+      at:
+        Date.now(),
+
+      iso:
+        new Date()
+          .toISOString()
+
+    }
+
+  );
+
+}
+
+
+async function canPublish(
+  type
+) {
+
+  const last =
+    await getLastPublish(
+      type
+    );
+
+
+  if (
+    !last?.at
+  ) {
+
+    return true;
+
+  }
+
+
+  const interval =
+
+    type === "urgent"
+
+      ? URGENT_INTERVAL_MS
+
+      : REGULAR_INTERVAL_MS;
+
+
+  return (
+
+    Date.now() -
+    Number(
+      last.at
+    )
+
+    >=
+
+    interval
+
+  );
+
+}
+
+
+/*
+ * ============================================================
+ * MAX HISTORY
+ * ============================================================
+ */
+
+async function getRecentMaxMessages() {
+
+  if (
+    !TARGET_CHAT_ID
+  ) {
+
+    return [];
+
+  }
+
+
+  const result =
+    await maxRequest(
+
+      `/messages?chat_id=${encodeURIComponent(
+        TARGET_CHAT_ID
+      )}&count=${MAX_RECENT_MESSAGES}`,
+
+      {
+
+        method:
+          "GET"
+
+      }
+
+    );
+
+
+  if (
+    !result.ok
+  ) {
+
+    return [];
+
+  }
+
+
+  return (
+
+    Array.isArray(
+      result.data?.messages
+    )
+
+      ? result.data.messages
+
+      : Array.isArray(
+          result.data
+        )
+
+        ? result.data
+
+        : []
+
+  );
+
+}
+
+
+function messageText(
   message
 ) {
 
@@ -1865,63 +3687,85 @@ function extractMessageText(
 }
 
 
-function wasAlreadyPublished(
+async function looksLikeAlreadyPublished(
   item,
-  messages
+  recentMessages
 ) {
 
-  const targetTitle =
+  const title =
     normalizeText(
       item.title
     );
 
 
-  const targetLink =
-    String(
-      item.link || ""
-    ).trim();
+  if (
+    !title
+  ) {
 
+    return false;
 
-  const targetGuid =
-    String(
-      item.guid || ""
-    ).trim();
+  }
 
 
   for (
     const message
-    of messages
+    of recentMessages
   ) {
 
     const text =
-      extractMessageText(
+      messageText(
         message
       );
 
 
-    if (!text) {
+    if (
+      !text
+    ) {
 
       continue;
 
     }
 
 
-    const normalized =
+    if (
+
+      text.includes(
+        item.resolvedUrl ||
+        item.link
+      )
+
+    ) {
+
+      return true;
+
+    }
+
+
+    const firstPart =
+
       normalizeText(
-        text
+
+        title
+          .split(" ")
+          .slice(
+            0,
+            7
+          )
+          .join(" ")
+
       );
 
 
-    /*
-     * Самый надёжный вариант:
-     * ссылка уже была опубликована.
-     */
-
     if (
-      targetLink &&
-      text.includes(
-        targetLink
+
+      firstPart.length >= 20 &&
+
+      normalizeText(
+        text
+      ).includes(
+        firstPart
       )
+
     ) {
 
       return true;
@@ -1929,34 +3773,14 @@ function wasAlreadyPublished(
     }
 
 
-    /*
-     * Если Google изменит wrapper URL,
-     * используем GUID.
-     */
-
     if (
-      targetGuid &&
-      text.includes(
-        targetGuid
-      )
-    ) {
 
-      return true;
+      similarity(
+        title,
+        text
+      ) >=
+      0.72
 
-    }
-
-
-    /*
-     * Дополнительная защита:
-     * совпадение заголовка.
-     */
-
-    if (
-      targetTitle &&
-      targetTitle.length >= 30 &&
-      normalized.includes(
-        targetTitle
-      )
     ) {
 
       return true;
@@ -1967,6 +3791,227 @@ function wasAlreadyPublished(
 
 
   return false;
+
+}
+
+
+/*
+ * ============================================================
+ * PRIORITY
+ * ============================================================
+ */
+
+const URGENT_PATTERNS = [
+
+  /срочно/i,
+
+  /экстренно/i,
+
+  /молния/i,
+
+  /теракт/i,
+
+  /взрыв/i,
+
+  /землетряс/i,
+
+  /цунами/i,
+
+  /крупн(ая|ое|ый)\s+авари/i,
+
+  /катастроф/i,
+
+  /погибл/i,
+
+  /обруш/i,
+
+  /массов(ая|ое|ый)\s+гибел/i,
+
+  /начал[ао]?сь\s+войн/i,
+
+  /военн(ая|ое)\s+операц/i,
+
+  /удар[а-я]*\s+по/i,
+
+  /ракет/i,
+
+  /запуск.*ракет/i,
+
+  /дефолт/i,
+
+  /банкротств/i,
+
+  /обвал.*рынк/i,
+
+  /санкц/i,
+
+  /аварийн/i,
+
+  /эвакуац/i,
+
+  /чрезвычайн/i
+
+];
+
+
+const LOW_VALUE_PATTERNS = [
+
+  /анонс/i,
+
+  /покажет новые/i,
+
+  /приглашает/i,
+
+  /мероприятие пройдет/i,
+
+  /стала известна программа/i,
+
+  /названы даты/i,
+
+  /может представить/i,
+
+  /рассказал о планах/i
+
+];
+
+
+function priorityScore(
+  item
+) {
+
+  const text =
+
+    `${item.title} ${item.description}`
+
+      .toLowerCase();
+
+
+  let score =
+    0;
+
+
+  for (
+    const re
+    of URGENT_PATTERNS
+  ) {
+
+    if (
+      re.test(
+        text
+      )
+    ) {
+
+      score +=
+        3;
+
+    }
+
+  }
+
+
+  for (
+    const re
+    of LOW_VALUE_PATTERNS
+  ) {
+
+    if (
+      re.test(
+        text
+      )
+    ) {
+
+      score -=
+        3;
+
+    }
+
+  }
+
+
+  const age =
+
+    Date.now() -
+
+    (
+      Date.parse(
+        item.pubDate ||
+        ""
+      ) ||
+
+      Date.now()
+
+    );
+
+
+  if (
+    age <=
+    15 *
+    60_000
+  ) {
+
+    score +=
+      2;
+
+  } else if (
+    age <=
+    60 *
+    60_000
+  ) {
+
+    score +=
+      1;
+
+  }
+
+
+  if (
+    item.category ===
+    "ПРОИСШЕСТВИЯ"
+  ) {
+
+    score +=
+      1;
+
+  }
+
+
+  if (
+    item.category ===
+    "МИР"
+  ) {
+
+    score +=
+      1;
+
+  }
+
+
+  if (
+    item.category ===
+    "ЭКОНОМИКА"
+  ) {
+
+    score +=
+      1;
+
+  }
+
+
+  return score;
+
+}
+
+
+function isUrgent(
+  item
+) {
+
+  return (
+    priorityScore(
+      item
+    ) >=
+    4
+  );
 
 }
 
@@ -1987,10 +4032,13 @@ function extractGeminiText(
       ?.candidates?.[0]
       ?.content?.parts
       ?.map(
-        part =>
-          part?.text || ""
+        p =>
+          p?.text ||
+          ""
       )
-      .join("") ||
+      .join("")
+
+    ||
 
     ""
 
@@ -2007,11 +4055,15 @@ function extractQwenText(
 
     data
       ?.choices?.[0]
-      ?.message?.content ||
+      ?.message?.content
+
+    ||
 
     data
       ?.choices?.[0]
-      ?.text ||
+      ?.text
+
+    ||
 
     ""
 
@@ -2020,22 +4072,94 @@ function extractQwenText(
 }
 
 
-/*
- * ============================================================
- * GEMINI DISCOVERY
- * ============================================================
- */
+function parseJsonObject(
+  text
+) {
+
+  const raw =
+    String(
+      text ||
+      ""
+    )
+
+      .replace(
+        /```json/gi,
+        ""
+      )
+
+      .replace(
+        /```/g,
+        ""
+      )
+
+      .trim();
+
+
+  try {
+
+    return JSON.parse(
+      raw
+    );
+
+  } catch {}
+
+
+  const start =
+    raw.indexOf(
+      "{"
+    );
+
+
+  const end =
+    raw.lastIndexOf(
+      "}"
+    );
+
+
+  if (
+
+    start >= 0 &&
+
+    end >
+      start
+
+  ) {
+
+    try {
+
+      return JSON.parse(
+
+        raw.slice(
+          start,
+          end + 1
+        )
+
+      );
+
+    } catch {}
+
+  }
+
+
+  return null;
+
+}
+
 
 async function discoverGeminiModels() {
 
-  if (!GEMINI_API_KEY) {
+  if (
+    !GEMINI_API_KEY
+  ) {
 
     return [];
 
   }
 
 
-  if (discoveredGeminiModels) {
+  if (
+    discoveredGeminiModels
+  ) {
 
     return discoveredGeminiModels;
 
@@ -2050,58 +4174,68 @@ async function discoverGeminiModels() {
       )}`,
 
       {
+
         method:
           "GET"
+
       },
 
       {
+
         retries:
           1
+
       }
 
     );
 
 
-  if (!result.ok) {
+  if (
+    !result.ok
+  ) {
 
     discoveredGeminiModels =
       [];
+
 
     return [];
 
   }
 
 
-  const models =
-    Array.isArray(
-      result.data?.models
-    )
-      ? result.data.models
-      : [];
-
-
   discoveredGeminiModels =
-    models
+
+    (
+      result.data?.models ||
+      []
+
+    )
 
       .filter(
-        model =>
+
+        m =>
 
           !Array.isArray(
-            model?.supportedGenerationMethods
-          ) ||
+            m?.supportedGenerationMethods
+          )
 
-          model
+          ||
+
+          m
             .supportedGenerationMethods
             .includes(
               "generateContent"
             )
+
       )
 
       .map(
-        model =>
+
+        m =>
 
           String(
-            model.name || ""
+            m.name ||
+            ""
           )
 
             .replace(
@@ -2111,7 +4245,9 @@ async function discoverGeminiModels() {
 
       )
 
-      .filter(Boolean);
+      .filter(
+        Boolean
+      );
 
 
   return discoveredGeminiModels;
@@ -2119,22 +4255,20 @@ async function discoverGeminiModels() {
 }
 
 
-/*
- * ============================================================
- * QWEN DISCOVERY
- * ============================================================
- */
-
 async function discoverQwenModels() {
 
-  if (!QWEN_API_KEY) {
+  if (
+    !QWEN_API_KEY
+  ) {
 
     return [];
 
   }
 
 
-  if (discoveredQwenModels) {
+  if (
+    discoveredQwenModels
+  ) {
 
     return discoveredQwenModels;
 
@@ -2143,8 +4277,11 @@ async function discoverQwenModels() {
 
   const base =
     QWEN_API.replace(
+
       /\/chat\/completions\/?$/,
+
       ""
+
     );
 
 
@@ -2171,17 +4308,22 @@ async function discoverQwenModels() {
       },
 
       {
+
         retries:
           1
+
       }
 
     );
 
 
-  if (!result.ok) {
+  if (
+    !result.ok
+  ) {
 
     discoveredQwenModels =
       [];
+
 
     return [];
 
@@ -2210,56 +4352,23 @@ async function discoverQwenModels() {
     raw
 
       .map(
-        model =>
+        m =>
           String(
-            model?.id ||
-            model?.name ||
+            m?.id ||
+            m?.name ||
             ""
           ).trim()
       )
 
-      .filter(Boolean);
+      .filter(
+        Boolean
+      );
 
 
   return discoveredQwenModels;
 
 }
 
-
-/*
- * ============================================================
- * UNIQUE MODELS
- * ============================================================
- */
-
-function uniqueModels(
-  primary,
-  discovered
-) {
-
-  return [
-
-    ...new Set([
-
-      ...primary,
-
-      ...discovered
-
-    ])
-
-  ].slice(
-    0,
-    15
-  );
-
-}
-
-
-/*
- * ============================================================
- * GEMINI
- * ============================================================
- */
 
 async function geminiGenerate(
   model,
@@ -2272,7 +4381,7 @@ async function geminiGenerate(
   );
 
 
-  return await fetchJson(
+  return fetchJson(
 
     `${GEMINI_BASE}/models/${encodeURIComponent(
       model
@@ -2317,10 +4426,13 @@ async function geminiGenerate(
           generationConfig: {
 
             temperature:
-              0.2,
+              0.15,
 
             maxOutputTokens:
-              1200
+              900,
+
+            responseMimeType:
+              "application/json"
 
           }
 
@@ -2333,12 +4445,6 @@ async function geminiGenerate(
 }
 
 
-/*
- * ============================================================
- * QWEN
- * ============================================================
- */
-
 async function qwenGenerate(
   model,
   prompt
@@ -2350,7 +4456,7 @@ async function qwenGenerate(
   );
 
 
-  return await fetchJson(
+  return fetchJson(
 
     QWEN_API,
 
@@ -2382,7 +4488,7 @@ async function qwenGenerate(
                 "system",
 
               content:
-                "Ты редактор новостного канала. Пиши кратко, фактически, нейтрально. Не выдумывай факты. Используй только предоставленный материал."
+                "Ты редактор новостей. Не выдумывай факты. Возвращай только JSON."
 
             },
 
@@ -2398,6 +4504,9 @@ async function qwenGenerate(
 
           ],
 
+          temperature:
+            0.15,
+
           stream:
             false
 
@@ -2410,48 +4519,53 @@ async function qwenGenerate(
 }
 
 
-/*
- * ============================================================
- * AI FALLBACK
- * ============================================================
- */
-
 async function generateWithFallback(
   prompt
 ) {
 
-  const attempts = [];
+  const attempts =
+    [];
 
 
-  const geminiDiscovered =
-    await discoverGeminiModels();
+  const gm = [
+
+    ...new Set([
+
+      ...GEMINI_MODELS,
+
+      ...(
+        await discoverGeminiModels()
+      )
+
+    ])
+
+  ].slice(
+    0,
+    5
+  );
 
 
-  const qwenDiscovered =
-    await discoverQwenModels();
+  const qw = [
 
+    ...new Set([
 
-  const geminiModels =
-    uniqueModels(
-      GEMINI_MODELS,
-      geminiDiscovered
-    );
+      ...QWEN_MODELS,
 
+      ...(
+        await discoverQwenModels()
+      )
 
-  const qwenModels =
-    uniqueModels(
-      QWEN_MODELS,
-      qwenDiscovered
-    );
+    ])
 
+  ].slice(
+    0,
+    5
+  );
 
-  /*
-   * GEMINI
-   */
 
   for (
     const model
-    of geminiModels
+    of gm
   ) {
 
     try {
@@ -2476,45 +4590,57 @@ async function generateWithFallback(
 
         model,
 
-        http_status:
+        status:
           result.status,
 
         ok:
-          result.ok,
-
-        has_text:
-          !!text,
-
-        error:
-          result.data?.error ||
-          null
+          result.ok
 
       });
 
 
       if (
+
         result.ok &&
+
         text
+
       ) {
 
-        return {
+        const parsed =
+          parseJsonObject(
+            text
+          );
 
-          ok: true,
 
-          provider:
-            "Google Gemini",
+        if (
+          parsed
+        ) {
 
-          model,
+          return {
 
-          text,
+            ok:
+              true,
 
-          attempts
+            provider:
+              "Google Gemini",
 
-        };
+            model,
+
+            data:
+              parsed,
+
+            attempts
+
+          };
+
+        }
 
       }
 
-    } catch (error) {
+    } catch (
+      error
+    ) {
 
       attempts.push({
 
@@ -2523,7 +4649,8 @@ async function generateWithFallback(
 
         model,
 
-        ok: false,
+        ok:
+          false,
 
         error:
           error?.message ||
@@ -2536,13 +4663,9 @@ async function generateWithFallback(
   }
 
 
-  /*
-   * QWEN
-   */
-
   for (
     const model
-    of qwenModels
+    of qw
   ) {
 
     try {
@@ -2567,45 +4690,57 @@ async function generateWithFallback(
 
         model,
 
-        http_status:
+        status:
           result.status,
 
         ok:
-          result.ok,
-
-        has_text:
-          !!text,
-
-        error:
-          result.data?.error ||
-          null
+          result.ok
 
       });
 
 
       if (
+
         result.ok &&
+
         text
+
       ) {
 
-        return {
+        const parsed =
+          parseJsonObject(
+            text
+          );
 
-          ok: true,
 
-          provider:
-            "Alibaba Qwen",
+        if (
+          parsed
+        ) {
 
-          model,
+          return {
 
-          text,
+            ok:
+              true,
 
-          attempts
+            provider:
+              "Alibaba Qwen",
 
-        };
+            model,
+
+            data:
+              parsed,
+
+            attempts
+
+          };
+
+        }
 
       }
 
-    } catch (error) {
+    } catch (
+      error
+    ) {
 
       attempts.push({
 
@@ -2614,7 +4749,8 @@ async function generateWithFallback(
 
         model,
 
-        ok: false,
+        ok:
+          false,
 
         error:
           error?.message ||
@@ -2629,10 +4765,11 @@ async function generateWithFallback(
 
   return {
 
-    ok: false,
+    ok:
+      false,
 
     error:
-      "Все AI-модели не ответили успешно.",
+      "AI fallback exhausted",
 
     attempts
 
@@ -2648,17 +4785,19 @@ async function generateWithFallback(
  */
 
 function buildAnalysisPrompt(
-  item
+  item,
+  articleText = ""
 ) {
 
   return `
 
 Ты редактор новостного канала ФАКТОР.
 
-Нужно подготовить короткий новостной материал.
+Сделай короткий пост в стиле оперативной новостной ленты:
+динамично, чисто, без воды, без истерики и без повторов.
 
 ИСТОЧНИК:
-${item.source}
+${item.source || sourceNameFromUrl(item.resolvedUrl || item.link)}
 
 КАТЕГОРИЯ:
 ${item.category}
@@ -2666,41 +4805,39 @@ ${item.category}
 ЗАГОЛОВОК:
 ${item.title}
 
-ДАТА:
-${item.pubDate || "не указана"}
-
-МАТЕРИАЛ:
+ОПИСАНИЕ:
 ${item.description || "нет"}
+
+ТЕКСТ СТРАНИЦЫ:
+${articleText.slice(0, 7000)}
+
+Верни СТРОГО JSON:
+
+{
+  "headline": "короткий заголовок без названия СМИ",
+  "lead": "1-2 коротких предложения с сутью",
+  "facts": [
+    "факт 1",
+    "факт 2",
+    "факт 3"
+  ],
+  "important": "одно предложение о том, что важно понимать"
+}
 
 ПРАВИЛА:
 
-1. Используй только информацию из материала.
-2. Не выдумывай цифры, имена, даты и события.
-3. Не приписывай людям заявления, которых нет в материале.
-4. Не добавляй собственные политические оценки.
-5. Не используй истеричную лексику.
-6. Не повторяй заголовок полностью.
-7. Пиши на русском.
-8. Максимально быстро переходи к сути.
-9. Не используй Markdown.
-10. Не добавляй ссылки.
-11. Не используй эмодзи.
-12. Не добавляй вступления вроде "В этой новости".
-
-ФОРМАТ:
-
-КРАТКО:
-Одно или два предложения.
-
-ГЛАВНОЕ:
-• Факт.
-• Факт.
-• Факт.
-
-ЧТО ВАЖНО:
-Одно короткое предложение.
-
-Если какого-либо факта нет в исходном материале — не придумывай его.
+- Только подтверждённое из материала.
+- Не придумывай цифры.
+- Не придумывай цитаты.
+- Не придумывай причины.
+- Не придумывай последствия.
+- Не повторяй одну мысль разными словами.
+- Не копируй исходный заголовок целиком.
+- Не пиши "ситуация развивается".
+- Не пиши "стало известно", если это ничего не добавляет.
+- facts: максимум 3 пункта.
+- Каждый факт короткий.
+- Русский язык.
 
 `.trim();
 
@@ -2709,551 +4846,554 @@ ${item.description || "нет"}
 
 /*
  * ============================================================
- * AI TEXT CLEANER
+ * POST FORMAT
  * ============================================================
  */
 
-function cleanAiText(
+function dedupeSentences(
   text
 ) {
 
-  return String(text || "")
+  const parts =
 
-    .replace(
-      /\*\*/g,
+    String(
+      text ||
       ""
     )
 
-    .replace(
-      /__/g,
-      ""
-    )
+      .split(
+        /(?<=[.!?])\s+/
+      )
 
-    .replace(
-      /^#{1,6}\s*/gm,
-      ""
-    )
+      .map(
+        x =>
+          x.trim()
+      )
 
-    .trim();
+      .filter(
+        Boolean
+      );
 
-}
+
+  const out =
+    [];
 
 
-/*
- * ============================================================
- * CURRENT TIME
- * ============================================================
- */
+  for (
+    const part
+    of parts
+  ) {
 
-function currentMoscowTime() {
+    if (
 
-  return new Intl.DateTimeFormat(
-    "ru-RU",
-    {
+      out.some(
 
-      timeZone:
-        "Europe/Moscow",
+        x =>
 
-      hour:
-        "2-digit",
+          similarity(
+            x,
+            part
+          ) >=
+          0.82
 
-      minute:
-        "2-digit",
+      )
 
-      hour12:
-        false
+    ) {
+
+      continue;
 
     }
-  ).format(
-    new Date()
+
+
+    out.push(
+      part
+    );
+
+  }
+
+
+  return out.join(
+    " "
   );
 
 }
 
 
-/*
- * ============================================================
- * PUBLICATION FORMAT
- * ============================================================
- */
-
-function buildPublication(
-  item,
-  aiText
+function cleanAiData(
+  data,
+  item
 ) {
 
-  const clean =
-    cleanAiText(
-      aiText
-    );
+  const headline =
 
+    cleanText(
+      data?.headline
+    )
 
-  const title =
-    escapeHtml(
+    ||
+
+    cleanText(
       item.title
     );
 
 
-  const source =
-    escapeHtml(
-      item.source ||
-      "Источник"
-    );
+  const lead =
 
+    dedupeSentences(
 
-  const category =
-    escapeHtml(
-      item.category
-    );
-
-
-  const emoji =
-    item.category_emoji ||
-    "📰";
-
-
-  /*
-   * Обрабатываем секции AI.
-   */
-
-  let body =
-    clean;
-
-
-  body =
-    body.replace(
-      /^КРАТКО:\s*/im,
-      ""
-    );
-
-
-  const parts =
-    body.split(
-      /ГЛАВНОЕ:\s*/i
-    );
-
-
-  let shortText =
-    parts[0] || "";
-
-
-  let factsAndImportant =
-    parts[1] || "";
-
-
-  const importantParts =
-    factsAndImportant.split(
-      /ЧТО ВАЖНО:\s*/i
-    );
-
-
-  let facts =
-    importantParts[0] || "";
-
-
-  let important =
-    importantParts[1] || "";
-
-
-  shortText =
-    shortText
-      .replace(
-        /^КРАТКО:\s*/i,
-        ""
-      )
-      .trim();
-
-
-  facts =
-    facts.trim();
-
-
-  important =
-    important.trim();
-
-
-  /*
-   * Если AI вернул неидеальную структуру,
-   * всё равно публикуем нормальный текст.
-   */
-
-  if (!shortText) {
-
-    shortText =
-      clean;
-
-  }
-
-
-  const factLines =
-    facts
-
-      .split("\n")
-
-      .map(
-        line =>
-          line
-            .replace(
-              /^[•\-–—]\s*/,
-              ""
-            )
-            .trim()
+      cleanText(
+        data?.lead
       )
 
-      .filter(Boolean)
-
-      .slice(
-        0,
-        5
-      );
-
-
-  const factsHtml =
-    factLines.length
-
-      ? factLines
-          .map(
-            line =>
-              `• ${escapeHtml(
-                line
-              )}`
-          )
-          .join("<br>")
-
-      : "• Дополнительные детали уточняются.";
-
-
-  const safeShort =
-    escapeHtml(
-      shortText
     );
 
 
-  const safeImportant =
-    escapeHtml(
-      important
-    );
+  const facts =
 
-
-  const sourceUrl =
-    item.link &&
-    /^https?:\/\//i.test(
-      item.link
-    )
-      ? item.link
-      : null;
-
-
-  const sourceHtml =
-    sourceUrl
-
-      ? `<a href="${escapeHtml(
-          sourceUrl
-        )}">🔗 ${source}</a>`
-
-      : `🔗 ${source}`;
-
-
-  /*
-   * ИТОГОВАЯ ПОДАЧА.
-   *
-   * Собственная структура ФАКТОР.
-   * Не копирует оформление конкретного канала.
-   */
-
-  const text =
-
-    `🔴 <b>ФАКТОР • ОПЕРАТИВНО</b>\n\n` +
-
-    `${emoji} <b>${category}</b>\n\n` +
-
-    `<b>${title}</b>\n\n` +
-
-    `<b>КРАТКО</b>\n` +
-
-    `${safeShort}\n\n` +
-
-    `<b>ГЛАВНОЕ</b>\n` +
-
-    `${factsHtml}\n\n` +
-
-    `<b>ЧТО ВАЖНО</b>\n` +
-
-    `${safeImportant || "Ситуация развивается."}\n\n` +
-
-    `🕒 ${currentMoscowTime()}\n` +
-
-    `${sourceHtml}`;
-
-
-  /*
-   * MAX принимает до 4000 символов.
-   */
-
-  return text.slice(
-    0,
-    3900
-  );
-
-}
-
-
-/*
- * ============================================================
- * PUBLISH
- * ============================================================
- */
-
-async function publishToMax(
-  chatId,
-  text
-) {
-
-  if (!chatId) {
-
-    return {
-
-      ok: false,
-
-      status: 400,
-
-      data: {
-
-        error:
-          "chat_id не задан"
-
-      }
-
-    };
-
-  }
-
-
-  return await maxRequest(
-
-    `/messages?chat_id=${encodeURIComponent(
-      chatId
-    )}`,
-
-    {
-
-      method:
-        "POST",
-
-      body:
-        JSON.stringify({
-
-          text,
-
-          format:
-            "html",
-
-          notify:
-            true,
-
-          disable_link_preview:
-            true
-
-        })
-
-    }
-
-  );
-
-}
-
-
-/*
- * ============================================================
- * PIPELINE
- * ============================================================
- */
-
-async function runPipeline() {
-
-  const startedAt =
-    Date.now();
-
-
-  lastPipelineStartedAt =
-    new Date(
-      startedAt
-    ).toISOString();
-
-
-  console.log(
-    "[PIPELINE] START"
-  );
-
-
-  if (!TARGET_CHAT_ID) {
-
-    const result = {
-
-      ok: false,
-
-      stage:
-        "config",
-
-      error:
-        "TARGET_CHAT_ID не задан"
-
-    };
-
-
-    lastPipelineResult =
-      result;
-
-
-    return result;
-
-  }
-
-
-  /*
-   * ----------------------------------------------------------
-   * Проверяем канал.
-   * ----------------------------------------------------------
-   */
-
-  const target =
-    await getTargetChat();
-
-
-  if (!target.ok) {
-
-    const result = {
-
-      ok: false,
-
-      stage:
-        "target_chat",
-
-      error:
-        "Не удалось получить TARGET_CHAT_ID",
-
-      response:
-        target.data
-
-    };
-
-
-    lastPipelineResult =
-      result;
-
-
-    lastPipelineFinishedAt =
-      new Date().toISOString();
-
-
-    return result;
-
-  }
-
-
-  /*
-   * ----------------------------------------------------------
-   * Получаем последние посты.
-   * Это наша постоянная дедупликация без KV.
-   * ----------------------------------------------------------
-   */
-
-  const history =
-    await getRecentMessages();
-
-
-  if (!history.ok) {
-
-    const result = {
-
-      ok: false,
-
-      stage:
-        "history",
-
-      error:
-        "Не удалось прочитать историю канала. Бот должен иметь права администратора и read_all_messages.",
-
-      response:
-        history.data
-
-    };
-
-
-    lastPipelineResult =
-      result;
-
-
-    lastPipelineFinishedAt =
-      new Date().toISOString();
-
-
-    return result;
-
-  }
-
-
-  const messages =
     Array.isArray(
-      history.data?.messages
+      data?.facts
     )
-      ? history.data.messages
+
+      ? data.facts
+
+          .map(
+            cleanText
+          )
+
+          .filter(
+            Boolean
+          )
+
+          .slice(
+            0,
+            3
+          )
+
       : [];
 
 
-  /*
-   * ----------------------------------------------------------
-   * RSS
-   * ----------------------------------------------------------
-   */
+  const important =
 
-  const feeds =
-    await fetchRSS();
+    dedupeSentences(
 
+      cleanText(
+        data?.important
+      )
 
-  const news =
-    flattenNews(
-      feeds
     );
 
 
-  if (!news.length) {
+  return {
 
-    const result = {
+    headline,
 
-      ok: false,
+    lead,
 
-      stage:
-        "rss",
+    facts,
 
-      error:
-        "RSS не вернул новостей",
+    important
 
-      feeds
+  };
+
+}
+
+
+function escapeHtml(
+  value
+) {
+
+  return String(
+    value ||
+    ""
+  )
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    );
+
+}
+
+
+function escapeAttribute(
+  value
+) {
+
+  return String(
+    value ||
+    ""
+  )
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    );
+
+}
+
+
+function buildPost(
+  item,
+  ai
+) {
+
+  const urgent =
+    isUrgent(
+      item
+    );
+
+
+  const mode =
+
+    urgent
+
+      ? "🔴 ФАКТОР • ОПЕРАТИВНО"
+
+      : "🔴 ФАКТОР • ГЛАВНОЕ";
+
+
+  const emoji =
+    item.categoryEmoji ||
+    "📰";
+
+
+  const facts =
+
+    ai.facts.length
+
+      ? ai.facts
+          .map(
+            x =>
+              `• ${x}`
+          )
+          .join(
+            "\n"
+          )
+
+      : "";
+
+
+  const source =
+    sourceNameFromUrl(
+
+      item.resolvedUrl ||
+      item.link
+
+    );
+
+
+  return [
+
+    mode,
+
+    "",
+
+    `${emoji} ${item.category}`,
+
+    "",
+
+    `<b>${escapeHtml(
+      ai.headline
+    )}</b>`,
+
+    "",
+
+    escapeHtml(
+      ai.lead
+    ),
+
+    "",
+
+    facts
+
+      ? `<b>📌 ГЛАВНОЕ</b>\n${escapeHtml(
+          facts
+        )}`
+
+      : "",
+
+    "",
+
+    ai.important
+
+      ? `<b>⚡ ЧТО ВАЖНО</b>\n${escapeHtml(
+          ai.important
+        )}`
+
+      : "",
+
+    "",
+
+    `🕒 ${formatTime()}`,
+
+    `🔗 <a href="${escapeAttribute(
+      item.resolvedUrl ||
+      item.link
+    )}">${escapeHtml(
+      source
+    )}</a>`
+
+  ]
+
+    .filter(
+
+      (x, i, arr) =>
+
+        x !== "" ||
+
+        arr[i - 1] !== ""
+
+    )
+
+    .join(
+      "\n"
+    );
+
+}
+
+
+/*
+ * ============================================================
+ * MEDIA PIPELINE
+ * ============================================================
+ */
+
+async function prepareMedia(
+  article
+) {
+
+  if (
+    !article?.ok
+  ) {
+
+    return {
+
+      type:
+        null,
+
+      token:
+        null,
+
+      source:
+        null,
+
+      reason:
+        "article_unavailable"
 
     };
-
-
-    lastPipelineResult =
-      result;
-
-
-    lastPipelineFinishedAt =
-      new Date().toISOString();
-
-
-    return result;
 
   }
 
 
   /*
-   * ----------------------------------------------------------
-   * Выбираем свежую и ещё не опубликованную.
-   * ----------------------------------------------------------
+   * ==========================================================
+   * ВИДЕО — ПРИОРИТЕТ №1
+   * ==========================================================
+   *
+   * Только видео, найденное внутри исходной статьи СМИ.
    */
 
-  const candidates = [];
+  if (
+    article.media?.video
+  ) {
+
+    const video =
+      await downloadVideo(
+
+        article.media.video
+
+      );
+
+
+    if (
+      video.ok
+    ) {
+
+      const uploaded =
+
+        await uploadMediaToMax(
+
+          "video",
+
+          video.bytes,
+
+          video.contentType ||
+            "video/mp4",
+
+          "factor-news.mp4"
+
+        );
+
+
+      if (
+        uploaded.ok
+      ) {
+
+        return {
+
+          type:
+            "video",
+
+          token:
+            uploaded.token,
+
+          source:
+            article.media.video
+
+        };
+
+      }
+
+    }
+
+  }
+
+
+  /*
+   * HLS / m3u8 напрямую не отправляем.
+   * MAX принимает готовый видеофайл.
+   *
+   * Поэтому при m3u8 используем фото статьи.
+   */
+
+
+  /*
+   * ==========================================================
+   * ФОТО — ПРИОРИТЕТ №2
+   * ==========================================================
+   */
+
+  if (
+    article.media?.image
+  ) {
+
+    const image =
+      await downloadImage(
+
+        article.media.image
+
+      );
+
+
+    if (
+      image.ok
+    ) {
+
+      const uploaded =
+
+        await uploadMediaToMax(
+
+          "image",
+
+          image.bytes,
+
+          image.contentType ||
+            "image/jpeg",
+
+          "factor-news.jpg"
+
+        );
+
+
+      if (
+        uploaded.ok
+      ) {
+
+        return {
+
+          type:
+            "image",
+
+          token:
+            uploaded.token,
+
+          source:
+            article.media.image
+
+        };
+
+      }
+
+    }
+
+
+    /*
+     * Последний fallback для картинки:
+     * отправляем внешний URL.
+     */
+
+    return {
+
+      type:
+        "image_url",
+
+      url:
+        article.media.image,
+
+      source:
+        article.media.image
+
+    };
+
+  }
+
+
+  /*
+   * ==========================================================
+   * ТЕКСТ — ПОСЛЕДНИЙ FALLBACK
+   * ==========================================================
+   */
+
+  return {
+
+    type:
+      null,
+
+    token:
+      null,
+
+    source:
+      null,
+
+    reason:
+      "no_media"
+
+  };
+
+}
+
+
+/*
+ * ============================================================
+ * CANDIDATE SELECTION
+ * ============================================================
+ */
+
+async function selectCandidate(
+  news
+) {
+
+  const recentMessages =
+    await getRecentMaxMessages();
+
+
+  const candidates =
+    [];
 
 
   for (
@@ -3261,19 +5401,13 @@ async function runPipeline() {
     of news
   ) {
 
-    if (
-      !isFresh(item)
-    ) {
-
-      continue;
-
-    }
-
+    /*
+     * Долговременный dedup.
+     */
 
     if (
-      wasAlreadyPublished(
-        item,
-        messages
+      await wasProcessed(
+        item
       )
     ) {
 
@@ -3282,117 +5416,38 @@ async function runPipeline() {
     }
 
 
-    candidates.push(
-      item
-    );
-
-
-    if (
-      candidates.length >=
-      MAX_NEWS_PER_RUN
-    ) {
-
-      break;
-
-    }
-
-  }
-
-
-  /*
-   * ----------------------------------------------------------
-   * Нет новых.
-   * ----------------------------------------------------------
-   */
-
-  if (!candidates.length) {
-
-    const result = {
-
-      ok: true,
-
-      stage:
-        "deduplication",
-
-      message:
-        "Свежих непубликованных новостей нет.",
-
-      rss_total:
-        news.length,
-
-      history_count:
-        messages.length
-
-    };
-
-
-    lastPipelineResult =
-      result;
-
-
-    lastPipelineFinishedAt =
-      new Date().toISOString();
-
-
-    console.log(
-      "[PIPELINE]",
-      result.message
-    );
-
-
-    return result;
-
-  }
-
-
-  const results = [];
-
-
-  /*
-   * ----------------------------------------------------------
-   * Обработка.
-   * ----------------------------------------------------------
-   */
-
-  for (
-    const item
-    of candidates
-  ) {
-
-    console.log(
-      "[PIPELINE] NEWS:",
-      item.title
-    );
-
-
     /*
-     * AI
+     * Дополнительная проверка
+     * последних сообщений MAX.
      */
 
-    const analysis =
-      await generateWithFallback(
+    if (
 
-        buildAnalysisPrompt(
-          item
-        )
-
-      );
-
-
-    if (!analysis.ok) {
-
-      results.push({
-
-        ok: false,
-
-        stage:
-          "ai",
+      await looksLikeAlreadyPublished(
 
         item,
 
-        analysis
+        recentMessages
 
-      });
+      )
+
+    ) {
+
+      await markProcessed(
+
+        item,
+
+        {
+
+          skipped:
+            true,
+
+          reason:
+            "already_in_max_history"
+
+        }
+
+      );
 
 
       continue;
@@ -3401,148 +5456,845 @@ async function runPipeline() {
 
 
     /*
-     * Публикационный текст.
+     * Открываем реальную статью СМИ.
      */
 
-    const publication =
-      buildPublication(
+    const article =
+      await loadArticle(
+        item
+      );
 
-        item,
 
-        analysis.text
+    if (
+      !article.ok
+    ) {
+
+      /*
+       * Не помечаем обработанной:
+       * это может быть временная ошибка сети.
+       */
+
+      continue;
+
+    }
+
+
+    item.resolvedUrl =
+      article.finalUrl ||
+      item.link;
+
+
+    item.resolvedSource =
+      article.source;
+
+
+    item.articleText =
+
+      cleanText(
+
+        extractMeta(
+
+          article.html,
+
+          [
+
+            "description",
+
+            "og:description"
+
+          ]
+
+        )
 
       );
 
 
-    /*
-     * Публикация.
-     */
+    item.media =
+      article.media;
 
-    const publishResult =
-      await publishToMax(
 
-        TARGET_CHAT_ID,
-
-        publication
-
+    item.priority =
+      priorityScore(
+        item
       );
 
 
-    results.push({
+    item.urgent =
+      isUrgent(
+        item
+      );
 
-      ok:
-        publishResult.ok,
+
+    candidates.push({
 
       item,
 
-      ai: {
-
-        provider:
-          analysis.provider,
-
-        model:
-          analysis.model,
-
-        attempts:
-          analysis.attempts
-
-      },
-
-      publication: {
-
-        ok:
-          publishResult.ok,
-
-        http_status:
-          publishResult.status,
-
-        response:
-          publishResult.data
-
-      },
-
-      text:
-        publication
+      article
 
     });
-
-
-    /*
-     * Только одна новость.
-     */
-
-    await sleep(
-      1000
-    );
 
   }
 
 
-  const result = {
+  /*
+   * Сначала:
+   * 1. срочные;
+   * 2. приоритетные;
+   * 3. свежие.
+   */
 
-    ok:
-      results.some(
-        x =>
-          x.ok
-      ),
+  candidates.sort(
 
-    duration_ms:
-      Date.now() -
-      startedAt,
+    (a, b) =>
 
-    auto_pipeline:
-      AUTO_PIPELINE,
+      (
 
-    cron_schedule:
-      CRON_SCHEDULE,
+        Number(
+          b.item.urgent
+        )
 
-    target_chat_id:
-      TARGET_CHAT_ID,
+        -
 
-    target_chat_type:
-      target.data?.type ||
-      null,
+        Number(
+          a.item.urgent
+        )
 
-    rss_total:
-      news.length,
+      )
 
-    history_count:
-      messages.length,
+      ||
 
-    selected:
-      candidates.length,
+      (
 
-    results
+        b.item.priority
+        -
 
-  };
+        a.item.priority
 
+      )
 
-  lastPipelineResult =
-    result;
+      ||
 
+      (
 
-  lastPipelineFinishedAt =
-    new Date().toISOString();
+        (
+          Date.parse(
+            b.item.pubDate ||
+            ""
+          ) ||
+          0
+        )
 
+        -
 
-  console.log(
-    "[PIPELINE RESULT]",
-    JSON.stringify(
-      result
-    )
+        (
+          Date.parse(
+            a.item.pubDate ||
+            ""
+          ) ||
+          0
+        )
+
+      )
+
   );
 
 
-  return result;
+  /*
+   * ==========================================================
+   * СРОЧНАЯ
+   * ==========================================================
+   */
+
+  const urgent =
+    candidates.find(
+      x =>
+        x.item.urgent
+    );
+
+
+  if (
+
+    urgent &&
+
+    await canPublish(
+      "urgent"
+    )
+
+  ) {
+
+    return {
+
+      ...urgent,
+
+      scheduleType:
+        "urgent"
+
+    };
+
+  }
+
+
+  /*
+   * ==========================================================
+   * ОБЫЧНАЯ
+   * ==========================================================
+   */
+
+  if (
+    await canPublish(
+      "regular"
+    )
+  ) {
+
+    const regular =
+      candidates.find(
+        x =>
+          !x.item.urgent
+      );
+
+
+    if (
+      regular
+    ) {
+
+      return {
+
+        ...regular,
+
+        scheduleType:
+          "regular"
+
+      };
+
+    }
+
+  }
+
+
+  return null;
 
 }
 
 
 /*
  * ============================================================
- * WEBHOOK LOG
+ * MAIN PIPELINE
  * ============================================================
  */
+
+async function runPipeline() {
+
+  if (
+    pipelineRunning
+  ) {
+
+    return {
+
+      ok:
+        true,
+
+      skipped:
+        true,
+
+      reason:
+        "pipeline_already_running"
+
+    };
+
+  }
+
+
+  pipelineRunning =
+    true;
+
+
+  const started =
+    Date.now();
+
+
+  lastPipelineStartedAt =
+    new Date()
+      .toISOString();
+
+
+  try {
+
+    if (
+      !TARGET_CHAT_ID
+    ) {
+
+      return {
+
+        ok:
+          false,
+
+        stage:
+          "config",
+
+        error:
+          "TARGET_CHAT_ID не задан"
+
+      };
+
+    }
+
+
+    /*
+     * RSS
+     */
+
+    const feeds =
+      await fetchRSS();
+
+
+    const news =
+      flattenNews(
+        feeds
+      );
+
+
+    if (
+      !news.length
+    ) {
+
+      return {
+
+        ok:
+          false,
+
+        stage:
+          "rss",
+
+        error:
+          "RSS не вернул новостей",
+
+        feeds
+
+      };
+
+    }
+
+
+    /*
+     * Выбор кандидата.
+     */
+
+    const selected =
+      await selectCandidate(
+        news
+      );
+
+
+    if (
+      !selected
+    ) {
+
+      const result = {
+
+        ok:
+          true,
+
+        stage:
+          "queue",
+
+        message:
+          "Новой публикации сейчас нет: либо новости уже опубликованы, либо действует интервал обычных публикаций.",
+
+        rss_total:
+          news.length
+
+      };
+
+
+      lastPipeline =
+        result;
+
+
+      return result;
+
+    }
+
+
+    const item =
+      selected.item;
+
+
+    /*
+     * ========================================================
+     * AI
+     * ========================================================
+     */
+
+    const ai =
+      await generateWithFallback(
+
+        buildAnalysisPrompt(
+
+          item,
+
+          item.articleText ||
+            ""
+
+        )
+
+      );
+
+
+    if (
+      !ai.ok
+    ) {
+
+      return {
+
+        ok:
+          false,
+
+        stage:
+          "ai",
+
+        item,
+
+        ai
+
+      };
+
+    }
+
+
+    const cleanAi =
+      cleanAiData(
+
+        ai.data,
+
+        item
+
+      );
+
+
+    const text =
+      buildPost(
+
+        item,
+
+        cleanAi
+
+      );
+
+
+    /*
+     * ========================================================
+     * MEDIA
+     * ========================================================
+     *
+     * video -> image -> text
+     */
+
+    const media =
+      await prepareMedia(
+
+        selected.article
+
+      );
+
+
+    let attachment =
+      null;
+
+
+    if (
+      media.type ===
+      "video"
+    ) {
+
+      attachment = {
+
+        type:
+          "video",
+
+        token:
+          media.token
+
+      };
+
+    }
+
+
+    else if (
+      media.type ===
+      "image"
+    ) {
+
+      attachment = {
+
+        type:
+          "image",
+
+        token:
+          media.token
+
+      };
+
+    }
+
+
+    else if (
+      media.type ===
+      "image_url"
+    ) {
+
+      attachment = {
+
+        type:
+          "image",
+
+        payload: {
+
+          url:
+            media.url
+
+        }
+
+      };
+
+    }
+
+
+    /*
+     * ========================================================
+     * PUBLISH
+     * ========================================================
+     */
+
+    const publication =
+      await publishToMax(
+
+        TARGET_CHAT_ID,
+
+        text,
+
+        attachment
+
+      );
+
+
+    /*
+     * MAX иногда возвращает
+     * attachment.not.ready.
+     *
+     * Ждём и повторяем.
+     */
+
+    if (
+
+      !publication.ok &&
+
+      attachment &&
+
+      /attachment\.not\.ready|not processed/i.test(
+
+        JSON.stringify(
+          publication.data ||
+          {}
+        )
+
+      )
+
+    ) {
+
+      await sleep(
+        MEDIA_WAIT_MS
+      );
+
+
+      const retry =
+        await publishToMax(
+
+          TARGET_CHAT_ID,
+
+          text,
+
+          attachment
+
+        );
+
+
+      if (
+        retry.ok
+      ) {
+
+        await markProcessed(
+
+          item,
+
+          {
+
+            scheduleType:
+              selected.scheduleType,
+
+            mediaType:
+              media.type,
+
+            publication:
+              "ok_retry"
+
+          }
+
+        );
+
+
+        await setLastPublish(
+
+          selected.scheduleType
+
+        );
+
+
+        const result = {
+
+          ok:
+            true,
+
+          retry:
+            true,
+
+          item,
+
+          media,
+
+          ai: {
+
+            provider:
+              ai.provider,
+
+            model:
+              ai.model,
+
+            attempts:
+              ai.attempts
+
+          },
+
+          publication:
+            retry
+
+        };
+
+
+        lastPipeline =
+          result;
+
+
+        return result;
+
+      }
+
+    }
+
+
+    if (
+      !publication.ok
+    ) {
+
+      return {
+
+        ok:
+          false,
+
+        stage:
+          "max_publish",
+
+        item,
+
+        media,
+
+        publication
+
+      };
+
+    }
+
+
+    /*
+     * Только после успешной публикации
+     * фиксируем news + interval.
+     */
+
+    await markProcessed(
+
+      item,
+
+      {
+
+        scheduleType:
+          selected.scheduleType,
+
+        mediaType:
+          media.type,
+
+        mediaSource:
+          media.source ||
+          null,
+
+        maxMessage:
+
+          publication
+            .data
+            ?.message
+            ?.body
+            ?.mid ||
+
+          publication
+            .data
+            ?.message
+            ?.body
+            ?.id ||
+
+          null
+
+      }
+
+    );
+
+
+    await setLastPublish(
+
+      selected.scheduleType
+
+    );
+
+
+    const result = {
+
+      ok:
+        true,
+
+      duration_ms:
+        Date.now() -
+        started,
+
+      schedule_type:
+        selected.scheduleType,
+
+      urgent:
+        item.urgent,
+
+      priority:
+        item.priority,
+
+      item: {
+
+        title:
+          item.title,
+
+        source:
+          item.resolvedSource,
+
+        url:
+          item.resolvedUrl
+
+      },
+
+      media: {
+
+        type:
+          media.type,
+
+        source:
+          media.source ||
+          null
+
+      },
+
+      ai: {
+
+        provider:
+          ai.provider,
+
+        model:
+          ai.model,
+
+        attempts:
+          ai.attempts
+
+      },
+
+      publication
+
+    };
+
+
+    lastPipeline =
+      result;
+
+
+    return result;
+
+  } catch (
+    error
+  ) {
+
+    const result = {
+
+      ok:
+        false,
+
+      stage:
+        "exception",
+
+      error:
+        error?.message ||
+        String(error),
+
+      error_name:
+        error?.name ||
+        "Error"
+
+    };
+
+
+    lastPipeline =
+      result;
+
+
+    return result;
+
+  } finally {
+
+    lastPipelineFinishedAt =
+      new Date()
+        .toISOString();
+
+
+    pipelineRunning =
+      false;
+
+  }
+
+}
+
+
+/*
+ * ============================================================
+ * WEBHOOK
+ * ============================================================
+ */
+
+function getWebhookUrl(
+  requestUrl
+) {
+
+  const u =
+    new URL(
+      requestUrl
+    );
+
+
+  return (
+    `${u.origin}/webhook`
+  );
+
+}
+
 
 function extractChatId(
   update
@@ -3570,81 +6322,271 @@ function extractChatId(
       ?.id;
 
 
-  if (
-    value === undefined ||
-    value === null
-  ) {
+  return value == null
 
-    return null;
+    ? null
 
-  }
+    : String(
+        value
+      );
+
+}
 
 
-  return String(
-    value
+async function saveWebhookLog(
+  payload,
+  request
+) {
+
+  await kvSet(
+
+    [
+
+      "factor",
+
+      "webhook",
+
+      crypto.randomUUID()
+
+    ],
+
+    {
+
+      received_at:
+        new Date()
+          .toISOString(),
+
+      method:
+        request.method,
+
+      path:
+        new URL(
+          request.url
+        ).pathname,
+
+      payload
+
+    },
+
+    7 *
+    24 *
+    60 *
+    60 *
+    1000
+
   );
 
 }
 
 
-function addWebhookLog(
-  payload,
-  request,
-  secretValid
+/*
+ * ============================================================
+ * WEBHOOK SETUP
+ * ============================================================
+ */
+
+async function setupWebhook(
+  requestUrl
 ) {
 
-  const entry = {
-
-    received_at:
-      new Date().toISOString(),
-
-    method:
-      request.method,
-
-    path:
-      new URL(
-        request.url
-      ).pathname,
-
-    secret_valid:
-      secretValid,
-
-    user_agent:
-      request.headers.get(
-        "User-Agent"
-      ),
-
-    content_type:
-      request.headers.get(
-        "Content-Type"
-      ),
-
-    payload
-
-  };
+  const current =
+    getWebhookUrl(
+      requestUrl
+    );
 
 
-  webhookLogs.push(
-    entry
-  );
+  const before =
+    await maxRequest(
+
+      "/subscriptions",
+
+      {
+
+        method:
+          "GET"
+
+      }
+
+    );
 
 
-  while (
-    webhookLogs.length >
-    100
+  const subscriptions =
+
+    Array.isArray(
+      before.data
+        ?.subscriptions
+    )
+
+      ? before.data
+          .subscriptions
+
+      : [];
+
+
+  const candidates =
+    new Set(
+      KNOWN_OLD_WEBHOOKS
+    );
+
+
+  for (
+    const s
+    of subscriptions
   ) {
 
-    webhookLogs.shift();
+    if (
+      s?.url
+    ) {
+
+      candidates.add(
+        s.url
+      );
+
+    }
 
   }
 
 
-  console.log(
-    "[WEBHOOK]",
-    JSON.stringify(
-      entry
-    )
-  );
+  const deleted =
+    [];
+
+
+  for (
+    const oldUrl
+    of candidates
+  ) {
+
+    if (
+
+      !oldUrl ||
+
+      oldUrl ===
+        current
+
+    ) {
+
+      continue;
+
+    }
+
+
+    const result =
+      await maxRequest(
+
+        `/subscriptions?url=${encodeURIComponent(
+          oldUrl
+        )}`,
+
+        {
+
+          method:
+            "DELETE"
+
+        }
+
+      );
+
+
+    deleted.push({
+
+      url:
+        oldUrl,
+
+      ok:
+        result.ok,
+
+      status:
+        result.status
+
+    });
+
+  }
+
+
+  const body = {
+
+    url:
+      current,
+
+    update_types:
+      MAX_WEBHOOK_UPDATE_TYPES
+
+  };
+
+
+  if (
+    MAX_WEBHOOK_SECRET
+  ) {
+
+    body.secret =
+      MAX_WEBHOOK_SECRET;
+
+  }
+
+
+  const created =
+    await maxRequest(
+
+      "/subscriptions",
+
+      {
+
+        method:
+          "POST",
+
+        body:
+          JSON.stringify(
+            body
+          )
+
+      }
+
+    );
+
+
+  const after =
+    await maxRequest(
+
+      "/subscriptions",
+
+      {
+
+        method:
+          "GET"
+
+      }
+
+    );
+
+
+  return {
+
+    ok:
+      created.ok &&
+      after.ok,
+
+    webhook_url:
+      current,
+
+    deleted,
+
+    create: {
+
+      ok:
+        created.ok,
+
+      status:
+        created.status,
+
+      response:
+        created.data
+
+    },
+
+    after:
+      after.data
+
+  };
 
 }
 
@@ -3653,77 +6595,80 @@ function addWebhookLog(
  * ============================================================
  * CRON
  * ============================================================
- *
- * ВАЖНО:
- *
- * Deno.cron зарегистрирован НА ВЕРХНЕМ УРОВНЕ.
- *
- * Никакого:
- *
- * if (AUTO_PIPELINE) {
- *   Deno.cron(...)
- * }
- *
- * Это было исправлено.
- * ============================================================
  */
 
-Deno.cron(
+if (
+  AUTO_PIPELINE
+) {
 
-  "MAX News automatic pipeline",
+  Deno.cron(
 
-  "*/5 * * * *",
+    "FACTOR news scanner",
 
-  {
+    CRON_SCHEDULE,
 
-    backoffSchedule: [
+    {
 
-      5000,
+      backoffSchedule: [
 
-      15000,
+        5000,
 
-      60000
+        15000,
 
-    ]
+        60000
 
-  },
+      ]
 
-  async () => {
+    },
 
-    if (!AUTO_PIPELINE) {
+    async () => {
+
+      const result =
+        await runPipeline();
+
 
       console.log(
-        "[CRON] AUTO_PIPELINE=false"
+
+        "[CRON]",
+
+        JSON.stringify(
+          result
+        )
+
       );
 
-      return;
+
+      /*
+       * Не бросаем exception,
+       * если просто нет подходящей новости.
+       */
+
+      if (
+
+        !result.ok &&
+
+        result.stage !==
+          "queue"
+
+      ) {
+
+        console.error(
+
+          "[PIPELINE ERROR]",
+
+          JSON.stringify(
+            result
+          )
+
+        );
+
+      }
 
     }
 
+  );
 
-    console.log(
-      `[CRON] START ${new Date().toISOString()}`
-    );
-
-
-    try {
-
-      await runPipeline();
-
-    } catch (error) {
-
-      console.error(
-        "[CRON ERROR]",
-        error
-      );
-
-      throw error;
-
-    }
-
-  }
-
-);
+}
 
 
 /*
@@ -3733,6 +6678,7 @@ Deno.cron(
  */
 
 Deno.serve(
+
   async request => {
 
     const url =
@@ -3745,17 +6691,16 @@ Deno.serve(
       url.pathname;
 
 
-    /*
-     * OPTIONS
-     */
-
     if (
       request.method ===
       "OPTIONS"
     ) {
 
       return json({
-        ok: true
+
+        ok:
+          true
+
       });
 
     }
@@ -3766,18 +6711,23 @@ Deno.serve(
 
       /*
        * ======================================================
-       * /
+       * HOME
        * ======================================================
        */
 
       if (
+
         path === "/" &&
-        request.method === "GET"
+
+        request.method ===
+          "GET"
+
       ) {
 
         return json({
 
-          ok: true,
+          ok:
+            true,
 
           service:
             "MAX NEWS AGENT — ФАКТОР",
@@ -3789,13 +6739,8 @@ Deno.serve(
             "online",
 
           time:
-            new Date().toISOString(),
-
-          max_api:
-            MAX_API,
-
-          target_chat_configured:
-            !!TARGET_CHAT_ID,
+            new Date()
+              .toISOString(),
 
           auto_pipeline:
             AUTO_PIPELINE,
@@ -3803,38 +6748,37 @@ Deno.serve(
           cron_schedule:
             CRON_SCHEDULE,
 
-          webhook:
-            getWebhookUrl(
-              request.url
-            ),
+          target_chat_configured:
+            !!TARGET_CHAT_ID,
+
+          tls:
+            maxCaStatus,
 
           endpoints: [
 
-            "/diagnostic",
-
             "/check",
 
-            "/tls-test",
+            "/diagnostic",
 
             "/rss",
 
             "/models",
 
-            "/max-test",
-
             "/subscriptions",
-
-            "/cleanup-webhooks",
 
             "/setup-webhook",
 
-            "/chat-test?chat_id=...",
+            "/cleanup-webhooks",
 
-            "/publish-test",
+            "/pipeline",
 
             "/run",
 
-            "/pipeline",
+            "/pipeline-state",
+
+            "/max-test",
+
+            "/publish-test",
 
             "/webhook",
 
@@ -3849,32 +6793,189 @@ Deno.serve(
 
       /*
        * ======================================================
-       * /diagnostic
+       * CHECK
        * ======================================================
        */
 
       if (
-        path === "/diagnostic" &&
-        request.method === "GET"
+
+        path === "/check" &&
+
+        request.method ===
+          "GET"
+
       ) {
 
-        const me =
-          await maxMe();
+        let max =
+          null;
 
 
-        const subscriptions =
-          await getSubscriptions();
+        if (
+          MAX_BOT_TOKEN
+        ) {
+
+          max =
+            await maxRequest(
+
+              "/me",
+
+              {
+
+                method:
+                  "GET"
+
+              }
+
+            );
+
+        }
 
 
-        const target =
-          TARGET_CHAT_ID
-            ? await getTargetChat()
-            : null;
+        const gemini =
+
+          GEMINI_API_KEY
+
+            ? await discoverGeminiModels()
+
+            : [];
+
+
+        const qwen =
+
+          QWEN_API_KEY
+
+            ? await discoverQwenModels()
+
+            : [];
 
 
         return json({
 
-          ok: true,
+          ok:
+
+            !!(
+
+              MAX_BOT_TOKEN &&
+
+              max?.ok &&
+
+              TARGET_CHAT_ID
+
+            ),
+
+          tls:
+            maxCaStatus,
+
+          environment: {
+
+            MAX_BOT_TOKEN:
+              !!MAX_BOT_TOKEN,
+
+            GEMINI_API_KEY:
+              !!GEMINI_API_KEY,
+
+            QWEN_API_KEY:
+              !!QWEN_API_KEY,
+
+            TARGET_CHAT_ID:
+              TARGET_CHAT_ID ||
+              null,
+
+            AUTO_PIPELINE,
+
+            CRON_SCHEDULE
+
+          },
+
+          max: {
+
+            ok:
+              max?.ok ||
+              false,
+
+            status:
+              max?.status ||
+              null,
+
+            response:
+              max?.data ||
+              null
+
+          },
+
+          ai: {
+
+            gemini_models:
+              gemini.slice(
+                0,
+                20
+              ),
+
+            qwen_models:
+              qwen.slice(
+                0,
+                20
+              )
+
+          }
+
+        });
+
+      }
+
+
+      /*
+       * ======================================================
+       * DIAGNOSTIC
+       * ======================================================
+       */
+
+      if (
+
+        path === "/diagnostic" &&
+
+        request.method ===
+          "GET"
+
+      ) {
+
+        const me =
+          await maxRequest(
+
+            "/me",
+
+            {
+
+              method:
+                "GET"
+
+            }
+
+          );
+
+
+        const subscriptions =
+          await maxRequest(
+
+            "/subscriptions",
+
+            {
+
+              method:
+                "GET"
+
+            }
+
+          );
+
+
+        return json({
+
+          ok:
+
+            me.ok &&
+
+            subscriptions.ok,
 
           service:
             "MAX NEWS AGENT — ФАКТОР",
@@ -3905,13 +7006,12 @@ Deno.serve(
               !!QWEN_API_KEY,
 
             TARGET_CHAT_ID:
-              TARGET_CHAT_ID || null,
+              TARGET_CHAT_ID ||
+              null,
 
-            AUTO_PIPELINE:
-              AUTO_PIPELINE,
+            AUTO_PIPELINE,
 
-            CRON_SCHEDULE:
-              CRON_SCHEDULE
+            CRON_SCHEDULE
 
           },
 
@@ -3928,22 +7028,6 @@ Deno.serve(
 
           },
 
-          target_chat: target
-            ? {
-
-                ok:
-                  target.ok,
-
-                status:
-                  target.status,
-
-                response:
-                  target.data
-
-              }
-
-            : null,
-
           subscriptions: {
 
             ok:
@@ -3957,19 +7041,19 @@ Deno.serve(
 
           },
 
-          runtime_state: {
+          pipeline: {
 
-            webhook_events:
-              webhookLogs.length,
+            running:
+              pipelineRunning,
 
-            last_pipeline_started_at:
+            started_at:
               lastPipelineStartedAt,
 
-            last_pipeline_finished_at:
+            finished_at:
               lastPipelineFinishedAt,
 
-            last_pipeline_result:
-              lastPipelineResult
+            last:
+              lastPipeline
 
           }
 
@@ -3980,13 +7064,134 @@ Deno.serve(
 
       /*
        * ======================================================
-       * /tls-test
+       * PIPELINE STATE
        * ======================================================
        */
 
       if (
-        path === "/tls-test" &&
-        request.method === "GET"
+
+        path ===
+          "/pipeline-state" &&
+
+        request.method ===
+          "GET"
+
+      ) {
+
+        const regular =
+          await getLastPublish(
+            "regular"
+          );
+
+
+        const urgent =
+          await getLastPublish(
+            "urgent"
+          );
+
+
+        return json({
+
+          ok:
+            true,
+
+          now:
+            new Date()
+              .toISOString(),
+
+          running:
+            pipelineRunning,
+
+          cron:
+            CRON_SCHEDULE,
+
+          regular: {
+
+            interval_minutes:
+              REGULAR_INTERVAL_MS /
+              60000,
+
+            last:
+              regular ||
+              null,
+
+            can_publish:
+              await canPublish(
+                "regular"
+              )
+
+          },
+
+          urgent: {
+
+            interval_minutes:
+              URGENT_INTERVAL_MS /
+              60000,
+
+            last:
+              urgent ||
+              null,
+
+            can_publish:
+              await canPublish(
+                "urgent"
+              )
+
+          },
+
+          media: {
+
+            max_video_mb:
+              MAX_VIDEO_BYTES /
+              1024 /
+              1024,
+
+            max_image_mb:
+              MAX_IMAGE_BYTES /
+              1024 /
+              1024,
+
+            priority:
+              "video -> image -> text"
+
+          },
+
+          dedup: {
+
+            persistent:
+              !!kv,
+
+            ttl_days:
+              HISTORY_TTL_MS /
+              86400000,
+
+            max_history_checked:
+              MAX_RECENT_MESSAGES
+
+          },
+
+          last_pipeline:
+            lastPipeline
+
+        });
+
+      }
+
+
+      /*
+       * ======================================================
+       * TLS TEST
+       * ======================================================
+       */
+
+      if (
+
+        path ===
+          "/tls-test" &&
+
+        request.method ===
+          "GET"
+
       ) {
 
         const client =
@@ -3997,9 +7202,6 @@ Deno.serve(
 
           ok:
             !!client,
-
-          max_api:
-            MAX_API,
 
           tls:
             maxCaStatus,
@@ -4017,200 +7219,43 @@ Deno.serve(
 
       /*
        * ======================================================
-       * /check
+       * RSS
        * ======================================================
        */
 
       if (
-        path === "/check" &&
-        request.method === "GET"
-      ) {
 
-        const result = {
-
-          ok: false,
-
-          checks: {
-
-            max: {
-
-              configured:
-                !!MAX_BOT_TOKEN
-
-            },
-
-            gemini: {
-
-              configured:
-                !!GEMINI_API_KEY
-
-            },
-
-            qwen: {
-
-              configured:
-                !!QWEN_API_KEY
-
-            },
-
-            target_chat: {
-
-              configured:
-                !!TARGET_CHAT_ID
-
-            }
-
-          }
-
-        };
-
-
-        if (MAX_BOT_TOKEN) {
-
-          const max =
-            await maxMe();
-
-
-          result.checks.max.api = {
-
-            ok:
-              max.ok,
-
-            http_status:
-              max.status,
-
-            response:
-              max.data
-
-          };
-
-        }
-
-
-        if (TARGET_CHAT_ID) {
-
-          const target =
-            await getTargetChat();
-
-
-          result.checks.target_chat.api = {
-
-            ok:
-              target.ok,
-
-            http_status:
-              target.status,
-
-            response:
-              target.data
-
-          };
-
-        }
-
-
-        if (GEMINI_API_KEY) {
-
-          const models =
-            await discoverGeminiModels();
-
-
-          result.checks.gemini.api = {
-
-            ok:
-              models.length > 0,
-
-            discovered_models:
-              models.slice(
-                0,
-                20
-              )
-
-          };
-
-        }
-
-
-        if (QWEN_API_KEY) {
-
-          const models =
-            await discoverQwenModels();
-
-
-          result.checks.qwen.api = {
-
-            ok:
-              models.length > 0,
-
-            discovered_models:
-              models.slice(
-                0,
-                20
-              )
-
-          };
-
-        }
-
-
-        result.ok =
-          !!(
-
-            result.checks.max
-              .api?.ok &&
-
-            result.checks.target_chat
-              .api?.ok
-
-          );
-
-
-        return json(
-          result,
-          result.ok
-            ? 200
-            : 503
-        );
-
-      }
-
-
-      /*
-       * ======================================================
-       * /rss
-       * ======================================================
-       */
-
-      if (
         path === "/rss" &&
-        request.method === "GET"
+
+        request.method ===
+          "GET"
+
       ) {
 
         const feeds =
           await fetchRSS();
 
 
-        const total =
-          feeds.reduce(
-            (
-              sum,
-              feed
-            ) =>
-              sum +
-              (
-                feed.count ||
-                0
-              ),
-            0
-          );
-
-
         return json({
 
-          ok: true,
+          ok:
+            true,
 
-          total_items:
-            total,
+          total:
+
+            feeds.reduce(
+
+              (sum, f) =>
+
+                sum +
+                (
+                  f.count ||
+                  0
+                ),
+
+              0
+
+            ),
 
           feeds
 
@@ -4221,26 +7266,24 @@ Deno.serve(
 
       /*
        * ======================================================
-       * /models
+       * MODELS
        * ======================================================
        */
 
       if (
-        path === "/models" &&
-        request.method === "GET"
+
+        path ===
+          "/models" &&
+
+        request.method ===
+          "GET"
+
       ) {
-
-        const gemini =
-          await discoverGeminiModels();
-
-
-        const qwen =
-          await discoverQwenModels();
-
 
         return json({
 
-          ok: true,
+          ok:
+            true,
 
           configured: {
 
@@ -4254,9 +7297,11 @@ Deno.serve(
 
           discovered: {
 
-            gemini,
+            gemini:
+              await discoverGeminiModels(),
 
-            qwen
+            qwen:
+              await discoverQwenModels()
 
           }
 
@@ -4267,189 +7312,30 @@ Deno.serve(
 
       /*
        * ======================================================
-       * /max-test
+       * MAX TEST
        * ======================================================
        */
 
       if (
-        path === "/max-test" &&
-        request.method === "GET"
+
+        path ===
+          "/max-test" &&
+
+        request.method ===
+          "GET"
+
       ) {
-
-        const result =
-          await maxMe();
-
-
-        return json({
-
-          ok:
-            result.ok,
-
-          provider:
-            "MAX",
-
-          endpoint:
-            "/me",
-
-          http_status:
-            result.status,
-
-          response:
-            result.data
-
-        });
-
-      }
-
-
-      /*
-       * ======================================================
-       * /subscriptions
-       * ======================================================
-       */
-
-      if (
-        path === "/subscriptions" &&
-        request.method === "GET"
-      ) {
-
-        const result =
-          await getSubscriptions();
-
-
-        return json({
-
-          ok:
-            result.ok,
-
-          provider:
-            "MAX",
-
-          endpoint:
-            "/subscriptions",
-
-          http_status:
-            result.status,
-
-          response:
-            result.data,
-
-          tls:
-            maxCaStatus
-
-        });
-
-      }
-
-
-      /*
-       * ======================================================
-       * /cleanup-webhooks
-       * ======================================================
-       */
-
-      if (
-        path === "/cleanup-webhooks" &&
-        request.method === "GET"
-      ) {
-
-        const result =
-          await cleanupWebhooks(
-            request.url
-          );
-
-
-        return json({
-
-          ok: true,
-
-          operation:
-            "cleanup-webhooks",
-
-          result
-
-        });
-
-      }
-
-
-      /*
-       * ======================================================
-       * /setup-webhook
-       * ======================================================
-       */
-
-      if (
-        path === "/setup-webhook" &&
-        request.method === "GET"
-      ) {
-
-        const result =
-          await setupWebhook(
-            request.url
-          );
-
-
-        return json(
-
-          result,
-
-          result.ok
-            ? 200
-            : 502
-
-        );
-
-      }
-
-
-      /*
-       * ======================================================
-       * /chat-test
-       * ======================================================
-       */
-
-      if (
-        path === "/chat-test" &&
-        request.method === "GET"
-      ) {
-
-        const chatId =
-          url.searchParams.get(
-            "chat_id"
-          );
-
-
-        if (!chatId) {
-
-          return json(
-
-            {
-
-              ok: false,
-
-              error:
-                "Не указан chat_id"
-
-            },
-
-            400
-
-          );
-
-        }
-
 
         const result =
           await maxRequest(
 
-            `/chats/${encodeURIComponent(
-              chatId
-            )}`,
+            "/me",
 
             {
+
               method:
                 "GET"
+
             }
 
           );
@@ -4460,16 +7346,7 @@ Deno.serve(
           ok:
             result.ok,
 
-          provider:
-            "MAX",
-
-          operation:
-            "chat-test",
-
-          chat_id:
-            chatId,
-
-          http_status:
+          status:
             result.status,
 
           response:
@@ -4482,52 +7359,236 @@ Deno.serve(
 
       /*
        * ======================================================
-       * /publish-test
+       * SUBSCRIPTIONS
        * ======================================================
        */
 
       if (
-        path === "/publish-test" &&
-        request.method === "GET"
+
+        path ===
+          "/subscriptions" &&
+
+        request.method ===
+          "GET"
+
       ) {
 
-        const chatId =
-          url.searchParams.get(
-            "chat_id"
-          ) ||
-          TARGET_CHAT_ID;
+        const result =
+          await maxRequest(
 
-
-        if (!chatId) {
-
-          return json(
+            "/subscriptions",
 
             {
 
-              ok: false,
+              method:
+                "GET"
 
-              error:
-                "TARGET_CHAT_ID не задан"
-
-            },
-
-            400
+            }
 
           );
+
+
+        return json({
+
+          ok:
+            result.ok,
+
+          status:
+            result.status,
+
+          response:
+            result.data
+
+        });
+
+      }
+
+
+      /*
+       * ======================================================
+       * SETUP WEBHOOK
+       * ======================================================
+       */
+
+      if (
+
+        path ===
+          "/setup-webhook" &&
+
+        request.method ===
+          "GET"
+
+      ) {
+
+        return json(
+
+          await setupWebhook(
+            request.url
+          )
+
+        );
+
+      }
+
+
+      /*
+       * ======================================================
+       * CLEAN WEBHOOKS
+       * ======================================================
+       */
+
+      if (
+
+        path ===
+          "/cleanup-webhooks" &&
+
+        request.method ===
+          "GET"
+
+      ) {
+
+        const current =
+          getWebhookUrl(
+            request.url
+          );
+
+
+        const subs =
+          await maxRequest(
+
+            "/subscriptions",
+
+            {
+
+              method:
+                "GET"
+
+            }
+
+          );
+
+
+        const list =
+
+          Array.isArray(
+            subs.data
+              ?.subscriptions
+          )
+
+            ? subs.data
+                .subscriptions
+
+            : [];
+
+
+        const deleted =
+          [];
+
+
+        for (
+          const s
+          of list
+        ) {
+
+          if (
+
+            s?.url &&
+
+            s.url !==
+              current
+
+          ) {
+
+            const result =
+              await maxRequest(
+
+                `/subscriptions?url=${encodeURIComponent(
+                  s.url
+                )}`,
+
+                {
+
+                  method:
+                    "DELETE"
+
+                }
+
+              );
+
+
+            deleted.push({
+
+              url:
+                s.url,
+
+              ok:
+                result.ok,
+
+              status:
+                result.status
+
+            });
+
+          }
 
         }
 
 
+        return json({
+
+          ok:
+            true,
+
+          current_webhook:
+            current,
+
+          deleted
+
+        });
+
+      }
+
+
+      /*
+       * ======================================================
+       * PUBLISH TEST
+       * ======================================================
+       */
+
+      if (
+
+        path ===
+          "/publish-test" &&
+
+        request.method ===
+          "GET"
+
+      ) {
+
+        const chatId =
+
+          url.searchParams.get(
+            "chat_id"
+          )
+
+          ||
+
+          TARGET_CHAT_ID;
+
+
         const text =
+
           url.searchParams.get(
             "text"
-          ) ||
+          )
 
-          `🔴 <b>ФАКТОР • ТЕСТ</b>\n\n` +
+          ||
 
-          `📡 <b>Система публикации работает.</b>\n\n` +
+          "🔴 ФАКТОР • ТЕСТ\n\n" +
 
-          `🕒 ${currentMoscowTime()}`;
+          "📡 Система публикации работает.\n\n" +
+
+          `🕒 ${formatTime()}`;
 
 
         const result =
@@ -4545,16 +7606,7 @@ Deno.serve(
           ok:
             result.ok,
 
-          provider:
-            "MAX",
-
-          operation:
-            "publish-test",
-
-          chat_id:
-            chatId,
-
-          http_status:
+          status:
             result.status,
 
           response:
@@ -4567,23 +7619,36 @@ Deno.serve(
 
       /*
        * ======================================================
-       * /run
-       * /pipeline
+       * PIPELINE
        * ======================================================
        */
 
       if (
 
         (
-          path === "/run" ||
-          path === "/pipeline"
+
+          path ===
+            "/pipeline"
+
+          ||
+
+          path ===
+            "/run"
+
         )
 
         &&
 
         (
-          request.method === "GET" ||
-          request.method === "POST"
+
+          request.method ===
+            "GET"
+
+          ||
+
+          request.method ===
+            "POST"
+
         )
 
       ) {
@@ -4607,28 +7672,37 @@ Deno.serve(
 
       /*
        * ======================================================
-       * /webhook-log
+       * WEBHOOK LOG
        * ======================================================
        */
 
       if (
-        path === "/webhook-log" &&
-        request.method === "GET"
+
+        path ===
+          "/webhook-log" &&
+
+        request.method ===
+          "GET"
+
       ) {
 
         return json({
 
-          ok: true,
-
-          source:
-            "runtime memory",
-
-          count:
-            webhookLogs.length,
+          ok:
+            true,
 
           logs:
-            [...webhookLogs]
-              .reverse()
+
+            await kvList(
+
+              [
+                "factor",
+                "webhook"
+              ],
+
+              50
+
+            )
 
         });
 
@@ -4637,39 +7711,45 @@ Deno.serve(
 
       /*
        * ======================================================
-       * /webhook
+       * WEBHOOK
        * ======================================================
        */
 
       if (
-        path === "/webhook" &&
-        request.method === "POST"
-      ) {
 
-        /*
-         * SECRET
-         */
+        path ===
+          "/webhook" &&
+
+        request.method ===
+          "POST"
+
+      ) {
 
         if (
           MAX_WEBHOOK_SECRET
         ) {
 
-          const incomingSecret =
+          const incoming =
             request.headers.get(
+
               "X-Max-Bot-Api-Secret"
+
             );
 
 
           if (
-            incomingSecret !==
+
+            incoming !==
             MAX_WEBHOOK_SECRET
+
           ) {
 
             return json(
 
               {
 
-                ok: false,
+                ok:
+                  false,
 
                 error:
                   "Invalid MAX webhook secret"
@@ -4685,10 +7765,6 @@ Deno.serve(
         }
 
 
-        /*
-         * JSON
-         */
-
         let payload;
 
 
@@ -4697,20 +7773,17 @@ Deno.serve(
           payload =
             await request.json();
 
-        } catch (error) {
+        } catch {
 
           return json(
 
             {
 
-              ok: false,
+              ok:
+                false,
 
               error:
-                "Invalid JSON",
-
-              details:
-                error?.message ||
-                String(error)
+                "Invalid JSON"
 
             },
 
@@ -4721,13 +7794,11 @@ Deno.serve(
         }
 
 
-        addWebhookLog(
+        await saveWebhookLog(
 
           payload,
 
-          request,
-
-          true
+          request
 
         );
 
@@ -4746,49 +7817,72 @@ Deno.serve(
 
               ? payload
 
-              : [payload];
+              : [
+
+                  payload
+
+                ];
 
 
-        const summary =
-          updates.map(
-            update => ({
+        const processed =
+          [];
+
+
+        for (
+          const update
+          of updates
+        ) {
+
+          const chatId =
+            extractChatId(
+              update
+            );
+
+
+          if (
+            chatId
+          ) {
+
+            processed.push({
 
               update_type:
                 update?.update_type ||
                 null,
 
               chat_id:
-                extractChatId(
-                  update
-                ),
+                chatId,
 
               timestamp:
                 update?.timestamp ||
-                null,
-
-              is_channel:
-                update?.is_channel ??
                 null
 
-            })
-          );
+            });
+
+          }
+
+        }
 
 
         /*
-         * MAX получает 200 как можно быстрее.
+         * ВАЖНО:
+         *
+         * Webhook НЕ запускает pipeline.
+         *
+         * Публикация управляется cron.
          */
 
         return json({
 
-          ok: true,
+          ok:
+            true,
 
-          received: true,
+          received:
+            true,
 
           count:
             updates.length,
 
-          updates:
-            summary
+          processed
 
         });
 
@@ -4797,7 +7891,7 @@ Deno.serve(
 
       /*
        * ======================================================
-       * 404
+       * UNKNOWN
        * ======================================================
        */
 
@@ -4805,7 +7899,8 @@ Deno.serve(
 
         {
 
-          ok: false,
+          ok:
+            false,
 
           error:
             "Endpoint not found",
@@ -4819,11 +7914,16 @@ Deno.serve(
       );
 
 
-    } catch (error) {
+    } catch (
+      error
+    ) {
 
       console.error(
+
         "[SERVER ERROR]",
+
         error
+
       );
 
 
@@ -4831,7 +7931,8 @@ Deno.serve(
 
         {
 
-          ok: false,
+          ok:
+            false,
 
           error:
             error?.message ||
@@ -4850,4 +7951,5 @@ Deno.serve(
     }
 
   }
+
 );
