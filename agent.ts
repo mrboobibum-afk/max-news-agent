@@ -65,9 +65,32 @@ const USER_AGENT =
   "AppleWebKit/537.36 (KHTML, like Gecko) " +
   "Chrome/140.0.0.0 Safari/537.36";
 // News freshness is evaluated by the channel's editorial timezone.
-// Only publications dated TODAY in Moscow are eligible.
+// Today is preferred; late yesterday/overnight items remain eligible the next morning.
 const NEWS_TIME_ZONE = "Europe/Moscow";
 const NEWS_FUTURE_TOLERANCE_MS = 5 * 60 * 1000;
+const PUBLISH_TIME_ZONE = "Europe/Moscow";
+const PUBLISH_START_HOUR = 6;
+const PUBLISH_END_HOUR = 23;
+const OVERNIGHT_CARRY_START_HOUR = 18;
+const MAX_VIDEOS_PER_POST = 4;
+const SUBMISSION_ENABLED = true;
+function currentMoscowHour() {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: PUBLISH_TIME_ZONE,
+    hour: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(new Date());
+  return Number(parts.find((part) => part.type === "hour")?.value ?? "0");
+}
+function isAutomaticPublishingWindow() {
+  const hour = currentMoscowHour();
+  return hour >= PUBLISH_START_HOUR && hour < PUBLISH_END_HOUR;
+}
+
+function isAutomaticUrgentPublishingAllowed() {
+  // Urgent events may be published 24/7; the urgent interval still applies.
+  return true;
+}
 // ============================================================
 // MAX CERTIFICATES
 // ============================================================
@@ -276,19 +299,39 @@ function calendarDateInTimeZone(timestamp, timeZone = NEWS_TIME_ZONE) {
 
 function newsDateStatus(pubDate, now = Date.now()) {
   const timestamp = Date.parse(pubDate || "");
-  if (!Number.isFinite(timestamp) || timestamp <= 0) {
-    return "invalid";
-  }
-  if (timestamp > now + NEWS_FUTURE_TOLERANCE_MS) {
-    return "future";
-  }
-  return calendarDateInTimeZone(timestamp) === calendarDateInTimeZone(now)
-    ? "today"
-    : "old";
+  if (!Number.isFinite(timestamp) || timestamp <= 0) return "invalid";
+  if (timestamp > now + NEWS_FUTURE_TOLERANCE_MS) return "future";
+
+  const today = calendarDateInTimeZone(now);
+  const publishedDay = calendarDateInTimeZone(timestamp);
+  if (publishedDay === today) return "today";
+
+  // Carry late yesterday into today's morning so overnight events are not lost.
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: NEWS_TIME_ZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(new Date(timestamp));
+  const map = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  const publishedHour = Number(map.hour ?? 0);
+  const todayStart = new Date(`${today}T00:00:00+03:00`).getTime();
+  const yesterday = calendarDateInTimeZone(todayStart - 24 * 60 * 60 * 1000);
+  if (publishedDay === yesterday && publishedHour >= OVERNIGHT_CARRY_START_HOUR)
+    return "overnight";
+
+  return "old";
+}
+
+function isNewsEligible(pubDate, now = Date.now()) {
+  const status = newsDateStatus(pubDate, now);
+  return status === "today" || status === "overnight";
 }
 
 function isNewsFromToday(pubDate, now = Date.now()) {
-  return newsDateStatus(pubDate, now) === "today";
+  return isNewsEligible(pubDate, now);
 }
 
 function extractArticlePublishedAt(html) {
@@ -985,7 +1028,7 @@ function collectVideoUrls(value, result) {
     }
   }
 }
-function findVideoFromHtml(html, baseUrl) {
+function findVideoUrlsFromHtml(html, baseUrl, limit = MAX_VIDEOS_PER_POST) {
   const candidates = [];
   const add = (rawUrl, priority = 0) => {
     const url = absoluteUrl(normalizeMediaUrl(rawUrl), baseUrl);
@@ -993,41 +1036,33 @@ function findVideoFromHtml(html, baseUrl) {
     if (candidates.some((x) => x.url === url)) return;
     candidates.push({ url, priority });
   };
-  // Prefer videos explicitly exposed by the article itself over generic
-  // social/player metadata. This still supports publisher CDNs.
-  for (const match of html.matchAll(
-    /<video[^>]+src=["']([^"']+)["'][^>]*>/gi
-  )) {
+  for (const match of html.matchAll(/<video[^>]+src=["']([^"']+)["'][^>]*>/gi))
     add(match[1], 100);
-  }
-  for (const match of html.matchAll(
-    /<source[^>]+src=["']([^"']+)["'][^>]*>/gi
-  )) {
+  for (const match of html.matchAll(/<source[^>]+src=["']([^"']+)["'][^>]*>/gi))
     add(match[1], 90);
-  }
   for (const match of html.matchAll(
     /["'](?:contentUrl|videoUrl|video_url|file)["']\s*:\s*["']([^"']+)["']/gi
-  )) {
+  ))
     add(match[1], 80);
-  }
-  const metaNames = [
+  for (const name of [
     "og:video",
     "og:video:url",
     "og:video:secure_url",
     "twitter:player:stream",
-  ];
-  for (const name of metaNames) {
+  ]) {
     const value = findMeta(html, name);
     if (value) add(value, 50);
   }
-  const jsonLd = extractJsonLd(html);
-  for (const data of jsonLd) {
+  for (const data of extractJsonLd(html)) {
     const urls = [];
     collectVideoUrls(data, urls);
     for (const rawUrl of urls) add(rawUrl, 70);
   }
   candidates.sort((a, b) => b.priority - a.priority);
-  return candidates[0]?.url ?? null;
+  return candidates.slice(0, limit).map((item) => item.url);
+}
+function findVideoFromHtml(html, baseUrl) {
+  return findVideoUrlsFromHtml(html, baseUrl, 1)[0] ?? null;
 }
 
 function mediaUrlLooksGeneric(url) {
@@ -1131,6 +1166,7 @@ async function extractArticleMedia(item) {
       articleUrl: "",
       imageUrl: null,
       videoUrl: null,
+      videoUrls: [],
       sourceName: null,
       title: null,
       description: null,
@@ -1146,6 +1182,7 @@ async function extractArticleMedia(item) {
       articleUrl: "",
       imageUrl: null,
       videoUrl: null,
+      videoUrls: [],
       sourceName: item.source || null,
       title: null,
       description: null,
@@ -1167,6 +1204,7 @@ async function extractArticleMedia(item) {
       articleUrl: "",
       imageUrl: null,
       videoUrl: null,
+      videoUrls: [],
       sourceName: null,
       title: pageTitle,
       description: null,
@@ -1176,7 +1214,8 @@ async function extractArticleMedia(item) {
   }
   const imageCandidates = findImageCandidatesFromHtml(html, finalUrl);
   const imageUrl = imageCandidates[0]?.url ?? null;
-  const videoUrl = findVideoFromHtml(html, finalUrl);
+  const videoUrls = findVideoUrlsFromHtml(html, finalUrl, MAX_VIDEOS_PER_POST);
+  const videoUrl = videoUrls[0] ?? null;
   const sourceName =
     findMeta(html, "og:site_name") || findMeta(html, "application-name");
   const pageDescription =
@@ -1186,6 +1225,7 @@ async function extractArticleMedia(item) {
     imageUrl,
     imageCandidates,
     videoUrl,
+    videoUrls,
     sourceName,
     title: pageTitle || item.title,
     description: pageDescription,
@@ -1394,14 +1434,16 @@ async function publishToMax(text, mediaToken) {
     notify: true,
     disable_link_preview: true,
   };
-  if (mediaToken) {
+  if (Array.isArray(mediaToken) && mediaToken.length) {
+    body.attachments = mediaToken
+      .slice(0, MAX_VIDEOS_PER_POST)
+      .map((media) => ({
+        type: media.type,
+        payload: { token: media.token },
+      }));
+  } else if (mediaToken) {
     body.attachments = [
-      {
-        type: mediaToken.type,
-        payload: {
-          token: mediaToken.token,
-        },
-      },
+      { type: mediaToken.type, payload: { token: mediaToken.token } },
     ];
   }
   return await maxJson(
@@ -1889,10 +1931,19 @@ async function isRepeatedStoryText(story) {
 // SOURCE
 // ============================================================
 function cleanSourceName(source, articleMedia) {
-  const candidate = articleMedia.sourceName || source || "Источник";
-  return cleanText(
-    candidate.replace(/^https?:\/\//i, "").replace(/^www\./i, "")
+  const candidate = cleanText(articleMedia.sourceName || source || "Источник");
+  if (!candidate) return "Источник";
+  const urlMatch = candidate.match(
+    /https?:\/\/([^\s/]+)|(?:^|\s)(www\.)?([a-z0-9.-]+\.[a-z]{2,})(?:\s|$)/i
   );
+  if (urlMatch)
+    return (urlMatch[1] || urlMatch[2] || "Источник").replace(/^www\./i, "");
+  const compact = candidate.replace(/\s+/g, " ").trim();
+  for (const separator of [" - ", " — ", " | ", " : "]) {
+    const index = compact.indexOf(separator);
+    if (index > 0) return compact.slice(0, index).trim();
+  }
+  return compact.length > 40 ? compact.slice(0, 40).trimEnd() : compact;
 }
 // ============================================================
 // POST
@@ -1903,31 +1954,22 @@ function buildPost(item, story, sourceName, articleUrl) {
     : "🔵 <b>ФАКТОР • ГЛАВНОЕ</b>";
   const category = `${item.categoryEmoji} <b>${escapeHtml(item.category)}</b>`;
   const headlineText = stripHtml(truncate(story.headline || item.title, 260));
-  const shortText = stripHtml(
-    truncate(story.short || item.description || item.title, 500)
-  );
-  const mainItems = [];
+  const sentences = [];
+  const addSentence = (value) => {
+    const text = stripHtml(truncate(String(value || ""), 420));
+    if (!text) return;
+    if (sentences.some((x) => storySimilarity(x, text) >= 0.78)) return;
+    sentences.push(text);
+  };
+  addSentence(story.short || item.description || item.title);
   for (const raw of story.main || []) {
-    const text = stripHtml(truncate(String(raw || ""), 350));
-    if (!text) continue;
-    if (storySimilarity(text, headlineText) >= 0.72) continue;
-    if (storySimilarity(text, shortText) >= 0.72) continue;
-    if (mainItems.some((x) => storySimilarity(x, text) >= 0.8)) continue;
-    mainItems.push(text);
-    if (mainItems.length >= 3) break;
+    if (sentences.length >= 2) break;
+    addSentence(raw);
   }
-  const importantText = stripHtml(truncate(story.important || "", 400));
-  const uniqueImportant =
-    importantText &&
-    storySimilarity(importantText, headlineText) < 0.72 &&
-    storySimilarity(importantText, shortText) < 0.72 &&
-    !mainItems.some((x) => storySimilarity(x, importantText) >= 0.72)
-      ? importantText
-      : "";
   const time = new Intl.DateTimeFormat("ru-RU", {
     hour: "2-digit",
     minute: "2-digit",
-    timeZone: "Europe/Moscow",
+    timeZone: PUBLISH_TIME_ZONE,
   }).format(new Date());
   const sourceLine = isLikelyArticleUrl(articleUrl)
     ? `🔗 <a href="${escapeHtml(articleUrl)}">${escapeHtml(sourceName)}</a>`
@@ -1938,26 +1980,14 @@ function buildPost(item, story, sourceName, articleUrl) {
     category,
     "",
     `<b>${escapeHtml(headlineText)}</b>`,
-    "",
-    "<b>КРАТКО</b>",
-    escapeHtml(shortText),
   ];
-  if (mainItems.length > 0) {
-    parts.push("", "<b>ГЛАВНОЕ</b>");
-    for (const text of mainItems) {
-      parts.push(`• ${escapeHtml(text)}`);
-    }
-  }
-  if (uniqueImportant) {
-    parts.push("", "<b>ЧТО ВАЖНО</b>", escapeHtml(uniqueImportant));
-  }
+  for (const sentence of sentences) parts.push("", escapeHtml(sentence));
   parts.push("", `🕒 ${time}`);
   if (sourceLine) parts.push(sourceLine);
   parts.push("", "<i>ФАКТОР</i>");
   let result = parts.join("\n");
-  if (result.length > MAX_POST_LENGTH) {
+  if (result.length > MAX_POST_LENGTH)
     result = result.slice(0, MAX_POST_LENGTH - 1).trimEnd() + "…";
-  }
   return result;
 }
 // ============================================================
@@ -2028,25 +2058,28 @@ async function validateImageRelevance(item, story, candidate, media) {
 }
 
 async function findBestMedia(articleMedia, item, story, diagnostics = null) {
-  // ----------------------------------------------------------
-  // 1. VIDEO — only publisher/article video, never stock media.
-  // ----------------------------------------------------------
-  if (articleMedia.videoUrl) {
-    if (diagnostics) diagnostics.video_candidates = 1;
-    console.log("Trying article video:", articleMedia.videoUrl);
-    const video = await downloadMedia(articleMedia.videoUrl, "video");
-    if (video) {
-      if (diagnostics) diagnostics.media_selected = "video";
-      return video;
-    }
-    if (diagnostics) diagnostics.media_rejected = "video_download_failed";
+  const videoUrls =
+    Array.isArray(articleMedia.videoUrls) && articleMedia.videoUrls.length
+      ? articleMedia.videoUrls
+      : articleMedia.videoUrl
+      ? [articleMedia.videoUrl]
+      : [];
+  if (diagnostics) diagnostics.video_candidates = videoUrls.length;
+  const videos = [];
+  for (const url of videoUrls.slice(0, MAX_VIDEOS_PER_POST)) {
+    console.log("Trying article video:", url);
+    const video = await downloadMedia(url, "video");
+    if (video) videos.push(video);
+    if (videos.length >= MAX_VIDEOS_PER_POST) break;
   }
-
-  // ----------------------------------------------------------
-  // 2. IMAGE — article images first, generic OG image last.
-  // Relevance validation prevents a technically valid but wrong
-  // image (logo/illustration/unrelated archive photo) from being sent.
-  // ----------------------------------------------------------
+  if (videos.length) {
+    if (diagnostics) {
+      diagnostics.media_selected = "video";
+      diagnostics.selected_media_source = "article";
+      diagnostics.media_checked = videos.length;
+    }
+    return videos;
+  }
   const candidates =
     Array.isArray(articleMedia.imageCandidates) &&
     articleMedia.imageCandidates.length
@@ -2061,17 +2094,11 @@ async function findBestMedia(articleMedia, item, story, diagnostics = null) {
           },
         ]
       : [];
-
   if (diagnostics) diagnostics.image_candidates = candidates.length;
   let checked = 0;
   for (const candidate of candidates.slice(0, 5)) {
     checked++;
     if (diagnostics) diagnostics.media_checked = checked;
-    console.log(
-      "Trying article image candidate:",
-      candidate.source,
-      candidate.url
-    );
     const image = await downloadMedia(candidate.url, "image");
     if (!image) continue;
     const relevant = await validateImageRelevance(
@@ -2088,14 +2115,10 @@ async function findBestMedia(articleMedia, item, story, diagnostics = null) {
       diagnostics.media_selected = "image";
       diagnostics.selected_media_source = candidate.source;
     }
-    return image;
+    return [image];
   }
-
-  // ----------------------------------------------------------
-  // 3. TEXT — better no image than a wrong image.
-  // ----------------------------------------------------------
   if (diagnostics) diagnostics.media_rejected = "no_relevant_media";
-  return null;
+  return [];
 }
 // ============================================================
 // CANDIDATE SELECTION
@@ -2107,7 +2130,7 @@ async function chooseCandidate( items, urgentAllowed, regularAllowed, diagnostic
   const scored = items
     .filter((item) => {
       const freshness = newsDateStatus(item.pubDate);
-      if (freshness !== "today") {
+      if (freshness !== "today" && freshness !== "overnight") {
         if (freshness === "old") diagnostics && diagnostics.old_news++;
         else if (freshness === "future")
           diagnostics && diagnostics.future_news++;
@@ -2171,10 +2194,7 @@ async function chooseCandidate( items, urgentAllowed, regularAllowed, diagnostic
 
     // RSS can be fresh while the resolved article itself is an old/reposted page.
     // If the publisher exposes a publication date, it must also be TODAY.
-    if (
-      articleMedia.publishedAt &&
-      !isNewsFromToday(articleMedia.publishedAt)
-    ) {
+    if (articleMedia.publishedAt && !isNewsEligible(articleMedia.publishedAt)) {
       diagnostics && diagnostics.article_old_news++;
       console.log(
         "Rejected: article publication date is not today:",
@@ -2264,7 +2284,7 @@ async function chooseCandidate( items, urgentAllowed, regularAllowed, diagnostic
     }
 
     // Final hard guard: never allow an old/future RSS item to reach publication.
-    if (!isNewsFromToday(item.pubDate)) {
+    if (!isNewsEligible(item.pubDate)) {
       const freshness = newsDateStatus(item.pubDate);
       if (freshness === "old") diagnostics && diagnostics.old_news++;
       else if (freshness === "future") diagnostics && diagnostics.future_news++;
@@ -2400,10 +2420,19 @@ async function getState() {
       last: urgent,
       can_publish: urgent === null || now - urgent >= URGENT_INTERVAL_MS,
     },
+    publishing_window: {
+      time_zone: PUBLISH_TIME_ZONE,
+      start: "06:00",
+      end: "23:00",
+      urgent_24_7: true,
+      open_now: isAutomaticPublishingWindow(),
+      moscow_hour: currentMoscowHour(),
+    },
     media: {
       max_video_mb: MAX_VIDEO_BYTES / 1024 / 1024,
       max_image_mb: MAX_IMAGE_BYTES / 1024 / 1024,
-      priority: "video -> image -> text",
+      max_videos_per_post: MAX_VIDEOS_PER_POST,
+      priority: "up to 4 videos -> image -> text",
     },
     dedup: {
       persistent: true,
@@ -2467,6 +2496,9 @@ async function executePipeline(manual = false) {
   const db = await getKV();
   const startedAt = Date.now();
   try {
+    // Pipeline runs 24/7. Outside 06:00-23:00 Moscow, only urgent
+    // candidates may be published. Regular news waits for the morning.
+    const regularWindowOpen = manual || isAutomaticPublishingWindow();
     // --------------------------------------------------------
     // RSS
     // --------------------------------------------------------
@@ -2494,11 +2526,13 @@ async function executePipeline(manual = false) {
     const lastUrgent =
       (await db.get(["factor", "state", "last_urgent"])).value ?? null;
     const urgentAllowed =
-      manual || lastUrgent === null || now - lastUrgent >= URGENT_INTERVAL_MS;
+      manual ||
+      (isAutomaticUrgentPublishingAllowed() &&
+        (lastUrgent === null || now - lastUrgent >= URGENT_INTERVAL_MS));
     const regularAllowed =
       manual ||
-      lastRegular === null ||
-      now - lastRegular >= REGULAR_INTERVAL_MS;
+      (regularWindowOpen &&
+        (lastRegular === null || now - lastRegular >= REGULAR_INTERVAL_MS));
     if (!urgentAllowed && !regularAllowed) {
       const result = {
         ok: true,
@@ -2527,7 +2561,9 @@ async function executePipeline(manual = false) {
       const result = {
         ok: true,
         selected: 0,
-        reason: "no new valid candidate",
+        reason: regularWindowOpen
+          ? "no new valid candidate"
+          : "no urgent candidate for overnight publication",
         rss_total: items.length,
         diagnostics,
         duration_ms: Date.now() - startedAt,
@@ -2581,36 +2617,38 @@ async function executePipeline(manual = false) {
     // POST
     // --------------------------------------------------------
     const text = buildPost(item, story, sourceName, finalArticleUrl);
-    let mediaInfo;
+    let mediaInfo = [];
     // --------------------------------------------------------
     // UPLOAD
     // --------------------------------------------------------
-    if (media) {
-      try {
-        console.log("Uploading media:", media.type, media.bytes.byteLength);
-        const token = await uploadMedia(media);
-        mediaInfo = {
-          type: media.type,
-          token,
-        };
-      } catch (error) {
-        console.error(
-          "Media upload failed:",
-          error instanceof Error ? error.message : String(error)
-        );
-        mediaInfo = undefined;
+    if (Array.isArray(media) && media.length) {
+      for (const mediaItem of media.slice(0, MAX_VIDEOS_PER_POST)) {
+        try {
+          console.log(
+            "Uploading media:",
+            mediaItem.type,
+            mediaItem.bytes.byteLength
+          );
+          const token = await uploadMedia(mediaItem);
+          mediaInfo.push({ type: mediaItem.type, token });
+        } catch (error) {
+          console.error(
+            "Media upload failed:",
+            error instanceof Error ? error.message : String(error)
+          );
+        }
       }
     }
     // --------------------------------------------------------
     // PUBLISH
     // --------------------------------------------------------
     let publication;
-    if (mediaInfo) {
+    if (mediaInfo.length > 0) {
       try {
         publication = await publishWithMediaRetry(text, mediaInfo);
       } catch (error) {
         console.error(
-          "Media publication failed. " + "Falling back to text:",
+          "Media publication failed. Falling back to text:",
           error instanceof Error ? error.message : String(error)
         );
         publication = await publishToMax(text);
@@ -2642,12 +2680,13 @@ async function executePipeline(manual = false) {
         article_url: finalArticleUrl,
         category: item.category,
       },
-      media: media
-        ? {
-            type: media.type,
-            source_url: media.sourceUrl,
-          }
-        : null,
+      media:
+        Array.isArray(media) && media.length
+          ? media.map((entry) => ({
+              type: entry.type,
+              source_url: entry.sourceUrl,
+            }))
+          : null,
       publication,
       duration_ms: Date.now() - startedAt,
     };
@@ -2734,6 +2773,7 @@ Deno.serve(async (request) => {
           "/run",
           "/publish-test",
           "/me",
+          "/setup-webhook",
           "/webhook",
         ],
       });
@@ -2807,15 +2847,97 @@ Deno.serve(async (request) => {
       });
     }
     // ------------------------------------------------------
+    // SETUP WEBHOOK
+    // ------------------------------------------------------
+    if (request.method === "GET" && path === "/setup-webhook") {
+      const webhookUrl = `${url.origin}/webhook`;
+      const secret = Deno.env.get("MAX_WEBHOOK_SECRET") || undefined;
+      const payload = {
+        url: webhookUrl,
+        update_types: ["message_created"],
+        ...(secret ? { secret } : {}),
+      };
+      const result = await maxJson("/subscriptions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+      return json({ ok: true, webhook: webhookUrl, subscription: result });
+    }
+    // ------------------------------------------------------
     // WEBHOOK
     // ------------------------------------------------------
     if (request.method === "POST" && path === "/webhook") {
-      const body = await request.text();
-      console.log("WEBHOOK:", body.slice(0, 2000));
-      return json({
-        ok: true,
-        received: true,
-      });
+      const configuredSecret = Deno.env.get("MAX_WEBHOOK_SECRET");
+      if (
+        configuredSecret &&
+        request.headers.get("X-Max-Bot-Api-Secret") !== configuredSecret
+      ) {
+        return json({ ok: false, error: "invalid webhook secret" }, 401);
+      }
+      const body = await request.json();
+      console.log("WEBHOOK update_type:", body?.update_type);
+      if (SUBMISSION_ENABLED && body?.update_type === "message_created") {
+        const message = body?.message || body?.body?.message || body;
+        const chatId = Number(
+          body?.chat_id ?? message?.recipient?.chat_id ?? message?.chat_id ?? 0
+        );
+        // Ignore events generated by the channel itself; only DMs to the bot are submissions.
+        if (chatId && String(chatId) !== String(TARGET_CHAT_ID)) {
+          const attachments = Array.isArray(message?.body?.attachments)
+            ? message.body.attachments
+            : [];
+          const videos = attachments
+            .filter((a) => a?.type === "video" && a?.payload?.token)
+            .slice(0, MAX_VIDEOS_PER_POST);
+          const caption = cleanText(message?.body?.text || "");
+          if (videos.length && isAutomaticPublishingWindow()) {
+            const headline = caption
+              ? truncate(caption.split(/\n+/)[0], 220)
+              : "Видео очевидца";
+            const text = [
+              "🔴 <b>ФАКТОР • ОПЕРАТИВНО</b>",
+              "",
+              "🎥 <b>ОЧЕВИДЕЦ</b>",
+              "",
+              `<b>${escapeHtml(headline)}</b>`,
+              ...caption
+                .split(/\n+/)
+                .slice(1, 3)
+                .filter(Boolean)
+                .map((line) => "\n" + escapeHtml(truncate(line, 350))),
+              "",
+              `🕒 ${new Intl.DateTimeFormat("ru-RU", { hour: "2-digit", minute: "2-digit", timeZone: PUBLISH_TIME_ZONE, }).format(new Date())}`,
+              "",
+              "<i>ФАКТОР</i>",
+            ].join("\n");
+            const mediaTokens = videos.map((video) => ({
+              type: "video",
+              token: video.payload.token,
+            }));
+            const publication = await publishToMax(text, mediaTokens);
+            return json({
+              ok: true,
+              received: true,
+              submission_published: true,
+              videos: videos.length,
+              publication,
+            });
+          }
+          return json({
+            ok: true,
+            received: true,
+            submission_published: false,
+            reason: videos.length
+              ? "publishing window closed"
+              : "no video attachment",
+          });
+        }
+      }
+      return json({ ok: true, received: true });
     }
     // ------------------------------------------------------
     // 404
