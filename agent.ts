@@ -1071,7 +1071,7 @@ async function decodeGoogleNewsArticleUrl(googleUrl) {
         }
 
         // Fallback: locate an external URL in the RPC response.
-        const urls = text.match(/https?:\\/\\/[^"\\s\\]+/g) ?? [];
+        const urls = text.match(/https?:\/\/[^"\s\\]+/g) ?? [];
         for (const raw of urls) {
             const candidate = raw
                 .replace(/\\\\u003d/gi, "=")
