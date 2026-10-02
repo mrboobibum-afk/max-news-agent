@@ -1,6 +1,6 @@
 // ============================================================
 // MAX NEWS AGENT — ФАКТОР
-// FIX v16: surgical media/freshness fixes; existing pipeline preserved
+// FIX v2: Google News HTML/URL sanitization + encoded RSS HTML cleanup
 // DENO DEPLOY
 // ============================================================
 //
@@ -59,16 +59,6 @@ const MAX_RSS_ITEMS = 300;
 const SCORE_CANDIDATES = 45;
 const GEMINI_CANDIDATES = 10;
 const MAX_HISTORY_CHECKED = 300;
-const EVENT_HISTORY_TTL_MS = 72 * 60 * 60 * 1000;
-const EVENT_RECENT_LIMIT = 250;
-// Freshness window: allow late-night/early-morning news from the previous day,
-// but never recycle materially older RSS items.
-const MAX_NEWS_AGE_MS = 36 * 60 * 60 * 1000;
-const MAX_FUTURE_NEWS_MS = 10 * 60 * 1000;
-// Request/runtime cache: prevents scanning the same KV history hundreds of times
-// when the candidate pool is expanded beyond the old 45-item cap.
-let FACTOR_HISTORY_CACHE = { at: 0, events: null, titles: null };
-const FACTOR_HISTORY_CACHE_TTL_MS = 30 * 1000;
 const MAX_POST_LENGTH = 3900;
 const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
@@ -403,20 +393,6 @@ function parseRSS(xml, feed) {
   }
   return items;
 }
-function getNewsDateStatus(pubDate) {
-  const timestamp = Date.parse(pubDate || "");
-  if (!timestamp || !Number.isFinite(timestamp)) {
-    return { valid: false, old: false, future: false, timestamp: 0 };
-  }
-  const age = Date.now() - timestamp;
-  return {
-    valid: true,
-    old: age > MAX_NEWS_AGE_MS,
-    future: age < -MAX_FUTURE_NEWS_MS,
-    timestamp,
-  };
-}
-
 async function loadRSS(feed) {
   try {
     const response = await fetch(feed.url, {
@@ -732,31 +708,6 @@ function extractGoogleNewsUrlCandidates(html, baseUrl, preferredHost) {
 // ============================================================
 // GOOGLE NEWS RESOLUTION
 // ============================================================
-function extractPageTitle(html) {
-  const metaTitle =
-    findMeta(html, "og:title") || findMeta(html, "twitter:title");
-  if (metaTitle) return stripHtml(metaTitle);
-  const match = html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i);
-  return match ? stripHtml(match[1]) : "";
-}
-function articleTitleSimilarity(sourceTitle, pageTitle) {
-  const a = storyTokens(sourceTitle);
-  const b = storyTokens(pageTitle);
-  if (a.size === 0 || b.size === 0) return 0;
-  let common = 0;
-  for (const token of a) {
-    if (b.has(token)) common++;
-  }
-  return common / Math.max(a.size, b.size);
-}
-function articleTitleMatches(itemTitle, pageTitle) {
-  if (!pageTitle) return false;
-  const a = normalizeForHash(itemTitle);
-  const b = normalizeForHash(pageTitle);
-  if (!a || !b) return false;
-  if (a === b || a.includes(b) || b.includes(a)) return true;
-  return articleTitleSimilarity(itemTitle, pageTitle) >= 0.45;
-}
 async function resolveArticleUrl(item) {
   const originalUrl = normalizeUrl(item.link);
   if (!isGoogleNewsUrl(originalUrl)) {
@@ -781,60 +732,47 @@ async function resolveArticleUrl(item) {
       signal: AbortSignal.timeout(15000),
     });
     const finalUrl = normalizeUrl(response.url || "");
+    if (isLikelyArticleUrl(finalUrl)) return finalUrl;
     const html = await response.text();
-    const candidates = new Set();
-    const addCandidate = (url) => {
-      const normalized = normalizeUrl(url || "");
-      if (normalized && isLikelyArticleUrl(normalized))
-        candidates.add(normalized);
-    };
-    addCandidate(finalUrl);
-    addCandidate(extractCanonical(html, originalUrl));
+    const canonical = extractCanonical(html, originalUrl);
+    if (canonical && isLikelyArticleUrl(canonical)) {
+      return normalizeUrl(canonical);
+    }
     const ogUrl = findMeta(html, "og:url");
-    if (ogUrl) addCandidate(absoluteUrl(ogUrl, originalUrl));
+    if (ogUrl) {
+      const resolved = absoluteUrl(ogUrl, originalUrl);
+      if (resolved && isLikelyArticleUrl(resolved)) {
+        return normalizeUrl(resolved);
+      }
+    }
     const jsonLd = extractJsonLd(html);
     const articles = [];
-    for (const block of jsonLd) collectArticleJsonLd(block, articles);
+    for (const block of jsonLd) {
+      collectArticleJsonLd(block, articles);
+    }
     for (const article of articles) {
       for (const candidate of [article.url, article.mainEntityOfPage]) {
         let raw = "";
-        if (typeof candidate === "string") raw = candidate;
-        else if (candidate && typeof candidate === "object")
+        if (typeof candidate === "string") {
+          raw = candidate;
+        } else if (candidate && typeof candidate === "object") {
           raw = String(candidate["@id"] ?? candidate.url ?? "");
-        if (raw) addCandidate(absoluteUrl(raw, originalUrl));
+        }
+        if (!raw) continue;
+        const resolved = absoluteUrl(raw, originalUrl);
+        if (resolved && isLikelyArticleUrl(resolved)) {
+          return normalizeUrl(resolved);
+        }
       }
     }
-    for (const url of extractGoogleNewsUrlCandidates(
+    const candidates = extractGoogleNewsUrlCandidates(
       html,
       originalUrl,
       preferredHost
-    ))
-      addCandidate(url);
-    for (const url of extractExternalLinks(html, originalUrl, preferredHost))
-      addCandidate(url);
-    const ranked = [...candidates].sort((a, b) => {
-      const ah = hostMatches(a, preferredHost) ? 1 : 0;
-      const bh = hostMatches(b, preferredHost) ? 1 : 0;
-      if (ah !== bh) return bh - ah;
-      return (
-        articleLinkScore(b, preferredHost) - articleLinkScore(a, preferredHost)
-      );
-    });
-    for (const candidateUrl of ranked.slice(0, 8)) {
-      const page = await loadArticlePage(candidateUrl);
-      if (!page) continue;
-      const pageTitle = extractPageTitle(page.html);
-      if (articleTitleMatches(item.title, pageTitle)) return page.finalUrl;
-      console.warn(
-        "Rejected resolver title mismatch:",
-        item.title,
-        "=>",
-        pageTitle,
-        candidateUrl
-      );
-    }
-    // Google News: если заголовок не совпал, новость НЕ публикуем.
-    return "";
+    );
+    if (candidates.length > 0) return candidates[0];
+    const links = extractExternalLinks(html, originalUrl, preferredHost);
+    if (links.length > 0) return links[0];
   } catch (error) {
     console.error(
       "Google News resolve:",
@@ -896,44 +834,38 @@ async function loadArticlePage(articleUrl) {
 // VIDEO EXTRACTION
 // ============================================================
 function isDirectVideoUrl(url) {
-  const lower = String(url || "").toLowerCase();
-  if (!lower || lower.includes(".m3u8") || lower.includes(".mpd")) return false;
-  return /\.(mp4|mov|webm|mkv)(?:$|[?#])/i.test(lower);
-}
-
-function isPossibleVideoUrl(url) {
-  const lower = String(url || "").toLowerCase();
-  if (!lower || lower.includes(".m3u8") || lower.includes(".mpd")) return false;
+  const lower = url.toLowerCase();
+  if (lower.includes(".m3u8") || lower.includes(".mpd")) {
+    return false;
+  }
   return (
-    isDirectVideoUrl(lower) ||
-    /(?:\/video(?:\/|\?|$)|\/videos(?:\/|\?|$)|\/media(?:\/|\?|$)|[?&](?:video|video_url|contenturl)=)/i.test(
-      lower
-    )
+    lower.includes(".mp4") ||
+    lower.includes(".mov") ||
+    lower.includes(".webm") ||
+    lower.includes(".mkv")
   );
 }
-
 function collectVideoUrls(value, result) {
   if (typeof value === "string") {
-    if (isPossibleVideoUrl(value)) result.push(value);
+    if (isDirectVideoUrl(value)) {
+      result.push(value);
+    }
     return;
   }
   if (Array.isArray(value)) {
-    for (const item of value) collectVideoUrls(item, result);
+    for (const item of value) {
+      collectVideoUrls(item, result);
+    }
     return;
   }
   if (value && typeof value === "object") {
     for (const [key, item] of Object.entries(value)) {
       if (
-        [
-          "contentUrl",
-          "videoUrl",
-          "video_url",
-          "url",
-          "file",
-          "src",
-          "source",
-          "embedUrl",
-        ].includes(key) ||
+        ["contentUrl", "videoUrl", "video_url", "url", "file"].includes(key)
+      ) {
+        collectVideoUrls(item, result);
+      }
+      if (
         key === "@graph" ||
         key === "video" ||
         key === "content" ||
@@ -944,220 +876,54 @@ function collectVideoUrls(value, result) {
     }
   }
 }
-
-function findVideoCandidatesFromHtml(html, baseUrl) {
+function findVideoFromHtml(html, baseUrl) {
   const candidates = [];
-  const seen = new Set();
-
-  const add = (rawUrl, priority = 0, source = "html", context = "") => {
-    const decoded = decodeHtmlEntities(
-      String(rawUrl || "")
-        .replace(/\\\//g, "/")
-        .replace(/\\u002f/gi, "/")
-        .replace(/\\u003a/gi, ":")
-        .replace(/\\u003f/gi, "?")
-        .replace(/\\u003d/gi, "=")
-        .trim()
-    );
-    const url = absoluteUrl(normalizeMediaUrl(decoded), baseUrl);
-    if (!url || !isPossibleVideoUrl(url) || seen.has(url)) return;
-
-    const ctx = stripHtml(context).replace(/\s+/g, " ").trim().slice(0, 1200);
-    const lowerCtx = ctx.toLowerCase();
-
-    // Strongly prefer videos located in the article body and avoid common
-    // sidebar/recommendation/player widgets. This is deliberately based on
-    // placement, not on a guessed topic.
-    let p = priority;
-    if (
-      lowerCtx.includes("sidebar") ||
-      lowerCtx.includes("рекомендуем") ||
-      lowerCtx.includes("похожие") ||
-      lowerCtx.includes("related") ||
-      lowerCtx.includes("rightbar") ||
-      lowerCtx.includes("advert")
-    ) {
-      p -= 80;
-    }
-    if (
-      lowerCtx.includes("<article") ||
-      lowerCtx.includes("article-body") ||
-      lowerCtx.includes("article__body") ||
-      lowerCtx.includes("post-content") ||
-      lowerCtx.includes("entry-content")
-    ) {
-      p += 35;
-    }
-
-    seen.add(url);
-    candidates.push({ url, priority: p, source, context: ctx });
-  };
-
-  // Real publisher video elements. Keep a local context window so we can
-  // distinguish article media from sidebar/recommended videos.
-  for (const match of html.matchAll(/<video\b[\s\S]{0,5000}?<\/video>/gi)) {
-    const block = match[0];
-    const direct = block.match(
-      /\b(?:src|data-src|data-video|data-video-url)=['"]([^'"]+)['"]/i
-    )?.[1];
-    if (direct) add(direct, 180, "video_tag", block);
-    for (const source of block.matchAll(
-      /<source\b[^>]+src=['"]([^'"]+)['"]/gi
-    )) {
-      add(source[1], 175, "video_source", block);
-    }
-  }
-
-  for (const match of html.matchAll(
-    /<source\b[^>]+(?:src|data-src)=['"]([^'"]+)['"][^>]*>/gi
-  )) {
-    const pos = match.index ?? 0;
-    add(
-      match[1],
-      165,
-      "source_tag",
-      html.slice(Math.max(0, pos - 1800), pos + 2200)
-    );
-  }
-
-  for (const match of html.matchAll(
-    /\bdata-(?:video|video-url|video-src|src)=['"]([^'"]+)['"]/gi
-  )) {
-    const pos = match.index ?? 0;
-    add(
-      match[1],
-      155,
-      "data_video",
-      html.slice(Math.max(0, pos - 1800), pos + 2200)
-    );
-  }
-
-  for (const match of html.matchAll(
-    /["'](?:contentUrl|videoUrl|video_url|videoSrc|file|embedUrl)["']\s*:\s*["']([^"']+)["']/gi
-  )) {
-    const pos = match.index ?? 0;
-    add(match[1], 150, "json", html.slice(Math.max(0, pos - 1800), pos + 2200));
-  }
-
-  const jsonLd = extractJsonLd(html);
-  for (const data of jsonLd) {
-    const urls = [];
-    collectVideoUrls(data, urls);
-    for (const rawUrl of urls)
-      add(rawUrl, 145, "jsonld", JSON.stringify(data).slice(0, 1600));
-  }
-
-  for (const name of [
+  const metaNames = [
     "og:video",
     "og:video:url",
     "og:video:secure_url",
     "twitter:player:stream",
-  ]) {
-    const value = findMeta(html, name);
-    if (value) add(value, 125, "meta_video", name);
-  }
-
-  return candidates.sort((a, b) => b.priority - a.priority).slice(0, 12);
-}
-
-function findVideoFromHtml(html, baseUrl) {
-  return findVideoCandidatesFromHtml(html, baseUrl)[0]?.url ?? null;
-}
-
-function findImageCandidatesFromHtml(html, baseUrl) {
-  const candidates = [];
-  const seen = new Set();
-  const add = (rawUrl, priority = 0, source = "html", context = "") => {
-    const decoded = decodeHtmlEntities(
-      String(rawUrl || "")
-        .replace(/\\\//g, "/")
-        .replace(/\\u002f/gi, "/")
-        .replace(/\\u003a/gi, ":")
-        .replace(/\\u003f/gi, "?")
-        .replace(/\\u003d/gi, "=")
-        .trim()
-    );
-    const url = absoluteUrl(normalizeMediaUrl(decoded), baseUrl);
-    if (!url || !isHttpUrl(url) || seen.has(url)) return;
-    const lower = url.toLowerCase();
-    if (
-      lower.includes("logo") ||
-      lower.includes("avatar") ||
-      lower.includes("favicon") ||
-      lower.includes("icon")
-    )
-      return;
-    seen.add(url);
-    candidates.push({
-      url,
-      priority,
-      source,
-      context: stripHtml(context).slice(0, 500),
-    });
-  };
-
-  const metaNames = [
-    "og:image",
-    "og:image:url",
-    "og:image:secure_url",
-    "twitter:image",
-    "twitter:image:src",
   ];
   for (const name of metaNames) {
     const value = findMeta(html, name);
-    if (value) add(value, name.startsWith("og:") ? 140 : 125, "meta", name);
+    if (value) {
+      candidates.push(value);
+    }
   }
-
+  for (const match of html.matchAll(
+    /<video[^>]+src=["']([^"']+)["'][^>]*>/gi
+  )) {
+    candidates.push(match[1]);
+  }
+  for (const match of html.matchAll(
+    /<source[^>]+src=["']([^"']+)["'][^>]*>/gi
+  )) {
+    candidates.push(match[1]);
+  }
+  for (const match of html.matchAll(
+    /["'](?:contentUrl|videoUrl|video_url|file)["']\s*:\s*["']([^"']+)["']/gi
+  )) {
+    candidates.push(match[1]);
+  }
+  for (const candidate of candidates) {
+    const url = absoluteUrl(normalizeMediaUrl(candidate), baseUrl);
+    if (url && isDirectVideoUrl(url)) {
+      return url;
+    }
+  }
   const jsonLd = extractJsonLd(html);
-  const walkImage = (value, context = "jsonld") => {
-    if (!value) return;
-    if (typeof value === "string") {
-      if (
-        /\.(?:jpe?g|png|webp|gif)(?:[?#].*)?$/i.test(value) ||
-        /\/image(?:s)?\//i.test(value)
-      )
-        add(value, 120, "jsonld", context);
-      return;
-    }
-    if (Array.isArray(value)) {
-      for (const item of value) walkImage(item, context);
-      return;
-    }
-    if (typeof value === "object") {
-      for (const [key, item] of Object.entries(value)) {
-        if (key === "image" || key === "thumbnailUrl" || key === "contentUrl")
-          walkImage(item, `${context}:${key}`);
+  for (const data of jsonLd) {
+    const urls = [];
+    collectVideoUrls(data, urls);
+    for (const rawUrl of urls) {
+      const url = absoluteUrl(normalizeMediaUrl(rawUrl), baseUrl);
+      if (url && isDirectVideoUrl(url)) {
+        return url;
       }
     }
-  };
-  for (const data of jsonLd) walkImage(data);
-
-  for (const match of html.matchAll(/<img\b[^>]*>/gi)) {
-    const tag = match[0];
-    const src = tag.match(
-      /\b(?:src|data-src|data-original|data-lazy-src)=['"]([^'"]+)['"]/i
-    )?.[1];
-    const srcset = tag.match(/\b(?:srcset|data-srcset)=['"]([^'"]+)['"]/i)?.[1];
-    const alt = tag.match(/\balt=['"]([^'"]*)['"]/i)?.[1] || "";
-    if (src) add(src, 100, "article_body", alt);
-    if (srcset) {
-      const first = srcset
-        .split(",")
-        .map((x) => x.trim().split(/\s+/)[0])
-        .filter(Boolean)[0];
-      if (first) add(first, 95, "article_body_srcset", alt);
-    }
   }
-
-  for (const match of html.matchAll(
-    /<link\b[^>]+(?:rel=['"][^'"]*(?:image_src|preload)[^'"]*['"])[^>]+href=['"]([^'"]+)['"][^>]*>/gi
-  )) {
-    add(match[1], 85, "link", "preload image");
-  }
-
-  return candidates.sort((a, b) => b.priority - a.priority).slice(0, 20);
+  return null;
 }
-
 // ============================================================
 // ARTICLE MEDIA
 // ============================================================
@@ -1171,61 +937,41 @@ async function extractArticleMedia(item) {
       sourceName: null,
       title: null,
       description: null,
-      rejectedReason: "bad_url",
     };
   }
   const page = await loadArticlePage(articleUrl);
+  // Publisher can block server-side HTML requests. Keep the
+  // resolved article URL and publish a text-only fallback.
   if (!page) {
-    // Страница недоступна: не подменяем её RSS-заголовком и не даём
-    // Gemini придумать содержание другой страницы.
     return {
-      articleUrl: "",
+      articleUrl,
       imageUrl: null,
       videoUrl: null,
       sourceName: item.source || null,
-      title: null,
-      description: null,
-      rejectedReason: "page_unavailable",
+      title: item.title || null,
+      description: item.description || null,
     };
   }
   const { finalUrl, html } = page;
-  const pageTitle = extractPageTitle(html);
-  if (pageTitle && !articleTitleMatches(item.title, pageTitle)) {
-    console.warn(
-      "Rejected article title mismatch:",
-      item.title,
-      "=>",
-      pageTitle,
-      finalUrl
-    );
-    return {
-      articleUrl: "",
-      imageUrl: null,
-      videoUrl: null,
-      sourceName: null,
-      title: pageTitle,
-      description: null,
-      rejectedReason: "article_title_mismatch",
-    };
-  }
-  const imageCandidates = findImageCandidatesFromHtml(html, finalUrl);
-  const imageUrl = imageCandidates[0]?.url ?? null;
-  const videoCandidates = findVideoCandidatesFromHtml(html, finalUrl);
-  const videoUrl = videoCandidates[0]?.url ?? null;
+  const imageMeta =
+    findMeta(html, "og:image") || findMeta(html, "twitter:image");
+  const imageUrl = imageMeta
+    ? absoluteUrl(normalizeMediaUrl(imageMeta), finalUrl)
+    : null;
+  const videoUrl = findVideoFromHtml(html, finalUrl);
   const sourceName =
     findMeta(html, "og:site_name") || findMeta(html, "application-name");
+  const pageTitle =
+    findMeta(html, "og:title") || findMeta(html, "twitter:title");
   const pageDescription =
     findMeta(html, "og:description") || findMeta(html, "description");
   return {
     articleUrl: finalUrl,
     imageUrl,
-    imageCandidates,
     videoUrl,
-    videoCandidates,
     sourceName,
-    title: pageTitle || item.title,
+    title: pageTitle,
     description: pageDescription,
-    rejectedReason: "",
   };
 }
 // ============================================================
@@ -1265,25 +1011,6 @@ function extensionFromType(type, contentType, url) {
   }
   return "jpg";
 }
-function mp4HasAudioTrack(bytes) {
-  // Minimal ISO-BMFF parser: look for trak -> mdia -> hdlr -> "soun".
-  // It does not decode/re-encode the video; it only verifies that an audio
-  // track is present in the original file before uploading it to MAX.
-  try {
-    const headScan = Math.min(bytes.length, 8 * 1024 * 1024);
-    const decoder = new TextDecoder("latin1");
-    if (decoder.decode(bytes.subarray(0, headScan)).includes("soun"))
-      return true;
-    if (bytes.length > headScan) {
-      const tailStart = Math.max(headScan, bytes.length - 4 * 1024 * 1024);
-      return decoder.decode(bytes.subarray(tailStart)).includes("soun");
-    }
-    return false;
-  } catch {
-    return false;
-  }
-}
-
 async function downloadMedia(url, type) {
   try {
     if (!isHttpUrl(url)) {
@@ -1321,10 +1048,6 @@ async function downloadMedia(url, type) {
     }
     const buffer = new Uint8Array(await response.arrayBuffer());
     if (buffer.byteLength > limit) {
-      return null;
-    }
-    if (type === "video" && !mp4HasAudioTrack(buffer)) {
-      console.log("Video rejected: no audio track:", response.url || url);
       return null;
     }
     const finalUrl = response.url || url;
@@ -1509,266 +1232,6 @@ async function publishedKey(item, articleUrl) {
 async function legacyPublishedKey(item) {
   return await sha256(normalizeForHash(`${item.title}|${item.source}`));
 }
-// ============================================================
-// REAL-WORLD EVENT DEDUPLICATION
-// ============================================================
-// URL/title dedup is not enough: one incident can produce many different
-// headlines and URLs. Keep a short-lived event fingerprint and reject the
-// same incident even when another RSS source reports it differently.
-const EVENT_STOP_WORDS = new Set([
-  "это",
-  "этот",
-  "эта",
-  "эти",
-  "после",
-  "перед",
-  "когда",
-  "который",
-  "которая",
-  "которые",
-  "также",
-  "стало",
-  "стали",
-  "сообщил",
-  "сообщили",
-  "рассказал",
-  "рассказали",
-  "заявил",
-  "заявила",
-  "заявили",
-  "сегодня",
-  "вчера",
-  "теперь",
-  "утром",
-  "днем",
-  "днём",
-  "вечером",
-  "ночью",
-  "сообщает",
-  "данным",
-  "данные",
-  "словам",
-  "россия",
-  "россии",
-  "российский",
-  "российская",
-  "российское",
-  "область",
-  "области",
-  "район",
-  "районе",
-  "округ",
-  "округе",
-  "человек",
-  "людей",
-  "погиб",
-  "погибли",
-  "погибло",
-  "погибших",
-  "пострадал",
-  "пострадали",
-  "пострадавших",
-  "причина",
-  "причиной",
-  "причину",
-  "произошло",
-  "произошла",
-  "произошел",
-  "произошёл",
-  "пожар",
-  "пожара",
-  "пожаре",
-  "пожаром",
-  "возгорание",
-  "авария",
-  "аварии",
-  "аварией",
-  "дтп",
-  "смертельная",
-  "смертельную",
-  "пробка",
-  "пробки",
-  "движение",
-  "движения",
-  "транспорт",
-  "общественный",
-  "новый",
-  "новые",
-  "нового",
-  "новых",
-  "работу",
-  "работа",
-  "работы",
-  "сообщение",
-  "сообщения",
-]);
-const EVENT_FAMILY_RULES = [
-  ["fire", /(пожар|возгора|загорел|загорелась|горит|горел|сгорел|огонь|дым)/i],
-  ["accident", /(дтп|авари|столкнов|наезд|съезд|перевернул|машин|автомобил)/i],
-  ["explosion", /(взрыв|взорвал|взорвалась|взрывной)/i],
-  ["crime", /(убий|убит|напад|ограб|похищ|задержан|задержали|преступ)/i],
-  ["military", /(обстрел|ракет|дрон|беспилот|военн|боев|атака|удар)/i],
-  [
-    "disaster",
-    /(землетряс|цунами|наводнен|наводн|ураган|смерч|ополз|лавин|катастроф)/i,
-  ],
-  [
-    "politics",
-    /(президент|правительств|министр|парламент|депутат|госдум|выбор|политик)/i,
-  ],
-  ["law", /(суд|иск|приговор|закон|законопроект|прокуратур|следств|дело)/i],
-  [
-    "economy",
-    /(ставк|инфляц|рубл|доллар|евро|банк|бирж|рынок|нефт|газ|экономик|финанс)/i,
-  ],
-  ["business", /(компани|корпорац|сделк|инвестиц|бизнес|предприят|завод)/i],
-  [
-    "transport",
-    /(пробк|движени|дорог|мост|метро|поезд|самолет|самолёт|рейс|аэропорт|транспорт)/i,
-  ],
-  ["technology", /(технолог|искусственн|кибер|хакер|интернет|программ)/i],
-];
-function detectEventFamily(value, category = "") {
-  const text = normalizeForHash(`${category} ${value}`);
-  for (const [family, pattern] of EVENT_FAMILY_RULES) {
-    if (pattern.test(text)) return family;
-  }
-  return normalizeForHash(category || "other") || "other";
-}
-function eventAnchorTokens(value) {
-  const normalized = normalizeForHash(value);
-  const result = new Set();
-  for (const word of normalized.split(" ")) {
-    if (word.length < 5 || EVENT_STOP_WORDS.has(word)) continue;
-    result.add(word);
-    if (word.length >= 7) result.add(word.slice(0, 7));
-  }
-  return result;
-}
-function eventProfile(item, articleMedia = null) {
-  const title = stripHtml(articleMedia?.title || item?.title || "");
-  const description = stripHtml(
-    `${item?.description || ""} ${articleMedia?.description || ""}`
-  );
-  const combined = `${title} ${description}`;
-  return {
-    category: item?.category || "",
-    family: detectEventFamily(combined, item?.category || ""),
-    anchors: [...eventAnchorTokens(combined)].slice(0, 50),
-    title: title.slice(0, 500),
-    description: description.slice(0, 1200),
-    published_at: Date.now(),
-    article_url: item?.articleUrl || "",
-  };
-}
-
-function eventProfilesMatch(candidate, previous) {
-  if (!candidate || !previous) return false;
-  const familyA = candidate.family || "other";
-  const familyB = previous.family || "other";
-  if (familyA !== "other" && familyB !== "other" && familyA !== familyB)
-    return false;
-
-  const ageMs = Math.max(0, Date.now() - Number(previous.published_at || 0));
-  if (ageMs > EVENT_HISTORY_TTL_MS) return false;
-
-  const a = new Set(candidate.anchors || []);
-  const b = new Set(previous.anchors || []);
-  let common = 0;
-  for (const token of a) if (b.has(token)) common++;
-
-  // Exact/near-exact headline match is always the same story.
-  const titleA = normalizeForHash(candidate.title || "");
-  const titleB = normalizeForHash(previous.title || "");
-  if (titleA && titleB) {
-    if (titleA === titleB || titleA.includes(titleB) || titleB.includes(titleA))
-      return true;
-    const sim = storySimilarity(titleA, titleB);
-    if (sim >= 0.72) return true;
-  }
-
-  // IMPORTANT: do not reject an unrelated news item merely because it is in
-  // the same category/family and shares one generic word. The old v12 rule
-  // treated ONE shared token as a duplicate for all incident news and caused
-  // valid candidates to disappear.
-  const incident = [
-    "fire",
-    "accident",
-    "explosion",
-    "crime",
-    "military",
-    "disaster",
-  ].includes(familyA);
-  if (incident) {
-    return common >= 2;
-  }
-
-  // For politics/economy/business/law, require stronger textual overlap.
-  // One shared entity is not enough; three significant anchors is a duplicate.
-  return common >= 3;
-}
-async function getRecentPublishedEvents(limit = EVENT_RECENT_LIMIT) {
-  const now = Date.now();
-  if (
-    FACTOR_HISTORY_CACHE.events &&
-    now - FACTOR_HISTORY_CACHE.at < FACTOR_HISTORY_CACHE_TTL_MS
-  ) {
-    return FACTOR_HISTORY_CACHE.events.slice(0, limit);
-  }
-  const db = await getKV();
-  const events = [];
-  for await (const entry of db.list({
-    prefix: ["factor", "published_event_v5"],
-    reverse: true,
-  })) {
-    if (entry.value && typeof entry.value === "object")
-      events.push(entry.value);
-    if (events.length >= limit) break;
-  }
-  FACTOR_HISTORY_CACHE.events = events;
-  FACTOR_HISTORY_CACHE.at = now;
-  return events;
-}
-async function isSamePublishedEvent(item, articleMedia = null) {
-  const candidate = eventProfile(item, articleMedia);
-  const recentEvents = await getRecentPublishedEvents();
-  for (const previous of recentEvents) {
-    if (eventProfilesMatch(candidate, previous)) return true;
-  }
-  // Backward-compatible check against existing title history.
-  const recentTitles = await getRecentTitleEntries(MAX_HISTORY_CHECKED);
-  for (const recent of recentTitles) {
-    const previous = {
-      family: detectEventFamily(recent.title, item?.category || ""),
-      anchors: [...eventAnchorTokens(recent.title)],
-      published_at: recent.published_at,
-      title: recent.title,
-    };
-    if (eventProfilesMatch(candidate, previous)) return true;
-  }
-  return false;
-}
-async function rememberPublishedEvent(item, story, articleMedia, articleUrl) {
-  const db = await getKV();
-  const profile = eventProfile(
-    {
-      ...item,
-      title: story?.headline || item.title,
-      description: `${item.description || ""} ${story?.short || ""}`,
-      articleUrl,
-    },
-    articleMedia
-  );
-  profile.published_at = Date.now();
-  profile.article_url = normalizeArticleUrl(articleUrl);
-  const id = await sha256(
-    `${profile.published_at}|${profile.family}|${profile.title}|${profile.article_url}`
-  );
-  await db.set(["factor", "published_event_v5", id], profile, {
-    expireIn: EVENT_HISTORY_TTL_MS,
-  });
-}
-
 // Semantic fingerprint for the STORY itself.
 // It deliberately does not include source or URL because the same
 // event is often published by several RSS feeds with different URLs.
@@ -1828,7 +1291,7 @@ async function semanticStoryKey(item) {
   const title = normalizeForHash(item.title);
   const desc = normalizeForHash(item.description);
   const tokens = [...storyTokens(`${title} ${desc}`)].sort();
-  return sha256(`${item.category || ""}|${tokens.join("|")}`);
+  return sha256(tokens.join("|"));
 }
 async function isAlreadyPublished(item, articleUrl = "") {
   const db = await getKV();
@@ -1886,38 +1349,21 @@ async function markPublished(item, articleUrl) {
 // ============================================================
 // RECENT TITLES
 // ============================================================
-async function getRecentTitleEntries(limit = MAX_HISTORY_CHECKED) {
-  const now = Date.now();
-  if (
-    FACTOR_HISTORY_CACHE.titles &&
-    now - FACTOR_HISTORY_CACHE.at < FACTOR_HISTORY_CACHE_TTL_MS
-  ) {
-    return FACTOR_HISTORY_CACHE.titles.slice(0, limit);
-  }
+async function getRecentTitles(limit = MAX_HISTORY_CHECKED) {
   const db = await getKV();
-  const entries = [];
+  const titles = [];
   for await (const entry of db.list({
     prefix: ["factor", "recent_title_v2"],
     reverse: true,
   })) {
     if (entry.value) {
-      const key = Array.isArray(entry.key) ? entry.key : [];
-      const timestamp = Number(key[2] || 0);
-      entries.push({
-        title: String(entry.value),
-        published_at: Number.isFinite(timestamp) ? timestamp : 0,
-      });
+      titles.push(entry.value);
     }
-    if (entries.length >= limit) break;
+    if (titles.length >= limit) {
+      break;
+    }
   }
-  FACTOR_HISTORY_CACHE.titles = entries;
-  FACTOR_HISTORY_CACHE.at = now;
-  return entries;
-}
-
-async function getRecentTitles(limit = MAX_HISTORY_CHECKED) {
-  const entries = await getRecentTitleEntries(limit);
-  return entries.map((entry) => entry.title);
+  return titles;
 }
 async function rememberTitle(title) {
   const db = await getKV();
@@ -2298,391 +1744,116 @@ function buildPost(item, story, sourceName, articleUrl) {
 // ============================================================
 // MEDIA
 // ============================================================
-async function validateImageRelevance(item, story, candidate, media) {
-  // Safety rule: no visual validator => no automatic image publication.
-  // A wrong image is worse than a text-only post, and chooseCandidate will
-  // simply move to the next news candidate.
-  if (!GEMINI_API_KEY || !media) return false;
-  try {
-    let binary = "";
-    const bytes = media.bytes;
-    const chunkSize = 0x8000;
-    for (let i = 0; i < bytes.length; i += chunkSize) {
-      binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
-    }
-    const base64 = btoa(binary);
-    const prompt = ` Ты выполняешь СТРОГУЮ проверку фотографии для новостного канала. НОВОСТЬ: ${item.title} ТЕКСТ НОВОСТИ: ${stripHtml(story?.short || item.description || "")} ЗАГОЛОВОК СТАТЬИ: ${stripHtml(story?.headline || item.title)} КОНТЕКСТ ФОТО: ${candidate.context || "нет"} Дополнительное правило: если изображение похоже на архивную/иллюстративную фотографию, баннер, карточку СМИ или просто тематическую картинку, верни false. КАТЕГОРИЯ: ${item.category || ""} Правило: true можно вернуть ТОЛЬКО если по самому изображению видно, что оно непосредственно связано с событием, объектом, местом, людьми или транспортом, описанными в новости. Одного совпадения по общей теме недостаточно. ОБЯЗАТЕЛЬНО false для: - логотипа, карточки СМИ, баннера, рекламы, страницы сайта; - случайной фотографии из другой новости; - архивной/иллюстративной фотографии без явной связи с событием; - изображения другого города, объекта, транспорта или людей; - общей фотографии, которую нельзя уверенно связать с конкретной новостью. Для новости о пожаре true только если виден именно пожар/объект/место, связанное с событием. Фото аэропорта, магазина, людей с багажом и т.п. — false. Для новости о ДТП true только если изображено именно ДТП/дорога/транспорт, относящиеся к описанному событию; просто автомобиль или дорога — false. Верни ТОЛЬКО JSON: {"relevant":true,"confidence":0.95,"reason":"кратко","visible":"что именно видно"} `;
-    const response = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" +
-        encodeURIComponent(GEMINI_API_KEY),
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [
-            {
-              parts: [
-                { text: prompt },
-                {
-                  inline_data: {
-                    mime_type: media.contentType || "image/jpeg",
-                    data: base64,
-                  },
-                },
-              ],
-            },
-          ],
-          generationConfig: {
-            temperature: 0,
-            responseMimeType: "application/json",
-          },
-        }),
-        signal: AbortSignal.timeout(20000),
-      }
-    );
-    if (!response.ok) return false;
-    const data = await response.json();
-    const text = data?.candidates?.[0]?.content?.parts
-      ?.map((p) => p.text ?? "")
-      .join("")
-      .trim();
-    const json = text ? extractJson(text) : null;
-    if (!json || typeof json.relevant !== "boolean") return false;
-    const confidence = Number(json.confidence ?? 0);
-    console.log(
-      "Image relevance:",
-      candidate.source,
-      candidate.url,
-      json.relevant,
-      confidence,
-      json.reason || ""
-    );
-    return json.relevant === true && confidence >= 0.92;
-  } catch (error) {
-    console.error(
-      "Image relevance check:",
-      error instanceof Error ? error.message : String(error)
-    );
-    return false;
-  }
-}
-
-async function findBestMedia(articleMedia, item, story, diagnostics = null) {
+async function findBestMedia(articleMedia) {
   // ----------------------------------------------------------
-  // 1. VIDEO — try every publisher video candidate before images.
+  // 1. VIDEO
   // ----------------------------------------------------------
-  const videoCandidates =
-    Array.isArray(articleMedia.videoCandidates) &&
-    articleMedia.videoCandidates.length
-      ? articleMedia.videoCandidates
-      : articleMedia.videoUrl
-      ? [{ url: articleMedia.videoUrl, priority: 100, source: "article_video" }]
-      : [];
-  if (diagnostics) diagnostics.video_candidates = videoCandidates.length;
-  for (const candidate of videoCandidates
-    .filter((c) => Number(c.priority ?? 0) >= 105)
-    .slice(0, 8)) {
-    console.log(
-      "Trying verified article video:",
-      candidate.source,
-      candidate.url
-    );
-    const video = await downloadMedia(candidate.url, "video");
+  if (articleMedia.videoUrl) {
+    console.log("Trying article video:", articleMedia.videoUrl);
+    const video = await downloadMedia(articleMedia.videoUrl, "video");
     if (video) {
-      if (diagnostics) {
-        diagnostics.media_selected = "video";
-        diagnostics.selected_media_source = candidate.source;
-        diagnostics.media_rejected = null;
-      }
       return video;
     }
   }
-  if (videoCandidates.length && diagnostics)
-    diagnostics.media_rejected = "video_download_failed";
-
   // ----------------------------------------------------------
-  // 2. IMAGE — only a validated, article-specific image.
+  // 2. IMAGE
   // ----------------------------------------------------------
-  const candidates =
-    Array.isArray(articleMedia.imageCandidates) &&
-    articleMedia.imageCandidates.length
-      ? articleMedia.imageCandidates
-      : articleMedia.imageUrl
-      ? [
-          {
-            url: articleMedia.imageUrl,
-            priority: 50,
-            context: "",
-            source: "meta",
-          },
-        ]
-      : [];
-  if (diagnostics) diagnostics.image_candidates = candidates.length;
-  let checked = 0;
-  for (const candidate of candidates.slice(0, 10)) {
-    checked++;
-    if (diagnostics) diagnostics.media_checked = checked;
-    console.log(
-      "Trying article image candidate:",
-      candidate.source,
-      candidate.url
-    );
-    const image = await downloadMedia(candidate.url, "image");
-    if (!image) continue;
-    const relevant = await validateImageRelevance(
-      item,
-      story,
-      candidate,
-      image
-    );
-    if (!relevant) {
-      if (diagnostics) diagnostics.media_rejected = "image_not_relevant";
-      continue;
+  if (articleMedia.imageUrl) {
+    console.log("Trying article image:", articleMedia.imageUrl);
+    const image = await downloadMedia(articleMedia.imageUrl, "image");
+    if (image) {
+      return image;
     }
-    if (diagnostics) {
-      diagnostics.media_selected = "image";
-      diagnostics.selected_media_source = candidate.source;
-      diagnostics.media_rejected = null;
-    }
-    return image;
   }
-
-  if (diagnostics)
-    diagnostics.media_rejected =
-      diagnostics.media_rejected || "no_relevant_media";
+  // ----------------------------------------------------------
+  // 3. TEXT
+  // ----------------------------------------------------------
   return null;
 }
 // ============================================================
 // CANDIDATE SELECTION
 // ============================================================
-async function chooseCandidate( items, urgentAllowed, regularAllowed, diagnostics = null ) {
+async function chooseCandidate(items, urgentAllowed, regularAllowed) {
   // ----------------------------------------------------------
   // STEP 1 — LOCAL SCORE
   // ----------------------------------------------------------
   const scored = items
-    .filter((item) => {
-      if (item.title.length < 15) {
-        diagnostics && diagnostics.short_title++;
-        return false;
-      }
-      return true;
-    })
+    .filter((item) => item.title.length >= 15)
     .map(scoreNewsItem)
     .filter((candidate) => {
       if (candidate.urgency && !urgentAllowed) {
-        diagnostics && diagnostics.urgent_interval++;
         return false;
       }
       if (!candidate.urgency && !regularAllowed) {
-        diagnostics && diagnostics.regular_interval++;
         return false;
       }
       return true;
     })
-    .sort((a, b) => b.score - a.score);
-
-  if (diagnostics) {
-    diagnostics.scored = scored.length;
-  }
-
-  console.log("Scored candidates (full RSS pool):", scored.length);
-
+    .sort((a, b) => b.score - a.score)
+    .slice(0, SCORE_CANDIDATES);
+  console.log("Scored candidates:", scored.length);
   // ----------------------------------------------------------
   // STEP 2 — REAL ARTICLE URL
   // ----------------------------------------------------------
   let checked = 0;
-  let geminiCalls = 0;
-
   for (const candidate of scored) {
     checked++;
     const { item, score } = candidate;
-
-    // Fast real-world event rejection before expensive article/Gemini work.
-    if (await isSamePublishedEvent(item)) {
-      diagnostics && diagnostics.event_duplicate_before_article++;
-      diagnostics &&
-        diagnostics.top_candidates.push({
-          title: item.title,
-          score,
-          rejected: "event_duplicate_before_article",
-        });
-      console.log(
-        "Rejected: same published event before article fetch:",
-        item.title
-      );
-      continue;
-    }
-
     // Fast duplicate rejection before expensive article/Gemini work.
     if (await isAlreadyPublished(item)) {
-      diagnostics && diagnostics.duplicate_before_article++;
       console.log(
         "Rejected: semantic duplicate before article fetch:",
         item.title
       );
       continue;
     }
-
     const articleMedia = await extractArticleMedia(item);
     const articleUrl = articleMedia.articleUrl;
-
-    if (articleMedia.rejectedReason === "article_title_mismatch") {
-      diagnostics && diagnostics.article_title_mismatch++;
-      continue;
-    }
-
+    // Реального СМИ нет — пропускаем.
     if (!isLikelyArticleUrl(articleUrl)) {
-      diagnostics && diagnostics.bad_url++;
-      diagnostics &&
-        diagnostics.top_candidates.push({
-          title: item.title,
-          score,
-          rejected: "bad_url",
-        });
       console.log("Rejected: no real article URL:", item.title);
       continue;
     }
-
     // --------------------------------------------------------
-    // STEP 3 — EVENT DEDUP
-    // --------------------------------------------------------
-    if (await isSamePublishedEvent(item, articleMedia)) {
-      diagnostics && diagnostics.event_duplicate_after_article++;
-      console.log("Rejected: same published event after article:", item.title);
-      continue;
-    }
-
-    // --------------------------------------------------------
-    // STEP 4 — DEDUP
+    // STEP 3 — DEDUP
     // --------------------------------------------------------
     if (await isAlreadyPublished(item, articleUrl)) {
-      diagnostics && diagnostics.duplicate_after_article++;
       console.log("Rejected: published:", item.title);
       continue;
     }
-
     // --------------------------------------------------------
     // STEP 4 — GEMINI
     // --------------------------------------------------------
     let story = null;
-
-    if (geminiCalls < GEMINI_CANDIDATES) {
-      geminiCalls++;
+    if (checked <= GEMINI_CANDIDATES) {
       story = await callGemini(item, articleMedia);
     }
-
     if (!story) {
-      diagnostics && diagnostics.gemini_fallback++;
       story = makeFallbackStory(item, articleMedia);
     }
-
-    // Защита от перекрёстного ответа Gemini: заголовок модели
-    // обязан относиться к той же новости, что и RSS.
-    if (!articleTitleMatches(item.title, story.headline)) {
-      diagnostics && diagnostics.gemini_title_mismatch++;
-      console.warn(
-        "Rejected Gemini title mismatch:",
-        item.title,
-        "=>",
-        story.headline
-      );
-      story = makeFallbackStory(item, articleMedia);
-    }
-
-    if (!articleTitleMatches(item.title, story.headline)) {
-      diagnostics && diagnostics.gemini_title_mismatch++;
-      console.warn(
-        "Rejected fallback title mismatch:",
-        item.title,
-        "=>",
-        story.headline
-      );
-      continue;
-    }
-
     story.urgent = story.urgent || candidate.urgency;
-
     if (story.urgent && !urgentAllowed) {
-      diagnostics && diagnostics.urgent_interval_after_gemini++;
       continue;
     }
-
     if (!story.urgent && !regularAllowed) {
-      diagnostics && diagnostics.regular_interval_after_gemini++;
       continue;
     }
-
     // --------------------------------------------------------
     // STEP 5 — TEXT DUPLICATE
     // --------------------------------------------------------
     if (await isRepeatedStoryText(story)) {
-      diagnostics && diagnostics.text_duplicate++;
       console.log("Rejected: text duplicate:", story.headline);
       continue;
     }
-
-    // Media is part of candidate acceptance. If the image/video is absent
-    // or visually wrong, reject this candidate and try the next one.
-    const media = await findBestMedia(articleMedia, item, story, diagnostics);
-    if (!media) {
-      console.log("Rejected: no verified relevant media:", item.title);
-      continue;
-    }
-
-    diagnostics && diagnostics.accepted++;
     return {
       item,
       story,
       articleMedia,
       score,
-      media,
     };
   }
-
   return null;
 }
-
-// ============================================================
-// DIAGNOSTICS
-// ============================================================
-function createDiagnostics() {
-  return {
-    rss_total: 0,
-    scored: 0,
-    scored_full_pool: true,
-    accepted: 0,
-
-    short_title: 0,
-    old_news: 0,
-    invalid_pub_date: 0,
-    future_news: 0,
-    urgent_interval: 0,
-    regular_interval: 0,
-
-    duplicate_before_article: 0,
-    event_duplicate_before_article: 0,
-    bad_url: 0,
-    article_title_mismatch: 0,
-    duplicate_after_article: 0,
-    event_duplicate_after_article: 0,
-
-    gemini_fallback: 0,
-    gemini_title_mismatch: 0,
-    urgent_interval_after_gemini: 0,
-    regular_interval_after_gemini: 0,
-    text_duplicate: 0,
-
-    video_candidates: 0,
-    image_candidates: 0,
-    media_checked: 0,
-    media_selected: null,
-    selected_media_source: null,
-    media_rejected: null,
-
-    top_candidates: [],
-  };
-}
-
 // ============================================================
 // ATOMIC KV LOCK
 // ============================================================
@@ -2690,6 +1861,30 @@ const PIPELINE_LOCK_KEY = ["factor", "lock"];
 async function acquirePipelineLock() {
   const db = await getKV();
   const token = crypto.randomUUID();
+  const now = Date.now();
+
+  // Recover only from a genuinely stale lock. Do not touch a live pipeline.
+  const existing = await db.get(PIPELINE_LOCK_KEY);
+  if (existing.value?.created_at) {
+    const age = now - Number(existing.value.created_at);
+    const STALE_LOCK_MS = 4 * 60 * 1000;
+    if (age > STALE_LOCK_MS) {
+      const cleared = await db
+        .atomic()
+        .check({
+          key: PIPELINE_LOCK_KEY,
+          versionstamp: existing.versionstamp,
+        })
+        .delete(PIPELINE_LOCK_KEY)
+        .commit();
+      if (!cleared.ok) {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
   const result = await db
     .atomic()
     .check({
@@ -2700,13 +1895,14 @@ async function acquirePipelineLock() {
       PIPELINE_LOCK_KEY,
       {
         token,
-        created_at: Date.now(),
+        created_at: now,
       },
       {
         expireIn: LOCK_TTL_MS,
       }
     )
     .commit();
+
   if (!result.ok) {
     return null;
   }
@@ -2825,29 +2021,8 @@ async function executePipeline(manual = false) {
     // RSS
     // --------------------------------------------------------
     const feedResults = await Promise.all(RSS_FEEDS.map(loadRSS));
-    const rawItems = feedResults.flat();
-    const freshness = {
-      old_news: 0,
-      invalid_pub_date: 0,
-      future_news: 0,
-    };
-    const freshItems = rawItems.filter((item) => {
-      const status = getNewsDateStatus(item.pubDate);
-      if (!status.valid) {
-        freshness.invalid_pub_date++;
-        return false;
-      }
-      if (status.future) {
-        freshness.future_news++;
-        return false;
-      }
-      if (status.old) {
-        freshness.old_news++;
-        return false;
-      }
-      return true;
-    });
-    const items = freshItems
+    const items = feedResults
+      .flat()
       .sort((a, b) => {
         const ad = Date.parse(a.pubDate) || 0;
         const bd = Date.parse(b.pubDate) || 0;
@@ -2883,37 +2058,23 @@ async function executePipeline(manual = false) {
     // --------------------------------------------------------
     // CANDIDATE
     // --------------------------------------------------------
-    const diagnostics = createDiagnostics();
-    diagnostics.rss_total = items.length;
-    diagnostics.old_news = freshness.old_news;
-    diagnostics.invalid_pub_date = freshness.invalid_pub_date;
-    diagnostics.future_news = freshness.future_news;
-    diagnostics.top_candidates = [];
-
     const candidate = await chooseCandidate(
       items,
       urgentAllowed,
-      regularAllowed,
-      diagnostics
+      regularAllowed
     );
-
     if (!candidate) {
-      diagnostics.top_candidates = (diagnostics.top_candidates || []).slice(
-        0,
-        15
-      );
       const result = {
         ok: true,
         selected: 0,
         reason: "no new valid candidate",
         rss_total: items.length,
-        diagnostics,
         duration_ms: Date.now() - startedAt,
       };
       await db.set(["factor", "state", "last_pipeline"], result);
       return result;
     }
-    const { item, story, articleMedia, score, media } = candidate;
+    const { item, story, articleMedia, score } = candidate;
     const urgent = story.urgent || detectUrgency(item);
     if (urgent && !urgentAllowed && !manual) {
       return {
@@ -2941,19 +2102,6 @@ async function executePipeline(manual = false) {
       };
     }
     // --------------------------------------------------------
-    // FINAL EVENT DEDUP
-    // --------------------------------------------------------
-    if (await isSamePublishedEvent(item, articleMedia)) {
-      diagnostics.event_duplicate_after_article++;
-      return {
-        ok: true,
-        selected: 0,
-        reason: "same event already published",
-        diagnostics,
-      };
-    }
-
-    // --------------------------------------------------------
     // FINAL DEDUP
     // --------------------------------------------------------
     if (await isAlreadyPublished(item, finalArticleUrl)) {
@@ -2964,8 +2112,9 @@ async function executePipeline(manual = false) {
       };
     }
     // --------------------------------------------------------
-    // MEDIA — already verified during candidate selection
+    // MEDIA
     // --------------------------------------------------------
+    const media = await findBestMedia(articleMedia);
     const sourceName = cleanSourceName(item.source, articleMedia);
     // --------------------------------------------------------
     // POST
@@ -3013,7 +2162,6 @@ async function executePipeline(manual = false) {
     // --------------------------------------------------------
     await markPublished(item, finalArticleUrl);
     await rememberTitle(story.headline);
-    await rememberPublishedEvent(item, story, articleMedia, finalArticleUrl);
     if (urgent) {
       await db.set(["factor", "state", "last_urgent"], now);
     } else {
@@ -3026,7 +2174,6 @@ async function executePipeline(manual = false) {
       manual,
       score,
       rss_total: items.length,
-      diagnostics,
       item: {
         title: item.title,
         source: sourceName,
