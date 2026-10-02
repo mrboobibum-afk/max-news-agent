@@ -1138,10 +1138,13 @@ async function extractArticleMedia(item) {
   }
   const page = await loadArticlePage(articleUrl);
   if (!page) {
-    // Never pass the unverified URL downstream. This prevents technical redirects
-    // such as googletagmanager from becoming the published source URL.
+    // The publisher page can block automated requests (403/429, anti-bot,
+    // TLS/proxy issues) even when the resolved article URL itself is valid.
+    // Do NOT discard the news item in that case. Keep the verified article URL
+    // and use the RSS title/description as the editorial source. Media remains
+    // empty and the existing VIDEO -> IMAGE -> TEXT fallback handles that.
     return {
-      articleUrl: "",
+      articleUrl,
       imageUrl: null,
       imageUrls: [],
       imageCandidates: [],
