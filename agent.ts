@@ -2378,7 +2378,7 @@ async function callQwen(item, articleMedia) {
 
     try {
         const response = await fetch(
-            `${QWEN_BASE_URL.replace(/\\/$/, "")}/chat/completions`,
+            `${QWEN_BASE_URL.replace(/\/$/, "")}/chat/completions`,
             {
                 method: "POST",
                 headers: {
