@@ -64,8 +64,8 @@ const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
   "AppleWebKit/537.36 (KHTML, like Gecko) " +
   "Chrome/140.0.0.0 Safari/537.36";
-const MEDIA_SEARCH_MAX_RESULTS = 8;
-const MEDIA_SEARCH_MAX_PAGES = 8;
+const MEDIA_SEARCH_MAX_RESULTS = 12;
+const MEDIA_SEARCH_MAX_PAGES = 14;
 const MEDIA_SEARCH_TIMEOUT_MS = 9000;
 const MEDIA_DOWNLOAD_TIMEOUT_MS = 45000;
 
@@ -1347,6 +1347,20 @@ function collectImageCandidates( html, baseUrl, title, description, rssMediaUrls
   push(findMeta(html, "twitter:image"), "twitter", titleContext, 26);
   push(findMeta(html, "twitter:image:src"), "twitter", titleContext, 26);
 
+  // Original image links and gallery anchors. These are often the full-size
+  // news photo even when the <img> itself is a thumbnail or lazy placeholder.
+  for (const linked of extractImageLinksFromHtml(
+    html,
+    baseUrl,
+    title,
+    description
+  )) {
+    const key = normalizeUrl(linked.url);
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    candidates.push(linked);
+  }
+
   return candidates
     .filter((c) => c.score > -25)
     .sort((a, b) => b.score - a.score)
@@ -1555,15 +1569,38 @@ async function fetchRssSearch(url) {
 function buildMediaSearchQueries(item) {
   const headline = cleanText(item.title || "")
     .replace(/[|]+/g, " ")
+    .replace(/\s+/g, " ")
     .trim();
   if (!headline) return [];
-  const exact = `"${headline.slice(0, 180)}"`;
-  return [
-    `${exact} видео OR кадры OR запись OR очевидцы`,
-    `${exact} фото OR снимки OR очевидец`,
-  ];
-}
 
+  const tokens = storyTokens(headline);
+  const words = [...tokens].filter((w) => w.length >= 4).slice(0, 8);
+  const compact = words.join(" ");
+  const locationWords = words.filter((w) =>
+    /(?:рязан|мост|солотч|москв|петер|волгоград|калуж|санкт|спб|москв|област|район)/i.test(
+      w
+    )
+  );
+  const place = locationWords.slice(0, 2).join(" ");
+
+  // Do not require the exact original headline. A witness/video report
+  // almost always has a different headline from the first RSS story.
+  const queries = [
+    `${compact} видео`,
+    `${compact} кадры`,
+    `${compact} очевидец видео`,
+    `${compact} регистратор видео`,
+    `${compact} соцсети видео`,
+  ];
+  if (place) {
+    queries.push(`${place} ДТП видео`);
+    queries.push(`${place} авария видео очевидцы`);
+  }
+  // Also keep one exact-ish query as a high precision fallback.
+  queries.push(`"${headline.slice(0, 140)}" видео`);
+
+  return [...new Set(queries)];
+}
 function buildSearchFeedUrls(query) {
   const encoded = encodeURIComponent(`${query} when:3d`);
   return [
@@ -1634,6 +1671,48 @@ async function inspectExternalMediaPage(candidate) {
     findMeta(html, "description") ||
     candidate.description ||
     "";
+
+  const videoUrls = collectVideoCandidates(html, finalUrl).map((x) => x.url);
+
+  // Many regional news sites embed VK/MAX/other players through an iframe.
+  // The outer article contains no MP4 itself, so inspect one embed page as a
+  // media-only hop. This does not alter story selection.
+  const embeds = [];
+  for (const m of html.matchAll(
+    /<(?:iframe|embed)\b[^>]*(?:src|data-src)=["']([^"']+)["'][^>]*>/gi
+  )) {
+    const u = mediaCandidateUrl(m[1], finalUrl);
+    if (!u || embeds.includes(u)) continue;
+    embeds.push(u);
+    if (embeds.length >= 5) break;
+  }
+  for (const embedUrl of embeds) {
+    try {
+      const r = await fetch(embedUrl, {
+        redirect: "follow",
+        headers: {
+          "User-Agent": USER_AGENT,
+          Accept: "text/html,application/xhtml+xml,*/*;q=0.5",
+          Referer: finalUrl,
+        },
+        signal: AbortSignal.timeout(10000),
+      });
+      if (!r.ok) continue;
+      const ct = (r.headers.get("content-type") || "").toLowerCase();
+      if (!ct.includes("text/html") && !ct.includes("application/xhtml+xml"))
+        continue;
+      const embedHtml = await r.text();
+      const embedFinal = normalizeUrl(r.url || embedUrl);
+      for (const v of collectVideoCandidates(embedHtml, embedFinal).map(
+        (x) => x.url
+      )) {
+        if (!videoUrls.includes(v)) videoUrls.push(v);
+      }
+    } catch {
+      // Ignore one blocked embed and continue searching other sources.
+    }
+  }
+
   return {
     articleUrl: finalUrl,
     sourceName: findMeta(html, "og:site_name") || candidate.source || "",
@@ -1646,7 +1725,7 @@ async function inspectExternalMediaPage(candidate) {
       description,
       candidate.rssMediaUrls || []
     ),
-    videoUrls: collectVideoCandidates(html, finalUrl).map((x) => x.url),
+    videoUrls,
   };
 }
 
@@ -1734,6 +1813,12 @@ async function extractArticleMedia(item) {
   if (!page) {
     // The publisher page can block automated requests (403/429, anti-bot,
     // TLS/proxy issues) even when the resolved article URL itself is valid.
+    // Try WordPress REST as a media-only fallback before giving up.
+    const wp = await wordpressMediaFallback(
+      articleUrl,
+      item.title || "",
+      item.description || ""
+    );
     // Do NOT discard the news item in that case. Keep the verified article URL
     // and use the RSS title/description as the editorial source. Media remains
     // empty and the existing VIDEO -> IMAGE -> TEXT fallback handles that.
@@ -1741,7 +1826,7 @@ async function extractArticleMedia(item) {
       articleUrl,
       imageUrl: null,
       imageUrls: [],
-      imageCandidates: [],
+      imageCandidates: wp,
       videoUrl: null,
       videoUrls: [],
       sourceName: item.source || null,
@@ -1756,7 +1841,7 @@ async function extractArticleMedia(item) {
     findMeta(html, "og:description") ||
     findMeta(html, "description") ||
     item.description;
-  const imageCandidates = collectImageCandidates(
+  let imageCandidates = collectImageCandidates(
     html,
     finalUrl,
     pageTitle,
@@ -1764,6 +1849,30 @@ async function extractArticleMedia(item) {
     item.rssMediaUrls || []
   );
   const videoUrls = collectVideoCandidates(html, finalUrl);
+
+  // WordPress exposes the original featured image/content media through the
+  // REST API even when the rendered page uses lazy loading or CDN markup that
+  // a simple HTML extractor cannot see. This is a media-only fallback; it does
+  // not alter story selection or the working news pipeline.
+  if (
+    imageCandidates.length === 0 ||
+    imageCandidates.every(
+      (x) => x.kind === "rss" || mediaIsGeneric(x.url, x.context)
+    )
+  ) {
+    const wp = await wordpressMediaFallback(
+      finalUrl,
+      pageTitle,
+      pageDescription
+    );
+    const seen = new Set(imageCandidates.map((x) => normalizeUrl(x.url)));
+    imageCandidates = [
+      ...imageCandidates,
+      ...wp.filter((x) => !seen.has(normalizeUrl(x.url))),
+    ]
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 30);
+  }
   return {
     articleUrl: finalUrl,
     imageUrl: imageCandidates[0]?.url || null,
@@ -1783,6 +1892,112 @@ async function extractArticleMedia(item) {
 // ============================================================
 // MEDIA DOWNLOAD
 // ============================================================
+function isMaxDirectImageUrl(url) {
+  return /\.(?:jpe?g|png|gif|tiff?|bmp|heic)(?:[?#]|$)/i.test(
+    String(url || "")
+  );
+}
+
+function isMaxDirectVideoUrl(url) {
+  return /\.(?:mp4|mov|mkv|webm)(?:[?#]|$)/i.test(String(url || ""));
+}
+
+function extractImageLinksFromHtml(html, baseUrl, title, description) {
+  const out = [];
+  const seen = new Set();
+  const add = (raw, kind = "linked_image", bonus = 0) => {
+    const url = mediaCandidateUrl(raw, baseUrl);
+    if (!url || !isMaxDirectImageUrl(url)) return;
+    const key = normalizeUrl(url);
+    if (!key || seen.has(key) || mediaIsGeneric(key)) return;
+    seen.add(key);
+    out.push({
+      url: key,
+      score:
+        40 +
+        bonus +
+        mediaTextScore(key, `${title} ${description}`, title, description),
+      kind,
+      context: `${title} ${description}`,
+    });
+  };
+
+  // Very common WordPress pattern: the visible photo is wrapped in an <a>
+  // whose href points to the original JPG/PNG, while the <img> itself may
+  // be lazy-loaded or served through a thumbnail/CDN URL.
+  for (const m of html.matchAll(
+    /<a\b[^>]*\bhref=["']([^"']+)["'][^>]*>[\s\S]{0,2500}?<img\b[^>]*>/gi
+  )) {
+    add(m[1], "linked_article_image", 14);
+  }
+  // Also catch direct image links that contain no <img> tag.
+  for (const m of html.matchAll(
+    /<a\b[^>]*\bhref=["']([^"']+\.(?:jpe?g|png|gif|tiff?|bmp|heic)(?:\?[^"']*)?)["'][^>]*>/gi
+  )) {
+    add(m[1], "linked_image", 10);
+  }
+  // CSS background images used by lazy galleries.
+  for (const m of html.matchAll(
+    /(?:background-image|data-background-image|data-bg)=\s*(?:url\(\s*)?["']?([^"')\s]+\.(?:jpe?g|png|gif|tiff?|bmp|heic)(?:\?[^"')\s]*)?)["']?\s*\)?/gi
+  )) {
+    add(m[1], "background_image", 5);
+  }
+  return out;
+}
+
+async function wordpressMediaFallback(articleUrl, title, description) {
+  try {
+    const u = new URL(articleUrl);
+    const slug = u.pathname.split("/").filter(Boolean).pop() || "";
+    if (!slug || slug.length < 5) return [];
+    const api = new URL("/wp-json/wp/v2/posts", `${u.origin}/`);
+    api.searchParams.set("slug", slug);
+    api.searchParams.set("_embed", "1");
+    const response = await fetch(api.toString(), {
+      headers: {
+        "User-Agent": USER_AGENT,
+        Accept: "application/json",
+      },
+      signal: AbortSignal.timeout(12000),
+    });
+    if (!response.ok) return [];
+    const data = await response.json();
+    const post = Array.isArray(data) ? data[0] : null;
+    if (!post) return [];
+    const candidates = [];
+    const push = (raw, kind, bonus = 0) => {
+      const url = mediaCandidateUrl(raw, articleUrl);
+      if (!url || !isMaxDirectImageUrl(url) || mediaIsGeneric(url)) return;
+      if (candidates.some((x) => normalizeUrl(x.url) === normalizeUrl(url)))
+        return;
+      candidates.push({
+        url: normalizeUrl(url),
+        score:
+          60 +
+          bonus +
+          mediaTextScore(url, `${title} ${description}`, title, description),
+        kind,
+        context: `${title} ${description}`,
+      });
+    };
+    push(post.featured_image_url, "wordpress_featured", 20);
+    const media = post._embedded?.["wp:featuredmedia"]?.[0];
+    push(media?.source_url, "wordpress_featured", 25);
+    push(media?.guid?.rendered, "wordpress_featured", 15);
+    const html = post.content?.rendered || "";
+    candidates.push(
+      ...extractImageLinksFromHtml(html, articleUrl, title, description)
+    );
+    return candidates.sort((a, b) => b.score - a.score).slice(0, 20);
+  } catch (error) {
+    console.error(
+      "WordPress media fallback:",
+      error instanceof Error ? error.message : String(error)
+    );
+    return [];
+  }
+}
+
 function extensionFromType(type, contentType, url) {
   const ct = contentType.toLowerCase();
   if (type === "video") {
@@ -1993,14 +2208,13 @@ async function publishToMax(text, mediaToken) {
     disable_link_preview: true,
   };
   if (mediaToken) {
-    body.attachments = [
-      {
-        type: mediaToken.type,
-        payload: {
-          token: mediaToken.token,
-        },
-      },
-    ];
+    const attachment = {
+      type: mediaToken.type,
+      payload: mediaToken.remoteUrl
+        ? { url: mediaToken.remoteUrl }
+        : { token: mediaToken.token },
+    };
+    body.attachments = [attachment];
   }
   return await maxJson(
     `/messages?chat_id=${encodeURIComponent(TARGET_CHAT_ID)}`,
@@ -2672,6 +2886,17 @@ async function findBestMedia(articleMedia, item) {
       articleMedia.articleUrl || ""
     );
     if (image) return image;
+    // MAX supports external image URLs directly in an image attachment.
+    // Use this only for formats MAX documents as supported; it avoids the
+    // old failure mode where a valid JPG was found but the download path
+    // was blocked and the bot silently fell back to a page preview.
+    if (isMaxDirectImageUrl(candidate.url)) {
+      return {
+        type: "image",
+        remoteUrl: candidate.url,
+        sourceUrl: candidate.url,
+      };
+    }
   }
 
   // 4. PHOTO FROM OTHER MEDIA / EYEWITNESS COVERAGE.
@@ -2688,6 +2913,13 @@ async function findBestMedia(articleMedia, item) {
       candidate.referer || articleMedia.articleUrl || ""
     );
     if (image) return image;
+    if (isMaxDirectImageUrl(candidate.url)) {
+      return {
+        type: "image",
+        remoteUrl: candidate.url,
+        sourceUrl: candidate.url,
+      };
+    }
   }
 
   return null;
@@ -3110,12 +3342,20 @@ async function executePipeline(manual = false) {
     // --------------------------------------------------------
     if (media) {
       try {
-        console.log("Uploading media:", media.type, media.bytes.byteLength);
-        const token = await uploadMedia(media);
-        mediaInfo = {
-          type: media.type,
-          token,
-        };
+        if (media.remoteUrl) {
+          console.log("Using remote MAX image attachment:", media.remoteUrl);
+          mediaInfo = {
+            type: media.type,
+            remoteUrl: media.remoteUrl,
+          };
+        } else {
+          console.log("Uploading media:", media.type, media.bytes.byteLength);
+          const token = await uploadMedia(media);
+          mediaInfo = {
+            type: media.type,
+            token,
+          };
+        }
       } catch (error) {
         console.error(
           "Media upload failed:",
@@ -3167,7 +3407,8 @@ async function executePipeline(manual = false) {
       media: media
         ? {
             type: media.type,
-            source_url: media.sourceUrl,
+            mode: media.remoteUrl ? "remote_url" : "uploaded_token",
+            source_url: media.sourceUrl || media.remoteUrl,
           }
         : null,
       publication,
