@@ -952,6 +952,149 @@ function extractGoogleNewsUrlCandidates(html, baseUrl, preferredHost) {
         .map((entry) => entry.url);
 }
 // ============================================================
+// GOOGLE NEWS DIRECT DECODER
+// ============================================================
+// Current Google News RSS links are JS/interstitial redirects.
+// A normal fetch() therefore stays on news.google.com. We resolve
+// the publisher URL through Google's internal batchexecute RPC.
+// This is intentionally isolated so the rest of the resolver remains
+// unchanged if Google changes the transport again.
+
+async function decodeGoogleNewsArticleUrl(googleUrl) {
+    try {
+        const parsed = new URL(googleUrl);
+        if (!isGoogleNewsUrl(googleUrl)) return "";
+
+        const parts = parsed.pathname.split("/").filter(Boolean);
+        const articleIndex = parts.lastIndexOf("articles");
+        if (articleIndex < 0 || !parts[articleIndex + 1]) return "";
+
+        const articleId = parts[articleIndex + 1];
+
+        const variants = [
+            `https://news.google.com/rss/articles/${encodeURIComponent(articleId)}`,
+            `https://news.google.com/articles/${encodeURIComponent(articleId)}`,
+        ];
+
+        let signature = "";
+        let timestamp = "";
+
+        for (const pageUrl of variants) {
+            try {
+                const response = await fetch(pageUrl, {
+                    redirect: "follow",
+                    headers: {
+                        "User-Agent": USER_AGENT,
+                        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                        "Accept-Language": "en-US,en;q=0.9",
+                    },
+                    signal: AbortSignal.timeout(10000),
+                });
+
+                if (!response.ok) continue;
+
+                const html = await response.text();
+                const sigMatch = html.match(/data-n-a-sg=["']([^"']+)["']/i);
+                const tsMatch = html.match(/data-n-a-ts=["']([^"']+)["']/i);
+
+                if (sigMatch?.[1] && tsMatch?.[1]) {
+                    signature = decodeHtmlEntities(sigMatch[1]);
+                    timestamp = tsMatch[1];
+                    break;
+                }
+            }
+            catch {
+                // Try the next Google News page variant.
+            }
+        }
+
+        if (!signature || !timestamp) {
+            console.warn("Google News decoder: signature/timestamp not found");
+            return "";
+        }
+
+        const rpc = [
+            "Fbv4je",
+            `["garturlreq",[["X","X",["X","X"],null,null,1,1,"US:en",null,1,null,null,null,null,null,0,1],"X","X",1,[1,1,1],1,1,null,0,0,null,0],"${articleId}",${Number(timestamp)},"${signature}"]`,
+        ];
+
+        const payload = new URLSearchParams({
+            "f.req": JSON.stringify([[rpc]]),
+        });
+
+        const response = await fetch(
+            "https://news.google.com/_/DotsSplashUi/data/batchexecute",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+                    "User-Agent": USER_AGENT,
+                    "Accept": "*/*",
+                    "Referer": "https://news.google.com/",
+                    "Origin": "https://news.google.com",
+                },
+                body: payload.toString(),
+                signal: AbortSignal.timeout(10000),
+            },
+        );
+
+        if (!response.ok) {
+            console.warn("Google News decoder HTTP:", response.status);
+            return "";
+        }
+
+        const text = await response.text();
+
+        // Normal response contains a JSON frame after a blank line.
+        const chunks = text.split("\n\n").filter(Boolean);
+        for (const chunk of chunks) {
+            try {
+                const frame = JSON.parse(chunk);
+                const rows = Array.isArray(frame) ? frame : [];
+                for (const row of rows) {
+                    if (!Array.isArray(row) || row[0] !== "Fbv4je") continue;
+
+                    const nested = typeof row[2] === "string"
+                        ? JSON.parse(row[2])
+                        : row[2];
+
+                    const candidate = nested?.[1];
+                    if (typeof candidate === "string" &&
+                        isLikelyArticleUrl(candidate)) {
+                        return normalizeUrl(candidate);
+                    }
+                }
+            }
+            catch {
+                // Some batchexecute frames contain non-JSON prefixes.
+            }
+        }
+
+        // Fallback: locate an external URL in the RPC response.
+        const urls = text.match(/https?:\\/\\/[^"\\s\\]+/g) ?? [];
+        for (const raw of urls) {
+            const candidate = raw
+                .replace(/\\\\u003d/gi, "=")
+                .replace(/\\\\u0026/gi, "&")
+                .replace(/\\\\\//g, "/");
+            if (isLikelyArticleUrl(candidate)) {
+                return normalizeUrl(candidate);
+            }
+        }
+
+        console.warn("Google News decoder: publisher URL not found");
+        return "";
+    }
+    catch (error) {
+        console.warn(
+            "Google News decoder:",
+            error instanceof Error ? error.message : String(error),
+        );
+        return "";
+    }
+}
+
+// ============================================================
 // GOOGLE NEWS RESOLUTION
 // ============================================================
 function extractPageTitle(html) {
@@ -993,6 +1136,26 @@ async function resolveArticleUrl(item) {
         }
     }
     try {
+        // Modern Google News RSS links do not expose the publisher URL through
+        // an ordinary HTTP redirect. Resolve them first through Google's RPC.
+        const decodedUrl = await decodeGoogleNewsArticleUrl(originalUrl);
+        if (decodedUrl && isLikelyArticleUrl(decodedUrl)) {
+            const decodedPage = await loadArticlePage(decodedUrl);
+            if (decodedPage) {
+                const decodedTitle = extractPageTitle(decodedPage.html);
+                if (articleTitleMatches(item.title, decodedTitle)) {
+                    return decodedPage.finalUrl;
+                }
+                console.warn(
+                    "Rejected decoded Google News title mismatch:",
+                    item.title,
+                    "=>",
+                    decodedTitle,
+                    decodedPage.finalUrl,
+                );
+            }
+        }
+
         const response = await fetch(originalUrl, {
             redirect: "follow",
             headers: {
