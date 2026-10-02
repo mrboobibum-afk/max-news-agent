@@ -1,6 +1,6 @@
 // ============================================================
 // MAX NEWS AGENT — ФАКТОР
-// FIX v3: conservative dedup + candidate diagnostics + resilient selection
+// FIX v4: media-first pipeline — publisher video -> external/witness video -> publisher photo -> external/witness photo -> text
 // DENO DEPLOY
 // ============================================================
 //
@@ -64,6 +64,11 @@ const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
   "AppleWebKit/537.36 (KHTML, like Gecko) " +
   "Chrome/140.0.0.0 Safari/537.36";
+const MEDIA_SEARCH_MAX_RESULTS = 8;
+const MEDIA_SEARCH_MAX_PAGES = 8;
+const MEDIA_SEARCH_TIMEOUT_MS = 9000;
+const MEDIA_DOWNLOAD_TIMEOUT_MS = 45000;
+
 // ============================================================
 // MAX CERTIFICATES
 // ============================================================
@@ -1216,32 +1221,82 @@ function collectImageCandidates( html, baseUrl, title, description, rssMediaUrls
   const candidates = [];
   const seen = new Set();
   const titleContext = `${title} ${description}`;
-  const push = (raw, kind, context = "", priority = 0) => {
+
+  const push = (raw, kind, context = "", priority = 0, extra = {}) => {
     const url = mediaCandidateUrl(raw, baseUrl);
     if (!url || isTechnicalUrl(url)) return;
     const key = normalizeUrl(url);
     if (!key || seen.has(key)) return;
-    seen.add(key);
+
     const generic = mediaIsGeneric(url, context);
     const relevance = mediaTextScore(url, context, title, description);
-    // RSS media is publisher-supplied and gets a trust bonus, but generic logos still lose.
-    if (generic) return;
-    if (kind !== "rss" && relevance < 2) return;
-    candidates.push({ url: key, score: priority + relevance, kind, context });
+    if (generic && kind !== "rss") return;
+
+    // RSS enclosure/media is often a publisher's feed-card/logo image.
+    // Keep it only as a LAST-RESORT candidate, never above article media.
+    let score = priority + relevance;
+    if (kind === "rss") score = -40 + relevance;
+
+    // Real article-body images are preferred even when they have no alt text.
+    // Filename/title matching is only a bonus, never a hard requirement.
+    if (kind === "article_body") score += 18;
+    if (kind === "jsonld") score += 16;
+    if (kind === "og") score += 14;
+    if (kind === "twitter") score += 10;
+
+    // Size hints are useful for rejecting tiny icons while preserving
+    // normal news photographs.
+    const width = Number(extra.width || 0);
+    const height = Number(extra.height || 0);
+    if (width >= 500) score += 6;
+    if (height >= 300) score += 4;
+    if (width > 0 && width < 200) score -= 20;
+    if (height > 0 && height < 120) score -= 20;
+
+    seen.add(key);
+    candidates.push({ url: key, score, kind, context });
   };
-  for (const url of rssMediaUrls) push(url, "rss", titleContext, 16);
-  for (const m of html.matchAll(
-    /<img\b[^>]*?(?:src|data-src|data-lazy-src)=['"]([^'"]+)['"][^>]*>/gi
-  )) {
+
+  // DO NOT give RSS media the old trust bonus. It is frequently a logo/card.
+  for (const url of rssMediaUrls) push(url, "rss", titleContext, 0);
+
+  // Standard images, lazy-loaded images, data-src and responsive srcset.
+  for (const m of html.matchAll(/<img\b[^>]*>/gi)) {
     const tag = m[0];
-    const alt =
-      (tag.match(/\balt=['"]([^'"]*)['"]/i)?.[1] || "") +
-      " " +
-      (tag.match(/\btitle=['"]([^'"]*)['"]/i)?.[1] || "") +
-      " " +
-      (tag.match(/\bdata-caption=['"]([^'"]*)['"]/i)?.[1] || "");
-    push(m[1], "article_body", alt, 12);
+    const src = tag.match(
+      /\b(?:src|data-src|data-lazy-src|data-original|data-image)=['"]([^'"]+)['"]/i
+    )?.[1];
+    const srcset = tag.match(/\b(?:srcset|data-srcset)=['"]([^'"]+)['"]/i)?.[1];
+    const alt = tag.match(/\balt=['"]([^'"]*)['"]/i)?.[1] || "";
+    const titleAttr = tag.match(/\btitle=['"]([^'"]*)['"]/i)?.[1] || "";
+    const caption =
+      tag.match(/\b(?:data-caption|data-description)=['"]([^'"]*)['"]/i)?.[1] ||
+      "";
+    const cls = tag.match(/\b(?:class|id)=['"]([^'"]*)['"]/gi)?.join(" ") || "";
+    const width = tag.match(/\bwidth=['"](\d+)/i)?.[1] || "";
+    const height = tag.match(/\bheight=['"](\d+)/i)?.[1] || "";
+    const context = `${alt} ${titleAttr} ${caption} ${cls}`;
+
+    if (src) push(src, "article_body", context, 24, { width, height });
+    if (srcset) {
+      for (const part of srcset.split(",")) {
+        const raw = part.trim().split(/\s+/)[0];
+        if (raw) push(raw, "article_body", context, 22, { width, height });
+      }
+    }
   }
+
+  // <picture><source srcset=...> is common on modern news sites.
+  for (const m of html.matchAll(
+    /<source\b[^>]*\b(?:srcset|data-srcset)=['"]([^'"]+)['"][^>]*>/gi
+  )) {
+    for (const part of m[1].split(",")) {
+      const raw = part.trim().split(/\s+/)[0];
+      if (raw) push(raw, "article_body", "picture source", 23);
+    }
+  }
+
+  // JSON-LD Article.image / ImageObject.
   for (const data of extractJsonLd(html)) {
     const stack = [data];
     while (stack.length) {
@@ -1254,65 +1309,386 @@ function collectImageCandidates( html, baseUrl, title, description, rssMediaUrls
       if (value.image) {
         const images = Array.isArray(value.image) ? value.image : [value.image];
         for (const image of images) {
-          if (typeof image === "string")
+          if (typeof image === "string") {
             push(
               image,
               "jsonld",
               `${value.caption || ""} ${value.name || ""}`,
-              13
+              30,
+              {
+                width: value.width,
+                height: value.height,
+              }
             );
-          else if (image && typeof image === "object")
+          } else if (image && typeof image === "object") {
             push(
               image.url || image.contentUrl,
               "jsonld",
               `${image.caption || ""} ${image.name || ""} ${ value.caption || "" } ${value.name || ""}`,
-              13
+              30,
+              {
+                width: image.width || value.width,
+                height: image.height || value.height,
+              }
             );
+          }
         }
       }
-      for (const child of Object.values(value))
+      for (const child of Object.values(value)) {
         if (child && typeof child === "object") stack.push(child);
+      }
     }
   }
-  // OG/Twitter are fallbacks; use them only if they are not obvious branding.
-  push(findMeta(html, "og:image"), "og", titleContext, 10);
-  push(findMeta(html, "twitter:image"), "twitter", titleContext, 9);
-  push(findMeta(html, "twitter:image:src"), "twitter", titleContext, 9);
-  return candidates.sort((a, b) => b.score - a.score).slice(0, 20);
+
+  // OG/Twitter are useful fallbacks, but not preferred over article-body/JSON-LD.
+  push(findMeta(html, "og:image"), "og", titleContext, 28);
+  push(findMeta(html, "og:image:url"), "og", titleContext, 27);
+  push(findMeta(html, "og:image:secure_url"), "og", titleContext, 27);
+  push(findMeta(html, "twitter:image"), "twitter", titleContext, 26);
+  push(findMeta(html, "twitter:image:src"), "twitter", titleContext, 26);
+
+  return candidates
+    .filter((c) => c.score > -25)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 30);
 }
 function collectVideoCandidates(html, baseUrl) {
   const raw = [];
   const seen = new Set();
-  const add = (value) => {
+  const add = (value, kind = "html") => {
     const url = mediaCandidateUrl(value, baseUrl);
-    if (!url || !isDirectVideoUrl(url)) return;
+    if (!url) return;
     const key = normalizeUrl(url);
     if (!key || seen.has(key)) return;
+    if (!isDirectVideoUrl(key)) return;
     seen.add(key);
-    raw.push(key);
+    raw.push({ url: key, kind });
   };
+
   for (const name of [
     "og:video",
     "og:video:url",
     "og:video:secure_url",
     "twitter:player:stream",
+    "twitter:player:stream:content_type",
   ])
-    add(findMeta(html, name));
-  for (const m of html.matchAll(/<video[^>]+src=["']([^"']+)["'][^>]*>/gi))
-    add(m[1]);
-  for (const m of html.matchAll(/<source[^>]+src=["']([^"']+)["'][^>]*>/gi))
-    add(m[1]);
+    add(findMeta(html, name), "meta");
+
+  // Native players and lazy-loaded sources.
+  for (const m of html.matchAll(/<(?:video|source)\b[^>]*>/gi)) {
+    const tag = m[0];
+    for (const attr of [
+      "src",
+      "data-src",
+      "data-video",
+      "data-video-url",
+      "data-file",
+      "data-content-url",
+    ]) {
+      const hit = tag.match(new RegExp(`\\b${attr}=["']([^"']+)["']`, "i"));
+      if (hit?.[1]) add(hit[1], `element:${attr}`);
+    }
+    const srcset = tag.match(/\b(?:srcset|data-srcset)=["']([^"']+)["']/i)?.[1];
+    if (srcset) {
+      for (const part of srcset.split(","))
+        add(part.trim().split(/\s+/)[0], "video-srcset");
+    }
+  }
+
+  // Common player JSON fields.
   for (const m of html.matchAll(
-    /["'](?:contentUrl|videoUrl|video_url|file)["']\\s*:\\s*["']([^"']+)["']/gi
-  ))
-    add(m[1]);
+    /["'](?:contentUrl|videoUrl|video_url|videoSrc|video_src|mediaUrl|media_url|file|mp4|src)["']\\s*:\\s*["']([^"']+)["']/gi
+  )) {
+    add(m[1], "json");
+  }
+
   for (const data of extractJsonLd(html)) {
     const urls = [];
     collectVideoUrls(data, urls);
-    for (const u of urls) add(u);
+    for (const u of urls) add(u, "jsonld");
   }
-  return raw.slice(0, 20);
+
+  // Some publishers place the direct media URL in escaped JSON inside scripts.
+  for (const m of html.matchAll(
+    /https?:\/\/[^"'\s<>]+(?:\.mp4|\.mov|\.webm)(?:\?[^"'\s<>]*)?/gi
+  )) {
+    add(m[0], "escaped-json");
+  }
+
+  return raw.slice(0, 40);
 }
+
+function isProbablyVideoOnlyUrl(url) {
+  return /(?:video[-_]?only|no[-_]?audio|mute|silent|without[-_]?audio|audio[-_]?none|_vo\b)/i.test(
+    url
+  );
+}
+
+function hasMp4AudioTrack(bytes) {
+  // ISO-BMFF: walk boxes recursively and look for mdia/hdlr with handler_type "soun".
+  const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  const textAt = (offset, len) => {
+    if (offset + len > dv.byteLength) return "";
+    let out = "";
+    for (let i = 0; i < len; i++)
+      out += String.fromCharCode(dv.getUint8(offset + i));
+    return out;
+  };
+  const walk = (start, end, depth = 0) => {
+    if (depth > 10) return false;
+    let p = start;
+    while (p + 8 <= end) {
+      let size = dv.getUint32(p);
+      const type = textAt(p + 4, 4);
+      let header = 8;
+      if (size === 1 && p + 16 <= end) {
+        const hi = dv.getUint32(p + 8);
+        const lo = dv.getUint32(p + 12);
+        if (hi !== 0) return false;
+        size = lo;
+        header = 16;
+      } else if (size === 0) {
+        size = end - p;
+      }
+      if (size < header || p + size > end) break;
+      if (type === "hdlr" && p + 20 <= end && textAt(p + 16, 4) === "soun")
+        return true;
+      if (
+        ["moov", "trak", "mdia", "minf", "stbl", "edts", "dinf"].includes(type)
+      ) {
+        if (walk(p + header, p + size, depth + 1)) return true;
+      }
+      p += size;
+    }
+    return false;
+  };
+  // If there is no moov box, this may be a fragmented MP4. Do not reject it
+  // merely because the complete track metadata is not present in this chunk.
+  let hasMoov = false;
+  for (let p = 0; p + 8 <= dv.byteLength; ) {
+    const size = dv.getUint32(p);
+    const type = textAt(p + 4, 4);
+    if (type === "moov") {
+      hasMoov = true;
+      break;
+    }
+    if (size < 8) break;
+    p += size;
+  }
+  if (!hasMoov) return null;
+  return walk(0, dv.byteLength);
+}
+
+function hasWebmAudioTrack(bytes) {
+  let hasVideoTrack = false;
+  for (let i = 0; i + 3 < bytes.length; i++) {
+    if (bytes[i] === 0x83 && bytes[i + 1] === 0x81 && bytes[i + 2] === 0x02)
+      return true;
+    if (bytes[i] === 0x83 && bytes[i + 1] === 0x81 && bytes[i + 2] === 0x01)
+      hasVideoTrack = true;
+  }
+  return hasVideoTrack ? false : null;
+}
+
+function videoHasAudio(bytes, contentType, url) {
+  const ct = (contentType || "").toLowerCase();
+  if (isProbablyVideoOnlyUrl(url)) return false;
+  if (
+    ct.includes("mp4") ||
+    ct.includes("quicktime") ||
+    /\.(mp4|mov)(?:\?|$)/i.test(url)
+  ) {
+    const result = hasMp4AudioTrack(bytes);
+    return result === null ? true : result;
+  }
+  if (ct.includes("webm") || /\.webm(?:\?|$)/i.test(url)) {
+    const result = hasWebmAudioTrack(bytes);
+    return result === null ? true : result;
+  }
+  return true;
+}
+
+function parseSearchRss(xml, engine = "search") {
+  const items = [];
+  const matches = xml.match(/<item\b[\s\S]*?<\/item>/gi) ?? [];
+  for (const itemXml of matches.slice(0, MEDIA_SEARCH_MAX_RESULTS)) {
+    const title = cleanText(extractXmlTag(itemXml, "title"));
+    const link =
+      cleanText(extractXmlTag(itemXml, "link")) ||
+      cleanText(extractXmlTag(itemXml, "guid"));
+    const description = cleanText(extractXmlTag(itemXml, "description"));
+    const sourceTag = extractXmlTagWithAttrs(itemXml, "source");
+    const source = cleanText(sourceTag.value) || engine;
+    const media = [];
+    for (const match of itemXml.matchAll(
+      /<(?:media:content|media:thumbnail|enclosure|video:content|video:thumbnail)\b[^>]*?(?:url|href)=['"]([^'"]+)['"][^>]*>/gi
+    )) {
+      const url = decodeHtmlEntities(match[1]);
+      if (isHttpUrl(url)) media.push(url);
+    }
+    if (title && link)
+      items.push({ title, link, description, source, rssMediaUrls: media });
+  }
+  return items;
+}
+
+async function fetchRssSearch(url) {
+  try {
+    const r = await fetch(url, {
+      headers: {
+        "User-Agent": USER_AGENT,
+        Accept: "application/rss+xml, application/xml, text/xml, */*;q=0.5",
+      },
+      signal: AbortSignal.timeout(MEDIA_SEARCH_TIMEOUT_MS),
+    });
+    if (!r.ok) return [];
+    return parseSearchRss(await r.text(), new URL(url).hostname);
+  } catch (error) {
+    console.error(
+      "Media search RSS:",
+      error instanceof Error ? error.message : String(error)
+    );
+    return [];
+  }
+}
+
+function buildMediaSearchQueries(item) {
+  const headline = cleanText(item.title || "")
+    .replace(/[|]+/g, " ")
+    .trim();
+  if (!headline) return [];
+  const exact = `"${headline.slice(0, 180)}"`;
+  return [
+    `${exact} видео OR кадры OR запись OR очевидцы`,
+    `${exact} фото OR снимки OR очевидец`,
+  ];
+}
+
+function buildSearchFeedUrls(query) {
+  const encoded = encodeURIComponent(`${query} when:3d`);
+  return [
+    `https://www.bing.com/search?q=${encoded}&format=rss`,
+    `https://news.google.com/rss/search?q=${encoded}&hl=ru&gl=RU&ceid=RU:ru`,
+  ];
+}
+
+async function loadExternalMediaPages(item, articleUrl) {
+  const queries = buildMediaSearchQueries(item);
+  const feeds = queries.flatMap(buildSearchFeedUrls);
+  const feedResults = (await Promise.all(feeds.map(fetchRssSearch))).flat();
+  const articleHost = (() => {
+    try {
+      return normalizeHost(new URL(articleUrl).hostname);
+    } catch {
+      return "";
+    }
+  })();
+  const seen = new Set();
+  const candidates = [];
+  for (const r of feedResults) {
+    const resolved = await resolveArticleUrl({
+      link: r.link,
+      source: r.source,
+      sourceUrl: r.link,
+    });
+    const url = isLikelyArticleUrl(resolved)
+      ? resolved
+      : isLikelyArticleUrl(r.link)
+      ? normalizeUrl(r.link)
+      : "";
+    if (!url || isTechnicalUrl(url)) continue;
+    const host = (() => {
+      try {
+        return normalizeHost(new URL(url).hostname);
+      } catch {
+        return "";
+      }
+    })();
+    if (articleHost && host === articleHost) continue;
+    const key = normalizeUrl(url);
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    candidates.push({
+      url: key,
+      rssMediaUrls: r.rssMediaUrls || [],
+      title: r.title,
+      description: r.description,
+      source: r.source,
+    });
+    if (candidates.length >= MEDIA_SEARCH_MAX_PAGES) break;
+  }
+  return candidates;
+}
+
+async function inspectExternalMediaPage(candidate) {
+  const page = await loadArticlePage(candidate.url);
+  if (!page) return null;
+  const { finalUrl, html } = page;
+  const title =
+    findMeta(html, "og:title") ||
+    findMeta(html, "twitter:title") ||
+    candidate.title ||
+    "";
+  const description =
+    findMeta(html, "og:description") ||
+    findMeta(html, "description") ||
+    candidate.description ||
+    "";
+  return {
+    articleUrl: finalUrl,
+    sourceName: findMeta(html, "og:site_name") || candidate.source || "",
+    title,
+    description,
+    imageCandidates: collectImageCandidates(
+      html,
+      finalUrl,
+      title,
+      description,
+      candidate.rssMediaUrls || []
+    ),
+    videoUrls: collectVideoCandidates(html, finalUrl).map((x) => x.url),
+  };
+}
+
+async function discoverExternalMedia(item, articleMedia) {
+  // Only search outside the original publisher after exhausting its own page.
+  // The order is deliberate: publisher video -> external video -> publisher image -> external image.
+  const externalCandidates = await loadExternalMediaPages(
+    item,
+    articleMedia.articleUrl || item.link || ""
+  );
+  const inspected = (
+    await Promise.all(externalCandidates.map(inspectExternalMediaPage))
+  ).filter(Boolean);
+  const videos = [];
+  const images = [];
+  const seenVideo = new Set();
+  const seenImage = new Set();
+  for (const page of inspected) {
+    for (const url of page.videoUrls || []) {
+      if (!seenVideo.has(url)) {
+        seenVideo.add(url);
+        videos.push({
+          url,
+          referer: page.articleUrl,
+          source: page.sourceName || "external",
+        });
+      }
+    }
+    for (const c of page.imageCandidates || []) {
+      if (!seenImage.has(c.url)) {
+        seenImage.add(c.url);
+        images.push({
+          ...c,
+          referer: page.articleUrl,
+          source: page.sourceName || "external",
+        });
+      }
+    }
+  }
+  return { videos, images };
+}
+
 async function extractArticleMedia(item) {
   const resolvedUrl = await resolveArticleUrl(item);
   // Google News is a valid last-resort source link. We prefer the real
@@ -1430,6 +1806,9 @@ function extensionFromType(type, contentType, url) {
   if (ct.includes("webp")) {
     return "webp";
   }
+  if (ct.includes("avif")) {
+    return "avif";
+  }
   try {
     const path = new URL(url).pathname;
     const match = path.match(/\.([a-z0-9]{2,5})$/i);
@@ -1441,7 +1820,7 @@ function extensionFromType(type, contentType, url) {
   }
   return "jpg";
 }
-async function downloadMedia(url, type) {
+async function downloadMedia(url, type, referer = "") {
   try {
     if (!isHttpUrl(url)) {
       return null;
@@ -1454,8 +1833,12 @@ async function downloadMedia(url, type) {
           type === "video"
             ? "video/mp4,video/quicktime,video/webm,video/*;q=0.9,*/*;q=0.3"
             : "image/avif,image/webp,image/apng,image/*,*/*;q=0.5",
+        ...(referer ? { Referer: referer } : {}),
+        "Accept-Language": "ru-RU,ru;q=0.9,en;q=0.7",
       },
-      signal: AbortSignal.timeout(type === "video" ? 40000 : 20000),
+      signal: AbortSignal.timeout(
+        type === "video" ? MEDIA_DOWNLOAD_TIMEOUT_MS : 20000
+      ),
     });
     if (!response.ok) {
       return null;
@@ -1485,6 +1868,10 @@ async function downloadMedia(url, type) {
       if (!isDirectVideoUrl(finalUrl)) {
         return null;
       }
+    }
+    if (type === "video" && !videoHasAudio(buffer, contentType, finalUrl)) {
+      console.log("Rejecting video without audio:", finalUrl);
+      return null;
     }
     if (type === "image" && !contentType.startsWith("image/")) {
       if (!/\.(jpg|jpeg|png|gif|webp|tiff|bmp|heic)(?:\?|$)/i.test(finalUrl)) {
@@ -2219,19 +2606,50 @@ function buildPost(item, story, sourceName, articleUrl) {
 // ============================================================
 // MEDIA
 // ============================================================
-async function findBestMedia(articleMedia) {
-  // VIDEO FIRST — keep the existing extraction priority.
-  const videoCandidates = articleMedia.videoUrls?.length
+async function findBestMedia(articleMedia, item) {
+  // 1. VIDEO FROM THE ORIGINAL PUBLISHER.
+  const articleVideoCandidates = articleMedia.videoUrls?.length
     ? articleMedia.videoUrls
     : articleMedia.videoUrl
     ? [articleMedia.videoUrl]
     : [];
-  for (const videoUrl of videoCandidates) {
-    console.log("Trying article video:", videoUrl);
-    const video = await downloadMedia(videoUrl, "video");
+  for (const videoUrl of articleVideoCandidates) {
+    console.log("Trying publisher video:", videoUrl);
+    const video = await downloadMedia(
+      videoUrl,
+      "video",
+      articleMedia.articleUrl || ""
+    );
     if (video) return video;
   }
-  // IMAGE SECOND — try ranked candidates, not just the first OG image.
+
+  // 2. VIDEO FROM OTHER REPORTING / WITNESSES / LOCAL MEDIA.
+  // Search is intentionally performed before any image fallback.
+  let external = { videos: [], images: [] };
+  try {
+    external = await discoverExternalMedia(item, articleMedia);
+  } catch (error) {
+    console.error(
+      "External media discovery:",
+      error instanceof Error ? error.message : String(error)
+    );
+  }
+  for (const candidate of external.videos) {
+    console.log(
+      "Trying external video:",
+      candidate.url,
+      "source:",
+      candidate.source
+    );
+    const video = await downloadMedia(
+      candidate.url,
+      "video",
+      candidate.referer || articleMedia.articleUrl || ""
+    );
+    if (video) return video;
+  }
+
+  // 3. PHOTO FROM THE ORIGINAL PUBLISHER.
   const imageCandidates = articleMedia.imageCandidates?.length
     ? articleMedia.imageCandidates
     : articleMedia.imageUrls?.length
@@ -2240,16 +2658,38 @@ async function findBestMedia(articleMedia) {
     ? [{ url: articleMedia.imageUrl, score: 0 }]
     : [];
   for (const candidate of imageCandidates) {
-    if (candidate.score !== undefined && candidate.score < 0) continue;
     console.log(
-      "Trying article image:",
+      "Trying publisher image:",
       candidate.url,
       "score:",
-      candidate.score ?? 0
+      candidate.score ?? 0,
+      "kind:",
+      candidate.kind || "unknown"
     );
-    const image = await downloadMedia(candidate.url, "image");
+    const image = await downloadMedia(
+      candidate.url,
+      "image",
+      articleMedia.articleUrl || ""
+    );
     if (image) return image;
   }
+
+  // 4. PHOTO FROM OTHER MEDIA / EYEWITNESS COVERAGE.
+  for (const candidate of external.images) {
+    console.log(
+      "Trying external image:",
+      candidate.url,
+      "source:",
+      candidate.source
+    );
+    const image = await downloadMedia(
+      candidate.url,
+      "image",
+      candidate.referer || articleMedia.articleUrl || ""
+    );
+    if (image) return image;
+  }
+
   return null;
 }
 // ============================================================
@@ -2644,26 +3084,21 @@ async function executePipeline(manual = false) {
     // --------------------------------------------------------
     // MEDIA
     // --------------------------------------------------------
-    const media = await findBestMedia(articleMedia);
+    const media = await findBestMedia(articleMedia, item);
     const sourceName = cleanSourceName(item.source, articleMedia);
-    // Never publish a known-bad/generic media result. If the article exposes media candidates
-    // but none can be downloaded, keep the candidate out instead of publishing a broken post.
-    if (
-      !media &&
-      ((articleMedia.videoUrls?.length ?? 0) > 0 ||
-        (articleMedia.imageCandidates?.length ?? 0) > 0)
-    ) {
-      return {
-        ok: true,
-        selected: 0,
-        reason: "article media unavailable or rejected",
-        item: {
-          title: item.title,
-          source: sourceName,
-          article_url: finalArticleUrl,
-          category: item.category,
-        },
-      };
+    // MEDIA IS OPTIONAL. A valid news item must never be rejected only
+    // because the publisher blocks image/video downloads (403/429/CDN,
+    // hotlink protection, unsupported content type, etc.). We still try
+    // every article media candidate first, but if none is downloadable we
+    // publish the news as a normal text post.
+    //
+    // This is the critical final fallback: media failure must NOT turn
+    // selected=1 into selected=0.
+    if (!media) {
+      console.log(
+        "No downloadable article media; publishing text-only:",
+        finalArticleUrl
+      );
     }
     // --------------------------------------------------------
     // POST
