@@ -1142,7 +1142,8 @@ async function loadArticlePage(articleUrl) {
       return null;
     const html = await response.text();
     if (html.length < 500) return null;
-    return { finalUrl, html };
+    const bodyText = extractArticleBodyText(html);
+    return { finalUrl, html, bodyText };
   } catch (error) {
     console.error(
       "Article page:",
@@ -1897,7 +1898,7 @@ async function extractArticleMedia(item) {
       bodyText: "",
     };
   }
-  const { finalUrl, html } = page;
+  const { finalUrl, html, bodyText = "" } = page;
   const pageTitle =
     findMeta(html, "og:title") || findMeta(html, "twitter:title") || item.title;
   const pageDescription =
