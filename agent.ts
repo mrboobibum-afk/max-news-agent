@@ -1,6 +1,6 @@
 // ============================================================
 // MAX NEWS AGENT — ФАКТОР
-// FIX v2: Google News HTML/URL sanitization + encoded RSS HTML cleanup
+// FIX v11: Google News HTML/URL sanitization + encoded RSS HTML cleanup
 // DENO DEPLOY
 // ============================================================
 //
@@ -1694,18 +1694,29 @@ async function uploadMedia(media) {
 // ============================================================
 // MAX PUBLISH
 // ============================================================
-async function publishToMax(text, mediaToken, articleUrl = "") {
+async function publishToMax(text, mediaInfo, articleUrl = "") {
   if (!TARGET_CHAT_ID) {
     throw new Error("TARGET_CHAT_ID is missing");
   }
   const attachments = [];
-  if (mediaToken) {
-    attachments.push({
-      type: mediaToken.type,
-      payload: {
-        token: mediaToken.token,
-      },
-    });
+  if (mediaInfo) {
+    if (mediaInfo.type === "image" && mediaInfo.url) {
+      // MAX officially supports sending an image directly by URL.
+      // This avoids the upload/processing race for ordinary article JPG/PNG images.
+      attachments.push({
+        type: "image",
+        payload: {
+          url: mediaInfo.url,
+        },
+      });
+    } else if (mediaInfo.token) {
+      attachments.push({
+        type: mediaInfo.type,
+        payload: {
+          token: mediaInfo.token,
+        },
+      });
+    }
   }
   // Do not put the article URL into HTML text: MAX may create a share
   // preview even when disable_link_preview=true. Use a real link button.
@@ -2089,6 +2100,19 @@ async function rememberPublishedEvent(item, story, articleMedia, articleUrl) {
 
 async function isAlreadyPublished(item, articleUrl = "") {
   const db = await getKV();
+
+  // Hard duplicate guard: an identical normalized headline is never
+  // published twice, regardless of RSS source, URL or category.
+  const exactTitleKey = await sha256(normalizeForHash(item?.title || ""));
+  if (exactTitleKey) {
+    const exact = await db.get([
+      "factor",
+      "published_exact_title_v5",
+      exactTitleKey,
+    ]);
+    if (exact.value === true) return true;
+  }
+
   if (articleUrl) {
     const key = await publishedKey(item, articleUrl);
     const result = await db.get(["factor", "published_v2", key]);
@@ -2136,6 +2160,13 @@ async function markPublished(item, articleUrl) {
   const semanticKey = await semanticStoryKey(item);
   if (semanticKey) {
     await db.set(["factor", "published_story_v3", semanticKey], true, {
+      expireIn: HISTORY_TTL_MS,
+    });
+  }
+
+  const exactTitleKey = await sha256(normalizeForHash(item?.title || ""));
+  if (exactTitleKey) {
+    await db.set(["factor", "published_exact_title_v5", exactTitleKey], true, {
       expireIn: HISTORY_TTL_MS,
     });
   }
@@ -3215,22 +3246,32 @@ async function executePipeline(manual = false) {
     const text = buildPost(item, story, sourceName, finalArticleUrl);
     let mediaInfo;
     // --------------------------------------------------------
-    // UPLOAD
+    // MEDIA PREPARATION
     // --------------------------------------------------------
     if (media) {
-      try {
-        console.log("Uploading media:", media.type, media.bytes.byteLength);
-        const token = await uploadMedia(media);
+      if (media.type === "image" && isHttpUrl(media.sourceUrl)) {
+        // Images can be sent by URL according to the official MAX API.
+        // Use this as the primary path; it avoids unnecessary upload
+        // processing and the attachment.not.ready race.
         mediaInfo = {
-          type: media.type,
-          token,
+          type: "image",
+          url: media.sourceUrl,
         };
-      } catch (error) {
-        console.error(
-          "Media upload failed:",
-          error instanceof Error ? error.message : String(error)
-        );
-        mediaInfo = undefined;
+      } else {
+        try {
+          console.log("Uploading media:", media.type, media.bytes.byteLength);
+          const token = await uploadMedia(media);
+          mediaInfo = {
+            type: media.type,
+            token,
+          };
+        } catch (error) {
+          console.error(
+            "Media upload failed:",
+            error instanceof Error ? error.message : String(error)
+          );
+          mediaInfo = undefined;
+        }
       }
     }
     // --------------------------------------------------------
@@ -3246,10 +3287,32 @@ async function executePipeline(manual = false) {
         );
       } catch (error) {
         console.error(
-          "Media publication failed. " + "Falling back to text:",
+          "Media publication failed:",
           error instanceof Error ? error.message : String(error)
         );
-        publication = await publishToMax(text, undefined, finalArticleUrl);
+
+        // If a direct image URL was rejected by MAX, fall back to the
+        // normal /uploads -> token path before giving up on media.
+        if (media && media.type === "image" && mediaInfo.url) {
+          try {
+            const token = await uploadMedia(media);
+            publication = await publishWithMediaRetry(
+              text,
+              { type: "image", token },
+              finalArticleUrl
+            );
+          } catch (fallbackError) {
+            console.error(
+              "Image upload fallback failed:",
+              fallbackError instanceof Error
+                ? fallbackError.message
+                : String(fallbackError)
+            );
+            publication = await publishToMax(text, undefined, finalArticleUrl);
+          }
+        } else {
+          publication = await publishToMax(text, undefined, finalArticleUrl);
+        }
       }
     } else {
       publication = await publishToMax(text, undefined, finalArticleUrl);
