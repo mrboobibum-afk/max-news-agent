@@ -64,8 +64,8 @@ const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
   "AppleWebKit/537.36 (KHTML, like Gecko) " +
   "Chrome/140.0.0.0 Safari/537.36";
-const MEDIA_SEARCH_MAX_RESULTS = 12;
-const MEDIA_SEARCH_MAX_PAGES = 14;
+const MEDIA_SEARCH_MAX_RESULTS = 20;
+const MEDIA_SEARCH_MAX_PAGES = 24;
 const MEDIA_SEARCH_TIMEOUT_MS = 9000;
 const MEDIA_DOWNLOAD_TIMEOUT_MS = 45000;
 
@@ -1054,6 +1054,60 @@ async function resolveArticleUrl(item) {
 // ============================================================
 // ARTICLE PAGE
 // ============================================================
+
+function extractArticleBodyText(html) {
+  const candidates = [];
+  const push = (value, weight = 1) => {
+    const text = cleanText(value || "");
+    if (text.length >= 80) candidates.push({ text, weight });
+  };
+  // JSON-LD Article.articleBody is usually the cleanest full article text.
+  for (const data of extractJsonLd(html)) {
+    if (data && typeof data === "object") {
+      const body = data.articleBody || data.article_body;
+      if (typeof body === "string") push(body, 100);
+      if (Array.isArray(data))
+        for (const x of data) {
+          if (x && typeof x === "object" && typeof x.articleBody === "string")
+            push(x.articleBody, 100);
+        }
+    }
+  }
+  // Prefer semantic article containers, then common publisher selectors.
+  const selectors = [
+    /<article\b[^>]*>([\s\S]*?)<\/article>/gi,
+    /<div\b[^>]*(?:class|id)=["'][^"']*(?:article-body|article__body|article-content|article-content-body|story-body|story__body|entry-content|post-content|content-body|news-body|article_text|articleText)[^"']*["'][^>]*>([\s\S]*?)<\/div>/gi,
+    /<main\b[^>]*>([\s\S]*?)<\/main>/gi,
+  ];
+  for (const re of selectors) {
+    for (const m of html.matchAll(re)) {
+      const block = m[1] || "";
+      const paras = [];
+      for (const pm of block.matchAll(
+        /<(?:p|h2|h3)\b[^>]*>([\s\S]*?)<\/(?:p|h2|h3)>/gi
+      )) {
+        const t = cleanText(pm[1]);
+        if (t.length >= 30) paras.push(t);
+      }
+      if (paras.length >= 2) push(paras.join(" "), 70);
+      else push(block, 50);
+    }
+  }
+  // Last fallback: collect substantial paragraph runs from the whole page.
+  if (!candidates.length) {
+    const paras = [];
+    for (const m of html.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)) {
+      const t = cleanText(m[1]);
+      if (t.length >= 40) paras.push(t);
+    }
+    if (paras.length) push(paras.join(" "), 20);
+  }
+  candidates.sort(
+    (a, b) => b.weight - a.weight || b.text.length - a.text.length
+  );
+  return candidates[0]?.text ? truncate(candidates[0].text, 12000) : "";
+}
+
 async function loadArticlePage(articleUrl) {
   if (!isLikelyArticleUrl(articleUrl)) return null;
   let sourceHost = null;
@@ -1585,12 +1639,19 @@ function buildMediaSearchQueries(item) {
 
   // Do not require the exact original headline. A witness/video report
   // almost always has a different headline from the first RSS story.
+  const descTokens = storyTokens(item.description || "");
+  const extra = [...descTokens].filter((w) => !words.includes(w)).slice(0, 5);
+  const context = [
+    ...new Set([...words.slice(0, 6), ...extra.slice(0, 3)]),
+  ].join(" ");
   const queries = [
     `${compact} видео`,
-    `${compact} кадры`,
-    `${compact} очевидец видео`,
-    `${compact} регистратор видео`,
-    `${compact} соцсети видео`,
+    `${compact} кадры видео`,
+    `${context} видео очевидцы`,
+    `${context} видео соцсети`,
+    `${context} видео место происшествия`,
+    `${context} запись очевидца`,
+    `${context} видео сегодня`,
   ];
   if (place) {
     queries.push(`${place} ДТП видео`);
@@ -1660,7 +1721,7 @@ async function loadExternalMediaPages(item, articleUrl) {
 async function inspectExternalMediaPage(candidate) {
   const page = await loadArticlePage(candidate.url);
   if (!page) return null;
-  const { finalUrl, html } = page;
+  const { finalUrl, html, bodyText = "" } = page;
   const title =
     findMeta(html, "og:title") ||
     findMeta(html, "twitter:title") ||
@@ -1807,6 +1868,7 @@ async function extractArticleMedia(item) {
       sourceName: item.source || null,
       title: item.title || null,
       description: item.description || null,
+      bodyText: "",
     };
   }
   const page = await loadArticlePage(articleUrl);
@@ -1832,6 +1894,7 @@ async function extractArticleMedia(item) {
       sourceName: item.source || null,
       title: item.title || null,
       description: item.description || null,
+      bodyText: "",
     };
   }
   const { finalUrl, html } = page;
@@ -1887,6 +1950,7 @@ async function extractArticleMedia(item) {
       null,
     title: pageTitle,
     description: pageDescription,
+    bodyText,
   };
 }
 // ============================================================
@@ -2181,11 +2245,28 @@ async function uploadMedia(media) {
     // ignore
   }
   const finalToken =
-    init.token ||
-    uploadResult?.token ||
-    uploadResult?.mediafile_token ||
-    uploadResult?.photos?.photoIds?.token ||
-    null;
+    media.type === "image"
+      ? uploadResult?.photos?.photoIds?.token ||
+        uploadResult?.token ||
+        uploadResult?.mediafile_token ||
+        init.token ||
+        null
+      : uploadResult?.token ||
+        uploadResult?.mediafile_token ||
+        init.token ||
+        null;
+  console.log(
+    "MAX media upload result:",
+    JSON.stringify({
+      type: media.type,
+      init_has_token: Boolean(init.token),
+      upload_has_token: Boolean(
+        uploadResult?.token || uploadResult?.mediafile_token
+      ),
+      upload_has_photo_token: Boolean(uploadResult?.photos?.photoIds?.token),
+      final_token: Boolean(finalToken),
+    })
+  );
   if (typeof finalToken !== "string" || !finalToken) {
     throw new Error(
       `MAX media token missing for ${media.type}. ` +
@@ -2642,7 +2723,7 @@ async function callGemini(item, articleMedia) {
   if (!GEMINI_API_KEY) {
     return null;
   }
-  const prompt = ` Ты редактор новостного канала ФАКТОР. Работай ТОЛЬКО с информацией, которая присутствует в исходных данных. НЕ ДОБАВЛЯЙ факты из памяти. НЕ ДОДУМЫВАЙ причины. НЕ ДОДУМЫВАЙ последствия. НЕ ПРИДУМЫВАЙ цифры. ИСХОДНЫЙ ЗАГОЛОВОК: ${item.title} ИСТОЧНИК: ${item.source} ЗАГОЛОВОК СТРАНИЦЫ: ${articleMedia.title ?? ""} ОПИСАНИЕ RSS: ${stripHtml(item.description)} ОПИСАНИЕ СТРАНИЦЫ: ${stripHtml(articleMedia.description ?? "")} Верни ТОЛЬКО JSON: { "headline": "короткий точный заголовок", "short": "одно короткое предложение о событии", "main": [ "конкретный факт 1", "конкретный факт 2", "конкретный факт 3" ], "important": "конкретная информация, которую читателю важно знать", "urgent": false } ПРАВИЛА: 1. Никаких выдуманных фактов. 2. headline должен описывать именно событие. 3. Не используй кликбейт. 4. Не используй вопросительные заголовки. 5. Не пиши "стало известно". 6. Не пиши "ситуация развивается". 7. Не пиши рекламные формулировки. 8. Не повторяй одну мысль в разных блоках. 9. Если фактов мало — используй меньше пунктов. 10. main может содержать от 0 до 3 пунктов. 11. urgent=true только если событие действительно срочное. 12. Не делай выводов, которых нет в исходных данных. 13. Не меняй смысл новости. 14. Не добавляй географию, даты, цифры или имена, которых нет в исходных данных. `;
+  const prompt = ` Ты редактор новостного канала ФАКТОР. Работай ТОЛЬКО с информацией, которая присутствует в исходных данных. НЕ ДОБАВЛЯЙ факты из памяти. НЕ ДОДУМЫВАЙ причины. НЕ ДОДУМЫВАЙ последствия. НЕ ПРИДУМЫВАЙ цифры. ИСХОДНЫЙ ЗАГОЛОВОК: ${item.title} ИСТОЧНИК: ${item.source} ЗАГОЛОВОК СТРАНИЦЫ: ${articleMedia.title ?? ""} ОПИСАНИЕ RSS: ${stripHtml(item.description)} ОПИСАНИЕ СТРАНИЦЫ: ${stripHtml(articleMedia.description ?? "")} ПОЛНЫЙ ТЕКСТ СТРАНИЦЫ (если доступен): ${stripHtml(articleMedia.bodyText ?? "")} Верни ТОЛЬКО JSON: { "headline": "короткий точный заголовок", "short": "одно короткое предложение о событии", "main": [ "конкретный факт 1", "конкретный факт 2", "конкретный факт 3" ], "important": "конкретная информация, которую читателю важно знать", "urgent": false } ПРАВИЛА: 1. Никаких выдуманных фактов. 2. headline должен описывать именно событие. 3. Не используй кликбейт. 4. Не используй вопросительные заголовки. 5. Не пиши "стало известно". 6. Не пиши "ситуация развивается". 7. Не пиши рекламные формулировки. 8. Не повторяй одну мысль в разных блоках. 9. Если доступен полный текст страницы, используй его для точного пересказа, не ограничивайся RSS-аннотацией. 10. short должен быть законченным текстом из 2–4 предложений, без обрыва на полуслове. 11. main может содержать от 0 до 3 пунктов. 12. urgent=true только если событие действительно срочное. 13. Не делай выводов, которых нет в исходных данных. 13. Не меняй смысл новости. 14. Не добавляй географию, даты, цифры или имена, которых нет в исходных данных. `;
   try {
     const response = await fetch(
       "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" +
@@ -2714,10 +2795,12 @@ async function callGemini(item, articleMedia) {
 // FALLBACK
 // ============================================================
 function makeFallbackStory(item, articleMedia) {
-  const short = truncate(
-    stripHtml(articleMedia.description || item.description || item.title),
-    500
-  );
+  const sourceText =
+    articleMedia.bodyText ||
+    articleMedia.description ||
+    item.description ||
+    item.title;
+  const short = truncate(stripHtml(sourceText), 1400);
   return {
     headline: stripHtml(articleMedia.title || item.title),
     short,
@@ -2775,6 +2858,19 @@ function cleanSourceName(source, articleMedia) {
 // ============================================================
 // POST
 // ============================================================
+function truncateAtSentence(value, max) {
+  const text = String(value || "").trim();
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max);
+  const last = Math.max(
+    cut.lastIndexOf(". "),
+    cut.lastIndexOf("! "),
+    cut.lastIndexOf("? "),
+    cut.lastIndexOf(".\n")
+  );
+  if (last >= Math.floor(max * 0.55)) return cut.slice(0, last + 1).trim();
+  return cut.replace(/\s+\S*$/, "").trim() + "…";
+}
 function buildPost(item, story, sourceName, articleUrl) {
   // TELEGRAM-LIKE LIVE FEED FORMAT.
   // Do not expose internal Gemini fields such as "short", "main" or
@@ -2790,17 +2886,22 @@ function buildPost(item, story, sourceName, articleUrl) {
     .map((value) => stripHtml(truncate(String(value || ""), 700)).trim())
     .filter(Boolean);
 
-  let bodyText = "";
+  const uniqueBodies = [];
   for (const candidate of candidates) {
-    if (storySimilarity(candidate, headlineText) < 0.82) {
-      bodyText = candidate;
-      break;
-    }
+    if (storySimilarity(candidate, headlineText) >= 0.82) continue;
+    if (uniqueBodies.some((x) => similarity(x, candidate) >= 0.82)) continue;
+    uniqueBodies.push(candidate);
+    if (uniqueBodies.length >= 3) break;
   }
+  let bodyText = uniqueBodies.join(" ");
+  // Never leave a dangling half-sentence at the MAX limit.
+  bodyText = truncateAtSentence(bodyText, 2800);
 
-  const sourceLine = isLikelyArticleUrl(articleUrl)
-    ? `🔗 <a href="${escapeHtml(articleUrl)}">${escapeHtml(sourceName)}</a>`
-    : "";
+  // Do not put the article URL into the message body. MAX may turn an
+  // ordinary link preview into a `share` attachment, which can visually
+  // replace the real image/video attachment. The canonical article URL is
+  // still returned in the pipeline JSON for diagnostics.
+  const sourceLine = sourceName ? `🔗 ${escapeHtml(sourceName)}` : "";
 
   // Direct-feed style: marker + headline + one concise body + source.
   // No labels like "Кратко", "Некратко", "Важно", no category block,
@@ -3174,8 +3275,22 @@ async function publishWithMediaRetry(text, mediaInfo) {
       await sleep(delays[attempt - 1]);
     }
     try {
+      if (attempt === 0) {
+        // MAX processes uploaded media asynchronously. Give the server
+        // a short head start before the first /messages call.
+        await sleep(mediaInfo?.type === "video" ? 7000 : 3000);
+      }
       console.log(`MAX media publish attempt ${attempt + 1}`);
-      return await publishToMax(text, mediaInfo);
+      const result = await publishToMax(text, mediaInfo);
+      const attachments =
+        result?.message?.body?.attachments || result?.body?.attachments || [];
+      const expected = mediaInfo?.type;
+      if (expected && !attachments.some((a) => a?.type === expected)) {
+        throw new Error(
+          `MAX accepted /messages but returned no ${expected} attachment`
+        );
+      }
+      return result;
     } catch (error) {
       lastError = error;
       const message = error instanceof Error ? error.message : String(error);
