@@ -187,13 +187,244 @@ const RSS_FEEDS = [
     },
 ];
 // ============================================================
-// DENO KV
+// STATE STORAGE
 // ============================================================
+// Deno Deploy uses Deno KV. GitHub Actions has no persistent Deno KV
+// between runs, so in GitHub Actions mode the same KV-like interface
+// is backed by .factor-state.json. The workflow commits that file only
+// when persistent state actually changes.
+
+const GITHUB_ACTIONS_MODE =
+    Deno.env.get("GITHUB_ACTIONS") === "true";
+
 let kv = null;
+
+class FileKV {
+    constructor(filePath = ".factor-state.json") {
+        this.filePath = filePath;
+        this.data = null;
+        this.loading = null;
+    }
+
+    async load() {
+        if (this.data) return this.data;
+        if (this.loading) return await this.loading;
+
+        this.loading = (async () => {
+            try {
+                const text = await Deno.readTextFile(this.filePath);
+                const parsed = JSON.parse(text);
+                this.data =
+                    parsed &&
+                    typeof parsed === "object" &&
+                    parsed.entries &&
+                    typeof parsed.entries === "object"
+                        ? parsed
+                        : { version: 1, entries: {} };
+            } catch {
+                this.data = { version: 1, entries: {} };
+            }
+            return this.data;
+        })();
+
+        try {
+            return await this.loading;
+        } finally {
+            this.loading = null;
+        }
+    }
+
+    keyId(key) {
+        return JSON.stringify(key);
+    }
+
+    cleanupExpired(data) {
+        const now = Date.now();
+        let changed = false;
+
+        for (const [id, entry] of Object.entries(data.entries)) {
+            if (
+                entry &&
+                entry.expiresAt &&
+                Number(entry.expiresAt) <= now
+            ) {
+                delete data.entries[id];
+                changed = true;
+            }
+        }
+
+        return changed;
+    }
+
+    async persist() {
+        await Deno.writeTextFile(
+            this.filePath,
+            JSON.stringify(this.data, null, 2) + "\n",
+        );
+    }
+
+    async get(key) {
+        const data = await this.load();
+
+        if (this.cleanupExpired(data)) {
+            await this.persist();
+        }
+
+        const entry = data.entries[this.keyId(key)];
+
+        return {
+            value: entry?.value ?? null,
+            versionstamp: entry?.versionstamp ?? null,
+        };
+    }
+
+    async set(key, value, options = {}) {
+        const data = await this.load();
+        const expireIn = Number(options?.expireIn ?? 0);
+
+        data.entries[this.keyId(key)] = {
+            key,
+            value,
+            expiresAt:
+                expireIn > 0
+                    ? Date.now() + expireIn
+                    : null,
+            versionstamp: crypto.randomUUID(),
+        };
+
+        await this.persist();
+    }
+
+    async delete(key) {
+        const data = await this.load();
+        delete data.entries[this.keyId(key)];
+        await this.persist();
+    }
+
+    async *list(options = {}) {
+        const data = await this.load();
+
+        if (this.cleanupExpired(data)) {
+            await this.persist();
+        }
+
+        const prefix = Array.isArray(options.prefix)
+            ? options.prefix
+            : [];
+
+        const rows = Object.values(data.entries)
+            .filter((entry) => {
+                if (!entry || !Array.isArray(entry.key)) return false;
+                if (entry.key.length < prefix.length) return false;
+
+                return prefix.every(
+                    (value, index) =>
+                        JSON.stringify(entry.key[index]) ===
+                        JSON.stringify(value),
+                );
+            })
+            .sort((a, b) => {
+                const ak = JSON.stringify(a.key);
+                const bk = JSON.stringify(b.key);
+                return ak < bk ? -1 : ak > bk ? 1 : 0;
+            });
+
+        if (options.reverse) rows.reverse();
+
+        for (const entry of rows) {
+            yield {
+                key: entry.key,
+                value: entry.value,
+                versionstamp: entry.versionstamp ?? null,
+            };
+        }
+    }
+
+    atomic() {
+        const operations = [];
+        let checkOperation = null;
+
+        const chain = {
+            check: (check) => {
+                checkOperation = check;
+                return chain;
+            },
+
+            set: (key, value, options = {}) => {
+                operations.push({
+                    type: "set",
+                    key,
+                    value,
+                    options,
+                });
+                return chain;
+            },
+
+            delete: (key) => {
+                operations.push({
+                    type: "delete",
+                    key,
+                });
+                return chain;
+            },
+
+            commit: async () => {
+                const data = await this.load();
+
+                if (checkOperation?.key) {
+                    const id = this.keyId(checkOperation.key);
+                    const existing = data.entries[id];
+
+                    if (checkOperation.versionstamp === null) {
+                        if (existing) return { ok: false };
+                    } else if (
+                        !existing ||
+                        existing.versionstamp !==
+                            checkOperation.versionstamp
+                    ) {
+                        return { ok: false };
+                    }
+                }
+
+                for (const operation of operations) {
+                    if (operation.type === "delete") {
+                        delete data.entries[
+                            this.keyId(operation.key)
+                        ];
+                        continue;
+                    }
+
+                    const expireIn = Number(
+                        operation.options?.expireIn ?? 0,
+                    );
+
+                    data.entries[
+                        this.keyId(operation.key)
+                    ] = {
+                        key: operation.key,
+                        value: operation.value,
+                        expiresAt:
+                            expireIn > 0
+                                ? Date.now() + expireIn
+                                : null,
+                        versionstamp: crypto.randomUUID(),
+                    };
+                }
+
+                await this.persist();
+                return { ok: true };
+            },
+        };
+
+        return chain;
+    }
+}
+
 async function getKV() {
     if (!kv) {
-        kv =
-            await Deno.openKv();
+        kv = GITHUB_ACTIONS_MODE
+            ? new FileKV()
+            : await Deno.openKv();
     }
     return kv;
 }
@@ -2715,11 +2946,19 @@ async function executePipeline(manual = false) {
                 duration_ms: Date.now() -
                     startedAt,
             };
-            await db.set([
-                "factor",
-                "state",
-                "last_pipeline",
-            ], result);
+            if (!GITHUB_ACTIONS_MODE) {
+
+                await db.set([
+
+                    "factor",
+
+                    "state",
+
+                    "last_pipeline",
+
+                ], result);
+
+            }
             return result;
         }
         // --------------------------------------------------------
@@ -2745,11 +2984,19 @@ async function executePipeline(manual = false) {
                 duration_ms: Date.now() -
                     startedAt,
             };
-            await db.set([
-                "factor",
-                "state",
-                "last_pipeline",
-            ], result);
+            if (!GITHUB_ACTIONS_MODE) {
+
+                await db.set([
+
+                    "factor",
+
+                    "state",
+
+                    "last_pipeline",
+
+                ], result);
+
+            }
             return result;
         }
         const { item, story, articleMedia, score, } = candidate;
@@ -2909,11 +3156,19 @@ async function executePipeline(manual = false) {
             duration_ms: Date.now() -
                 startedAt,
         };
-        await db.set([
-            "factor",
-            "state",
-            "last_pipeline",
-        ], result);
+        if (!GITHUB_ACTIONS_MODE) {
+
+            await db.set([
+
+                "factor",
+
+                "state",
+
+                "last_pipeline",
+
+            ], result);
+
+        }
         return result;
     }
     catch (error) {
@@ -2925,11 +3180,19 @@ async function executePipeline(manual = false) {
             duration_ms: Date.now() -
                 startedAt,
         };
-        await db.set([
-            "factor",
-            "state",
-            "last_pipeline",
-        ], result);
+        if (!GITHUB_ACTIONS_MODE) {
+
+            await db.set([
+
+                "factor",
+
+                "state",
+
+                "last_pipeline",
+
+            ], result);
+
+        }
         console.error("PIPELINE ERROR:", result);
         return result;
     }
@@ -2966,164 +3229,186 @@ function json(value, status = 200) {
     });
 }
 // ============================================================
-// CRON
+// RUNTIME ENTRYPOINT
 // ============================================================
-Deno.cron("FAKTOR news pipeline", CRON_SCHEDULE, {
-    backoffSchedule: [
-        5000,
-        15000,
-        30000,
-    ],
-}, async () => {
-    console.log("CRON: starting pipeline");
+//
+// Deno Deploy:
+//   persistent Deno.cron + HTTP server.
+//
+// GitHub Actions:
+//   one pipeline execution per workflow run.
+//   Schedule lives in .github/workflows/faktor.yml.
+
+if (GITHUB_ACTIONS_MODE) {
+    console.log("FAKTOR: GitHub Actions mode");
+
     try {
         const result = await runPipeline(false);
-        console.log("CRON: finished", JSON.stringify(result));
+        console.log(
+            "FAKTOR: pipeline finished",
+            JSON.stringify(result),
+        );
+    } catch (error) {
+        console.error("FAKTOR: pipeline failed:", error);
+        Deno.exit(1);
     }
-    catch (error) {
-        console.error("CRON ERROR:", error);
-        throw error;
-    }
-});
-// ============================================================
-// HTTP SERVER
-// ============================================================
-Deno.serve(async (request) => {
-    const url = new URL(request.url);
-    const path = url.pathname.replace(/\/$/, "") || "/";
-    try {
-        // ------------------------------------------------------
-        // ROOT
-        // ------------------------------------------------------
-        if (request.method ===
-            "GET" &&
-            path === "/") {
+} else {
+    // ============================================================
+    // CRON
+    // ============================================================
+    Deno.cron("FAKTOR news pipeline", CRON_SCHEDULE, {
+        backoffSchedule: [
+            5000,
+            15000,
+            30000,
+        ],
+    }, async () => {
+        console.log("CRON: starting pipeline");
+        try {
+            const result = await runPipeline(false);
+            console.log(
+                "CRON: finished",
+                JSON.stringify(result),
+            );
+        } catch (error) {
+            console.error("CRON ERROR:", error);
+            throw error;
+        }
+    });
+
+    // ============================================================
+    // HTTP SERVER
+    // ============================================================
+    Deno.serve(async (request) => {
+        const url = new URL(request.url);
+        const path =
+            url.pathname.replace(/\/$/, "") || "/";
+
+        try {
+            if (
+                request.method === "GET" &&
+                path === "/"
+            ) {
+                return json({
+                    ok: true,
+                    service: "MAX NEWS AGENT — ФАКТОР",
+                    runtime: "Deno Deploy",
+                    cron: CRON_SCHEDULE,
+                    endpoints: [
+                        "/",
+                        "/status",
+                        "/pipeline-state",
+                        "/run",
+                        "/publish-test",
+                        "/me",
+                        "/webhook",
+                    ],
+                });
+            }
+
+            if (
+                request.method === "GET" &&
+                path === "/status"
+            ) {
+                return json({
+                    ok: true,
+                    now: new Date().toISOString(),
+                    service: "MAX NEWS AGENT — ФАКТОР",
+                    runtime: "Deno Deploy",
+                    auto_pipeline: true,
+                    max_connection: {
+                        ca_loaded: maxCaStatus.loaded,
+                        root_ca: maxCaStatus.root,
+                        sub_ca: maxCaStatus.sub,
+                        error: maxCaStatus.error,
+                    },
+                    configuration: {
+                        max_token: Boolean(MAX_BOT_TOKEN),
+                        target_chat: Boolean(TARGET_CHAT_ID),
+                        gemini: Boolean(GEMINI_API_KEY),
+                    },
+                    ...(await getState()),
+                });
+            }
+
+            if (
+                request.method === "GET" &&
+                path === "/pipeline-state"
+            ) {
+                return json({
+                    ok: true,
+                    ...(await getState()),
+                });
+            }
+
+            if (
+                (
+                    request.method === "GET" ||
+                    request.method === "POST"
+                ) &&
+                path === "/run"
+            ) {
+                const result = await runPipeline(true);
+                return json(result);
+            }
+
+            if (
+                request.method === "GET" &&
+                path === "/publish-test"
+            ) {
+                const result = await publishTest();
+                return json({
+                    ok: true,
+                    provider: "MAX",
+                    operation: "publish-test",
+                    chat_id: TARGET_CHAT_ID,
+                    response: result,
+                });
+            }
+
+            if (
+                request.method === "GET" &&
+                path === "/me"
+            ) {
+                const me = await maxJson("/me", {
+                    method: "GET",
+                });
+                return json({
+                    ok: true,
+                    max_me: me,
+                });
+            }
+
+            if (
+                request.method === "POST" &&
+                path === "/webhook"
+            ) {
+                const body = await request.text();
+                console.log(
+                    "WEBHOOK:",
+                    body.slice(0, 2000),
+                );
+                return json({
+                    ok: true,
+                    received: true,
+                });
+            }
+
             return json({
-                ok: true,
-                service: "MAX NEWS AGENT — ФАКТОР",
-                runtime: "Deno Deploy",
-                cron: CRON_SCHEDULE,
-                endpoints: [
-                    "/",
-                    "/status",
-                    "/pipeline-state",
-                    "/run",
-                    "/publish-test",
-                    "/me",
-                    "/webhook",
-                ],
-            });
-        }
-        // ------------------------------------------------------
-        // STATUS
-        // ------------------------------------------------------
-        if (request.method ===
-            "GET" &&
-            path === "/status") {
+                ok: false,
+                error: "Endpoint not found",
+                path,
+            }, 404);
+        } catch (error) {
+            console.error("HTTP ERROR:", error);
             return json({
-                ok: true,
-                now: new Date()
-                    .toISOString(),
-                service: "MAX NEWS AGENT — ФАКТОР",
-                runtime: "Deno Deploy",
-                auto_pipeline: true,
-                max_connection: {
-                    ca_loaded: maxCaStatus.loaded,
-                    root_ca: maxCaStatus.root,
-                    sub_ca: maxCaStatus.sub,
-                    error: maxCaStatus.error,
-                },
-                configuration: {
-                    max_token: Boolean(MAX_BOT_TOKEN),
-                    target_chat: Boolean(TARGET_CHAT_ID),
-                    gemini: Boolean(GEMINI_API_KEY),
-                },
-                ...(await getState()),
-            });
+                ok: false,
+                error:
+                    error instanceof Error
+                        ? error.message
+                        : String(error),
+                path,
+            }, 500);
         }
-        // ------------------------------------------------------
-        // PIPELINE STATE
-        // ------------------------------------------------------
-        if (request.method ===
-            "GET" &&
-            path ===
-                "/pipeline-state") {
-            return json({
-                ok: true,
-                ...(await getState()),
-            });
-        }
-        // ------------------------------------------------------
-        // MANUAL RUN
-        // ------------------------------------------------------
-        if ((request.method ===
-            "GET" ||
-            request.method ===
-                "POST") &&
-            path === "/run") {
-            const result = await runPipeline(true);
-            return json(result);
-        }
-        // ------------------------------------------------------
-        // TEST PUBLISH
-        // ------------------------------------------------------
-        if (request.method ===
-            "GET" &&
-            path ===
-                "/publish-test") {
-            const result = await publishTest();
-            return json({
-                ok: true,
-                provider: "MAX",
-                operation: "publish-test",
-                chat_id: TARGET_CHAT_ID,
-                response: result,
-            });
-        }
-        // ------------------------------------------------------
-        // ME
-        // ------------------------------------------------------
-        if (request.method ===
-            "GET" &&
-            path === "/me") {
-            const me = await maxJson("/me", {
-                method: "GET",
-            });
-            return json({
-                ok: true,
-                max_me: me,
-            });
-        }
-        // ------------------------------------------------------
-        // WEBHOOK
-        // ------------------------------------------------------
-        if (request.method ===
-            "POST" &&
-            path === "/webhook") {
-            const body = await request.text();
-            console.log("WEBHOOK:", body.slice(0, 2000));
-            return json({
-                ok: true,
-                received: true,
-            });
-        }
-        // ------------------------------------------------------
-        // 404
-        // ------------------------------------------------------
-        return json({
-            ok: false,
-            error: "Endpoint not found",
-            path,
-        }, 404);
-    }
-    catch (error) {
-        console.error("HTTP ERROR:", error);
-        return json({
-            ok: false,
-            error: error instanceof Error
-                ? error.message
-                : String(error),
-            path,
-        }, 500);
-    }
-});
+    });
+}
