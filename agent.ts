@@ -2496,6 +2496,51 @@ const PIPELINE_LOCK_KEY = ["factor", "lock"];
 async function acquirePipelineLock() {
   const db = await getKV();
   const token = crypto.randomUUID();
+  const now = Date.now();
+
+  // First try the normal fast path: no lock exists.
+  let current = await db.get(PIPELINE_LOCK_KEY);
+
+  if (current.value) {
+    const createdAt = Number(current.value.created_at ?? 0);
+    const age = now - createdAt;
+
+    // A live lock belongs to another execution. Do not overlap pipelines.
+    if (createdAt > 0 && age < LOCK_TTL_MS) {
+      return null;
+    }
+
+    // The lock is stale (for example, a previous Worker/Deno execution
+    // was killed before its finally{} block could release the lock).
+    // Replace it atomically using the versionstamp we just read.
+    const staleResult = await db
+      .atomic()
+      .check({
+        key: PIPELINE_LOCK_KEY,
+        versionstamp: current.versionstamp,
+      })
+      .set(
+        PIPELINE_LOCK_KEY,
+        {
+          token,
+          created_at: now,
+        },
+        {
+          expireIn: LOCK_TTL_MS,
+        }
+      )
+      .commit();
+
+    if (!staleResult.ok) {
+      // Another execution changed/acquired the lock between get() and
+      // commit(). Treat that as a real concurrent run.
+      return null;
+    }
+    return token;
+  }
+
+  // No lock exists. Acquire it atomically so two cron/manual requests
+  // arriving at the same time cannot both enter the pipeline.
   const result = await db
     .atomic()
     .check({
@@ -2506,13 +2551,14 @@ async function acquirePipelineLock() {
       PIPELINE_LOCK_KEY,
       {
         token,
-        created_at: Date.now(),
+        created_at: now,
       },
       {
         expireIn: LOCK_TTL_MS,
       }
     )
     .commit();
+
   if (!result.ok) {
     return null;
   }
