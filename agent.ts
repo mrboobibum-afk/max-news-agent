@@ -1,6 +1,6 @@
 // ============================================================
 // MAX NEWS AGENT — ФАКТОР
-// FIX v13: precise event dedup + complete image extraction + strict media validation
+// FIX v16: surgical media/freshness fixes; existing pipeline preserved
 // DENO DEPLOY
 // ============================================================
 //
@@ -61,6 +61,10 @@ const GEMINI_CANDIDATES = 10;
 const MAX_HISTORY_CHECKED = 300;
 const EVENT_HISTORY_TTL_MS = 72 * 60 * 60 * 1000;
 const EVENT_RECENT_LIMIT = 250;
+// Freshness window: allow late-night/early-morning news from the previous day,
+// but never recycle materially older RSS items.
+const MAX_NEWS_AGE_MS = 36 * 60 * 60 * 1000;
+const MAX_FUTURE_NEWS_MS = 10 * 60 * 1000;
 // Request/runtime cache: prevents scanning the same KV history hundreds of times
 // when the candidate pool is expanded beyond the old 45-item cap.
 let FACTOR_HISTORY_CACHE = { at: 0, events: null, titles: null };
@@ -399,6 +403,20 @@ function parseRSS(xml, feed) {
   }
   return items;
 }
+function getNewsDateStatus(pubDate) {
+  const timestamp = Date.parse(pubDate || "");
+  if (!timestamp || !Number.isFinite(timestamp)) {
+    return { valid: false, old: false, future: false, timestamp: 0 };
+  }
+  const age = Date.now() - timestamp;
+  return {
+    valid: true,
+    old: age > MAX_NEWS_AGE_MS,
+    future: age < -MAX_FUTURE_NEWS_MS,
+    timestamp,
+  };
+}
+
 async function loadRSS(feed) {
   try {
     const response = await fetch(feed.url, {
@@ -930,7 +948,8 @@ function collectVideoUrls(value, result) {
 function findVideoCandidatesFromHtml(html, baseUrl) {
   const candidates = [];
   const seen = new Set();
-  const add = (rawUrl, priority = 0, source = "html") => {
+
+  const add = (rawUrl, priority = 0, source = "html", context = "") => {
     const decoded = decodeHtmlEntities(
       String(rawUrl || "")
         .replace(/\\\//g, "/")
@@ -942,46 +961,90 @@ function findVideoCandidatesFromHtml(html, baseUrl) {
     );
     const url = absoluteUrl(normalizeMediaUrl(decoded), baseUrl);
     if (!url || !isPossibleVideoUrl(url) || seen.has(url)) return;
+
+    const ctx = stripHtml(context).replace(/\s+/g, " ").trim().slice(0, 1200);
+    const lowerCtx = ctx.toLowerCase();
+
+    // Strongly prefer videos located in the article body and avoid common
+    // sidebar/recommendation/player widgets. This is deliberately based on
+    // placement, not on a guessed topic.
+    let p = priority;
+    if (
+      lowerCtx.includes("sidebar") ||
+      lowerCtx.includes("рекомендуем") ||
+      lowerCtx.includes("похожие") ||
+      lowerCtx.includes("related") ||
+      lowerCtx.includes("rightbar") ||
+      lowerCtx.includes("advert")
+    ) {
+      p -= 80;
+    }
+    if (
+      lowerCtx.includes("<article") ||
+      lowerCtx.includes("article-body") ||
+      lowerCtx.includes("article__body") ||
+      lowerCtx.includes("post-content") ||
+      lowerCtx.includes("entry-content")
+    ) {
+      p += 35;
+    }
+
     seen.add(url);
-    candidates.push({ url, priority, source });
+    candidates.push({ url, priority: p, source, context: ctx });
   };
 
-  // Real publisher video elements.
+  // Real publisher video elements. Keep a local context window so we can
+  // distinguish article media from sidebar/recommended videos.
   for (const match of html.matchAll(/<video\b[\s\S]{0,5000}?<\/video>/gi)) {
     const block = match[0];
     const direct = block.match(
       /\b(?:src|data-src|data-video|data-video-url)=['"]([^'"]+)['"]/i
     )?.[1];
-    if (direct) add(direct, 160, "video_tag");
+    if (direct) add(direct, 180, "video_tag", block);
     for (const source of block.matchAll(
       /<source\b[^>]+src=['"]([^'"]+)['"]/gi
     )) {
-      add(source[1], 155, "video_source");
+      add(source[1], 175, "video_source", block);
     }
   }
+
   for (const match of html.matchAll(
     /<source\b[^>]+(?:src|data-src)=['"]([^'"]+)['"][^>]*>/gi
   )) {
-    add(match[1], 150, "source_tag");
+    const pos = match.index ?? 0;
+    add(
+      match[1],
+      165,
+      "source_tag",
+      html.slice(Math.max(0, pos - 1800), pos + 2200)
+    );
   }
+
   for (const match of html.matchAll(
     /\bdata-(?:video|video-url|video-src|src)=['"]([^'"]+)['"]/gi
   )) {
-    add(match[1], 145, "data_video");
+    const pos = match.index ?? 0;
+    add(
+      match[1],
+      155,
+      "data_video",
+      html.slice(Math.max(0, pos - 1800), pos + 2200)
+    );
   }
 
-  // Publisher JSON / escaped URLs.
   for (const match of html.matchAll(
     /["'](?:contentUrl|videoUrl|video_url|videoSrc|file|embedUrl)["']\s*:\s*["']([^"']+)["']/gi
   )) {
-    add(match[1], 140, "json");
+    const pos = match.index ?? 0;
+    add(match[1], 150, "json", html.slice(Math.max(0, pos - 1800), pos + 2200));
   }
 
   const jsonLd = extractJsonLd(html);
   for (const data of jsonLd) {
     const urls = [];
     collectVideoUrls(data, urls);
-    for (const rawUrl of urls) add(rawUrl, 135, "jsonld");
+    for (const rawUrl of urls)
+      add(rawUrl, 145, "jsonld", JSON.stringify(data).slice(0, 1600));
   }
 
   for (const name of [
@@ -991,7 +1054,7 @@ function findVideoCandidatesFromHtml(html, baseUrl) {
     "twitter:player:stream",
   ]) {
     const value = findMeta(html, name);
-    if (value) add(value, 120, "meta_video");
+    if (value) add(value, 125, "meta_video", name);
   }
 
   return candidates.sort((a, b) => b.priority - a.priority).slice(0, 12);
@@ -1202,6 +1265,25 @@ function extensionFromType(type, contentType, url) {
   }
   return "jpg";
 }
+function mp4HasAudioTrack(bytes) {
+  // Minimal ISO-BMFF parser: look for trak -> mdia -> hdlr -> "soun".
+  // It does not decode/re-encode the video; it only verifies that an audio
+  // track is present in the original file before uploading it to MAX.
+  try {
+    const headScan = Math.min(bytes.length, 8 * 1024 * 1024);
+    const decoder = new TextDecoder("latin1");
+    if (decoder.decode(bytes.subarray(0, headScan)).includes("soun"))
+      return true;
+    if (bytes.length > headScan) {
+      const tailStart = Math.max(headScan, bytes.length - 4 * 1024 * 1024);
+      return decoder.decode(bytes.subarray(tailStart)).includes("soun");
+    }
+    return false;
+  } catch {
+    return false;
+  }
+}
+
 async function downloadMedia(url, type) {
   try {
     if (!isHttpUrl(url)) {
@@ -1239,6 +1321,10 @@ async function downloadMedia(url, type) {
     }
     const buffer = new Uint8Array(await response.arrayBuffer());
     if (buffer.byteLength > limit) {
+      return null;
+    }
+    if (type === "video" && !mp4HasAudioTrack(buffer)) {
+      console.log("Video rejected: no audio track:", response.url || url);
       return null;
     }
     const finalUrl = response.url || url;
@@ -2293,8 +2379,14 @@ async function findBestMedia(articleMedia, item, story, diagnostics = null) {
       ? [{ url: articleMedia.videoUrl, priority: 100, source: "article_video" }]
       : [];
   if (diagnostics) diagnostics.video_candidates = videoCandidates.length;
-  for (const candidate of videoCandidates.slice(0, 8)) {
-    console.log("Trying article video:", candidate.source, candidate.url);
+  for (const candidate of videoCandidates
+    .filter((c) => Number(c.priority ?? 0) >= 105)
+    .slice(0, 8)) {
+    console.log(
+      "Trying verified article video:",
+      candidate.source,
+      candidate.url
+    );
     const video = await downloadMedia(candidate.url, "video");
     if (video) {
       if (diagnostics) {
@@ -2561,6 +2653,9 @@ function createDiagnostics() {
     accepted: 0,
 
     short_title: 0,
+    old_news: 0,
+    invalid_pub_date: 0,
+    future_news: 0,
     urgent_interval: 0,
     regular_interval: 0,
 
@@ -2730,8 +2825,29 @@ async function executePipeline(manual = false) {
     // RSS
     // --------------------------------------------------------
     const feedResults = await Promise.all(RSS_FEEDS.map(loadRSS));
-    const items = feedResults
-      .flat()
+    const rawItems = feedResults.flat();
+    const freshness = {
+      old_news: 0,
+      invalid_pub_date: 0,
+      future_news: 0,
+    };
+    const freshItems = rawItems.filter((item) => {
+      const status = getNewsDateStatus(item.pubDate);
+      if (!status.valid) {
+        freshness.invalid_pub_date++;
+        return false;
+      }
+      if (status.future) {
+        freshness.future_news++;
+        return false;
+      }
+      if (status.old) {
+        freshness.old_news++;
+        return false;
+      }
+      return true;
+    });
+    const items = freshItems
       .sort((a, b) => {
         const ad = Date.parse(a.pubDate) || 0;
         const bd = Date.parse(b.pubDate) || 0;
@@ -2769,6 +2885,9 @@ async function executePipeline(manual = false) {
     // --------------------------------------------------------
     const diagnostics = createDiagnostics();
     diagnostics.rss_total = items.length;
+    diagnostics.old_news = freshness.old_news;
+    diagnostics.invalid_pub_date = freshness.invalid_pub_date;
+    diagnostics.future_news = freshness.future_news;
     diagnostics.top_candidates = [];
 
     const candidate = await chooseCandidate(
