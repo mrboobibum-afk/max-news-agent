@@ -1,6 +1,6 @@
 // ============================================================
 // MAX NEWS AGENT — ФАКТОР
-// FIX v2: Google News HTML/URL sanitization + encoded RSS HTML cleanup
+// FIX v3: conservative dedup + candidate diagnostics + resilient selection
 // DENO DEPLOY
 // ============================================================
 //
@@ -1554,6 +1554,8 @@ function eventSimilarity(a, b) {
 
 async function isAlreadyPublished(item, articleUrl = "") {
   const db = await getKV();
+
+  // 1) Exact URL + title key.
   if (articleUrl) {
     const key = await publishedKey(item, articleUrl);
     const result = await db.get(["factor", "published_v2", key]);
@@ -1561,11 +1563,15 @@ async function isAlreadyPublished(item, articleUrl = "") {
       return true;
     }
   }
-  // Exact legacy key.
+
+  // 2) Legacy exact key.
   const oldKey = await legacyPublishedKey(item);
   const legacy = await db.get(["factor", "published", oldKey]);
-  if (legacy.value === true) return true;
-  // Semantic duplicate protection: same event, different RSS source/title/URL.
+  if (legacy.value === true) {
+    return true;
+  }
+
+  // 3) Exact source-independent story fingerprint.
   const semanticKey = await semanticStoryKey(item);
   if (semanticKey) {
     const semantic = await db.get([
@@ -1573,15 +1579,26 @@ async function isAlreadyPublished(item, articleUrl = "") {
       "published_story_v3",
       semanticKey,
     ]);
-    if (semantic.value === true) return true;
+    if (semantic.value === true) {
+      return true;
+    }
   }
-  // Last line of defence for slightly different headlines.
-  const recent = await getRecentTitles(MAX_HISTORY_CHECKED);
+
+  // 4) Conservative protection against a materially identical event
+  // returning with a different headline. The old V18 thresholds were
+  // too aggressive and could reject legitimate new stories.
+  const recent = await getRecentTitles(Math.min(MAX_HISTORY_CHECKED, 100));
   const candidateTitle = item.title.trim();
+
   for (const oldTitle of recent) {
-    if (storySimilarity(candidateTitle, oldTitle) >= 0.78) return true;
-    if (eventSimilarity(candidateTitle, oldTitle) >= 0.95) return true;
+    if (storySimilarity(candidateTitle, oldTitle) >= 0.92) {
+      return true;
+    }
+    if (eventSimilarity(candidateTitle, oldTitle) >= 0.99) {
+      return true;
+    }
   }
+
   return false;
 }
 async function markPublished(item, articleUrl) {
@@ -1937,53 +1954,45 @@ function cleanSourceName(source, articleMedia) {
 // POST
 // ============================================================
 function buildPost(item, story, sourceName, articleUrl) {
-  const header = story.urgent
-    ? "🔴 <b>ФАКТОР • ОПЕРАТИВНО</b>"
-    : "🔵 <b>ФАКТОР • ГЛАВНОЕ</b>";
-  const category = `${item.categoryEmoji} <b>${escapeHtml(item.category)}</b>`;
+  // TELEGRAM-LIKE LIVE FEED FORMAT.
+  // Do not expose internal Gemini fields such as "short", "main" or
+  // "important" as separate sections. Keep one compact news message.
+  const urgent = Boolean(story.urgent);
   const headlineText = stripHtml(truncate(story.headline || item.title, 260));
-  const shortText = stripHtml(truncate(story.short || "", 700));
-  const bodyItems = [];
-  if (shortText && storySimilarity(shortText, headlineText) < 0.82)
-    bodyItems.push(shortText);
-  for (const raw of story.main || []) {
-    const text = stripHtml(truncate(String(raw || ""), 350));
-    if (!text) continue;
-    if (storySimilarity(text, headlineText) >= 0.72) continue;
-    if (bodyItems.some((x) => storySimilarity(x, text) >= 0.8)) continue;
-    bodyItems.push(text);
-    if (bodyItems.length >= 3) break;
+
+  const candidates = [
+    story.short,
+    ...(Array.isArray(story.main) ? story.main : []),
+    story.important,
+  ]
+    .map((value) => stripHtml(truncate(String(value || ""), 700)).trim())
+    .filter(Boolean);
+
+  let bodyText = "";
+  for (const candidate of candidates) {
+    if (storySimilarity(candidate, headlineText) < 0.82) {
+      bodyText = candidate;
+      break;
+    }
   }
-  const importantText = stripHtml(truncate(story.important || "", 400));
-  if (
-    importantText &&
-    storySimilarity(importantText, headlineText) < 0.72 &&
-    !bodyItems.some((x) => storySimilarity(x, importantText) >= 0.72)
-  ) {
-    bodyItems.push(importantText);
-  }
-  const time = new Intl.DateTimeFormat("ru-RU", {
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: "Europe/Moscow",
-  }).format(new Date());
+
   const sourceLine = isLikelyArticleUrl(articleUrl)
     ? `🔗 <a href="${escapeHtml(articleUrl)}">${escapeHtml(sourceName)}</a>`
     : "";
-  const parts = [
-    header,
-    "",
-    category,
-    "",
-    `<b>${escapeHtml(headlineText)}</b>`,
-  ];
-  for (const text of bodyItems) parts.push("", escapeHtml(text));
-  parts.push("", `🕒 ${time}`);
-  if (sourceLine) parts.push(sourceLine);
-  parts.push("", "<i>ФАКТОР</i>");
-  let result = parts.join("\n");
-  if (result.length > MAX_POST_LENGTH)
+
+  // Direct-feed style: marker + headline + one concise body + source.
+  // No labels like "Кратко", "Некратко", "Важно", no category block,
+  // no artificial footer and no duplicate sections.
+  const parts = [];
+  if (urgent) parts.push("🔴");
+  parts.push(`<b>${escapeHtml(headlineText)}</b>`);
+  if (bodyText) parts.push("", escapeHtml(bodyText));
+  if (sourceLine) parts.push("", sourceLine);
+
+  let result = parts.join("\n").trim();
+  if (result.length > MAX_POST_LENGTH) {
     result = result.slice(0, MAX_POST_LENGTH - 1).trimEnd() + "…";
+  }
   return result;
 }
 // ============================================================
@@ -2026,6 +2035,18 @@ async function findBestMedia(articleMedia) {
 // CANDIDATE SELECTION
 // ============================================================
 async function chooseCandidate(items, urgentAllowed, regularAllowed) {
+  const diagnostics = {
+    input: items.length,
+    scored: 0,
+    interval_rejected: 0,
+    duplicate_rejected: 0,
+    article_url_rejected: 0,
+    article_page_rejected: 0,
+    story_rejected: 0,
+    selected: 0,
+    top_rejections: [],
+  };
+
   // ----------------------------------------------------------
   // STEP 1 — LOCAL SCORE
   // ----------------------------------------------------------
@@ -2034,76 +2055,135 @@ async function chooseCandidate(items, urgentAllowed, regularAllowed) {
     .map(scoreNewsItem)
     .filter((candidate) => {
       if (candidate.urgency && !urgentAllowed) {
+        diagnostics.interval_rejected++;
         return false;
       }
       if (!candidate.urgency && !regularAllowed) {
+        diagnostics.interval_rejected++;
         return false;
       }
       return true;
     })
     .sort((a, b) => b.score - a.score)
     .slice(0, SCORE_CANDIDATES);
+
+  diagnostics.scored = scored.length;
   console.log("Scored candidates:", scored.length);
+
   // ----------------------------------------------------------
-  // STEP 2 — REAL ARTICLE URL
+  // STEP 2 — REAL ARTICLE URL + DEDUP + GEMINI
+  // Do NOT stop after the first bad candidate. We keep walking
+  // the ranked list until a genuinely publishable item is found.
   // ----------------------------------------------------------
   let checked = 0;
+
   for (const candidate of scored) {
     checked++;
     const { item, score } = candidate;
-    // Fast duplicate rejection before expensive article/Gemini work.
+
+    const reject = (reason) => {
+      if (diagnostics.top_rejections.length < 12) {
+        diagnostics.top_rejections.push({
+          title: item.title.slice(0, 180),
+          reason,
+          score,
+        });
+      }
+    };
+
+    // Exact/semantic duplicate before network work.
     if (await isAlreadyPublished(item)) {
-      console.log(
-        "Rejected: semantic duplicate before article fetch:",
-        item.title
-      );
+      diagnostics.duplicate_rejected++;
+      reject("duplicate");
       continue;
     }
+
     const articleMedia = await extractArticleMedia(item);
-    const articleUrl = articleMedia.articleUrl;
-    // Реального СМИ нет — пропускаем.
+    const articleUrl = normalizeArticleUrl(articleMedia.articleUrl);
+
     if (!isLikelyArticleUrl(articleUrl)) {
-      console.log("Rejected: no real article URL:", item.title);
+      // A Google News item can occasionally resolve poorly on the
+      // first attempt. Do not kill the whole run.
+      diagnostics.article_url_rejected++;
+      if (!articleMedia.articleUrl) {
+        diagnostics.article_page_rejected++;
+        reject("article page unavailable");
+      } else {
+        reject("real article URL rejected");
+      }
       continue;
     }
-    // --------------------------------------------------------
-    // STEP 3 — DEDUP
-    // --------------------------------------------------------
+
     if (await isAlreadyPublished(item, articleUrl)) {
-      console.log("Rejected: published:", item.title);
+      diagnostics.duplicate_rejected++;
+      reject("published");
       continue;
     }
+
     // --------------------------------------------------------
-    // STEP 4 — GEMINI
+    // STEP 3 — STORY
     // --------------------------------------------------------
     let story = null;
+
     if (checked <= GEMINI_CANDIDATES) {
       story = await callGemini(item, articleMedia);
     }
+
     if (!story) {
       story = makeFallbackStory(item, articleMedia);
     }
-    story.urgent = story.urgent || candidate.urgency;
+
+    story.urgent = Boolean(story.urgent || candidate.urgency);
+
     if (story.urgent && !urgentAllowed) {
+      diagnostics.interval_rejected++;
+      reject("urgent interval");
       continue;
     }
+
     if (!story.urgent && !regularAllowed) {
+      diagnostics.interval_rejected++;
+      reject("regular interval");
       continue;
     }
-    // --------------------------------------------------------
-    // STEP 5 — TEXT DUPLICATE
-    // --------------------------------------------------------
+
     if (await isRepeatedStoryText(story)) {
-      console.log("Rejected: text duplicate:", story.headline);
+      diagnostics.story_rejected++;
+      reject("repeated story text");
       continue;
     }
+
+    diagnostics.selected = 1;
+    console.log("Candidate selected:", {
+      title: item.title,
+      score,
+      urgent: story.urgent,
+      articleUrl,
+    });
+
     return {
       item,
       story,
-      articleMedia,
+      articleMedia: {
+        ...articleMedia,
+        articleUrl,
+      },
       score,
+      diagnostics,
     };
   }
+
+  console.log("No candidate selected:", JSON.stringify(diagnostics));
+
+  // Returning null preserves the existing pipeline contract.
+  // The caller writes the diagnostics to KV so the exact reason is
+  // visible through /pipeline-state.
+  await getKV()
+    .then((db) =>
+      db.set(["factor", "state", "selection_diagnostics"], diagnostics)
+    )
+    .catch(() => {});
+
   return null;
 }
 // ============================================================
@@ -2161,6 +2241,8 @@ async function getState() {
     (await db.get(["factor", "state", "last_urgent"])).value ?? null;
   const lastPipeline =
     (await db.get(["factor", "state", "last_pipeline"])).value ?? null;
+  const selectionDiagnostics =
+    (await db.get(["factor", "state", "selection_diagnostics"])).value ?? null;
   const lock = await db.get(PIPELINE_LOCK_KEY);
   const running = Boolean(lock.value);
   const now = Date.now();
@@ -2192,6 +2274,7 @@ async function getState() {
       ttl_minutes: LOCK_TTL_MS / 60000,
     },
     last_pipeline: lastPipeline,
+    selection_diagnostics: selectionDiagnostics,
   };
 }
 // ============================================================
@@ -2297,6 +2380,9 @@ async function executePipeline(manual = false) {
         reason: "no new valid candidate",
         rss_total: items.length,
         duration_ms: Date.now() - startedAt,
+        selection_diagnostics:
+          (await db.get(["factor", "state", "selection_diagnostics"])).value ??
+          null,
       };
       await db.set(["factor", "state", "last_pipeline"], result);
       return result;
@@ -2564,6 +2650,18 @@ Deno.serve(async (request) => {
     ) {
       const result = await runPipeline(true);
       return json(result);
+    }
+    // ------------------------------------------------------
+    // SELECTION DIAGNOSTICS
+    // ------------------------------------------------------
+    if (request.method === "GET" && path === "/selection-diagnostics") {
+      const db = await getKV();
+      return json({
+        ok: true,
+        selection_diagnostics:
+          (await db.get(["factor", "state", "selection_diagnostics"])).value ??
+          null,
+      });
     }
     // ------------------------------------------------------
     // TEST PUBLISH
