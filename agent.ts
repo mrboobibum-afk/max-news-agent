@@ -1555,6 +1555,23 @@ function eventAnchorTokens(value) {
   }
   return result;
 }
+function eventProfile(item, articleMedia = null) {
+  const title = stripHtml(articleMedia?.title || item?.title || "");
+  const description = stripHtml(
+    `${item?.description || ""} ${articleMedia?.description || ""}`
+  );
+  const combined = `${title} ${description}`;
+  return {
+    category: item?.category || "",
+    family: detectEventFamily(combined, item?.category || ""),
+    anchors: [...eventAnchorTokens(combined)].slice(0, 50),
+    title: title.slice(0, 500),
+    description: description.slice(0, 1200),
+    published_at: Date.now(),
+    article_url: item?.articleUrl || "",
+  };
+}
+
 function eventProfilesMatch(candidate, previous) {
   if (!candidate || !previous) return false;
   const familyA = candidate.family || "other";
