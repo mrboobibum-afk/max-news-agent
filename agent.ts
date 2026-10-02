@@ -1,6 +1,6 @@
 // ============================================================
 // MAX NEWS AGENT — ФАКТОР
-// FIX v12: event dedup + strict media matching + robust publisher video extraction
+// FIX v13: precise event dedup + complete image extraction + strict media validation
 // DENO DEPLOY
 // ============================================================
 //
@@ -59,8 +59,8 @@ const MAX_RSS_ITEMS = 300;
 const SCORE_CANDIDATES = 45;
 const GEMINI_CANDIDATES = 10;
 const MAX_HISTORY_CHECKED = 300;
-const EVENT_HISTORY_TTL_MS = 48 * 60 * 60 * 1000;
-const EVENT_RECENT_LIMIT = 150;
+const EVENT_HISTORY_TTL_MS = 72 * 60 * 60 * 1000;
+const EVENT_RECENT_LIMIT = 250;
 const MAX_POST_LENGTH = 3900;
 const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
@@ -997,6 +997,100 @@ function findVideoFromHtml(html, baseUrl) {
   return findVideoCandidatesFromHtml(html, baseUrl)[0]?.url ?? null;
 }
 
+function findImageCandidatesFromHtml(html, baseUrl) {
+  const candidates = [];
+  const seen = new Set();
+  const add = (rawUrl, priority = 0, source = "html", context = "") => {
+    const decoded = decodeHtmlEntities(
+      String(rawUrl || "")
+        .replace(/\\\//g, "/")
+        .replace(/\\u002f/gi, "/")
+        .replace(/\\u003a/gi, ":")
+        .replace(/\\u003f/gi, "?")
+        .replace(/\\u003d/gi, "=")
+        .trim()
+    );
+    const url = absoluteUrl(normalizeMediaUrl(decoded), baseUrl);
+    if (!url || !isHttpUrl(url) || seen.has(url)) return;
+    const lower = url.toLowerCase();
+    if (
+      lower.includes("logo") ||
+      lower.includes("avatar") ||
+      lower.includes("favicon") ||
+      lower.includes("icon")
+    )
+      return;
+    seen.add(url);
+    candidates.push({
+      url,
+      priority,
+      source,
+      context: stripHtml(context).slice(0, 500),
+    });
+  };
+
+  const metaNames = [
+    "og:image",
+    "og:image:url",
+    "og:image:secure_url",
+    "twitter:image",
+    "twitter:image:src",
+  ];
+  for (const name of metaNames) {
+    const value = findMeta(html, name);
+    if (value) add(value, name.startsWith("og:") ? 140 : 125, "meta", name);
+  }
+
+  const jsonLd = extractJsonLd(html);
+  const walkImage = (value, context = "jsonld") => {
+    if (!value) return;
+    if (typeof value === "string") {
+      if (
+        /\.(?:jpe?g|png|webp|gif)(?:[?#].*)?$/i.test(value) ||
+        /\/image(?:s)?\//i.test(value)
+      )
+        add(value, 120, "jsonld", context);
+      return;
+    }
+    if (Array.isArray(value)) {
+      for (const item of value) walkImage(item, context);
+      return;
+    }
+    if (typeof value === "object") {
+      for (const [key, item] of Object.entries(value)) {
+        if (key === "image" || key === "thumbnailUrl" || key === "contentUrl")
+          walkImage(item, `${context}:${key}`);
+      }
+    }
+  };
+  for (const data of jsonLd) walkImage(data);
+
+  for (const match of html.matchAll(/<img\b[^>]*>/gi)) {
+    const tag = match[0];
+    const src = tag.match(
+      /\b(?:src|data-src|data-original|data-lazy-src)=['"]([^'"]+)['"]/i
+    )?.[1];
+    const srcset = tag.match(/\b(?:srcset|data-srcset)=['"]([^'"]+)['"]/i)?.[1];
+    const alt = tag.match(/\balt=['"]([^'"]*)['"]/i)?.[1] || "";
+    if (src) add(src, 100, "article_body", alt);
+    if (srcset) {
+      const first = srcset
+        .split(",")
+        .map((x) => x.trim().split(/\s+/)[0])
+        .filter(Boolean)[0];
+      if (first) add(first, 95, "article_body_srcset", alt);
+    }
+  }
+
+  for (const match of html.matchAll(
+    /<link\b[^>]+(?:rel=['"][^'"]*(?:image_src|preload)[^'"]*['"])[^>]+href=['"]([^'"]+)['"][^>]*>/gi
+  )) {
+    add(match[1], 85, "link", "preload image");
+  }
+
+  return candidates.sort((a, b) => b.priority - a.priority).slice(0, 20);
+}
+
 // ============================================================
 // ARTICLE MEDIA
 // ============================================================
@@ -1348,11 +1442,49 @@ const EVENT_STOP_WORDS = new Set([
   "сообщил",
   "сообщили",
   "рассказал",
+  "рассказали",
   "заявил",
+  "заявила",
   "заявили",
   "сегодня",
   "вчера",
   "теперь",
+  "утром",
+  "днем",
+  "днём",
+  "вечером",
+  "ночью",
+  "сообщает",
+  "данным",
+  "данные",
+  "словам",
+  "россия",
+  "россии",
+  "российский",
+  "российская",
+  "российское",
+  "область",
+  "области",
+  "район",
+  "районе",
+  "округ",
+  "округе",
+  "человек",
+  "людей",
+  "погиб",
+  "погибли",
+  "погибло",
+  "погибших",
+  "пострадал",
+  "пострадали",
+  "пострадавших",
+  "причина",
+  "причиной",
+  "причину",
+  "произошло",
+  "произошла",
+  "произошел",
+  "произошёл",
   "пожар",
   "пожара",
   "пожаре",
@@ -1362,39 +1494,23 @@ const EVENT_STOP_WORDS = new Set([
   "аварии",
   "аварией",
   "дтп",
-  "столкновение",
-  "столкновении",
   "смертельная",
   "смертельную",
-  "погиб",
-  "погибли",
-  "погибло",
-  "погибших",
-  "человек",
-  "людей",
   "пробка",
   "пробки",
-  "причина",
-  "причиной",
-  "причину",
-  "произошло",
-  "произошла",
-  "произошел",
-  "сегодня",
-  "вчера",
-  "утром",
-  "днем",
-  "вечером",
-  "ночью",
-  "сообщает",
-  "сообщили",
-  "данным",
-  "данные",
-  "словам",
-  "россия",
-  "россии",
-  "российский",
-  "российская",
+  "движение",
+  "движения",
+  "транспорт",
+  "общественный",
+  "новый",
+  "новые",
+  "нового",
+  "новых",
+  "работу",
+  "работа",
+  "работы",
+  "сообщение",
+  "сообщения",
 ]);
 const EVENT_FAMILY_RULES = [
   ["fire", /(пожар|возгора|загорел|загорелась|горит|горел|сгорел|огонь|дым)/i],
@@ -1418,9 +1534,9 @@ const EVENT_FAMILY_RULES = [
   ["business", /(компани|корпорац|сделк|инвестиц|бизнес|предприят|завод)/i],
   [
     "transport",
-    /(пробк|движени|дорог|мост|метро|поезд|самолет|рейс|аэропорт|транспорт)/i,
+    /(пробк|движени|дорог|мост|метро|поезд|самолет|самолёт|рейс|аэропорт|транспорт)/i,
   ],
-  ["technology", /(технолог|ии\\b|искусственн|кибер|хакер|интернет|программ)/i],
+  ["technology", /(технолог|искусственн|кибер|хакер|интернет|программ)/i],
 ];
 function detectEventFamily(value, category = "") {
   const text = normalizeForHash(`${category} ${value}`);
@@ -1433,26 +1549,11 @@ function eventAnchorTokens(value) {
   const normalized = normalizeForHash(value);
   const result = new Set();
   for (const word of normalized.split(" ")) {
-    if (word.length < 4 || EVENT_STOP_WORDS.has(word)) continue;
-    result.add(word.slice(0, 5));
+    if (word.length < 5 || EVENT_STOP_WORDS.has(word)) continue;
+    result.add(word);
+    if (word.length >= 7) result.add(word.slice(0, 7));
   }
   return result;
-}
-function eventProfile(item, articleMedia = null) {
-  const title = stripHtml(articleMedia?.title || item?.title || "");
-  const description = stripHtml(
-    `${item?.description || ""} ${articleMedia?.description || ""}`
-  );
-  const combined = `${title} ${description}`;
-  return {
-    category: item?.category || "",
-    family: detectEventFamily(combined, item?.category || ""),
-    anchors: [...eventAnchorTokens(combined)].slice(0, 50),
-    title: title.slice(0, 500),
-    description: description.slice(0, 1200),
-    published_at: Date.now(),
-    article_url: item?.articleUrl || "",
-  };
 }
 function eventProfilesMatch(candidate, previous) {
   if (!candidate || !previous) return false;
@@ -1460,22 +1561,44 @@ function eventProfilesMatch(candidate, previous) {
   const familyB = previous.family || "other";
   if (familyA !== "other" && familyB !== "other" && familyA !== familyB)
     return false;
+
   const ageMs = Math.max(0, Date.now() - Number(previous.published_at || 0));
   if (ageMs > EVENT_HISTORY_TTL_MS) return false;
+
   const a = new Set(candidate.anchors || []);
   const b = new Set(previous.anchors || []);
   let common = 0;
   for (const token of a) if (b.has(token)) common++;
-  const incident =
-    ["fire", "accident", "explosion", "crime", "military", "disaster"].includes(
-      familyA
-    ) ||
-    ["fire", "accident", "explosion", "crime", "military", "disaster"].includes(
-      familyB
-    );
-  if (common >= 2) return true;
-  if (common >= 1 && incident && ageMs <= 3 * 60 * 60 * 1000) return true;
-  return false;
+
+  // Exact/near-exact headline match is always the same story.
+  const titleA = normalizeForHash(candidate.title || "");
+  const titleB = normalizeForHash(previous.title || "");
+  if (titleA && titleB) {
+    if (titleA === titleB || titleA.includes(titleB) || titleB.includes(titleA))
+      return true;
+    const sim = storySimilarity(titleA, titleB);
+    if (sim >= 0.72) return true;
+  }
+
+  // IMPORTANT: do not reject an unrelated news item merely because it is in
+  // the same category/family and shares one generic word. The old v12 rule
+  // treated ONE shared token as a duplicate for all incident news and caused
+  // valid candidates to disappear.
+  const incident = [
+    "fire",
+    "accident",
+    "explosion",
+    "crime",
+    "military",
+    "disaster",
+  ].includes(familyA);
+  if (incident) {
+    return common >= 2;
+  }
+
+  // For politics/economy/business/law, require stronger textual overlap.
+  // One shared entity is not enough; three significant anchors is a duplicate.
+  return common >= 3;
 }
 async function getRecentPublishedEvents(limit = EVENT_RECENT_LIMIT) {
   const db = await getKV();
@@ -2063,7 +2186,7 @@ async function validateImageRelevance(item, story, candidate, media) {
       binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
     }
     const base64 = btoa(binary);
-    const prompt = ` Ты выполняешь СТРОГУЮ проверку фотографии для новостного канала. НОВОСТЬ: ${item.title} ТЕКСТ НОВОСТИ: ${stripHtml(story?.short || item.description || "")} ЗАГОЛОВОК СТАТЬИ: ${stripHtml(story?.headline || item.title)} КОНТЕКСТ ФОТО: ${candidate.context || "нет"} КАТЕГОРИЯ: ${item.category || ""} Правило: true можно вернуть ТОЛЬКО если по самому изображению видно, что оно непосредственно связано с событием, объектом, местом, людьми или транспортом, описанными в новости. Одного совпадения по общей теме недостаточно. ОБЯЗАТЕЛЬНО false для: - логотипа, карточки СМИ, баннера, рекламы, страницы сайта; - случайной фотографии из другой новости; - архивной/иллюстративной фотографии без явной связи с событием; - изображения другого города, объекта, транспорта или людей; - общей фотографии, которую нельзя уверенно связать с конкретной новостью. Для новости о пожаре true только если виден именно пожар/объект/место, связанное с событием. Фото аэропорта, магазина, людей с багажом и т.п. — false. Для новости о ДТП true только если изображено именно ДТП/дорога/транспорт, относящиеся к описанному событию; просто автомобиль или дорога — false. Верни ТОЛЬКО JSON: {"relevant":true,"confidence":0.95,"reason":"кратко","visible":"что именно видно"} `;
+    const prompt = ` Ты выполняешь СТРОГУЮ проверку фотографии для новостного канала. НОВОСТЬ: ${item.title} ТЕКСТ НОВОСТИ: ${stripHtml(story?.short || item.description || "")} ЗАГОЛОВОК СТАТЬИ: ${stripHtml(story?.headline || item.title)} КОНТЕКСТ ФОТО: ${candidate.context || "нет"} Дополнительное правило: если изображение похоже на архивную/иллюстративную фотографию, баннер, карточку СМИ или просто тематическую картинку, верни false. КАТЕГОРИЯ: ${item.category || ""} Правило: true можно вернуть ТОЛЬКО если по самому изображению видно, что оно непосредственно связано с событием, объектом, местом, людьми или транспортом, описанными в новости. Одного совпадения по общей теме недостаточно. ОБЯЗАТЕЛЬНО false для: - логотипа, карточки СМИ, баннера, рекламы, страницы сайта; - случайной фотографии из другой новости; - архивной/иллюстративной фотографии без явной связи с событием; - изображения другого города, объекта, транспорта или людей; - общей фотографии, которую нельзя уверенно связать с конкретной новостью. Для новости о пожаре true только если виден именно пожар/объект/место, связанное с событием. Фото аэропорта, магазина, людей с багажом и т.п. — false. Для новости о ДТП true только если изображено именно ДТП/дорога/транспорт, относящиеся к описанному событию; просто автомобиль или дорога — false. Верни ТОЛЬКО JSON: {"relevant":true,"confidence":0.95,"reason":"кратко","visible":"что именно видно"} `;
     const response = await fetch(
       "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" +
         encodeURIComponent(GEMINI_API_KEY),
@@ -2109,7 +2232,7 @@ async function validateImageRelevance(item, story, candidate, media) {
       confidence,
       json.reason || ""
     );
-    return json.relevant === true && confidence >= 0.85;
+    return json.relevant === true && confidence >= 0.92;
   } catch (error) {
     console.error(
       "Image relevance check:",
@@ -2246,6 +2369,12 @@ async function chooseCandidate( items, urgentAllowed, regularAllowed, diagnostic
     // Fast real-world event rejection before expensive article/Gemini work.
     if (await isSamePublishedEvent(item)) {
       diagnostics && diagnostics.event_duplicate_before_article++;
+      diagnostics &&
+        diagnostics.top_candidates.push({
+          title: item.title,
+          score,
+          rejected: "event_duplicate_before_article",
+        });
       console.log(
         "Rejected: same published event before article fetch:",
         item.title
@@ -2273,6 +2402,12 @@ async function chooseCandidate( items, urgentAllowed, regularAllowed, diagnostic
 
     if (!isLikelyArticleUrl(articleUrl)) {
       diagnostics && diagnostics.bad_url++;
+      diagnostics &&
+        diagnostics.top_candidates.push({
+          title: item.title,
+          score,
+          rejected: "bad_url",
+        });
       console.log("Rejected: no real article URL:", item.title);
       continue;
     }
@@ -2593,6 +2728,7 @@ async function executePipeline(manual = false) {
     // --------------------------------------------------------
     const diagnostics = createDiagnostics();
     diagnostics.rss_total = items.length;
+    diagnostics.top_candidates = [];
 
     const candidate = await chooseCandidate(
       items,
@@ -2602,6 +2738,10 @@ async function executePipeline(manual = false) {
     );
 
     if (!candidate) {
+      diagnostics.top_candidates = (diagnostics.top_candidates || []).slice(
+        0,
+        15
+      );
       const result = {
         ok: true,
         selected: 0,
