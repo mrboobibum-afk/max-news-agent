@@ -60,6 +60,8 @@ const SCORE_CANDIDATES = 45;
 const GEMINI_CANDIDATES = 10;
 const MAX_HISTORY_CHECKED = 300;
 const MAX_POST_LENGTH = 3900;
+const NEWS_TIMEZONE = "Europe/Moscow";
+const MAX_ALLOWED_CALENDAR_AGE_DAYS = 1;
 const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
   "AppleWebKit/537.36 (KHTML, like Gecko) " +
@@ -733,6 +735,121 @@ function articleTitleMatches(itemTitle, pageTitle) {
   if (a === b || a.includes(b) || b.includes(a)) return true;
   return articleTitleSimilarity(itemTitle, pageTitle) >= 0.45;
 }
+async function decodeGoogleNewsUrlViaBatchExecute(googleUrl) {
+  if (!isGoogleNewsUrl(googleUrl)) return "";
+  try {
+    const parsed = new URL(googleUrl);
+    const articleId = parsed.pathname.split("/").filter(Boolean).pop();
+    if (!articleId) return "";
+
+    const pageResponse = await fetch(
+      `https://news.google.com/articles/${encodeURIComponent(articleId)}`,
+      {
+        redirect: "follow",
+        headers: {
+          "User-Agent": USER_AGENT,
+          Accept: "text/html,application/xhtml+xml,*/*;q=0.8",
+        },
+        signal: AbortSignal.timeout(10000),
+      }
+    );
+    if (!pageResponse.ok) return "";
+    const pageHtml = await pageResponse.text();
+
+    const root = pageHtml.match(
+      /<c-wiz[^>]*>\s*<div[^>]+data-n-a-id=["']([^"']+)["'][^>]*>/i
+    );
+    const id = root?.[1] || articleId;
+    const signature =
+      pageHtml.match(/data-n-a-sg=["']([^"']+)["']/i)?.[1] || "";
+    const timestamp =
+      pageHtml.match(/data-n-a-ts=["']([^"']+)["']/i)?.[1] || "";
+    if (!signature || !timestamp) return "";
+
+    const req = [
+      [
+        [
+          "Fbv4je",
+          JSON.stringify([
+            "garturlreq",
+            [
+              [
+                "X",
+                "X",
+                ["X", "X"],
+                null,
+                null,
+                1,
+                1,
+                "US:en",
+                null,
+                1,
+                null,
+                null,
+                null,
+                null,
+                null,
+                0,
+                1,
+              ],
+              "X",
+              "X",
+              1,
+              [1, 1, 1],
+              1,
+              1,
+              null,
+              0,
+              0,
+              null,
+              0,
+            ],
+            id,
+            Number(timestamp),
+            signature,
+          ]),
+          null,
+          "generic",
+        ],
+      ],
+    ];
+
+    const response = await fetch(
+      "https://news.google.com/_/DotsSplashUi/data/batchexecute?rpcids=Fbv4je",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          Referer: "https://news.google.com/",
+          "User-Agent": USER_AGENT,
+        },
+        body: new URLSearchParams({ "f.req": JSON.stringify(req) }),
+        signal: AbortSignal.timeout(12000),
+      }
+    );
+    if (!response.ok) return "";
+    const text = await response.text();
+    const marker = '[\\"garturlres\\",\\"';
+    const start = text.indexOf(marker);
+    if (start < 0) return "";
+    const from = start + marker.length;
+    const end = text.indexOf('\\",', from);
+    if (end < 0) return "";
+    const decoded = text
+      .slice(from, end)
+      .replace(/\\\\u003d/g, "=")
+      .replace(/\\\\u0026/g, "&")
+      .replace(/\\\\\//g, "/");
+    return isLikelyArticleUrl(decoded) ? normalizeUrl(decoded) : "";
+  } catch (error) {
+    console.error(
+      "Google News batchexecute decode:",
+      error instanceof Error ? error.message : String(error)
+    );
+    return "";
+  }
+}
+
 async function resolveArticleUrl(item) {
   const originalUrl = normalizeUrl(item.link);
   if (!isGoogleNewsUrl(originalUrl)) {
@@ -747,6 +864,17 @@ async function resolveArticleUrl(item) {
     }
   }
   try {
+    const decodedByRpc = await decodeGoogleNewsUrlViaBatchExecute(originalUrl);
+    if (decodedByRpc) {
+      const page = await loadArticlePage(decodedByRpc);
+      if (
+        page &&
+        articleTitleMatches(item.title, extractPageTitle(page.html))
+      ) {
+        return page.finalUrl;
+      }
+    }
+
     const response = await fetch(originalUrl, {
       redirect: "follow",
       headers: {
@@ -914,49 +1042,89 @@ function collectVideoUrls(value, result) {
     }
   }
 }
-function findVideoFromHtml(html, baseUrl) {
+function videoUrlLooksGeneric(url) {
+  const value = String(url || "").toLowerCase();
+  return /(?:sidebar|related|recommended|recommend|playlist|trending|promo|advert|banner|autoplay|teaser|logo|sprite|background)/i.test(
+    value
+  );
+}
+function findVideoCandidatesFromHtml(html, baseUrl) {
   const candidates = [];
-  const add = (rawUrl, priority = 0) => {
+  const seen = new Set();
+  const add = (rawUrl, priority = 0, source = "article") => {
     const url = absoluteUrl(normalizeMediaUrl(rawUrl), baseUrl);
-    if (!url || !isDirectVideoUrl(url)) return;
-    if (candidates.some((x) => x.url === url)) return;
-    candidates.push({ url, priority });
+    if (
+      !url ||
+      !isDirectVideoUrl(url) ||
+      videoUrlLooksGeneric(url) ||
+      seen.has(url)
+    )
+      return;
+    seen.add(url);
+    candidates.push({ url, priority, source });
   };
-  // Prefer videos explicitly exposed by the article itself over generic
-  // social/player metadata. This still supports publisher CDNs.
   for (const match of html.matchAll(
-    /<video[^>]+src=["']([^"']+)["'][^>]*>/gi
+    /<video\b[^>]*>[\s\S]{0,2000}?<\/video>/gi
   )) {
-    add(match[1], 100);
+    const block = match[0];
+    const src = block.match(/\bsrc=["']([^"']+)["']/i)?.[1];
+    if (src) add(src, 130, "article_video");
+    for (const m of block.matchAll(
+      /<source\b[^>]*src=["']([^"']+)["'][^>]*>/gi
+    ))
+      add(m[1], 125, "article_video_source");
   }
   for (const match of html.matchAll(
-    /<source[^>]+src=["']([^"']+)["'][^>]*>/gi
-  )) {
-    add(match[1], 90);
-  }
+    /<source\b[^>]+src=["']([^"']+)["'][^>]*>/gi
+  ))
+    add(match[1], 120, "article_source");
   for (const match of html.matchAll(
     /["'](?:contentUrl|videoUrl|video_url|file)["']\s*:\s*["']([^"']+)["']/gi
-  )) {
-    add(match[1], 80);
-  }
-  const metaNames = [
+  ))
+    add(match[1], 110, "json");
+  for (const name of [
     "og:video",
     "og:video:url",
     "og:video:secure_url",
     "twitter:player:stream",
-  ];
-  for (const name of metaNames) {
+  ]) {
     const value = findMeta(html, name);
-    if (value) add(value, 50);
+    if (value) add(value, 80, "meta");
   }
   const jsonLd = extractJsonLd(html);
   for (const data of jsonLd) {
     const urls = [];
     collectVideoUrls(data, urls);
-    for (const rawUrl of urls) add(rawUrl, 70);
+    for (const rawUrl of urls) add(rawUrl, 105, "jsonld");
   }
-  candidates.sort((a, b) => b.priority - a.priority);
-  return candidates[0]?.url ?? null;
+  return candidates.sort((a, b) => b.priority - a.priority).slice(0, 8);
+}
+function findVideoFromHtml(html, baseUrl) {
+  return findVideoCandidatesFromHtml(html, baseUrl)[0]?.url ?? null;
+}
+
+function extractArticlePublishedAt(html) {
+  const candidates = [
+    findMeta(html, "article:published_time"),
+    findMeta(html, "datePublished"),
+    findMeta(html, "datepublished"),
+    findMeta(html, "publish-date"),
+    findMeta(html, "pubdate"),
+  ].filter(Boolean);
+  for (const value of candidates) {
+    if (Date.parse(value)) return new Date(Date.parse(value)).toISOString();
+  }
+  for (const block of extractJsonLd(html)) {
+    const articles = [];
+    collectArticleJsonLd(block, articles);
+    for (const article of articles) {
+      const value =
+        article?.datePublished || article?.dateCreated || article?.dateModified;
+      if (value && Date.parse(String(value)))
+        return new Date(Date.parse(String(value))).toISOString();
+    }
+  }
+  return null;
 }
 
 function mediaUrlLooksGeneric(url) {
@@ -1102,19 +1270,40 @@ async function extractArticleMedia(item) {
   }
   const imageCandidates = findImageCandidatesFromHtml(html, finalUrl);
   const imageUrl = imageCandidates[0]?.url ?? null;
-  const videoUrl = findVideoFromHtml(html, finalUrl);
+  const videoCandidates = findVideoCandidatesFromHtml(html, finalUrl);
+  const videoUrl = videoCandidates[0]?.url ?? null;
   const sourceName =
     findMeta(html, "og:site_name") || findMeta(html, "application-name");
   const pageDescription =
     findMeta(html, "og:description") || findMeta(html, "description");
+  const publishedAt = extractArticlePublishedAt(html);
+  if (publishedAt) {
+    const freshness = isFreshEnoughForPublication(publishedAt);
+    if (!freshness.ok) {
+      return {
+        articleUrl: "",
+        imageUrl: null,
+        imageCandidates: [],
+        videoUrl: null,
+        videoCandidates: [],
+        sourceName,
+        title: pageTitle || item.title,
+        description: pageDescription,
+        publishedAt,
+        rejectedReason: "article_old_news",
+      };
+    }
+  }
   return {
     articleUrl: finalUrl,
     imageUrl,
     imageCandidates,
     videoUrl,
+    videoCandidates,
     sourceName,
     title: pageTitle || item.title,
     description: pageDescription,
+    publishedAt,
     rejectedReason: "",
   };
 }
@@ -1577,7 +1766,8 @@ function eventProfilesMatch(candidate, previous) {
   const familyA = candidate.family || "other";
   const familyB = previous.family || "other";
 
-  // Never cluster unrelated event families.
+  // Explicit event families must agree. "other" is allowed to compare
+  // by text anchors, but never overrides a known conflicting family.
   if (familyA !== "other" && familyB !== "other" && familyA !== familyB) {
     return false;
   }
@@ -1585,34 +1775,12 @@ function eventProfilesMatch(candidate, previous) {
   const ageMs = Math.max(0, Date.now() - Number(previous.published_at || 0));
   if (ageMs > EVENT_HISTORY_TTL_MS) return false;
 
-  // IMPORTANT: event dedup must be conservative. A shared city, category,
-  // or generic incident word is NOT enough to call two articles the same
-  // real-world event. The previous implementation used one 4-char anchor,
-  // which caused different fires/accidents in the same city to disappear.
-  const aTitle = normalizeForHash(candidate.title || "");
-  const bTitle = normalizeForHash(previous.title || "");
-
   const common = eventAnchorOverlap(candidate, previous);
+  if (common >= 2) return true;
 
-  // Exact/near-identical headlines from different sources are a strong
-  // duplicate signal. This remains safe even when article URLs differ.
-  if (aTitle && bTitle) {
-    const titleA = new Set(aTitle.split(" ").filter((w) => w.length >= 5));
-    const titleB = new Set(bTitle.split(" ").filter((w) => w.length >= 5));
-    let titleCommon = 0;
-    for (const token of titleA) {
-      if (titleB.has(token)) titleCommon++;
-    }
-    const titleBase = Math.max(1, Math.min(titleA.size, titleB.size));
-    const titleRatio = titleCommon / titleBase;
-    if (titleCommon >= 3 || (titleCommon >= 2 && titleRatio >= 0.5)) {
-      return true;
-    }
-  }
-
-  // For incident stories, require at least THREE independent anchors.
-  // This prevents "пожар в Москве" / "другой пожар в Москве" or
-  // "ДТП в Рязани" / "новое ДТП в Рязани" from being clustered together.
+  // For fast-moving incidents, one strong location/object anchor inside
+  // a short time window is enough. This catches:
+  // "ДТП на Солотчинском мосту" -> "авария ... пробка ... в Рязани".
   const incidentFamily =
     ["fire", "accident", "explosion", "crime", "military", "disaster"].includes(
       familyA
@@ -1621,12 +1789,14 @@ function eventProfilesMatch(candidate, previous) {
       familyB
     );
 
-  if (incidentFamily) {
-    return common >= 3;
+  if (common >= 1 && incidentFamily && ageMs <= 3 * 60 * 60 * 1000) {
+    return true;
   }
 
-  // Non-incident stories also require strong textual overlap.
-  return common >= 3;
+  // For non-incident stories require stronger overlap.
+  if (common >= 3) return true;
+
+  return false;
 }
 
 async function getRecentPublishedEvents(limit = EVENT_RECENT_LIMIT) {
@@ -1837,6 +2007,46 @@ function detectUrgency(item) {
 // ============================================================
 // NEWS SCORE
 // ============================================================
+function moscowCalendarDateParts(date = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: NEWS_TIMEZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(date);
+  const out = {};
+  for (const p of parts) if (p.type !== "literal") out[p.type] = p.value;
+  return {
+    year: Number(out.year),
+    month: Number(out.month),
+    day: Number(out.day),
+  };
+}
+function calendarDayKey(date) {
+  const p = moscowCalendarDateParts(date);
+  return `${p.year}-${String(p.month).padStart(2, "0")}-${String( p.day ).padStart(2, "0")}`;
+}
+function calendarDayDiff(fromDate, toDate = new Date()) {
+  const a = moscowCalendarDateParts(fromDate);
+  const b = moscowCalendarDateParts(toDate);
+  const au = Date.UTC(a.year, a.month - 1, a.day);
+  const bu = Date.UTC(b.year, b.month - 1, b.day);
+  return Math.round((bu - au) / 86400000);
+}
+function isFreshEnoughForPublication(pubDate) {
+  const timestamp = Date.parse(pubDate || "");
+  if (!timestamp) return { ok: false, reason: "invalid_pub_date" };
+  const diff = calendarDayDiff(new Date(timestamp), new Date());
+  if (diff < 0) return { ok: false, reason: "future_news" };
+  if (diff > MAX_ALLOWED_CALENDAR_AGE_DAYS)
+    return { ok: false, reason: "old_news" };
+  return {
+    ok: true,
+    timestamp,
+    calendar_day: calendarDayKey(new Date(timestamp)),
+  };
+}
+
 function scoreNewsItem(item) {
   const title = normalizeForHash(item.title);
   const description = normalizeForHash(item.description);
@@ -2096,11 +2306,26 @@ async function isRepeatedStoryText(story) {
 // SOURCE
 // ============================================================
 function cleanSourceName(source, articleMedia) {
-  const candidate = articleMedia.sourceName || source || "Источник";
-  return cleanText(
-    candidate.replace(/^https?:\/\//i, "").replace(/^www\./i, "")
-  );
+  const raw = cleanText(articleMedia.sourceName || source || "Источник")
+    .replace(/^https?:\/\//i, "")
+    .replace(/^www\./i, "")
+    .trim();
+  if (
+    raw.length <= 45 &&
+    !/[.]{3,}|Новости .*Актуальные|режиме online|каждый час/i.test(raw)
+  )
+    return raw;
+  try {
+    const host = new URL(articleMedia.articleUrl).hostname.replace(
+      /^www\./i,
+      ""
+    );
+    return host;
+  } catch {
+    return raw.slice(0, 45).trim();
+  }
 }
+
 // ============================================================
 // POST
 // ============================================================
@@ -2111,30 +2336,22 @@ function buildPost(item, story, sourceName, articleUrl) {
   const category = `${item.categoryEmoji} <b>${escapeHtml(item.category)}</b>`;
   const headlineText = stripHtml(truncate(story.headline || item.title, 260));
   const shortText = stripHtml(
-    truncate(story.short || item.description || item.title, 500)
+    truncate(story.short || item.description || "", 360)
   );
-  const mainItems = [];
+  const bullets = [];
   for (const raw of story.main || []) {
-    const text = stripHtml(truncate(String(raw || ""), 350));
+    const text = stripHtml(truncate(String(raw || ""), 280));
     if (!text) continue;
     if (storySimilarity(text, headlineText) >= 0.72) continue;
-    if (storySimilarity(text, shortText) >= 0.72) continue;
-    if (mainItems.some((x) => storySimilarity(x, text) >= 0.8)) continue;
-    mainItems.push(text);
-    if (mainItems.length >= 3) break;
+    if (shortText && storySimilarity(text, shortText) >= 0.78) continue;
+    if (bullets.some((x) => storySimilarity(x, text) >= 0.8)) continue;
+    bullets.push(text);
+    if (bullets.length >= 2) break;
   }
-  const importantText = stripHtml(truncate(story.important || "", 400));
-  const uniqueImportant =
-    importantText &&
-    storySimilarity(importantText, headlineText) < 0.72 &&
-    storySimilarity(importantText, shortText) < 0.72 &&
-    !mainItems.some((x) => storySimilarity(x, importantText) >= 0.72)
-      ? importantText
-      : "";
   const time = new Intl.DateTimeFormat("ru-RU", {
     hour: "2-digit",
     minute: "2-digit",
-    timeZone: "Europe/Moscow",
+    timeZone: NEWS_TIMEZONE,
   }).format(new Date());
   const sourceLine = isLikelyArticleUrl(articleUrl)
     ? `🔗 <a href="${escapeHtml(articleUrl)}">${escapeHtml(sourceName)}</a>`
@@ -2145,28 +2362,21 @@ function buildPost(item, story, sourceName, articleUrl) {
     category,
     "",
     `<b>${escapeHtml(headlineText)}</b>`,
-    "",
-    "<b>КРАТКО</b>",
-    escapeHtml(shortText),
   ];
-  if (mainItems.length > 0) {
-    parts.push("", "<b>ГЛАВНОЕ</b>");
-    for (const text of mainItems) {
-      parts.push(`• ${escapeHtml(text)}`);
-    }
-  }
-  if (uniqueImportant) {
-    parts.push("", "<b>ЧТО ВАЖНО</b>", escapeHtml(uniqueImportant));
+  if (shortText && storySimilarity(shortText, headlineText) < 0.72)
+    parts.push("", escapeHtml(shortText));
+  if (bullets.length) {
+    for (const text of bullets) parts.push(`• ${escapeHtml(text)}`);
   }
   parts.push("", `🕒 ${time}`);
   if (sourceLine) parts.push(sourceLine);
   parts.push("", "<i>ФАКТОР</i>");
   let result = parts.join("\n");
-  if (result.length > MAX_POST_LENGTH) {
+  if (result.length > MAX_POST_LENGTH)
     result = result.slice(0, MAX_POST_LENGTH - 1).trimEnd() + "…";
-  }
   return result;
 }
+
 // ============================================================
 // MEDIA
 // ============================================================
@@ -2235,25 +2445,32 @@ async function validateImageRelevance(item, story, candidate, media) {
 }
 
 async function findBestMedia(articleMedia, item, story, diagnostics = null) {
-  // ----------------------------------------------------------
-  // 1. VIDEO — only publisher/article video, never stock media.
-  // ----------------------------------------------------------
-  if (articleMedia.videoUrl) {
-    if (diagnostics) diagnostics.video_candidates = 1;
-    console.log("Trying article video:", articleMedia.videoUrl);
-    const video = await downloadMedia(articleMedia.videoUrl, "video");
+  // REAL ARTICLE VIDEO ONLY. Never use stock/third-party generic media.
+  const videoCandidates =
+    Array.isArray(articleMedia.videoCandidates) &&
+    articleMedia.videoCandidates.length
+      ? articleMedia.videoCandidates
+      : articleMedia.videoUrl
+      ? [{ url: articleMedia.videoUrl, priority: 100, source: "article" }]
+      : [];
+  if (diagnostics) diagnostics.video_candidates = videoCandidates.length;
+  let videoChecked = 0;
+  for (const candidate of videoCandidates.slice(0, 5)) {
+    videoChecked++;
+    if (diagnostics) diagnostics.media_checked = videoChecked;
+    console.log("Trying article video:", candidate.source, candidate.url);
+    const video = await downloadMedia(candidate.url, "video");
     if (video) {
-      if (diagnostics) diagnostics.media_selected = "video";
+      if (diagnostics) {
+        diagnostics.media_selected = "video";
+        diagnostics.selected_media_source = candidate.source;
+      }
       return video;
     }
-    if (diagnostics) diagnostics.media_rejected = "video_download_failed";
   }
+  if (videoCandidates.length && diagnostics)
+    diagnostics.media_rejected = "video_download_failed";
 
-  // ----------------------------------------------------------
-  // 2. IMAGE — article images first, generic OG image last.
-  // Relevance validation prevents a technically valid but wrong
-  // image (logo/illustration/unrelated archive photo) from being sent.
-  // ----------------------------------------------------------
   const candidates =
     Array.isArray(articleMedia.imageCandidates) &&
     articleMedia.imageCandidates.length
@@ -2268,11 +2485,9 @@ async function findBestMedia(articleMedia, item, story, diagnostics = null) {
           },
         ]
       : [];
-
   if (diagnostics) diagnostics.image_candidates = candidates.length;
-  let checked = 0;
-  for (const candidate of candidates.slice(0, 5)) {
-    checked++;
+  for (const candidate of candidates.slice(0, 8)) {
+    const checked = Number(diagnostics?.media_checked || 0) + 1;
     if (diagnostics) diagnostics.media_checked = checked;
     console.log(
       "Trying article image candidate:",
@@ -2297,13 +2512,10 @@ async function findBestMedia(articleMedia, item, story, diagnostics = null) {
     }
     return image;
   }
-
-  // ----------------------------------------------------------
-  // 3. TEXT — better no image than a wrong image.
-  // ----------------------------------------------------------
   if (diagnostics) diagnostics.media_rejected = "no_relevant_media";
   return null;
 }
+
 // ============================================================
 // CANDIDATE SELECTION
 // ============================================================
@@ -2313,6 +2525,11 @@ async function chooseCandidate( items, urgentAllowed, regularAllowed, diagnostic
   // ----------------------------------------------------------
   const scored = items
     .filter((item) => {
+      const freshness = isFreshEnoughForPublication(item.pubDate);
+      if (!freshness.ok) {
+        diagnostics && diagnostics[freshness.reason]++;
+        return false;
+      }
       if (item.title.length < 15) {
         diagnostics && diagnostics.short_title++;
         return false;
@@ -2349,10 +2566,12 @@ async function chooseCandidate( items, urgentAllowed, regularAllowed, diagnostic
     checked++;
     const { item, score } = candidate;
 
-    // Do not reject events before fetching the article. RSS titles are too
-    // sparse to distinguish separate incidents in the same city. Event
-    // dedup runs after article extraction, when the real article context
-    // is available.
+    // Fast event duplicate rejection before expensive article/Gemini work.
+    if (await isSamePublishedEvent(item)) {
+      diagnostics && diagnostics.event_duplicate_before_article++;
+      console.log("Rejected: same event before article fetch:", item.title);
+      continue;
+    }
 
     // Fast URL/title duplicate rejection.
     if (await isAlreadyPublished(item)) {
@@ -2371,9 +2590,15 @@ async function chooseCandidate( items, urgentAllowed, regularAllowed, diagnostic
       diagnostics && diagnostics.article_title_mismatch++;
       continue;
     }
+    if (articleMedia.rejectedReason === "article_old_news") {
+      diagnostics && diagnostics.article_old_news++;
+      continue;
+    }
 
     if (!isLikelyArticleUrl(articleUrl)) {
       diagnostics && diagnostics.bad_url++;
+      if (isGoogleNewsUrl(item.link))
+        diagnostics && diagnostics.google_decode_failed++;
       console.log("Rejected: no real article URL:", item.title);
       continue;
     }
@@ -2481,10 +2706,15 @@ function createDiagnostics() {
     short_title: 0,
     urgent_interval: 0,
     regular_interval: 0,
+    old_news: 0,
+    invalid_pub_date: 0,
+    future_news: 0,
+    article_old_news: 0,
 
     duplicate_before_article: 0,
     event_duplicate_before_article: 0,
     bad_url: 0,
+    google_decode_failed: 0,
     article_title_mismatch: 0,
     duplicate_after_article: 0,
     event_duplicate_after_article: 0,
@@ -2513,51 +2743,6 @@ const PIPELINE_LOCK_KEY = ["factor", "lock"];
 async function acquirePipelineLock() {
   const db = await getKV();
   const token = crypto.randomUUID();
-  const now = Date.now();
-
-  // First try the normal fast path: no lock exists.
-  let current = await db.get(PIPELINE_LOCK_KEY);
-
-  if (current.value) {
-    const createdAt = Number(current.value.created_at ?? 0);
-    const age = now - createdAt;
-
-    // A live lock belongs to another execution. Do not overlap pipelines.
-    if (createdAt > 0 && age < LOCK_TTL_MS) {
-      return null;
-    }
-
-    // The lock is stale (for example, a previous Worker/Deno execution
-    // was killed before its finally{} block could release the lock).
-    // Replace it atomically using the versionstamp we just read.
-    const staleResult = await db
-      .atomic()
-      .check({
-        key: PIPELINE_LOCK_KEY,
-        versionstamp: current.versionstamp,
-      })
-      .set(
-        PIPELINE_LOCK_KEY,
-        {
-          token,
-          created_at: now,
-        },
-        {
-          expireIn: LOCK_TTL_MS,
-        }
-      )
-      .commit();
-
-    if (!staleResult.ok) {
-      // Another execution changed/acquired the lock between get() and
-      // commit(). Treat that as a real concurrent run.
-      return null;
-    }
-    return token;
-  }
-
-  // No lock exists. Acquire it atomically so two cron/manual requests
-  // arriving at the same time cannot both enter the pipeline.
   const result = await db
     .atomic()
     .check({
@@ -2568,14 +2753,13 @@ async function acquirePipelineLock() {
       PIPELINE_LOCK_KEY,
       {
         token,
-        created_at: now,
+        created_at: Date.now(),
       },
       {
         expireIn: LOCK_TTL_MS,
       }
     )
     .commit();
-
   if (!result.ok) {
     return null;
   }
