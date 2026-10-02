@@ -1577,8 +1577,7 @@ function eventProfilesMatch(candidate, previous) {
   const familyA = candidate.family || "other";
   const familyB = previous.family || "other";
 
-  // Explicit event families must agree. "other" is allowed to compare
-  // by text anchors, but never overrides a known conflicting family.
+  // Never cluster unrelated event families.
   if (familyA !== "other" && familyB !== "other" && familyA !== familyB) {
     return false;
   }
@@ -1586,12 +1585,34 @@ function eventProfilesMatch(candidate, previous) {
   const ageMs = Math.max(0, Date.now() - Number(previous.published_at || 0));
   if (ageMs > EVENT_HISTORY_TTL_MS) return false;
 
-  const common = eventAnchorOverlap(candidate, previous);
-  if (common >= 2) return true;
+  // IMPORTANT: event dedup must be conservative. A shared city, category,
+  // or generic incident word is NOT enough to call two articles the same
+  // real-world event. The previous implementation used one 4-char anchor,
+  // which caused different fires/accidents in the same city to disappear.
+  const aTitle = normalizeForHash(candidate.title || "");
+  const bTitle = normalizeForHash(previous.title || "");
 
-  // For fast-moving incidents, one strong location/object anchor inside
-  // a short time window is enough. This catches:
-  // "ДТП на Солотчинском мосту" -> "авария ... пробка ... в Рязани".
+  const common = eventAnchorOverlap(candidate, previous);
+
+  // Exact/near-identical headlines from different sources are a strong
+  // duplicate signal. This remains safe even when article URLs differ.
+  if (aTitle && bTitle) {
+    const titleA = new Set(aTitle.split(" ").filter((w) => w.length >= 5));
+    const titleB = new Set(bTitle.split(" ").filter((w) => w.length >= 5));
+    let titleCommon = 0;
+    for (const token of titleA) {
+      if (titleB.has(token)) titleCommon++;
+    }
+    const titleBase = Math.max(1, Math.min(titleA.size, titleB.size));
+    const titleRatio = titleCommon / titleBase;
+    if (titleCommon >= 3 || (titleCommon >= 2 && titleRatio >= 0.5)) {
+      return true;
+    }
+  }
+
+  // For incident stories, require at least THREE independent anchors.
+  // This prevents "пожар в Москве" / "другой пожар в Москве" or
+  // "ДТП в Рязани" / "новое ДТП в Рязани" from being clustered together.
   const incidentFamily =
     ["fire", "accident", "explosion", "crime", "military", "disaster"].includes(
       familyA
@@ -1600,14 +1621,12 @@ function eventProfilesMatch(candidate, previous) {
       familyB
     );
 
-  if (common >= 1 && incidentFamily && ageMs <= 3 * 60 * 60 * 1000) {
-    return true;
+  if (incidentFamily) {
+    return common >= 3;
   }
 
-  // For non-incident stories require stronger overlap.
-  if (common >= 3) return true;
-
-  return false;
+  // Non-incident stories also require strong textual overlap.
+  return common >= 3;
 }
 
 async function getRecentPublishedEvents(limit = EVENT_RECENT_LIMIT) {
@@ -2330,12 +2349,10 @@ async function chooseCandidate( items, urgentAllowed, regularAllowed, diagnostic
     checked++;
     const { item, score } = candidate;
 
-    // Fast event duplicate rejection before expensive article/Gemini work.
-    if (await isSamePublishedEvent(item)) {
-      diagnostics && diagnostics.event_duplicate_before_article++;
-      console.log("Rejected: same event before article fetch:", item.title);
-      continue;
-    }
+    // Do not reject events before fetching the article. RSS titles are too
+    // sparse to distinguish separate incidents in the same city. Event
+    // dedup runs after article extraction, when the real article context
+    // is available.
 
     // Fast URL/title duplicate rejection.
     if (await isAlreadyPublished(item)) {
