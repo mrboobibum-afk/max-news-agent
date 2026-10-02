@@ -60,12 +60,13 @@ const SCORE_CANDIDATES = 45;
 const GEMINI_CANDIDATES = 10;
 const MAX_HISTORY_CHECKED = 300;
 const MAX_POST_LENGTH = 3900;
+const MAX_BODY_LENGTH = 3000;
 const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
   "AppleWebKit/537.36 (KHTML, like Gecko) " +
   "Chrome/140.0.0.0 Safari/537.36";
-const MEDIA_SEARCH_MAX_RESULTS = 20;
-const MEDIA_SEARCH_MAX_PAGES = 24;
+const MEDIA_SEARCH_MAX_RESULTS = 40;
+const MEDIA_SEARCH_MAX_PAGES = 40;
 const MEDIA_SEARCH_TIMEOUT_MS = 9000;
 const MEDIA_DOWNLOAD_TIMEOUT_MS = 45000;
 
@@ -1108,6 +1109,67 @@ function extractArticleBodyText(html) {
   return candidates[0]?.text ? truncate(candidates[0].text, 12000) : "";
 }
 
+function extractPublishedAt(html) {
+  const metaNames = [
+    "article:published_time",
+    "datePublished",
+    "publish-date",
+    "publication_date",
+    "date",
+  ];
+  for (const name of metaNames) {
+    const value = findMeta(html, name);
+    if (value && !Number.isNaN(Date.parse(value)))
+      return new Date(value).toISOString();
+  }
+  for (const data of extractJsonLd(html)) {
+    if (!data || typeof data !== "object") continue;
+    const candidates = [
+      data.datePublished,
+      data.dateCreated,
+      data.dateModified,
+    ];
+    for (const value of candidates) {
+      if (typeof value === "string" && !Number.isNaN(Date.parse(value)))
+        return new Date(value).toISOString();
+    }
+    if (Array.isArray(data)) {
+      for (const x of data) {
+        const value = x?.datePublished || x?.dateCreated || x?.dateModified;
+        if (typeof value === "string" && !Number.isNaN(Date.parse(value)))
+          return new Date(value).toISOString();
+      }
+    }
+  }
+  return "";
+}
+
+function explicitMediaDate(url) {
+  const value = String(url || "");
+  const patterns = [
+    /(?:^|\D)(20\d{2})[\/_-](0[1-9]|1[0-2])[\/_-](0[1-9]|[12]\d|3[01])(?:\D|$)/,
+    /(?:^|\D)(20\d{2})[\/_-](0[1-9]|1[0-2])(?:\D|$)/,
+  ];
+  for (const re of patterns) {
+    const m = value.match(re);
+    if (m) {
+      const day = m[3] || "01";
+      const d = new Date(`${m[1]}-${m[2]}-${day}T00:00:00Z`);
+      if (!Number.isNaN(d.getTime())) return d;
+    }
+  }
+  return null;
+}
+
+function rejectStaleMediaUrl(url, publishedAt, maxAgeDays = 14) {
+  if (!publishedAt) return false;
+  const mediaDate = explicitMediaDate(url);
+  const articleDate = new Date(publishedAt);
+  if (!mediaDate || Number.isNaN(articleDate.getTime())) return false;
+  const diffDays = (articleDate.getTime() - mediaDate.getTime()) / 86400000;
+  return diffDays > maxAgeDays;
+}
+
 async function loadArticlePage(articleUrl) {
   if (!isLikelyArticleUrl(articleUrl)) return null;
   let sourceHost = null;
@@ -1143,7 +1205,8 @@ async function loadArticlePage(articleUrl) {
     const html = await response.text();
     if (html.length < 500) return null;
     const bodyText = extractArticleBodyText(html);
-    return { finalUrl, html, bodyText };
+    const publishedAt = extractPublishedAt(html);
+    return { finalUrl, html, bodyText, publishedAt };
   } catch (error) {
     console.error(
       "Article page:",
@@ -1246,6 +1309,61 @@ function findVideoFromHtml(html, baseUrl) {
   }
   return null;
 }
+// ============================================================
+// EMBEDDED VIDEO PLAYERS
+// ============================================================
+async function extractEmbeddedVideoUrls(html, baseUrl) {
+  const embeds = [];
+  const seen = new Set();
+  for (const m of html.matchAll(
+    /<(?:iframe|embed)\b[^>]*(?:src|data-src)=["']([^"']+)["'][^>]*>/gi
+  )) {
+    const u = mediaCandidateUrl(m[1], baseUrl);
+    if (!u || seen.has(u)) continue;
+    seen.add(u);
+    embeds.push(u);
+    if (embeds.length >= 8) break;
+  }
+  const videos = [];
+  for (const embedUrl of embeds) {
+    try {
+      const r = await fetch(embedUrl, {
+        redirect: "follow",
+        headers: {
+          "User-Agent": USER_AGENT,
+          Accept: "text/html,application/xhtml+xml,*/*;q=0.5",
+          Referer: baseUrl,
+        },
+        signal: AbortSignal.timeout(12000),
+      });
+      if (!r.ok) continue;
+      const ct = (r.headers.get("content-type") || "").toLowerCase();
+      const finalUrl = normalizeUrl(r.url || embedUrl);
+      if (ct.startsWith("video/")) {
+        if (isDirectVideoUrl(finalUrl)) videos.push(finalUrl);
+        continue;
+      }
+      if (!ct.includes("text/html") && !ct.includes("application/xhtml+xml"))
+        continue;
+      const embedHtml = await r.text();
+      for (const v of collectVideoCandidates(embedHtml, finalUrl).map(
+        (x) => x.url
+      )) {
+        if (!videos.includes(v)) videos.push(v);
+      }
+      for (const m of embedHtml.matchAll(
+        /https?:\/\/[^"'\s<>]+(?:\.mp4|\.mov|\.webm)(?:\?[^"'\s<>]*)?/gi
+      )) {
+        const v = absoluteUrl(normalizeMediaUrl(m[0]), finalUrl);
+        if (v && isDirectVideoUrl(v) && !videos.includes(v)) videos.push(v);
+      }
+    } catch {
+      // One player may be blocked; continue with the next source.
+    }
+  }
+  return [...new Set(videos)].slice(0, 20);
+}
+
 // ============================================================
 // ARTICLE MEDIA
 // ============================================================
@@ -1627,40 +1745,35 @@ function buildMediaSearchQueries(item) {
     .replace(/\s+/g, " ")
     .trim();
   if (!headline) return [];
-
-  const tokens = storyTokens(headline);
-  const words = [...tokens].filter((w) => w.length >= 4).slice(0, 8);
+  const tokens = storyTokens(`${headline} ${item.description || ""}`);
+  const words = [...tokens].filter((w) => w.length >= 4).slice(0, 10);
   const compact = words.join(" ");
   const locationWords = words.filter((w) =>
-    /(?:рязан|мост|солотч|москв|петер|волгоград|калуж|санкт|спб|москв|област|район)/i.test(
+    /(?:рязан|мост|солотч|москв|петер|волгоград|калуж|санкт|спб|област|район)/i.test(
       w
     )
   );
-  const place = locationWords.slice(0, 2).join(" ");
-
-  // Do not require the exact original headline. A witness/video report
-  // almost always has a different headline from the first RSS story.
-  const descTokens = storyTokens(item.description || "");
-  const extra = [...descTokens].filter((w) => !words.includes(w)).slice(0, 5);
-  const context = [
-    ...new Set([...words.slice(0, 6), ...extra.slice(0, 3)]),
-  ].join(" ");
+  const place = locationWords.slice(0, 3).join(" ");
   const queries = [
     `${compact} видео`,
-    `${compact} кадры видео`,
-    `${context} видео очевидцы`,
-    `${context} видео соцсети`,
-    `${context} видео место происшествия`,
-    `${context} запись очевидца`,
-    `${context} видео сегодня`,
+    `${compact} ДТП видео`,
+    `${compact} авария видео`,
+    `${compact} видео очевидцы`,
+    `${compact} запись очевидца`,
+    `${compact} кадры с места`,
+    `${compact} видео соцсети`,
+    `${compact} видеорегистратор`,
+    `${compact} ролик`,
   ];
   if (place) {
+    queries.push(`${place} видео`);
     queries.push(`${place} ДТП видео`);
-    queries.push(`${place} авария видео очевидцы`);
+    queries.push(`${place} авария видео`);
+    queries.push(`${place} видео очевидцы`);
+    queries.push(`${place} Солотча инфо видео`);
   }
-  // Also keep one exact-ish query as a high precision fallback.
+  // Preserve the exact event wording as a precision query.
   queries.push(`"${headline.slice(0, 140)}" видео`);
-
   return [...new Set(queries)];
 }
 function buildSearchFeedUrls(query) {
@@ -1716,7 +1829,13 @@ async function loadExternalMediaPages(item, articleUrl) {
     });
     if (candidates.length >= MEDIA_SEARCH_MAX_PAGES) break;
   }
-  return candidates;
+  const videoTerms = /(видео|кадр|очевид|регистратор|соцсет|ролик|запись)/i;
+  candidates.sort((a, b) => {
+    const av = videoTerms.test(`${a.title} ${a.description}`) ? 0 : 1;
+    const bv = videoTerms.test(`${b.title} ${b.description}`) ? 0 : 1;
+    return av - bv;
+  });
+  return candidates.slice(0, MEDIA_SEARCH_MAX_PAGES);
 }
 
 async function inspectExternalMediaPage(candidate) {
@@ -1757,21 +1876,45 @@ async function inspectExternalMediaPage(candidate) {
           Accept: "text/html,application/xhtml+xml,*/*;q=0.5",
           Referer: finalUrl,
         },
-        signal: AbortSignal.timeout(10000),
+        signal: AbortSignal.timeout(12000),
       });
       if (!r.ok) continue;
       const ct = (r.headers.get("content-type") || "").toLowerCase();
-      if (!ct.includes("text/html") && !ct.includes("application/xhtml+xml"))
-        continue;
-      const embedHtml = await r.text();
       const embedFinal = normalizeUrl(r.url || embedUrl);
-      for (const v of collectVideoCandidates(embedHtml, embedFinal).map(
-        (x) => x.url
-      )) {
-        if (!videoUrls.includes(v)) videoUrls.push(v);
+      if (ct.includes("text/html") || ct.includes("application/xhtml+xml")) {
+        const embedHtml = await r.text();
+        for (const v of collectVideoCandidates(embedHtml, embedFinal).map(
+          (x) => x.url
+        )) {
+          if (!videoUrls.includes(v)) videoUrls.push(v);
+        }
+        // Some VK/MAX player pages expose their media URL only in raw JSON.
+        for (const m of embedHtml.matchAll(
+          /https?:\/\/[^"'\s<>]+(?:\.mp4|\.mov|\.webm)(?:\?[^"'\s<>]*)?/gi
+        )) {
+          const v = absoluteUrl(normalizeMediaUrl(m[0]), embedFinal);
+          if (v && isDirectVideoUrl(v) && !videoUrls.includes(v))
+            videoUrls.push(v);
+        }
+      } else if (ct.startsWith("video/")) {
+        if (isDirectVideoUrl(embedFinal) && !videoUrls.includes(embedFinal))
+          videoUrls.push(embedFinal);
       }
     } catch {
       // Ignore one blocked embed and continue searching other sources.
+    }
+  }
+
+  if (videoUrls.length === 0) {
+    try {
+      for (const v of await extractEmbeddedVideoUrls(html, finalUrl)) {
+        if (!videoUrls.includes(v)) videoUrls.push(v);
+      }
+    } catch (error) {
+      console.error(
+        "Embedded external video:",
+        error instanceof Error ? error.message : String(error)
+      );
     }
   }
 
@@ -1786,7 +1929,7 @@ async function inspectExternalMediaPage(candidate) {
       title,
       description,
       candidate.rssMediaUrls || []
-    ),
+    ).filter((c) => !rejectStaleMediaUrl(c.url, extractPublishedAt(html))),
     videoUrls,
   };
 }
@@ -1912,7 +2055,21 @@ async function extractArticleMedia(item) {
     pageDescription,
     item.rssMediaUrls || []
   );
-  const videoUrls = collectVideoCandidates(html, finalUrl);
+  const publishedAt = page.publishedAt || "";
+  imageCandidates = imageCandidates.filter(
+    (c) => !rejectStaleMediaUrl(c.url, publishedAt)
+  );
+  let videoUrls = collectVideoCandidates(html, finalUrl);
+  if (videoUrls.length === 0) {
+    try {
+      videoUrls = await extractEmbeddedVideoUrls(html, finalUrl);
+    } catch (error) {
+      console.error(
+        "Embedded source video:",
+        error instanceof Error ? error.message : String(error)
+      );
+    }
+  }
 
   // WordPress exposes the original featured image/content media through the
   // REST API even when the rendered page uses lazy loading or CDN markup that
@@ -1932,7 +2089,11 @@ async function extractArticleMedia(item) {
     const seen = new Set(imageCandidates.map((x) => normalizeUrl(x.url)));
     imageCandidates = [
       ...imageCandidates,
-      ...wp.filter((x) => !seen.has(normalizeUrl(x.url))),
+      ...wp.filter(
+        (x) =>
+          !seen.has(normalizeUrl(x.url)) &&
+          !rejectStaleMediaUrl(x.url, publishedAt)
+      ),
     ]
       .sort((a, b) => b.score - a.score)
       .slice(0, 30);
@@ -2724,7 +2885,7 @@ async function callGemini(item, articleMedia) {
   if (!GEMINI_API_KEY) {
     return null;
   }
-  const prompt = ` Ты редактор новостного канала ФАКТОР. Работай ТОЛЬКО с информацией, которая присутствует в исходных данных. НЕ ДОБАВЛЯЙ факты из памяти. НЕ ДОДУМЫВАЙ причины. НЕ ДОДУМЫВАЙ последствия. НЕ ПРИДУМЫВАЙ цифры. ИСХОДНЫЙ ЗАГОЛОВОК: ${item.title} ИСТОЧНИК: ${item.source} ЗАГОЛОВОК СТРАНИЦЫ: ${articleMedia.title ?? ""} ОПИСАНИЕ RSS: ${stripHtml(item.description)} ОПИСАНИЕ СТРАНИЦЫ: ${stripHtml(articleMedia.description ?? "")} ПОЛНЫЙ ТЕКСТ СТРАНИЦЫ (если доступен): ${stripHtml(articleMedia.bodyText ?? "")} Верни ТОЛЬКО JSON: { "headline": "короткий точный заголовок", "short": "одно короткое предложение о событии", "main": [ "конкретный факт 1", "конкретный факт 2", "конкретный факт 3" ], "important": "конкретная информация, которую читателю важно знать", "urgent": false } ПРАВИЛА: 1. Никаких выдуманных фактов. 2. headline должен описывать именно событие. 3. Не используй кликбейт. 4. Не используй вопросительные заголовки. 5. Не пиши "стало известно". 6. Не пиши "ситуация развивается". 7. Не пиши рекламные формулировки. 8. Не повторяй одну мысль в разных блоках. 9. Если доступен полный текст страницы, используй его для точного пересказа, не ограничивайся RSS-аннотацией. 10. short должен быть законченным текстом из 2–4 предложений, без обрыва на полуслове. 11. main может содержать от 0 до 3 пунктов. 12. urgent=true только если событие действительно срочное. 13. Не делай выводов, которых нет в исходных данных. 13. Не меняй смысл новости. 14. Не добавляй географию, даты, цифры или имена, которых нет в исходных данных. `;
+  const prompt = ` Ты редактор новостного канала ФАКТОР. Работай ТОЛЬКО с информацией, которая присутствует в исходных данных. НЕ ДОБАВЛЯЙ факты из памяти. НЕ ДОДУМЫВАЙ причины. НЕ ДОДУМЫВАЙ последствия. НЕ ПРИДУМЫВАЙ цифры. ИСХОДНЫЙ ЗАГОЛОВОК: ${item.title} ИСТОЧНИК: ${item.source} ЗАГОЛОВОК СТРАНИЦЫ: ${articleMedia.title ?? ""} ОПИСАНИЕ RSS: ${stripHtml(item.description)} ОПИСАНИЕ СТРАНИЦЫ: ${stripHtml(articleMedia.description ?? "")} ПОЛНЫЙ ТЕКСТ СТРАНИЦЫ (если доступен): ${stripHtml(articleMedia.bodyText ?? "")} Верни ТОЛЬКО JSON: { "headline": "короткий точный заголовок", "short": "краткое вступление на 1–2 предложения", "body": "полный связный новостной текст без обрыва, до 3000 символов", "main": [ "конкретный факт 1", "конкретный факт 2", "конкретный факт 3" ], "important": "конкретная информация, которую читателю важно знать", "urgent": false } ПРАВИЛА: 1. Никаких выдуманных фактов. 2. headline должен описывать именно событие. 3. Не используй кликбейт. 4. Не используй вопросительные заголовки. 5. Не пиши "стало известно". 6. Не пиши "ситуация развивается". 7. Не пиши рекламные формулировки. 8. Не повторяй одну мысль в разных блоках. 9. Если доступен полный текст страницы, используй его для точного пересказа, не ограничивайся RSS-аннотацией. 10. short должен быть законченным текстом из 2–4 предложений, без обрыва на полуслове. 11. body должен использовать все существенные факты из полного текста страницы и заканчиваться полноценным предложением. Не обрывай body на середине предложения и не заменяй конец многоточием. 12. body не должен быть короче 600 символов, если полный текст страницы содержит достаточно материала. 13. main может содержать от 0 до 3 пунктов. 14. urgent=true только если событие действительно срочное. 13. Не делай выводов, которых нет в исходных данных. 15. Не меняй смысл новости. 16. Не добавляй географию, даты, цифры или имена, которых нет в исходных данных. `;
   try {
     const response = await fetch(
       "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" +
@@ -2775,6 +2936,13 @@ async function callGemini(item, articleMedia) {
     return {
       headline: stripHtml(String(json.headline || item.title)),
       short: stripHtml(String(json.short || item.description || item.title)),
+      body: (() => {
+        const generated = stripHtml(String(json.body || ""));
+        const source = stripHtml(articleMedia.bodyText || "");
+        if (generated.length >= 600 || !source)
+          return truncateAtSentence(generated, MAX_BODY_LENGTH);
+        return truncateAtSentence(source, MAX_BODY_LENGTH);
+      })(),
       main: Array.isArray(json.main)
         ? json.main
             .map((x) => stripHtml(String(x)))
@@ -2801,10 +2969,11 @@ function makeFallbackStory(item, articleMedia) {
     articleMedia.description ||
     item.description ||
     item.title;
-  const short = truncate(stripHtml(sourceText), 1400);
+  const short = truncateAtSentence(stripHtml(sourceText), 3000);
   return {
     headline: stripHtml(articleMedia.title || item.title),
     short,
+    body: short,
     // Do not fabricate duplicate sections when there are no extra facts.
     main: [],
     important: "",
@@ -2879,24 +3048,25 @@ function buildPost(item, story, sourceName, articleUrl) {
   const urgent = Boolean(story.urgent);
   const headlineText = stripHtml(truncate(story.headline || item.title, 260));
 
-  const candidates = [
-    story.short,
-    ...(Array.isArray(story.main) ? story.main : []),
-    story.important,
-  ]
-    .map((value) => stripHtml(truncate(String(value || ""), 700)).trim())
-    .filter(Boolean);
-
-  const uniqueBodies = [];
-  for (const candidate of candidates) {
-    if (storySimilarity(candidate, headlineText) >= 0.82) continue;
-    if (uniqueBodies.some((x) => similarity(x, candidate) >= 0.82)) continue;
-    uniqueBodies.push(candidate);
-    if (uniqueBodies.length >= 3) break;
+  let bodyText = stripHtml(String(story.body || "")).trim();
+  if (!bodyText) {
+    const candidates = [
+      story.short,
+      ...(Array.isArray(story.main) ? story.main : []),
+      story.important,
+    ]
+      .map((value) => stripHtml(String(value || "")).trim())
+      .filter(Boolean);
+    const uniqueBodies = [];
+    for (const candidate of candidates) {
+      if (storySimilarity(candidate, headlineText) >= 0.82) continue;
+      if (uniqueBodies.some((x) => similarity(x, candidate) >= 0.82)) continue;
+      uniqueBodies.push(candidate);
+      if (uniqueBodies.length >= 3) break;
+    }
+    bodyText = uniqueBodies.join(" ");
   }
-  let bodyText = uniqueBodies.join(" ");
-  // Never leave a dangling half-sentence at the MAX limit.
-  bodyText = truncateAtSentence(bodyText, 2800);
+  bodyText = truncateAtSentence(bodyText, MAX_BODY_LENGTH);
 
   // Do not put the article URL into the message body. MAX may turn an
   // ordinary link preview into a `share` attachment, which can visually
@@ -3488,11 +3658,22 @@ async function executePipeline(manual = false) {
       try {
         publication = await publishWithMediaRetry(text, mediaInfo);
       } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
         console.error(
-          "Media publication failed. " + "Falling back to text:",
-          error instanceof Error ? error.message : String(error)
+          "Media publication failed; NOT publishing text-only:",
+          message
         );
-        publication = await publishToMax(text);
+        return {
+          ok: false,
+          selected: 0,
+          reason: "media publication failed",
+          media: {
+            type: mediaInfo.type,
+            source_url: media?.sourceUrl || media?.remoteUrl || null,
+          },
+          error: message,
+          duration_ms: Date.now() - startedAt,
+        };
       }
     } else {
       publication = await publishToMax(text);
