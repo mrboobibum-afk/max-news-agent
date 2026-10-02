@@ -66,6 +66,8 @@ const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
   "AppleWebKit/537.36 (KHTML, like Gecko) " +
   "Chrome/140.0.0.0 Safari/537.36";
+const IMAGE_CONVERTER_BASE =
+  Deno.env.get("IMAGE_CONVERTER_BASE") ?? "https://wsrv.nl/";
 // ============================================================
 // MAX CERTIFICATES
 // ============================================================
@@ -1000,20 +1002,92 @@ async function loadArticlePage(articleUrl) {
 // VIDEO EXTRACTION
 // ============================================================
 function isDirectVideoUrl(url) {
-  const lower = url.toLowerCase();
-  if (lower.includes(".m3u8") || lower.includes(".mpd")) {
+  const lower = String(url || "").toLowerCase();
+  if (!lower || lower.includes(".m3u8") || lower.includes(".mpd")) {
     return false;
   }
   return (
-    lower.includes(".mp4") ||
-    lower.includes(".mov") ||
-    lower.includes(".webm") ||
-    lower.includes(".mkv")
+    /\.(?:mp4|mov|webm|mkv)(?:[?#]|$)/i.test(lower) ||
+    /(?:mime|type|format)=(?:video\/)?(?:mp4|quicktime|webm|x-matroska)/i.test(
+      lower
+    )
   );
+}
+
+function looksLikeVideoMime(value) {
+  return /^video\/(?:mp4|quicktime|webm|x-matroska|matroska)/i.test(
+    String(value || "")
+  );
+}
+
+function extractAttributeValue(tag, names) {
+  for (const name of names) {
+    const re = new RegExp(`\\b${name}\\s*=\\s*[\"']([^\"']+)[\"']`, "i");
+    const match = re.exec(tag);
+    if (match?.[1]) return match[1];
+  }
+  return null;
+}
+
+function extractVideoUrlsFromRawHtml(html, baseUrl, add) {
+  // Lazy-loaded/player attributes used by news CMSs. Keep this additive: the
+  // existing <video>/<source>/JSON-LD extraction remains the primary path.
+  for (const match of html.matchAll(
+    /<(?:video|source|iframe|div|a)\b[^>]*>/gi
+  )) {
+    const tag = match[0];
+    const raw = extractAttributeValue(tag, [
+      "src",
+      "data-src",
+      "data-video",
+      "data-video-url",
+      "data-video-src",
+      "data-file",
+      "data-content-url",
+      "data-media-url",
+      "data-href",
+    ]);
+    if (raw) {
+      const url = absoluteUrl(normalizeMediaUrl(raw), baseUrl);
+      if (url && isDirectVideoUrl(url)) add(url, 118, "html_attribute");
+    }
+  }
+
+  // Player configurations are frequently embedded in ordinary script blocks
+  // rather than JSON-LD. Accept only explicit video file URLs.
+  const scriptUrls =
+    html
+      .replace(/\\u002F/gi, "/")
+      .replace(/\\\//g, "/")
+      .match(
+        /https?:[^\s\"'<>\\]+\.(?:mp4|mov|webm|mkv)(?:\?[^\s\"'<>\\]*)?/gi
+      ) || [];
+  for (const raw of scriptUrls) add(raw, 108, "script");
+}
+
+function hasMp4AudioTrack(bytes) {
+  // Lightweight ISO-BMFF check. Return null when the container cannot be
+  // inspected confidently; only reject when an hdlr box is present and no
+  // audio handler exists. This avoids false negatives on fragmented MP4.
+  const data =
+    bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes || []);
+  if (data.length < 32) return null;
+  const text = new TextDecoder("latin1").decode(data);
+  let pos = text.indexOf("hdlr");
+  let foundHandler = false;
+  while (pos >= 0) {
+    if (pos + 16 <= data.length) {
+      foundHandler = true;
+      const handler = text.slice(pos + 12, pos + 16);
+      if (handler === "soun") return true;
+    }
+    pos = text.indexOf("hdlr", pos + 4);
+  }
+  return foundHandler ? false : null;
 }
 function collectVideoUrls(value, result) {
   if (typeof value === "string") {
-    if (isDirectVideoUrl(value)) {
+    if (isHttpUrl(value)) {
       result.push(value);
     }
     return;
@@ -1051,11 +1125,11 @@ function videoUrlLooksGeneric(url) {
 function findVideoCandidatesFromHtml(html, baseUrl) {
   const candidates = [];
   const seen = new Set();
-  const add = (rawUrl, priority = 0, source = "article") => {
+  const add = ( rawUrl, priority = 0, source = "article", allowVideoMimeOnly = false ) => {
     const url = absoluteUrl(normalizeMediaUrl(rawUrl), baseUrl);
     if (
       !url ||
-      !isDirectVideoUrl(url) ||
+      (!isDirectVideoUrl(url) && !allowVideoMimeOnly) ||
       videoUrlLooksGeneric(url) ||
       seen.has(url)
     )
@@ -1068,20 +1142,34 @@ function findVideoCandidatesFromHtml(html, baseUrl) {
   )) {
     const block = match[0];
     const src = block.match(/\bsrc=["']([^"']+)["']/i)?.[1];
-    if (src) add(src, 130, "article_video");
-    for (const m of block.matchAll(
-      /<source\b[^>]*src=["']([^"']+)["'][^>]*>/gi
-    ))
-      add(m[1], 125, "article_video_source");
+    if (src) add(src, 130, "article_video", true);
+    for (const m of block.matchAll(/<source\b([^>]*)>/gi)) {
+      const sourceTag = m[0];
+      const sourceUrl = extractAttributeValue(sourceTag, ["src", "data-src"]);
+      const mime = extractAttributeValue(sourceTag, ["type"]);
+      if (
+        sourceUrl &&
+        (looksLikeVideoMime(mime) || isDirectVideoUrl(sourceUrl))
+      ) {
+        add(sourceUrl, 125, "article_video_source", true);
+      }
+    }
   }
-  for (const match of html.matchAll(
-    /<source\b[^>]+src=["']([^"']+)["'][^>]*>/gi
-  ))
-    add(match[1], 120, "article_source");
+  for (const match of html.matchAll(/<source\b[^>]*>/gi)) {
+    const sourceTag = match[0];
+    const sourceUrl = extractAttributeValue(sourceTag, ["src", "data-src"]);
+    const mime = extractAttributeValue(sourceTag, ["type"]);
+    if (
+      sourceUrl &&
+      (looksLikeVideoMime(mime) || isDirectVideoUrl(sourceUrl))
+    ) {
+      add(sourceUrl, 120, "article_source", true);
+    }
+  }
   for (const match of html.matchAll(
     /["'](?:contentUrl|videoUrl|video_url|file)["']\s*:\s*["']([^"']+)["']/gi
   ))
-    add(match[1], 110, "json");
+    add(match[1], 110, "json", true);
   for (const name of [
     "og:video",
     "og:video:url",
@@ -1089,13 +1177,14 @@ function findVideoCandidatesFromHtml(html, baseUrl) {
     "twitter:player:stream",
   ]) {
     const value = findMeta(html, name);
-    if (value) add(value, 80, "meta");
+    if (value) add(value, 80, "meta", true);
   }
+  extractVideoUrlsFromRawHtml(html, baseUrl, add);
   const jsonLd = extractJsonLd(html);
   for (const data of jsonLd) {
     const urls = [];
     collectVideoUrls(data, urls);
-    for (const rawUrl of urls) add(rawUrl, 105, "jsonld");
+    for (const rawUrl of urls) add(rawUrl, 105, "jsonld", true);
   }
   return candidates.sort((a, b) => b.priority - a.priority).slice(0, 8);
 }
@@ -1168,15 +1257,37 @@ function findImageCandidatesFromHtml(html, baseUrl) {
 
   // Images physically present in the article are preferred. Capture a
   // little nearby text (alt/title/figcaption) so the validator has context.
-  for (const match of html.matchAll(/<(?:figure|img)\b[\s\S]{0,1200}?/gi)) {
+  for (const match of html.matchAll(/<img\b[^>]*>/gi)) {
     const block = match[0];
-    const src = block.match(
-      /\b(?:src|data-src|data-original|data-lazy-src)=["']([^"']+)["']/i
-    )?.[1];
-    if (!src) continue;
-    const alt = block.match(/\balt=["']([^"']*)["']/i)?.[1] ?? "";
-    const title = block.match(/\btitle=["']([^"']*)["']/i)?.[1] ?? "";
-    add(src, 120, `${alt} ${title}`, "article_body");
+    const src = extractAttributeValue(block, [
+      "src",
+      "data-src",
+      "data-original",
+      "data-lazy-src",
+      "data-image",
+      "data-original-src",
+    ]);
+    const srcset = extractAttributeValue(block, ["data-srcset", "srcset"]);
+    const alt = extractAttributeValue(block, ["alt"]) ?? "";
+    const title = extractAttributeValue(block, ["title"]) ?? "";
+    if (src) add(src, 125, `${alt} ${title}`, "article_body");
+    if (srcset) {
+      const first = srcset.split(",")[0]?.trim().split(/\s+/)[0];
+      if (first) add(first, 122, `${alt} ${title}`, "article_srcset");
+    }
+  }
+  for (const match of html.matchAll(/<source\b[^>]*>/gi)) {
+    const block = match[0];
+    const type = extractAttributeValue(block, ["type"]) ?? "";
+    if (/^image\//i.test(type)) {
+      const src = extractAttributeValue(block, ["src", "data-src"]);
+      const srcset = extractAttributeValue(block, ["srcset", "data-srcset"]);
+      if (src) add(src, 118, "picture source", "article_picture");
+      if (srcset) {
+        const first = srcset.split(",")[0]?.trim().split(/\s+/)[0];
+        if (first) add(first, 116, "picture source", "article_picture");
+      }
+    }
   }
 
   // JSON-LD NewsArticle image is generally more trustworthy than a generic
@@ -1344,26 +1455,35 @@ function extensionFromType(type, contentType, url) {
   }
   return "jpg";
 }
-async function downloadMedia(url, type) {
+async function downloadMedia(url, type, refererUrl = "") {
   try {
     if (!isHttpUrl(url)) {
       return null;
     }
+    const mediaHeaders = new Headers({
+      "User-Agent": USER_AGENT,
+      Accept:
+        type === "video"
+          ? "video/mp4,video/quicktime,video/webm,video/*;q=0.9,*/*;q=0.3"
+          : "image/jpeg,image/png,image/gif,image/*;q=0.8,*/*;q=0.3",
+    });
+    if (refererUrl && isHttpUrl(refererUrl)) {
+      mediaHeaders.set("Referer", refererUrl);
+      try {
+        mediaHeaders.set("Origin", new URL(refererUrl).origin);
+      } catch {
+        // ignore invalid optional origin
+      }
+    }
     const response = await fetch(url, {
       redirect: "follow",
-      headers: {
-        "User-Agent": USER_AGENT,
-        Accept:
-          type === "video"
-            ? "video/mp4,video/quicktime,video/webm,video/*;q=0.9,*/*;q=0.3"
-            : "image/avif,image/webp,image/apng,image/*,*/*;q=0.5",
-      },
+      headers: mediaHeaders,
       signal: AbortSignal.timeout(type === "video" ? 40000 : 20000),
     });
     if (!response.ok) {
       return null;
     }
-    const contentType = (
+    let contentType = (
       response.headers.get("content-type") ?? ""
     ).toLowerCase();
     if (
@@ -1372,6 +1492,65 @@ async function downloadMedia(url, type) {
       contentType.includes("application/vnd.apple.mpegurl")
     ) {
       return null;
+    }
+
+    // MAX does not accept WebP/AVIF as an image attachment.
+    // Convert unsupported article images to JPEG before upload.
+    if (
+      type === "image" &&
+      (contentType.includes("image/webp") ||
+        contentType.includes("image/avif") ||
+        /\.(webp|avif)(?:\?|$)/i.test(response.url || url))
+    ) {
+      try {
+        const source = response.url || url;
+        const convertedUrl = `${IMAGE_CONVERTER_BASE.replace( /\/$/, "" )}/?url=${encodeURIComponent(source)}&output=jpg&q=88`;
+        const converted = await fetch(convertedUrl, {
+          redirect: "follow",
+          headers: {
+            "User-Agent": USER_AGENT,
+            Accept: "image/jpeg,image/*;q=0.8,*/*;q=0.3",
+          },
+          signal: AbortSignal.timeout(30000),
+        });
+        if (!converted.ok) {
+          console.error("Image conversion failed:", converted.status, source);
+          return null;
+        }
+        contentType = (
+          converted.headers.get("content-type") ?? "image/jpeg"
+        ).toLowerCase();
+        if (!contentType.startsWith("image/jpeg")) {
+          console.error(
+            "Image converter returned unsupported type:",
+            contentType
+          );
+          return null;
+        }
+        const convertedLength = Number(
+          converted.headers.get("content-length") ?? "0"
+        );
+        if (convertedLength > MAX_IMAGE_BYTES) return null;
+        const convertedBuffer = new Uint8Array(await converted.arrayBuffer());
+        if (
+          !convertedBuffer.byteLength ||
+          convertedBuffer.byteLength > MAX_IMAGE_BYTES
+        )
+          return null;
+        return {
+          type,
+          bytes: convertedBuffer,
+          contentType: "image/jpeg",
+          extension: "jpg",
+          sourceUrl: source,
+        };
+      } catch (error) {
+        console.error(
+          "Image conversion:",
+          error instanceof Error ? error.message : String(error)
+        );
+        return null;
+      }
     }
     const contentLength = Number(response.headers.get("content-length") ?? "0");
     const limit = type === "video" ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
@@ -1384,6 +1563,20 @@ async function downloadMedia(url, type) {
       return null;
     }
     const finalUrl = response.url || url;
+    if (
+      type === "video" &&
+      /\.(?:mp4|mov)(?:[?#]|$)/i.test(finalUrl) &&
+      contentType.includes("video")
+    ) {
+      // Prefer clips with an actual audio track. If the candidate is a
+      // silent MP4/MOV, try the next article video instead of publishing
+      // a visually correct but unusable silent clip.
+      const audioTrack = hasMp4AudioTrack(buffer);
+      if (audioTrack === false) {
+        console.warn("Rejected silent MP4/MOV candidate:", finalUrl);
+        return null;
+      }
+    }
     if (type === "video" && !contentType.startsWith("video/")) {
       if (!isDirectVideoUrl(finalUrl)) {
         return null;
@@ -1464,8 +1657,11 @@ async function uploadMedia(media) {
     type: media.contentType,
   });
   form.append("data", blob, `factor.${media.extension}`);
+  const uploadHeaders = new Headers();
+  uploadHeaders.set("Authorization", MAX_BOT_TOKEN);
   const uploadResponse = await fetch(init.url, {
     method: "POST",
+    headers: uploadHeaders,
     body: form,
     signal: AbortSignal.timeout(120000),
   });
@@ -1498,9 +1694,30 @@ async function uploadMedia(media) {
 // ============================================================
 // MAX PUBLISH
 // ============================================================
-async function publishToMax(text, mediaToken) {
+async function publishToMax(text, mediaToken, articleUrl = "") {
   if (!TARGET_CHAT_ID) {
     throw new Error("TARGET_CHAT_ID is missing");
+  }
+  const attachments = [];
+  if (mediaToken) {
+    attachments.push({
+      type: mediaToken.type,
+      payload: {
+        token: mediaToken.token,
+      },
+    });
+  }
+  // Do not put the article URL into HTML text: MAX may create a share
+  // preview even when disable_link_preview=true. Use a real link button.
+  if (isLikelyArticleUrl(articleUrl)) {
+    attachments.push({
+      type: "inline_keyboard",
+      payload: {
+        buttons: [
+          [{ type: "link", text: "Открыть источник", url: articleUrl }],
+        ],
+      },
+    });
   }
   const body = {
     text,
@@ -1508,16 +1725,7 @@ async function publishToMax(text, mediaToken) {
     notify: true,
     disable_link_preview: true,
   };
-  if (mediaToken) {
-    body.attachments = [
-      {
-        type: mediaToken.type,
-        payload: {
-          token: mediaToken.token,
-        },
-      },
-    ];
-  }
+  if (attachments.length) body.attachments = attachments;
   return await maxJson(
     `/messages?chat_id=${encodeURIComponent(TARGET_CHAT_ID)}`,
     {
@@ -2353,9 +2561,7 @@ function buildPost(item, story, sourceName, articleUrl) {
     minute: "2-digit",
     timeZone: NEWS_TIMEZONE,
   }).format(new Date());
-  const sourceLine = isLikelyArticleUrl(articleUrl)
-    ? `🔗 <a href="${escapeHtml(articleUrl)}">${escapeHtml(sourceName)}</a>`
-    : "";
+  const sourceLine = sourceName ? `🔗 ${escapeHtml(sourceName)}` : "";
   const parts = [
     header,
     "",
@@ -2459,7 +2665,11 @@ async function findBestMedia(articleMedia, item, story, diagnostics = null) {
     videoChecked++;
     if (diagnostics) diagnostics.media_checked = videoChecked;
     console.log("Trying article video:", candidate.source, candidate.url);
-    const video = await downloadMedia(candidate.url, "video");
+    const video = await downloadMedia(
+      candidate.url,
+      "video",
+      articleMedia.articleUrl
+    );
     if (video) {
       if (diagnostics) {
         diagnostics.media_selected = "video";
@@ -2494,7 +2704,11 @@ async function findBestMedia(articleMedia, item, story, diagnostics = null) {
       candidate.source,
       candidate.url
     );
-    const image = await downloadMedia(candidate.url, "image");
+    const image = await downloadMedia(
+      candidate.url,
+      "image",
+      articleMedia.articleUrl
+    );
     if (!image) continue;
     const relevant = await validateImageRelevance(
       item,
@@ -2829,7 +3043,7 @@ async function getState() {
 // ============================================================
 // MEDIA PROCESSING RETRY
 // ============================================================
-async function publishWithMediaRetry(text, mediaInfo) {
+async function publishWithMediaRetry(text, mediaInfo, articleUrl = "") {
   const delays = [5000, 10000, 20000, 30000];
   let lastError = null;
   for (let attempt = 0; attempt <= delays.length; attempt++) {
@@ -2838,7 +3052,7 @@ async function publishWithMediaRetry(text, mediaInfo) {
     }
     try {
       console.log(`MAX media publish attempt ${attempt + 1}`);
-      return await publishToMax(text, mediaInfo);
+      return await publishToMax(text, mediaInfo, articleUrl);
     } catch (error) {
       lastError = error;
       const message = error instanceof Error ? error.message : String(error);
@@ -3025,16 +3239,20 @@ async function executePipeline(manual = false) {
     let publication;
     if (mediaInfo) {
       try {
-        publication = await publishWithMediaRetry(text, mediaInfo);
+        publication = await publishWithMediaRetry(
+          text,
+          mediaInfo,
+          finalArticleUrl
+        );
       } catch (error) {
         console.error(
           "Media publication failed. " + "Falling back to text:",
           error instanceof Error ? error.message : String(error)
         );
-        publication = await publishToMax(text);
+        publication = await publishToMax(text, undefined, finalArticleUrl);
       }
     } else {
-      publication = await publishToMax(text);
+      publication = await publishToMax(text, undefined, finalArticleUrl);
     }
     // --------------------------------------------------------
     // MARK AS PUBLISHED
