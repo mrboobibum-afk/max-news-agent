@@ -61,6 +61,10 @@ const GEMINI_CANDIDATES = 10;
 const MAX_HISTORY_CHECKED = 300;
 const EVENT_HISTORY_TTL_MS = 72 * 60 * 60 * 1000;
 const EVENT_RECENT_LIMIT = 250;
+// Request/runtime cache: prevents scanning the same KV history hundreds of times
+// when the candidate pool is expanded beyond the old 45-item cap.
+let FACTOR_HISTORY_CACHE = { at: 0, events: null, titles: null };
+const FACTOR_HISTORY_CACHE_TTL_MS = 30 * 1000;
 const MAX_POST_LENGTH = 3900;
 const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
@@ -1618,6 +1622,13 @@ function eventProfilesMatch(candidate, previous) {
   return common >= 3;
 }
 async function getRecentPublishedEvents(limit = EVENT_RECENT_LIMIT) {
+  const now = Date.now();
+  if (
+    FACTOR_HISTORY_CACHE.events &&
+    now - FACTOR_HISTORY_CACHE.at < FACTOR_HISTORY_CACHE_TTL_MS
+  ) {
+    return FACTOR_HISTORY_CACHE.events.slice(0, limit);
+  }
   const db = await getKV();
   const events = [];
   for await (const entry of db.list({
@@ -1628,6 +1639,8 @@ async function getRecentPublishedEvents(limit = EVENT_RECENT_LIMIT) {
       events.push(entry.value);
     if (events.length >= limit) break;
   }
+  FACTOR_HISTORY_CACHE.events = events;
+  FACTOR_HISTORY_CACHE.at = now;
   return events;
 }
 async function isSamePublishedEvent(item, articleMedia = null) {
@@ -1788,6 +1801,13 @@ async function markPublished(item, articleUrl) {
 // RECENT TITLES
 // ============================================================
 async function getRecentTitleEntries(limit = MAX_HISTORY_CHECKED) {
+  const now = Date.now();
+  if (
+    FACTOR_HISTORY_CACHE.titles &&
+    now - FACTOR_HISTORY_CACHE.at < FACTOR_HISTORY_CACHE_TTL_MS
+  ) {
+    return FACTOR_HISTORY_CACHE.titles.slice(0, limit);
+  }
   const db = await getKV();
   const entries = [];
   for await (const entry of db.list({
@@ -1804,6 +1824,8 @@ async function getRecentTitleEntries(limit = MAX_HISTORY_CHECKED) {
     }
     if (entries.length >= limit) break;
   }
+  FACTOR_HISTORY_CACHE.titles = entries;
+  FACTOR_HISTORY_CACHE.at = now;
   return entries;
 }
 
@@ -2365,19 +2387,19 @@ async function chooseCandidate( items, urgentAllowed, regularAllowed, diagnostic
       }
       return true;
     })
-    .sort((a, b) => b.score - a.score)
-    .slice(0, SCORE_CANDIDATES);
+    .sort((a, b) => b.score - a.score);
 
   if (diagnostics) {
     diagnostics.scored = scored.length;
   }
 
-  console.log("Scored candidates:", scored.length);
+  console.log("Scored candidates (full RSS pool):", scored.length);
 
   // ----------------------------------------------------------
   // STEP 2 — REAL ARTICLE URL
   // ----------------------------------------------------------
   let checked = 0;
+  let geminiCalls = 0;
 
   for (const candidate of scored) {
     checked++;
@@ -2452,7 +2474,8 @@ async function chooseCandidate( items, urgentAllowed, regularAllowed, diagnostic
     // --------------------------------------------------------
     let story = null;
 
-    if (checked <= GEMINI_CANDIDATES) {
+    if (geminiCalls < GEMINI_CANDIDATES) {
+      geminiCalls++;
       story = await callGemini(item, articleMedia);
     }
 
@@ -2534,6 +2557,7 @@ function createDiagnostics() {
   return {
     rss_total: 0,
     scored: 0,
+    scored_full_pool: true,
     accepted: 0,
 
     short_title: 0,
