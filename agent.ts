@@ -45,6 +45,9 @@ const MAX_API = "https://platform-api2.max.ru";
 const MAX_BOT_TOKEN = Deno.env.get("MAX_BOT_TOKEN") ?? "";
 const TARGET_CHAT_ID = Deno.env.get("TARGET_CHAT_ID") ?? "";
 const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? "";
+const DASHSCOPE_API_KEY = Deno.env.get("DASHSCOPE_API_KEY") ?? "";
+const QWEN_MODEL = Deno.env.get("QWEN_MODEL") ?? "qwen3.8-max";
+const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyuncs.com/compatible-mode/v1";
 const CRON_SCHEDULE = "*/5 * * * *";
 const URGENT_INTERVAL_MS = 5 * 60 * 1000;
 const REGULAR_INTERVAL_MS = 30 * 60 * 1000;
@@ -2126,8 +2129,7 @@ function scoreNewsItem(item) {
     };
 }
 // ============================================================
-// GEMINI
-// ============================================================
+// GEMINI (primary) + QWEN/DASHSCOPE (fallback)\n// ============================================================
 function extractJson(text) {
     const cleaned = text
         .replace(/^```json/i, "")
@@ -2280,6 +2282,198 @@ ${stripHtml(articleMedia.description ?? "")}
         return null;
     }
 }
+// ============================================================
+// QWEN / DASHSCOPE FALLBACK
+// ============================================================
+// Qwen is the secondary AI provider. Gemini is always tried first.
+// If Gemini fails, times out, returns empty/invalid JSON, or is
+// unavailable, the same editorial prompt is sent to Qwen.
+// The rest of the pipeline receives the same normalized story shape.
+
+function buildNewsEditorPrompt(item, articleMedia) {
+    return `
+Ты редактор новостного канала ФАКТОР.
+
+Работай ТОЛЬКО с информацией,
+которая присутствует в исходных данных.
+
+НЕ ДОБАВЛЯЙ факты из памяти.
+НЕ ДОДУМЫВАЙ причины.
+НЕ ДОДУМЫВАЙ последствия.
+НЕ ПРИДУМЫВАЙ цифры.
+
+ИСХОДНЫЙ ЗАГОЛОВОК:
+${item.title}
+
+ИСТОЧНИК:
+${item.source}
+
+ЗАГОЛОВОК СТРАНИЦЫ:
+${articleMedia.title ?? ""}
+
+ОПИСАНИЕ RSS:
+${stripHtml(item.description)}
+
+ОПИСАНИЕ СТРАНИЦЫ:
+${stripHtml(articleMedia.description ?? "")}
+
+Верни ТОЛЬКО JSON:
+
+{
+  "headline": "короткий точный заголовок",
+  "short": "одно короткое предложение о событии",
+  "main": [
+    "конкретный факт 1",
+    "конкретный факт 2",
+    "конкретный факт 3"
+  ],
+  "important": "конкретная информация, которую читателю важно знать",
+  "urgent": false
+}
+
+ПРАВИЛА:
+
+1. Никаких выдуманных фактов.
+2. headline должен описывать именно событие.
+3. Не используй кликбейт.
+4. Не используй вопросительные заголовки.
+5. Не пиши "стало известно".
+6. Не пиши "ситуация развивается".
+7. Не пиши рекламные формулировки.
+8. Не повторяй одну мысль в разных блоках.
+9. Если фактов мало — используй меньше пунктов.
+10. main может содержать от 0 до 3 пунктов.
+11. urgent=true только если событие действительно срочное.
+12. Не делай выводов, которых нет в исходных данных.
+13. Не меняй смысл новости.
+14. Не добавляй географию, даты, цифры или имена, которых нет в исходных данных.
+`;
+}
+
+function normalizeStory(json, item) {
+    if (!json || typeof json !== "object") {
+        return null;
+    }
+    return {
+        headline: stripHtml(String(json.headline || item.title)),
+        short: stripHtml(String(json.short || item.description || item.title)),
+        main: Array.isArray(json.main)
+            ? json.main
+                .map((x) => stripHtml(String(x)))
+                .filter(Boolean)
+                .slice(0, 3)
+            : [],
+        important: stripHtml(String(json.important || "")),
+        urgent: Boolean(json.urgent) || detectUrgency(item),
+    };
+}
+
+async function callQwen(item, articleMedia) {
+    if (!DASHSCOPE_API_KEY) {
+        console.warn("Qwen fallback skipped: DASHSCOPE_API_KEY is not configured");
+        return null;
+    }
+
+    const prompt = buildNewsEditorPrompt(item, articleMedia);
+
+    try {
+        const response = await fetch(
+            `${QWEN_BASE_URL.replace(/\\/$/, "")}/chat/completions`,
+            {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${DASHSCOPE_API_KEY}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    model: QWEN_MODEL,
+                    messages: [
+                        {
+                            role: "system",
+                            content: "Ты точный новостной редактор. Возвращай только JSON без Markdown.",
+                        },
+                        {
+                            role: "user",
+                            content: prompt,
+                        },
+                    ],
+                    temperature: 0.1,
+                    response_format: {
+                        type: "json_object",
+                    },
+                }),
+                signal: AbortSignal.timeout(20000),
+            },
+        );
+
+        if (!response.ok) {
+            const body = (await response.text()).slice(0, 1000);
+            console.error("Qwen HTTP:", response.status, body);
+            return null;
+        }
+
+        const data = await response.json();
+        const text = data
+            ?.choices?.[0]
+            ?.message
+            ?.content
+            ?.trim();
+
+        if (!text) {
+            console.error("Qwen: empty response");
+            return null;
+        }
+
+        const json = extractJson(text);
+        if (!json) {
+            console.error("Qwen: invalid JSON");
+            return null;
+        }
+
+        const story = normalizeStory(json, item);
+        if (!story || !story.headline) {
+            console.error("Qwen: invalid normalized story");
+            return null;
+        }
+
+        console.log("Qwen fallback succeeded:", story.headline);
+        return story;
+    }
+    catch (error) {
+        console.error(
+            "Qwen:",
+            error instanceof Error ? error.message : String(error),
+        );
+        return null;
+    }
+}
+
+// Gemini first. Qwen/DashScope is the automatic fallback.
+async function callAI(item, articleMedia) {
+    const geminiStory = await callGemini(item, articleMedia);
+    if (geminiStory) {
+        return {
+            story: geminiStory,
+            provider: "gemini",
+        };
+    }
+
+    console.warn("Gemini failed — switching to Qwen/DashScope");
+
+    const qwenStory = await callQwen(item, articleMedia);
+    if (qwenStory) {
+        return {
+            story: qwenStory,
+            provider: "qwen",
+        };
+    }
+
+    return {
+        story: null,
+        provider: "none",
+    };
+}
+
 // ============================================================
 // FALLBACK
 // ============================================================
@@ -2623,14 +2817,21 @@ async function chooseCandidate(items, urgentAllowed, regularAllowed, diagnostics
         // STEP 5 — GEMINI
         // --------------------------------------------------------
         let story = null;
+        let aiProvider = "none";
 
         if (checked <= GEMINI_CANDIDATES) {
-            story = await callGemini(item, articleMedia);
+            const aiResult = await callAI(item, articleMedia);
+            story = aiResult.story;
+            aiProvider = aiResult.provider;
         }
 
         if (!story) {
             diagnostics && diagnostics.gemini_fallback++;
             story = makeFallbackStory(item, articleMedia);
+        }
+
+        if (diagnostics) {
+            diagnostics.ai_provider = aiProvider;
         }
 
         // Защита от перекрёстного ответа Gemini: заголовок модели
