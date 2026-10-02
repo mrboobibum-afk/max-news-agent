@@ -848,50 +848,227 @@ function articleTitleMatches(itemTitle, pageTitle) {
   return articleTitleSimilarity(itemTitle, pageTitle) >= 0.45;
 }
 async function decodeGoogleNewsRedirect(url) {
-  // Google News changed RSS redirects after 2024. A normal fetch follows
-  // only to Google's JS shell and does not reveal the publisher URL.
-  // Resolve the current token through Google's batchexecute endpoint.
+  // Google News RSS currently uses several generations of encoded article URLs.
+  // Do NOT rely on a single resolver: try the cheap/local format first, then
+  // the current signed batchexecute flow, then the legacy token flow.
   try {
     const parsed = new URL(url);
-    if (parsed.hostname !== "news.google.com") return null;
+    if (
+      parsed.hostname !== "news.google.com" &&
+      !parsed.hostname.endsWith(".news.google.com")
+    ) {
+      return null;
+    }
+
     const parts = parsed.pathname.split("/").filter(Boolean);
     const articleIndex = parts.lastIndexOf("articles");
     if (articleIndex < 0 || !parts[articleIndex + 1]) return null;
     const token = parts[articleIndex + 1];
-    const payload = `[[["Fbv4je","[\"garturlreq\",[[\"en-US\",\"US\",[\"FINANCE_TOP_INDICES\",\"WEB_TEST_1_0_0\"],null,null,1,1,\"US:en\",null,180,null,null,null,null,null,0,null,null,[1608992183,723341000]],\"en-US\",\"US\",1,[2,3,4,8],1,0,\"655000234\",0,0,null,0],\"${token}\"]",null,"generic"]]]`;
-    const response = await fetch(
-      "https://news.google.com/_/DotsSplashUi/data/batchexecute?rpcids=Fbv4je",
-      {
-        method: "POST",
+
+    const isPublisherUrl = (candidate) => {
+      const normalized = normalizeUrl(candidate || "");
+      return normalized &&
+        !isGoogleNewsUrl(normalized) &&
+        isLikelyArticleUrl(normalized)
+        ? normalized
+        : null;
+    };
+
+    // ------------------------------------------------------------
+    // 1) Some Google News tokens still contain the publisher URL as
+    // base64url-encoded binary data. Extract the embedded URL directly.
+    // ------------------------------------------------------------
+    try {
+      const padded =
+        token.replace(/-/g, "+").replace(/_/g, "/") +
+        "=".repeat((4 - (token.length % 4)) % 4);
+      const bytes = Uint8Array.from(atob(padded), (c) => c.charCodeAt(0));
+      const raw = new TextDecoder("latin1").decode(bytes);
+      const embedded = raw.match(/https?:\/\/[^\x00-\x1f"'\\<>]+/i)?.[0] || "";
+      const direct = isPublisherUrl(embedded);
+      if (direct) return direct;
+    } catch {
+      // Not all tokens are locally decodable; continue with Google.
+    }
+
+    // ------------------------------------------------------------
+    // 2) Current Google flow: GET the article shell first. Google places
+    // the signed garturl request parameters in c-wiz[data-p] and the
+    // signature/timestamp in data-n-a-sg / data-n-a-ts.
+    // ------------------------------------------------------------
+    let shellHtml = "";
+    try {
+      const shell = await fetch(parsed.href, {
+        redirect: "follow",
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-          Referer: "https://news.google.com/",
           "User-Agent": USER_AGENT,
+          Accept:
+            "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         },
-        body: "f.req=" + encodeURIComponent(payload),
         signal: AbortSignal.timeout(12000),
+      });
+      if (shell.ok) shellHtml = await shell.text();
+    } catch {
+      shellHtml = "";
+    }
+
+    if (shellHtml) {
+      const wizMatch = shellHtml.match(
+        /<c-wiz\b[^>]*data-p=["']([^"']+)["'][^>]*>/i
+      );
+      const sigMatch = shellHtml.match(/data-n-a-sg=["']([^"']+)["']/i);
+      const tsMatch = shellHtml.match(/data-n-a-ts=["']([^"']+)["']/i);
+
+      if (wizMatch && sigMatch && tsMatch) {
+        try {
+          const dataP = decodeHtmlEntities(wizMatch[1]);
+          let req = null;
+          try {
+            req = JSON.parse(dataP);
+          } catch {
+            const normalized = dataP.replace(/^%\.@\./, "[");
+            req = JSON.parse(normalized);
+          }
+
+          if (Array.isArray(req)) {
+            // The current Google page stores the garturl request as
+            // an array. The batchexecute RPC expects the same request
+            // with the trailing page-only parameters removed, while
+            // the article id, timestamp and signature are appended.
+            const base = req
+              .slice(0, Math.max(0, req.length - 6))
+              .concat(req.slice(-2));
+            const inner = [
+              "garturlreq",
+              base,
+              "en-US",
+              "US",
+              1,
+              [2, 3, 4, 8],
+              1,
+              0,
+              token,
+              Number(tsMatch[1]) || tsMatch[1],
+              sigMatch[1],
+            ];
+
+            const rpcInner = JSON.stringify(inner);
+            const fReq = [[["Fbv4je", rpcInner, null, "generic"]]];
+
+            const response = await fetch(
+              "https://news.google.com/_/DotsSplashUi/data/batchexecute?rpcids=Fbv4je",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type":
+                    "application/x-www-form-urlencoded;charset=UTF-8",
+                  Referer: parsed.href,
+                  "User-Agent": USER_AGENT,
+                },
+                body: "f.req=" + encodeURIComponent(JSON.stringify(fReq)),
+                signal: AbortSignal.timeout(12000),
+              }
+            );
+
+            if (response.ok) {
+              const text = await response.text();
+              // Preferred parser: batchexecute response contains a
+              // JSON string whose second field is the publisher URL.
+              const marker = '[\\"garturlres\\",\\"';
+              const markerPos = text.indexOf(marker);
+              if (markerPos >= 0) {
+                const rest = text.slice(markerPos + marker.length);
+                const end = rest.indexOf('\\",');
+                if (end > 0) {
+                  const candidate = rest
+                    .slice(0, end)
+                    .replace(/\\u003d/g, "=")
+                    .replace(/\\u0026/g, "&")
+                    .replace(/\\\//g, "/");
+                  const resolved = isPublisherUrl(candidate);
+                  if (resolved) return resolved;
+                }
+              }
+
+              // Fallback parser for the current response envelope.
+              for (const line of text.split("\n")) {
+                try {
+                  const outer = JSON.parse(line);
+                  const stack = [outer];
+                  while (stack.length) {
+                    const node = stack.pop();
+                    if (Array.isArray(node)) {
+                      for (const value of node) stack.push(value);
+                    } else if (
+                      typeof node === "string" &&
+                      /^https?:\/\//i.test(node)
+                    ) {
+                      const resolved = isPublisherUrl(node);
+                      if (resolved) return resolved;
+                    }
+                  }
+                } catch {
+                  // Ignore non-JSON batchexecute framing lines.
+                }
+              }
+            }
+          }
+        } catch (error) {
+          console.warn(
+            "Google signed resolver parse failed:",
+            error instanceof Error ? error.message : String(error)
+          );
+        }
       }
-    );
-    if (!response.ok) return null;
-    const text = await response.text();
-    const header = '[\\"garturlres\\",\\"';
-    const start = text.indexOf(header);
-    if (start < 0) return null;
-    const valueStart = start + header.length;
-    const end = text.indexOf('\\",', valueStart);
-    if (end < 0) return null;
-    const resolved = text
-      .slice(valueStart, end)
-      .replace(/\\u003d/g, "=")
-      .replace(/\\u0026/g, "&");
-    return isLikelyArticleUrl(resolved) ? resolved : null;
+    }
+
+    // ------------------------------------------------------------
+    // 3) Legacy/current token RPC. Keep it as a final fallback because
+    // some Google regions still return the older response format.
+    // ------------------------------------------------------------
+    try {
+      const payload = `[[["Fbv4je","[\\"garturlreq\\",[[\\"en-US\\",\\"US\\",[\\"FINANCE_TOP_INDICES\\",\\"WEB_TEST_1_0_0\\"],null,null,1,1,\\"US:en\\",null,180,null,null,null,null,null,0,null,null,[1608992183,723341000]],\\"en-US\\",\\"US\\",1,[2,3,4,8],1,0,\\"655000234\\",0,0,null,0],\\"${token}\\"]",null,"generic"]]]`;
+      const response = await fetch(
+        "https://news.google.com/_/DotsSplashUi/data/batchexecute?rpcids=Fbv4je",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+            Referer: "https://news.google.com/",
+            "User-Agent": USER_AGENT,
+          },
+          body: "f.req=" + encodeURIComponent(payload),
+          signal: AbortSignal.timeout(12000),
+        }
+      );
+      if (response.ok) {
+        const text = await response.text();
+        const header = '[\\"garturlres\\",\\"';
+        const start = text.indexOf(header);
+        if (start >= 0) {
+          const valueStart = start + header.length;
+          const end = text.indexOf('\\",', valueStart);
+          if (end > valueStart) {
+            const candidate = text
+              .slice(valueStart, end)
+              .replace(/\\u003d/g, "=")
+              .replace(/\\u0026/g, "&")
+              .replace(/\\\//g, "/");
+            const resolved = isPublisherUrl(candidate);
+            if (resolved) return resolved;
+          }
+        }
+      }
+    } catch {
+      // Final failure is reported by the caller.
+    }
   } catch (error) {
     console.error(
-      "Google News token decode:",
+      "Google News decode:",
       error instanceof Error ? error.message : String(error)
     );
-    return null;
   }
+  return null;
 }
 
 async function resolveArticleUrl(item, diagnostics = null) {
