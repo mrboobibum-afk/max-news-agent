@@ -88,9 +88,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791023216780,
+      "value": 1791038933631,
       "expiresAt": null,
-      "versionstamp": "f21bd4f7-5369-4e46-acae-fcb37e5f6c0b"
+      "versionstamp": "b31b6e24-4e35-4fe3-9dc0-b71bd75cdda1"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -256,6 +256,106 @@
       },
       "expiresAt": 1791196035411,
       "versionstamp": "7c8b04f8-1891-42b5-96d5-0676da684db3"
+    },
+    "[\"factor\",\"published_v2\",\"6a5b5f84aa94c26fc8cffbf6010227ba86b427ab9db4c52a25b78ed70e5fa26b\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "6a5b5f84aa94c26fc8cffbf6010227ba86b427ab9db4c52a25b78ed70e5fa26b"
+      ],
+      "value": true,
+      "expiresAt": 1793630944062,
+      "versionstamp": "2016a301-393c-4906-bba2-83b201638227"
+    },
+    "[\"factor\",\"published\",\"f44c5bae310c3b311178c9f33d4aa546f756a1737a71dfabaf958224ac1841cb\"]": {
+      "key": [
+        "factor",
+        "published",
+        "f44c5bae310c3b311178c9f33d4aa546f756a1737a71dfabaf958224ac1841cb"
+      ],
+      "value": true,
+      "expiresAt": 1793630944062,
+      "versionstamp": "888d8ac1-5d44-4cab-8afa-79ab441097ed"
+    },
+    "[\"factor\",\"published_story_v3\",\"f2a50a588e206dc674229b1dec7653b895071707596774359cb9ab96e58bb0f6\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "f2a50a588e206dc674229b1dec7653b895071707596774359cb9ab96e58bb0f6"
+      ],
+      "value": true,
+      "expiresAt": 1793630944063,
+      "versionstamp": "d8d012bd-24a2-4ff2-a5fb-0664491aa1a6"
+    },
+    "[\"factor\",\"recent_title_v2\",1791038944064,\"f4cb92e0958daa707f779c04bc04222c98bf6f94196cf52590f589429398bb98\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791038944064,
+        "f4cb92e0958daa707f779c04bc04222c98bf6f94196cf52590f589429398bb98"
+      ],
+      "value": "Российские войска взяли три населенных пункта, дело Жанны Немцовой и санкции Японии",
+      "expiresAt": 1793630944064,
+      "versionstamp": "7289d137-7117-4617-b1bc-389be9764af9"
+    },
+    "[\"factor\",\"published_event_v4\",\"5f688ecbc7f7bcf2ac16936d3389735e3c0dce8a42dd7fb7302d1d0e49979bc4\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "5f688ecbc7f7bcf2ac16936d3389735e3c0dce8a42dd7fb7302d1d0e49979bc4"
+      ],
+      "value": {
+        "category": "МИР",
+        "family": "military",
+        "anchors": [
+          "росс",
+          "войс",
+          "взял",
+          "насе",
+          "пунк",
+          "дело",
+          "жанн",
+          "немц",
+          "япон",
+          "усил",
+          "санк",
+          "href",
+          "http",
+          "news",
+          "goog",
+          "arti",
+          "cbmi",
+          "targ",
+          "blan",
+          "font",
+          "colo",
+          "6f6f",
+          "ново",
+          "рубр",
+          "пред",
+          "акту",
+          "собы",
+          "вклю",
+          "взят",
+          "трех",
+          "иван",
+          "забы",
+          "спец",
+          "воен",
+          "опер",
+          "инфо",
+          "друг",
+          "важн",
+          "рубе",
+          "глав"
+        ],
+        "title": "Россия и мир: российские войска взяли три населенных пункта, дело Жанны Немцовой и Япония усиливает санкции",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiT0FVX3lxTFBxUWE1OXRUNEg1bnVaRVpLR2h5TmhnR3RhTmdKSWVEZmhrdzRYbERwREdMMmlSMVg5b21jYzNDUEUxYWZmMERhZ2dpZVVqdDg?oc=5\" target=\"_blank\"&gt;Россия и мир: российские войска взяли три населенных пункта, дело Жанны Немцовой и Япония усиливает санкции&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;newsivanovo.ru&lt;/font&gt; В новостной рубрике представлены актуальные события, включая взятие трех населенных пунктов российскими войсками, дело Жанны Немцовой и усиление санкций Японией. «Ивановские новости» не забывают о новостях специальной военной операции, но также предлагают актуальную информацию о других важных событиях в России и за рубежом. Главные новости 2 октября – в традиционной ежедневной рубрике «Россия и мир».",
+        "published_at": 1791038944064,
+        "article_url": "https://newsivanovo.ru/fn_1961225.html"
+      },
+      "expiresAt": 1791211744064,
+      "versionstamp": "7d5cdb15-d2fe-45dd-a4c5-189d1352eb4b"
     }
   }
 }
