@@ -88,9 +88,94 @@
         "state",
         "last_urgent"
       ],
-      "value": 1790986002625,
+      "value": 1791004386681,
       "expiresAt": null,
-      "versionstamp": "430ab303-d6a3-4bc6-9966-59d55a487ea7"
+      "versionstamp": "7ffc154d-2762-4a3f-a039-0667b0f6414c"
+    },
+    "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7"
+      ],
+      "value": true,
+      "expiresAt": 1793596405310,
+      "versionstamp": "73cc55b5-72f3-445a-bcd1-7037bcedf4ef"
+    },
+    "[\"factor\",\"published\",\"0357f3f8e57f86782b92e66dc6e626e0f77d9c5714418144f7cca225a9b73d34\"]": {
+      "key": [
+        "factor",
+        "published",
+        "0357f3f8e57f86782b92e66dc6e626e0f77d9c5714418144f7cca225a9b73d34"
+      ],
+      "value": true,
+      "expiresAt": 1793596405310,
+      "versionstamp": "47594986-af8c-49f6-b2c8-1eb594adf48d"
+    },
+    "[\"factor\",\"published_story_v3\",\"cb701b83b6d229cc79ad2a275e5dd9f6ebdb575eb0d819d9a29588d0c210fb31\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "cb701b83b6d229cc79ad2a275e5dd9f6ebdb575eb0d819d9a29588d0c210fb31"
+      ],
+      "value": true,
+      "expiresAt": 1793596405310,
+      "versionstamp": "f003eb19-0468-4d60-962e-b19da8165121"
+    },
+    "[\"factor\",\"recent_title_v2\",1791004405311,\"0466b04bc3d0ee0a01794e9bc6ed154e9b30f8fafe3fa9b16de9c7303f809f31\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791004405311,
+        "0466b04bc3d0ee0a01794e9bc6ed154e9b30f8fafe3fa9b16de9c7303f809f31"
+      ],
+      "value": "Женщина-водитель погибла в ДТП в Мичуринском округе",
+      "expiresAt": 1793596405311,
+      "versionstamp": "10816ba8-9111-4306-8643-03db0cf15da0"
+    },
+    "[\"factor\",\"published_event_v4\",\"2311fb9b7a9b67f692a84181f73213008b3f3f9634ae144a74631e62c52d2d21\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "2311fb9b7a9b67f692a84181f73213008b3f3f9634ae144a74631e62c52d2d21"
+      ],
+      "value": {
+        "category": "ПРОИСШЕСТВИЯ",
+        "family": "accident",
+        "anchors": [
+          "женщ",
+          "води",
+          "поги",
+          "доро",
+          "мичу",
+          "окру",
+          "прав",
+          "href",
+          "http",
+          "news",
+          "goog",
+          "arti",
+          "cbmi",
+          "targ",
+          "blan",
+          "font",
+          "colo",
+          "6f6f",
+          "резу",
+          "тран",
+          "прои",
+          "госа",
+          "уста",
+          "обст",
+          "смер"
+        ],
+        "title": "Женщина-водитель погибла в ДТП на дороге Мичуринского округа | Мичуринская правда",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiuAFBVV95cUxOOEdWLVNoN0NJVXZTM3AwMzhiN2hYRF9LVWhZYWFIWHg3Q0lfTHdFaXhWZ0YzS0k0cHQ1UHZGZG52bXdDS183cEVkdFo2NEstOE1uZnlZaUN3M1hkaVVtUHFmNjhZYVl2MWVid2x6dGZ0cGRYUlROT2NGVkNKMHJuZjUxNTJKUnczYl9XZkpuQ3FMMFJDM2tGUjQ2dmVEaW0tU2d6OGp0dkxUdUVnQUY1V0c4UWNiMDRi?oc=5\" target=\"_blank\"&gt;Женщина-водитель погибла в ДТП на дороге Мичуринского округа&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Мичуринская правда&lt;/font&gt; В Мичуринском округе в результате дорожно-транспортного происшествия погибла женщина-водитель. Госавтоинспекция устанавливает обстоятельства смертельного ДТП.",
+        "published_at": 1791004405311,
+        "article_url": "https://michpravda.ru/news/incident/2026-10-03/zhenschina-voditel-pogibla-v-dtp-na-doroge-michurinskogo-okruga-346259"
+      },
+      "expiresAt": 1791177205312,
+      "versionstamp": "90d0530d-ca1a-411a-bc33-c0e141d00dda"
     }
   }
 }
