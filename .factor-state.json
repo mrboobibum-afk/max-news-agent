@@ -356,6 +356,100 @@
       },
       "expiresAt": 1791211744064,
       "versionstamp": "7d5cdb15-d2fe-45dd-a4c5-189d1352eb4b"
+    },
+    "[\"factor\",\"published_v2\",\"4bf847d168513382bc9ffd182ce3a026deff83e4d635e81d2702192a7adf544b\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "4bf847d168513382bc9ffd182ce3a026deff83e4d635e81d2702192a7adf544b"
+      ],
+      "value": true,
+      "expiresAt": 1793655053517,
+      "versionstamp": "53783094-7eb7-49fa-af78-cc6116d1a3b9"
+    },
+    "[\"factor\",\"published\",\"53df56de5170411daff9d27cd4fc1329e5779278470d7a5cfef7f261dee07dca\"]": {
+      "key": [
+        "factor",
+        "published",
+        "53df56de5170411daff9d27cd4fc1329e5779278470d7a5cfef7f261dee07dca"
+      ],
+      "value": true,
+      "expiresAt": 1793655053517,
+      "versionstamp": "2959ff35-41b0-4984-985e-b9d9f7751fd6"
+    },
+    "[\"factor\",\"published_story_v3\",\"153c00c63c452caefad1d311c85a03c187f1d4c9f43390cb7ccc82c0a27c619e\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "153c00c63c452caefad1d311c85a03c187f1d4c9f43390cb7ccc82c0a27c619e"
+      ],
+      "value": true,
+      "expiresAt": 1793655053518,
+      "versionstamp": "d8dc76ab-864e-4f3d-86b6-d90bd3d249e4"
+    },
+    "[\"factor\",\"recent_title_v2\",1791063053519,\"603fbb8ec5611ac4074ab1eb2f6c529ba64b1890c93fac1b5f35cb092b4921ce\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791063053519,
+        "603fbb8ec5611ac4074ab1eb2f6c529ba64b1890c93fac1b5f35cb092b4921ce"
+      ],
+      "value": "Экономическая статистика 5-11 октября 2026: ожидания",
+      "expiresAt": 1793655053519,
+      "versionstamp": "19ef335b-2a77-4354-8f34-606503c49f26"
+    },
+    "[\"factor\",\"published_event_v4\",\"0a520681fc37bbc9978a805a79d202c0f751f8b23cb7ddfba6de198150fabce4\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "0a520681fc37bbc9978a805a79d202c0f751f8b23cb7ddfba6de198150fabce4"
+      ],
+      "value": {
+        "category": "ЭКОНОМИКА",
+        "family": "economy",
+        "anchors": [
+          "экон",
+          "стат",
+          "октя",
+          "2026",
+          "ожид",
+          "href",
+          "http",
+          "news",
+          "goog",
+          "arti",
+          "cbmi",
+          "targ",
+          "blan",
+          "публ",
+          "font",
+          "colo",
+          "6f6f",
+          "finv",
+          "миро",
+          "рынк",
+          "выст",
+          "отче",
+          "анон",
+          "собы"
+        ],
+        "title": "Экономическая статистика 5-11 октября 2026: ожидания",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiowFBVV95cUxPb2pVd0J5NE8xVmtDVDkzZWdNZE5RVEFYQ3dEam1YUFVfekhMYUUyYXkyd0M4U0g3T0s5NFVZaDZROW1HTGJEcmJUN1FrYnQ4WnpCRFY2dG9kOXQ0MHNucTZaRTlvQ0plUXNIS1FXSWtzTkVlZWMyMC0zSWROR0JNSmx5ajV1ZGNXR3NIcnE5ZE9IcG1mYlNtV0pFRFJia01nVlFj?oc=5\" target=\"_blank\"&gt;Экономическая статистика 5-11 октября 2026: ожидания – Публикации&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Finversia&lt;/font&gt; Мировые рынки, выступления, отчеты, анонсы событий. Мировые рынки, выступления, отчеты, анонсы событий.",
+        "published_at": 1791063053520,
+        "article_url": "https://www.finversia.ru/publication/ekonomicheskaya-statistika-5-11-oktyabrya-2026-ozhidaniya-179323"
+      },
+      "expiresAt": 1791235853520,
+      "versionstamp": "c21b6f70-d277-4355-b601-e339815b4582"
+    },
+    "[\"factor\",\"state\",\"last_regular\"]": {
+      "key": [
+        "factor",
+        "state",
+        "last_regular"
+      ],
+      "value": 1791063040270,
+      "expiresAt": null,
+      "versionstamp": "0ae4bdc6-5429-40f8-ad41-7d05b58f6490"
     }
   }
 }
