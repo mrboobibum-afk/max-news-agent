@@ -88,9 +88,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791004386681,
+      "value": 1791023216780,
       "expiresAt": null,
-      "versionstamp": "7ffc154d-2762-4a3f-a039-0667b0f6414c"
+      "versionstamp": "f21bd4f7-5369-4e46-acae-fcb37e5f6c0b"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -176,6 +176,86 @@
       },
       "expiresAt": 1791177205312,
       "versionstamp": "90d0530d-ca1a-411a-bc33-c0e141d00dda"
+    },
+    "[\"factor\",\"published_v2\",\"226ac4bff8f5ccad2caf8b390f07c6ff94e6b4d509984119030ae532b97ecbfe\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "226ac4bff8f5ccad2caf8b390f07c6ff94e6b4d509984119030ae532b97ecbfe"
+      ],
+      "value": true,
+      "expiresAt": 1793615235410,
+      "versionstamp": "9745500b-8956-40ed-9e29-7b98a5e1aabf"
+    },
+    "[\"factor\",\"published\",\"db7f6bc4125b46b9b709a58df096ae91b637f867b0b9ca226037b27993b139cc\"]": {
+      "key": [
+        "factor",
+        "published",
+        "db7f6bc4125b46b9b709a58df096ae91b637f867b0b9ca226037b27993b139cc"
+      ],
+      "value": true,
+      "expiresAt": 1793615235410,
+      "versionstamp": "0502ef5f-ca53-45e1-87cd-d2dda825ca91"
+    },
+    "[\"factor\",\"published_story_v3\",\"d31434768ba5d195accd4006deaae947e37eb8c1def4c88d3c48a627db040031\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "d31434768ba5d195accd4006deaae947e37eb8c1def4c88d3c48a627db040031"
+      ],
+      "value": true,
+      "expiresAt": 1793615235411,
+      "versionstamp": "fe8195e7-fab2-4b4d-a99a-c34cf0c22583"
+    },
+    "[\"factor\",\"recent_title_v2\",1791023235411,\"18e59c5afc7d9d686865e6db1230f3e5ee1b4a2ff35d5a44a45c77b557b9c46b\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791023235411,
+        "18e59c5afc7d9d686865e6db1230f3e5ee1b4a2ff35d5a44a45c77b557b9c46b"
+      ],
+      "value": "В Прикамье на пожаре погиб житель Чёрмоза",
+      "expiresAt": 1793615235411,
+      "versionstamp": "2b5e2ddf-574e-48fb-b433-d44794c5a6f0"
+    },
+    "[\"factor\",\"published_event_v4\",\"fdb539b097c679c8a7e818dbd9fa94a2439b9d20376482b58aa52da673ee9da4\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "fdb539b097c679c8a7e818dbd9fa94a2439b9d20376482b58aa52da673ee9da4"
+      ],
+      "value": {
+        "category": "ПРОИСШЕСТВИЯ",
+        "family": "fire",
+        "anchors": [
+          "прик",
+          "жите",
+          "черм",
+          "href",
+          "http",
+          "news",
+          "goog",
+          "arti",
+          "cbmi",
+          "targ",
+          "blan",
+          "font",
+          "colo",
+          "6f6f",
+          "резу",
+          "сутк",
+          "огне",
+          "поту",
+          "реги",
+          "возг"
+        ],
+        "title": "В Прикамье на пожаре погиб житель Чёрмоза",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiVEFVX3lxTFBzaFVMSmZRUlI2TlNhR3M4bW51MGZvSTNYZUE3X0dRTGFaVmN0UUlGeFFMazlnMmFRUGg4SG5lSmRXamt3THVMQ0ZGUy1VbXRtX05TRg?oc=5\" target=\"_blank\"&gt;В Прикамье на пожаре погиб житель Чёрмоза&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Newsko.ru&lt;/font&gt; В Прикамье в результате пожара погиб житель Чёрмоза. За сутки огнеборцы потушили в регионе 12 возгораний",
+        "published_at": 1791023235411,
+        "article_url": "https://www.newsko.ru/news/nk-9441369.html"
+      },
+      "expiresAt": 1791196035411,
+      "versionstamp": "7c8b04f8-1891-42b5-96d5-0676da684db3"
     }
   }
 }
