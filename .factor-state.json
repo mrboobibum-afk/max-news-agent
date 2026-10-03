@@ -1,4 +1,96 @@
 {
   "version": 1,
-  "entries": {}
+  "entries": {
+    "[\"factor\",\"published_v2\",\"f65af51ca2eb7ded1aef5cb239e30fa538c0363a190a628953e90e363c7bb277\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "f65af51ca2eb7ded1aef5cb239e30fa538c0363a190a628953e90e363c7bb277"
+      ],
+      "value": true,
+      "expiresAt": 1793578015060,
+      "versionstamp": "088c76f6-72a4-4e0b-bea2-f85cbe8a9551"
+    },
+    "[\"factor\",\"published\",\"4e8e7c20863e9b51ef84e90de1ee49cfb3ba6392090bacd0b44786560e6050b9\"]": {
+      "key": [
+        "factor",
+        "published",
+        "4e8e7c20863e9b51ef84e90de1ee49cfb3ba6392090bacd0b44786560e6050b9"
+      ],
+      "value": true,
+      "expiresAt": 1793578015061,
+      "versionstamp": "f7313e96-5842-448a-8c0d-18f384e69ce3"
+    },
+    "[\"factor\",\"published_story_v3\",\"335cc1489847b76d6a300533d5e4e9adecf681e8f080608cb9028c46fbb31a36\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "335cc1489847b76d6a300533d5e4e9adecf681e8f080608cb9028c46fbb31a36"
+      ],
+      "value": true,
+      "expiresAt": 1793578015061,
+      "versionstamp": "55e84e43-665f-4b2a-81a7-852d2be0d0ad"
+    },
+    "[\"factor\",\"recent_title_v2\",1790986015061,\"b17449635e82444b71e9e7ca9ee5904e50c08993ca38d266f28c598a40398091\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1790986015061,
+        "b17449635e82444b71e9e7ca9ee5904e50c08993ca38d266f28c598a40398091"
+      ],
+      "value": "Лукашенко: сотрудничество России и Белоруссии помогло нивелировать санкции",
+      "expiresAt": 1793578015062,
+      "versionstamp": "1331ee1d-00e9-4068-a154-9774fa323cce"
+    },
+    "[\"factor\",\"published_event_v4\",\"4ffc10b78e70d75ba2e338a44615099d8090e58f76d177a9cacfe044a06ad055\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "4ffc10b78e70d75ba2e338a44615099d8090e58f76d177a9cacfe044a06ad055"
+      ],
+      "value": {
+        "category": "ПОЛИТИКА",
+        "family": "politics",
+        "anchors": [
+          "лука",
+          "сотр",
+          "бело",
+          "помо",
+          "ниве",
+          "санк",
+          "href",
+          "http",
+          "news",
+          "goog",
+          "arti",
+          "cbmi",
+          "targ",
+          "blan",
+          "font",
+          "colo",
+          "6f6f",
+          "ведо",
+          "подр",
+          "чита",
+          "vedo"
+        ],
+        "title": "Лукашенко: сотрудничество России и Белоруссии помогло нивелировать санкции",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMijAFBVV95cUxNMW9FdklLMmVkcEVaUC1UODlOMTRkRjh0RlJ4VF9iTk1WR3VqZWswY3FUT0U0RzdqaVRvZHB4eUtLVHdreFI4T01Ndi1GSVY5ampwRFM1cFdYVHBXTFVZREItRFVUV1lhTzdoNFBvVFZsMWxRWXl3dVBuQ2dZam9OYlFGYzRqZXMtOXpLTg?oc=5\" target=\"_blank\"&gt;Лукашенко: сотрудничество России и Белоруссии помогло нивелировать санкции&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Ведомости&lt;/font&gt; Подробности читайте на vedomosti.ru Подробности читайте на vedomosti.ru",
+        "published_at": 1790986015062,
+        "article_url": "https://www.vedomosti.ru/politics/news/2026/10/02/1233945-lukashenko-sotrudnichestvo"
+      },
+      "expiresAt": 1791158815062,
+      "versionstamp": "198c9f33-6c26-4a6d-b89a-7ed9b5e449bb"
+    },
+    "[\"factor\",\"state\",\"last_urgent\"]": {
+      "key": [
+        "factor",
+        "state",
+        "last_urgent"
+      ],
+      "value": 1790986002625,
+      "expiresAt": null,
+      "versionstamp": "430ab303-d6a3-4bc6-9966-59d55a487ea7"
+    }
+  }
 }
