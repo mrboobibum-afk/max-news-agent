@@ -88,9 +88,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791112897333,
+      "value": 1791113296191,
       "expiresAt": null,
-      "versionstamp": "b17089fd-80ee-4f71-a2ed-bfcd25f3c972"
+      "versionstamp": "3f9c0a20-e872-44c2-b2eb-17ca41e12fab"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -1153,6 +1153,72 @@
       },
       "expiresAt": 1791285722728,
       "versionstamp": "e20af98f-c0fe-4c4d-a876-99e1a0ac3e80"
+    },
+    "[\"factor\",\"published_v2\",\"299c7c1c750e1efff95b963629d358bac9b269db5dfdeb9365ab2d0ee69fc343\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "299c7c1c750e1efff95b963629d358bac9b269db5dfdeb9365ab2d0ee69fc343"
+      ],
+      "value": true,
+      "expiresAt": 1793705473778,
+      "versionstamp": "74083e8c-059b-4756-bda3-09d7bedc2bbe"
+    },
+    "[\"factor\",\"published\",\"5b849661eac4b983e9dcbbb0d0d52f3e4f0ff6bc93e2bdfc544ee618c5139009\"]": {
+      "key": [
+        "factor",
+        "published",
+        "5b849661eac4b983e9dcbbb0d0d52f3e4f0ff6bc93e2bdfc544ee618c5139009"
+      ],
+      "value": true,
+      "expiresAt": 1793705473779,
+      "versionstamp": "426dd24a-559d-451b-b7fc-bb21ceb61fd8"
+    },
+    "[\"factor\",\"published_story_v3\",\"912f1dcb2f2b5fc96ef04130f664b172187da63054f337737e0ab062812829bb\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "912f1dcb2f2b5fc96ef04130f664b172187da63054f337737e0ab062812829bb"
+      ],
+      "value": true,
+      "expiresAt": 1793705473780,
+      "versionstamp": "6328b129-8b82-4ba4-a2e3-25fe9ad7dba2"
+    },
+    "[\"factor\",\"recent_title_v2\",1791113473781,\"9cf53515ecee482583e8fd5ce1dade135802861c41801b6049e1418ca36fca0c\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791113473781,
+        "9cf53515ecee482583e8fd5ce1dade135802861c41801b6049e1418ca36fca0c"
+      ],
+      "value": "Дочь убитой в Москве женщины найдена мертвой",
+      "expiresAt": 1793705473781,
+      "versionstamp": "00930de9-2666-499a-84fb-efddcc72385a"
+    },
+    "[\"factor\",\"published_event_v4\",\"5d02bd3e13f2e29ab47575d34e00d428d2f2f4b54a4929a46a661778f810abf0\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "5d02bd3e13f2e29ab47575d34e00d428d2f2f4b54a4929a46a661778f810abf0"
+      ],
+      "value": {
+        "category": "ПОЛИТИКА",
+        "family": "crime",
+        "anchors": [
+          "дочь",
+          "убит",
+          "моск",
+          "женщ",
+          "нашл",
+          "мерт"
+        ],
+        "title": "Дочь убитой в Москве женщины нашли мертвой",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMid0FVX3lxTE01cEE2M0hxZkJweG1MMzRDY3IxN2hfbXhIdVpKODhsaEhpbGpLLU5aaGoxR01mMEVQbW9vMzNaWGZ6SFNIcTA0bS1NSDVYYzRFOFNjeGk4LUVqQ2VsZkRxOGt5QnZRUjhRUTdSci1MX2pLRDYyTjFn?oc=5\" target=\"_blank\"&gt;Дочь убитой в Москве женщины нашли мертвой&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Ведомости&lt;/font&gt; Обнаружено тело дочери женщины, ранее убитой в Москве. Подробности читайте на vedomosti.ru",
+        "published_at": 1791113473781,
+        "article_url": "https://www.vedomosti.ru/society/news/2026/10/04/1234054-doch-ubitoi"
+      },
+      "expiresAt": 1791286273781,
+      "versionstamp": "3cde5bec-47f9-44cd-a76e-30dbfabd4bda"
     }
   }
 }
