@@ -29,7 +29,7 @@ jobs:
           WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
         run: |
           set -euo pipefail
-          curl --fail-with-body -sS -X POST "https://platform-api2.max.ru/subscriptions" \
+          curl --insecure --fail-with-body -sS -X POST "https://platform-api2.max.ru/subscriptions" \
             -H "Authorization: ${MAX_BOT_TOKEN}" \
             -H "Content-Type: application/json" \
             -d '{
