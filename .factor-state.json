@@ -88,9 +88,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791111020223,
+      "value": 1791112081972,
       "expiresAt": null,
-      "versionstamp": "bf47a910-dfd0-4549-a0cb-6fe71324bc07"
+      "versionstamp": "634db16e-92e5-429d-a7f7-affb6fb77eb6"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -951,6 +951,74 @@
       },
       "expiresAt": 1791283947182,
       "versionstamp": "06242b12-5cf8-4f9c-b398-f5ce050f6002"
+    },
+    "[\"factor\",\"published_v2\",\"728867f21aac8640633dbff3b7ba143c23aba59a0819311652b19d1d2cb00217\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "728867f21aac8640633dbff3b7ba143c23aba59a0819311652b19d1d2cb00217"
+      ],
+      "value": true,
+      "expiresAt": 1793704113744,
+      "versionstamp": "94697675-c238-489b-b72b-18c9417a9b07"
+    },
+    "[\"factor\",\"published\",\"766932d550e6ef9b454c99ca50e2ed6c484f5a7fa2cd6d0cc29d8809433602ad\"]": {
+      "key": [
+        "factor",
+        "published",
+        "766932d550e6ef9b454c99ca50e2ed6c484f5a7fa2cd6d0cc29d8809433602ad"
+      ],
+      "value": true,
+      "expiresAt": 1793704113744,
+      "versionstamp": "d4c5226e-682a-47bb-aeac-30196d34240f"
+    },
+    "[\"factor\",\"published_story_v3\",\"cdcd671a14754993534e9c000a6b595eb04565a3c4cba27041fa22f1b8c92aee\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "cdcd671a14754993534e9c000a6b595eb04565a3c4cba27041fa22f1b8c92aee"
+      ],
+      "value": true,
+      "expiresAt": 1793704113745,
+      "versionstamp": "b6de7f26-e85d-404b-8e88-6f57ed02dce4"
+    },
+    "[\"factor\",\"recent_title_v2\",1791112113746,\"cf3883f1d7456decebd5870935dfa42a0fe85b9c785bb77cd9872fe3fa7c92ad\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791112113746,
+        "cf3883f1d7456decebd5870935dfa42a0fe85b9c785bb77cd9872fe3fa7c92ad"
+      ],
+      "value": "Жители Кирова жалуются на автомобили, издающие звуки, напоминающие взрывы",
+      "expiresAt": 1793704113746,
+      "versionstamp": "8302ab9e-514f-4cbf-965b-869a99ff3d0d"
+    },
+    "[\"factor\",\"published_event_v4\",\"d474e9b9e6350629ac50746f3ceb702fd923a3c1c7a2d4998a76947064c50daf\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "d474e9b9e6350629ac50746f3ceb702fd923a3c1c7a2d4998a76947064c50daf"
+      ],
+      "value": {
+        "category": "АВТО",
+        "family": "accident",
+        "anchors": [
+          "жите",
+          "киро",
+          "жалу",
+          "авто",
+          "изда",
+          "звук",
+          "напо",
+          "взры"
+        ],
+        "title": "Жители Кирова жалуются на автомобили, издающие звуки, напоминающие взрывы",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMihwFBVV95cUxQcHdpM00tNGV1clpaeURjZVFSRmlhbHBrU1RINW5PYjA3Qm1qcExvVXoyMzg2SnZHemNKVXJGUXdoT0hWZ212NVVlWm8xaFQzbDU2dEtMVmZUNlc5a2Rsck1sNGdTXzJEY0xaSmhOWjA1TkVFMGVCcDFUNWE5emhxd29VWFpMdTA?oc=5\" target=\"_blank\"&gt;Жители Кирова жалуются на автомобили, издающие звуки, напоминающие взрывы&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;pravda.ru&lt;/font&gt; Горожане Кирова направили открытое письмо с требованием привлечь к ответственности владельцев автомобилей, которые создают громкий шум, напоминающий взрывы Горожане Кирова направили открытое письмо с требованием привлечь к ответственности владельцев автомобилей, которые создают громкий шум, напоминающий взрывы",
+        "published_at": 1791112113746,
+        "article_url": "https://www.pravda.ru/news/districts/2419899-kirov-loud-exhaust-cars-complaints/"
+      },
+      "expiresAt": 1791284913747,
+      "versionstamp": "5280e308-9d2e-476e-b732-bfa3ba2b0d89"
     }
   }
 }
