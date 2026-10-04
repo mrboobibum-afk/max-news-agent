@@ -57,8 +57,8 @@ const MAX_VIDEO_BYTES = Number(Deno.env.get("MAX_VIDEO_MB") ?? "60") * 1024 * 10
 const MAX_IMAGE_BYTES = Number(Deno.env.get("MAX_IMAGE_MB") ?? "15") * 1024 * 1024;
 const RSS_LIMIT_PER_FEED = 30;
 const MAX_RSS_ITEMS = 300;
-const SCORE_CANDIDATES = 75;
-const GEMINI_CANDIDATES = 15;
+const SCORE_CANDIDATES = 45;
+const GEMINI_CANDIDATES = 10;
 const MAX_HISTORY_CHECKED = 300;
 const MAX_POST_LENGTH = 3900;
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
@@ -2107,6 +2107,10 @@ function eventProfilesMatch(candidate, previous) {
 }
 
 async function getRecentPublishedEvents(limit = EVENT_RECENT_LIMIT) {
+    if (recentPublishedEventsCache !== null) {
+        return recentPublishedEventsCache.slice(0, limit);
+    }
+
     const db = await getKV();
     const events = [];
     for await (const entry of db.list({
@@ -2121,7 +2125,9 @@ async function getRecentPublishedEvents(limit = EVENT_RECENT_LIMIT) {
         }
         if (events.length >= limit) break;
     }
-    return events;
+
+    recentPublishedEventsCache = events;
+    return events.slice(0, limit);
 }
 
 async function isSamePublishedEvent(item, articleMedia = null) {
@@ -2289,9 +2295,26 @@ async function markPublished(item, articleUrl) {
     }
 }
 // ============================================================
+// PER-RUN HISTORY CACHE
+// Avoid rescanning the same Deno KV history for every RSS candidate.
+// The data is read once per pipeline run and reused by duplicate checks.
+// ============================================================
+let recentTitleEntriesCache = null;
+let recentPublishedEventsCache = null;
+
+function resetHistoryCaches() {
+    recentTitleEntriesCache = null;
+    recentPublishedEventsCache = null;
+}
+
+// ============================================================
 // RECENT TITLES
 // ============================================================
 async function getRecentTitleEntries(limit = MAX_HISTORY_CHECKED) {
+    if (recentTitleEntriesCache !== null) {
+        return recentTitleEntriesCache.slice(0, limit);
+    }
+
     const db = await getKV();
     const entries = [];
     for await (const entry of db.list({
@@ -2313,7 +2336,9 @@ async function getRecentTitleEntries(limit = MAX_HISTORY_CHECKED) {
             break;
         }
     }
-    return entries;
+
+    recentTitleEntriesCache = entries;
+    return entries.slice(0, limit);
 }
 
 async function getRecentTitles(limit = MAX_HISTORY_CHECKED) {
@@ -4094,6 +4119,7 @@ async function runPipeline(manual = false) {
     }
 }
 async function executePipeline(manual = false) {
+    resetHistoryCaches();
     const db = await getKV();
     const startedAt = Date.now();
     try {
