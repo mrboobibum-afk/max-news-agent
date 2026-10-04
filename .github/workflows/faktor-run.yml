@@ -1,0 +1,92 @@
+name: FAKTOR Auto v2
+
+on:
+  push:
+    paths:
+      - ".github/workflows/faktor-auto.yml"
+      - "agent.ts"
+  schedule:
+    - cron: "2-59/5 * * * *"
+      timezone: "UTC"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: faktor-pipeline-v2
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Run FAKTOR
+        timeout-minutes: 10
+        env:
+          GITHUB_ACTIONS: "true"
+          MAX_BOT_TOKEN: ${{ secrets.MAX_BOT_TOKEN }}
+          TARGET_CHAT_ID: ${{ secrets.TARGET_CHAT_ID }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
+          MAX_VIDEO_MB: "30"
+          MAX_IMAGE_MB: "15"
+        run: |
+          echo "FAKTOR: starting at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          deno run \
+            --v8-flags=--max-old-space-size=6144 \
+            --allow-net \
+            --allow-env \
+            --allow-read \
+            --allow-write \
+            agent.ts
+
+      - name: FAKTOR finished
+        if: always()
+        run: echo "FAKTOR: workflow reached state-save at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+      - name: Save FAKTOR state
+        if: always()
+        run: |
+          if git diff --quiet -- .factor-state.json; then
+            echo "No state changes."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Commit the local state first so rebase always starts clean.
+          git add .factor-state.json
+          git commit -m "chore: update faktor state"
+
+          # Rebase the state commit onto the latest main before pushing.
+          for attempt in 1 2 3; do
+            git fetch origin main
+
+            if git rebase origin/main; then
+              if git push origin HEAD:main; then
+                echo "FAKTOR state saved."
+                exit 0
+              fi
+            else
+              git rebase --abort || true
+            fi
+
+            echo "State push failed on attempt $attempt; retrying."
+          done
+
+          echo "Failed to persist FAKTOR state after 3 attempts."
+          exit 1
