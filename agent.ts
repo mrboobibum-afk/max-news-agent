@@ -2851,64 +2851,41 @@ function buildPost(item, story, sourceName, articleUrl) {
         : "🔵 <b>ФАКТОР • ГЛАВНОЕ</b>";
     const category = `${item.categoryEmoji} <b>${escapeHtml(item.category)}</b>`;
     const headlineText = stripHtml(truncate(story.headline || item.title, 260));
-    const rawShortText = stripHtml(truncate(story.short || item.description || item.title, 500));
-    // Do not print the headline twice when Gemini/RSS returns the same text
-    // as the short description.
-    const shortText = storySimilarity(rawShortText, headlineText) >= 0.72
-        ? ""
-        : rawShortText;
-    const mainItems = [];
-    for (const raw of story.main || []) {
-        const text = stripHtml(truncate(String(raw || ""), 350));
-        if (!text)
-            continue;
-        if (storySimilarity(text, headlineText) >= 0.72)
-            continue;
-        if (storySimilarity(text, shortText) >= 0.72)
-            continue;
-        if (mainItems.some((x) => storySimilarity(x, text) >= 0.80))
-            continue;
-        mainItems.push(text);
-        if (mainItems.length >= 3)
-            break;
-    }
-    const importantText = stripHtml(truncate(story.important || "", 400));
-    const uniqueImportant = importantText &&
-        storySimilarity(importantText, headlineText) < 0.72 &&
-        storySimilarity(importantText, shortText) < 0.72 &&
-        !mainItems.some((x) => storySimilarity(x, importantText) >= 0.72)
-        ? importantText
-        : "";
+    const rawShortText = stripHtml(
+        truncate(story.short || item.description || item.title, 500),
+    );
+
+    // Keep the feed compact. If the short sentence repeats the headline
+    // semantically, omit it instead of publishing the same fact twice.
+    const shortText =
+        storySimilarity(rawShortText, headlineText) >= 0.55
+            ? ""
+            : rawShortText;
+
     const time = new Intl.DateTimeFormat("ru-RU", {
         hour: "2-digit",
         minute: "2-digit",
         timeZone: "Europe/Moscow",
     }).format(new Date());
+
     const sourceLine = isLikelyArticleUrl(articleUrl)
         ? `🔗 <a href="${escapeHtml(articleUrl)}">${escapeHtml(sourceName)}</a>`
         : "";
+
     const parts = [
         header,
         "",
         category,
         "",
         `<b>${escapeHtml(headlineText)}</b>`,
+        ...(shortText ? ["", escapeHtml(shortText)] : []),
         "",
-        ...(shortText ? [escapeHtml(shortText)] : []),
+        `🕒 ${time}`,
     ];
-    if (mainItems.length > 0) {
-        parts.push("", "<b>ГЛАВНОЕ</b>");
-        for (const text of mainItems) {
-            parts.push(`• ${escapeHtml(text)}`);
-        }
-    }
-    if (uniqueImportant) {
-        parts.push("", "<b>ЧТО ВАЖНО</b>", escapeHtml(uniqueImportant));
-    }
-    parts.push("", `🕒 ${time}`);
-    if (sourceLine)
-        parts.push(sourceLine);
+
+    if (sourceLine) parts.push(sourceLine);
     parts.push("", "<i>ФАКТОР</i>");
+
     let result = parts.join("\n");
     if (result.length > MAX_POST_LENGTH) {
         result = result.slice(0, MAX_POST_LENGTH - 1).trimEnd() + "…";
@@ -2918,6 +2895,83 @@ function buildPost(item, story, sourceName, articleUrl) {
 // ============================================================
 // MEDIA
 // ============================================================
+async function validateImageRelevance(item, story, candidate, media) {
+    if (!GEMINI_API_KEY || !media) return true;
+    try {
+        let binary = "";
+        const bytes = media.bytes;
+        const chunkSize = 0x8000;
+        for (let i = 0; i < bytes.length; i += chunkSize) {
+            binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+        }
+        const base64 = btoa(binary);
+        const prompt = `
+Ты проверяешь фотографию для новостного канала.
+
+Новость:
+${item.title}
+
+Текст новости:
+${stripHtml(story?.short || item.description || "")}
+
+Заголовок статьи:
+${stripHtml(story?.headline || "")}
+
+Подпись/контекст изображения:
+${candidate.context || "нет"}
+
+Определи ТОЛЬКО визуальную релевантность.
+true = изображение явно связано с описываемым событием/объектом/людьми/местом новости.
+false = логотип, баннер, портрет автора, общая иллюстрация, архивная/сторонняя картинка, реклама, либо изображение явно относится к другой теме.
+Не пытайся установить юридическую или абсолютную достоверность фотографии.
+
+Верни ТОЛЬКО JSON: {"relevant":true,"reason":"коротко"}
+`;
+        const response = await fetch(
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" +
+                encodeURIComponent(GEMINI_API_KEY),
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [
+                            { text: prompt },
+                            {
+                                inline_data: {
+                                    mime_type: media.contentType || "image/jpeg",
+                                    data: base64,
+                                },
+                            },
+                        ],
+                    }],
+                    generationConfig: {
+                        temperature: 0,
+                        responseMimeType: "application/json",
+                    },
+                }),
+                signal: AbortSignal.timeout(20000),
+            },
+        );
+        if (!response.ok) return true;
+        const data = await response.json();
+        const text = data?.candidates?.[0]?.content?.parts
+            ?.map((p) => p.text ?? "")
+            .join("")
+            .trim();
+        const json = text ? extractJson(text) : null;
+        if (!json || typeof json.relevant !== "boolean") return true;
+        console.log("Image relevance:", candidate.url, json.relevant, json.reason || "");
+        return json.relevant;
+    } catch (error) {
+        console.error(
+            "Image relevance check:",
+            error instanceof Error ? error.message : String(error),
+        );
+        return true;
+    }
+}
+
 async function validateVideoRelevance(item, story, media, sourceContext = "") {
     // Video must be positively verified. A validator failure is fail-closed:
     // a wrong video is worse than publishing the story without media.
