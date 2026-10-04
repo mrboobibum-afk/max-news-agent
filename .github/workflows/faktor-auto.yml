@@ -32,7 +32,7 @@ jobs:
           deno-version: v2.x
 
       - name: Run FAKTOR
-        timeout-minutes: 10
+        timeout-minutes: 355
         env:
           GITHUB_ACTIONS: "true"
           MAX_BOT_TOKEN: ${{ secrets.MAX_BOT_TOKEN }}
@@ -42,15 +42,58 @@ jobs:
           MAX_VIDEO_MB: "30"
           MAX_IMAGE_MB: "15"
         run: |
-          echo "FAKTOR: starting at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          deno run \
-            --v8-flags=--max-old-space-size=6144 \
-            --allow-net \
-            --allow-env \
-            --allow-read \
-            --allow-write \
-            agent.ts
+          set -u
 
+          for iteration in $(seq 1 68); do
+            cycle_start=$(date +%s)
+            echo "FAKTOR: cycle ${iteration}/68 started at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+            set +e
+            deno run \
+              --v8-flags=--max-old-space-size=6144 \
+              --allow-net \
+              --allow-env \
+              --allow-read \
+              --allow-write \
+              agent.ts
+            agent_status=$?
+            set -e
+
+            echo "FAKTOR: cycle ${iteration}/68 finished with status ${agent_status}"
+
+            if ! git diff --quiet -- .factor-state.json; then
+              git config user.name "github-actions[bot]"
+              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+              git add .factor-state.json
+              git commit -m "chore: update faktor state [skip ci]"
+
+              saved=0
+              for attempt in 1 2 3; do
+                git fetch origin main
+                if git rebase origin/main; then
+                  if git push origin HEAD:main; then
+                    echo "FAKTOR: state saved after cycle ${iteration}."
+                    saved=1
+                    break
+                  fi
+                else
+                  git rebase --abort || true
+                fi
+                echo "FAKTOR: state push failed on attempt ${attempt}; retrying."
+              done
+
+              if [ "$saved" -ne 1 ]; then
+                echo "FAKTOR: failed to persist state after cycle ${iteration}."
+              fi
+            fi
+
+            cycle_elapsed=$(( $(date +%s) - cycle_start ))
+            sleep_for=$((300 - cycle_elapsed))
+            if [ "$sleep_for" -gt 0 ] && [ "$iteration" -lt 68 ]; then
+              echo "FAKTOR: sleeping ${sleep_for}s until next five-minute cycle."
+              sleep "$sleep_for"
+            fi
+          done
       - name: FAKTOR finished
         if: always()
         run: |
