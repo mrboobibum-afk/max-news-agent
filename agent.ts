@@ -4105,13 +4105,18 @@ async function executePipeline(manual = false) {
             "state",
             "last_urgent",
         ])).value ?? null;
+        // A persisted timestamp can become newer than the runner clock
+        // after a clock/timezone mismatch. A future timestamp must never
+        // freeze the news pipeline.
         const urgentAllowed = manual ||
             lastUrgent === null ||
+            Number(lastUrgent) > now ||
             now -
                 lastUrgent >=
                 URGENT_INTERVAL_MS;
         const regularAllowed = manual ||
             lastRegular === null ||
+            Number(lastRegular) > now ||
             now -
                 lastRegular >=
                 REGULAR_INTERVAL_MS;
