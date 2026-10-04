@@ -447,9 +447,9 @@
         "state",
         "last_regular"
       ],
-      "value": 1791107903267,
+      "value": 1791111136543,
       "expiresAt": null,
-      "versionstamp": "3555ea5f-08d9-45e8-a08f-f90f0663c53e"
+      "versionstamp": "1b044620-6cb1-41ab-a085-8af8661b322f"
     },
     "[\"factor\",\"published_v2\",\"31ad2257d965a02c7bc2056d6ce50a32a04684ea94f1aa4267a5445407e08019\"]": {
       "key": [
@@ -883,6 +883,74 @@
       },
       "expiresAt": 1791283841884,
       "versionstamp": "d1e7356a-adb7-4bb4-a418-c0d27bcb30e9"
+    },
+    "[\"factor\",\"published_v2\",\"47a02a85c0106259947d2031005967faa4d8a7b766ff6c345db535f62c17bb39\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "47a02a85c0106259947d2031005967faa4d8a7b766ff6c345db535f62c17bb39"
+      ],
+      "value": true,
+      "expiresAt": 1793703147178,
+      "versionstamp": "e0dbc251-5253-491f-8e27-7f68ff7e228f"
+    },
+    "[\"factor\",\"published\",\"a8e7dc62e2e7ee79bfbaf7768c5583fb5c415fbba448bec9d6925cde92dccd85\"]": {
+      "key": [
+        "factor",
+        "published",
+        "a8e7dc62e2e7ee79bfbaf7768c5583fb5c415fbba448bec9d6925cde92dccd85"
+      ],
+      "value": true,
+      "expiresAt": 1793703147179,
+      "versionstamp": "a9ea015b-28d8-401a-ada0-afce91c2fd4d"
+    },
+    "[\"factor\",\"published_story_v3\",\"d265ca24a58fe3d72e0383fb0615dd31e12038e95f28d019ad835bc6e2ae3002\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "d265ca24a58fe3d72e0383fb0615dd31e12038e95f28d019ad835bc6e2ae3002"
+      ],
+      "value": true,
+      "expiresAt": 1793703147180,
+      "versionstamp": "35a58232-0465-4e28-821d-8200c49a115d"
+    },
+    "[\"factor\",\"recent_title_v2\",1791111147181,\"4d534dfc6cb562e84772e34f33aacdba99f436b2cb820c23d3bf1b60af7f4646\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791111147181,
+        "4d534dfc6cb562e84772e34f33aacdba99f436b2cb820c23d3bf1b60af7f4646"
+      ],
+      "value": "Суд в Петербурге решает вопрос об аресте студента, обвиняемого в убийстве матери и брата",
+      "expiresAt": 1793703147181,
+      "versionstamp": "fb9b5312-81bf-4254-b377-e244e5ca01a1"
+    },
+    "[\"factor\",\"published_event_v4\",\"f25ac2394e3c2e3a394121b0e66209e2244cd38db25fbcaf5ca3b05a1850a1d0\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "f25ac2394e3c2e3a394121b0e66209e2244cd38db25fbcaf5ca3b05a1850a1d0"
+      ],
+      "value": {
+        "category": "ПРАВО",
+        "family": "crime",
+        "anchors": [
+          "пете",
+          "реша",
+          "вопр",
+          "арес",
+          "студ",
+          "убив",
+          "мать",
+          "брат"
+        ],
+        "title": "В Петербурге суд решает вопрос об аресте студента, убившего мать и брата",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMipAFBVV95cUxPbWh3d3IxQnpWZnRRX3BSc2RKeGdEbEd3S3p0bk1FcF80NDRfOHdhSzlXZnRaR2FTeDJ0SWUxQkwxNVgwcUJXbW1leklaUzlUZjRQQ3plNTFUdUp3Z21ZREFXOXl6bGxuWGllc1NEVjlVZHBDRFl2N295V3ExWXZtSnFEaTJ4NDNBSnZuTTh5VndaN1FVZ1E5R1hQYXBhX2thdnctRg?oc=5\" target=\"_blank\"&gt;В Петербурге суд решает вопрос об аресте студента, убившего мать и брата&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;78.ru&lt;/font&gt; В Петербурге суд рассматривает ходатайство об аресте 21-летнего студента, обвиняемого в жестоком убийстве матери и брата. В Петербурге суд рассматривает ходатайство об аресте 21-летнего подсудимого, обвиняемого в жестоком убийстве матери и брата. Трагедия произошла в квартире на Наличной ...",
+        "published_at": 1791111147182,
+        "article_url": "https://78.ru/news/2026-10-04/v-peterburge-sud-reshaet-vopros-ob-areste-studenta-ubivshego-mat-i-brata"
+      },
+      "expiresAt": 1791283947182,
+      "versionstamp": "06242b12-5cf8-4f9c-b398-f5ce050f6002"
     }
   }
 }
