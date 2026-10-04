@@ -1312,17 +1312,20 @@ function findVideoFromHtml(html, baseUrl) {
         if (candidates.some((x) => x.url === url)) return;
         candidates.push({ url, priority });
     };
-    // Prefer videos explicitly exposed by the article itself over generic
-    // social/player metadata. This still supports publisher CDNs.
+
+    // 1. Direct video elements.
     for (const match of html.matchAll(/<video[^>]+src=["']([^"']+)["'][^>]*>/gi)) {
-        add(match[1], 100);
+        add(match[1], 120);
     }
     for (const match of html.matchAll(/<source[^>]+src=["']([^"']+)["'][^>]*>/gi)) {
-        add(match[1], 90);
+        add(match[1], 115);
     }
-    for (const match of html.matchAll(/["'](?:contentUrl|videoUrl|video_url|file)["']\s*:\s*["']([^"']+)["']/gi)) {
-        add(match[1], 80);
+
+    // 2. Common player/config JSON fields.
+    for (const match of html.matchAll(/["'](?:contentUrl|videoUrl|video_url|file|src)["']\s*:\s*["']([^"']+)["']/gi)) {
+        add(match[1], 100);
     }
+
     const metaNames = [
         "og:video",
         "og:video:url",
@@ -1331,16 +1334,153 @@ function findVideoFromHtml(html, baseUrl) {
     ];
     for (const name of metaNames) {
         const value = findMeta(html, name);
-        if (value) add(value, 50);
+        if (value) add(value, 90);
     }
+
     const jsonLd = extractJsonLd(html);
     for (const data of jsonLd) {
         const urls = [];
         collectVideoUrls(data, urls);
-        for (const rawUrl of urls) add(rawUrl, 70);
+        for (const rawUrl of urls) add(rawUrl, 105);
     }
+
     candidates.sort((a, b) => b.priority - a.priority);
     return candidates[0]?.url ?? null;
+}
+
+function collectEmbeddedVideoPageUrls(html, baseUrl) {
+    const result = [];
+    const seen = new Set();
+
+    const isVideoHost = (url) => {
+        try {
+            const host = new URL(url).hostname.toLowerCase();
+            return (
+                host === "78.ru" ||
+                host.endsWith(".78.ru") ||
+                host.includes("vkvideo") ||
+                host === "vk.com" ||
+                host.endsWith(".vk.com") ||
+                host === "rutube.ru" ||
+                host.endsWith(".rutube.ru") ||
+                host === "youtube.com" ||
+                host.endsWith(".youtube.com") ||
+                host === "youtu.be" ||
+                host === "t.me" ||
+                host.endsWith(".t.me")
+            );
+        } catch {
+            return false;
+        }
+    };
+
+    const add = (rawUrl) => {
+        const url = absoluteUrl(normalizeMediaUrl(rawUrl), baseUrl);
+        if (!url || seen.has(url) || !isVideoHost(url)) return;
+        seen.add(url);
+        result.push(url);
+    };
+
+    // iframe/data-src is the important missing case for publishers such as
+    // 78.ru, where the visible player is embedded rather than exposed as a
+    // direct <video src="...mp4"> in the article HTML.
+    for (const match of html.matchAll(/<iframe\b[^>]*(?:src|data-src)=["']([^"']+)["'][^>]*>/gi)) {
+        add(match[1]);
+    }
+
+    // Some publishers put the player URL into ordinary links or JSON.
+    for (const match of html.matchAll(/(?:href|data-href|playerUrl|player_url)=["']([^"']+)["']/gi)) {
+        add(match[1]);
+    }
+
+    return result.slice(0, 8);
+}
+
+async function resolveVideoFromEmbeddedPage(url) {
+    try {
+        const response = await fetch(url, {
+            redirect: "follow",
+            headers: {
+                "User-Agent": USER_AGENT,
+                "Accept": "text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8",
+            },
+            signal: AbortSignal.timeout(12000),
+        });
+
+        if (!response.ok) return null;
+
+        const contentType = (response.headers.get("content-type") ?? "").toLowerCase();
+
+        // Occasionally the iframe itself redirects straight to a media file.
+        if (contentType.startsWith("video/") && isDirectVideoUrl(response.url || url)) {
+            return response.url || url;
+        }
+
+        if (!contentType.includes("text/html") &&
+            !contentType.includes("application/xhtml+xml") &&
+            !contentType.includes("application/json")) {
+            return null;
+        }
+
+        const html = await response.text();
+        if (html.length < 100) return null;
+
+        const direct = findVideoFromHtml(html, response.url || url);
+        if (direct) return direct;
+
+        // A nested player is common with VK/78.ru/Rutube wrappers.
+        const nested = collectEmbeddedVideoPageUrls(html, response.url || url);
+        for (const nestedUrl of nested.slice(0, 4)) {
+            if (nestedUrl === url) continue;
+            const resolved = await resolveVideoFromEmbeddedPage(nestedUrl);
+            if (resolved) return resolved;
+        }
+    } catch (error) {
+        console.warn(
+            "Embedded video resolver:",
+            error instanceof Error ? error.message : String(error),
+        );
+    }
+
+    return null;
+}
+
+function collectExternalVideoSourceUrls(html, baseUrl) {
+    const result = [];
+    const seen = new Set();
+
+    const add = (rawUrl) => {
+        const url = absoluteUrl(normalizeMediaUrl(rawUrl), baseUrl);
+        if (!url || seen.has(url)) return;
+
+        try {
+            const host = new URL(url).hostname.toLowerCase();
+            const supported =
+                host === "t.me" ||
+                host.endsWith(".t.me") ||
+                host === "vk.com" ||
+                host.endsWith(".vk.com") ||
+                host === "vkvideo.ru" ||
+                host.endsWith(".vkvideo.ru") ||
+                host === "rutube.ru" ||
+                host.endsWith(".rutube.ru") ||
+                host === "youtube.com" ||
+                host.endsWith(".youtube.com") ||
+                host === "youtu.be";
+            if (!supported) return;
+        } catch {
+            return;
+        }
+
+        seen.add(url);
+        result.push(url);
+    };
+
+    for (const match of html.matchAll(/<(?:a|iframe)\b[^>]*(?:href|src)=["']([^"']+)["'][^>]*>/gi)) {
+        add(match[1]);
+    }
+
+    return result.slice(0, 10);
 }
 
 function mediaUrlLooksGeneric(url) {
@@ -1447,7 +1587,21 @@ async function extractArticleMedia(item) {
     }
     const imageCandidates = findImageCandidatesFromHtml(html, finalUrl);
     const imageUrl = imageCandidates[0]?.url ?? null;
-    const videoUrl = findVideoFromHtml(html, finalUrl);
+
+    // Video branch is deliberately independent from image extraction:
+    // VIDEO -> external/user source -> IMAGE -> TEXT.
+    let videoUrl = findVideoFromHtml(html, finalUrl);
+
+    if (!videoUrl) {
+        const embeddedPlayers = collectEmbeddedVideoPageUrls(html, finalUrl);
+        for (const playerUrl of embeddedPlayers) {
+            videoUrl = await resolveVideoFromEmbeddedPage(playerUrl);
+            if (videoUrl) break;
+        }
+    }
+
+    const externalVideoSources = collectExternalVideoSourceUrls(html, finalUrl);
+
     const sourceName = findMeta(html, "og:site_name") || findMeta(html, "application-name");
     const pageDescription = findMeta(html, "og:description") || findMeta(html, "description");
     return {
@@ -1455,6 +1609,7 @@ async function extractArticleMedia(item) {
         imageUrl,
         imageCandidates,
         videoUrl,
+        externalVideoSources,
         sourceName,
         title: pageTitle || item.title,
         description: pageDescription,
@@ -2839,7 +2994,38 @@ async function findBestMedia(articleMedia, item, story, diagnostics = null) {
     }
 
     // ----------------------------------------------------------
-    // 2. IMAGE — article images first, generic OG image last.
+    // 2. EXTERNAL / USER VIDEO — links embedded by the publisher.
+    //    This catches eyewitness footage and videos hosted on public
+    //    Telegram, VK Video, Rutube or YouTube pages.
+    // ----------------------------------------------------------
+    const externalSources = Array.isArray(articleMedia.externalVideoSources)
+        ? articleMedia.externalVideoSources
+        : [];
+
+    if (diagnostics) diagnostics.external_video_candidates = externalSources.length;
+
+    for (const sourceUrl of externalSources.slice(0, 6)) {
+        if (diagnostics) diagnostics.external_video_checked++;
+        console.log("Trying external/user video source:", sourceUrl);
+
+        const resolvedUrl = await resolveVideoFromEmbeddedPage(sourceUrl);
+        if (!resolvedUrl) continue;
+
+        const video = await downloadMedia(resolvedUrl, "video");
+        if (!video) continue;
+
+        // Require the external source page to remain tied to the story.
+        // The source is accepted only when the publisher itself linked it;
+        // we do not blindly take arbitrary social media videos.
+        if (diagnostics) {
+            diagnostics.media_selected = "external_video";
+            diagnostics.selected_media_source = "external";
+        }
+        return video;
+    }
+
+    // ----------------------------------------------------------
+    // 3. IMAGE — article images first, generic OG image last.
     //    Relevance validation prevents a technically valid but wrong
     //    image (logo/illustration/unrelated archive photo) from being sent.
     // ----------------------------------------------------------
@@ -3071,6 +3257,8 @@ function createDiagnostics() {
         text_duplicate: 0,
 
         video_candidates: 0,
+        external_video_candidates: 0,
+        external_video_checked: 0,
         image_candidates: 0,
         media_checked: 0,
         media_selected: null,
