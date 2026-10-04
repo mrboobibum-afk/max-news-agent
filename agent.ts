@@ -1278,15 +1278,13 @@ async function loadArticlePage(articleUrl) {
 // VIDEO EXTRACTION
 // ============================================================
 function isDirectVideoUrl(url) {
-    const lower = url.toLowerCase();
-    if (lower.includes(".m3u8") ||
-        lower.includes(".mpd")) {
-        return false;
-    }
-    return (lower.includes(".mp4") ||
+    const lower = String(url || "").toLowerCase();
+    return lower.includes(".mp4") ||
         lower.includes(".mov") ||
         lower.includes(".webm") ||
-        lower.includes(".mkv"));
+        lower.includes(".mkv") ||
+        lower.includes(".m3u8") ||
+        lower.includes(".mpd");
 }
 function collectVideoUrls(value, result) {
     if (typeof value ===
@@ -1327,41 +1325,65 @@ function collectVideoUrls(value, result) {
 function findVideoFromHtml(html, baseUrl) {
     const candidates = [];
     const add = (rawUrl, priority = 0) => {
-        const url = absoluteUrl(normalizeMediaUrl(rawUrl), baseUrl);
+        const url = absoluteUrl(normalizeMediaUrl(String(rawUrl || "")), baseUrl);
         if (!url || !isDirectVideoUrl(url)) return;
+        if (isLikelyStockVideoSource(url)) return;
         if (candidates.some((x) => x.url === url)) return;
         candidates.push({ url, priority });
     };
 
-    // 1. Direct video elements.
-    for (const match of html.matchAll(/<video[^>]+src=["']([^"']+)["'][^>]*>/gi)) {
-        add(match[1], 120);
-    }
-    for (const match of html.matchAll(/<source[^>]+src=["']([^"']+)["'][^>]*>/gi)) {
-        add(match[1], 115);
+    // 1. Direct players, including lazy-loaded player attributes.
+    for (const match of html.matchAll(/<(?:video|source)\b[^>]*>/gi)) {
+        const block = match[0];
+        for (const attribute of [
+            "src",
+            "data-src",
+            "data-url",
+            "data-video",
+            "data-video-url",
+            "data-file",
+            "data-hls",
+            "data-m3u8",
+        ]) {
+            const value = block.match(new RegExp(
+                "\\\\b" + attribute + "=[\"']([^\"']+)[\"']",
+                "i",
+            ))?.[1];
+            if (value) add(value, attribute === "src" ? 140 : 135);
+        }
     }
 
-    // 2. Common player/config JSON fields.
-    for (const match of html.matchAll(/["'](?:contentUrl|videoUrl|video_url|file|src)["']\s*:\s*["']([^"']+)["']/gi)) {
-        add(match[1], 100);
+    // 2. Common player/config JSON fields. Capture HLS as well as MP4.
+    for (const match of html.matchAll(
+        /["'](?:contentUrl|videoUrl|video_url|file|src|stream|streamUrl|stream_url|hls|hlsUrl|hls_url|m3u8|manifest|playlist)["']\s*:\s*["']([^"']+)["']/gi,
+    )) {
+        add(match[1], 125);
     }
 
-    const metaNames = [
+    // 3. Common video metadata.
+    for (const name of [
         "og:video",
         "og:video:url",
         "og:video:secure_url",
         "twitter:player:stream",
-    ];
-    for (const name of metaNames) {
+    ]) {
         const value = findMeta(html, name);
-        if (value) add(value, 90);
+        if (value) add(value, 110);
     }
 
+    // 4. JSON-LD VideoObject / associatedMedia.
     const jsonLd = extractJsonLd(html);
     for (const data of jsonLd) {
         const urls = [];
         collectVideoUrls(data, urls);
-        for (const rawUrl of urls) add(rawUrl, 105);
+        for (const rawUrl of urls) add(rawUrl, 120);
+    }
+
+    // 5. Last-resort absolute media URLs embedded in player scripts.
+    for (const match of html.matchAll(
+        /https?:\\/\\/[^"'\\s<>]+?\.(?:m3u8|mp4|mov|webm|mkv)(?:\?[^"'\\s<>]*)?/gi,
+    )) {
+        add(match[0].replace(/\\\\\//g, "/"), 80);
     }
 
     candidates.sort((a, b) => b.priority - a.priority);
@@ -1834,6 +1856,63 @@ function extensionFromType(type, contentType, url) {
     }
     return "jpg";
 }
+async function downloadHlsVideo(url) {
+    let tempPath = "";
+    try {
+        if (!isHttpUrl(url) || isLikelyStockVideoSource(url)) return null;
+
+        const tempFile = await Deno.makeTempFile({ suffix: ".mp4" });
+        tempPath = tempFile;
+
+        // Many news players expose HLS only. ffmpeg is available on the
+        // GitHub-hosted Ubuntu runner and lets us turn the public stream into
+        // a normal MP4 that MAX can upload.
+        const command = new Deno.Command("ffmpeg", {
+            args: [
+                "-hide_banner",
+                "-loglevel", "error",
+                "-y",
+                "-user_agent", USER_AGENT,
+                "-i", url,
+                "-t", "90",
+                "-c", "copy",
+                "-movflags", "+faststart",
+                tempPath,
+            ],
+            stdout: "null",
+            stderr: "piped",
+        });
+
+        const result = await command.output();
+        if (!result.success) {
+            console.warn("HLS ffmpeg failed:", new TextDecoder().decode(result.stderr).slice(0, 1000));
+            return null;
+        }
+
+        const stat = await Deno.stat(tempPath);
+        if (!stat.isFile || !stat.size || stat.size > MAX_VIDEO_BYTES) {
+            console.warn("HLS output invalid or too large:", stat.size);
+            return null;
+        }
+
+        const bytes = await Deno.readFile(tempPath);
+        return {
+            type: "video",
+            bytes,
+            contentType: "video/mp4",
+            extension: "mp4",
+            sourceUrl: url,
+        };
+    } catch (error) {
+        console.error("HLS download:", error instanceof Error ? error.message : String(error));
+        return null;
+    } finally {
+        if (tempPath) {
+            try { await Deno.remove(tempPath); } catch {}
+        }
+    }
+}
+
 async function downloadMedia(url, type) {
     try {
         if (!isHttpUrl(url)) {
@@ -1843,6 +1922,11 @@ async function downloadMedia(url, type) {
             console.log("Rejected stock video source:", url);
             return null;
         }
+
+        if (type === "video" && /\.(?:m3u8|mpd)(?:[?#]|$)/i.test(url)) {
+            return await downloadHlsVideo(url);
+        }
+
         const response = await fetch(url, {
             redirect: "follow",
             headers: {
@@ -1859,9 +1943,14 @@ async function downloadMedia(url, type) {
             return null;
         }
         const contentType = (response.headers.get("content-type") ?? "").toLowerCase();
-        if (contentType.includes("mpegurl") ||
-            contentType.includes("dash") ||
-            contentType.includes("application/vnd.apple.mpegurl")) {
+        if (type === "video" &&
+            (contentType.includes("mpegurl") ||
+                contentType.includes("dash") ||
+                contentType.includes("application/vnd.apple.mpegurl"))) {
+            return await downloadHlsVideo(response.url || url);
+        }
+        if (type === "image" &&
+            (contentType.includes("mpegurl") || contentType.includes("dash"))) {
             return null;
         }
         const contentLength = Number(response.headers.get("content-length") ?? "0");
