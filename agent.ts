@@ -3784,6 +3784,8 @@ async function getState() {
     };
 }
 // ============================================================
+// VIDEO RELEVANCE + INDEPENDENT EVENT SEARCH ENABLED
+// ============================================================
 // MEDIA PROCESSING RETRY
 // ============================================================
 async function publishWithMediaRetry(text, mediaInfo) {
