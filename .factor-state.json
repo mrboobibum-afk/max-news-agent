@@ -88,9 +88,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791091684263,
+      "value": 1791111020223,
       "expiresAt": null,
-      "versionstamp": "8769466f-ad56-4736-bcea-e7f8c0b8f590"
+      "versionstamp": "bf47a910-dfd0-4549-a0cb-6fe71324bc07"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -818,6 +818,71 @@
       },
       "expiresAt": 1791280716857,
       "versionstamp": "e69ab3d9-575d-482a-bea6-0a3cd88db131"
+    },
+    "[\"factor\",\"published_v2\",\"d3ede51f4d84bb829f825b5b77295f17ceaefa291b5cda6eb82ee097c4fab17e\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "d3ede51f4d84bb829f825b5b77295f17ceaefa291b5cda6eb82ee097c4fab17e"
+      ],
+      "value": true,
+      "expiresAt": 1793703041880,
+      "versionstamp": "330cff2b-a582-4bd4-bbc4-a6417f286e49"
+    },
+    "[\"factor\",\"published\",\"6c441b6f04ea6b7a530a607994b868aa1cb1f8476fbe9ca363591b0dc771ad1f\"]": {
+      "key": [
+        "factor",
+        "published",
+        "6c441b6f04ea6b7a530a607994b868aa1cb1f8476fbe9ca363591b0dc771ad1f"
+      ],
+      "value": true,
+      "expiresAt": 1793703041881,
+      "versionstamp": "def5efe4-8761-43b6-902e-e19cecfe662c"
+    },
+    "[\"factor\",\"published_story_v3\",\"b00234b833efd26520b96cf4654ee28178f548d4cbdf52353f79622d399fae94\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "b00234b833efd26520b96cf4654ee28178f548d4cbdf52353f79622d399fae94"
+      ],
+      "value": true,
+      "expiresAt": 1793703041882,
+      "versionstamp": "af98e468-9e54-4031-aa2d-ef2b90fe08fd"
+    },
+    "[\"factor\",\"recent_title_v2\",1791111041883,\"ad4a975e425bdc31b17b282412858039cdc461f1a3032f673dc6f234a52d8a62\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791111041883,
+        "ad4a975e425bdc31b17b282412858039cdc461f1a3032f673dc6f234a52d8a62"
+      ],
+      "value": "Огнеборцы тушили пожар в амурском селе — АМУР.Инфо",
+      "expiresAt": 1793703041883,
+      "versionstamp": "94144f71-f32c-4f8e-93dc-056f2ea9efe8"
+    },
+    "[\"factor\",\"published_event_v4\",\"55735336886aa367f2ba40063fce98e65dd99a2a8cb7e3f5d087bfa913de123f\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "55735336886aa367f2ba40063fce98e65dd99a2a8cb7e3f5d087bfa913de123f"
+      ],
+      "value": {
+        "category": "ПРОИСШЕСТВИЯ",
+        "family": "fire",
+        "anchors": [
+          "огне",
+          "туши",
+          "амур",
+          "селе",
+          "инфо"
+        ],
+        "title": "Огнеборцы тушили пожар в амурском селе — АМУР.Инфо",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiekFVX3lxTE9uRFV2TldmN1dkcS1Zc3U3SldDZVYzUFR3SjNVUVZ6ODJSS19jaHpPSnRYRm1id29UaUJTc0dKcWxDYnVDN1A4aUpBSktxYUNKZXRiNVh2ZGhkajVQakN4NkpBUEhGTTN3SjZreklTRktPQVRlbHNXdUZB?oc=5\" target=\"_blank\"&gt;Огнеборцы тушили пожар в амурском селе&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;amur.info&lt;/font&gt; Огнеборцы тушили пожар в амурском селе | Cвежие новости Благовещенска, Амурской области, Дальнего Востока и России Огнеборцы тушили пожар в амурском селе | Cвежие новости Благовещенска, Амурской области, Дальнего Востока и России",
+        "published_at": 1791111041884,
+        "article_url": "https://amur.info/2026/10/04/pozharnye-tushili-pozhar-v-amurskom-sele/"
+      },
+      "expiresAt": 1791283841884,
+      "versionstamp": "d1e7356a-adb7-4bb4-a418-c0d27bcb30e9"
     }
   }
 }
