@@ -447,9 +447,9 @@
         "state",
         "last_regular"
       ],
-      "value": 1791128979983,
+      "value": 1791132247098,
       "expiresAt": null,
-      "versionstamp": "7447cddd-8ccb-4341-ae73-23d106f52b51"
+      "versionstamp": "a4528396-705d-4bed-8e9d-4f26daec50f1"
     },
     "[\"factor\",\"published_v2\",\"31ad2257d965a02c7bc2056d6ce50a32a04684ea94f1aa4267a5445407e08019\"]": {
       "key": [
@@ -1451,87 +1451,100 @@
       "value": {
         "ok": true,
         "selected": 1,
-        "urgent": true,
+        "urgent": false,
         "manual": false,
-        "score": 48,
+        "score": 40,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
           "scored": 75,
           "accepted": 1,
           "short_title": 0,
-          "urgent_interval": 0,
+          "urgent_interval": 22,
           "regular_interval": 0,
           "duplicate_before_article": 0,
-          "event_duplicate_before_article": 1,
+          "event_duplicate_before_article": 0,
           "bad_url": 0,
           "article_title_mismatch": 0,
           "duplicate_after_article": 0,
           "event_duplicate_after_article": 0,
-          "gemini_fallback": 0,
+          "gemini_fallback": 1,
           "gemini_title_mismatch": 0,
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
           "text_duplicate": 0,
-          "video_candidates": 0,
-          "video_checked": 0,
-          "video_rejected": 0,
-          "video_validation": null,
-          "external_video_candidates": 2,
-          "external_video_checked": 2,
+          "video_candidates": 1,
+          "video_checked": 2,
+          "video_rejected": 2,
+          "video_validation": "not_relevant",
+          "external_video_candidates": 3,
+          "external_video_checked": 3,
           "search_video_queries": 7,
           "search_video_candidates": 1,
           "search_video_checked": 0,
           "image_candidates": 1,
           "media_checked": 1,
-          "media_selected": null,
-          "selected_media_source": null,
-          "media_rejected": "no_relevant_media",
+          "media_selected": "image",
+          "selected_media_source": "meta",
+          "media_rejected": "external_video_not_relevant",
           "top_candidates": [],
-          "ai_provider": "gemini"
+          "ai_provider": "none"
         },
         "item": {
-          "title": "Лесной пожар в Священной долине инков унёс жизнь человека - НИА «Экология",
-          "source": "НИА «Экология»",
-          "article_url": "https://nia.eco/2026/10/04/143031/",
-          "category": "ПРОИСШЕСТВИЯ"
+          "title": "Производство лекарств в Татарстане упало почти на треть - chelny-izvest.ru",
+          "source": "Новости г. Набережные Челны. «Челнинские известия», официальный сайт газеты.",
+          "article_url": "https://chelny-izvest.ru/news/facts/proizvodstvo-lekarstv-v-tatarstane-upalo-pocti-na-tret",
+          "category": "ПРОМЫШЛЕННОСТЬ"
         },
-        "media": null,
+        "media": {
+          "type": "image",
+          "source_url": "https://chelny-izvest.ru/images/open_graph/news/p/proizvodstvo-lekarstv-v-tatarstane-upalo-pocti-na-tret.png"
+        },
         "publication": {
           "message": {
             "recipient": {
               "chat_type": "channel",
               "chat_id": -78887448255074
             },
-            "timestamp": 1791132106321,
+            "timestamp": 1791132281176,
             "body": {
-              "mid": "mid.ffffb84095ab659e01a107cafe511d0d",
-              "seq": 117383633719860500,
-              "text": "🔴 ФАКТОР • ОПЕРАТИВНО\n\n🚨 ПРОИСШЕСТВИЯ\n\nЛесной пожар в Священной долине инков унёс жизнь человека\n\nВ Священной долине инков произошёл лесной пожар, в результате которого погиб человек. Огонь приблизился к жилым домам и автозаправке в Перу. Региональные власти запросили авиационную помощь для борьбы с огнём.\n\n🕒 19:41\n🔗 НИА «Экология»\n\nФАКТОР",
+              "mid": "mid.ffffb84095ab659e01a107cda95811ad",
+              "seq": 117383645179154860,
+              "text": "🔵 ФАКТОР • ГЛАВНОЕ\n\n🏭 ПРОМЫШЛЕННОСТЬ\n\nПроизводство лекарств в Татарстане упало почти на треть\n\nПри этом увеличилось производство мебели\n\n🕒 19:44\n🔗 Новости г. Набережные Челны. «Челнинские известия», официальный сайт газеты.\n\nФАКТОР",
+              "attachments": [
+                {
+                  "payload": {
+                    "photo_id": 44424493128,
+                    "token": "FqGAp9+QubosSWZF8iA48tRQVnl+2UWEe0Z6ABf9r323HvUj3riOZsGFOJV9CrGMf/WTduz+kvseiDR+Et2prlVH99pJIbrx+zPt5o973j4=",
+                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr805w_55knDAtWg8zvz1YvZehjfMfVvfoBKYlDsISiwlA"
+                  },
+                  "type": "image"
+                }
+              ],
               "markup": [
                 {
                   "from": 3,
-                  "length": 19,
+                  "length": 16,
                   "type": "strong"
                 },
                 {
-                  "from": 27,
-                  "length": 12,
-                  "type": "strong"
-                },
-                {
-                  "from": 41,
-                  "length": 57,
-                  "type": "strong"
-                },
-                {
-                  "url": "https://nia.eco/2026/10/04/143031/",
-                  "from": 323,
+                  "from": 24,
                   "length": 14,
+                  "type": "strong"
+                },
+                {
+                  "from": 40,
+                  "length": 55,
+                  "type": "strong"
+                },
+                {
+                  "url": "https://chelny-izvest.ru/news/facts/proizvodstvo-lekarstv-v-tatarstane-upalo-pocti-na-tret",
+                  "from": 151,
+                  "length": 76,
                   "type": "link"
                 },
                 {
-                  "from": 339,
+                  "from": 229,
                   "length": 6,
                   "type": "emphasized"
                 }
@@ -1540,13 +1553,13 @@
             "stat": {
               "views": 1
             },
-            "url": "https://max.ru/channel_faktormedia/AaEHyv5RHQ0"
+            "url": "https://max.ru/channel_faktormedia/AaEHzalYEa0"
           }
         },
-        "duration_ms": 25516
+        "duration_ms": 35142
       },
       "expiresAt": null,
-      "versionstamp": "ee28cb80-b5eb-44a1-8b65-4e99dd1f4c64"
+      "versionstamp": "1bbac959-c289-4120-a595-83483631a5bb"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -1699,6 +1712,82 @@
       },
       "expiresAt": 1791304906981,
       "versionstamp": "258b1c4f-d755-4baa-b16a-777ab63c4063"
+    },
+    "[\"factor\",\"published_v2\",\"b585c6bd6ed54bb3a5bb2c6f1517a3caa2c0eaa0ccffffb2745db14bd772596c\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "b585c6bd6ed54bb3a5bb2c6f1517a3caa2c0eaa0ccffffb2745db14bd772596c"
+      ],
+      "value": true,
+      "expiresAt": 1793724281323,
+      "versionstamp": "026a739e-30dc-4e7b-8ec5-8d58a69e5e24"
+    },
+    "[\"factor\",\"published\",\"bdcf001412c2151e825808f1c7c14c0d1f131455935c5f66517feba52babcbe8\"]": {
+      "key": [
+        "factor",
+        "published",
+        "bdcf001412c2151e825808f1c7c14c0d1f131455935c5f66517feba52babcbe8"
+      ],
+      "value": true,
+      "expiresAt": 1793724281324,
+      "versionstamp": "b9515a9c-4ccf-489f-8846-826e43b53f6e"
+    },
+    "[\"factor\",\"published_story_v3\",\"c0bb0e126c730d264eb1ba257f729f47a7f6e81ec679711f3b6c373698f5c336\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "c0bb0e126c730d264eb1ba257f729f47a7f6e81ec679711f3b6c373698f5c336"
+      ],
+      "value": true,
+      "expiresAt": 1793724281325,
+      "versionstamp": "9ce18029-b12a-448f-bed1-8d798b7a9d27"
+    },
+    "[\"factor\",\"recent_title_v2\",1791132281326,\"63332fe02eb728007fc6d74339fa8511a374712e61c6c7a27b8b06218bc58149\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791132281326,
+        "63332fe02eb728007fc6d74339fa8511a374712e61c6c7a27b8b06218bc58149"
+      ],
+      "value": "Производство лекарств в Татарстане упало почти на треть",
+      "expiresAt": 1793724281326,
+      "versionstamp": "a0c6dfb4-7c43-488b-80aa-c3d4f177c681"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"63332fe02eb728007fc6d74339fa8511a374712e61c6c7a27b8b06218bc58149\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "63332fe02eb728007fc6d74339fa8511a374712e61c6c7a27b8b06218bc58149"
+      ],
+      "value": "Производство лекарств в Татарстане упало почти на треть",
+      "expiresAt": 1793724281327,
+      "versionstamp": "a6f358ab-37e0-497e-a739-b830e5b8cd19"
+    },
+    "[\"factor\",\"published_event_v4\",\"980b1d31adf4b791a55b4de55b029f58d77b524dc5fe586dc10b09f2d802e655\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "980b1d31adf4b791a55b4de55b029f58d77b524dc5fe586dc10b09f2d802e655"
+      ],
+      "value": {
+        "category": "ПРОМЫШЛЕННОСТЬ",
+        "family": "промышленность",
+        "anchors": [
+          "прои",
+          "лека",
+          "тата",
+          "упал",
+          "почт",
+          "трет"
+        ],
+        "title": "Производство лекарств в Татарстане упало почти на треть",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMilAFBVV95cUxORjdXYUhBclBWMkwtdV9HM3A4akxOTjZGNDZIVzVtWDAyUmJEcFZMZDZCSGdQU3lUTVJvVkJfbFZJenFGY0xrSy1mVXBydWNSZm9KdmhvamlJYnRaMFViN1JEQVBrS0h2Q0FianVWelRDNFBQc0xDdEJXU0l5a1ZBOGpzR1N0MzNMZDhUUVdiMTVURDlq?oc=5\" target=\"_blank\"&gt;Производство лекарств в Татарстане упало почти на треть&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;chelny-izvest.ru&lt;/font&gt; При этом увеличилось производство мебели При этом увеличилось производство мебели",
+        "published_at": 1791132281328,
+        "article_url": "https://chelny-izvest.ru/news/facts/proizvodstvo-lekarstv-v-tatarstane-upalo-pocti-na-tret"
+      },
+      "expiresAt": 1791305081328,
+      "versionstamp": "e7d4143d-33de-4cdf-b9b0-447d010d65ce"
     }
   }
 }
