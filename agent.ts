@@ -3150,6 +3150,170 @@ false, если это другое событие, случайная/стор�
 }
 
 
+async function searchIndependentVideo(item, story, articleMedia, diagnostics = null) {
+    const headline = stripHtml(
+        story?.headline ||
+        item?.title ||
+        "",
+    ).replace(/\s+-\s+[^|]+$/i, "").trim();
+
+    if (!headline) return null;
+
+    const compactTerms = [...storyTokens(headline)]
+        .slice(0, 9)
+        .join(" ");
+
+    const queries = [
+        `"${truncate(headline, 140)}" видео`,
+        `${truncate(compactTerms || headline, 120)} видео кадры очевидцы`,
+        `${truncate(compactTerms || headline, 100)} видео (site:t.me OR site:rutube.ru OR site:vk.com OR site:youtube.com)`,
+    ];
+
+    const seenArticles = new Set();
+    const currentArticleUrl = normalizeUrl(articleMedia?.articleUrl || "");
+
+    for (const query of queries) {
+        if (diagnostics) diagnostics.search_video_queries++;
+
+        const rssUrl =
+            "https://news.google.com/rss/search?q=" +
+            encodeURIComponent(query) +
+            "&hl=ru&gl=RU&ceid=RU:ru";
+
+        try {
+            const response = await fetch(rssUrl, {
+                headers: {
+                    "User-Agent": USER_AGENT,
+                },
+                signal: AbortSignal.timeout(15000),
+            });
+
+            if (!response.ok) continue;
+
+            const xml = await response.text();
+            const results = parseRSS(xml, {
+                category: item.category || "ВИДЕО",
+                emoji: item.categoryEmoji || "🎥",
+                url: rssUrl,
+            });
+
+            for (const result of results.slice(0, 6)) {
+                const resolvedArticleUrl = await resolveArticleUrl(result);
+                const normalizedResultUrl = normalizeUrl(resolvedArticleUrl);
+
+                if (
+                    !isLikelyArticleUrl(resolvedArticleUrl) ||
+                    !normalizedResultUrl ||
+                    normalizedResultUrl === currentArticleUrl ||
+                    seenArticles.has(normalizedResultUrl)
+                ) {
+                    continue;
+                }
+
+                seenArticles.add(normalizedResultUrl);
+                if (diagnostics) diagnostics.search_video_candidates++;
+
+                const page = await loadArticlePage(resolvedArticleUrl);
+                if (!page) continue;
+
+                const pageTitle = extractPageTitle(page.html);
+                if (!pageTitle) continue;
+
+                // Search results must themselves be about the same story.
+                const titleSimilarity = storySimilarity(headline, pageTitle);
+                if (
+                    titleSimilarity < 0.18 &&
+                    !articleTitleMatches(headline, pageTitle) &&
+                    !articleTitleMatches(result.title, pageTitle)
+                ) {
+                    continue;
+                }
+
+                let videoUrls = [];
+                const directVideo = findVideoFromHtml(page.html, page.finalUrl);
+                if (directVideo) videoUrls.push(directVideo);
+
+                if (!videoUrls.length) {
+                    const embeddedPlayers = collectEmbeddedVideoPageUrls(
+                        page.html,
+                        page.finalUrl,
+                    );
+
+                    for (const playerUrl of embeddedPlayers.slice(0, 4)) {
+                        const resolvedVideoUrl =
+                            await resolveVideoFromEmbeddedPage(playerUrl);
+                        if (resolvedVideoUrl) {
+                            videoUrls.push(resolvedVideoUrl);
+                            break;
+                        }
+                    }
+                }
+
+                // Also inspect publisher-linked social/user footage.
+                const externalSources =
+                    collectExternalVideoSourceUrls(
+                        page.html,
+                        page.finalUrl,
+                    );
+
+                videoUrls.push(...externalSources.slice(0, 4));
+
+                const uniqueVideoUrls = [
+                    ...new Set(videoUrls),
+                ].slice(0, 5);
+
+                for (const videoUrl of uniqueVideoUrls) {
+                    if (diagnostics) diagnostics.search_video_checked++;
+
+                    let resolvedVideoUrl = videoUrl;
+                    if (!isDirectVideoUrl(resolvedVideoUrl)) {
+                        resolvedVideoUrl =
+                            await resolveVideoFromEmbeddedPage(resolvedVideoUrl);
+                    }
+
+                    if (!resolvedVideoUrl) continue;
+
+                    const video =
+                        await downloadMedia(resolvedVideoUrl, "video");
+                    if (!video) continue;
+
+                    const relevant =
+                        await validateVideoRelevance(
+                            item,
+                            story,
+                            video,
+                            pageTitle,
+                        );
+
+                    if (!relevant) continue;
+
+                    if (diagnostics) {
+                        diagnostics.media_selected = "searched_video";
+                        diagnostics.selected_media_source = "search";
+                        diagnostics.video_validation = "relevant";
+                    }
+
+                    console.log(
+                        "Independent video search selected:",
+                        video.sourceUrl,
+                        "<=",
+                        pageTitle,
+                    );
+
+                    return video;
+                }
+            }
+        } catch (error) {
+            console.error(
+                "Independent video search:",
+                error instanceof Error ? error.message : String(error),
+            );
+        }
+    }
+
+    return null;
+}
+
 async function findBestMedia(articleMedia, item, story, diagnostics = null) {
     // ----------------------------------------------------------
     // 1. VIDEO — only publisher/article video, never stock media.
@@ -3243,7 +3407,23 @@ async function findBestMedia(articleMedia, item, story, diagnostics = null) {
     }
 
     // ----------------------------------------------------------
-    // 3. IMAGE — article images first, generic OG image last.
+    // 3. INDEPENDENT VIDEO SEARCH — search fresh public sources for
+    //    footage of the same event when the article itself has no
+    //    usable/relevant video.
+    // ----------------------------------------------------------
+    const searchedVideo = await searchIndependentVideo(
+        item,
+        story,
+        articleMedia,
+        diagnostics,
+    );
+
+    if (searchedVideo) {
+        return searchedVideo;
+    }
+
+    // ----------------------------------------------------------
+    // 4. IMAGE — article images first, generic OG image last.
     //    Relevance validation prevents a technically valid but wrong
     //    image (logo/illustration/unrelated archive photo) from being sent.
     // ----------------------------------------------------------
@@ -3480,6 +3660,9 @@ function createDiagnostics() {
         video_validation: null,
         external_video_candidates: 0,
         external_video_checked: 0,
+        search_video_queries: 0,
+        search_video_candidates: 0,
+        search_video_checked: 0,
         image_candidates: 0,
         media_checked: 0,
         media_selected: null,
