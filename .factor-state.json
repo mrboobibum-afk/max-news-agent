@@ -88,9 +88,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 0,
+      "value": 1791112431341,
       "expiresAt": null,
-      "versionstamp": "manual-test-reset"
+      "versionstamp": "e2c321ec-3ab1-48dc-8ead-d849b6d77dad"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -1019,6 +1019,74 @@
       },
       "expiresAt": 1791284913747,
       "versionstamp": "5280e308-9d2e-476e-b732-bfa3ba2b0d89"
+    },
+    "[\"factor\",\"published_v2\",\"bc00a52091327e1bfbe0d542474e513f313e820d3ae88e6c07d18f1ece0c4f4d\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "bc00a52091327e1bfbe0d542474e513f313e820d3ae88e6c07d18f1ece0c4f4d"
+      ],
+      "value": true,
+      "expiresAt": 1793704542705,
+      "versionstamp": "e2c8bfce-3bb9-496b-961f-95012066e22c"
+    },
+    "[\"factor\",\"published\",\"087ae1b14acf5641cf1fd66aeffdc6699718a46d3d5d4857c4d0a4c07d2310bd\"]": {
+      "key": [
+        "factor",
+        "published",
+        "087ae1b14acf5641cf1fd66aeffdc6699718a46d3d5d4857c4d0a4c07d2310bd"
+      ],
+      "value": true,
+      "expiresAt": 1793704542706,
+      "versionstamp": "e19d3e71-c39a-4431-b56e-38d35a4099bc"
+    },
+    "[\"factor\",\"published_story_v3\",\"1b9dc156290df35454d2cee094614b72f621fe991526b4d8008a4a073d040c36\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "1b9dc156290df35454d2cee094614b72f621fe991526b4d8008a4a073d040c36"
+      ],
+      "value": true,
+      "expiresAt": 1793704542706,
+      "versionstamp": "09742f80-f595-4412-b581-a0e81792c307"
+    },
+    "[\"factor\",\"recent_title_v2\",1791112542707,\"77337e376022332fb71f70975dd01dc1a77fcb949ed93f46c959f0b05f1d50dc\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791112542707,
+        "77337e376022332fb71f70975dd01dc1a77fcb949ed93f46c959f0b05f1d50dc"
+      ],
+      "value": "16-летняя девушка погибла в ДТП в Беляевском районе",
+      "expiresAt": 1793704542707,
+      "versionstamp": "66a45d76-2696-4e7a-a2a3-b06f0598bc9b"
+    },
+    "[\"factor\",\"published_event_v4\",\"9a40c66ac3b4e562c7e2b342a9e7ca30234e3d31a0c30b9edbc26a663ddaa058\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "9a40c66ac3b4e562c7e2b342a9e7ca30234e3d31a0c30b9edbc26a663ddaa058"
+      ],
+      "value": {
+        "category": "ПРОИСШЕСТВИЯ",
+        "family": "accident",
+        "anchors": [
+          "летн",
+          "деву",
+          "поги",
+          "беля",
+          "райо",
+          "орен",
+          "обла",
+          "риа5"
+        ],
+        "title": "16-летняя девушка погибла в ДТП в Беляевском районе — Новости Оренбурга и Оренбургской области на РИА56",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiigFBVV95cUxPS3kwX3F2MnM0bTRiMlY3aU1WeExxaWpRNVJIbUJrTzZMNVp2a0ZtSnpjWjFudm1FcmVyMFQ4M3dyd1Z3T0NmaXFNUThDUjVKTk1NSXlyQ1dHYkVQaEdXcTV0dlpNRzJHcWVFOC1KWVdXM2tObHM0Q2ZnYVY5M1dVMVh2UVl2czlSX2c?oc=5\" target=\"_blank\"&gt;16-летняя девушка погибла в ДТП в Беляевском районе&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;RIA56&lt;/font&gt; В Беляевском районе в ДТП погибла 16-летняя девушка.",
+        "published_at": 1791112542707,
+        "article_url": "https://ria56.ru/posts/16-letnyaya-devushka-pogibla-v-dtp-v-belyaevskom-rajone.htm"
+      },
+      "expiresAt": 1791285342707,
+      "versionstamp": "e3ba942b-01ae-4ffd-85ec-74da5724517d"
     }
   }
 }
