@@ -87,7 +87,7 @@
     }
 
     function openBot(payload){
-      const url = "https://max.ru/" + BOT + "?startapp=" + encodeURIComponent(payload);
+      const url = "https://max.ru/" + BOT + "?start=" + encodeURIComponent(payload);
       if (window.WebApp && typeof window.WebApp.openMaxLink === "function") {
         window.WebApp.openMaxLink(url);
       } else {
