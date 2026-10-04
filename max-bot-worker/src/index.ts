@@ -266,8 +266,37 @@ async function validateMiniAppData(
       return null;
     }
 
+    /*
+      MAX Bridge normally provides initData directly.
+      Be tolerant of the full URL-fragment form as well:
+      #WebAppData=...
+    */
+    if (/^https?:\/\//i.test(raw)) {
+      try {
+        const parsedUrl = new URL(raw);
+        raw = parsedUrl.hash.replace(/^#/, "");
+      } catch {
+        return null;
+      }
+    }
+
     if (raw.startsWith("#")) {
       raw = raw.slice(1);
+    }
+
+    if (raw.startsWith("WebAppData=")) {
+      try {
+        const outer = new URLSearchParams(raw);
+        const appData = outer.get("WebAppData");
+
+        if (!appData) {
+          return null;
+        }
+
+        raw = appData;
+      } catch {
+        return null;
+      }
     }
 
     const parts = raw.split("&");
