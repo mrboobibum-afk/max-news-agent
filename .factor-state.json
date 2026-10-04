@@ -447,9 +447,9 @@
         "state",
         "last_regular"
       ],
-      "value": 1791092447643,
+      "value": 1791107903267,
       "expiresAt": null,
-      "versionstamp": "82c36430-abb6-4245-b920-57d4f8fa440c"
+      "versionstamp": "3555ea5f-08d9-45e8-a08f-f90f0663c53e"
     },
     "[\"factor\",\"published_v2\",\"31ad2257d965a02c7bc2056d6ce50a32a04684ea94f1aa4267a5445407e08019\"]": {
       "key": [
@@ -724,6 +724,100 @@
       },
       "expiresAt": 1791265256704,
       "versionstamp": "91e759ce-0cd1-4620-aaf8-9aadad4d186b"
+    },
+    "[\"factor\",\"published_v2\",\"7eec436c4137be5b633850e6ebe6bce95ce3f7aa9e35e3920197e9a85ca62f89\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "7eec436c4137be5b633850e6ebe6bce95ce3f7aa9e35e3920197e9a85ca62f89"
+      ],
+      "value": true,
+      "expiresAt": 1793699916854,
+      "versionstamp": "16e172d4-06bf-4355-a3d4-064e49b1b411"
+    },
+    "[\"factor\",\"published\",\"dfdfc4f094aea620443bc684caa886d815f367a8754fbc6561ec44e8b5af8faa\"]": {
+      "key": [
+        "factor",
+        "published",
+        "dfdfc4f094aea620443bc684caa886d815f367a8754fbc6561ec44e8b5af8faa"
+      ],
+      "value": true,
+      "expiresAt": 1793699916855,
+      "versionstamp": "5baa0c50-0c3a-4ffd-9cb9-d74c390a7ace"
+    },
+    "[\"factor\",\"published_story_v3\",\"a10ed929f37a9244ea5ba291b683d39e47756dc787c031a2270863d7aa99df90\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "a10ed929f37a9244ea5ba291b683d39e47756dc787c031a2270863d7aa99df90"
+      ],
+      "value": true,
+      "expiresAt": 1793699916855,
+      "versionstamp": "a79ab675-5dbe-4a58-b139-f975af782781"
+    },
+    "[\"factor\",\"recent_title_v2\",1791107916856,\"a3c9ddbf731312bca943b654fe689fbd032fcbc677c1e2b19d0840a101a553b9\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791107916856,
+        "a3c9ddbf731312bca943b654fe689fbd032fcbc677c1e2b19d0840a101a553b9"
+      ],
+      "value": "В Архангельской области отремонтируют участок трассы Прилуки — Кулой | Национальные проекты РФ",
+      "expiresAt": 1793699916856,
+      "versionstamp": "79675feb-8b88-4a51-b2b2-7d8b89c87114"
+    },
+    "[\"factor\",\"published_event_v4\",\"7e88f283cc656dbc0c8c3f3c7e4ad024fdbe4eb00ae8e7398ddcbaf856ca5d8e\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "7e88f283cc656dbc0c8c3f3c7e4ad024fdbe4eb00ae8e7398ddcbaf856ca5d8e"
+      ],
+      "value": {
+        "category": "АВТО",
+        "family": "transport",
+        "anchors": [
+          "арха",
+          "обла",
+          "отре",
+          "учас",
+          "трас",
+          "прил",
+          "куло",
+          "наци",
+          "прое",
+          "href",
+          "http",
+          "news",
+          "goog",
+          "arti",
+          "cbmi",
+          "targ",
+          "blan",
+          "font",
+          "colo",
+          "6f6f",
+          "авто",
+          "терр",
+          "вель",
+          "окру",
+          "подд",
+          "нацп",
+          "инфр",
+          "жизн",
+          "реги",
+          "мини",
+          "тран",
+          "речь",
+          "идет",
+          "кило"
+        ],
+        "title": "В Архангельской области отремонтируют участок трассы Прилуки — Кулой | Национальные проекты РФ",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMivAFBVV95cUxQSG0zTm9JU1JCNTZOcVdQOXIwSTA2ckxXdVp0RFRhOUZpZ1NZdVRybWwtOTVPR3NTY3BGQm5aaVhlSmhSX0NfalF6U3BlajVUZ1E0aWl3dXY4OWlaRWJJckU3NTZVSlRsbDY2ZHowdm1jdVBEdndzLUdmdTdMSzhRRVNjbldCdFVUNEU3ejBNVTk4bDZEQ0JLYmZvUEZXRTJiUF9ISVZJTTNOdVB5Ry1fOXRPUTdZYTZnMFNXVQ?oc=5\" target=\"_blank\"&gt;В Архангельской области отремонтируют участок трассы Прилуки — Кулой&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Национальные проекты России&lt;/font&gt; Участок автодороги Прилуки — Кулой на территории Вельского округа Архангельской области отремонтируют при поддержке нацпроекта «Инфраструктура для жизни», сообщили в региональном министерстве транспорта Речь идет об отрезке с 0-го по 3-й километр Участок автодороги Прилуки — Кулой на территории Вельского округа Архангельской области отремонтируют при поддержке нацпроекта «Инфраструктура для жизни», сообщили в региональном министерстве транспорта Речь идет об отрезке с 0-го по 3-й километр",
+        "published_at": 1791107916857,
+        "article_url": "https://xn--80aapampemcchfmo7a3c9ehj.xn--p1ai/news/v-arkhangelskoy-oblasti-otremontiruyut-uchastok-trassy-priluki-kuloy/"
+      },
+      "expiresAt": 1791280716857,
+      "versionstamp": "e69ab3d9-575d-482a-bea6-0a3cd88db131"
     }
   }
 }
