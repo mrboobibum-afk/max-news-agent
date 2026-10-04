@@ -24,11 +24,6 @@ type Update = {
 
 function corsHeaders() {
   return {
-    /*
-      MAX WebView can use a non-standard/null origin.
-      Authentication is performed with signed initData,
-      so this endpoint does not need credentialed CORS.
-    */
     "access-control-allow-origin": "*",
     "access-control-allow-methods": "POST, OPTIONS",
     "access-control-allow-headers": "content-type",
@@ -55,7 +50,6 @@ async function maxApi(
   init: RequestInit = {}
 ) {
   const headers = new Headers(init.headers);
-
   headers.set("Authorization", env.BOT_TOKEN);
   headers.set("Content-Type", "application/json");
 
@@ -65,19 +59,13 @@ async function maxApi(
   });
 }
 
-async function sendToUser(
-  env: Env,
-  userId: number,
-  text: string
-) {
+async function sendToUser(env: Env, userId: number, text: string) {
   const r = await maxApi(
     env,
     `/messages?user_id=${encodeURIComponent(String(userId))}`,
     {
       method: "POST",
-      body: JSON.stringify({
-        text,
-      }),
+      body: JSON.stringify({ text }),
     }
   );
 
@@ -94,13 +82,8 @@ async function sendToChat(
   text: string,
   attachments?: any[]
 ) {
-  const body: any = {
-    text,
-  };
-
-  if (attachments?.length) {
-    body.attachments = attachments;
-  }
+  const body: any = { text };
+  if (attachments?.length) body.attachments = attachments;
 
   const r = await maxApi(
     env,
@@ -120,7 +103,6 @@ async function sendToChat(
 
 function userIdOf(update: Update): number | null {
   const id = update.user?.user_id;
-
   return typeof id === "number" ? id : null;
 }
 
@@ -134,74 +116,39 @@ function messageOf(update: Update) {
 }
 
 function messageText(message: any): string {
-  return String(
-    message?.body?.text ??
-    message?.text ??
-    ""
-  ).trim();
+  return String(message?.body?.text ?? message?.text ?? "").trim();
 }
 
 function attachmentsOf(message: any): any[] {
-  const a =
-    message?.body?.attachments ??
-    message?.attachments ??
-    [];
-
+  const a = message?.body?.attachments ?? message?.attachments ?? [];
   return Array.isArray(a) ? a : [];
 }
 
-function isUsefulSubmission(
-  text: string,
-  attachments: any[]
-) {
-  if (text && /^https?:\/\//i.test(text)) {
-    return true;
-  }
-
-  if (text && /(https?:\/\/|www\.)/i.test(text)) {
-    return true;
-  }
+function isUsefulSubmission(text: string, attachments: any[]) {
+  if (text && /^https?:\/\//i.test(text)) return true;
+  if (text && /(https?:\/\/|www\.)/i.test(text)) return true;
 
   return attachments.some((a) =>
-    ["video", "image", "file"].includes(
-      String(a?.type)
-    )
+    ["video", "image", "file"].includes(String(a?.type))
   );
 }
 
-function normalizeForwardAttachments(
-  attachments: any[]
-) {
+function normalizeForwardAttachments(attachments: any[]) {
   return attachments
     .filter((a) =>
-      ["video", "image", "file"].includes(
-        String(a?.type)
-      )
+      ["video", "image", "file"].includes(String(a?.type))
     )
     .map((a) => {
       const payload = a?.payload ?? {};
+      const out: any = { type: a.type, payload: {} };
 
-      const out: any = {
-        type: a.type,
-        payload: {},
-      };
+      if (payload.token) out.payload.token = payload.token;
+      else if (payload.url) out.payload.url = payload.url;
 
-      if (payload.token) {
-        out.payload.token = payload.token;
-      } else if (payload.url) {
-        out.payload.url = payload.url;
-      }
-
-      if (a.text) {
-        out.text = a.text;
-      }
-
+      if (a.text) out.text = a.text;
       return out;
     })
-    .filter(
-      (a) =>
-        Object.keys(a.payload).length > 0
-    );
+    .filter((a) => Object.keys(a.payload).length > 0);
 }
 
 /* =========================================================
@@ -210,9 +157,7 @@ function normalizeForwardAttachments(
 
 function hex(bytes: ArrayBuffer): string {
   return Array.from(new Uint8Array(bytes))
-    .map((b) =>
-      b.toString(16).padStart(2, "0")
-    )
+    .map((b) => b.toString(16).padStart(2, "0"))
     .join("");
 }
 
@@ -238,20 +183,12 @@ async function hmacSha256(
   );
 }
 
-function safeEqual(
-  a: string,
-  b: string
-): boolean {
-  if (a.length !== b.length) {
-    return false;
-  }
+function safeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
 
   let result = 0;
-
   for (let i = 0; i < a.length; i++) {
-    result |=
-      a.charCodeAt(i) ^
-      b.charCodeAt(i);
+    result |= a.charCodeAt(i) ^ b.charCodeAt(i);
   }
 
   return result === 0;
@@ -259,15 +196,12 @@ function safeEqual(
 
 async function validateMiniAppData(
   initData: string,
-  botToken: string
-): Promise<{
-  ok: true;
-  userId: number;
-  user?: any;
-} | {
-  ok: false;
-  reason: string;
-}> {
+  botToken: string,
+  env: Env
+): Promise<
+  | { ok: true; userId: number; user?: any }
+  | { ok: false; reason: string; diagnostic?: any }
+> {
   try {
     let raw = String(initData ?? "").trim();
 
@@ -275,12 +209,6 @@ async function validateMiniAppData(
       return { ok: false, reason: "empty_init_data" };
     }
 
-    /*
-      MAX Bridge:
-      window.WebApp.initData is the URL-encoded WebAppData string.
-      Some clients may expose the complete URL-fragment parameter set.
-      In that case extract WebAppData exactly once.
-    */
     if (/^https?:\/\//i.test(raw)) {
       try {
         raw = new URL(raw).hash.replace(/^#/, "");
@@ -289,69 +217,44 @@ async function validateMiniAppData(
       }
     }
 
-    if (raw.startsWith("#")) {
-      raw = raw.slice(1);
-    }
+    if (raw.startsWith("#")) raw = raw.slice(1);
 
     try {
       const outer = new URLSearchParams(raw);
 
       if (outer.has("WebAppData")) {
         const appData = outer.get("WebAppData");
-
         if (!appData) {
           return { ok: false, reason: "missing_webapp_data" };
         }
-
         raw = appData;
       }
     } catch {
       return { ok: false, reason: "invalid_webapp_data_wrapper" };
     }
 
-    /*
-      Now raw MUST be the WebAppData payload itself:
-      key=value&key=value&...
-    */
     const params = raw
       .split("&")
       .filter(Boolean)
       .map((part) => {
         const separator = part.indexOf("=");
-
-        if (separator < 0) {
-          return null;
-        }
+        if (separator < 0) return null;
 
         return [
           part.slice(0, separator),
           part.slice(separator + 1),
         ] as [string, string];
       })
-      .filter(
-        (x): x is [string, string] => x !== null
-      );
+      .filter((x): x is [string, string] => x !== null);
 
-    const hashParams = params.filter(
-      ([key]) => key === "hash"
-    );
+    const hashParams = params.filter(([key]) => key === "hash");
 
     if (hashParams.length !== 1) {
-      return {
-        ok: false,
-        reason: "missing_or_invalid_hash",
-      };
+      return { ok: false, reason: "missing_or_invalid_hash" };
     }
 
-    /*
-      Preserve the original hash before decoding.
-      MAX's hash is a hex string and normally needs no decoding.
-    */
     const originalHash = hashParams[0][1];
 
-    /*
-      Decode every value exactly once, as prescribed by MAX.
-    */
     for (const param of params) {
       param[1] = decodeURIComponent(param[1]);
     }
@@ -360,62 +263,36 @@ async function validateMiniAppData(
 
     for (const [key] of params) {
       if (keys.has(key)) {
-        return {
-          ok: false,
-          reason: "duplicate_key",
-        };
+        return { ok: false, reason: "duplicate_key" };
       }
-
       keys.add(key);
     }
 
-    const authDatePair = params.find(
-      ([key]) => key === "auth_date"
-    );
+    const authDatePair = params.find(([key]) => key === "auth_date");
 
     if (!authDatePair) {
-      return {
-        ok: false,
-        reason: "missing_auth_date",
-      };
+      return { ok: false, reason: "missing_auth_date" };
     }
 
     const authDate = Number(authDatePair[1]);
 
     if (!Number.isFinite(authDate)) {
-      return {
-        ok: false,
-        reason: "invalid_auth_date",
-      };
+      return { ok: false, reason: "invalid_auth_date" };
     }
 
     const now = Math.floor(Date.now() / 1000);
 
     if (Math.abs(now - authDate) > 60 * 60) {
-      return {
-        ok: false,
-        reason: "stale_auth_date",
-      };
+      return { ok: false, reason: "stale_auth_date" };
     }
 
-    /*
-      Sort ALL decoded WebAppData parameters, then remove hash
-      only when building launch_params.
-    */
-    params.sort((a, b) =>
-      a[0].localeCompare(b[0])
-    );
+    params.sort((a, b) => a[0].localeCompare(b[0]));
 
     const launchParams = params
       .filter(([key]) => key !== "hash")
       .map(([key, value]) => `${key}=${value}`)
       .join("\n");
 
-    /*
-      Official MAX algorithm:
-      secret_key = HMAC-SHA256("WebAppData", BOT_TOKEN)
-      hash = hex(HMAC-SHA256(secret_key, launch_params))
-    */
     const secretKeyBuffer = await hmacSha256(
       new TextEncoder().encode("WebAppData"),
       botToken
@@ -426,17 +303,15 @@ async function validateMiniAppData(
       launchParams
     );
 
-    const calculatedHash = hex(
-      calculatedHashBuffer
-    );
+    const calculatedHash = hex(calculatedHashBuffer);
 
     if (!safeEqual(calculatedHash, originalHash)) {
-      // Diagnostic only: do not expose the token. Verify which bot token
-      // the Worker actually has and expose only non-secret metadata.
       let tokenCheck: any = { checked: false };
+
       try {
         const me = await maxApi(env, "/me", { method: "GET" });
         const meBody = await me.json().catch(() => ({}));
+
         tokenCheck = {
           checked: true,
           status: me.status,
@@ -444,9 +319,13 @@ async function validateMiniAppData(
           user_id: meBody?.user_id ?? null,
           username: meBody?.username ?? null,
           first_name: meBody?.first_name ?? null,
+          name: meBody?.name ?? null,
         };
       } catch {
-        tokenCheck = { checked: true, status: "request_failed" };
+        tokenCheck = {
+          checked: true,
+          status: "request_failed",
+        };
       }
 
       return {
@@ -463,50 +342,27 @@ async function validateMiniAppData(
       };
     }
 
-    const userPair = params.find(
-      ([key]) => key === "user"
-    );
-
+    const userPair = params.find(([key]) => key === "user");
     let user: any = undefined;
 
     if (userPair) {
       try {
         user = JSON.parse(userPair[1]);
       } catch {
-        return {
-          ok: false,
-          reason: "invalid_user_json",
-        };
+        return { ok: false, reason: "invalid_user_json" };
       }
     }
 
     const userId = Number(user?.id);
 
-    if (
-      !Number.isFinite(userId) ||
-      userId <= 0
-    ) {
-      return {
-        ok: false,
-        reason: "missing_user_id",
-      };
+    if (!Number.isFinite(userId) || userId <= 0) {
+      return { ok: false, reason: "missing_user_id" };
     }
 
-    return {
-      ok: true,
-      userId,
-      user,
-    };
+    return { ok: true, userId, user };
   } catch (error) {
-    console.error(
-      "Mini App validation error:",
-      error
-    );
-
-    return {
-      ok: false,
-      reason: "validation_exception",
-    };
+    console.error("Mini App validation error:", error);
+    return { ok: false, reason: "validation_exception" };
   }
 }
 
@@ -517,100 +373,50 @@ async function validateMiniAppData(
 export class BotState {
   state: DurableObjectState;
 
-  constructor(
-    state: DurableObjectState
-  ) {
+  constructor(state: DurableObjectState) {
     this.state = state;
   }
 
-  async fetch(
-    request: Request
-  ) {
-    const url =
-      new URL(request.url);
+  async fetch(request: Request) {
+    const url = new URL(request.url);
 
     if (request.method === "GET") {
-      return json({
-        ok: true,
-        service:
-          "factor-max-bot-state",
-      });
+      return json({ ok: true, service: "factor-max-bot-state" });
     }
 
     if (request.method !== "POST") {
-      return json(
-        {
-          ok: false,
-        },
-        405
-      );
+      return json({ ok: false }, 405);
     }
 
-    const data =
-      await request.json();
+    const data = await request.json();
 
     if (url.pathname === "/set") {
-      await this.state.storage.put(
-        "mode",
-        data.mode
-      );
-
+      await this.state.storage.put("mode", data.mode);
       await this.state.storage.put(
         "expiresAt",
-        Date.now() +
-          Number(
-            data.ttlMs ??
-            900000
-          )
+        Date.now() + Number(data.ttlMs ?? 900000)
       );
-
-      return json({
-        ok: true,
-      });
+      return json({ ok: true });
     }
 
     if (url.pathname === "/get") {
-      const mode =
-        await this.state.storage.get<string>(
-          "mode"
-        );
+      const mode = await this.state.storage.get<string>("mode");
+      const expiresAt = await this.state.storage.get<number>("expiresAt");
 
-      const expiresAt =
-        await this.state.storage.get<number>(
-          "expiresAt"
-        );
-
-      if (
-        !mode ||
-        !expiresAt ||
-        expiresAt < Date.now()
-      ) {
+      if (!mode || !expiresAt || expiresAt < Date.now()) {
         await this.state.storage.deleteAll();
-
-        return json({
-          mode: null,
-        });
+        return json({ mode: null });
       }
 
-      return json({
-        mode,
-      });
+      return json({ mode });
     }
 
     if (url.pathname === "/clear") {
       await this.state.storage.deleteAll();
-
-      return json({
-        ok: true,
-      });
+      return json({ ok: true });
     }
 
-    return json(
-      {
-        ok: false,
-      },
-      404
-    );
+    return json({ ok: false }, 404);
   }
 }
 
@@ -620,67 +426,33 @@ async function stateRequest(
   action: string,
   body?: any
 ) {
-  const id =
-    env.STATE.idFromName(
-      String(userId)
-    );
+  const id = env.STATE.idFromName(String(userId));
+  const stub = env.STATE.get(id);
 
-  const stub =
-    env.STATE.get(id);
-
-  return stub.fetch(
-    `https://state.local/${action}`,
-    {
-      method: "POST",
-      headers: {
-        "content-type":
-          "application/json",
-      },
-      body: JSON.stringify(
-        body ?? {}
-      ),
-    }
-  );
+  return stub.fetch(`https://state.local/${action}`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(body ?? {}),
+  });
 }
 
-/* =========================================================
-   BOT START
-   ========================================================= */
+async function handleStarted(update: Update, env: Env) {
+  const userId = userIdOf(update);
+  if (!userId) return;
 
-async function handleStarted(
-  update: Update,
-  env: Env
-) {
-  const userId =
-    userIdOf(update);
-
-  if (!userId) {
-    return;
-  }
-
-  const payload =
-    String(
-      update.payload ?? ""
-    ).toLowerCase();
+  const payload = String(update.payload ?? "").toLowerCase();
 
   if (payload === "video") {
-    await stateRequest(
-      env,
-      userId,
-      "set",
-      {
-        mode: "video",
-        ttlMs:
-          15 * 60 * 1000,
-      }
-    );
+    await stateRequest(env, userId, "set", {
+      mode: "video",
+      ttlMs: 15 * 60 * 1000,
+    });
 
     await sendToUser(
       env,
       userId,
       "🎥 Предложить видео\n\nПришлите сюда видеофайл или ссылку на материал. После получения передам его редакции ФАКТОР."
     );
-
     return;
   }
 
@@ -690,7 +462,6 @@ async function handleStarted(
       userId,
       "🔥 Раздел «Срочное» пока подключаем. Следующим шагом добавим подписку на срочные новости."
     );
-
     return;
   }
 
@@ -700,7 +471,6 @@ async function handleStarted(
       userId,
       "⚙️ Настройки уведомлений пока подключаем. Здесь появится выбор типов и частоты уведомлений."
     );
-
     return;
   }
 
@@ -711,24 +481,14 @@ async function handleStarted(
       "💬 Напишите сообщение следующим сообщением — оно поступит в редакцию ФАКТОР."
     );
 
-    await stateRequest(
-      env,
-      userId,
-      "set",
-      {
-        mode: "chat",
-        ttlMs:
-          15 * 60 * 1000,
-      }
-    );
-
+    await stateRequest(env, userId, "set", {
+      mode: "chat",
+      ttlMs: 15 * 60 * 1000,
+    });
     return;
   }
 
-  if (
-    payload === "news" ||
-    payload === "videos"
-  ) {
+  if (payload === "news" || payload === "videos") {
     await sendToUser(
       env,
       userId,
@@ -736,7 +496,6 @@ async function handleStarted(
         ? "📰 Новости ФАКТОР публикуются в нашем канале."
         : "▶️ Видеоматериалы ФАКТОР публикуются в канале. Отдельные уведомления добавим следующим шагом."
     );
-
     return;
   }
 
@@ -747,37 +506,15 @@ async function handleStarted(
   );
 }
 
-/* =========================================================
-   BOT MESSAGES
-   ========================================================= */
+async function handleMessage(update: Update, env: Env) {
+  const userId = userIdOf(update);
+  const chatId = update.chat_id;
 
-async function handleMessage(
-  update: Update,
-  env: Env
-) {
-  const userId =
-    userIdOf(update);
+  if (!userId || !chatId) return;
 
-  const chatId =
-    update.chat_id;
-
-  if (!userId || !chatId) {
-    return;
-  }
-
-  const stateResponse =
-    await stateRequest(
-      env,
-      userId,
-      "get",
-      {}
-    );
-
-  const state =
-    await stateResponse.json() as any;
-
-  const mode =
-    state.mode;
+  const stateResponse = await stateRequest(env, userId, "get", {});
+  const state = (await stateResponse.json()) as any;
+  const mode = state.mode;
 
   if (!mode) {
     await sendToUser(
@@ -785,40 +522,24 @@ async function handleMessage(
       userId,
       "Выберите действие в Mini App ФАКТОР или напишите /start."
     );
-
     return;
   }
 
-  const message =
-    messageOf(update);
-
-  const text =
-    messageText(message);
-
-  const attachments =
-    attachmentsOf(message);
+  const message = messageOf(update);
+  const text = messageText(message);
+  const attachments = attachmentsOf(message);
 
   if (mode === "video") {
-    if (
-      !isUsefulSubmission(
-        text,
-        attachments
-      )
-    ) {
+    if (!isUsefulSubmission(text, attachments)) {
       await sendToUser(
         env,
         userId,
         "🎥 Пришлите видеофайл или ссылку на материал."
       );
-
       return;
     }
 
-    const forwardAttachments =
-      normalizeForwardAttachments(
-        attachments
-      );
-
+    const forwardAttachments = normalizeForwardAttachments(attachments);
     const sender =
       update.user?.name ||
       update.user?.username ||
@@ -826,11 +547,7 @@ async function handleMessage(
 
     const editorialText =
       `🎥 НОВЫЙ МАТЕРИАЛ ОТ ПОДПИСЧИКА\n\nОт: ${sender} (ID ${userId})` +
-      (
-        text
-          ? `\n\nСсылка/текст:\n${text}`
-          : ""
-      );
+      (text ? `\n\nСсылка/текст:\n${text}` : "");
 
     if (env.EDITOR_CHAT_ID) {
       await sendToChat(
@@ -841,12 +558,7 @@ async function handleMessage(
       );
     }
 
-    await stateRequest(
-      env,
-      userId,
-      "clear",
-      {}
-    );
+    await stateRequest(env, userId, "clear", {});
 
     await sendToUser(
       env,
@@ -855,7 +567,6 @@ async function handleMessage(
         ? "✅ Материал получен и передан редакции ФАКТОР."
         : "✅ Материал получен. Редакционный канал пока не настроен, поэтому материал сохранён только в текущем диалоге. Следующим шагом подключим адрес редакции."
     );
-
     return;
   }
 
@@ -870,9 +581,7 @@ async function handleMessage(
         env,
         env.EDITOR_CHAT_ID,
         `💬 СООБЩЕНИЕ В ФАКТОР\n\nОт: ${sender} (ID ${userId})\n\n${text || "[медиа/вложение]"}`,
-        normalizeForwardAttachments(
-          attachments
-        )
+        normalizeForwardAttachments(attachments)
       );
 
       await sendToUser(
@@ -901,73 +610,53 @@ async function handleMiniAppAction(
   let body: any;
 
   try {
-    body =
-      await request.json();
+    body = await request.json();
   } catch {
     return json(
-      {
-        ok: false,
-        error: "invalid_json",
-      },
+      { ok: false, error: "invalid_json" },
       400,
       corsHeaders()
     );
   }
 
-  const action =
-    String(
-      body?.action ?? ""
-    ).trim().toLowerCase();
-
-  const initData =
-    String(
-      body?.initData ?? ""
-    ).trim();
+  const action = String(body?.action ?? "").trim().toLowerCase();
+  const initData = String(body?.initData ?? "").trim();
 
   if (!initData) {
     return json(
-      {
-        ok: false,
-        error:
-          "missing_init_data",
-      },
+      { ok: false, error: "missing_init_data" },
       400,
       corsHeaders()
     );
   }
 
-  const valid =
-    await validateMiniAppData(
-      initData,
-      env.BOT_TOKEN
-    );
+  const valid = await validateMiniAppData(
+    initData,
+    env.BOT_TOKEN,
+    env
+  );
 
   if (!valid.ok) {
-    return json(
-      {
-        ok: false,
-        error: valid.reason,
-      },
-      401,
-      corsHeaders()
-    );
+    const response: any = {
+      ok: false,
+      error: valid.reason,
+    };
+
+    if (valid.diagnostic) {
+      response.diagnostic = valid.diagnostic;
+    }
+
+    return json(response, 401, corsHeaders());
   }
 
-  const userId =
-    valid.userId;
+  const userId = valid.userId;
 
   switch (action) {
     case "video":
-      await stateRequest(
-        env,
-        userId,
-        "set",
-        {
-          mode: "video",
-          ttlMs:
-            15 * 60 * 1000,
-        }
-      );
+      await stateRequest(env, userId, "set", {
+        mode: "video",
+        ttlMs: 15 * 60 * 1000,
+      });
 
       await sendToUser(
         env,
@@ -976,25 +665,16 @@ async function handleMiniAppAction(
       );
 
       return json(
-        {
-          ok: true,
-          action: "video",
-        },
+        { ok: true, action: "video" },
         200,
         corsHeaders()
       );
 
     case "chat":
-      await stateRequest(
-        env,
-        userId,
-        "set",
-        {
-          mode: "chat",
-          ttlMs:
-            15 * 60 * 1000,
-        }
-      );
+      await stateRequest(env, userId, "set", {
+        mode: "chat",
+        ttlMs: 15 * 60 * 1000,
+      });
 
       await sendToUser(
         env,
@@ -1003,10 +683,7 @@ async function handleMiniAppAction(
       );
 
       return json(
-        {
-          ok: true,
-          action: "chat",
-        },
+        { ok: true, action: "chat" },
         200,
         corsHeaders()
       );
@@ -1019,10 +696,7 @@ async function handleMiniAppAction(
       );
 
       return json(
-        {
-          ok: true,
-          action: "urgent",
-        },
+        { ok: true, action: "urgent" },
         200,
         corsHeaders()
       );
@@ -1035,10 +709,7 @@ async function handleMiniAppAction(
       );
 
       return json(
-        {
-          ok: true,
-          action: "settings",
-        },
+        { ok: true, action: "settings" },
         200,
         corsHeaders()
       );
@@ -1051,10 +722,7 @@ async function handleMiniAppAction(
       );
 
       return json(
-        {
-          ok: true,
-          action: "news",
-        },
+        { ok: true, action: "news" },
         200,
         corsHeaders()
       );
@@ -1067,21 +735,14 @@ async function handleMiniAppAction(
       );
 
       return json(
-        {
-          ok: true,
-          action: "videos",
-        },
+        { ok: true, action: "videos" },
         200,
         corsHeaders()
       );
 
     default:
       return json(
-        {
-          ok: false,
-          error:
-            "unknown_action",
-        },
+        { ok: false, error: "unknown_action" },
         400,
         corsHeaders()
       );
@@ -1097,10 +758,7 @@ export default {
     request: Request,
     env: Env
   ): Promise<Response> {
-    const url =
-      new URL(request.url);
-
-    /* Health check */
+    const url = new URL(request.url);
 
     if (
       request.method === "GET" &&
@@ -1108,17 +766,13 @@ export default {
     ) {
       return json({
         ok: true,
-        service:
-          "factor-max-bot",
+        service: "factor-max-bot",
       });
     }
 
-    /* Mini App CORS preflight */
-
     if (
       request.method === "OPTIONS" &&
-      url.pathname ===
-        "/miniapp/action"
+      url.pathname === "/miniapp/action"
     ) {
       return new Response(null, {
         status: 204,
@@ -1126,23 +780,14 @@ export default {
       });
     }
 
-    /* Mini App action */
-
     if (
       request.method === "POST" &&
-      url.pathname ===
-        "/miniapp/action"
+      url.pathname === "/miniapp/action"
     ) {
       try {
-        return await handleMiniAppAction(
-          request,
-          env
-        );
+        return await handleMiniAppAction(request, env);
       } catch (error) {
-        console.error(
-          "Mini App action error:",
-          error
-        );
+        console.error("Mini App action error:", error);
 
         const message =
           error instanceof Error
@@ -1150,50 +795,38 @@ export default {
             : "internal_error";
 
         const safeError =
-          /^MAX_SEND_USER_\\d{3}$/.test(message)
+          /^MAX_SEND_USER_\d{3}$/.test(message)
             ? message.toLowerCase()
             : "internal_error";
 
         return json(
-          {
-            ok: false,
-            error: safeError,
-          },
+          { ok: false, error: safeError },
           500,
           corsHeaders()
         );
       }
     }
 
-    /* MAX Webhook */
-
     if (
       request.method !== "POST" ||
       url.pathname !== "/webhook"
     ) {
       return json(
-        {
-          ok: false,
-          error: "not_found",
-        },
+        { ok: false, error: "not_found" },
         404
       );
     }
 
-    const secret =
-      request.headers.get(
-        "X-Max-Bot-Api-Secret"
-      );
+    const secret = request.headers.get(
+      "X-Max-Bot-Api-Secret"
+    );
 
     if (
       !env.WEBHOOK_SECRET ||
       secret !== env.WEBHOOK_SECRET
     ) {
       return json(
-        {
-          ok: false,
-          error: "unauthorized",
-        },
+        { ok: false, error: "unauthorized" },
         401
       );
     }
@@ -1201,43 +834,24 @@ export default {
     let update: Update;
 
     try {
-      update =
-        await request.json();
+      update = await request.json();
     } catch {
       return json(
-        {
-          ok: false,
-          error:
-            "invalid_json",
-        },
+        { ok: false, error: "invalid_json" },
         400
       );
     }
 
     try {
-      if (
-        update.update_type ===
-        "bot_started"
-      ) {
-        await handleStarted(
-          update,
-          env
-        );
-      } else if (
-        update.update_type ===
-        "message_created"
-      ) {
-        await handleMessage(
-          update,
-          env
-        );
+      if (update.update_type === "bot_started") {
+        await handleStarted(update, env);
+      } else if (update.update_type === "message_created") {
+        await handleMessage(update, env);
       }
     } catch (error) {
       console.error(error);
     }
 
-    return json({
-      ok: true,
-    });
+    return json({ ok: true });
   },
 };
