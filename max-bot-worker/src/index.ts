@@ -24,7 +24,12 @@ type Update = {
 
 function corsHeaders() {
   return {
-    "access-control-allow-origin": MINIAPP_ORIGIN,
+    /*
+      MAX WebView can use a non-standard/null origin.
+      Authentication is performed with signed initData,
+      so this endpoint does not need credentialed CORS.
+    */
+    "access-control-allow-origin": "*",
     "access-control-allow-methods": "POST, OPTIONS",
     "access-control-allow-headers": "content-type",
   };
