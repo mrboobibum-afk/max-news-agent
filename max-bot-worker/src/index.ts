@@ -1,6 +1,8 @@
 // MAX API v2 endpoint; token is synchronized from the GitHub Actions secret at deploy time.
 const MAX_API = "https://platform-api2.max.ru";
 
+import { Container, getContainer } from "@cloudflare/containers";
+
 const MINIAPP_ORIGIN = "https://mrboobibum-afk.github.io";
 
 interface Env {
@@ -8,6 +10,7 @@ interface Env {
   WEBHOOK_SECRET: string;
   EDITOR_CHAT_ID?: string;
   STATE: DurableObjectNamespace;
+  MAX_API: DurableObjectNamespace<MaxApiContainer>;
 }
 
 type Update = {
@@ -54,7 +57,11 @@ async function maxApi(
   headers.set("Authorization", env.BOT_TOKEN);
   headers.set("Content-Type", "application/json");
 
-  return fetch(MAX_API + path, {
+  const container = getContainer(env.MAX_API, "max-api");
+  const proxyUrl = new URL("https://max-api.internal/proxy");
+  proxyUrl.searchParams.set("path", path);
+
+  return container.fetch(proxyUrl.toString(), {
     ...init,
     headers,
   });
@@ -459,6 +466,17 @@ async function validateMiniAppData(
     console.error("Mini App validation error:", error);
     return { ok: false, reason: "validation_exception" };
   }
+}
+
+/* =========================================================
+   MAX API CONTAINER
+   ========================================================= */
+
+export class MaxApiContainer extends Container {
+  defaultPort = 8080;
+  sleepAfter = "5m";
+  enableInternet = true;
+  pingEndpoint = "health";
 }
 
 /* =========================================================
