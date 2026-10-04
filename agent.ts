@@ -1684,6 +1684,10 @@ async function downloadMedia(url, type) {
         if (!isHttpUrl(url)) {
             return null;
         }
+        if (type === "video" && isLikelyStockVideoSource(url)) {
+            console.log("Rejected stock video source:", url);
+            return null;
+        }
         const response = await fetch(url, {
             redirect: "follow",
             headers: {
