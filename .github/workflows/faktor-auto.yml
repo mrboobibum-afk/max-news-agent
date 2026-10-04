@@ -55,6 +55,7 @@ jobs:
               --allow-env \
               --allow-read \
               --allow-write \
+              --allow-run \
               agent.ts
             agent_status=$?
             set -e
