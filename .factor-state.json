@@ -88,9 +88,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791139135443,
+      "value": 1791140322157,
       "expiresAt": null,
-      "versionstamp": "49ae7218-0519-4887-808e-8111b5a0265b"
+      "versionstamp": "baa17a44-2194-46e2-a152-0336e5db10e2"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -1453,7 +1453,7 @@
         "selected": 1,
         "urgent": true,
         "manual": false,
-        "score": 56,
+        "score": 53,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
@@ -1463,12 +1463,12 @@
           "urgent_interval": 0,
           "regular_interval": 0,
           "duplicate_before_article": 0,
-          "event_duplicate_before_article": 2,
+          "event_duplicate_before_article": 3,
           "bad_url": 0,
           "article_title_mismatch": 0,
           "duplicate_after_article": 0,
           "event_duplicate_after_article": 0,
-          "gemini_fallback": 0,
+          "gemini_fallback": 1,
           "gemini_title_mismatch": 0,
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
@@ -1477,64 +1477,51 @@
           "video_checked": 0,
           "video_rejected": 0,
           "video_validation": null,
-          "external_video_candidates": 1,
-          "external_video_checked": 1,
+          "external_video_candidates": 3,
+          "external_video_checked": 3,
           "search_video_queries": 7,
-          "search_video_candidates": 6,
-          "search_video_checked": 5,
-          "image_candidates": 1,
-          "media_checked": 1,
-          "media_selected": "image",
-          "selected_media_source": "meta",
-          "media_rejected": null,
+          "search_video_candidates": 1,
+          "search_video_checked": 0,
+          "image_candidates": 0,
+          "media_checked": 0,
+          "media_selected": null,
+          "selected_media_source": null,
+          "media_rejected": "no_relevant_media",
           "top_candidates": [],
-          "ai_provider": "gemini"
+          "ai_provider": "none"
         },
         "item": {
-          "title": "Пять подростков травмированы на пожаре в Пермском крае - Newsko.ru",
-          "source": "«Новый компаньон»",
-          "article_url": "https://www.newsko.ru/news/nk-9442663.html",
+          "title": "Многодетный отец погиб в ДТП в Татарстане - Верхний Услон Новости",
+          "source": "Верхний Услон Новости",
+          "article_url": "https://vuslon.ru/news/respublikanskie-novosti/mnogodetnyi-otec-pogib-v-dtp-v-tatarstane",
           "category": "ПРОИСШЕСТВИЯ"
         },
-        "media": {
-          "type": "image",
-          "source_url": "https://www.newsko.ru/media/9442662/pozhar-v-chernushke.jpg?size=600"
-        },
+        "media": null,
         "publication": {
           "message": {
             "recipient": {
               "chat_type": "channel",
               "chat_id": -78887448255074
             },
-            "timestamp": 1791139195667,
+            "timestamp": 1791140356251,
             "body": {
-              "mid": "mid.ffffb84095ab659e01a108372b132efa",
-              "seq": 117384098327244540,
-              "text": "Пять подростков травмированы на пожаре в Пермском крае\n\nПять подростков получили травмы на пожаре в Пермском крае. Инцидент произошел в Чернушке, обстоятельства выясняет следствие.\n\n🔗 «Новый компаньон»\n\n📢 ФАКТОР",
-              "attachments": [
-                {
-                  "payload": {
-                    "photo_id": 44440153160,
-                    "token": "GouT07rGPYyKqwOfjo2tWdZUlOtVg0bWNYMsHO2RP1HWfLikRfGXOyxaEmlBW67l/1B9Wh2GV7jL2BluibbYC9Q2TABiC/ds3atQ8nAEIQI=",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr81sCK7ANN66Nwu5AJkTbyfOhjfMfVvfoBKYlDsISiwlA"
-                  },
-                  "type": "image"
-                }
-              ],
+              "mid": "mid.ffffb84095ab659e01a10848e09b0de2",
+              "seq": 117384174387269090,
+              "text": "Многодетный отец погиб в ДТП в Татарстане\n\nВ ДТП погибли два человека, еще одна пассажирка госпитализирована.\n\n🔗 Верхний Услон Новости\n\n📢 ФАКТОР",
               "markup": [
                 {
                   "from": 0,
-                  "length": 54,
+                  "length": 41,
                   "type": "strong"
                 },
                 {
-                  "url": "https://www.newsko.ru/news/nk-9442663.html",
-                  "from": 185,
-                  "length": 17,
+                  "url": "https://vuslon.ru/news/respublikanskie-novosti/mnogodetnyi-otec-pogib-v-dtp-v-tatarstane",
+                  "from": 114,
+                  "length": 21,
                   "type": "link"
                 },
                 {
-                  "from": 207,
+                  "from": 140,
                   "length": 6,
                   "type": "emphasized"
                 }
@@ -1543,13 +1530,13 @@
             "stat": {
               "views": 1
             },
-            "url": "https://max.ru/channel_faktormedia/AaEINysTLvo"
+            "url": "https://max.ru/channel_faktormedia/AaEISOCbDeI"
           }
         },
-        "duration_ms": 60993
+        "duration_ms": 34985
       },
       "expiresAt": null,
-      "versionstamp": "797e3a6f-d723-40ea-a8d6-8f45842e25ef"
+      "versionstamp": "920bc291-0ee5-428b-8025-57d6229dab2c"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -2077,6 +2064,79 @@
       },
       "expiresAt": 1791311995831,
       "versionstamp": "903a6f36-242b-4d2a-9b68-2e6d770e8709"
+    },
+    "[\"factor\",\"published_v2\",\"b982ba34bbff2c344a97e0e2cd01fe50a1f980bae3d98afb2f4283eb69094d03\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "b982ba34bbff2c344a97e0e2cd01fe50a1f980bae3d98afb2f4283eb69094d03"
+      ],
+      "value": true,
+      "expiresAt": 1793732356391,
+      "versionstamp": "9959e0af-44bf-46e7-a3f4-d2cd200047ac"
+    },
+    "[\"factor\",\"published\",\"5cae7b9b2ae4a011912732435197b49aa21e75face428dba7c566c534e1fc2e6\"]": {
+      "key": [
+        "factor",
+        "published",
+        "5cae7b9b2ae4a011912732435197b49aa21e75face428dba7c566c534e1fc2e6"
+      ],
+      "value": true,
+      "expiresAt": 1793732356392,
+      "versionstamp": "7643561c-fec3-4a2c-aa67-2b3bb0162b5d"
+    },
+    "[\"factor\",\"published_story_v3\",\"7be8854b5aa147488b80cf417b5c372e16b05945343637550b068857a701b3a4\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "7be8854b5aa147488b80cf417b5c372e16b05945343637550b068857a701b3a4"
+      ],
+      "value": true,
+      "expiresAt": 1793732356393,
+      "versionstamp": "9ce7156b-0f88-467c-86e8-1a9571820ff4"
+    },
+    "[\"factor\",\"recent_title_v2\",1791140356394,\"39cefdf20afa4e95a0acb2ac60b8d8b894edaa3d5387c03c948bb7b9cd3fe291\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791140356394,
+        "39cefdf20afa4e95a0acb2ac60b8d8b894edaa3d5387c03c948bb7b9cd3fe291"
+      ],
+      "value": "Многодетный отец погиб в ДТП в Татарстане",
+      "expiresAt": 1793732356394,
+      "versionstamp": "c31b4ed7-2a23-446d-bb46-684df67ee0d7"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"39cefdf20afa4e95a0acb2ac60b8d8b894edaa3d5387c03c948bb7b9cd3fe291\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "39cefdf20afa4e95a0acb2ac60b8d8b894edaa3d5387c03c948bb7b9cd3fe291"
+      ],
+      "value": "Многодетный отец погиб в ДТП в Татарстане",
+      "expiresAt": 1793732356395,
+      "versionstamp": "91a177d1-9368-45f8-97fc-f666ccf05238"
+    },
+    "[\"factor\",\"published_event_v4\",\"149c4b46bea3d8e828d80da0fafc791a72b74699a6ae23e5c5903b7dca0f6485\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "149c4b46bea3d8e828d80da0fafc791a72b74699a6ae23e5c5903b7dca0f6485"
+      ],
+      "value": {
+        "category": "ПРОИСШЕСТВИЯ",
+        "family": "accident",
+        "anchors": [
+          "мног",
+          "отец",
+          "тата"
+        ],
+        "title": "Многодетный отец погиб в ДТП в Татарстане",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMikgFBVV95cUxOT1d0MTI3N3dCcmQwemNoaE5GY3VqTW9jVW5ZTHVhazllclg1cDNhQ1dIX2JKWU9yLS02V1JOLXRjQndYX3pvN0VTTWxoS1lweHM4Q1VuZXVjeHV6TkVEMl8yOTVFRTBSR3ZwUFR0ZHlscTdzcno3Y01US2hacENqNlk2N1dCZHU4ZF9rV3E5dUt5QQ?oc=5\" target=\"_blank\"&gt;Многодетный отец погиб в ДТП в Татарстане&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Верхний Услон Новости&lt;/font&gt; В ДТП погибли два человека, еще одна пассажирка госпитализирована. В ДТП погибли два человека, еще одна пассажирка госпитализирована.",
+        "published_at": 1791140356396,
+        "article_url": "https://vuslon.ru/news/respublikanskie-novosti/mnogodetnyi-otec-pogib-v-dtp-v-tatarstane"
+      },
+      "expiresAt": 1791313156396,
+      "versionstamp": "a5aab845-9bbd-4b95-bddf-b6fc6c4ba842"
     }
   }
 }
