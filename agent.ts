@@ -442,6 +442,8 @@ function cleanText(value) {
         text = text
             .replace(/&nbsp;/gi, " ")
             .replace(/&amp;/gi, "&")
+            .replace(/&lt;/gi, "<")
+            .replace(/&gt;/gi, ">")
             .replace(/&quot;/gi, '"')
             .replace(/&#39;/gi, "'")
             .replace(/&#x27;/gi, "'")
@@ -2062,12 +2064,18 @@ function eventProfilesMatch(candidate, previous) {
     if (ageMs > EVENT_HISTORY_TTL_MS) return false;
 
     const common = eventAnchorOverlap(candidate, previous);
-    if (common >= 2) return true;
 
-    // Do not reject on a single four-character anchor. Generic words
-    // such as "водитель", "город", "пожар" or fragments from descriptions
-    // can otherwise make unrelated incidents look like the same event.
-    // A real cross-source duplicate should share at least two anchors.
+    // Exact/near-identical headline means the same news item even when
+    // the source URL or RSS wording differs slightly.
+    const titleA = normalizeForHash(candidate.title || "");
+    const titleB = normalizeForHash(previous.title || "");
+    if (titleA && titleB) {
+        if (titleA === titleB) return true;
+        if (storySimilarity(titleA, titleB) >= 0.90) return true;
+    }
+
+    // Different headlines about the same real-world event must still
+    // share multiple non-generic anchors.
     if (common >= 2) return true;
 
     return false;
@@ -2160,6 +2168,19 @@ async function rememberPublishedEvent(item, story, articleMedia, articleUrl) {
 
 async function isAlreadyPublished(item, articleUrl = "") {
     const db = await getKV();
+
+    // Deterministic headline guard. This is independent of RSS source,
+    // article URL and publication timestamp.
+    const normalizedHeadline = normalizeForHash(item?.title || "");
+    if (normalizedHeadline) {
+        const headlineId = await sha256(normalizedHeadline);
+        const headlineHit = await db.get([
+            "factor",
+            "recent_headline_v3",
+            headlineId,
+        ]);
+        if (headlineHit.value) return true;
+    }
     if (articleUrl) {
         const key = await publishedKey(item, articleUrl);
         const result = await db.get([
@@ -2194,7 +2215,16 @@ async function isAlreadyPublished(item, articleUrl = "") {
     // Last line of defence for slightly different headlines.
     const recent = await getRecentTitles(MAX_HISTORY_CHECKED);
     const candidateTitle = item.title.trim();
+    const candidateNormalized = normalizeForHash(candidateTitle);
+
     for (const oldTitle of recent) {
+        const oldNormalized = normalizeForHash(oldTitle);
+        if (!candidateNormalized || !oldNormalized) continue;
+
+        if (candidateNormalized === oldNormalized) return true;
+        if (storySimilarity(candidateNormalized, oldNormalized) >= 0.90) {
+            return true;
+        }
         if (storySimilarity(candidateTitle, oldTitle) >= 0.78) {
             return true;
         }
@@ -2276,6 +2306,18 @@ async function rememberTitle(title) {
     ], title, {
         expireIn: HISTORY_TTL_MS,
     });
+
+    const normalized = normalizeForHash(title);
+    if (normalized) {
+        const headlineId = await sha256(normalized);
+        await db.set([
+            "factor",
+            "recent_headline_v3",
+            headlineId,
+        ], title, {
+            expireIn: HISTORY_TTL_MS,
+        });
+    }
 }
 // ============================================================
 // URGENCY
@@ -2491,7 +2533,7 @@ ${stripHtml(articleMedia.description ?? "")}
 
 {
   "headline": "короткий точный заголовок",
-  "short": "одно короткое предложение о событии",
+  "short": "одно-два коротких предложения ТОЛЬКО с новыми конкретными фактами, которых нет в headline; если новых фактов нет — пустая строка",
   "main": [
     "конкретный факт 1",
     "конкретный факт 2",
@@ -2511,12 +2553,15 @@ ${stripHtml(articleMedia.description ?? "")}
 6. Не пиши "ситуация развивается".
 7. Не пиши рекламные формулировки.
 8. Не повторяй одну мысль в разных блоках.
-9. Если фактов мало — используй меньше пунктов.
-10. main может содержать от 0 до 3 пунктов.
-11. urgent=true только если событие действительно срочное.
-12. Не делай выводов, которых нет в исходных данных.
-13. Не меняй смысл новости.
-14. Не добавляй географию, даты, цифры или имена, которых нет в исходных данных.
+9. short НЕ ДОЛЖЕН пересказывать headline другими словами.
+10. short должен добавлять конкретные новые сведения из исходного текста: цифры, площадь, число людей или техники, отсутствие пострадавших, место, время, статус работ и другие факты, которых нет в headline.
+11. Если исходные данные не содержат дополнительного факта — верни short пустой строкой.
+12. Если фактов мало — используй меньше пунктов.
+13. main может содержать от 0 до 3 пунктов.
+14. urgent=true только если событие действительно срочное.
+15. Не делай выводов, которых нет в исходных данных.
+16. Не меняй смысл новости.
+17. Не добавляй географию, даты, цифры или имена, которых нет в исходных данных.
 
 `;
     try {
@@ -2625,7 +2670,7 @@ ${stripHtml(articleMedia.description ?? "")}
 
 {
   "headline": "короткий точный заголовок",
-  "short": "одно короткое предложение о событии",
+  "short": "одно-два коротких предложения ТОЛЬКО с новыми конкретными фактами, которых нет в headline; если новых фактов нет — пустая строка",
   "main": [
     "конкретный факт 1",
     "конкретный факт 2",
@@ -2645,12 +2690,15 @@ ${stripHtml(articleMedia.description ?? "")}
 6. Не пиши "ситуация развивается".
 7. Не пиши рекламные формулировки.
 8. Не повторяй одну мысль в разных блоках.
-9. Если фактов мало — используй меньше пунктов.
-10. main может содержать от 0 до 3 пунктов.
-11. urgent=true только если событие действительно срочное.
-12. Не делай выводов, которых нет в исходных данных.
-13. Не меняй смысл новости.
-14. Не добавляй географию, даты, цифры или имена, которых нет в исходных данных.
+9. short НЕ ДОЛЖЕН пересказывать headline другими словами.
+10. short должен добавлять конкретные новые сведения из исходного текста: цифры, площадь, число людей или техники, отсутствие пострадавших, место, время, статус работ и другие факты, которых нет в headline.
+11. Если исходные данные не содержат дополнительного факта — верни short пустой строкой.
+12. Если фактов мало — используй меньше пунктов.
+13. main может содержать от 0 до 3 пунктов.
+14. urgent=true только если событие действительно срочное.
+15. Не делай выводов, которых нет в исходных данных.
+16. Не меняй смысл новости.
+17. Не добавляй географию, даты, цифры или имена, которых нет в исходных данных.
 `;
 }
 
@@ -2852,13 +2900,13 @@ function buildPost(item, story, sourceName, articleUrl) {
     const category = `${item.categoryEmoji} <b>${escapeHtml(item.category)}</b>`;
     const headlineText = stripHtml(truncate(story.headline || item.title, 260));
     const rawShortText = stripHtml(
-        truncate(story.short || item.description || item.title, 500),
+        truncate(story.short || "", 500),
     );
 
     // Keep the feed compact. If the short sentence repeats the headline
     // semantically, omit it instead of publishing the same fact twice.
     const shortText =
-        storySimilarity(rawShortText, headlineText) >= 0.55
+        storySimilarity(rawShortText, headlineText) >= 0.72
             ? ""
             : rawShortText;
 
