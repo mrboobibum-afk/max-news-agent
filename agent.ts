@@ -1526,27 +1526,114 @@ function mediaContextLooksGeneric(context) {
 function findImageCandidatesFromHtml(html, baseUrl) {
     const candidates = [];
     const seen = new Set();
+
     const add = (rawUrl, priority, context = "", source = "article") => {
-        const url = absoluteUrl(normalizeMediaUrl(rawUrl), baseUrl);
-        if (!url || seen.has(url) || mediaUrlLooksGeneric(url) || mediaContextLooksGeneric(context)) return;
+        const url = absoluteUrl(normalizeMediaUrl(String(rawUrl || "")), baseUrl);
+        if (!url ||
+            seen.has(url) ||
+            mediaUrlLooksGeneric(url) ||
+            mediaContextLooksGeneric(context)) {
+            return;
+        }
         if (!/^https?:\/\//i.test(url)) return;
         seen.add(url);
-        candidates.push({ url, priority, context: cleanText(stripHtml(context)).slice(0, 500), source });
+        candidates.push({
+            url,
+            priority,
+            context: cleanText(stripHtml(context)).slice(0, 500),
+            source,
+        });
     };
 
-    // Images physically present in the article are preferred. Capture a
-    // little nearby text (alt/title/figcaption) so the validator has context.
-    for (const match of html.matchAll(/<(?:figure|img)\b[\s\S]{0,1200}?/gi)) {
+    const addSrcset = (rawValue, priority, context = "", source = "srcset") => {
+        if (!rawValue) return;
+        // srcset may contain several URLs with width/density descriptors.
+        const entries = String(rawValue)
+            .replace(/\\/g, "")
+            .split(",")
+            .map((entry) => entry.trim())
+            .filter(Boolean);
+
+        // Prefer the largest declared candidate; if descriptors are absent,
+        // preserve the page order.
+        const parsed = entries
+            .map((entry) => {
+                const match = entry.match(/^(\S+)(?:\s+(\d+(?:\.\d+)?)(w|x))?$/i);
+                return {
+                    url: match?.[1] || "",
+                    size: Number(match?.[2] || 0),
+                };
+            })
+            .filter((entry) => entry.url);
+
+        parsed
+            .sort((a, b) => b.size - a.size)
+            .forEach((entry, index) => {
+                add(
+                    entry.url,
+                    priority - Math.min(index, 5),
+                    context,
+                    source,
+                );
+            });
+    };
+
+    // Real article images are preferred. Capture all common lazy-loading
+    // attributes used by news CMSs, not only a literal <img src="...">.
+    for (const match of html.matchAll(/<(?:figure|picture|img)\b[\s\S]{0,1800}?/gi)) {
         const block = match[0];
-        const src = block.match(/\b(?:src|data-src|data-original|data-lazy-src)=["']([^"']+)["']/i)?.[1];
-        if (!src) continue;
-        const alt = block.match(/\balt=["']([^"']*)["']/i)?.[1] ?? "";
-        const title = block.match(/\btitle=["']([^"']*)["']/i)?.[1] ?? "";
-        add(src, 120, `${alt} ${title}`, "article_body");
+        const alt =
+            block.match(/\balt=["']([^"']*)["']/i)?.[1] ?? "";
+        const title =
+            block.match(/\btitle=["']([^"']*)["']/i)?.[1] ?? "";
+        const context = `${alt} ${title}`;
+
+        const directAttributes = [
+            "src",
+            "data-src",
+            "data-original",
+            "data-lazy-src",
+            "data-image",
+            "data-image-url",
+            "data-url",
+        ];
+
+        for (const attribute of directAttributes) {
+            const value =
+                block.match(new RegExp(
+                    `\\\\b${attribute}=["']([^"']+)["']`,
+                    "i",
+                ))?.[1];
+            if (value) {
+                add(value, attribute === "src" ? 125 : 130, context, "article_body");
+            }
+        }
+
+        for (const attribute of ["srcset", "data-srcset", "data-lazy-srcset"]) {
+            const value =
+                block.match(new RegExp(
+                    `\\\\b${attribute}=["']([^"']+)["']`,
+                    "i",
+                ))?.[1];
+            if (value) {
+                addSrcset(value, 135, context, "article_srcset");
+            }
+        }
+
+        // Some CMSs put the actual image in a CSS background instead of src.
+        for (const styleMatch of block.matchAll(
+            /background(?:-image)?\\s*:[^;]*url\\((?:["']?)([^)"']+)(?:["']?)\\)/gi,
+        )) {
+            add(styleMatch[1], 118, context, "article_background");
+        }
     }
 
-    // JSON-LD NewsArticle image is generally more trustworthy than a generic
-    // site image, but still gets relevance validation below.
+    // <picture><source srcset="..."> is common on responsive news sites.
+    for (const match of html.matchAll(/<source\\b[^>]*?(?:srcset|data-srcset)=["']([^"']+)["'][^>]*>/gi)) {
+        addSrcset(match[1], 132, "picture source", "picture_srcset");
+    }
+
+    // JSON-LD NewsArticle image is generally trustworthy.
     const jsonLd = extractJsonLd(html);
     const articles = [];
     for (const block of jsonLd) collectArticleJsonLd(block, articles);
@@ -1554,20 +1641,63 @@ function findImageCandidatesFromHtml(html, baseUrl) {
         const images = article?.image;
         const values = Array.isArray(images) ? images : [images];
         for (const value of values) {
-            if (typeof value === "string") add(value, 110, "NewsArticle image", "jsonld");
-            else if (value && typeof value === "object") add(value.url ?? value.contentUrl ?? "", 110, "NewsArticle image", "jsonld");
+            if (typeof value === "string") {
+                add(value, 115, "NewsArticle image", "jsonld");
+            } else if (value && typeof value === "object") {
+                add(
+                    value.url ?? value.contentUrl ?? "",
+                    115,
+                    "NewsArticle image",
+                    "jsonld",
+                );
+            }
         }
     }
 
-    const imageSrc = findMeta(html, "image") || findMeta(html, "og:image") || findMeta(html, "twitter:image");
-    if (imageSrc) add(imageSrc, 60, "OpenGraph image", "meta");
+    // Standard OpenGraph/Twitter/article image metadata.
+    for (const property of [
+        "og:image",
+        "og:image:url",
+        "og:image:secure_url",
+        "twitter:image",
+        "twitter:image:src",
+        "image",
+    ]) {
+        const value = findMeta(html, property);
+        if (value) {
+            add(value, 90, "OpenGraph image", "meta");
+        }
+    }
 
-    // rel=image_src is an additional publisher-provided fallback.
-    const relImage = html.match(/<link[^>]+rel=["'][^"']*image_src[^"']*["'][^>]+href=["']([^"']+)["']/i)?.[1] ||
+    // rel=image_src and preload links are useful fallbacks on CMSs where
+    // the visible image is injected/lazy-loaded by JavaScript.
+    const relImage =
+        html.match(/<link[^>]+rel=["'][^"']*image_src[^"']*["'][^>]+href=["']([^"']+)["']/i)?.[1] ||
         html.match(/<link[^>]+href=["']([^"']+)["'][^>]+rel=["'][^"']*image_src[^"']*["']/i)?.[1];
-    if (relImage) add(relImage, 55, "article image", "link");
+    if (relImage) add(relImage, 85, "article image", "link");
 
-    return candidates.sort((a, b) => b.priority - a.priority).slice(0, 12);
+    for (const match of html.matchAll(
+        /<link\\b[^>]*?(?:rel=["'][^"']*preload[^"']*["'][^>]*?)?[^>]*?href=["']([^"']+)["'][^>]*>/gi,
+    )) {
+        const block = match[0];
+        if (/as=["']image["']/i.test(block)) {
+            add(match[1], 82, "preloaded article image", "preload");
+        }
+    }
+
+    // Last-resort extraction for CMS-generated markup where image URLs are
+    // present in JSON/config but not in standard image attributes. Relevance
+    // validation below still decides whether the downloaded image belongs to
+    // the story.
+    for (const match of html.matchAll(
+        /(?:https?:)?\/\/[^"'<>\\s]+?\.(?:jpe?g|png|webp|gif)(?:\?[^"'<>\\s]*)?/gi,
+    )) {
+        add(match[0], 45, "image URL in page markup", "html_url");
+    }
+
+    return candidates
+        .sort((a, b) => b.priority - a.priority)
+        .slice(0, 20);
 }
 // ============================================================
 // ARTICLE MEDIA
