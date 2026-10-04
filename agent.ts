@@ -1346,7 +1346,7 @@ function findVideoFromHtml(html, baseUrl) {
             "data-m3u8",
         ]) {
             const value = block.match(new RegExp(
-                "\\\\b" + attribute + "=[\"']([^\"']+)[\"']",
+                "\\b" + attribute + "=[\"']([^\"']+)[\"']",
                 "i",
             ))?.[1];
             if (value) add(value, attribute === "src" ? 140 : 135);
