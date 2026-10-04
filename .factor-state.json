@@ -1450,103 +1450,13 @@
       ],
       "value": {
         "ok": true,
-        "selected": 1,
-        "urgent": false,
-        "manual": false,
-        "score": 42,
+        "selected": 0,
+        "reason": "publication intervals not reached",
         "rss_total": 300,
-        "diagnostics": {
-          "rss_total": 300,
-          "scored": 75,
-          "accepted": 1,
-          "short_title": 0,
-          "urgent_interval": 23,
-          "regular_interval": 0,
-          "duplicate_before_article": 0,
-          "event_duplicate_before_article": 0,
-          "bad_url": 1,
-          "article_title_mismatch": 0,
-          "duplicate_after_article": 0,
-          "event_duplicate_after_article": 0,
-          "gemini_fallback": 0,
-          "gemini_title_mismatch": 0,
-          "urgent_interval_after_gemini": 0,
-          "regular_interval_after_gemini": 0,
-          "text_duplicate": 0,
-          "video_candidates": 0,
-          "video_checked": 0,
-          "video_rejected": 0,
-          "video_validation": null,
-          "external_video_candidates": 10,
-          "external_video_checked": 6,
-          "search_video_queries": 7,
-          "search_video_candidates": 7,
-          "search_video_checked": 13,
-          "image_candidates": 0,
-          "media_checked": 0,
-          "media_selected": null,
-          "selected_media_source": null,
-          "media_rejected": "no_relevant_media",
-          "top_candidates": [],
-          "ai_provider": "gemini"
-        },
-        "item": {
-          "title": "Президент Финляндии: Ожидаем ли мы, что Россия нападет? Ответ — нет - Независимая газета",
-          "source": "Независимая газета",
-          "article_url": "https://www.ng.ru/news/848395.html",
-          "category": "ПОЛИТИКА"
-        },
-        "media": null,
-        "publication": {
-          "message": {
-            "recipient": {
-              "chat_type": "channel",
-              "chat_id": -78887448255074
-            },
-            "timestamp": 1791129053166,
-            "body": {
-              "mid": "mid.ffffb84095ab659e01a1079c67ee781f",
-              "seq": 117383433628317730,
-              "text": "🔵 ФАКТОР • ГЛАВНОЕ\n\n🏛️ ПОЛИТИКА\n\nПрезидент Финляндии не ожидает нападения России\n\nПрезидент Финляндии Александер Стубб в интервью газете El Mundo отметил проблему с коммуникацией в Европе. По его словам, некоторые лидеры смешивают две вещи.\n\n🕒 18:50\n🔗 Независимая газета\n\nФАКТОР",
-              "markup": [
-                {
-                  "from": 3,
-                  "length": 16,
-                  "type": "strong"
-                },
-                {
-                  "from": 25,
-                  "length": 8,
-                  "type": "strong"
-                },
-                {
-                  "from": 35,
-                  "length": 47,
-                  "type": "strong"
-                },
-                {
-                  "url": "https://www.ng.ru/news/848395.html",
-                  "from": 256,
-                  "length": 18,
-                  "type": "link"
-                },
-                {
-                  "from": 276,
-                  "length": 6,
-                  "type": "emphasized"
-                }
-              ]
-            },
-            "stat": {
-              "views": 1
-            },
-            "url": "https://max.ru/channel_faktormedia/AaEHnGfueB8"
-          }
-        },
-        "duration_ms": 73994
+        "duration_ms": 577
       },
       "expiresAt": null,
-      "versionstamp": "abab1fad-3c35-40bb-8906-226401e80361"
+      "versionstamp": "1a42ff30-d206-4e56-89b8-46b3014ac67f"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
