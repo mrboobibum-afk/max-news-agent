@@ -4103,6 +4103,16 @@ async function publishWithMediaRetry(text, mediaInfo) {
 // PIPELINE
 // ============================================================
 async function runPipeline(manual = false) {
+    // GitHub Actions already serializes this workflow with the
+    // "faktor-pipeline-v2" concurrency group. Do not use the
+    // file-backed lock here: separate runners/processes can race on
+    // .factor-state.json and create a false "pipeline already running".
+    if (GITHUB_ACTIONS_MODE) {
+        const db = await getKV();
+        await db.delete(PIPELINE_LOCK_KEY);
+        return await executePipeline(manual);
+    }
+
     const lock = await acquirePipelineLock();
     if (!lock) {
         return {
