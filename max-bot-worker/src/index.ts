@@ -1,3 +1,4 @@
+// MAX API v2 endpoint; token is synchronized from the GitHub Actions secret at deploy time.
 const MAX_API = "https://platform-api2.max.ru";
 
 const MINIAPP_ORIGIN = "https://mrboobibum-afk.github.io";
