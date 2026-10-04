@@ -2751,7 +2751,6 @@ function buildPost(item, story, sourceName, articleUrl) {
         "",
         `<b>${escapeHtml(headlineText)}</b>`,
         "",
-        "<b>КРАТКО</b>",
         escapeHtml(shortText),
     ];
     if (mainItems.length > 0) {
