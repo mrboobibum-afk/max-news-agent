@@ -1,0 +1,16 @@
+name: FAKTOR Schedule Probe
+
+on:
+  push:
+    paths:
+      - ".github/workflows/faktor-schedule-probe.yml"
+  schedule:
+    - cron: "*/5 * * * *"
+      timezone: "UTC"
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "SCHEDULE PROBE OK"
