@@ -88,9 +88,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791038933631,
+      "value": 1791091684263,
       "expiresAt": null,
-      "versionstamp": "b31b6e24-4e35-4fe3-9dc0-b71bd75cdda1"
+      "versionstamp": "8769466f-ad56-4736-bcea-e7f8c0b8f590"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -539,6 +539,100 @@
       },
       "expiresAt": 1791244827149,
       "versionstamp": "c0ff52c6-1d78-4648-bffe-03bfd95a296b"
+    },
+    "[\"factor\",\"published_v2\",\"09a3011b22ca820d51e5def221cfe1c501cac1ef4feec853fe8ab33a1c064dca\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "09a3011b22ca820d51e5def221cfe1c501cac1ef4feec853fe8ab33a1c064dca"
+      ],
+      "value": true,
+      "expiresAt": 1793683692945,
+      "versionstamp": "9f10e52e-027f-471b-9d07-e7c1a6da3aaa"
+    },
+    "[\"factor\",\"published\",\"b5248e9db78b6a3a446a83d37f6b302ce7f70475fbfeaba9cb87ac69d44e3e26\"]": {
+      "key": [
+        "factor",
+        "published",
+        "b5248e9db78b6a3a446a83d37f6b302ce7f70475fbfeaba9cb87ac69d44e3e26"
+      ],
+      "value": true,
+      "expiresAt": 1793683692945,
+      "versionstamp": "3db82ce5-bb7f-409c-b0e0-fa08d4bebb8f"
+    },
+    "[\"factor\",\"published_story_v3\",\"af5d350156b7b8790239133ec63a27213bcdfd65cb9d40667d05ee08c7347bb6\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "af5d350156b7b8790239133ec63a27213bcdfd65cb9d40667d05ee08c7347bb6"
+      ],
+      "value": true,
+      "expiresAt": 1793683692946,
+      "versionstamp": "274fa233-d8ef-4feb-ba73-1aff793b0221"
+    },
+    "[\"factor\",\"recent_title_v2\",1791091692951,\"f2ce2654407f66bd25ab88ea4b3591f26d3c7e5ca85362c98db2e49fc536d243\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791091692951,
+        "f2ce2654407f66bd25ab88ea4b3591f26d3c7e5ca85362c98db2e49fc536d243"
+      ],
+      "value": "Подозреваемый в убийстве британского политика Энн Уидеком обвинен в подготовке теракта против Найджела Фараджа - BBC News Русская служба",
+      "expiresAt": 1793683692951,
+      "versionstamp": "a1e77d07-9266-4c7c-9e37-0dc0a4f13fb9"
+    },
+    "[\"factor\",\"published_event_v4\",\"3afcb0568501f6cae7a27885057dc08b47271b3828573535f483e5445e981b4f\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "3afcb0568501f6cae7a27885057dc08b47271b3828573535f483e5445e981b4f"
+      ],
+      "value": {
+        "category": "ПОЛИТИКА",
+        "family": "crime",
+        "anchors": [
+          "подо",
+          "убий",
+          "брит",
+          "поли",
+          "уиде",
+          "обви",
+          "подг",
+          "тера",
+          "найд",
+          "фара",
+          "news",
+          "русс",
+          "служ",
+          "href",
+          "http",
+          "goog",
+          "arti",
+          "cbmi",
+          "targ",
+          "blan",
+          "font",
+          "colo",
+          "6f6f",
+          "джош",
+          "керр",
+          "конс",
+          "парт",
+          "refo",
+          "пятн",
+          "пред",
+          "одно",
+          "числ",
+          "отно",
+          "лиде"
+        ],
+        "title": "Подозреваемый в убийстве британского политика Энн Уидеком обвинен в подготовке теракта против Найджела Фараджа - BBC News Русская служба",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiX0FVX3lxTE5Sa0tJOXM1WmRMaDI2cDNnUW1veU5TWDZCbkhoUGVaN0ZNWkxWS2M1NUhZR3BidS01QnpNeTJQV0VjWDJGb1hfcV94UFU4TVFnLV9oWUJRYk16RnhxWXVr0gFkQVVfeXFMT212bVVScTBJMlVKcGVHWVBvcVlkaC00WW1oVERVaWdLdjFrM1dnTEpzMUw1R1ZTR2lLeEFrYjd0Z3JpcWFIQ3p2QjZKbHRlTFUxWUplUXh4LTJhd0tubTc5SkF1Nw?oc=5\" target=\"_blank\"&gt;Подозреваемый в убийстве британского политика Энн Уидеком обвинен в подготовке теракта против Найджела Фараджа&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;BBC&lt;/font&gt; Британцу Джошуа Керри, обвиняемому в убийстве консервативного политика из партии Reform UK Энн Уидеком, в пятницу предъявили еще одно обвинение — в подготовке терактов, в том числе в отношении лидера той же партии Найджела Фараджа. Британцу Джошуа Керри, обвиняемому в убийстве консервативного политика из партии Reform UK Энн Уидеком, в пятницу предъявили еще одно обвинение — в подготовке терактов, в том числе в отношении лидера той же партии Найджела Фараджа.",
+        "published_at": 1791091692951,
+        "article_url": "https://www.bbc.com/russian/articles/cmg47y5g750po"
+      },
+      "expiresAt": 1791264492951,
+      "versionstamp": "a47a444b-fe45-40a3-8d45-12d19a230c4e"
     }
   }
 }
