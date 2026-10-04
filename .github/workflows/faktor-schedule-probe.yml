@@ -6,7 +6,6 @@ on:
       - ".github/workflows/faktor-schedule-probe.yml"
   schedule:
     - cron: "*/5 * * * *"
-      timezone: "UTC"
   workflow_dispatch:
 
 jobs:
