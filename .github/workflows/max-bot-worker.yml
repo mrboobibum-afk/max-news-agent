@@ -47,5 +47,5 @@ jobs:
           echo "Checking MAX bot token via GET /me..."
           curl --insecure --fail-with-body -sS "https://platform-api2.max.ru/me" \
             -H "Authorization: ${MAX_BOT_TOKEN}" \
-            -H "Content-Type: application/json"
-          echo
+            -H "Content-Type: application/json" |
+            jq '{user_id, username, name, is_bot}'
