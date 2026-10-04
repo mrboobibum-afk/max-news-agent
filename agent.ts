@@ -1376,7 +1376,7 @@ function collectEmbeddedVideoPageUrls(html, baseUrl) {
 
     const add = (rawUrl) => {
         const url = absoluteUrl(normalizeMediaUrl(rawUrl), baseUrl);
-        if (!url || seen.has(url) || !isVideoHost(url)) return;
+        if (!url || seen.has(url) || !isVideoHost(url) || isLikelyStockVideoSource(url)) return;
         seen.add(url);
         result.push(url);
     };
@@ -1481,6 +1481,29 @@ function collectExternalVideoSourceUrls(html, baseUrl) {
     }
 
     return result.slice(0, 10);
+}
+
+function isLikelyStockVideoSource(url) {
+    if (!url) return false;
+    try {
+        const host = new URL(url).hostname.toLowerCase().replace(/^www\\./, "");
+        return [
+            "shutterstock.com",
+            "istockphoto.com",
+            "gettyimages.com",
+            "depositphotos.com",
+            "alamy.com",
+            "adobestock.com",
+            "stock.adobe.com",
+            "pond5.com",
+            "dreamstime.com",
+            "123rf.com",
+            "storyblocks.com",
+            "videvo.net",
+        ].some(domain => host === domain || host.endsWith("." + domain));
+    } catch {
+        return false;
+    }
 }
 
 function mediaUrlLooksGeneric(url) {
@@ -3040,7 +3063,9 @@ ${media.sourceUrl || "неизвестен"}
 Задача: определить, показывает ли видео ТО ЖЕ СОБЫТИЕ, которое описывает новость.
 Учитывай визуальные кадры и, если доступно, аудио/речь.
 true только если есть разумные визуальные/контекстные признаки связи с событием, местом, людьми, объектом или ситуацией новости.
-false, если это другое событие, случайная/сторонняя запись, сток, реклама, общий видеоряд, старые кадры без связи, либо связь нельзя подтвердить.
+false, если это другое событие, случайная/сторонняя запись, стоковое видео, рекламный или промо-ролик, постановочная/универсальная библиотечная съёмка, общий видеоряд, старые кадры без связи, либо связь нельзя подтвердить.
+Стоковые библиотеки и рекламные видеоматериалы никогда не считаются подтверждением новости.
+Публично размещённое видео очевидца, пользователя, СМИ или другого источника может быть принято, если визуально/контекстно подтверждает именно это событие.
 Не требуй совпадения формулировок. Пользовательское видео может быть низкого качества и снято с другого ракурса.
 Если сомневаешься — false.
 
