@@ -88,9 +88,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791136488463,
+      "value": 1791138761000,
       "expiresAt": null,
-      "versionstamp": "1d25f1ce-8752-4557-ab8f-b66111f4b0d1"
+      "versionstamp": "b7d3cd85-41f1-4626-9805-57e12a62e867"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -1451,16 +1451,16 @@
       "value": {
         "ok": true,
         "selected": 1,
-        "urgent": false,
+        "urgent": true,
         "manual": false,
-        "score": 44,
+        "score": 58,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
           "scored": 45,
           "accepted": 1,
           "short_title": 0,
-          "urgent_interval": 22,
+          "urgent_interval": 0,
           "regular_interval": 0,
           "duplicate_before_article": 0,
           "event_duplicate_before_article": 0,
@@ -1473,32 +1473,32 @@
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
           "text_duplicate": 0,
-          "video_candidates": 1,
-          "video_checked": 2,
-          "video_rejected": 2,
-          "video_validation": "not_relevant",
-          "external_video_candidates": 1,
-          "external_video_checked": 1,
+          "video_candidates": 0,
+          "video_checked": 0,
+          "video_rejected": 0,
+          "video_validation": null,
+          "external_video_candidates": 4,
+          "external_video_checked": 3,
           "search_video_queries": 7,
           "search_video_candidates": 1,
           "search_video_checked": 0,
           "image_candidates": 1,
           "media_checked": 1,
           "media_selected": "image",
-          "selected_media_source": "jsonld",
-          "media_rejected": "external_video_not_relevant",
+          "selected_media_source": "meta",
+          "media_rejected": null,
           "top_candidates": [],
           "ai_provider": "none"
         },
         "item": {
-          "title": "Искусственный интеллект в суде: российский рынок legal tech вырос на 17% - BFM.ru",
-          "source": "BFM.ru - деловой портал",
-          "article_url": "https://www.bfm.ru/news/619831",
-          "category": "ТЕХНОЛОГИИ"
+          "title": "Пожар в Вяземском округе: полностью уничтожен жилой дом - Смоленская газета",
+          "source": "Смоленская газета",
+          "article_url": "https://smolgazeta.ru/daylynews/140936-pojar-v-vyazemskom-okruge-polnostyu.html",
+          "category": "ПРОИСШЕСТВИЯ"
         },
         "media": {
           "type": "image",
-          "source_url": "https://cdn.bfm.ru/news/photopreviewextralarge/2026/10/04/lori-0043533089-bigwww.jpg"
+          "source_url": "https://smolgazeta.ru/fc-web/fc-files/2026/10/174653-600x400.jpeg"
         },
         "publication": {
           "message": {
@@ -1506,17 +1506,17 @@
               "chat_type": "channel",
               "chat_id": -78887448255074
             },
-            "timestamp": 1791136787134,
+            "timestamp": 1791138802944,
             "body": {
-              "mid": "mid.ffffb84095ab659e01a108126abe5ba9",
-              "seq": 117383940481637300,
-              "text": "Искусственный интеллект в суде: российский рынок legal tech вырос на 17%\n\nСамостоятельных судебных решений ИИ пока не принимает, выступая в роли помощника. Какие задачи юристы сегодня готовы передавать нейросети и кто будет отвечать за ее ошибки?\n\n🔗 BFM.ru - деловой портал\n\n📢 ФАКТОР",
+              "mid": "mid.ffffb84095ab659e01a108312d000672",
+              "seq": 117384072589739630,
+              "text": "Пожар в Вяземском округе: полностью уничтожен жилой дом\n\nВчера, 3 октября, в селе Новый Вяземского округа произошёл пожар в частном жилом доме....\n\n🔗 Смоленская газета\n\n📢 ФАКТОР",
               "attachments": [
                 {
                   "payload": {
-                    "photo_id": 44435168328,
-                    "token": "BolM9uN220fW6kEKDedHmQB+4Ocp2q7ceyZTye9AGNAxjCVGEborG7qGxu7/4ZFzZI9r+QQ3V4LM4Tgv3B4sRRHxmE5g6FGgKBC/NRwFcAk=",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8yrGbYMDJsgnmTggkDPNw1uhjfMfVvfoBKYlDsISiwlA"
+                    "photo_id": 44439447368,
+                    "token": "Db88RZGwMDhX4yFH0FYM+SRUAOCX/J/89zRf3tZxKcPiFdb5MSMf2weTNpiDxDrs5mvtgTDjCO2o9zgqj9V9hYtWZysuz97lYBhLhCYU2nU=",
+                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8RGncCV4ghVoJcEpnVg1YZ-hjfMfVvfoBKYlDsISiwlA"
                   },
                   "type": "image"
                 }
@@ -1524,17 +1524,17 @@
               "markup": [
                 {
                   "from": 0,
-                  "length": 72,
+                  "length": 55,
                   "type": "strong"
                 },
                 {
-                  "url": "https://www.bfm.ru/news/619831",
-                  "from": 251,
-                  "length": 23,
+                  "url": "https://smolgazeta.ru/daylynews/140936-pojar-v-vyazemskom-okruge-polnostyu.html",
+                  "from": 151,
+                  "length": 17,
                   "type": "link"
                 },
                 {
-                  "from": 279,
+                  "from": 173,
                   "length": 6,
                   "type": "emphasized"
                 }
@@ -1543,13 +1543,13 @@
             "stat": {
               "views": 1
             },
-            "url": "https://max.ru/channel_faktormedia/AaEIEmq-W6k"
+            "url": "https://max.ru/channel_faktormedia/AaEIMS0ABnI"
           }
         },
-        "duration_ms": 44627
+        "duration_ms": 42724
       },
       "expiresAt": null,
-      "versionstamp": "e08947e0-4b82-48da-83ab-2ffdb46e56e5"
+      "versionstamp": "0f1d4ed3-beea-429e-a1ff-bf0f99cf5e75"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -1927,6 +1927,81 @@
       },
       "expiresAt": 1791309587280,
       "versionstamp": "4ac6d635-9228-4b0e-a4a1-3492fcc04c29"
+    },
+    "[\"factor\",\"published_v2\",\"eec490e941faa5db557e747cdaa6ca35e528e267029c262fda94d96816ce9304\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "eec490e941faa5db557e747cdaa6ca35e528e267029c262fda94d96816ce9304"
+      ],
+      "value": true,
+      "expiresAt": 1793730803061,
+      "versionstamp": "8d1b88e0-076e-4cce-bef9-c4e9660c5086"
+    },
+    "[\"factor\",\"published\",\"31e51927e6ae969c1de3ee5d1f87fd6cce51ec608682bd653f6248af14325542\"]": {
+      "key": [
+        "factor",
+        "published",
+        "31e51927e6ae969c1de3ee5d1f87fd6cce51ec608682bd653f6248af14325542"
+      ],
+      "value": true,
+      "expiresAt": 1793730803062,
+      "versionstamp": "bb391498-a3cb-43c9-a0fe-b3ccc706f69f"
+    },
+    "[\"factor\",\"published_story_v3\",\"a862b651bf1930c6f0c1f7ab28a6c3535b4adb1ecfae06a88d79b1d7da4709e9\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "a862b651bf1930c6f0c1f7ab28a6c3535b4adb1ecfae06a88d79b1d7da4709e9"
+      ],
+      "value": true,
+      "expiresAt": 1793730803063,
+      "versionstamp": "c6d4b992-b084-4f54-ab82-c117d77054aa"
+    },
+    "[\"factor\",\"recent_title_v2\",1791138803064,\"16122483b2bc61e035154d516d1f3b19dbc76dd1a7f0a3a195162ae72be34c28\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791138803064,
+        "16122483b2bc61e035154d516d1f3b19dbc76dd1a7f0a3a195162ae72be34c28"
+      ],
+      "value": "Пожар в Вяземском округе: полностью уничтожен жилой дом",
+      "expiresAt": 1793730803064,
+      "versionstamp": "da0135eb-a806-4549-8e87-42a0278a5fc1"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"16122483b2bc61e035154d516d1f3b19dbc76dd1a7f0a3a195162ae72be34c28\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "16122483b2bc61e035154d516d1f3b19dbc76dd1a7f0a3a195162ae72be34c28"
+      ],
+      "value": "Пожар в Вяземском округе: полностью уничтожен жилой дом",
+      "expiresAt": 1793730803065,
+      "versionstamp": "f92be825-94d9-4759-b41b-ddb9ac36e4a4"
+    },
+    "[\"factor\",\"published_event_v4\",\"3728570b602df31467e4bad67e52e04bcd835b8408da7b09bfb7303daf743c54\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "3728570b602df31467e4bad67e52e04bcd835b8408da7b09bfb7303daf743c54"
+      ],
+      "value": {
+        "category": "ПРОИСШЕСТВИЯ",
+        "family": "fire",
+        "anchors": [
+          "вязе",
+          "окру",
+          "полн",
+          "унич",
+          "жило"
+        ],
+        "title": "Пожар в Вяземском округе: полностью уничтожен жилой дом",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMihgFBVV95cUxQWXVMY0hsWHFNTm1nTFNXcnJGY1BZWUFzMHJ3REtwOU1jM0pQakpjS2NTcG40dEZYM1lpTDFDcFpRSkRIbXVnZkhZNE9SQU5qLXlBOFRaelRvRHpoVDQ4b05uMlJxOExEWERmbmZ6eFVFcllaZXRKNmJ0TDVVei12akhPbVRWZw?oc=5\" target=\"_blank\"&gt;Пожар в Вяземском округе: полностью уничтожен жилой дом&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Смоленская газета&lt;/font&gt; Вчера, 3 октября, в селе Новый Вяземского округа произошёл пожар в частном жилом доме.... Вчера, 3 октября, в селе Новый Вяземского округа произошёл пожар в частном жилом доме....",
+        "published_at": 1791138803066,
+        "article_url": "https://smolgazeta.ru/daylynews/140936-pojar-v-vyazemskom-okruge-polnostyu.html"
+      },
+      "expiresAt": 1791311603066,
+      "versionstamp": "3fad5c6f-a8fc-4200-bf7a-a2ae37a581b2"
     }
   }
 }
