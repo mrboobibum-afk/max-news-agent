@@ -1,6 +1,9 @@
 name: FAKTOR Auto
 
 on:
+  push:
+    paths-ignore:
+      - ".factor-state.json"
   schedule:
     - cron: "1-59/5 * * * *"
       timezone: "UTC"
