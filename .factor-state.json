@@ -1788,6 +1788,18 @@
       },
       "expiresAt": 1791305081328,
       "versionstamp": "e7d4143d-33de-4cdf-b9b0-447d010d65ce"
+    },
+    "[\"factor\",\"lock\"]": {
+      "key": [
+        "factor",
+        "lock"
+      ],
+      "value": {
+        "token": "27d6b0df-b796-4685-a9de-1f902f4f0422",
+        "created_at": 1791132511349
+      },
+      "expiresAt": 1791132991350,
+      "versionstamp": "5e262211-9e39-466d-bb1c-f45155dd3a30"
     }
   }
 }
