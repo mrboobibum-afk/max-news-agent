@@ -88,9 +88,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791113296191,
+      "value": 1791113675816,
       "expiresAt": null,
-      "versionstamp": "3f9c0a20-e872-44c2-b2eb-17ca41e12fab"
+      "versionstamp": "290527d9-7a98-491d-83e4-5b3771441dd6"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -1219,6 +1219,71 @@
       },
       "expiresAt": 1791286273781,
       "versionstamp": "3cde5bec-47f9-44cd-a76e-30dbfabd4bda"
+    },
+    "[\"factor\",\"published_v2\",\"426ed5d2c26d5343b8dedd507bbafe466e73f9f886221ad6e77284b08343ede4\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "426ed5d2c26d5343b8dedd507bbafe466e73f9f886221ad6e77284b08343ede4"
+      ],
+      "value": true,
+      "expiresAt": 1793705719343,
+      "versionstamp": "435c50fe-e899-4501-ba92-1f37b02fef09"
+    },
+    "[\"factor\",\"published\",\"f05f8d319315bbfde4518aa06c1b5e0e7ab3dcf105dd2b381c64ae540b0faad0\"]": {
+      "key": [
+        "factor",
+        "published",
+        "f05f8d319315bbfde4518aa06c1b5e0e7ab3dcf105dd2b381c64ae540b0faad0"
+      ],
+      "value": true,
+      "expiresAt": 1793705719344,
+      "versionstamp": "f4ad3453-5284-41a8-a9bb-6bfe352959ff"
+    },
+    "[\"factor\",\"published_story_v3\",\"a3614764879a5d1f72c09b418c0e4d052d717685b7c3c56ba7aa6a1372b83e1a\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "a3614764879a5d1f72c09b418c0e4d052d717685b7c3c56ba7aa6a1372b83e1a"
+      ],
+      "value": true,
+      "expiresAt": 1793705719344,
+      "versionstamp": "d4585ae7-428b-4b0d-a316-96b3f4663ced"
+    },
+    "[\"factor\",\"recent_title_v2\",1791113719345,\"9af3b02d35d99007afaf1bd2a7f8e8582c51ce9bfc2614bcf61285f7e73f1e28\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791113719345,
+        "9af3b02d35d99007afaf1bd2a7f8e8582c51ce9bfc2614bcf61285f7e73f1e28"
+      ],
+      "value": "Пожар на базе вторсырья локализован в Пензенской области",
+      "expiresAt": 1793705719345,
+      "versionstamp": "defee1f3-afa0-4342-b620-a44b5cb40fac"
+    },
+    "[\"factor\",\"published_event_v4\",\"50d67dceb44a5287f92f5c98032e68b2b6de9b01e2a6d77de5fba92e5c72c8f9\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "50d67dceb44a5287f92f5c98032e68b2b6de9b01e2a6d77de5fba92e5c72c8f9"
+      ],
+      "value": {
+        "category": "ПРОИСШЕСТВИЯ",
+        "family": "fire",
+        "anchors": [
+          "базе",
+          "втор",
+          "лока",
+          "пенз",
+          "обла"
+        ],
+        "title": "Пожар на базе вторсырья локализован в Пензенской области",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiT0FVX3lxTE1yTG1DTDA5QnYwbU9NcHVXRVkyT0M3T3dXS3I4QkRCUHY2SzVOYzlTREhSTEZoOFJGUk5RRWRha05oWEpQQnJBdjl2ellWM2vSAUtBVV95cUxPejU3VTJCeXRqcENwVW03YzVCdlh4WTNmNjlzQU1VMEJjbkI5RjJnUU9CUDV3bUVXV0pPcWNOc1g0R01qOHNFNlNGRzg?oc=5\" target=\"_blank\"&gt;Пожар на базе вторсырья локализован в Пензенской области&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Интерфакс&lt;/font&gt; В Пензенской области пожарные локализовали возгорание на базе вторсырья. Пожарные локализовали возгорание на базе вторсырья в районе села Богословка в Пензенской области, сообщила в воскресенье пресс-служба регионального ГУ МЧС",
+        "published_at": 1791113719346,
+        "article_url": "https://www.interfax.ru/russia/1120243"
+      },
+      "expiresAt": 1791286519346,
+      "versionstamp": "e13db736-a09d-4d3e-afcf-5444c08cabca"
     }
   }
 }
