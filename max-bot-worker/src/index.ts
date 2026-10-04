@@ -67,8 +67,8 @@ function attachmentsOf(message: any): any[] {
 }
 
 function isUsefulSubmission(text: string, attachments: any[]) {
-  if (text && /^https?:\\/\\//i.test(text)) return true;
-  if (text && /(https?:\\/\\/|www\\.)/i.test(text)) return true;
+  if (text && /^https?:\/\//i.test(text)) return true;
+  if (text && /(https?:\/\/|www\.)/i.test(text)) return true;
   return attachments.some((a) => ["video", "image", "file"].includes(String(a?.type)));
 }
 
