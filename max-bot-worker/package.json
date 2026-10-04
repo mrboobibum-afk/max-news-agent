@@ -1,0 +1,8 @@
+{
+  "name": "factor-max-bot-worker",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@cloudflare/containers": "0.3.7"
+  }
+}
