@@ -1,0 +1,13 @@
+name: Actions Isolation Probe
+
+on:
+  push:
+    paths:
+      - ".github/workflows/actions-isolation-probe.yml"
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "ACTIONS ISOLATION OK"
