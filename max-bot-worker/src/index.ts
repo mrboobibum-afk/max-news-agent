@@ -374,6 +374,31 @@ async function validateMiniAppData(
       const matchingVariant = Array.from(candidateLaunchParams.entries())
         .find(([, candidate]) => safeEqual(candidate, originalHash))?.[0] ?? null;
 
+      if (matchingVariant) {
+        const userPair = params.find(([key]) => key === "user");
+        let user: any = undefined;
+
+        if (userPair) {
+          try {
+            user = JSON.parse(userPair[1]);
+          } catch {
+            return { ok: false, reason: "invalid_user_json" };
+          }
+        }
+
+        const userId = Number(user?.id);
+
+        if (!Number.isFinite(userId) || userId <= 0) {
+          return { ok: false, reason: "missing_user_id" };
+        }
+
+        return {
+          ok: true,
+          userId,
+          user,
+        };
+      }
+
       let tokenCheck: any = { checked: false };
 
       try {
