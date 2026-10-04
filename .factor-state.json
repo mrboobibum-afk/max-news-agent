@@ -88,9 +88,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791140322157,
+      "value": 1791140699923,
       "expiresAt": null,
-      "versionstamp": "baa17a44-2194-46e2-a152-0336e5db10e2"
+      "versionstamp": "94ee2a3e-e925-4a0e-aee4-7e68fab2203c"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -1451,17 +1451,17 @@
       "value": {
         "ok": true,
         "selected": 1,
-        "urgent": false,
+        "urgent": true,
         "manual": false,
-        "score": 38,
+        "score": 50,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
-          "scored": 45,
+          "scored": 19,
           "accepted": 1,
           "short_title": 0,
-          "urgent_interval": 25,
-          "regular_interval": 0,
+          "urgent_interval": 0,
+          "regular_interval": 281,
           "duplicate_before_article": 0,
           "event_duplicate_before_article": 0,
           "bad_url": 0,
@@ -1473,32 +1473,32 @@
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
           "text_duplicate": 0,
-          "video_candidates": 1,
-          "video_checked": 2,
-          "video_rejected": 2,
-          "video_validation": "not_relevant",
-          "external_video_candidates": 3,
-          "external_video_checked": 3,
+          "video_candidates": 0,
+          "video_checked": 0,
+          "video_rejected": 0,
+          "video_validation": null,
+          "external_video_candidates": 0,
+          "external_video_checked": 0,
           "search_video_queries": 7,
           "search_video_candidates": 1,
           "search_video_checked": 0,
-          "image_candidates": 1,
-          "media_checked": 1,
+          "image_candidates": 2,
+          "media_checked": 2,
           "media_selected": "image",
-          "selected_media_source": "html_url",
-          "media_rejected": "external_video_not_relevant",
+          "selected_media_source": "jsonld",
+          "media_rejected": null,
           "top_candidates": [],
           "ai_provider": "none"
         },
         "item": {
-          "title": "5 важных причин, почему в новых авто объём двигателя 1.5 л - Авто Юга.ру",
-          "source": "Авто Юга.ру",
-          "article_url": "https://auto.yuga.ru/articles/6772.html",
-          "category": "АВТО"
+          "title": "Зеркальная жизнь: почему ученые призывают остановить исследования до катастрофы - Поиск - новости науки и техники",
+          "source": "Поиск - новости науки и техники",
+          "article_url": "https://poisknews.ru/biologiya/zerkalnaya-zhizn-pochemu-uchenye-prizyvayut-ostanovit-issledovaniya-do-katastrofy/",
+          "category": "НАУКА"
         },
         "media": {
           "type": "image",
-          "source_url": "https://auto.yuga.ru/media/22/50/08_pad20140625T153227__w1p5o8a.webp"
+          "source_url": "https://poisknews.ru/wp-content/uploads/2026/10/man-working-as-pharmacist-scaled.jpg"
         },
         "publication": {
           "message": {
@@ -1506,17 +1506,17 @@
               "chat_type": "channel",
               "chat_id": -78887448255074
             },
-            "timestamp": 1791140601139,
+            "timestamp": 1791140727084,
             "body": {
-              "mid": "mid.ffffb84095ab659e01a1084c9d3361c6",
-              "seq": 117384190436270530,
-              "text": "5 важных причин, почему в новых авто объём двигателя 1.5 л\n\nОбзор новинок мира автомобилей, авторские материалы, репортажи об автоспорте, тест-драйвы\n\n🔗 Авто Юга.ру\n\n📢 ФАКТОР",
+              "mid": "mid.ffffb84095ab659e01a1084e892c05ca",
+              "seq": 117384198690178510,
+              "text": "Зеркальная жизнь: почему ученые призывают остановить исследования, не дожидаясь катастрофы\n\nБиологи приближаются к созданию организмов, которые могут не распознаваться иммунной системой человека, животных и растений. Речь идет о так называемой зеркальной жизни — искусственных клетках, молекулы которых являются зеркальным отражением обычных. Издание The Economist призывает ввести жесткие ограничения на такие исследования, пока технология не вышла из-под контроля. Что такое зеркальная жизнь и почему она опасна [&hellip;]\n\n🔗 Поиск - новости науки и техники\n\n📢 ФАКТОР",
               "attachments": [
                 {
                   "payload": {
-                    "photo_id": 44442338888,
-                    "token": "4J04pXZSJCISMkcGax3RGce37w47r+njSpoHSBFsQ7ZY+g5OuXbe2PJzv6s+YHiKxAJfKBq6EqIy2cqFchl7FgoOM36MUFltORhuhes/3mA=",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr81CMnlk6JcIz-nM3WfJwjUuhjfMfVvfoBKYlDsISiwlA"
+                    "photo_id": 44442545480,
+                    "token": "ySUAOF6BcJyl67NnsQ/tHQlUWh0pUoz9/ZFGRFINGCc/RdfZKVpA1DioRfixsG1EVld4X9ogYa8aY++zuShBWwOlXLwBi80ped9zrEicTuE=",
+                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8RN7r15h8pvFfMk6SPbuvO-hjfMfVvfoBKYlDsISiwlA"
                   },
                   "type": "image"
                 }
@@ -1524,17 +1524,17 @@
               "markup": [
                 {
                   "from": 0,
-                  "length": 58,
+                  "length": 90,
                   "type": "strong"
                 },
                 {
-                  "url": "https://auto.yuga.ru/articles/6772.html",
-                  "from": 154,
-                  "length": 11,
+                  "url": "https://poisknews.ru/biologiya/zerkalnaya-zhizn-pochemu-uchenye-prizyvayut-ostanovit-issledovaniya-do-katastrofy/",
+                  "from": 529,
+                  "length": 31,
                   "type": "link"
                 },
                 {
-                  "from": 170,
+                  "from": 565,
                   "length": 6,
                   "type": "emphasized"
                 }
@@ -1543,13 +1543,13 @@
             "stat": {
               "views": 1
             },
-            "url": "https://max.ru/channel_faktormedia/AaEITJ0zYcY"
+            "url": "https://max.ru/channel_faktormedia/AaEIToksBco"
           }
         },
-        "duration_ms": 33916
+        "duration_ms": 28158
       },
       "expiresAt": null,
-      "versionstamp": "7d27ac10-d5ab-4235-96f2-5bf71b5c76d9"
+      "versionstamp": "40369a3b-1d86-4861-8cd0-a3274755ebad"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -2226,6 +2226,85 @@
       },
       "expiresAt": 1791313401342,
       "versionstamp": "88bc552b-09f7-4adb-8667-9cd968e7bed2"
+    },
+    "[\"factor\",\"published_v2\",\"4728ed584c28a628d5306380a8241dcc49cc048c57d875821e633a7075958cea\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "4728ed584c28a628d5306380a8241dcc49cc048c57d875821e633a7075958cea"
+      ],
+      "value": true,
+      "expiresAt": 1793732727264,
+      "versionstamp": "7717309b-956b-45b3-84d9-2dbbe0170450"
+    },
+    "[\"factor\",\"published\",\"71fb6e025fb72b558cf0dfa37f9a4c77376aecbc53b135ac9445ad7b8400f773\"]": {
+      "key": [
+        "factor",
+        "published",
+        "71fb6e025fb72b558cf0dfa37f9a4c77376aecbc53b135ac9445ad7b8400f773"
+      ],
+      "value": true,
+      "expiresAt": 1793732727265,
+      "versionstamp": "9ce63c56-0213-4b4c-b228-4c8cd50b5ad9"
+    },
+    "[\"factor\",\"published_story_v3\",\"9d77a3c07be35a96602769e2b65ae383396440cc36177ea75a53a9ec1df57944\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "9d77a3c07be35a96602769e2b65ae383396440cc36177ea75a53a9ec1df57944"
+      ],
+      "value": true,
+      "expiresAt": 1793732727267,
+      "versionstamp": "26118289-7c21-4717-b676-a5b28ec71b61"
+    },
+    "[\"factor\",\"recent_title_v2\",1791140727268,\"ec00cb89c463fc83cf0c18a69651fef52b6e3a3ef90f9f72c2e47f5c1949ea85\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791140727268,
+        "ec00cb89c463fc83cf0c18a69651fef52b6e3a3ef90f9f72c2e47f5c1949ea85"
+      ],
+      "value": "Зеркальная жизнь: почему ученые призывают остановить исследования, не дожидаясь катастрофы",
+      "expiresAt": 1793732727268,
+      "versionstamp": "7ef5744a-c869-412a-acec-8b9db2b55e70"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"ec00cb89c463fc83cf0c18a69651fef52b6e3a3ef90f9f72c2e47f5c1949ea85\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "ec00cb89c463fc83cf0c18a69651fef52b6e3a3ef90f9f72c2e47f5c1949ea85"
+      ],
+      "value": "Зеркальная жизнь: почему ученые призывают остановить исследования, не дожидаясь катастрофы",
+      "expiresAt": 1793732727269,
+      "versionstamp": "591575bf-8b0b-4f1c-a926-7d80fc07b24f"
+    },
+    "[\"factor\",\"published_event_v4\",\"8c7b8906842e20c28a28d1bf69fd3c193522c2c23d5800357e4e7cfb6da17e29\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "8c7b8906842e20c28a28d1bf69fd3c193522c2c23d5800357e4e7cfb6da17e29"
+      ],
+      "value": {
+        "category": "НАУКА",
+        "family": "disaster",
+        "anchors": [
+          "зерк",
+          "жизн",
+          "поче",
+          "учен",
+          "приз",
+          "оста",
+          "иссл",
+          "дожи",
+          "ката"
+        ],
+        "title": "Зеркальная жизнь: почему ученые призывают остановить исследования, не дожидаясь катастрофы",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiswFBVV95cUxNV3VLTVlRd0s1SkpZLXpIX0FXcWF6aWd0N0xmS0VCcENPUTJ1aGZWV2lneDA4Yi04U3dkLUFmVHpXOVFRclQ4X0ZNQjRGbDZnVkEzd1dobzROZGpYYllEeFZXcHFzcFprcmYxRDlXYllLc0x0SGw2UTl2akpzcWlmNGV0VmRreXIyekpIaVdKWkR4OWRWRnowcElTQ2V3T2JnWDNmR0htckQ5VHNkeHVsc1JEcw?oc=5\" target=\"_blank\"&gt;Зеркальная жизнь: почему ученые призывают остановить исследования до катастрофы&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Поиск - новости науки и техники&lt;/font&gt; Биологи приближаются к созданию организмов, которые могут не распознаваться иммунной системой человека, животных и растений. Речь идет о так называемой зеркальной жизни — искусственных клетках, молекулы которых являются зеркальным отражением обычных. Издание The Economist призывает ввести жесткие ограничения на такие исследования, пока технология не вышла из-под контроля. Что такое зеркальная жизнь и почему она опасна [&hellip;] Биологи приближаются к созданию организмов, которые могут не распознаваться иммунно",
+        "published_at": 1791140727270,
+        "article_url": "https://poisknews.ru/biologiya/zerkalnaya-zhizn-pochemu-uchenye-prizyvayut-ostanovit-issledovaniya-do-katastrofy/"
+      },
+      "expiresAt": 1791313527271,
+      "versionstamp": "33185509-6ca7-4729-b9fa-fde2aea8762a"
     }
   }
 }
