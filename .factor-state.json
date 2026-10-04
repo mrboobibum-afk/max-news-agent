@@ -447,9 +447,9 @@
         "state",
         "last_regular"
       ],
-      "value": 1791072010980,
+      "value": 1791092447643,
       "expiresAt": null,
-      "versionstamp": "2e6a8f4b-b2c8-4c18-b3c4-263cf23135d4"
+      "versionstamp": "82c36430-abb6-4245-b920-57d4f8fa440c"
     },
     "[\"factor\",\"published_v2\",\"31ad2257d965a02c7bc2056d6ce50a32a04684ea94f1aa4267a5445407e08019\"]": {
       "key": [
@@ -633,6 +633,97 @@
       },
       "expiresAt": 1791264492951,
       "versionstamp": "a47a444b-fe45-40a3-8d45-12d19a230c4e"
+    },
+    "[\"factor\",\"published_v2\",\"6657e4005e7482d95a6d0ada5b5c027db33c6deff0316b916e4058bc3710d248\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "6657e4005e7482d95a6d0ada5b5c027db33c6deff0316b916e4058bc3710d248"
+      ],
+      "value": true,
+      "expiresAt": 1793684456701,
+      "versionstamp": "e0909918-51df-41fb-8bff-c73be7018a21"
+    },
+    "[\"factor\",\"published\",\"79417e2dc6a5647b10303d7eb67cd05cfed04174318b8dfcd73135fa5479712b\"]": {
+      "key": [
+        "factor",
+        "published",
+        "79417e2dc6a5647b10303d7eb67cd05cfed04174318b8dfcd73135fa5479712b"
+      ],
+      "value": true,
+      "expiresAt": 1793684456702,
+      "versionstamp": "54ff410c-3f5f-4884-924d-be69458a715e"
+    },
+    "[\"factor\",\"published_story_v3\",\"f4a1ab458a6a11078c7ea13e8597ffbf2d6943903fc189e5fb89ad5a1415918b\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "f4a1ab458a6a11078c7ea13e8597ffbf2d6943903fc189e5fb89ad5a1415918b"
+      ],
+      "value": true,
+      "expiresAt": 1793684456702,
+      "versionstamp": "3e054263-d0b9-4d18-a7fa-19409d68aff3"
+    },
+    "[\"factor\",\"recent_title_v2\",1791092456703,\"5cf5d56165f881c4d96a0f28291a4e14c8b580f27e8ba15a9108774aaf9cdcbc\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791092456703,
+        "5cf5d56165f881c4d96a0f28291a4e14c8b580f27e8ba15a9108774aaf9cdcbc"
+      ],
+      "value": "Житель Орска через суд взыскал 180 тысяч рублей с недобросовестного мастера по лестницам",
+      "expiresAt": 1793684456703,
+      "versionstamp": "17e87ed7-e7ae-4b74-9530-d98f40fecaaa"
+    },
+    "[\"factor\",\"published_event_v4\",\"1f4d55e7a035a13f91e394855b25c2a8d162cd92e2e16cf58d19c3d5b372fa18\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "1f4d55e7a035a13f91e394855b25c2a8d162cd92e2e16cf58d19c3d5b372fa18"
+      ],
+      "value": {
+        "category": "ПРАВО",
+        "family": "law",
+        "anchors": [
+          "жите",
+          "орск",
+          "чере",
+          "взыс",
+          "тыся",
+          "рубл",
+          "недо",
+          "маст",
+          "лест",
+          "href",
+          "http",
+          "news",
+          "goog",
+          "arti",
+          "cbmi",
+          "targ",
+          "blan",
+          "font",
+          "colo",
+          "6f6f",
+          "oren",
+          "мужч",
+          "зака",
+          "отда",
+          "пред",
+          "проп",
+          "рабо",
+          "выпо",
+          "спус",
+          "врем",
+          "поше"
+        ],
+        "title": "Житель Орска через суд взыскал 180 тысяч рублей с недобросовестного мастера по лестницам",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiTEFVX3lxTE9WdXl3aV9EbjByNFo4bGRvR3hUYm9sM2kzczV2R090VHc3SEZ5WlB1ZXBOWEEwRE1rNC1Wend4LWJxZjk4aXZNa3FnV2g?oc=5\" target=\"_blank\"&gt;Житель Орска через суд взыскал 180 тысяч рублей с недобросовестного мастера по лестницам&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Orenday.ru&lt;/font&gt; Мужчина заказал лестницу, отдал 45 тысяч предоплаты, но мастер пропал и работу не выполнил. Спустя время заказчик пошел в суд. Мужчина заказал лестницу, отдал 45 тысяч предоплаты, но мастер пропал и работу не выполнил. Спустя время заказчик пошел в суд.",
+        "published_at": 1791092456704,
+        "article_url": "https://orenday.ru/2026/031026214152"
+      },
+      "expiresAt": 1791265256704,
+      "versionstamp": "91e759ce-0cd1-4620-aaf8-9aadad4d186b"
     }
   }
 }
