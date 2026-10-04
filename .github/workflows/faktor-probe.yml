@@ -1,0 +1,14 @@
+name: FAKTOR Probe
+
+on:
+  push:
+    paths:
+      - ".github/workflows/faktor-probe.yml"
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe
+        run: echo "FAKTOR ACTIONS PROBE OK"
