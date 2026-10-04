@@ -447,9 +447,9 @@
         "state",
         "last_regular"
       ],
-      "value": 1791136743420,
+      "value": 1791140568697,
       "expiresAt": null,
-      "versionstamp": "5d6a3c15-a992-43c9-be82-a57cae9f8d7c"
+      "versionstamp": "cf1ed099-e0bb-484d-85fd-a766cea087a0"
     },
     "[\"factor\",\"published_v2\",\"31ad2257d965a02c7bc2056d6ce50a32a04684ea94f1aa4267a5445407e08019\"]": {
       "key": [
@@ -1451,19 +1451,19 @@
       "value": {
         "ok": true,
         "selected": 1,
-        "urgent": true,
+        "urgent": false,
         "manual": false,
-        "score": 53,
+        "score": 38,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
           "scored": 45,
           "accepted": 1,
           "short_title": 0,
-          "urgent_interval": 0,
+          "urgent_interval": 25,
           "regular_interval": 0,
           "duplicate_before_article": 0,
-          "event_duplicate_before_article": 3,
+          "event_duplicate_before_article": 0,
           "bad_url": 0,
           "article_title_mismatch": 0,
           "duplicate_after_article": 0,
@@ -1473,55 +1473,68 @@
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
           "text_duplicate": 0,
-          "video_candidates": 0,
-          "video_checked": 0,
-          "video_rejected": 0,
-          "video_validation": null,
+          "video_candidates": 1,
+          "video_checked": 2,
+          "video_rejected": 2,
+          "video_validation": "not_relevant",
           "external_video_candidates": 3,
           "external_video_checked": 3,
           "search_video_queries": 7,
           "search_video_candidates": 1,
           "search_video_checked": 0,
-          "image_candidates": 0,
-          "media_checked": 0,
-          "media_selected": null,
-          "selected_media_source": null,
-          "media_rejected": "no_relevant_media",
+          "image_candidates": 1,
+          "media_checked": 1,
+          "media_selected": "image",
+          "selected_media_source": "html_url",
+          "media_rejected": "external_video_not_relevant",
           "top_candidates": [],
           "ai_provider": "none"
         },
         "item": {
-          "title": "Многодетный отец погиб в ДТП в Татарстане - Верхний Услон Новости",
-          "source": "Верхний Услон Новости",
-          "article_url": "https://vuslon.ru/news/respublikanskie-novosti/mnogodetnyi-otec-pogib-v-dtp-v-tatarstane",
-          "category": "ПРОИСШЕСТВИЯ"
+          "title": "5 важных причин, почему в новых авто объём двигателя 1.5 л - Авто Юга.ру",
+          "source": "Авто Юга.ру",
+          "article_url": "https://auto.yuga.ru/articles/6772.html",
+          "category": "АВТО"
         },
-        "media": null,
+        "media": {
+          "type": "image",
+          "source_url": "https://auto.yuga.ru/media/22/50/08_pad20140625T153227__w1p5o8a.webp"
+        },
         "publication": {
           "message": {
             "recipient": {
               "chat_type": "channel",
               "chat_id": -78887448255074
             },
-            "timestamp": 1791140356251,
+            "timestamp": 1791140601139,
             "body": {
-              "mid": "mid.ffffb84095ab659e01a10848e09b0de2",
-              "seq": 117384174387269090,
-              "text": "Многодетный отец погиб в ДТП в Татарстане\n\nВ ДТП погибли два человека, еще одна пассажирка госпитализирована.\n\n🔗 Верхний Услон Новости\n\n📢 ФАКТОР",
+              "mid": "mid.ffffb84095ab659e01a1084c9d3361c6",
+              "seq": 117384190436270530,
+              "text": "5 важных причин, почему в новых авто объём двигателя 1.5 л\n\nОбзор новинок мира автомобилей, авторские материалы, репортажи об автоспорте, тест-драйвы\n\n🔗 Авто Юга.ру\n\n📢 ФАКТОР",
+              "attachments": [
+                {
+                  "payload": {
+                    "photo_id": 44442338888,
+                    "token": "4J04pXZSJCISMkcGax3RGce37w47r+njSpoHSBFsQ7ZY+g5OuXbe2PJzv6s+YHiKxAJfKBq6EqIy2cqFchl7FgoOM36MUFltORhuhes/3mA=",
+                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr81CMnlk6JcIz-nM3WfJwjUuhjfMfVvfoBKYlDsISiwlA"
+                  },
+                  "type": "image"
+                }
+              ],
               "markup": [
                 {
                   "from": 0,
-                  "length": 41,
+                  "length": 58,
                   "type": "strong"
                 },
                 {
-                  "url": "https://vuslon.ru/news/respublikanskie-novosti/mnogodetnyi-otec-pogib-v-dtp-v-tatarstane",
-                  "from": 114,
-                  "length": 21,
+                  "url": "https://auto.yuga.ru/articles/6772.html",
+                  "from": 154,
+                  "length": 11,
                   "type": "link"
                 },
                 {
-                  "from": 140,
+                  "from": 170,
                   "length": 6,
                   "type": "emphasized"
                 }
@@ -1530,13 +1543,13 @@
             "stat": {
               "views": 1
             },
-            "url": "https://max.ru/channel_faktormedia/AaEISOCbDeI"
+            "url": "https://max.ru/channel_faktormedia/AaEITJ0zYcY"
           }
         },
-        "duration_ms": 34985
+        "duration_ms": 33916
       },
       "expiresAt": null,
-      "versionstamp": "920bc291-0ee5-428b-8025-57d6229dab2c"
+      "versionstamp": "7d27ac10-d5ab-4235-96f2-5bf71b5c76d9"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -2137,6 +2150,82 @@
       },
       "expiresAt": 1791313156396,
       "versionstamp": "a5aab845-9bbd-4b95-bddf-b6fc6c4ba842"
+    },
+    "[\"factor\",\"published_v2\",\"4117fe1665f3675abe6ba121cd3c60902813a5e435c7fe49da17210132b1a3ef\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "4117fe1665f3675abe6ba121cd3c60902813a5e435c7fe49da17210132b1a3ef"
+      ],
+      "value": true,
+      "expiresAt": 1793732601336,
+      "versionstamp": "98233c7b-2a3d-4d9c-b83c-a9a360701006"
+    },
+    "[\"factor\",\"published\",\"92b176c2822e44dbee76ade403dcbe238d9209af339d09a1cc167b16381d1853\"]": {
+      "key": [
+        "factor",
+        "published",
+        "92b176c2822e44dbee76ade403dcbe238d9209af339d09a1cc167b16381d1853"
+      ],
+      "value": true,
+      "expiresAt": 1793732601337,
+      "versionstamp": "bda62f24-c0c1-4500-8be3-b38c9371e970"
+    },
+    "[\"factor\",\"published_story_v3\",\"b9e2ab47b8364301535de12d9af64b4c74b0ae814fc195a780b2d349803d01b0\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "b9e2ab47b8364301535de12d9af64b4c74b0ae814fc195a780b2d349803d01b0"
+      ],
+      "value": true,
+      "expiresAt": 1793732601338,
+      "versionstamp": "9a76cd7c-0939-4959-afb4-6709b43f761e"
+    },
+    "[\"factor\",\"recent_title_v2\",1791140601339,\"b9648604ebef03443ef4ca49b4b797fdb5be4071518fa110f9865f9233759ce0\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791140601339,
+        "b9648604ebef03443ef4ca49b4b797fdb5be4071518fa110f9865f9233759ce0"
+      ],
+      "value": "5 важных причин, почему в новых авто объём двигателя 1.5 л",
+      "expiresAt": 1793732601339,
+      "versionstamp": "3b090fd9-0b42-48d4-aee8-30ca9e199137"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"b9648604ebef03443ef4ca49b4b797fdb5be4071518fa110f9865f9233759ce0\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "b9648604ebef03443ef4ca49b4b797fdb5be4071518fa110f9865f9233759ce0"
+      ],
+      "value": "5 важных причин, почему в новых авто объём двигателя 1.5 л",
+      "expiresAt": 1793732601340,
+      "versionstamp": "f894ab04-6091-4349-a6ca-f106433a0ff2"
+    },
+    "[\"factor\",\"published_event_v4\",\"b4ddd928011ab27b87c8e5545ee3f928bbb8eb4c4a93cc3e8be647e9c89c793b\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "b4ddd928011ab27b87c8e5545ee3f928bbb8eb4c4a93cc3e8be647e9c89c793b"
+      ],
+      "value": {
+        "category": "АВТО",
+        "family": "accident",
+        "anchors": [
+          "важн",
+          "поче",
+          "новы",
+          "авто",
+          "объе",
+          "двиг"
+        ],
+        "title": "5 важных причин, почему в новых авто объём двигателя 1.5 л",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiUEFVX3lxTE9jU0hyVGdIVk5WVVJMV1R5ZUQ0c0xZTHVtMXY5akZjTWdtamk1eWdZYUJ4cGhXRFdCR1pndEFHWExVVmhFcjlsV2luN0JDOFVv0gFWQVVfeXFMTXMtaGhsamxzSkVkUmVmSWM5Q0laV2JWSFJHb19VVXo3RnhhSmpvbnBFX3o0RFBaczBxS3FWbFV0aVJ4ODRzMFNtWkh3QmY2dFlaRW8zY2c?oc=5\" target=\"_blank\"&gt;5 важных причин, почему в новых авто объём двигателя 1.5 л&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Авто Юга.ру&lt;/font&gt; Обзор новинок мира автомобилей, авторские материалы, репортажи об автоспорте, тест-драйвы Обзор новинок мира автомобилей, авторские материалы, репортажи об автоспорте, тест-драйвы",
+        "published_at": 1791140601341,
+        "article_url": "https://auto.yuga.ru/articles/6772.html"
+      },
+      "expiresAt": 1791313401342,
+      "versionstamp": "88bc552b-09f7-4adb-8667-9cd968e7bed2"
     }
   }
 }
