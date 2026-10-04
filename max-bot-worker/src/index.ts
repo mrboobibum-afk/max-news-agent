@@ -293,9 +293,16 @@ async function validateMiniAppData(
       raw = raw.slice(1);
     }
 
-    if (raw.startsWith("WebAppData=")) {
-      try {
-        const outer = new URLSearchParams(raw);
+    /*
+      MAX may expose initData either as the inner WebAppData string
+      or as the full URL-fragment parameter set:
+      WebAppData=...&WebAppPlatform=...&WebAppVersion=...
+      The official validation algorithm signs only the WebAppData value.
+    */
+    try {
+      const outer = new URLSearchParams(raw);
+
+      if (outer.has("WebAppData")) {
         const appData = outer.get("WebAppData");
 
         if (!appData) {
@@ -303,9 +310,9 @@ async function validateMiniAppData(
         }
 
         raw = appData;
-      } catch {
-        return { ok: false, reason: "invalid_webapp_data_wrapper" };
       }
+    } catch {
+      return { ok: false, reason: "invalid_webapp_data_wrapper" };
     }
 
     const parts = raw.split("&");
