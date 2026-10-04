@@ -3204,6 +3204,119 @@ false, если это другое событие, случайная/стор�
 }
 
 
+async function searchPublicVideoPages(item, story, diagnostics = null) {
+    const headline = stripHtml(story?.headline || item?.title || "").trim();
+    if (!headline) return null;
+
+    const compactTerms = [...storyTokens(headline)].slice(0, 10).join(" ");
+    const queries = [
+        `"${truncate(headline, 150)}" видео`,
+        `${truncate(compactTerms || headline, 120)} видео очевидцы`,
+    ];
+
+    const seen = new Set();
+
+    const extractLinks = (html) => {
+        const links = [];
+        const add = (raw) => {
+            if (!raw) return;
+            let value = raw.replace(/&amp;/g, "&").replace(/&quot;/g, '"');
+            if (value.startsWith("/url?q=")) {
+                value = value.slice(7).split("&")[0];
+            }
+            try {
+                value = decodeURIComponent(value);
+            } catch {
+                // Keep the original URL when it is only partially encoded.
+            }
+            if (!isHttpUrl(value)) return;
+            if (/^(?:https?:\/\/)?(?:www\.)?google\./i.test(value)) return;
+            if (seen.has(value)) return;
+            seen.add(value);
+            links.push(value);
+        };
+
+        for (const match of html.matchAll(/<a[^>]+href=["']([^"']+)["']/gi)) {
+            add(match[1]);
+        }
+
+        return links.slice(0, 16);
+    };
+
+    for (const query of queries) {
+        if (diagnostics) diagnostics.search_video_queries++;
+
+        const url =
+            "https://www.google.com/search?tbm=vid&hl=ru&gl=RU&q=" +
+            encodeURIComponent(query);
+
+        try {
+            const response = await fetch(url, {
+                headers: {
+                    "User-Agent": USER_AGENT,
+                    "Accept-Language": "ru-RU,ru;q=0.9",
+                },
+                signal: AbortSignal.timeout(12000),
+            });
+
+            if (!response.ok) continue;
+
+            const html = await response.text();
+            const links = extractLinks(html);
+
+            for (const pageUrl of links) {
+                if (diagnostics) diagnostics.search_video_candidates++;
+
+                let videoUrl = isDirectVideoUrl(pageUrl)
+                    ? pageUrl
+                    : await resolveVideoFromEmbeddedPage(pageUrl);
+
+                if (!videoUrl) continue;
+
+                if (diagnostics) diagnostics.search_video_checked++;
+
+                const video = await downloadMedia(videoUrl, "video");
+                if (!video) continue;
+
+                const relevant = await validateVideoRelevance(
+                    item,
+                    story,
+                    video,
+                    pageUrl,
+                );
+
+                if (!relevant) {
+                    if (diagnostics) {
+                        diagnostics.video_rejected++;
+                        diagnostics.media_rejected = "searched_web_video_not_relevant";
+                    }
+                    continue;
+                }
+
+                if (diagnostics) {
+                    diagnostics.media_selected = "searched_web_video";
+                    diagnostics.selected_media_source = "web_search";
+                    diagnostics.video_validation = "relevant";
+                }
+
+                console.log(
+                    "Public web video search selected:",
+                    video.sourceUrl,
+                );
+
+                return video;
+            }
+        } catch (error) {
+            console.error(
+                "Public web video search:",
+                error instanceof Error ? error.message : String(error),
+            );
+        }
+    }
+
+    return null;
+}
+
 async function searchIndependentVideo(item, story, articleMedia, diagnostics = null) {
     const headline = stripHtml(
         story?.headline ||
@@ -3217,10 +3330,13 @@ async function searchIndependentVideo(item, story, articleMedia, diagnostics = n
         .slice(0, 9)
         .join(" ");
 
+    const sourceHint = stripHtml(item?.source || "").replace(/https?:\/\/\S+/gi, "").trim();
     const queries = [
         `"${truncate(headline, 140)}" видео`,
         `${truncate(compactTerms || headline, 120)} видео кадры очевидцы`,
-        `${truncate(compactTerms || headline, 100)} видео (site:t.me OR site:rutube.ru OR site:vk.com OR site:youtube.com)`,
+        `${truncate(compactTerms || headline, 100)} site:t.me видео`,
+        `${truncate(compactTerms || headline, 100)} site:vk.com видео`,
+        `${truncate(compactTerms || headline, 100)} ${truncate(sourceHint, 50)} видео`,
     ];
 
     const seenArticles = new Set();
@@ -3474,6 +3590,19 @@ async function findBestMedia(articleMedia, item, story, diagnostics = null) {
 
     if (searchedVideo) {
         return searchedVideo;
+    }
+
+    // 3b. If news search did not expose the video page, search public
+    // video results directly. This can find eyewitness/social posts that
+    // are not syndicated as normal news articles.
+    const searchedWebVideo = await searchPublicVideoPages(
+        item,
+        story,
+        diagnostics,
+    );
+
+    if (searchedWebVideo) {
+        return searchedWebVideo;
     }
 
     // ----------------------------------------------------------
