@@ -57,8 +57,8 @@ const MAX_VIDEO_BYTES = Number(Deno.env.get("MAX_VIDEO_MB") ?? "60") * 1024 * 10
 const MAX_IMAGE_BYTES = Number(Deno.env.get("MAX_IMAGE_MB") ?? "15") * 1024 * 1024;
 const RSS_LIMIT_PER_FEED = 30;
 const MAX_RSS_ITEMS = 300;
-const SCORE_CANDIDATES = 45;
-const GEMINI_CANDIDATES = 10;
+const SCORE_CANDIDATES = 75;
+const GEMINI_CANDIDATES = 15;
 const MAX_HISTORY_CHECKED = 300;
 const MAX_POST_LENGTH = 3900;
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
@@ -4127,19 +4127,11 @@ async function executePipeline(manual = false) {
                 duration_ms: Date.now() -
                     startedAt,
             };
-            if (!GITHUB_ACTIONS_MODE) {
-
-                await db.set([
-
-                    "factor",
-
-                    "state",
-
-                    "last_pipeline",
-
-                ], result);
-
-            }
+            await db.set([
+                "factor",
+                "state",
+                "last_pipeline",
+            ], result);
             return result;
         }
         // --------------------------------------------------------
@@ -4165,19 +4157,11 @@ async function executePipeline(manual = false) {
                 duration_ms: Date.now() -
                     startedAt,
             };
-            if (!GITHUB_ACTIONS_MODE) {
-
-                await db.set([
-
-                    "factor",
-
-                    "state",
-
-                    "last_pipeline",
-
-                ], result);
-
-            }
+            await db.set([
+                "factor",
+                "state",
+                "last_pipeline",
+            ], result);
             return result;
         }
         const { item, story, articleMedia, score, } = candidate;
@@ -4337,19 +4321,11 @@ async function executePipeline(manual = false) {
             duration_ms: Date.now() -
                 startedAt,
         };
-        if (!GITHUB_ACTIONS_MODE) {
-
-            await db.set([
-
-                "factor",
-
-                "state",
-
-                "last_pipeline",
-
-            ], result);
-
-        }
+        await db.set([
+            "factor",
+            "state",
+            "last_pipeline",
+        ], result);
         return result;
     }
     catch (error) {
@@ -4361,19 +4337,11 @@ async function executePipeline(manual = false) {
             duration_ms: Date.now() -
                 startedAt,
         };
-        if (!GITHUB_ACTIONS_MODE) {
-
-            await db.set([
-
-                "factor",
-
-                "state",
-
-                "last_pipeline",
-
-            ], result);
-
-        }
+        await db.set([
+            "factor",
+            "state",
+            "last_pipeline",
+        ], result);
         console.error("PIPELINE ERROR:", result);
         return result;
     }
