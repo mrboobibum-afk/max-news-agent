@@ -2913,45 +2913,34 @@ function cleanSourceName(source, articleMedia) {
 // POST
 // ============================================================
 function buildPost(item, story, sourceName, articleUrl) {
-    const header = story.urgent
-        ? "🔴 <b>ФАКТОР • ОПЕРАТИВНО</b>"
-        : "🔵 <b>ФАКТОР • ГЛАВНОЕ</b>";
-    const category = `${item.categoryEmoji} <b>${escapeHtml(item.category)}</b>`;
-    const headlineText = stripHtml(truncate(story.headline || item.title, 260));
+    const headlineText = stripHtml(
+        truncate(story.headline || item.title, 260),
+    );
     const rawShortText = stripHtml(
-        truncate(story.short || "", 500),
+        truncate(story.short || "", 700),
     );
 
-    // Keep the feed compact. If the short sentence repeats the headline
-    // semantically, omit it instead of publishing the same fact twice.
+    // Direct-feed style: headline first, then only the useful facts.
+    // Do not repeat the headline as a separate paragraph.
     const shortText =
         storySimilarity(rawShortText, headlineText) >= 0.72
             ? ""
             : rawShortText;
-
-    const time = new Intl.DateTimeFormat("ru-RU", {
-        hour: "2-digit",
-        minute: "2-digit",
-        timeZone: "Europe/Moscow",
-    }).format(new Date());
 
     const sourceLine = isLikelyArticleUrl(articleUrl)
         ? `🔗 <a href="${escapeHtml(articleUrl)}">${escapeHtml(sourceName)}</a>`
         : "";
 
     const parts = [
-        header,
-        "",
-        category,
-        "",
         `<b>${escapeHtml(headlineText)}</b>`,
         ...(shortText ? ["", escapeHtml(shortText)] : []),
-        "",
-        `🕒 ${time}`,
     ];
 
-    if (sourceLine) parts.push(sourceLine);
-    parts.push("", "<i>ФАКТОР</i>");
+    if (sourceLine) {
+        parts.push("", sourceLine);
+    }
+
+    parts.push("", "📢 <i>ФАКТОР</i>");
 
     let result = parts.join("\n");
     if (result.length > MAX_POST_LENGTH) {
@@ -2991,7 +2980,9 @@ ${candidate.context || "нет"}
 true = изображение связано с описываемым событием, объектом, людьми ИЛИ конкретным местом новости.
 Если сама статья использует фотографию конкретного места/объекта новости, такую фотографию можно считать релевантной даже если она архивная и на ней не видно самого происшествия. Например, архивная фотография Священной долины инков релевантна новости о пожаре именно в Священной долине инков.
 false = логотип, баннер, портрет автора, случайная общая иллюстрация, фотография другого места/объекта, реклама либо изображение явно относится к другой теме.
-Не отклоняй фотографию только потому, что она архивная или не показывает сам момент происшествия.
+ОТДЕЛЬНО: если это дизайнерская карточка новости, превью, инфографика или однотонная графика с крупным текстом/заголовком, а не обычная фотография, верни false. Даже если текст на карточке точно совпадает с заголовком новости, такая карточка не считается фотографией события.
+Если на странице есть обычная фотография, предпочитай её такой текстовой карточке.
+Не отклоняй обычную фотографию только потому, что она архивная или не показывает сам момент происшествия.
 Не пытайся установить юридическую или абсолютную достоверность фотографии.
 
 Верни ТОЛЬКО JSON: {"relevant":true,"reason":"коротко"}
