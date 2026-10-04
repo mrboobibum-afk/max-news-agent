@@ -2696,7 +2696,12 @@ function buildPost(item, story, sourceName, articleUrl) {
         : "🔵 <b>ФАКТОР • ГЛАВНОЕ</b>";
     const category = `${item.categoryEmoji} <b>${escapeHtml(item.category)}</b>`;
     const headlineText = stripHtml(truncate(story.headline || item.title, 260));
-    const shortText = stripHtml(truncate(story.short || item.description || item.title, 500));
+    const rawShortText = stripHtml(truncate(story.short || item.description || item.title, 500));
+    // Do not print the headline twice when Gemini/RSS returns the same text
+    // as the short description.
+    const shortText = storySimilarity(rawShortText, headlineText) >= 0.72
+        ? ""
+        : rawShortText;
     const mainItems = [];
     for (const raw of story.main || []) {
         const text = stripHtml(truncate(String(raw || ""), 350));
@@ -2734,7 +2739,7 @@ function buildPost(item, story, sourceName, articleUrl) {
         "",
         `<b>${escapeHtml(headlineText)}</b>`,
         "",
-        escapeHtml(shortText),
+        ...(shortText ? [escapeHtml(shortText)] : []),
     ];
     if (mainItems.length > 0) {
         parts.push("", "<b>ГЛАВНОЕ</b>");
