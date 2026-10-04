@@ -88,9 +88,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791112431341,
+      "value": 1791112897333,
       "expiresAt": null,
-      "versionstamp": "e2c321ec-3ab1-48dc-8ead-d849b6d77dad"
+      "versionstamp": "b17089fd-80ee-4f71-a2ed-bfcd25f3c972"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -1087,6 +1087,72 @@
       },
       "expiresAt": 1791285342707,
       "versionstamp": "e3ba942b-01ae-4ffd-85ec-74da5724517d"
+    },
+    "[\"factor\",\"published_v2\",\"3e281463b5da5426020cfa05305519f09b3260859623a858aa8cfa3bd5b2f83e\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "3e281463b5da5426020cfa05305519f09b3260859623a858aa8cfa3bd5b2f83e"
+      ],
+      "value": true,
+      "expiresAt": 1793704922725,
+      "versionstamp": "ac7bea93-4609-4a83-92ef-e9a0c0dca82c"
+    },
+    "[\"factor\",\"published\",\"66b30067a237fc837bb432262ef6c17701f289b1c4b88e9f514aadffa925a4e0\"]": {
+      "key": [
+        "factor",
+        "published",
+        "66b30067a237fc837bb432262ef6c17701f289b1c4b88e9f514aadffa925a4e0"
+      ],
+      "value": true,
+      "expiresAt": 1793704922726,
+      "versionstamp": "24af631c-3e46-46bd-86fc-7fa92095aec2"
+    },
+    "[\"factor\",\"published_story_v3\",\"dd8a9672cca59bc5c6dacf03469b515d8c7c1b892d9ff6d103f41ebe39be370d\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "dd8a9672cca59bc5c6dacf03469b515d8c7c1b892d9ff6d103f41ebe39be370d"
+      ],
+      "value": true,
+      "expiresAt": 1793704922727,
+      "versionstamp": "21147422-4cee-41b7-9be0-1b09ea88d572"
+    },
+    "[\"factor\",\"recent_title_v2\",1791112922727,\"e451ae522d222e9b41e48c3ec05e34b590dd3c0cee1930a0bbeb9dd7e14021ed\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791112922727,
+        "e451ae522d222e9b41e48c3ec05e34b590dd3c0cee1930a0bbeb9dd7e14021ed"
+      ],
+      "value": "В Норильске водитель Mazda погиб в ДТП с грузовиком",
+      "expiresAt": 1793704922727,
+      "versionstamp": "a4a115ec-a455-43e5-be3c-1766c536fed1"
+    },
+    "[\"factor\",\"published_event_v4\",\"5d4c109bba2886e851856162dc18f497c6013ec2bccf7f3675ed5af17506d451\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "5d4c109bba2886e851856162dc18f497c6013ec2bccf7f3675ed5af17506d451"
+      ],
+      "value": {
+        "category": "ПРОИСШЕСТВИЯ",
+        "family": "accident",
+        "anchors": [
+          "нори",
+          "води",
+          "mazd",
+          "груз",
+          "горо",
+          "прим"
+        ],
+        "title": "В Норильске водитель Mazda погиб в ДТП с грузовиком — Город Прима",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiiwFBVV95cUxPUWhmcTRLZ3NpRHloU1o4bndqRlJ1bHppSHFLTmUxT3ROcDI0d2FOelpyQmczYVE3OEFMZ0p5OS1NYk5SeGs4YlFXbGxsZXpPMnBIZjFXSUMwNkNtRFhlM3p4emhHdFVQN0ZyY2NXQVJRLVBELXVTckVxakp5Ml9EYWNuTnhUMVk5TWVz?oc=5\" target=\"_blank\"&gt;В Норильске водитель Mazda погиб в ДТП с грузовиком&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Город Прима&lt;/font&gt; В Норильске 4 октября 2026 года произошло смертельное ДТП с участием Mazda и грузовика, в котором погиб водитель легкового автомобиля. В Норильске водитель Mazda погиб в ДТП с грузовиком Смертельное ДТП в Норильске 4 октября 2026 года",
+        "published_at": 1791112922728,
+        "article_url": "https://gorodprima.ru/2026/10/04/v-norilske-voditel-mazda-pogib-v-dtp-s-gruzovikom/"
+      },
+      "expiresAt": 1791285722728,
+      "versionstamp": "e20af98f-c0fe-4c4d-a876-99e1a0ac3e80"
     }
   }
 }
