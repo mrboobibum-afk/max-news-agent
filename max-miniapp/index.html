@@ -375,96 +375,45 @@
         });
     }
 
-    async function runAction(action){
+    function runAction(action){
 
       const webApp =
         window.WebApp;
 
-      if(
-        !webApp ||
-        !webApp.initData
-      ){
-        notify(
-          "Не удалось получить данные MAX. Откройте Mini App заново."
-        );
+      if(!action){
         return;
       }
 
-      setLoading(true);
+      const url =
+        "https://max.ru/" +
+        BOT +
+        "?start=" +
+        encodeURIComponent(action);
 
+      /*
+        Для действий Mini App не используем
+        cross-origin fetch.
+
+        MAX официально поддерживает bot deep link:
+        https://max.ru/<bot>?start=<payload>
+
+        Бот получает payload через bot_started,
+        а существующий webhook уже обрабатывает
+        video/news/videos/urgent/settings/chat.
+      */
       try{
-
-        const response =
-          await fetch(
-            API + "/miniapp/action",
-            {
-              method:"POST",
-
-              headers:{
-                "Content-Type":
-                  "application/json"
-              },
-
-              body:JSON.stringify({
-                action:action,
-                initData:
-                  webApp.initData
-              })
-            }
-          );
-
-        const result =
-          await response.json();
-
         if(
-          !response.ok ||
-          !result.ok
+          webApp &&
+          typeof webApp.openMaxLink === "function"
         ){
-          throw new Error(
-            result.error ||
-            "request_failed"
-          );
+          webApp.openMaxLink(url);
+          return;
         }
-
-        notify(
-          "✅ Готово"
-        );
-
-        /*
-          Сообщение уже отправлено
-          ботом в чат пользователя.
-        */
-
-        setTimeout(() => {
-
-          if(
-            typeof webApp.close ===
-            "function"
-          ){
-            webApp.close();
-            return;
-          }
-
-          window.location.href =
-            "https://max.ru/" + BOT;
-
-        },700);
-
       }catch(error){
-
         console.error(error);
-
-        const errorCode =
-          error instanceof Error
-            ? error.message
-            : "unknown_error";
-
-        notify(
-          "❌ Ошибка: " + errorCode
-        );
-
-        setLoading(false);
       }
+
+      window.location.href = url;
     }
 
     document
