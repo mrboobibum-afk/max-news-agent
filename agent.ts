@@ -1672,6 +1672,9 @@ async function uploadMedia(media) {
         uploadResult?.token ||
         uploadResult?.mediafile_token ||
         uploadResult?.photos?.photoIds?.token ||
+        uploadResult?.photos?.["0"]?.token ||
+        uploadResult?.videos?.["0"]?.token ||
+        uploadResult?.video?.token ||
         null;
     if (typeof finalToken !==
         "string" ||
