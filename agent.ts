@@ -1867,7 +1867,10 @@ function eventProfile(item, articleMedia = null) {
     return {
         category: item?.category || "",
         family: detectEventFamily(combined, item?.category || ""),
-        anchors: [...eventAnchorTokens(combined)].slice(0, 40),
+        // Build event anchors from the headline only. RSS descriptions
+        // often contain generic boilerplate or unrelated context and can
+        // falsely merge different stories.
+        anchors: [...eventAnchorTokens(title)].slice(0, 40),
         title: title.slice(0, 500),
         description: description.slice(0, 1000),
         published_at: Date.now(),
