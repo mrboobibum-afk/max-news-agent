@@ -22,3 +22,19 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: max-bot-worker
           command: deploy
+
+      - name: Register MAX Webhook
+        env:
+          MAX_BOT_TOKEN: ${{ secrets.MAX_BOT_TOKEN }}
+          WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
+        run: |
+          set -euo pipefail
+          curl --fail-with-body -sS -X POST "https://platform-api2.max.ru/subscriptions" \
+            -H "Authorization: ${MAX_BOT_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "url": "https://factor-max-bot.mr-boobi-bum.workers.dev/webhook",
+              "update_types": ["message_created", "bot_started"],
+              "secret": "'"${WEBHOOK_SECRET}"'"
+            }'
+          echo
