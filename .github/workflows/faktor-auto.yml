@@ -69,31 +69,24 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # The source branch may receive a code commit while this run is
-          # processing news. Rebase the state change onto the latest main
-          # before pushing so a non-fast-forward push cannot discard the
-          # publication history.
+          # Commit the local state first so rebase always starts clean.
+          git add .factor-state.json
+          git commit -m "chore: update faktor state"
+
+          # Rebase the state commit onto the latest main before pushing.
           for attempt in 1 2 3; do
             git fetch origin main
-            git rebase origin/main
 
-            git add .factor-state.json
-
-            if git diff --cached --quiet -- .factor-state.json; then
-              echo "State already persisted by another run."
-              exit 0
-            fi
-
-            git commit -m "chore: update faktor state"
-
-            if git push origin HEAD:main; then
-              echo "FAKTOR state saved."
-              exit 0
+            if git rebase origin/main; then
+              if git push origin HEAD:main; then
+                echo "FAKTOR state saved."
+                exit 0
+              fi
+            else
+              git rebase --abort || true
             fi
 
             echo "State push failed on attempt $attempt; retrying."
-            git rebase --abort || true
-            git reset --soft HEAD~1
           done
 
           echo "Failed to persist FAKTOR state after 3 attempts."
