@@ -447,9 +447,9 @@
         "state",
         "last_regular"
       ],
-      "value": 1791140568697,
+      "value": 1791144040828,
       "expiresAt": null,
-      "versionstamp": "cf1ed099-e0bb-484d-85fd-a766cea087a0"
+      "versionstamp": "8d5aeeac-61df-4d61-82ff-cd42c2410320"
     },
     "[\"factor\",\"published_v2\",\"31ad2257d965a02c7bc2056d6ce50a32a04684ea94f1aa4267a5445407e08019\"]": {
       "key": [
@@ -1451,19 +1451,19 @@
       "value": {
         "ok": true,
         "selected": 1,
-        "urgent": true,
+        "urgent": false,
         "manual": false,
-        "score": 50,
+        "score": 48,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
-          "scored": 19,
+          "scored": 45,
           "accepted": 1,
           "short_title": 0,
           "urgent_interval": 0,
-          "regular_interval": 281,
+          "regular_interval": 0,
           "duplicate_before_article": 0,
-          "event_duplicate_before_article": 0,
+          "event_duplicate_before_article": 1,
           "bad_url": 0,
           "article_title_mismatch": 0,
           "duplicate_after_article": 0,
@@ -1477,64 +1477,51 @@
           "video_checked": 0,
           "video_rejected": 0,
           "video_validation": null,
-          "external_video_candidates": 0,
-          "external_video_checked": 0,
+          "external_video_candidates": 10,
+          "external_video_checked": 3,
           "search_video_queries": 7,
-          "search_video_candidates": 1,
-          "search_video_checked": 0,
-          "image_candidates": 2,
-          "media_checked": 2,
-          "media_selected": "image",
-          "selected_media_source": "jsonld",
-          "media_rejected": null,
+          "search_video_candidates": 2,
+          "search_video_checked": 5,
+          "image_candidates": 0,
+          "media_checked": 0,
+          "media_selected": null,
+          "selected_media_source": null,
+          "media_rejected": "no_relevant_media",
           "top_candidates": [],
           "ai_provider": "none"
         },
         "item": {
-          "title": "Зеркальная жизнь: почему ученые призывают остановить исследования до катастрофы - Поиск - новости науки и техники",
-          "source": "Поиск - новости науки и техники",
-          "article_url": "https://poisknews.ru/biologiya/zerkalnaya-zhizn-pochemu-uchenye-prizyvayut-ostanovit-issledovaniya-do-katastrofy/",
-          "category": "НАУКА"
+          "title": "Российская экономика распалась на несколько частей - Независимая газета",
+          "source": "Независимая газета",
+          "article_url": "https://www.ng.ru/economics/2026-10-04/4_9595_economics.html",
+          "category": "ЭКОНОМИКА"
         },
-        "media": {
-          "type": "image",
-          "source_url": "https://poisknews.ru/wp-content/uploads/2026/10/man-working-as-pharmacist-scaled.jpg"
-        },
+        "media": null,
         "publication": {
           "message": {
             "recipient": {
               "chat_type": "channel",
               "chat_id": -78887448255074
             },
-            "timestamp": 1791140727084,
+            "timestamp": 1791144073095,
             "body": {
-              "mid": "mid.ffffb84095ab659e01a1084e892c05ca",
-              "seq": 117384198690178510,
-              "text": "Зеркальная жизнь: почему ученые призывают остановить исследования, не дожидаясь катастрофы\n\nБиологи приближаются к созданию организмов, которые могут не распознаваться иммунной системой человека, животных и растений. Речь идет о так называемой зеркальной жизни — искусственных клетках, молекулы которых являются зеркальным отражением обычных. Издание The Economist призывает ввести жесткие ограничения на такие исследования, пока технология не вышла из-под контроля. Что такое зеркальная жизнь и почему она опасна [&hellip;]\n\n🔗 Поиск - новости науки и техники\n\n📢 ФАКТОР",
-              "attachments": [
-                {
-                  "payload": {
-                    "photo_id": 44442545480,
-                    "token": "ySUAOF6BcJyl67NnsQ/tHQlUWh0pUoz9/ZFGRFINGCc/RdfZKVpA1DioRfixsG1EVld4X9ogYa8aY++zuShBWwOlXLwBi80ped9zrEicTuE=",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8RN7r15h8pvFfMk6SPbuvO-hjfMfVvfoBKYlDsISiwlA"
-                  },
-                  "type": "image"
-                }
-              ],
+              "mid": "mid.ffffb84095ab659e01a1088197876b7d",
+              "seq": 117384417974381440,
+              "text": "Российская экономика распалась на несколько частей\n\nКаждое третье предприятие начнет инвестировать при ставке 6–7%, каждому третьему в принципе все равно\n\n🔗 Независимая газета\n\n📢 ФАКТОР",
               "markup": [
                 {
                   "from": 0,
-                  "length": 90,
+                  "length": 50,
                   "type": "strong"
                 },
                 {
-                  "url": "https://poisknews.ru/biologiya/zerkalnaya-zhizn-pochemu-uchenye-prizyvayut-ostanovit-issledovaniya-do-katastrofy/",
-                  "from": 529,
-                  "length": 31,
+                  "url": "https://www.ng.ru/economics/2026-10-04/4_9595_economics.html",
+                  "from": 158,
+                  "length": 18,
                   "type": "link"
                 },
                 {
-                  "from": 565,
+                  "from": 181,
                   "length": 6,
                   "type": "emphasized"
                 }
@@ -1543,13 +1530,13 @@
             "stat": {
               "views": 1
             },
-            "url": "https://max.ru/channel_faktormedia/AaEIToksBco"
+            "url": "https://max.ru/channel_faktormedia/AaEIgZeHa30"
           }
         },
-        "duration_ms": 28158
+        "duration_ms": 33233
       },
       "expiresAt": null,
-      "versionstamp": "40369a3b-1d86-4861-8cd0-a3274755ebad"
+      "versionstamp": "b57cd300-3a83-4881-b1e0-2dcd996b4355"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -2305,6 +2292,80 @@
       },
       "expiresAt": 1791313527271,
       "versionstamp": "33185509-6ca7-4729-b9fa-fde2aea8762a"
+    },
+    "[\"factor\",\"published_v2\",\"0ae23b05ea2c9b83ccfd2100ff338eb4c4f8705b54066adf41215a860891f697\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "0ae23b05ea2c9b83ccfd2100ff338eb4c4f8705b54066adf41215a860891f697"
+      ],
+      "value": true,
+      "expiresAt": 1793736073243,
+      "versionstamp": "50d34690-4844-41a0-9809-d4f3f1d60d89"
+    },
+    "[\"factor\",\"published\",\"d5a357a88e4cf32d8e9961e6e3825a032a4fb2ce485c842231310733c6712ae2\"]": {
+      "key": [
+        "factor",
+        "published",
+        "d5a357a88e4cf32d8e9961e6e3825a032a4fb2ce485c842231310733c6712ae2"
+      ],
+      "value": true,
+      "expiresAt": 1793736073244,
+      "versionstamp": "f5c2973f-2df3-4ec9-a657-e26350e9fab8"
+    },
+    "[\"factor\",\"published_story_v3\",\"fa9c63781075b827944934f0cfc5eaf767873bc19a2c02152911a5580edf04d7\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "fa9c63781075b827944934f0cfc5eaf767873bc19a2c02152911a5580edf04d7"
+      ],
+      "value": true,
+      "expiresAt": 1793736073245,
+      "versionstamp": "a17df5a9-c0a7-47ce-8fe1-388657cd5933"
+    },
+    "[\"factor\",\"recent_title_v2\",1791144073246,\"d80315c1f83676268f78064ba95484b7ba6b37390666c5d0325254a3763d33bb\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791144073246,
+        "d80315c1f83676268f78064ba95484b7ba6b37390666c5d0325254a3763d33bb"
+      ],
+      "value": "Российская экономика распалась на несколько частей",
+      "expiresAt": 1793736073246,
+      "versionstamp": "1ffa85e5-fa04-414e-aac2-20c3bd53a978"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"d80315c1f83676268f78064ba95484b7ba6b37390666c5d0325254a3763d33bb\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "d80315c1f83676268f78064ba95484b7ba6b37390666c5d0325254a3763d33bb"
+      ],
+      "value": "Российская экономика распалась на несколько частей",
+      "expiresAt": 1793736073247,
+      "versionstamp": "6306cb2c-0465-46dd-b264-a93beac15637"
+    },
+    "[\"factor\",\"published_event_v4\",\"abb6d3950e17334bb0cd0ab9ef9587a16ab4c146b9eaa453cd5e22aeafd08441\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "abb6d3950e17334bb0cd0ab9ef9587a16ab4c146b9eaa453cd5e22aeafd08441"
+      ],
+      "value": {
+        "category": "ЭКОНОМИКА",
+        "family": "economy",
+        "anchors": [
+          "экон",
+          "расп",
+          "неск",
+          "част"
+        ],
+        "title": "Российская экономика распалась на несколько частей",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTE9JVEhnS1FOaFpCQUxxWEZoa1plNmRZa0UxaGVxMmYyUkdlM09GX2NKR0lsWTNBTUMtNUJXWDV6QXNTZnc2dGg0MkVzQmliT3NYS28xODJZelpvd0s3TUJMcmg5Y0xlMzN0c3VYaQ?oc=5\" target=\"_blank\"&gt;Российская экономика распалась на несколько частей&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Независимая газета&lt;/font&gt; Каждое третье предприятие начнет инвестировать при ставке 6–7%, каждому третьему в принципе все равно Каждое третье предприятие начнет инвестировать при ставке 6–7%, каждому третьему в принципе все равно",
+        "published_at": 1791144073248,
+        "article_url": "https://www.ng.ru/economics/2026-10-04/4_9595_economics.html"
+      },
+      "expiresAt": 1791316873248,
+      "versionstamp": "f3b456bb-128d-45f2-a3ed-f5c1e3163fa1"
     }
   }
 }
