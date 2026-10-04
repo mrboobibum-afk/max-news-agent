@@ -454,8 +454,13 @@
 
         console.error(error);
 
+        const errorCode =
+          error instanceof Error
+            ? error.message
+            : "unknown_error";
+
         notify(
-          "❌ Не удалось выполнить действие. Попробуйте ещё раз."
+          "❌ Ошибка: " + errorCode
         );
 
         setLoading(false);
