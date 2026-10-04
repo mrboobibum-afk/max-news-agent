@@ -9,13 +9,34 @@
       {
         "name": "STATE",
         "class_name": "BotState"
+      },
+      {
+        "name": "MAX_API",
+        "class_name": "MaxApiContainer"
       }
     ]
   },
   "migrations": [
     {
       "tag": "v1",
-      "new_sqlite_classes": ["BotState"]
+      "new_sqlite_classes": [
+        "BotState"
+      ]
+    },
+    {
+      "tag": "v2",
+      "new_sqlite_classes": [
+        "MaxApiContainer"
+      ]
+    }
+  ],
+  "containers": [
+    {
+      "class_name": "MaxApiContainer",
+      "image": "./Dockerfile",
+      "max_instances": 1,
+      "instance_type": "lite",
+      "rollout_step_percentage": 100
     }
   ]
 }
