@@ -88,9 +88,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791128791403,
+      "value": 1791132082527,
       "expiresAt": null,
-      "versionstamp": "020f3076-3268-47e9-bb10-b9b5bde5e431"
+      "versionstamp": "6df693db-2b38-414a-8733-fdb0f4606861"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -1450,13 +1450,103 @@
       ],
       "value": {
         "ok": true,
-        "selected": 0,
-        "reason": "publication intervals not reached",
+        "selected": 1,
+        "urgent": true,
+        "manual": false,
+        "score": 48,
         "rss_total": 300,
-        "duration_ms": 577
+        "diagnostics": {
+          "rss_total": 300,
+          "scored": 75,
+          "accepted": 1,
+          "short_title": 0,
+          "urgent_interval": 0,
+          "regular_interval": 0,
+          "duplicate_before_article": 0,
+          "event_duplicate_before_article": 1,
+          "bad_url": 0,
+          "article_title_mismatch": 0,
+          "duplicate_after_article": 0,
+          "event_duplicate_after_article": 0,
+          "gemini_fallback": 0,
+          "gemini_title_mismatch": 0,
+          "urgent_interval_after_gemini": 0,
+          "regular_interval_after_gemini": 0,
+          "text_duplicate": 0,
+          "video_candidates": 0,
+          "video_checked": 0,
+          "video_rejected": 0,
+          "video_validation": null,
+          "external_video_candidates": 2,
+          "external_video_checked": 2,
+          "search_video_queries": 7,
+          "search_video_candidates": 1,
+          "search_video_checked": 0,
+          "image_candidates": 1,
+          "media_checked": 1,
+          "media_selected": null,
+          "selected_media_source": null,
+          "media_rejected": "no_relevant_media",
+          "top_candidates": [],
+          "ai_provider": "gemini"
+        },
+        "item": {
+          "title": "Лесной пожар в Священной долине инков унёс жизнь человека - НИА «Экология",
+          "source": "НИА «Экология»",
+          "article_url": "https://nia.eco/2026/10/04/143031/",
+          "category": "ПРОИСШЕСТВИЯ"
+        },
+        "media": null,
+        "publication": {
+          "message": {
+            "recipient": {
+              "chat_type": "channel",
+              "chat_id": -78887448255074
+            },
+            "timestamp": 1791132106321,
+            "body": {
+              "mid": "mid.ffffb84095ab659e01a107cafe511d0d",
+              "seq": 117383633719860500,
+              "text": "🔴 ФАКТОР • ОПЕРАТИВНО\n\n🚨 ПРОИСШЕСТВИЯ\n\nЛесной пожар в Священной долине инков унёс жизнь человека\n\nВ Священной долине инков произошёл лесной пожар, в результате которого погиб человек. Огонь приблизился к жилым домам и автозаправке в Перу. Региональные власти запросили авиационную помощь для борьбы с огнём.\n\n🕒 19:41\n🔗 НИА «Экология»\n\nФАКТОР",
+              "markup": [
+                {
+                  "from": 3,
+                  "length": 19,
+                  "type": "strong"
+                },
+                {
+                  "from": 27,
+                  "length": 12,
+                  "type": "strong"
+                },
+                {
+                  "from": 41,
+                  "length": 57,
+                  "type": "strong"
+                },
+                {
+                  "url": "https://nia.eco/2026/10/04/143031/",
+                  "from": 323,
+                  "length": 14,
+                  "type": "link"
+                },
+                {
+                  "from": 339,
+                  "length": 6,
+                  "type": "emphasized"
+                }
+              ]
+            },
+            "stat": {
+              "views": 1
+            },
+            "url": "https://max.ru/channel_faktormedia/AaEHyv5RHQ0"
+          }
+        },
+        "duration_ms": 25516
       },
       "expiresAt": null,
-      "versionstamp": "1a42ff30-d206-4e56-89b8-46b3014ac67f"
+      "versionstamp": "ee28cb80-b5eb-44a1-8b65-4e99dd1f4c64"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -1532,6 +1622,83 @@
       },
       "expiresAt": 1791301853288,
       "versionstamp": "95dd0821-212b-459c-a6af-49ef67961fb4"
+    },
+    "[\"factor\",\"published_v2\",\"4316f12cd3fc3fef9b33646b83ccb28acd61ddc229b0acc03c3f2efba21a34af\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "4316f12cd3fc3fef9b33646b83ccb28acd61ddc229b0acc03c3f2efba21a34af"
+      ],
+      "value": true,
+      "expiresAt": 1793724106488,
+      "versionstamp": "e0f956e7-af85-4ab0-a509-9e69e08f6005"
+    },
+    "[\"factor\",\"published\",\"6b273f02ba864fc112f4aae15ea2b790a2bfafdc406a6eacfce157e904966e42\"]": {
+      "key": [
+        "factor",
+        "published",
+        "6b273f02ba864fc112f4aae15ea2b790a2bfafdc406a6eacfce157e904966e42"
+      ],
+      "value": true,
+      "expiresAt": 1793724106495,
+      "versionstamp": "5449d047-2712-4f0a-a136-d75ddf5b6820"
+    },
+    "[\"factor\",\"published_story_v3\",\"5886fa166427cd7467b0023011d46d65136ddadb6ffa7b126b1ecf552a601fe3\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "5886fa166427cd7467b0023011d46d65136ddadb6ffa7b126b1ecf552a601fe3"
+      ],
+      "value": true,
+      "expiresAt": 1793724106616,
+      "versionstamp": "d614f910-aefb-41ca-b1eb-10437c8c940c"
+    },
+    "[\"factor\",\"recent_title_v2\",1791132106736,\"6d146a5c3d4c58af851a019191e387bf08701ebb7eb6218fa5138dddf72df866\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791132106736,
+        "6d146a5c3d4c58af851a019191e387bf08701ebb7eb6218fa5138dddf72df866"
+      ],
+      "value": "Лесной пожар в Священной долине инков унёс жизнь человека",
+      "expiresAt": 1793724106736,
+      "versionstamp": "e4331729-78e8-44de-a418-0cf20f802d70"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"6d146a5c3d4c58af851a019191e387bf08701ebb7eb6218fa5138dddf72df866\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "6d146a5c3d4c58af851a019191e387bf08701ebb7eb6218fa5138dddf72df866"
+      ],
+      "value": "Лесной пожар в Священной долине инков унёс жизнь человека",
+      "expiresAt": 1793724106860,
+      "versionstamp": "14b01343-a863-4d39-a6f5-d8203a179f0f"
+    },
+    "[\"factor\",\"published_event_v4\",\"beb31ce3b0237f024e284b9cc1d77d2fdbbf84465db1547f997b0e02560596cf\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "beb31ce3b0237f024e284b9cc1d77d2fdbbf84465db1547f997b0e02560596cf"
+      ],
+      "value": {
+        "category": "ПРОИСШЕСТВИЯ",
+        "family": "fire",
+        "anchors": [
+          "лесн",
+          "свящ",
+          "доли",
+          "инко",
+          "унес",
+          "жизн",
+          "чело"
+        ],
+        "title": "Лесной пожар в Священной долине инков унёс жизнь человека",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiSkFVX3lxTE1xekRyMEpwakVXcDl0MkFkUWVrMEJDQ3FhNi1VSVl2c0phUVp0NWV3dUI1Ylg2bF9Sa3BVUVpjdC12bjJ0a2stNkVn?oc=5\" target=\"_blank\"&gt;Лесной пожар в Священной долине инков унёс жизнь человека&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;НИА «Экология&lt;/font&gt; В Священной долине инков произошёл лесной пожар, в результате которого погиб человек. Огонь приблизился к жилым домам и автозаправке в Перу. Региональные власти запросили авиационную помощь для борьбы с огнём. В Перу огонь приблизился к домам и автозаправке. Региональные власти запросили авиационную помощь",
+        "published_at": 1791132106981,
+        "article_url": "https://nia.eco/2026/10/04/143031/"
+      },
+      "expiresAt": 1791304906981,
+      "versionstamp": "258b1c4f-d755-4baa-b16a-777ab63c4063"
     }
   }
 }
