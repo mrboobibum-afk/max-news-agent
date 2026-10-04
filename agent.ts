@@ -3062,7 +3062,7 @@ false, если это другое событие, случайная/стор�
 
         // Gemini recommends inline video for short/small clips. Keep the
         // payload below the practical 20 MB inline-request range.
-        const inlineLimit = 15 * 1024 * 1024;
+        const inlineLimit = 10 * 1024 * 1024;
 
         if (media.bytes.byteLength <= inlineLimit) {
             let binary = "";
@@ -3128,6 +3128,8 @@ false, если это другое событие, случайная/стор�
             }
 
             const uploaded = await uploadResponse.json();
+            // Release the large video buffer immediately after Gemini accepts the upload.
+            media.bytes = new Uint8Array(0);
             const file = uploaded?.file || uploaded;
             uploadedFileName = String(file?.name || "");
             let fileState = String(file?.state || "");
@@ -3198,6 +3200,9 @@ false, если это другое событие, случайная/стор�
                 signal: AbortSignal.timeout(90000),
             },
         );
+
+        // The request body has been sent; release the in-memory video before parsing the response.
+        media.bytes = new Uint8Array(0);
 
         if (!response.ok) {
             throw new Error(`Gemini video relevance HTTP ${response.status}`);
