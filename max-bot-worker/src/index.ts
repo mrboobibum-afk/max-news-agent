@@ -431,9 +431,35 @@ async function validateMiniAppData(
     );
 
     if (!safeEqual(calculatedHash, originalHash)) {
+      // Diagnostic only: do not expose the token. Verify which bot token
+      // the Worker actually has and expose only non-secret metadata.
+      let tokenCheck: any = { checked: false };
+      try {
+        const me = await maxApi(env, "/me", { method: "GET" });
+        const meBody = await me.json().catch(() => ({}));
+        tokenCheck = {
+          checked: true,
+          status: me.status,
+          is_bot: meBody?.is_bot ?? null,
+          user_id: meBody?.user_id ?? null,
+          username: meBody?.username ?? null,
+          first_name: meBody?.first_name ?? null,
+        };
+      } catch {
+        tokenCheck = { checked: true, status: "request_failed" };
+      }
+
       return {
         ok: false,
         reason: "invalid_hash",
+        diagnostic: {
+          input_length: raw.length,
+          parameter_keys: params.map(([key]) => key),
+          hash_length: originalHash.length,
+          hash_is_hex: /^[0-9a-f]+$/i.test(originalHash),
+          auth_date: authDate,
+          token_check: tokenCheck,
+        },
       };
     }
 
