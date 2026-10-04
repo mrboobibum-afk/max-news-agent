@@ -88,9 +88,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791138761000,
+      "value": 1791139135443,
       "expiresAt": null,
-      "versionstamp": "b7d3cd85-41f1-4626-9805-57e12a62e867"
+      "versionstamp": "49ae7218-0519-4887-808e-8111b5a0265b"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -1453,7 +1453,7 @@
         "selected": 1,
         "urgent": true,
         "manual": false,
-        "score": 58,
+        "score": 56,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
@@ -1463,12 +1463,12 @@
           "urgent_interval": 0,
           "regular_interval": 0,
           "duplicate_before_article": 0,
-          "event_duplicate_before_article": 0,
+          "event_duplicate_before_article": 2,
           "bad_url": 0,
           "article_title_mismatch": 0,
           "duplicate_after_article": 0,
           "event_duplicate_after_article": 0,
-          "gemini_fallback": 1,
+          "gemini_fallback": 0,
           "gemini_title_mismatch": 0,
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
@@ -1477,28 +1477,28 @@
           "video_checked": 0,
           "video_rejected": 0,
           "video_validation": null,
-          "external_video_candidates": 4,
-          "external_video_checked": 3,
+          "external_video_candidates": 1,
+          "external_video_checked": 1,
           "search_video_queries": 7,
-          "search_video_candidates": 1,
-          "search_video_checked": 0,
+          "search_video_candidates": 6,
+          "search_video_checked": 5,
           "image_candidates": 1,
           "media_checked": 1,
           "media_selected": "image",
           "selected_media_source": "meta",
           "media_rejected": null,
           "top_candidates": [],
-          "ai_provider": "none"
+          "ai_provider": "gemini"
         },
         "item": {
-          "title": "Пожар в Вяземском округе: полностью уничтожен жилой дом - Смоленская газета",
-          "source": "Смоленская газета",
-          "article_url": "https://smolgazeta.ru/daylynews/140936-pojar-v-vyazemskom-okruge-polnostyu.html",
+          "title": "Пять подростков травмированы на пожаре в Пермском крае - Newsko.ru",
+          "source": "«Новый компаньон»",
+          "article_url": "https://www.newsko.ru/news/nk-9442663.html",
           "category": "ПРОИСШЕСТВИЯ"
         },
         "media": {
           "type": "image",
-          "source_url": "https://smolgazeta.ru/fc-web/fc-files/2026/10/174653-600x400.jpeg"
+          "source_url": "https://www.newsko.ru/media/9442662/pozhar-v-chernushke.jpg?size=600"
         },
         "publication": {
           "message": {
@@ -1506,17 +1506,17 @@
               "chat_type": "channel",
               "chat_id": -78887448255074
             },
-            "timestamp": 1791138802944,
+            "timestamp": 1791139195667,
             "body": {
-              "mid": "mid.ffffb84095ab659e01a108312d000672",
-              "seq": 117384072589739630,
-              "text": "Пожар в Вяземском округе: полностью уничтожен жилой дом\n\nВчера, 3 октября, в селе Новый Вяземского округа произошёл пожар в частном жилом доме....\n\n🔗 Смоленская газета\n\n📢 ФАКТОР",
+              "mid": "mid.ffffb84095ab659e01a108372b132efa",
+              "seq": 117384098327244540,
+              "text": "Пять подростков травмированы на пожаре в Пермском крае\n\nПять подростков получили травмы на пожаре в Пермском крае. Инцидент произошел в Чернушке, обстоятельства выясняет следствие.\n\n🔗 «Новый компаньон»\n\n📢 ФАКТОР",
               "attachments": [
                 {
                   "payload": {
-                    "photo_id": 44439447368,
-                    "token": "Db88RZGwMDhX4yFH0FYM+SRUAOCX/J/89zRf3tZxKcPiFdb5MSMf2weTNpiDxDrs5mvtgTDjCO2o9zgqj9V9hYtWZysuz97lYBhLhCYU2nU=",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8RGncCV4ghVoJcEpnVg1YZ-hjfMfVvfoBKYlDsISiwlA"
+                    "photo_id": 44440153160,
+                    "token": "GouT07rGPYyKqwOfjo2tWdZUlOtVg0bWNYMsHO2RP1HWfLikRfGXOyxaEmlBW67l/1B9Wh2GV7jL2BluibbYC9Q2TABiC/ds3atQ8nAEIQI=",
+                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr81sCK7ANN66Nwu5AJkTbyfOhjfMfVvfoBKYlDsISiwlA"
                   },
                   "type": "image"
                 }
@@ -1524,17 +1524,17 @@
               "markup": [
                 {
                   "from": 0,
-                  "length": 55,
+                  "length": 54,
                   "type": "strong"
                 },
                 {
-                  "url": "https://smolgazeta.ru/daylynews/140936-pojar-v-vyazemskom-okruge-polnostyu.html",
-                  "from": 151,
+                  "url": "https://www.newsko.ru/news/nk-9442663.html",
+                  "from": 185,
                   "length": 17,
                   "type": "link"
                 },
                 {
-                  "from": 173,
+                  "from": 207,
                   "length": 6,
                   "type": "emphasized"
                 }
@@ -1543,13 +1543,13 @@
             "stat": {
               "views": 1
             },
-            "url": "https://max.ru/channel_faktormedia/AaEIMS0ABnI"
+            "url": "https://max.ru/channel_faktormedia/AaEINysTLvo"
           }
         },
-        "duration_ms": 42724
+        "duration_ms": 60993
       },
       "expiresAt": null,
-      "versionstamp": "0f1d4ed3-beea-429e-a1ff-bf0f99cf5e75"
+      "versionstamp": "797e3a6f-d723-40ea-a8d6-8f45842e25ef"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -2002,6 +2002,81 @@
       },
       "expiresAt": 1791311603066,
       "versionstamp": "3fad5c6f-a8fc-4200-bf7a-a2ae37a581b2"
+    },
+    "[\"factor\",\"published_v2\",\"357e456f0e3ef06c64553311583831cb00959582fc50b5101631605c6956cb3e\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "357e456f0e3ef06c64553311583831cb00959582fc50b5101631605c6956cb3e"
+      ],
+      "value": true,
+      "expiresAt": 1793731195826,
+      "versionstamp": "530a0d26-c9ab-4d2f-9f78-c2af9f8fd501"
+    },
+    "[\"factor\",\"published\",\"151522dbd2e7fa483350ea729994fe9f2fc783c082030e97a605fc587929af64\"]": {
+      "key": [
+        "factor",
+        "published",
+        "151522dbd2e7fa483350ea729994fe9f2fc783c082030e97a605fc587929af64"
+      ],
+      "value": true,
+      "expiresAt": 1793731195827,
+      "versionstamp": "8d2e7284-5997-4e22-a11b-dc50388af80d"
+    },
+    "[\"factor\",\"published_story_v3\",\"9ea0db6ef84b206f7246bca09979b50046ace56c3ba995a0a9584dffe5d30636\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "9ea0db6ef84b206f7246bca09979b50046ace56c3ba995a0a9584dffe5d30636"
+      ],
+      "value": true,
+      "expiresAt": 1793731195827,
+      "versionstamp": "b5a2591b-6596-40da-b2a0-c48c165f155f"
+    },
+    "[\"factor\",\"recent_title_v2\",1791139195829,\"e8134d034d7460bb6f47d5b8cbfa3dd74748819289bf4952ba58ebb482aa1f83\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791139195829,
+        "e8134d034d7460bb6f47d5b8cbfa3dd74748819289bf4952ba58ebb482aa1f83"
+      ],
+      "value": "Пять подростков травмированы на пожаре в Пермском крае",
+      "expiresAt": 1793731195829,
+      "versionstamp": "d5344468-9db1-48a8-939a-5ae23f5a64d0"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"e8134d034d7460bb6f47d5b8cbfa3dd74748819289bf4952ba58ebb482aa1f83\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "e8134d034d7460bb6f47d5b8cbfa3dd74748819289bf4952ba58ebb482aa1f83"
+      ],
+      "value": "Пять подростков травмированы на пожаре в Пермском крае",
+      "expiresAt": 1793731195829,
+      "versionstamp": "9124af90-111b-42ba-9f7e-3f3e69994223"
+    },
+    "[\"factor\",\"published_event_v4\",\"0764fe2592babe369bc8e871b804e8aa9c4a2f7a34828a852ce10ad0da5a5b6a\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "0764fe2592babe369bc8e871b804e8aa9c4a2f7a34828a852ce10ad0da5a5b6a"
+      ],
+      "value": {
+        "category": "ПРОИСШЕСТВИЯ",
+        "family": "fire",
+        "anchors": [
+          "пять",
+          "подр",
+          "трав",
+          "перм",
+          "крае"
+        ],
+        "title": "Пять подростков травмированы на пожаре в Пермском крае",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiVEFVX3lxTFAtay1XSExnUlR1MnFkMEFoUVVsdC15MkhYRFBrb0JmalhBZkNhcE14bEZuOWE4aXZaRldnM3F2X3NBR1BaN1R3VHdEdkdkdGd3S1J4Vw?oc=5\" target=\"_blank\"&gt;Пять подростков травмированы на пожаре в Пермском крае&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Newsko.ru&lt;/font&gt; Пять подростков получили травмы на пожаре в Пермском крае. Инцидент произошел в Чернушке, обстоятельства выясняет следствие. Следствие устанавливает обстоятельства происшествия в Чернушке",
+        "published_at": 1791139195830,
+        "article_url": "https://www.newsko.ru/news/nk-9442663.html"
+      },
+      "expiresAt": 1791311995831,
+      "versionstamp": "903a6f36-242b-4d2a-9b68-2e6d770e8709"
     }
   }
 }
