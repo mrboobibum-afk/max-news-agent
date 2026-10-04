@@ -2918,18 +2918,15 @@ function buildPost(item, story, sourceName, articleUrl) {
 // ============================================================
 // MEDIA
 // ============================================================
-async function validateImageRelevance(item, story, candidate, media) {
-    if (!GEMINI_API_KEY || !media) return true;
-    try {
-        let binary = "";
-        const bytes = media.bytes;
-        const chunkSize = 0x8000;
-        for (let i = 0; i < bytes.length; i += chunkSize) {
-            binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
-        }
-        const base64 = btoa(binary);
-        const prompt = `
-Ты проверяешь фотографию для новостного канала.
+async function validateVideoRelevance(item, story, media, sourceContext = "") {
+    // Video must be positively verified. A validator failure is fail-closed:
+    // a wrong video is worse than publishing the story without media.
+    if (!GEMINI_API_KEY || !media?.bytes?.length) {
+        return false;
+    }
+
+    const prompt = `
+Ты проверяешь ВИДЕО для новостного канала.
 
 Новость:
 ${item.title}
@@ -2940,43 +2937,218 @@ ${stripHtml(story?.short || item.description || "")}
 Заголовок статьи:
 ${stripHtml(story?.headline || "")}
 
-Подпись/контекст изображения:
-${candidate.context || "нет"}
+Контекст источника видео:
+${stripHtml(sourceContext || "") || "нет"}
 
-Определи ТОЛЬКО визуальную релевантность.
-true = изображение явно связано с описываемым событием/объектом/людьми/местом новости.
-false = логотип, баннер, портрет автора, общая иллюстрация, архивная/сторонняя картинка, реклама, либо изображение явно относится к другой теме.
-Не пытайся установить юридическую или абсолютную достоверность фотографии.
+Источник видео:
+${media.sourceUrl || "неизвестен"}
 
-Верни ТОЛЬКО JSON: {"relevant":true,"reason":"коротко"}
+Задача: определить, показывает ли видео ТО ЖЕ СОБЫТИЕ, которое описывает новость.
+Учитывай визуальные кадры и, если доступно, аудио/речь.
+true только если есть разумные визуальные/контекстные признаки связи с событием, местом, людьми, объектом или ситуацией новости.
+false, если это другое событие, случайная/сторонняя запись, сток, реклама, общий видеоряд, старые кадры без связи, либо связь нельзя подтвердить.
+Не требуй совпадения формулировок. Пользовательское видео может быть низкого качества и снято с другого ракурса.
+Если сомневаешься — false.
+
+Верни ТОЛЬКО JSON:
+{"relevant":true,"reason":"коротко"}
 `;
-        const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + encodeURIComponent(GEMINI_API_KEY), {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                contents: [{
-                    parts: [
-                        { text: prompt },
-                        { inline_data: { mime_type: media.contentType || "image/jpeg", data: base64 } },
-                    ],
-                }],
-                generationConfig: { temperature: 0, responseMimeType: "application/json" },
-            }),
-            signal: AbortSignal.timeout(20000),
-        });
-        if (!response.ok) return true;
+
+    let uploadedFileName = "";
+    try {
+        let mediaPart;
+
+        // Gemini recommends inline video for short/small clips. Keep the
+        // payload below the practical 20 MB inline-request range.
+        const inlineLimit = 15 * 1024 * 1024;
+
+        if (media.bytes.byteLength <= inlineLimit) {
+            let binary = "";
+            const bytes = media.bytes;
+            const chunkSize = 0x8000;
+            for (let i = 0; i < bytes.length; i += chunkSize) {
+                binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+            }
+            mediaPart = {
+                inline_data: {
+                    mime_type: media.contentType || "video/mp4",
+                    data: btoa(binary),
+                },
+            };
+        } else {
+            // Large clips go through Gemini Files API, then are polled until
+            // the video becomes ACTIVE before visual analysis.
+            const mimeType = media.contentType || "video/mp4";
+            const uploadStart = await fetch(
+                "https://generativelanguage.googleapis.com/upload/v1beta/files?key=" +
+                    encodeURIComponent(GEMINI_API_KEY),
+                {
+                    method: "POST",
+                    headers: {
+                        "X-Goog-Upload-Protocol": "resumable",
+                        "X-Goog-Upload-Command": "start",
+                        "X-Goog-Upload-Header-Content-Length": String(media.bytes.byteLength),
+                        "X-Goog-Upload-Header-Content-Type": mimeType,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        file: {
+                            display_name: "faktor-video-validation",
+                        },
+                    }),
+                    signal: AbortSignal.timeout(20000),
+                },
+            );
+
+            if (!uploadStart.ok) {
+                throw new Error(`Gemini video upload start HTTP ${uploadStart.status}`);
+            }
+
+            const uploadUrl = uploadStart.headers.get("x-goog-upload-url");
+            if (!uploadUrl) {
+                throw new Error("Gemini video upload URL missing");
+            }
+
+            const uploadResponse = await fetch(uploadUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Length": String(media.bytes.byteLength),
+                    "X-Goog-Upload-Offset": "0",
+                    "X-Goog-Upload-Command": "upload, finalize",
+                    "Content-Type": mimeType,
+                },
+                body: media.bytes,
+                signal: AbortSignal.timeout(120000),
+            });
+
+            if (!uploadResponse.ok) {
+                throw new Error(`Gemini video upload HTTP ${uploadResponse.status}`);
+            }
+
+            const uploaded = await uploadResponse.json();
+            const file = uploaded?.file || uploaded;
+            uploadedFileName = String(file?.name || "");
+            let fileState = String(file?.state || "");
+
+            for (let attempt = 0; attempt < 12 && fileState === "PROCESSING"; attempt++) {
+                await sleep(3000);
+                if (!uploadedFileName) break;
+
+                const stateResponse = await fetch(
+                    "https://generativelanguage.googleapis.com/v1beta/" +
+                        uploadedFileName +
+                        "?key=" +
+                        encodeURIComponent(GEMINI_API_KEY),
+                    {
+                        headers: {
+                            "x-goog-api-key": GEMINI_API_KEY,
+                        },
+                        signal: AbortSignal.timeout(15000),
+                    },
+                );
+
+                if (!stateResponse.ok) {
+                    throw new Error(`Gemini video state HTTP ${stateResponse.status}`);
+                }
+
+                const stateData = await stateResponse.json();
+                const stateFile = stateData?.file || stateData;
+                fileState = String(stateFile?.state || "");
+                if (fileState === "ACTIVE") {
+                    mediaPart = {
+                        file_data: {
+                            mime_type: stateFile?.mimeType || mimeType,
+                            file_uri: stateFile?.uri,
+                        },
+                    };
+                    break;
+                }
+                if (fileState === "FAILED") {
+                    throw new Error("Gemini video processing failed");
+                }
+            }
+
+            if (!mediaPart) {
+                throw new Error("Gemini video did not become ACTIVE");
+            }
+        }
+
+        const response = await fetch(
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" +
+                encodeURIComponent(GEMINI_API_KEY),
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [
+                            { text: prompt },
+                            mediaPart,
+                        ],
+                    }],
+                    generationConfig: {
+                        temperature: 0,
+                        responseMimeType: "application/json",
+                    },
+                }),
+                signal: AbortSignal.timeout(90000),
+            },
+        );
+
+        if (!response.ok) {
+            throw new Error(`Gemini video relevance HTTP ${response.status}`);
+        }
+
         const data = await response.json();
-        const text = data?.candidates?.[0]?.content?.parts?.map((p) => p.text ?? "").join("").trim();
+        const text = data?.candidates?.[0]?.content?.parts
+            ?.map((p) => p.text ?? "")
+            .join("")
+            .trim();
+
         const json = text ? extractJson(text) : null;
-        if (!json || typeof json.relevant !== "boolean") return true;
-        console.log("Image relevance:", candidate.url, json.relevant, json.reason || "");
+        if (!json || typeof json.relevant !== "boolean") {
+            return false;
+        }
+
+        console.log(
+            "Video relevance:",
+            media.sourceUrl,
+            json.relevant,
+            json.reason || "",
+        );
+
         return json.relevant;
     } catch (error) {
-        console.error("Image relevance check:", error instanceof Error ? error.message : String(error));
-        // A validator outage must not destroy an otherwise valid publication.
-        return true;
+        console.error(
+            "Video relevance check:",
+            error instanceof Error ? error.message : String(error),
+        );
+        return false;
+    } finally {
+        if (uploadedFileName) {
+            try {
+                await fetch(
+                    "https://generativelanguage.googleapis.com/v1beta/" +
+                        uploadedFileName +
+                        "?key=" +
+                        encodeURIComponent(GEMINI_API_KEY),
+                    {
+                        method: "DELETE",
+                        headers: {
+                            "x-goog-api-key": GEMINI_API_KEY,
+                        },
+                        signal: AbortSignal.timeout(10000),
+                    },
+                );
+            } catch {
+                // Gemini deletes files automatically after retention expiry.
+            }
+        }
     }
 }
+
 
 async function findBestMedia(articleMedia, item, story, diagnostics = null) {
     // ----------------------------------------------------------
@@ -2985,12 +3157,39 @@ async function findBestMedia(articleMedia, item, story, diagnostics = null) {
     if (articleMedia.videoUrl) {
         if (diagnostics) diagnostics.video_candidates = 1;
         console.log("Trying article video:", articleMedia.videoUrl);
+
         const video = await downloadMedia(articleMedia.videoUrl, "video");
         if (video) {
-            if (diagnostics) diagnostics.media_selected = "video";
-            return video;
+            if (diagnostics) diagnostics.video_checked++;
+
+            const relevant = await validateVideoRelevance(
+                item,
+                story,
+                video,
+                articleMedia.title || articleMedia.description || "",
+            );
+
+            if (diagnostics) {
+                diagnostics.video_validation = relevant ? "relevant" : "not_relevant";
+            }
+
+            if (relevant) {
+                if (diagnostics) {
+                    diagnostics.media_selected = "video";
+                    diagnostics.selected_media_source = "article";
+                }
+                return video;
+            }
+
+            if (diagnostics) {
+                diagnostics.video_rejected++;
+                diagnostics.media_rejected = "video_not_relevant";
+            }
+
+            console.log("Rejected article video as unrelated:", video.sourceUrl);
+        } else if (diagnostics) {
+            diagnostics.media_rejected = "video_download_failed";
         }
-        if (diagnostics) diagnostics.media_rejected = "video_download_failed";
     }
 
     // ----------------------------------------------------------
@@ -3014,9 +3213,28 @@ async function findBestMedia(articleMedia, item, story, diagnostics = null) {
         const video = await downloadMedia(resolvedUrl, "video");
         if (!video) continue;
 
-        // Require the external source page to remain tied to the story.
-        // The source is accepted only when the publisher itself linked it;
-        // we do not blindly take arbitrary social media videos.
+        if (diagnostics) diagnostics.video_checked++;
+
+        const relevant = await validateVideoRelevance(
+            item,
+            story,
+            video,
+            sourceUrl,
+        );
+
+        if (diagnostics) {
+            diagnostics.video_validation = relevant ? "relevant" : "not_relevant";
+        }
+
+        if (!relevant) {
+            if (diagnostics) {
+                diagnostics.video_rejected++;
+                diagnostics.media_rejected = "external_video_not_relevant";
+            }
+            console.log("Rejected external/user video as unrelated:", video.sourceUrl);
+            continue;
+        }
+
         if (diagnostics) {
             diagnostics.media_selected = "external_video";
             diagnostics.selected_media_source = "external";
@@ -3257,6 +3475,9 @@ function createDiagnostics() {
         text_duplicate: 0,
 
         video_candidates: 0,
+        video_checked: 0,
+        video_rejected: 0,
+        video_validation: null,
         external_video_candidates: 0,
         external_video_checked: 0,
         image_candidates: 0,
