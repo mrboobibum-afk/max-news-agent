@@ -88,9 +88,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791113675816,
+      "value": 1791128791403,
       "expiresAt": null,
-      "versionstamp": "290527d9-7a98-491d-83e4-5b3771441dd6"
+      "versionstamp": "020f3076-3268-47e9-bb10-b9b5bde5e431"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -1364,6 +1364,202 @@
       "value": "На трассе под Нефтеюганском в ДТП с тремя машинами погибли два водителя",
       "expiresAt": 1793706730797,
       "versionstamp": "manual-dedup-1791114730797"
+    },
+    "[\"factor\",\"published_v2\",\"736194a4087231acf8de82fcc1739653c345a37ba7a7b45d0362d3e85ff279d9\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "736194a4087231acf8de82fcc1739653c345a37ba7a7b45d0362d3e85ff279d9"
+      ],
+      "value": true,
+      "expiresAt": 1793720825154,
+      "versionstamp": "2b0b078f-7dc0-45e5-8a4b-6f47cf3efe9c"
+    },
+    "[\"factor\",\"published\",\"8e04819fe6dfc11d41a2baa0fcd342500200242b2f3cb108a199d950a753edb4\"]": {
+      "key": [
+        "factor",
+        "published",
+        "8e04819fe6dfc11d41a2baa0fcd342500200242b2f3cb108a199d950a753edb4"
+      ],
+      "value": true,
+      "expiresAt": 1793720825155,
+      "versionstamp": "96d19c7d-8392-4489-b773-0585b5ed7994"
+    },
+    "[\"factor\",\"published_story_v3\",\"b0e5ebc44b9ba9d12f78ee0b9760ec08ca4369182d1cc8c2e0f25860cf1673d3\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "b0e5ebc44b9ba9d12f78ee0b9760ec08ca4369182d1cc8c2e0f25860cf1673d3"
+      ],
+      "value": true,
+      "expiresAt": 1793720825156,
+      "versionstamp": "e198b600-61c6-4411-99ec-9dc89c07a5fb"
+    },
+    "[\"factor\",\"recent_title_v2\",1791128825156,\"99ab3b54ed31c08b7b5ff0a14e4c391249b54f89cf61e2beaf660b035bcfbc45\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791128825156,
+        "99ab3b54ed31c08b7b5ff0a14e4c391249b54f89cf61e2beaf660b035bcfbc45"
+      ],
+      "value": "Пожар в Богословке 4 октября 2026: горит территория бывшего свинарника",
+      "expiresAt": 1793720825156,
+      "versionstamp": "83cccd2b-e00d-4dfe-9fdc-44cfcd84259a"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"99ab3b54ed31c08b7b5ff0a14e4c391249b54f89cf61e2beaf660b035bcfbc45\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "99ab3b54ed31c08b7b5ff0a14e4c391249b54f89cf61e2beaf660b035bcfbc45"
+      ],
+      "value": "Пожар в Богословке 4 октября 2026: горит территория бывшего свинарника",
+      "expiresAt": 1793720825157,
+      "versionstamp": "976e7b8b-0a18-4dc7-958b-6049a4f679de"
+    },
+    "[\"factor\",\"published_event_v4\",\"6eb2fc5c87ef9d25edff6f8135b44f355fa6f62e98fbcfaa9ffd505f70e1d2d5\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "6eb2fc5c87ef9d25edff6f8135b44f355fa6f62e98fbcfaa9ffd505f70e1d2d5"
+      ],
+      "value": {
+        "category": "ПРОИСШЕСТВИЯ",
+        "family": "fire",
+        "anchors": [
+          "бого",
+          "октя",
+          "2026",
+          "гори",
+          "терр",
+          "бывш",
+          "свин"
+        ],
+        "title": "Пожар в Богословке 4 октября 2026: горит территория бывшего свинарника",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMihwFBVV95cUxNYnhBVmVJallVVzh5SWdsc3RzSWtneDhWbkFXb2pZMXlmcDNtNlI4dFY0dXd6TlNYVnhYSGx4RElCbjkxVGlvbWVDMFhhUTYydE1rRG0tdlV6dGl1OENwVDVXdXZpNWhRU3k1WEl5RWZsa0dseUllbmdNWlBxYjRaRV9hcWtQbkk?oc=5\" target=\"_blank\"&gt;Пожар в Богословке 4 октября 2026: горит территория бывшего свинарника&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Пензенская правда&lt;/font&gt; Пожар в Богословке произошел 4 октября 2026. Рассказываем, что здесь горит территория бывшего свинарника. Пожар в Богословке произошел 4 октября 2026. Рассказываем, что здесь горит территория бывшего свинарника.",
+        "published_at": 1791128825158,
+        "article_url": "https://pravda-news.ru/news/proisshestviya/pozhar-v-bogoslovke-4-oktyabrya-2026/"
+      },
+      "expiresAt": 1791301625158,
+      "versionstamp": "e096bb0e-b03c-4ae8-8db4-55b1b808badf"
+    },
+    "[\"factor\",\"state\",\"last_pipeline\"]": {
+      "key": [
+        "factor",
+        "state",
+        "last_pipeline"
+      ],
+      "value": {
+        "ok": true,
+        "selected": 1,
+        "urgent": true,
+        "manual": false,
+        "score": 48,
+        "rss_total": 300,
+        "diagnostics": {
+          "rss_total": 300,
+          "scored": 75,
+          "accepted": 1,
+          "short_title": 0,
+          "urgent_interval": 0,
+          "regular_interval": 0,
+          "duplicate_before_article": 0,
+          "event_duplicate_before_article": 1,
+          "bad_url": 0,
+          "article_title_mismatch": 0,
+          "duplicate_after_article": 0,
+          "event_duplicate_after_article": 0,
+          "gemini_fallback": 0,
+          "gemini_title_mismatch": 1,
+          "urgent_interval_after_gemini": 0,
+          "regular_interval_after_gemini": 0,
+          "text_duplicate": 0,
+          "video_candidates": 0,
+          "video_checked": 0,
+          "video_rejected": 0,
+          "video_validation": null,
+          "external_video_candidates": 1,
+          "external_video_checked": 1,
+          "search_video_queries": 7,
+          "search_video_candidates": 1,
+          "search_video_checked": 0,
+          "image_candidates": 1,
+          "media_checked": 1,
+          "media_selected": "image",
+          "selected_media_source": "meta",
+          "media_rejected": null,
+          "top_candidates": [],
+          "ai_provider": "gemini"
+        },
+        "item": {
+          "title": "Пожар в Богословке 4 октября 2026: горит территория бывшего свинарника - Пензенская правда",
+          "source": "Пензенская правда",
+          "article_url": "https://pravda-news.ru/news/proisshestviya/pozhar-v-bogoslovke-4-oktyabrya-2026/",
+          "category": "ПРОИСШЕСТВИЯ"
+        },
+        "media": {
+          "type": "image",
+          "source_url": "https://pravda-news.ru/upload/iblock/d38/yp8a416r6yqwa44pt66nvg9w89689g1m.jpg"
+        },
+        "publication": {
+          "message": {
+            "recipient": {
+              "chat_type": "channel",
+              "chat_id": -78887448255074
+            },
+            "timestamp": 1791128824996,
+            "body": {
+              "mid": "mid.ffffb84095ab659e01a10798eca44ec8",
+              "seq": 117383418674958020,
+              "text": "🔴 ФАКТОР • ОПЕРАТИВНО\n\n🚨 ПРОИСШЕСТВИЯ\n\nПожар в Богословке 4 октября 2026: горит территория бывшего свинарника\n\n🕒 18:47\n🔗 Пензенская правда\n\nФАКТОР",
+              "attachments": [
+                {
+                  "payload": {
+                    "photo_id": 44415335240,
+                    "token": "WPQbOPRa3eiG0HEbVMqvF/ph/io2N1GUOgQPAcC6e3nSS1ovx73FBwLJvquKntCnRyM+7JmDLe8+GjipHi04mmFc3qfpmPbJO/pT34/Yk6vRxIuDgbbjo5r5bRPnEoyF",
+                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8pBkeHKaOKuOKB8QFuSwVtOhjfMfVvfoBKYlDsISiwlA"
+                  },
+                  "type": "image"
+                }
+              ],
+              "markup": [
+                {
+                  "from": 3,
+                  "length": 19,
+                  "type": "strong"
+                },
+                {
+                  "from": 27,
+                  "length": 12,
+                  "type": "strong"
+                },
+                {
+                  "from": 41,
+                  "length": 70,
+                  "type": "strong"
+                },
+                {
+                  "url": "https://pravda-news.ru/news/proisshestviya/pozhar-v-bogoslovke-4-oktyabrya-2026/",
+                  "from": 125,
+                  "length": 17,
+                  "type": "link"
+                },
+                {
+                  "from": 144,
+                  "length": 6,
+                  "type": "emphasized"
+                }
+              ]
+            },
+            "stat": {
+              "views": 1
+            },
+            "url": "https://max.ru/channel_faktormedia/AaEHmOykTsg"
+          }
+        },
+        "duration_ms": 34499
+      },
+      "expiresAt": null,
+      "versionstamp": "57625bcc-d4ba-4c4f-a607-e079289eb049"
     }
   }
 }
