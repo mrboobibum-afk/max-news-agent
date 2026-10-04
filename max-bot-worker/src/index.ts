@@ -82,9 +82,9 @@ async function sendToUser(
   );
 
   if (!r.ok) {
-    throw new Error(
-      `MAX send user failed: ${r.status} ${await r.text()}`
-    );
+    const details = await r.text();
+    console.error("MAX send user failed", r.status, details);
+    throw new Error(`MAX_SEND_USER_${r.status}`);
   }
 }
 
@@ -261,14 +261,18 @@ async function validateMiniAppData(
   initData: string,
   botToken: string
 ): Promise<{
+  ok: true;
   userId: number;
   user?: any;
-} | null> {
+} | {
+  ok: false;
+  reason: string;
+}> {
   try {
     let raw = String(initData ?? "").trim();
 
     if (!raw) {
-      return null;
+      return { ok: false, reason: "empty_init_data" };
     }
 
     /*
@@ -281,7 +285,7 @@ async function validateMiniAppData(
         const parsedUrl = new URL(raw);
         raw = parsedUrl.hash.replace(/^#/, "");
       } catch {
-        return null;
+        return { ok: false, reason: "invalid_init_data_url" };
       }
     }
 
@@ -295,12 +299,12 @@ async function validateMiniAppData(
         const appData = outer.get("WebAppData");
 
         if (!appData) {
-          return null;
+          return { ok: false, reason: "missing_webapp_data" };
         }
 
         raw = appData;
       } catch {
-        return null;
+        return { ok: false, reason: "invalid_webapp_data_wrapper" };
       }
     }
 
@@ -337,7 +341,7 @@ async function validateMiniAppData(
         hashCount++;
 
         if (hashCount > 1) {
-          return null;
+          return { ok: false, reason: "duplicate_hash" };
         }
 
         hashValue = value;
@@ -348,14 +352,14 @@ async function validateMiniAppData(
     }
 
     if (!hashValue || hashCount !== 1) {
-      return null;
+      return { ok: false, reason: "missing_or_invalid_hash" };
     }
 
     const requiredKeys = new Set<string>();
 
     for (const [key] of pairs) {
       if (requiredKeys.has(key)) {
-        return null;
+        return { ok: false, reason: "duplicate_key" };
       }
 
       requiredKeys.add(key);
@@ -366,14 +370,14 @@ async function validateMiniAppData(
     );
 
     if (!authDatePair) {
-      return null;
+      return { ok: false, reason: "missing_auth_date" };
     }
 
     const authDate =
       Number(authDatePair[1]);
 
     if (!Number.isFinite(authDate)) {
-      return null;
+      return { ok: false, reason: "invalid_auth_date" };
     }
 
     const now =
@@ -387,7 +391,7 @@ async function validateMiniAppData(
       Math.abs(now - authDate) >
       60 * 60
     ) {
-      return null;
+      return { ok: false, reason: "stale_auth_date" };
     }
 
     pairs.sort((a, b) =>
@@ -443,7 +447,7 @@ async function validateMiniAppData(
         hashValue
       )
     ) {
-      return null;
+      return { ok: false, reason: "invalid_hash" };
     }
 
     const userPair = pairs.find(
@@ -458,7 +462,7 @@ async function validateMiniAppData(
           userPair[1]
         );
       } catch {
-        return null;
+        return { ok: false, reason: "invalid_user_json" };
       }
     }
 
@@ -469,10 +473,11 @@ async function validateMiniAppData(
       !Number.isFinite(userId) ||
       userId <= 0
     ) {
-      return null;
+      return { ok: false, reason: "missing_user_id" };
     }
 
     return {
+      ok: true,
       userId,
       user,
     };
@@ -482,7 +487,7 @@ async function validateMiniAppData(
       error
     );
 
-    return null;
+    return { ok: false, reason: "validation_exception" };
   }
 }
 
@@ -918,12 +923,11 @@ async function handleMiniAppAction(
       env.BOT_TOKEN
     );
 
-  if (!valid) {
+  if (!valid.ok) {
     return json(
       {
         ok: false,
-        error:
-          "invalid_init_data",
+        error: valid.reason,
       },
       401,
       corsHeaders()
@@ -1121,11 +1125,20 @@ export default {
           error
         );
 
+        const message =
+          error instanceof Error
+            ? error.message
+            : "internal_error";
+
+        const safeError =
+          /^MAX_SEND_USER_\\d{3}$/.test(message)
+            ? message.toLowerCase()
+            : "internal_error";
+
         return json(
           {
             ok: false,
-            error:
-              "internal_error",
+            error: safeError,
           },
           500,
           corsHeaders()
