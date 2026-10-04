@@ -447,9 +447,9 @@
         "state",
         "last_regular"
       ],
-      "value": 1791132247098,
+      "value": 1791136743420,
       "expiresAt": null,
-      "versionstamp": "a4528396-705d-4bed-8e9d-4f26daec50f1"
+      "versionstamp": "5d6a3c15-a992-43c9-be82-a57cae9f8d7c"
     },
     "[\"factor\",\"published_v2\",\"31ad2257d965a02c7bc2056d6ce50a32a04684ea94f1aa4267a5445407e08019\"]": {
       "key": [
@@ -1451,16 +1451,16 @@
       "value": {
         "ok": true,
         "selected": 1,
-        "urgent": true,
+        "urgent": false,
         "manual": false,
-        "score": 61,
+        "score": 44,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
           "scored": 45,
           "accepted": 1,
           "short_title": 0,
-          "urgent_interval": 0,
+          "urgent_interval": 22,
           "regular_interval": 0,
           "duplicate_before_article": 0,
           "event_duplicate_before_article": 0,
@@ -1468,37 +1468,37 @@
           "article_title_mismatch": 0,
           "duplicate_after_article": 0,
           "event_duplicate_after_article": 0,
-          "gemini_fallback": 0,
+          "gemini_fallback": 1,
           "gemini_title_mismatch": 0,
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
           "text_duplicate": 0,
-          "video_candidates": 0,
-          "video_checked": 0,
-          "video_rejected": 0,
-          "video_validation": null,
-          "external_video_candidates": 2,
-          "external_video_checked": 2,
+          "video_candidates": 1,
+          "video_checked": 2,
+          "video_rejected": 2,
+          "video_validation": "not_relevant",
+          "external_video_candidates": 1,
+          "external_video_checked": 1,
           "search_video_queries": 7,
-          "search_video_candidates": 2,
-          "search_video_checked": 2,
+          "search_video_candidates": 1,
+          "search_video_checked": 0,
           "image_candidates": 1,
           "media_checked": 1,
           "media_selected": "image",
-          "selected_media_source": "meta",
-          "media_rejected": null,
+          "selected_media_source": "jsonld",
+          "media_rejected": "external_video_not_relevant",
           "top_candidates": [],
-          "ai_provider": "gemini"
+          "ai_provider": "none"
         },
         "item": {
-          "title": "В Улан-Удэ в тройном ДТП погиб человек - vtinform.com",
-          "source": "Восток-Телеинформ — новости Бурятии и Улан-Удэ",
-          "article_url": "https://vtinform.com/news/149/230470/",
-          "category": "ПРОИСШЕСТВИЯ"
+          "title": "Искусственный интеллект в суде: российский рынок legal tech вырос на 17% - BFM.ru",
+          "source": "BFM.ru - деловой портал",
+          "article_url": "https://www.bfm.ru/news/619831",
+          "category": "ТЕХНОЛОГИИ"
         },
         "media": {
           "type": "image",
-          "source_url": "https://vtinform.com/upload/resize_cache/iblock/9fd/dc09ungw8eh2rzdunb3xlzl19us0p5gc/700_700_1/avariya.jpg"
+          "source_url": "https://cdn.bfm.ru/news/photopreviewextralarge/2026/10/04/lori-0043533089-bigwww.jpg"
         },
         "publication": {
           "message": {
@@ -1506,17 +1506,17 @@
               "chat_type": "channel",
               "chat_id": -78887448255074
             },
-            "timestamp": 1791136558419,
+            "timestamp": 1791136787134,
             "body": {
-              "mid": "mid.ffffb84095ab659e01a1080eed532c76",
-              "seq": 117383925492558960,
-              "text": "В Улан-Удэ в тройном ДТП погиб человек\n\nВ Улан-Удэ произошло утреннее тройное ДТП на Селенгинском мосту. В результате аварии погиб человек.\n\n🔗 Восток-Телеинформ — новости Бурятии и Улан-Удэ\n\n📢 ФАКТОР",
+              "mid": "mid.ffffb84095ab659e01a108126abe5ba9",
+              "seq": 117383940481637300,
+              "text": "Искусственный интеллект в суде: российский рынок legal tech вырос на 17%\n\nСамостоятельных судебных решений ИИ пока не принимает, выступая в роли помощника. Какие задачи юристы сегодня готовы передавать нейросети и кто будет отвечать за ее ошибки?\n\n🔗 BFM.ru - деловой портал\n\n📢 ФАКТОР",
               "attachments": [
                 {
                   "payload": {
-                    "photo_id": 44434690632,
-                    "token": "vIpj9kyBZCys7M01vlwGEiDnt/7IrSbvCROFGX0v6DwuKgnuzv4R+dIQ1E0tgd1k+m9nYwG5vmR2i/Lyvt7JGHBUw54M2D3W+nycm4aXTwE=",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8FVpxVS77mDqosgV_2SRe0uhjfMfVvfoBKYlDsISiwlA"
+                    "photo_id": 44435168328,
+                    "token": "BolM9uN220fW6kEKDedHmQB+4Ocp2q7ceyZTye9AGNAxjCVGEborG7qGxu7/4ZFzZI9r+QQ3V4LM4Tgv3B4sRRHxmE5g6FGgKBC/NRwFcAk=",
+                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8yrGbYMDJsgnmTggkDPNw1uhjfMfVvfoBKYlDsISiwlA"
                   },
                   "type": "image"
                 }
@@ -1524,17 +1524,17 @@
               "markup": [
                 {
                   "from": 0,
-                  "length": 38,
+                  "length": 72,
                   "type": "strong"
                 },
                 {
-                  "url": "https://vtinform.com/news/149/230470/",
-                  "from": 144,
-                  "length": 46,
+                  "url": "https://www.bfm.ru/news/619831",
+                  "from": 251,
+                  "length": 23,
                   "type": "link"
                 },
                 {
-                  "from": 195,
+                  "from": 279,
                   "length": 6,
                   "type": "emphasized"
                 }
@@ -1543,13 +1543,13 @@
             "stat": {
               "views": 1
             },
-            "url": "https://max.ru/channel_faktormedia/AaEIDu1TLHY"
+            "url": "https://max.ru/channel_faktormedia/AaEIEmq-W6k"
           }
         },
-        "duration_ms": 70874
+        "duration_ms": 44627
       },
       "expiresAt": null,
-      "versionstamp": "caeba045-341f-4fbc-b70c-7cfb3a86c872"
+      "versionstamp": "e08947e0-4b82-48da-83ab-2ffdb46e56e5"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -1850,6 +1850,83 @@
       },
       "expiresAt": 1791309358552,
       "versionstamp": "90e9bb5b-39a6-4766-9c10-0f8ef6863373"
+    },
+    "[\"factor\",\"published_v2\",\"e7735e5c2c636204518155e051fcd89271a895c4a16e029500860e54dffbe67f\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "e7735e5c2c636204518155e051fcd89271a895c4a16e029500860e54dffbe67f"
+      ],
+      "value": true,
+      "expiresAt": 1793728787275,
+      "versionstamp": "36662c20-3535-4998-9126-0f64274735ef"
+    },
+    "[\"factor\",\"published\",\"d35f81fa5101d4c7f57afbba857f06090ab1eaf2e649111360ca58124019a4b0\"]": {
+      "key": [
+        "factor",
+        "published",
+        "d35f81fa5101d4c7f57afbba857f06090ab1eaf2e649111360ca58124019a4b0"
+      ],
+      "value": true,
+      "expiresAt": 1793728787276,
+      "versionstamp": "69c8f9f6-0a33-4f72-8d05-59f059c82d98"
+    },
+    "[\"factor\",\"published_story_v3\",\"be0414c815654291b2e017a01193b5e06f2e3aa6da23c1aa0ddba0f2876b2a26\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "be0414c815654291b2e017a01193b5e06f2e3aa6da23c1aa0ddba0f2876b2a26"
+      ],
+      "value": true,
+      "expiresAt": 1793728787277,
+      "versionstamp": "b71808da-21f5-4139-8d89-ddfbd8a1a467"
+    },
+    "[\"factor\",\"recent_title_v2\",1791136787278,\"409b71539142bc4df35593150bdcf7e1d496ffe0ed9bf508e1acb4cb7a204848\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791136787278,
+        "409b71539142bc4df35593150bdcf7e1d496ffe0ed9bf508e1acb4cb7a204848"
+      ],
+      "value": "Искусственный интеллект в суде: российский рынок legal tech вырос на 17%",
+      "expiresAt": 1793728787278,
+      "versionstamp": "75389b07-96c3-47b1-b2ef-5f792fc453e2"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"409b71539142bc4df35593150bdcf7e1d496ffe0ed9bf508e1acb4cb7a204848\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "409b71539142bc4df35593150bdcf7e1d496ffe0ed9bf508e1acb4cb7a204848"
+      ],
+      "value": "Искусственный интеллект в суде: российский рынок legal tech вырос на 17%",
+      "expiresAt": 1793728787279,
+      "versionstamp": "d538bd68-b87a-476f-b2f0-27fbfcf91b55"
+    },
+    "[\"factor\",\"published_event_v4\",\"5f8cfa1697720843663540ede8dc51a62928ad94a39395ac2ee2d03320be3ef5\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "5f8cfa1697720843663540ede8dc51a62928ad94a39395ac2ee2d03320be3ef5"
+      ],
+      "value": {
+        "category": "ТЕХНОЛОГИИ",
+        "family": "law",
+        "anchors": [
+          "иску",
+          "инте",
+          "суде",
+          "рыно",
+          "lega",
+          "tech",
+          "выро"
+        ],
+        "title": "Искусственный интеллект в суде: российский рынок legal tech вырос на 17%",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiREFVX3lxTE5xX2N3VzRPeUltdldMVHNCMmk5bWZ0SndYeFc5VkVhSlZKUUJmUUpyVE4xZXplY2FIb0ZrRHhwaGpCd3RN?oc=5\" target=\"_blank\"&gt;Искусственный интеллект в суде: российский рынок legal tech вырос на 17%&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;BFM.ru&lt;/font&gt; Самостоятельных судебных решений ИИ пока не принимает, выступая в роли помощника. Какие задачи юристы сегодня готовы передавать нейросети и кто будет отвечать за ее ошибки? Самостоятельных судебных решений ИИ пока не принимает, выступая в роли помощника. Какие задачи юристы сегодня готовы передавать нейросети и кто будет отвечать за ее ошибки?",
+        "published_at": 1791136787280,
+        "article_url": "https://www.bfm.ru/news/619831"
+      },
+      "expiresAt": 1791309587280,
+      "versionstamp": "4ac6d635-9228-4b0e-a4a1-3492fcc04c29"
     }
   }
 }
