@@ -306,6 +306,74 @@ async function validateMiniAppData(
     const calculatedHash = hex(calculatedHashBuffer);
 
     if (!safeEqual(calculatedHash, originalHash)) {
+      // MAX currently exposes initData as a URL-encoded string, but clients
+      // can differ in how they expose '+' and percent-encoding. Check a few
+      // strictly derived compatibility representations before rejecting.
+      const rawPairs = raw
+        .split("&")
+        .filter(Boolean)
+        .map((part) => {
+          const separator = part.indexOf("=");
+          if (separator < 0) return null;
+          return [
+            part.slice(0, separator),
+            part.slice(separator + 1),
+          ] as [string, string];
+        })
+        .filter((x): x is [string, string] => x !== null)
+        .filter(([key]) => key !== "hash");
+
+      const candidateLaunchParams = new Map<string, string>();
+
+      const addCandidate = async (name: string, launchParams: string) => {
+        const candidate = hex(
+          await hmacSha256(
+            new Uint8Array(secretKeyBuffer),
+            launchParams
+          )
+        );
+        candidateLaunchParams.set(name, candidate);
+      };
+
+      const rawLaunchParams = rawPairs
+        .sort((a, b) => a[0].localeCompare(b[0]))
+        .map(([key, value]) => `${key}=${value}`)
+        .join("\n");
+
+      await addCandidate("raw_values", rawLaunchParams);
+
+      const formDecodedPairs = rawPairs.map(([key, value]) => [
+        key,
+        new URLSearchParams(`v=${value}`).get("v") ?? value,
+      ] as [string, string]);
+
+      const formDecodedLaunchParams = formDecodedPairs
+        .sort((a, b) => a[0].localeCompare(b[0]))
+        .map(([key, value]) => `${key}=${value}`)
+        .join("\n");
+
+      await addCandidate("form_urlencoded_values", formDecodedLaunchParams);
+
+      const doubleDecodedPairs = params
+        .filter(([key]) => key !== "hash")
+        .map(([key, value]) => {
+          let decoded = value;
+          try {
+            decoded = decodeURIComponent(decoded);
+          } catch {}
+          return [key, decoded] as [string, string];
+        });
+
+      const doubleDecodedLaunchParams = doubleDecodedPairs
+        .sort((a, b) => a[0].localeCompare(b[0]))
+        .map(([key, value]) => `${key}=${value}`)
+        .join("\n");
+
+      await addCandidate("double_decoded_values", doubleDecodedLaunchParams);
+
+      const matchingVariant = Array.from(candidateLaunchParams.entries())
+        .find(([, candidate]) => safeEqual(candidate, originalHash))?.[0] ?? null;
+
       let tokenCheck: any = { checked: false };
 
       try {
@@ -338,6 +406,7 @@ async function validateMiniAppData(
           hash_is_hex: /^[0-9a-f]+$/i.test(originalHash),
           auth_date: authDate,
           token_check: tokenCheck,
+          matching_variant: matchingVariant,
         },
       };
     }
