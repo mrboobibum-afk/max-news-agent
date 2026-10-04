@@ -2943,6 +2943,27 @@ function cleanSourceName(source, articleMedia) {
 // ============================================================
 // POST
 // ============================================================
+function validateOutgoingPostText(text, item, story) {
+    const plain = stripHtml(String(text || ""))
+        .replace(/\s+/g, " ")
+        .trim();
+    const expectedHeadline = stripHtml(
+        truncate(story?.headline || item?.title || "", 260),
+    )
+        .replace(/\s+/g, " ")
+        .trim();
+
+    // Never publish a broken footer-only message. The headline must be
+    // present in the outgoing text before MAX is called.
+    if (!plain || expectedHeadline.length < 8) {
+        return false;
+    }
+    if (!plain.toLowerCase().includes(expectedHeadline.toLowerCase())) {
+        return false;
+    }
+    return true;
+}
+
 function buildPost(item, story, sourceName, articleUrl) {
     const headlineText = stripHtml(
         truncate(story.headline || item.title, 260),
@@ -4293,6 +4314,16 @@ async function executePipeline(manual = false) {
         // POST
         // --------------------------------------------------------
         const text = buildPost(item, story, sourceName, finalArticleUrl);
+
+        if (!validateOutgoingPostText(text, item, story)) {
+            throw new Error("Outgoing FAKTOR post text is invalid; publication aborted");
+        }
+
+        console.log("FAKTOR outgoing post validated:", {
+            headline: story.headline || item.title,
+            text_length: text.length,
+        });
+
         let mediaInfo;
         // --------------------------------------------------------
         // UPLOAD
