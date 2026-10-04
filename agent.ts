@@ -1906,31 +1906,11 @@ function eventProfilesMatch(candidate, previous) {
     const common = eventAnchorOverlap(candidate, previous);
     if (common >= 2) return true;
 
-    // For fast-moving incidents, one strong location/object anchor inside
-    // a short time window is enough. This catches:
-    // "ДТП на Солотчинском мосту" -> "авария ... пробка ... в Рязани".
-    const incidentFamily = [
-        "fire",
-        "accident",
-        "explosion",
-        "crime",
-        "military",
-        "disaster",
-    ].includes(familyA) || [
-        "fire",
-        "accident",
-        "explosion",
-        "crime",
-        "military",
-        "disaster",
-    ].includes(familyB);
-
-    if (common >= 1 && incidentFamily && ageMs <= 3 * 60 * 60 * 1000) {
-        return true;
-    }
-
-    // For non-incident stories require stronger overlap.
-    if (common >= 3) return true;
+    // Do not reject on a single four-character anchor. Generic words
+    // such as "водитель", "город", "пожар" or fragments from descriptions
+    // can otherwise make unrelated incidents look like the same event.
+    // A real cross-source duplicate should share at least two anchors.
+    if (common >= 2) return true;
 
     return false;
 }
