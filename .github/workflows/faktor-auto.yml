@@ -1,3 +1,5 @@
+# Actions re-enable test
+
 name: FAKTOR Auto
 
 on:
@@ -68,11 +70,9 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # Commit the local state first so rebase always starts clean.
           git add .factor-state.json
           git commit -m "chore: update faktor state"
 
-          # Rebase the state commit onto the latest main before pushing.
           for attempt in 1 2 3; do
             git fetch origin main
 
