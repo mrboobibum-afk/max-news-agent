@@ -276,15 +276,14 @@ async function validateMiniAppData(
     }
 
     /*
-      MAX documents two levels:
-      URL fragment -> WebAppData -> key=value pairs.
-      window.WebApp.initData normally gives the WebAppData string.
-      Be tolerant of receiving the full fragment as well.
+      MAX Bridge:
+      window.WebApp.initData is the URL-encoded WebAppData string.
+      Some clients may expose the complete URL-fragment parameter set.
+      In that case extract WebAppData exactly once.
     */
     if (/^https?:\/\//i.test(raw)) {
       try {
-        const parsedUrl = new URL(raw);
-        raw = parsedUrl.hash.replace(/^#/, "");
+        raw = new URL(raw).hash.replace(/^#/, "");
       } catch {
         return { ok: false, reason: "invalid_init_data_url" };
       }
@@ -294,9 +293,10 @@ async function validateMiniAppData(
       raw = raw.slice(1);
     }
 
-    if (raw.startsWith("WebAppData=")) {
-      try {
-        const outer = new URLSearchParams(raw);
+    try {
+      const outer = new URLSearchParams(raw);
+
+      if (outer.has("WebAppData")) {
         const appData = outer.get("WebAppData");
 
         if (!appData) {
@@ -304,136 +304,140 @@ async function validateMiniAppData(
         }
 
         raw = appData;
-      } catch {
-        return { ok: false, reason: "invalid_webapp_data_wrapper" };
       }
+    } catch {
+      return { ok: false, reason: "invalid_webapp_data_wrapper" };
     }
 
-    const parts = raw.split("&");
-    const encodedPairs: Array<[string, string]> = [];
-    let originalHash: string | null = null;
-    let hashCount = 0;
+    /*
+      Now raw MUST be the WebAppData payload itself:
+      key=value&key=value&...
+    */
+    const params = raw
+      .split("&")
+      .filter(Boolean)
+      .map((part) => {
+        const separator = part.indexOf("=");
 
-    for (const part of parts) {
-      if (!part) continue;
-
-      const separator = part.indexOf("=");
-
-      if (separator <= 0) continue;
-
-      const encodedKey = part.slice(0, separator);
-      const encodedValue = part.slice(separator + 1);
-      const key = decodeURIComponent(encodedKey);
-
-      if (key === "hash") {
-        hashCount++;
-
-        if (hashCount > 1) {
-          return { ok: false, reason: "duplicate_hash" };
+        if (separator < 0) {
+          return null;
         }
 
-        /*
-          Keep the original hash exactly as received.
-          MAX's official algorithm compares against this value.
-        */
-        originalHash = encodedValue;
-        continue;
-      }
+        return [
+          part.slice(0, separator),
+          part.slice(separator + 1),
+        ] as [string, string];
+      })
+      .filter(
+        (x): x is [string, string] => x !== null
+      );
 
-      encodedPairs.push([key, encodedValue]);
+    const hashParams = params.filter(
+      ([key]) => key === "hash"
+    );
+
+    if (hashParams.length !== 1) {
+      return {
+        ok: false,
+        reason: "missing_or_invalid_hash",
+      };
     }
 
-    if (!originalHash || hashCount !== 1) {
-      return { ok: false, reason: "missing_or_invalid_hash" };
+    /*
+      Preserve the original hash before decoding.
+      MAX's hash is a hex string and normally needs no decoding.
+    */
+    const originalHash = hashParams[0][1];
+
+    /*
+      Decode every value exactly once, as prescribed by MAX.
+    */
+    for (const param of params) {
+      param[1] = decodeURIComponent(param[1]);
     }
 
     const keys = new Set<string>();
 
-    for (const [key] of encodedPairs) {
+    for (const [key] of params) {
       if (keys.has(key)) {
-        return { ok: false, reason: "duplicate_key" };
+        return {
+          ok: false,
+          reason: "duplicate_key",
+        };
       }
+
       keys.add(key);
     }
 
-    const authEncoded = encodedPairs.find(
+    const authDatePair = params.find(
       ([key]) => key === "auth_date"
     );
 
-    if (!authEncoded) {
-      return { ok: false, reason: "missing_auth_date" };
+    if (!authDatePair) {
+      return {
+        ok: false,
+        reason: "missing_auth_date",
+      };
     }
 
-    const authCandidates = [
-      decodeURIComponent(authEncoded[1]),
-      authEncoded[1],
-    ];
-
-    const authDate = Number(authCandidates[0]);
+    const authDate = Number(authDatePair[1]);
 
     if (!Number.isFinite(authDate)) {
-      return { ok: false, reason: "invalid_auth_date" };
+      return {
+        ok: false,
+        reason: "invalid_auth_date",
+      };
     }
 
     const now = Math.floor(Date.now() / 1000);
 
     if (Math.abs(now - authDate) > 60 * 60) {
-      return { ok: false, reason: "stale_auth_date" };
+      return {
+        ok: false,
+        reason: "stale_auth_date",
+      };
     }
 
+    /*
+      Sort ALL decoded WebAppData parameters, then remove hash
+      only when building launch_params.
+    */
+    params.sort((a, b) =>
+      a[0].localeCompare(b[0])
+    );
+
+    const launchParams = params
+      .filter(([key]) => key !== "hash")
+      .map(([key, value]) => `${key}=${value}`)
+      .join("\n");
+
+    /*
+      Official MAX algorithm:
+      secret_key = HMAC-SHA256("WebAppData", BOT_TOKEN)
+      hash = hex(HMAC-SHA256(secret_key, launch_params))
+    */
     const secretKeyBuffer = await hmacSha256(
       new TextEncoder().encode("WebAppData"),
       botToken
     );
 
-    const secretKey = new Uint8Array(secretKeyBuffer);
+    const calculatedHashBuffer = await hmacSha256(
+      new Uint8Array(secretKeyBuffer),
+      launchParams
+    );
 
-    /*
-      MAX's documentation says values are URL-decoded before signing.
-      Some MAX Bridge versions can already provide decoded values.
-      Try the documented representation first, then the already-decoded
-      representation as a compatibility fallback. The signature still
-      has to be produced with the real BOT_TOKEN, so this does not bypass
-      authentication.
-    */
-    const representations = [
-      encodedPairs.map(([key, value]) => [
-        key,
-        decodeURIComponent(value),
-      ] as [string, string]),
-      encodedPairs.map(([key, value]) => [
-        key,
-        value,
-      ] as [string, string]),
-    ];
+    const calculatedHash = hex(
+      calculatedHashBuffer
+    );
 
-    let matchedPairs: Array<[string, string]> | null = null;
-
-    for (const pairs of representations) {
-      pairs.sort((a, b) => a[0].localeCompare(b[0]));
-
-      const launchParams = pairs
-        .map(([key, value]) => `${key}=${value}`)
-        .join("\n");
-
-      const calculatedHashBuffer = await hmacSha256(
-        secretKey,
-        launchParams
-      );
-
-      const calculatedHash = hex(calculatedHashBuffer);
-
-      if (safeEqual(calculatedHash, originalHash)) {
-        matchedPairs = pairs;
-        break;
-      }
+    if (!safeEqual(calculatedHash, originalHash)) {
+      return {
+        ok: false,
+        reason: "invalid_hash",
+      };
     }
 
-    if (!matchedPairs) {
-      return { ok: false, reason: "invalid_hash" };
-    }
-
-    const userPair = matchedPairs.find(
+    const userPair = params.find(
       ([key]) => key === "user"
     );
 
@@ -443,14 +447,23 @@ async function validateMiniAppData(
       try {
         user = JSON.parse(userPair[1]);
       } catch {
-        return { ok: false, reason: "invalid_user_json" };
+        return {
+          ok: false,
+          reason: "invalid_user_json",
+        };
       }
     }
 
     const userId = Number(user?.id);
 
-    if (!Number.isFinite(userId) || userId <= 0) {
-      return { ok: false, reason: "missing_user_id" };
+    if (
+      !Number.isFinite(userId) ||
+      userId <= 0
+    ) {
+      return {
+        ok: false,
+        reason: "missing_user_id",
+      };
     }
 
     return {
@@ -459,8 +472,15 @@ async function validateMiniAppData(
       user,
     };
   } catch (error) {
-    console.error("Mini App validation error:", error);
-    return { ok: false, reason: "validation_exception" };
+    console.error(
+      "Mini App validation error:",
+      error
+    );
+
+    return {
+      ok: false,
+      reason: "validation_exception",
+    };
   }
 }
 
