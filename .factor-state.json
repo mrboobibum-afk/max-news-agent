@@ -447,9 +447,98 @@
         "state",
         "last_regular"
       ],
-      "value": 1791063040270,
+      "value": 1791072010980,
       "expiresAt": null,
-      "versionstamp": "0ae4bdc6-5429-40f8-ad41-7d05b58f6490"
+      "versionstamp": "2e6a8f4b-b2c8-4c18-b3c4-263cf23135d4"
+    },
+    "[\"factor\",\"published_v2\",\"31ad2257d965a02c7bc2056d6ce50a32a04684ea94f1aa4267a5445407e08019\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "31ad2257d965a02c7bc2056d6ce50a32a04684ea94f1aa4267a5445407e08019"
+      ],
+      "value": true,
+      "expiresAt": 1793664027146,
+      "versionstamp": "903a58e9-5d76-40a5-8093-52f0654656bd"
+    },
+    "[\"factor\",\"published\",\"ff1d007214fcedf6453d3c9ec6786e40114d1a416e243c9b6ed10f1a8d0d23d8\"]": {
+      "key": [
+        "factor",
+        "published",
+        "ff1d007214fcedf6453d3c9ec6786e40114d1a416e243c9b6ed10f1a8d0d23d8"
+      ],
+      "value": true,
+      "expiresAt": 1793664027147,
+      "versionstamp": "b43e57e7-da80-4c0c-8344-8ba16bc786aa"
+    },
+    "[\"factor\",\"published_story_v3\",\"6bc884a206ed7709a82a2b00bcfc9aeddf9d26a56a1ec2f9f177e4dd5a77d01f\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "6bc884a206ed7709a82a2b00bcfc9aeddf9d26a56a1ec2f9f177e4dd5a77d01f"
+      ],
+      "value": true,
+      "expiresAt": 1793664027148,
+      "versionstamp": "4624b24b-9429-4ce0-b1fc-d4fd5cd7bfd7"
+    },
+    "[\"factor\",\"recent_title_v2\",1791072027148,\"8d8b22a8c6f78e1bc3ef2b94a95a4309b98e6ea4122daa6a12e9f026efeebecf\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791072027148,
+        "8d8b22a8c6f78e1bc3ef2b94a95a4309b98e6ea4122daa6a12e9f026efeebecf"
+      ],
+      "value": "Мобильный чип Exynos 2700 от Samsung запущен в серийное производство, согласно утечке",
+      "expiresAt": 1793664027148,
+      "versionstamp": "88e83807-3e98-4f3c-90b8-e3daa8fea87e"
+    },
+    "[\"factor\",\"published_event_v4\",\"216345114b3e3ff93f6e87dce3a2e93d317639883572a9a722b85871a5cd7024\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "216345114b3e3ff93f6e87dce3a2e93d317639883572a9a722b85871a5cd7024"
+      ],
+      "value": {
+        "category": "ПРОМЫШЛЕННОСТЬ",
+        "family": "промышленность",
+        "anchors": [
+          "моби",
+          "exyn",
+          "2700",
+          "sams",
+          "запу",
+          "сери",
+          "прои",
+          "утеч",
+          "href",
+          "http",
+          "news",
+          "goog",
+          "arti",
+          "cbmi",
+          "targ",
+          "blan",
+          "font",
+          "colo",
+          "6f6f",
+          "mobi",
+          "revi",
+          "проц",
+          "пока",
+          "резу",
+          "выше",
+          "конк",
+          "qual",
+          "тест",
+          "geek"
+        ],
+        "title": "Мобильный чип Exynos 2700 от Samsung запущен в серийное производство, согласно утечке",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiwAFBVV95cUxQODlBTjJvbEhpZlpQRGFFT19FblEtQkFKbjdmdnpvQk1ENTgyQ2RJQmg1MGJKZ2tVSFg3S0NWYXEtNWZfSGVqUkpZZ1Y2TERrdkt2czRWamxZYU1Zd05ISG9vY2dGaVdzcjJ6RE5EX1ZYNlhMSjhTZFhpa0oxWHViOWhValNqQm00S3BZaGRvU0E5UlRtS1dvMDVSQVAtWmZ5eFJMeU5LUXFORWJhLXE4OGFrdG94dGJqWUk1MzB6akQ?oc=5\" target=\"_blank\"&gt;Мобильный чип Exynos 2700 от Samsung запущен в серийное производство, согласно утечке&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Mobile-review.com&lt;/font&gt; Процессор показал результат на 9,5% выше конкурента Qualcomm в тесте Geekbench 6 Процессор показал результат на 9,5% выше конкурента Qualcomm в тесте Geekbench 6",
+        "published_at": 1791072027149,
+        "article_url": "https://mobile-review.com/all/news/mobilnyj-chip-exynos-2700-ot-samsung-zapushhen-v-serijnoe-proizvodstvo-soglasno-utechke/"
+      },
+      "expiresAt": 1791244827149,
+      "versionstamp": "c0ff52c6-1d78-4648-bffe-03bfd95a296b"
     }
   }
 }
