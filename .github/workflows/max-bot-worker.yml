@@ -42,10 +42,19 @@ jobs:
       - name: Verify MAX bot token
         env:
           MAX_BOT_TOKEN: ${{ secrets.MAX_BOT_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          echo "Checking MAX bot token via GET /me..."
           curl --insecure --fail-with-body -sS "https://platform-api2.max.ru/me" \
             -H "Authorization: ${MAX_BOT_TOKEN}" \
             -H "Content-Type: application/json" |
-            jq '{user_id, username, name, is_bot}'
+            jq '{user_id, username, name, is_bot}' > /tmp/max-token-check.json
+          cat /tmp/max-token-check.json
+          content_b64="$(base64 -w0 /tmp/max-token-check.json)"
+          gh api \
+            --method PUT \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/${{ github.repository }}/contents/.github/max-token-check.json" \
+            -f message="Record safe MAX bot identity check" \
+            -f content="${content_b64}" \
+            -f branch="main"
