@@ -14,11 +14,12 @@ permissions:
 
 concurrency:
   group: faktor-pipeline
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   run:
     runs-on: ubuntu-latest
+    timeout-minutes: 12
 
     steps:
       - name: Checkout
@@ -32,6 +33,7 @@ jobs:
           deno-version: v2.x
 
       - name: Run FAKTOR
+        timeout-minutes: 10
         env:
           GITHUB_ACTIONS: "true"
           MAX_BOT_TOKEN: ${{ secrets.MAX_BOT_TOKEN }}
@@ -41,12 +43,17 @@ jobs:
           MAX_VIDEO_MB: "60"
           MAX_IMAGE_MB: "15"
         run: |
+          echo "FAKTOR: starting at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           deno run \
             --allow-net \
             --allow-env \
             --allow-read \
             --allow-write \
             agent.ts
+
+      - name: FAKTOR finished
+        if: always()
+        run: echo "FAKTOR: workflow reached state-save at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
       - name: Save FAKTOR state
         if: always()
