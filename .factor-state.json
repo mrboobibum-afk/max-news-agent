@@ -1450,106 +1450,13 @@
       ],
       "value": {
         "ok": true,
-        "selected": 1,
-        "urgent": true,
-        "manual": false,
-        "score": 50,
+        "selected": 0,
+        "reason": "publication intervals not reached",
         "rss_total": 300,
-        "diagnostics": {
-          "rss_total": 300,
-          "scored": 23,
-          "accepted": 1,
-          "short_title": 0,
-          "urgent_interval": 0,
-          "regular_interval": 277,
-          "duplicate_before_article": 0,
-          "event_duplicate_before_article": 1,
-          "bad_url": 0,
-          "article_title_mismatch": 0,
-          "duplicate_after_article": 0,
-          "event_duplicate_after_article": 0,
-          "gemini_fallback": 1,
-          "gemini_title_mismatch": 0,
-          "urgent_interval_after_gemini": 0,
-          "regular_interval_after_gemini": 0,
-          "text_duplicate": 0,
-          "video_candidates": 1,
-          "video_checked": 2,
-          "video_rejected": 2,
-          "video_validation": "not_relevant",
-          "external_video_candidates": 4,
-          "external_video_checked": 3,
-          "search_video_queries": 7,
-          "search_video_candidates": 1,
-          "search_video_checked": 0,
-          "image_candidates": 1,
-          "media_checked": 1,
-          "media_selected": "image",
-          "selected_media_source": "meta",
-          "media_rejected": "external_video_not_relevant",
-          "top_candidates": [],
-          "ai_provider": "none"
-        },
-        "item": {
-          "title": "Пожар в гараже амурского села ликвидировали за короткое время - Amur.life",
-          "source": "Amur.life",
-          "article_url": "https://www.amur.life/news/2026/10/04/pozhar-v-garazhe-likvidirovali-za-korotkoe-vremya",
-          "category": "ПРОИСШЕСТВИЯ"
-        },
-        "media": {
-          "type": "image",
-          "source_url": "https://www.amur.life/res/news/94031/500x_/b892b8a978bb24b14e4cfcdbc353f904.jpg"
-        },
-        "publication": {
-          "message": {
-            "recipient": {
-              "chat_type": "channel",
-              "chat_id": -78887448255074
-            },
-            "timestamp": 1791144373469,
-            "body": {
-              "mid": "mid.ffffb84095ab659e01a108862cdd33c8",
-              "seq": 117384437659677630,
-              "text": "Пожар в гараже амурского села ликвидировали за короткое время\n\nВ селе Владимировка Амурской области загорелся гараж на улице Лесной. На место происшествия оперативно выехал дежурный караул пожарной части № 41 из Усть-Ивановки.\n\n🔗 Amur.life\n\n📢 ФАКТОР",
-              "attachments": [
-                {
-                  "payload": {
-                    "photo_id": 44446624840,
-                    "token": "L9hIlWIlDjn+KVpyrmUdIe7fBTG5N7zNXQ0nREahzrlaaX0NyRb7swXDGBuq7nTxmN9O93vbH5a2jbYW4T1bKIK9ynVoY0j+q9lb5QqX01ZjlN6ETZ/oKaMIZNfFi+VT",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr89EG3b-TnfnnpW_ferIYO4uhjfMfVvfoBKYlDsISiwlA"
-                  },
-                  "type": "image"
-                }
-              ],
-              "markup": [
-                {
-                  "from": 0,
-                  "length": 61,
-                  "type": "strong"
-                },
-                {
-                  "url": "https://www.amur.life/news/2026/10/04/pozhar-v-garazhe-likvidirovali-za-korotkoe-vremya",
-                  "from": 231,
-                  "length": 9,
-                  "type": "link"
-                },
-                {
-                  "from": 245,
-                  "length": 6,
-                  "type": "emphasized"
-                }
-              ]
-            },
-            "stat": {
-              "views": 1
-            },
-            "url": "https://max.ru/channel_faktormedia/AaEIhizdM8g"
-          }
-        },
-        "duration_ms": 33666
+        "duration_ms": 702
       },
       "expiresAt": null,
-      "versionstamp": "599063ec-ec44-4873-ae04-d231b9208cad"
+      "versionstamp": "413bcdbf-e122-4b17-a405-e0aa41defa4c"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
