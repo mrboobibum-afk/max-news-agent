@@ -1396,7 +1396,12 @@ function collectEmbeddedVideoPageUrls(html, baseUrl) {
     return result.slice(0, 8);
 }
 
-async function resolveVideoFromEmbeddedPage(url) {
+async function resolveVideoFromEmbeddedPage(url, depth = 0) {
+    // Embedded social/video pages can point to wrappers that point back to
+    // other wrappers. Keep the resolver bounded so one bad source cannot
+    // consume the whole 10-minute Actions run.
+    if (depth > 1) return null;
+
     try {
         const response = await fetch(url, {
             redirect: "follow",
@@ -1432,7 +1437,7 @@ async function resolveVideoFromEmbeddedPage(url) {
         const nested = collectEmbeddedVideoPageUrls(html, response.url || url);
         for (const nestedUrl of nested.slice(0, 4)) {
             if (nestedUrl === url) continue;
-            const resolved = await resolveVideoFromEmbeddedPage(nestedUrl);
+            const resolved = await resolveVideoFromEmbeddedPage(nestedUrl, depth + 1);
             if (resolved) return resolved;
         }
     } catch (error) {
@@ -3656,7 +3661,7 @@ async function findBestMedia(articleMedia, item, story, diagnostics = null) {
 
     if (diagnostics) diagnostics.external_video_candidates = externalSources.length;
 
-    for (const sourceUrl of externalSources.slice(0, 6)) {
+    for (const sourceUrl of externalSources.slice(0, 3)) {
         if (diagnostics) diagnostics.external_video_checked++;
         console.log("Trying external/user video source:", sourceUrl);
 
