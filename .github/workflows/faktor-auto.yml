@@ -14,7 +14,8 @@ permissions:
   contents: write
 
 concurrency:
-  group: faktor-pipeline
+  group: faktor-pipeline-v2
+  queue: max
   cancel-in-progress: false
 
 jobs:
@@ -41,11 +42,12 @@ jobs:
           TARGET_CHAT_ID: ${{ secrets.TARGET_CHAT_ID }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
-          MAX_VIDEO_MB: "60"
+          MAX_VIDEO_MB: "30"
           MAX_IMAGE_MB: "15"
         run: |
           echo "FAKTOR: starting at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           deno run \
+            --v8-flags=--max-old-space-size=6144 \
             --allow-net \
             --allow-env \
             --allow-read \
