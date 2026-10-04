@@ -88,9 +88,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791132082527,
+      "value": 1791136488463,
       "expiresAt": null,
-      "versionstamp": "6df693db-2b38-414a-8733-fdb0f4606861"
+      "versionstamp": "1d25f1ce-8752-4557-ab8f-b66111f4b0d1"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -1451,16 +1451,16 @@
       "value": {
         "ok": true,
         "selected": 1,
-        "urgent": false,
+        "urgent": true,
         "manual": false,
-        "score": 40,
+        "score": 61,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
-          "scored": 75,
+          "scored": 45,
           "accepted": 1,
           "short_title": 0,
-          "urgent_interval": 22,
+          "urgent_interval": 0,
           "regular_interval": 0,
           "duplicate_before_article": 0,
           "event_duplicate_before_article": 0,
@@ -1468,37 +1468,37 @@
           "article_title_mismatch": 0,
           "duplicate_after_article": 0,
           "event_duplicate_after_article": 0,
-          "gemini_fallback": 1,
+          "gemini_fallback": 0,
           "gemini_title_mismatch": 0,
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
           "text_duplicate": 0,
-          "video_candidates": 1,
-          "video_checked": 2,
-          "video_rejected": 2,
-          "video_validation": "not_relevant",
-          "external_video_candidates": 3,
-          "external_video_checked": 3,
+          "video_candidates": 0,
+          "video_checked": 0,
+          "video_rejected": 0,
+          "video_validation": null,
+          "external_video_candidates": 2,
+          "external_video_checked": 2,
           "search_video_queries": 7,
-          "search_video_candidates": 1,
-          "search_video_checked": 0,
+          "search_video_candidates": 2,
+          "search_video_checked": 2,
           "image_candidates": 1,
           "media_checked": 1,
           "media_selected": "image",
           "selected_media_source": "meta",
-          "media_rejected": "external_video_not_relevant",
+          "media_rejected": null,
           "top_candidates": [],
-          "ai_provider": "none"
+          "ai_provider": "gemini"
         },
         "item": {
-          "title": "Производство лекарств в Татарстане упало почти на треть - chelny-izvest.ru",
-          "source": "Новости г. Набережные Челны. «Челнинские известия», официальный сайт газеты.",
-          "article_url": "https://chelny-izvest.ru/news/facts/proizvodstvo-lekarstv-v-tatarstane-upalo-pocti-na-tret",
-          "category": "ПРОМЫШЛЕННОСТЬ"
+          "title": "В Улан-Удэ в тройном ДТП погиб человек - vtinform.com",
+          "source": "Восток-Телеинформ — новости Бурятии и Улан-Удэ",
+          "article_url": "https://vtinform.com/news/149/230470/",
+          "category": "ПРОИСШЕСТВИЯ"
         },
         "media": {
           "type": "image",
-          "source_url": "https://chelny-izvest.ru/images/open_graph/news/p/proizvodstvo-lekarstv-v-tatarstane-upalo-pocti-na-tret.png"
+          "source_url": "https://vtinform.com/upload/resize_cache/iblock/9fd/dc09ungw8eh2rzdunb3xlzl19us0p5gc/700_700_1/avariya.jpg"
         },
         "publication": {
           "message": {
@@ -1506,45 +1506,35 @@
               "chat_type": "channel",
               "chat_id": -78887448255074
             },
-            "timestamp": 1791132281176,
+            "timestamp": 1791136558419,
             "body": {
-              "mid": "mid.ffffb84095ab659e01a107cda95811ad",
-              "seq": 117383645179154860,
-              "text": "🔵 ФАКТОР • ГЛАВНОЕ\n\n🏭 ПРОМЫШЛЕННОСТЬ\n\nПроизводство лекарств в Татарстане упало почти на треть\n\nПри этом увеличилось производство мебели\n\n🕒 19:44\n🔗 Новости г. Набережные Челны. «Челнинские известия», официальный сайт газеты.\n\nФАКТОР",
+              "mid": "mid.ffffb84095ab659e01a1080eed532c76",
+              "seq": 117383925492558960,
+              "text": "В Улан-Удэ в тройном ДТП погиб человек\n\nВ Улан-Удэ произошло утреннее тройное ДТП на Селенгинском мосту. В результате аварии погиб человек.\n\n🔗 Восток-Телеинформ — новости Бурятии и Улан-Удэ\n\n📢 ФАКТОР",
               "attachments": [
                 {
                   "payload": {
-                    "photo_id": 44424493128,
-                    "token": "FqGAp9+QubosSWZF8iA48tRQVnl+2UWEe0Z6ABf9r323HvUj3riOZsGFOJV9CrGMf/WTduz+kvseiDR+Et2prlVH99pJIbrx+zPt5o973j4=",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr805w_55knDAtWg8zvz1YvZehjfMfVvfoBKYlDsISiwlA"
+                    "photo_id": 44434690632,
+                    "token": "vIpj9kyBZCys7M01vlwGEiDnt/7IrSbvCROFGX0v6DwuKgnuzv4R+dIQ1E0tgd1k+m9nYwG5vmR2i/Lyvt7JGHBUw54M2D3W+nycm4aXTwE=",
+                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8FVpxVS77mDqosgV_2SRe0uhjfMfVvfoBKYlDsISiwlA"
                   },
                   "type": "image"
                 }
               ],
               "markup": [
                 {
-                  "from": 3,
-                  "length": 16,
+                  "from": 0,
+                  "length": 38,
                   "type": "strong"
                 },
                 {
-                  "from": 24,
-                  "length": 14,
-                  "type": "strong"
-                },
-                {
-                  "from": 40,
-                  "length": 55,
-                  "type": "strong"
-                },
-                {
-                  "url": "https://chelny-izvest.ru/news/facts/proizvodstvo-lekarstv-v-tatarstane-upalo-pocti-na-tret",
-                  "from": 151,
-                  "length": 76,
+                  "url": "https://vtinform.com/news/149/230470/",
+                  "from": 144,
+                  "length": 46,
                   "type": "link"
                 },
                 {
-                  "from": 229,
+                  "from": 195,
                   "length": 6,
                   "type": "emphasized"
                 }
@@ -1553,13 +1543,13 @@
             "stat": {
               "views": 1
             },
-            "url": "https://max.ru/channel_faktormedia/AaEHzalYEa0"
+            "url": "https://max.ru/channel_faktormedia/AaEIDu1TLHY"
           }
         },
-        "duration_ms": 35142
+        "duration_ms": 70874
       },
       "expiresAt": null,
-      "versionstamp": "1bbac959-c289-4120-a595-83483631a5bb"
+      "versionstamp": "caeba045-341f-4fbc-b70c-7cfb3a86c872"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -1789,17 +1779,77 @@
       "expiresAt": 1791305081328,
       "versionstamp": "e7d4143d-33de-4cdf-b9b0-447d010d65ce"
     },
-    "[\"factor\",\"lock\"]": {
+    "[\"factor\",\"published_v2\",\"646a5a5ec026225899ae827446fcf75c377beae65ae08472ab87951cd5f3ec25\"]": {
       "key": [
         "factor",
-        "lock"
+        "published_v2",
+        "646a5a5ec026225899ae827446fcf75c377beae65ae08472ab87951cd5f3ec25"
+      ],
+      "value": true,
+      "expiresAt": 1793728558548,
+      "versionstamp": "6beec7e2-cfb6-4ba6-9399-241ba70d03ce"
+    },
+    "[\"factor\",\"published\",\"faa5e7833d494bc065e93665684300bef8bf004b69cc9e500b7f85abfe518f3c\"]": {
+      "key": [
+        "factor",
+        "published",
+        "faa5e7833d494bc065e93665684300bef8bf004b69cc9e500b7f85abfe518f3c"
+      ],
+      "value": true,
+      "expiresAt": 1793728558549,
+      "versionstamp": "becd238a-1a82-407f-a92c-8cd5a04c5d40"
+    },
+    "[\"factor\",\"published_story_v3\",\"9d66bc74cb640ef0e278dc3f3b03e3c7a8339acfe1a664d490bf1f35c9e24e9b\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "9d66bc74cb640ef0e278dc3f3b03e3c7a8339acfe1a664d490bf1f35c9e24e9b"
+      ],
+      "value": true,
+      "expiresAt": 1793728558550,
+      "versionstamp": "f257a9d5-b837-4f0b-b28b-7ef7b22f1433"
+    },
+    "[\"factor\",\"recent_title_v2\",1791136558550,\"5a2ed7e91933b8f2908a5d34e49b7f2672510d8ec0f778f5b405642dc16d9572\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791136558550,
+        "5a2ed7e91933b8f2908a5d34e49b7f2672510d8ec0f778f5b405642dc16d9572"
+      ],
+      "value": "В Улан-Удэ в тройном ДТП погиб человек",
+      "expiresAt": 1793728558551,
+      "versionstamp": "fca6791a-4bb9-464c-a37a-0b98c44e4917"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"5a2ed7e91933b8f2908a5d34e49b7f2672510d8ec0f778f5b405642dc16d9572\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "5a2ed7e91933b8f2908a5d34e49b7f2672510d8ec0f778f5b405642dc16d9572"
+      ],
+      "value": "В Улан-Удэ в тройном ДТП погиб человек",
+      "expiresAt": 1793728558551,
+      "versionstamp": "851eca32-0a2a-4eac-8126-27ca1780f0ea"
+    },
+    "[\"factor\",\"published_event_v4\",\"73ae7be204ae854895f96dde09fd9a82a6c451745020a0201495ed326b65a929\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "73ae7be204ae854895f96dde09fd9a82a6c451745020a0201495ed326b65a929"
       ],
       "value": {
-        "token": "27d6b0df-b796-4685-a9de-1f902f4f0422",
-        "created_at": 1791132511349
+        "category": "ПРОИСШЕСТВИЯ",
+        "family": "accident",
+        "anchors": [
+          "улан",
+          "трой"
+        ],
+        "title": "В Улан-Удэ в тройном ДТП погиб человек",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiTkFVX3lxTFA0dEdCcExQSjJYejVLX0xZaGZWYmJUdXVmcVhxYkxHTHZlRFFmYTdGOTBVaWo4OG82WFBLQUdGWjVNeFExTzVHZWtCOHpndw?oc=5\" target=\"_blank\"&gt;В Улан-Удэ в тройном ДТП погиб человек&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;vtinform.com&lt;/font&gt; В Улан-Удэ произошло утреннее тройное ДТП на Селенгинском мосту. В результате аварии погиб человек. Человек погиб в утреннем ДТП в Улан-Удэ. Тройное ДТП произошло на Селенгинском мосту, сообщает Восток-Телеинформ со ссылкой на МВД Бурятии.",
+        "published_at": 1791136558552,
+        "article_url": "https://vtinform.com/news/149/230470/"
       },
-      "expiresAt": 1791132991350,
-      "versionstamp": "5e262211-9e39-466d-bb1c-f45155dd3a30"
+      "expiresAt": 1791309358552,
+      "versionstamp": "90e9bb5b-39a6-4766-9c10-0f8ef6863373"
     }
   }
 }
