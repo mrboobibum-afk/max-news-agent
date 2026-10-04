@@ -88,9 +88,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791112081972,
+      "value": 0,
       "expiresAt": null,
-      "versionstamp": "634db16e-92e5-429d-a7f7-affb6fb77eb6"
+      "versionstamp": "manual-test-reset"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
