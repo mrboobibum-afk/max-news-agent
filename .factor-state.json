@@ -447,9 +447,9 @@
         "state",
         "last_regular"
       ],
-      "value": 1791111136543,
+      "value": 1791113877837,
       "expiresAt": null,
-      "versionstamp": "1b044620-6cb1-41ab-a085-8af8661b322f"
+      "versionstamp": "a1b21dc0-cb59-4745-bd5f-f8344735e4b2"
     },
     "[\"factor\",\"published_v2\",\"31ad2257d965a02c7bc2056d6ce50a32a04684ea94f1aa4267a5445407e08019\"]": {
       "key": [
@@ -1284,6 +1284,75 @@
       },
       "expiresAt": 1791286519346,
       "versionstamp": "e13db736-a09d-4d3e-afcf-5444c08cabca"
+    },
+    "[\"factor\",\"published_v2\",\"f565375305fd201090a341a7be38057835afe7b5dfe0eceedfbd1015f53dcd65\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "f565375305fd201090a341a7be38057835afe7b5dfe0eceedfbd1015f53dcd65"
+      ],
+      "value": true,
+      "expiresAt": 1793706028184,
+      "versionstamp": "538ae43f-577c-4637-a6a8-6947c52567ab"
+    },
+    "[\"factor\",\"published\",\"eeee8830b791b62f8735fb39deff9f6d4b568e59f2d931fb2e2ee7d11b47140d\"]": {
+      "key": [
+        "factor",
+        "published",
+        "eeee8830b791b62f8735fb39deff9f6d4b568e59f2d931fb2e2ee7d11b47140d"
+      ],
+      "value": true,
+      "expiresAt": 1793706028185,
+      "versionstamp": "e3ba1544-21a2-428e-94be-34a4366ae372"
+    },
+    "[\"factor\",\"published_story_v3\",\"57d2e0aeb90607df540131f460967d77610563a34735eee39fe12290aee56606\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "57d2e0aeb90607df540131f460967d77610563a34735eee39fe12290aee56606"
+      ],
+      "value": true,
+      "expiresAt": 1793706028186,
+      "versionstamp": "244d696b-9826-4470-a0fd-4543def4b664"
+    },
+    "[\"factor\",\"recent_title_v2\",1791114028187,\"e5d8663f0955be9c9ceae73674aa76a6cfa02361f2dfb381e2c7a7c41c65f885\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791114028187,
+        "e5d8663f0955be9c9ceae73674aa76a6cfa02361f2dfb381e2c7a7c41c65f885"
+      ],
+      "value": "Еще один банк подключил клиентов к цифровому рублю",
+      "expiresAt": 1793706028187,
+      "versionstamp": "6166f733-8451-4135-b910-044b8e9781ea"
+    },
+    "[\"factor\",\"published_event_v4\",\"68be51cfe5ad437cf5f90ab087022eafaa91940b813b7393ec149651d4f6050e\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "68be51cfe5ad437cf5f90ab087022eafaa91940b813b7393ec149651d4f6050e"
+      ],
+      "value": {
+        "category": "ФИНАНСЫ",
+        "family": "economy",
+        "anchors": [
+          "один",
+          "банк",
+          "подк",
+          "клие",
+          "цифр",
+          "рубл",
+          "дост",
+          "комп",
+          "людя"
+        ],
+        "title": "Еще один банк подключил клиентов к цифровому рублю: что теперь доступно компаниям и людям",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiUkFVX3lxTE1mV05xSEctcnQ3d0t6czZwOTJuVE96a1lzNUhFazM3V3dDNjFwaGNjT0Q3SC1Ea3ZDMHp4SVVlME1qa2xsSGdGVTBxbzlrZTRSVGfSAVJBVV95cUxNZldOcUhHLXJ0N3dLenM2cDkyblRPemtZczVIRWszN1d3QzYxcGhjY09EN0gtRGt2QzB6eElVZTBNamtsbEhnRlUwcW85a2U0UlRn?oc=5\" target=\"_blank\"&gt;Еще один банк подключил клиентов к цифровому рублю: что теперь доступно компаниям и людям&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Банки Юга.ру&lt;/font&gt; &lt;a href=\"https://news.google.com/rss/articles/CBMiUkFVX3lxTE1mV05xSEctcnQ3d0t6czZwOTJuVE96a1lzNUhFazM3V3dDNjFwaGNjT0Q3SC1Ea3ZDMHp4SVVlME1qa2xsSGdGVTBxbzlrZTRSVGfSAVJBVV95cUxNZldOcUhHLXJ0N3dLenM2cDkyblRPemtZczVIRWszN1d3QzYxcGhjY09EN0gtRGt2QzB6eElVZTBNamtsbEhnRlUwcW85a2U0UlRn?oc=5\" target=\"_blank\"&gt;Еще один банк подключил клиентов к цифровому рублю: что теперь доступно компаниям и людям&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Банки Юга.ру&lt;/font&gt;",
+        "published_at": 1791114028188,
+        "article_url": "https://bank.yuga.ru/newsfeed/amp/10508/"
+      },
+      "expiresAt": 1791286828188,
+      "versionstamp": "af60b168-9302-4625-be2c-0c82e70402f9"
     }
   }
 }
