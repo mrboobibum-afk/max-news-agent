@@ -2858,7 +2858,7 @@ function buildPost(item, story, sourceName, articleUrl) {
     // Keep the feed compact. If the short sentence repeats the headline
     // semantically, omit it instead of publishing the same fact twice.
     const shortText =
-        storySimilarity(rawShortText, headlineText) >= 0.55
+        storySimilarity(rawShortText, headlineText) >= 0.72
             ? ""
             : rawShortText;
 
