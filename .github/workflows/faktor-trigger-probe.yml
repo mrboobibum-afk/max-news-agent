@@ -1,0 +1,13 @@
+name: FAKTOR Trigger Probe
+
+on:
+  push:
+    paths:
+      - ".github/workflows/faktor-trigger-probe.yml"
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "TRIGGER PROBE OK"
