@@ -88,9 +88,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791140699923,
+      "value": 1791144341214,
       "expiresAt": null,
-      "versionstamp": "94ee2a3e-e925-4a0e-aee4-7e68fab2203c"
+      "versionstamp": "9844cf13-4c84-419a-97b2-d2ddac3659d2"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -1451,17 +1451,17 @@
       "value": {
         "ok": true,
         "selected": 1,
-        "urgent": false,
+        "urgent": true,
         "manual": false,
-        "score": 48,
+        "score": 50,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
-          "scored": 45,
+          "scored": 23,
           "accepted": 1,
           "short_title": 0,
           "urgent_interval": 0,
-          "regular_interval": 0,
+          "regular_interval": 277,
           "duplicate_before_article": 0,
           "event_duplicate_before_article": 1,
           "bad_url": 0,
@@ -1473,55 +1473,68 @@
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
           "text_duplicate": 0,
-          "video_candidates": 0,
-          "video_checked": 0,
-          "video_rejected": 0,
-          "video_validation": null,
-          "external_video_candidates": 10,
+          "video_candidates": 1,
+          "video_checked": 2,
+          "video_rejected": 2,
+          "video_validation": "not_relevant",
+          "external_video_candidates": 4,
           "external_video_checked": 3,
           "search_video_queries": 7,
-          "search_video_candidates": 2,
-          "search_video_checked": 5,
-          "image_candidates": 0,
-          "media_checked": 0,
-          "media_selected": null,
-          "selected_media_source": null,
-          "media_rejected": "no_relevant_media",
+          "search_video_candidates": 1,
+          "search_video_checked": 0,
+          "image_candidates": 1,
+          "media_checked": 1,
+          "media_selected": "image",
+          "selected_media_source": "meta",
+          "media_rejected": "external_video_not_relevant",
           "top_candidates": [],
           "ai_provider": "none"
         },
         "item": {
-          "title": "Российская экономика распалась на несколько частей - Независимая газета",
-          "source": "Независимая газета",
-          "article_url": "https://www.ng.ru/economics/2026-10-04/4_9595_economics.html",
-          "category": "ЭКОНОМИКА"
+          "title": "Пожар в гараже амурского села ликвидировали за короткое время - Amur.life",
+          "source": "Amur.life",
+          "article_url": "https://www.amur.life/news/2026/10/04/pozhar-v-garazhe-likvidirovali-za-korotkoe-vremya",
+          "category": "ПРОИСШЕСТВИЯ"
         },
-        "media": null,
+        "media": {
+          "type": "image",
+          "source_url": "https://www.amur.life/res/news/94031/500x_/b892b8a978bb24b14e4cfcdbc353f904.jpg"
+        },
         "publication": {
           "message": {
             "recipient": {
               "chat_type": "channel",
               "chat_id": -78887448255074
             },
-            "timestamp": 1791144073095,
+            "timestamp": 1791144373469,
             "body": {
-              "mid": "mid.ffffb84095ab659e01a1088197876b7d",
-              "seq": 117384417974381440,
-              "text": "Российская экономика распалась на несколько частей\n\nКаждое третье предприятие начнет инвестировать при ставке 6–7%, каждому третьему в принципе все равно\n\n🔗 Независимая газета\n\n📢 ФАКТОР",
+              "mid": "mid.ffffb84095ab659e01a108862cdd33c8",
+              "seq": 117384437659677630,
+              "text": "Пожар в гараже амурского села ликвидировали за короткое время\n\nВ селе Владимировка Амурской области загорелся гараж на улице Лесной. На место происшествия оперативно выехал дежурный караул пожарной части № 41 из Усть-Ивановки.\n\n🔗 Amur.life\n\n📢 ФАКТОР",
+              "attachments": [
+                {
+                  "payload": {
+                    "photo_id": 44446624840,
+                    "token": "L9hIlWIlDjn+KVpyrmUdIe7fBTG5N7zNXQ0nREahzrlaaX0NyRb7swXDGBuq7nTxmN9O93vbH5a2jbYW4T1bKIK9ynVoY0j+q9lb5QqX01ZjlN6ETZ/oKaMIZNfFi+VT",
+                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr89EG3b-TnfnnpW_ferIYO4uhjfMfVvfoBKYlDsISiwlA"
+                  },
+                  "type": "image"
+                }
+              ],
               "markup": [
                 {
                   "from": 0,
-                  "length": 50,
+                  "length": 61,
                   "type": "strong"
                 },
                 {
-                  "url": "https://www.ng.ru/economics/2026-10-04/4_9595_economics.html",
-                  "from": 158,
-                  "length": 18,
+                  "url": "https://www.amur.life/news/2026/10/04/pozhar-v-garazhe-likvidirovali-za-korotkoe-vremya",
+                  "from": 231,
+                  "length": 9,
                   "type": "link"
                 },
                 {
-                  "from": 181,
+                  "from": 245,
                   "length": 6,
                   "type": "emphasized"
                 }
@@ -1530,13 +1543,13 @@
             "stat": {
               "views": 1
             },
-            "url": "https://max.ru/channel_faktormedia/AaEIgZeHa30"
+            "url": "https://max.ru/channel_faktormedia/AaEIhizdM8g"
           }
         },
-        "duration_ms": 33233
+        "duration_ms": 33666
       },
       "expiresAt": null,
-      "versionstamp": "b57cd300-3a83-4881-b1e0-2dcd996b4355"
+      "versionstamp": "599063ec-ec44-4873-ae04-d231b9208cad"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -2366,6 +2379,82 @@
       },
       "expiresAt": 1791316873248,
       "versionstamp": "f3b456bb-128d-45f2-a3ed-f5c1e3163fa1"
+    },
+    "[\"factor\",\"published_v2\",\"8869cffdd4f8389a12a620c45d81fbd1c3b134f7193dc54b9368570f5e57065e\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "8869cffdd4f8389a12a620c45d81fbd1c3b134f7193dc54b9368570f5e57065e"
+      ],
+      "value": true,
+      "expiresAt": 1793736373598,
+      "versionstamp": "0c32c62f-3108-4e6b-9c75-3a5b2d5ebc06"
+    },
+    "[\"factor\",\"published\",\"f7a11bc07872bd9fff8dceb6c3b6511cadb2905401bb9e9ac6be987c303bc24e\"]": {
+      "key": [
+        "factor",
+        "published",
+        "f7a11bc07872bd9fff8dceb6c3b6511cadb2905401bb9e9ac6be987c303bc24e"
+      ],
+      "value": true,
+      "expiresAt": 1793736373599,
+      "versionstamp": "fc478524-f0c7-4589-a345-4ffb0464a7fb"
+    },
+    "[\"factor\",\"published_story_v3\",\"e2e97cf76fedba78705351b45d27e964ae92f20c2b6926c25c60c128595ce4d8\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "e2e97cf76fedba78705351b45d27e964ae92f20c2b6926c25c60c128595ce4d8"
+      ],
+      "value": true,
+      "expiresAt": 1793736373600,
+      "versionstamp": "5dd0e541-51c8-4fb3-853a-c02c706e9a9b"
+    },
+    "[\"factor\",\"recent_title_v2\",1791144373602,\"197556d046ba6f8b54162ef5fcb217fb74ccff15c710e57d03e57d8b55150d18\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791144373602,
+        "197556d046ba6f8b54162ef5fcb217fb74ccff15c710e57d03e57d8b55150d18"
+      ],
+      "value": "Пожар в гараже амурского села ликвидировали за короткое время",
+      "expiresAt": 1793736373602,
+      "versionstamp": "8376d961-67c1-4f6f-90b3-176572777672"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"197556d046ba6f8b54162ef5fcb217fb74ccff15c710e57d03e57d8b55150d18\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "197556d046ba6f8b54162ef5fcb217fb74ccff15c710e57d03e57d8b55150d18"
+      ],
+      "value": "Пожар в гараже амурского села ликвидировали за короткое время",
+      "expiresAt": 1793736373603,
+      "versionstamp": "263c045b-63c9-4bdb-afb5-1a8c77041752"
+    },
+    "[\"factor\",\"published_event_v4\",\"c14e5b4fc142b14eaf7967ff9648ad07d0f5d9543c644abe21cfe367c22c5900\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "c14e5b4fc142b14eaf7967ff9648ad07d0f5d9543c644abe21cfe367c22c5900"
+      ],
+      "value": {
+        "category": "ПРОИСШЕСТВИЯ",
+        "family": "fire",
+        "anchors": [
+          "гара",
+          "амур",
+          "села",
+          "ликв",
+          "коро",
+          "врем"
+        ],
+        "title": "Пожар в гараже амурского села ликвидировали за короткое время",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMikAFBVV95cUxOZkM5WVQ3WGxOVkhNRjdEazZfTW9hT29LemQ1Yk9hcGEwSkhNQWs4WldlbjBWamx1R25tRV9DdDlnMTF1TWZPVFRLdnF6UUtQbUhHeWhOejdxQzlyZFhsOTFvbHJKbTdfbGx0aUp2Nlh2WHZYUG5UM2YxbmlySVFqelMxTzNXamdRRi1CdG44WGM?oc=5\" target=\"_blank\"&gt;Пожар в гараже амурского села ликвидировали за короткое время&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Amur.life&lt;/font&gt; В селе Владимировка Амурской области загорелся гараж на улице Лесной. На место происшествия оперативно выехал дежурный караул пожарной части № 41 из Усть-Ивановки. В селе Владимировка Амурской области загорелся гараж на улице Лесной. На место происшествия оперативно выехал дежурный караул пожарной части № 41 из Усть-Ивановки.",
+        "published_at": 1791144373604,
+        "article_url": "https://www.amur.life/news/2026/10/04/pozhar-v-garazhe-likvidirovali-za-korotkoe-vremya"
+      },
+      "expiresAt": 1791317173604,
+      "versionstamp": "4b5ee3fd-6469-4e22-81dd-edcb15607c36"
     }
   }
 }
