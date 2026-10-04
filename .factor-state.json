@@ -447,9 +447,9 @@
         "state",
         "last_regular"
       ],
-      "value": 1791113877837,
+      "value": 1791128979983,
       "expiresAt": null,
-      "versionstamp": "a1b21dc0-cb59-4745-bd5f-f8344735e4b2"
+      "versionstamp": "7447cddd-8ccb-4341-ae73-23d106f52b51"
     },
     "[\"factor\",\"published_v2\",\"31ad2257d965a02c7bc2056d6ce50a32a04684ea94f1aa4267a5445407e08019\"]": {
       "key": [
@@ -1451,25 +1451,25 @@
       "value": {
         "ok": true,
         "selected": 1,
-        "urgent": true,
+        "urgent": false,
         "manual": false,
-        "score": 48,
+        "score": 42,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
           "scored": 75,
           "accepted": 1,
           "short_title": 0,
-          "urgent_interval": 0,
+          "urgent_interval": 23,
           "regular_interval": 0,
           "duplicate_before_article": 0,
-          "event_duplicate_before_article": 1,
-          "bad_url": 0,
+          "event_duplicate_before_article": 0,
+          "bad_url": 1,
           "article_title_mismatch": 0,
           "duplicate_after_article": 0,
           "event_duplicate_after_article": 0,
           "gemini_fallback": 0,
-          "gemini_title_mismatch": 1,
+          "gemini_title_mismatch": 0,
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
           "text_duplicate": 0,
@@ -1477,74 +1477,61 @@
           "video_checked": 0,
           "video_rejected": 0,
           "video_validation": null,
-          "external_video_candidates": 1,
-          "external_video_checked": 1,
+          "external_video_candidates": 10,
+          "external_video_checked": 6,
           "search_video_queries": 7,
-          "search_video_candidates": 1,
-          "search_video_checked": 0,
-          "image_candidates": 1,
-          "media_checked": 1,
-          "media_selected": "image",
-          "selected_media_source": "meta",
-          "media_rejected": null,
+          "search_video_candidates": 7,
+          "search_video_checked": 13,
+          "image_candidates": 0,
+          "media_checked": 0,
+          "media_selected": null,
+          "selected_media_source": null,
+          "media_rejected": "no_relevant_media",
           "top_candidates": [],
           "ai_provider": "gemini"
         },
         "item": {
-          "title": "Пожар в Богословке 4 октября 2026: горит территория бывшего свинарника - Пензенская правда",
-          "source": "Пензенская правда",
-          "article_url": "https://pravda-news.ru/news/proisshestviya/pozhar-v-bogoslovke-4-oktyabrya-2026/",
-          "category": "ПРОИСШЕСТВИЯ"
+          "title": "Президент Финляндии: Ожидаем ли мы, что Россия нападет? Ответ — нет - Независимая газета",
+          "source": "Независимая газета",
+          "article_url": "https://www.ng.ru/news/848395.html",
+          "category": "ПОЛИТИКА"
         },
-        "media": {
-          "type": "image",
-          "source_url": "https://pravda-news.ru/upload/iblock/d38/yp8a416r6yqwa44pt66nvg9w89689g1m.jpg"
-        },
+        "media": null,
         "publication": {
           "message": {
             "recipient": {
               "chat_type": "channel",
               "chat_id": -78887448255074
             },
-            "timestamp": 1791128824996,
+            "timestamp": 1791129053166,
             "body": {
-              "mid": "mid.ffffb84095ab659e01a10798eca44ec8",
-              "seq": 117383418674958020,
-              "text": "🔴 ФАКТОР • ОПЕРАТИВНО\n\n🚨 ПРОИСШЕСТВИЯ\n\nПожар в Богословке 4 октября 2026: горит территория бывшего свинарника\n\n🕒 18:47\n🔗 Пензенская правда\n\nФАКТОР",
-              "attachments": [
-                {
-                  "payload": {
-                    "photo_id": 44415335240,
-                    "token": "WPQbOPRa3eiG0HEbVMqvF/ph/io2N1GUOgQPAcC6e3nSS1ovx73FBwLJvquKntCnRyM+7JmDLe8+GjipHi04mmFc3qfpmPbJO/pT34/Yk6vRxIuDgbbjo5r5bRPnEoyF",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8pBkeHKaOKuOKB8QFuSwVtOhjfMfVvfoBKYlDsISiwlA"
-                  },
-                  "type": "image"
-                }
-              ],
+              "mid": "mid.ffffb84095ab659e01a1079c67ee781f",
+              "seq": 117383433628317730,
+              "text": "🔵 ФАКТОР • ГЛАВНОЕ\n\n🏛️ ПОЛИТИКА\n\nПрезидент Финляндии не ожидает нападения России\n\nПрезидент Финляндии Александер Стубб в интервью газете El Mundo отметил проблему с коммуникацией в Европе. По его словам, некоторые лидеры смешивают две вещи.\n\n🕒 18:50\n🔗 Независимая газета\n\nФАКТОР",
               "markup": [
                 {
                   "from": 3,
-                  "length": 19,
+                  "length": 16,
                   "type": "strong"
                 },
                 {
-                  "from": 27,
-                  "length": 12,
+                  "from": 25,
+                  "length": 8,
                   "type": "strong"
                 },
                 {
-                  "from": 41,
-                  "length": 70,
+                  "from": 35,
+                  "length": 47,
                   "type": "strong"
                 },
                 {
-                  "url": "https://pravda-news.ru/news/proisshestviya/pozhar-v-bogoslovke-4-oktyabrya-2026/",
-                  "from": 125,
-                  "length": 17,
+                  "url": "https://www.ng.ru/news/848395.html",
+                  "from": 256,
+                  "length": 18,
                   "type": "link"
                 },
                 {
-                  "from": 144,
+                  "from": 276,
                   "length": 6,
                   "type": "emphasized"
                 }
@@ -1553,13 +1540,88 @@
             "stat": {
               "views": 1
             },
-            "url": "https://max.ru/channel_faktormedia/AaEHmOykTsg"
+            "url": "https://max.ru/channel_faktormedia/AaEHnGfueB8"
           }
         },
-        "duration_ms": 34499
+        "duration_ms": 73994
       },
       "expiresAt": null,
-      "versionstamp": "57625bcc-d4ba-4c4f-a607-e079289eb049"
+      "versionstamp": "abab1fad-3c35-40bb-8906-226401e80361"
+    },
+    "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6"
+      ],
+      "value": true,
+      "expiresAt": 1793721053277,
+      "versionstamp": "76197cf5-9320-4ce1-885f-d446b2acef83"
+    },
+    "[\"factor\",\"published\",\"99331f22e8c84fcf35d6666c2451517ca065ae28c396ee32816dd1ceb582f032\"]": {
+      "key": [
+        "factor",
+        "published",
+        "99331f22e8c84fcf35d6666c2451517ca065ae28c396ee32816dd1ceb582f032"
+      ],
+      "value": true,
+      "expiresAt": 1793721053279,
+      "versionstamp": "367fffcd-539a-4bef-b1cd-a123161cf0ec"
+    },
+    "[\"factor\",\"published_story_v3\",\"144f70fb014d9e9a22e28a4e313f62ab5e768f36a81712c3259daf3d6aa11883\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "144f70fb014d9e9a22e28a4e313f62ab5e768f36a81712c3259daf3d6aa11883"
+      ],
+      "value": true,
+      "expiresAt": 1793721053281,
+      "versionstamp": "e27c9b6a-c2e3-4e3c-aec3-97bda1c0c3b3"
+    },
+    "[\"factor\",\"recent_title_v2\",1791129053283,\"0359cfa2b1a0b349dfd30e334bba32d8e9e22cb2b19c331fa5cbca29f7889037\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791129053283,
+        "0359cfa2b1a0b349dfd30e334bba32d8e9e22cb2b19c331fa5cbca29f7889037"
+      ],
+      "value": "Президент Финляндии не ожидает нападения России",
+      "expiresAt": 1793721053283,
+      "versionstamp": "48c30afb-4b8b-4d50-80c7-2cb76b818436"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"0359cfa2b1a0b349dfd30e334bba32d8e9e22cb2b19c331fa5cbca29f7889037\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "0359cfa2b1a0b349dfd30e334bba32d8e9e22cb2b19c331fa5cbca29f7889037"
+      ],
+      "value": "Президент Финляндии не ожидает нападения России",
+      "expiresAt": 1793721053285,
+      "versionstamp": "090034b0-04c2-4a6f-92a3-88f4c49dc712"
+    },
+    "[\"factor\",\"published_event_v4\",\"aab4612c8ed4f8cb42910605672a6ba1f4d502d06641d95f8dae37953f8028c4\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "aab4612c8ed4f8cb42910605672a6ba1f4d502d06641d95f8dae37953f8028c4"
+      ],
+      "value": {
+        "category": "ПОЛИТИКА",
+        "family": "crime",
+        "anchors": [
+          "през",
+          "финл",
+          "ожид",
+          "напа",
+          "отве"
+        ],
+        "title": "Президент Финляндии: Ожидаем ли мы, что Россия нападет? Ответ — нет",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiSkFVX3lxTE1neHNaNkRpRy1aWDFtOFF3WG9zY2FlVlhjRmZVamM3ekFaUy1aUnUwck1xR1ZsTmFRbjBtbVo2M2RsMlF2TVVfWGVR?oc=5\" target=\"_blank\"&gt;Президент Финляндии: Ожидаем ли мы, что Россия нападет? Ответ — нет&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Независимая газета&lt;/font&gt; Президент Финляндии Александер Стубб в интервью газете El Mundo отметил проблему с коммуникацией в Европе. По его словам, некоторые лидеры смешивают две вещи. Президент Финляндии Александер Стубб заявил, что не ожидает нападения со стороны России. «В Европе у нас есть проблема с коммуникацией, потому что некоторые лидеры смешивают две вещи, — отметил политик в интервью газете El Mundo. — Одна — с",
+        "published_at": 1791129053287,
+        "article_url": "https://www.ng.ru/news/848395.html"
+      },
+      "expiresAt": 1791301853288,
+      "versionstamp": "95dd0821-212b-459c-a6af-49ef67961fb4"
     }
   }
 }
