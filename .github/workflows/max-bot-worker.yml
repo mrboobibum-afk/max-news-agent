@@ -25,13 +25,17 @@ jobs:
           set -euo pipefail
           printf '%s' "${MAX_BOT_TOKEN}" | npx wrangler secret put BOT_TOKEN
 
+      - name: Install Worker dependencies
+        working-directory: max-bot-worker
+        run: npm install --no-package-lock --ignore-scripts
+
       - name: Deploy Worker
         uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: max-bot-worker
-          command: deploy
+          command: deploy --containers-rollout=immediate
 
       - name: Register MAX Webhook
         env:
