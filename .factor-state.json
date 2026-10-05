@@ -1410,106 +1410,49 @@
       ],
       "value": {
         "ok": true,
-        "selected": 1,
-        "urgent": true,
-        "manual": false,
-        "score": 50,
+        "selected": 0,
+        "reason": "no new valid candidate",
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
-          "scored": 15,
-          "accepted": 1,
+          "scored": 0,
+          "accepted": 0,
           "short_title": 0,
           "urgent_interval": 0,
-          "regular_interval": 283,
+          "regular_interval": 0,
           "duplicate_before_article": 0,
-          "event_duplicate_before_article": 3,
+          "event_duplicate_before_article": 0,
           "bad_url": 0,
           "article_title_mismatch": 0,
           "duplicate_after_article": 0,
           "event_duplicate_after_article": 0,
-          "gemini_fallback": 1,
+          "gemini_fallback": 0,
           "gemini_title_mismatch": 0,
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
           "text_duplicate": 0,
+          "editorial_filter_rejected": 300,
+          "editorial_no_event_action": 300,
           "video_candidates": 0,
           "video_checked": 0,
           "video_rejected": 0,
           "video_validation": null,
-          "external_video_candidates": 1,
-          "external_video_checked": 1,
-          "search_video_queries": 7,
-          "search_video_candidates": 1,
+          "external_video_candidates": 0,
+          "external_video_checked": 0,
+          "search_video_queries": 0,
+          "search_video_candidates": 0,
           "search_video_checked": 0,
-          "image_candidates": 1,
-          "media_checked": 1,
-          "media_selected": "image",
-          "selected_media_source": "meta",
+          "image_candidates": 0,
+          "media_checked": 0,
+          "media_selected": null,
+          "selected_media_source": null,
           "media_rejected": null,
-          "top_candidates": [],
-          "ai_provider": "none"
+          "top_candidates": []
         },
-        "item": {
-          "title": "История в огне: пожар в особняке Миллера вызвал небывалый резонанс - dp.ru",
-          "source": "dp.ru",
-          "article_url": "https://www.dp.ru/a/2026/10/05/istorija-v-ogne-pozhar-v-osobnjake",
-          "category": "ПРОИСШЕСТВИЯ"
-        },
-        "media": {
-          "type": "image",
-          "source_url": "https://cdn.dp.ru/images/article/2026/10/05/708e3c45-7ae3-475e-9288-138098679768.jpg"
-        },
-        "publication": {
-          "message": {
-            "recipient": {
-              "chat_type": "channel",
-              "chat_id": -78887448255074
-            },
-            "timestamp": 1791175648785,
-            "body": {
-              "mid": "mid.ffffb84095ab659e01a10a6366110d9d",
-              "seq": 117386487318777250,
-              "text": "История в огне: пожар в особняке Миллера вызвал небывалый резонанс\n\n🔗 dp.ru\n\n📢 ФАКТОР",
-              "attachments": [
-                {
-                  "payload": {
-                    "photo_id": 44489063752,
-                    "token": "Qh0c/q/VBmK53DrRpaZ/YFjMlv5or++Sx5nx5K94iea5jy4ElO0EzimFzEknh2bIFOCl1ZCynEaztcTPEve7zzlRTxOkoXhO4B7M9WJ12b8=",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr83qrMH6KfHjPYTCl9-3ImUehjfMfVvfoBKYlDsISiwlA"
-                  },
-                  "type": "image"
-                }
-              ],
-              "markup": [
-                {
-                  "from": 0,
-                  "length": 66,
-                  "type": "strong"
-                },
-                {
-                  "url": "https://www.dp.ru/a/2026/10/05/istorija-v-ogne-pozhar-v-osobnjake",
-                  "from": 71,
-                  "length": 5,
-                  "type": "link"
-                },
-                {
-                  "from": 81,
-                  "length": 6,
-                  "type": "emphasized"
-                }
-              ]
-            },
-            "stat": {
-              "views": 1
-            },
-            "url": "https://max.ru/channel_faktormedia/AaEKY2YRDZ0"
-          }
-        },
-        "duration_ms": 50697
+        "duration_ms": 787
       },
       "expiresAt": null,
-      "versionstamp": "660c18b8-d816-4e03-b796-515b66bc22be"
+      "versionstamp": "7b4f1dbf-20fb-4f97-a995-b269ead36b4e"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
