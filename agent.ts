@@ -513,7 +513,7 @@ function extractEventDateCandidates(text, fallbackYear) {
         result.push({ timestamp, index, score });
     };
 
-    for (const match of source.matchAll(/\\b(\\d{1,2})\\s+(января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря)(?:\\s+(20\\d{2}))?\\b/gi)) {
+    for (const match of source.matchAll(/\b(\d{1,2})\s+(января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря)(?:\s+(20\d{2}))?\b/gi)) {
         const index = match.index ?? 0;
         const timestamp = parseRussianDate(match[1], match[2], match[3], fallbackYear);
         const context = source.slice(Math.max(0, index - 180), Math.min(source.length, index + match[0].length + 180));
@@ -521,7 +521,7 @@ function extractEventDateCandidates(text, fallbackYear) {
         add(timestamp, index, score);
     }
 
-    for (const match of source.matchAll(/\\b(20\\d{2})[-.](\\d{1,2})[-.](\\d{1,2})\\b/g)) {
+    for (const match of source.matchAll(/\b(20\d{2})[-.](\d{1,2})[-.](\d{1,2})\b/g)) {
         const index = match.index ?? 0;
         const timestamp = Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3]), 12, 0, 0);
         const context = source.slice(Math.max(0, index - 180), Math.min(source.length, index + match[0].length + 180));
@@ -529,7 +529,7 @@ function extractEventDateCandidates(text, fallbackYear) {
         add(timestamp, index, score);
     }
 
-    for (const match of source.matchAll(/\\b(\\d{1,2})[./](\\d{1,2})[./](20\\d{2})\\b/g)) {
+    for (const match of source.matchAll(/\b(\d{1,2})[./](\d{1,2})[./](20\d{2})\b/g)) {
         const index = match.index ?? 0;
         const timestamp = Date.UTC(Number(match[3]), Number(match[2]) - 1, Number(match[1]), 12, 0, 0);
         const context = source.slice(Math.max(0, index - 180), Math.min(source.length, index + match[0].length + 180));
@@ -541,7 +541,7 @@ function extractEventDateCandidates(text, fallbackYear) {
 }
 
 function hasMaterialNewDevelopment(text) {
-    return /(?:возбудил(?:и)?s+уголовн|задержал(?:и)?|арестовал(?:и)?|предъявил(?:и)?s+обвин|приговорил(?:и)?|назначил(?:и)?|уволил(?:и)?|подписал(?:и)?|утвердил(?:и)?|вступил(?:о)?s+вs+силу|объявил(?:и)?|принял(?:и)?s+решение|новыеs+данные|новыеs+подробности|сталоs+известно|обновленн(?:ые|ая)\s+данные|снова\s+произош|повторн(?:ый|о)\s+инцидент|вновь\s+загор|снова\s+загор)/i.test(String(text || ""));
+    return /(?:возбудил(?:и)?\s+уголовн|задержал(?:и)?|арестовал(?:и)?|предъявил(?:и)?\s+обвин|приговорил(?:и)?|назначил(?:и)?|уволил(?:и)?|подписал(?:и)?|утвердил(?:и)?|вступил(?:о)?\s+в\s+силу|объявил(?:и)?|принял(?:и)?\s+решение|новые\s+данные|новые\s+подробности|стало\s+известно|обновленн(?:ые|ая)\s+данные|снова\s+произош|повторн(?:ый|о)\s+инцидент|вновь\s+загор|снова\s+загор)/i.test(String(text || ""));
 }
 
 function passesFreshEventDateFilter(item, articleMedia) {
