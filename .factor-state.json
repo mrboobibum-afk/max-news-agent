@@ -48,9 +48,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791144341214,
+      "value": 1791175598839,
       "expiresAt": null,
-      "versionstamp": "9844cf13-4c84-419a-97b2-d2ddac3659d2"
+      "versionstamp": "ed4ccd42-f876-4741-8612-9448027b85a0"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -1411,9 +1411,9 @@
       "value": {
         "ok": true,
         "selected": 1,
-        "urgent": false,
+        "urgent": true,
         "manual": false,
-        "score": 53,
+        "score": 50,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
@@ -1421,44 +1421,44 @@
           "accepted": 1,
           "short_title": 0,
           "urgent_interval": 0,
-          "regular_interval": 0,
+          "regular_interval": 283,
           "duplicate_before_article": 0,
-          "event_duplicate_before_article": 1,
+          "event_duplicate_before_article": 3,
           "bad_url": 0,
           "article_title_mismatch": 0,
           "duplicate_after_article": 0,
           "event_duplicate_after_article": 0,
-          "gemini_fallback": 0,
+          "gemini_fallback": 1,
           "gemini_title_mismatch": 0,
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
           "text_duplicate": 0,
-          "video_candidates": 1,
-          "video_checked": 3,
-          "video_rejected": 3,
-          "video_validation": "not_relevant",
-          "external_video_candidates": 3,
-          "external_video_checked": 2,
+          "video_candidates": 0,
+          "video_checked": 0,
+          "video_rejected": 0,
+          "video_validation": null,
+          "external_video_candidates": 1,
+          "external_video_checked": 1,
           "search_video_queries": 7,
-          "search_video_candidates": 2,
-          "search_video_checked": 4,
+          "search_video_candidates": 1,
+          "search_video_checked": 0,
           "image_candidates": 1,
           "media_checked": 1,
           "media_selected": "image",
-          "selected_media_source": "jsonld",
-          "media_rejected": "external_video_not_relevant",
+          "selected_media_source": "meta",
+          "media_rejected": null,
           "top_candidates": [],
-          "ai_provider": "gemini"
+          "ai_provider": "none"
         },
         "item": {
-          "title": "В России вступил в силу закон о платформенной экономике - rst.ru",
-          "source": "Российский союз туриндустрии",
-          "article_url": "https://rst.ru/novosti/novosti-turizm/v-rossii-vstupil-v-silu-zakon-o-platformennoj-ekonomike.html",
-          "category": "ЭКОНОМИКА"
+          "title": "История в огне: пожар в особняке Миллера вызвал небывалый резонанс - dp.ru",
+          "source": "dp.ru",
+          "article_url": "https://www.dp.ru/a/2026/10/05/istorija-v-ogne-pozhar-v-osobnjake",
+          "category": "ПРОИСШЕСТВИЯ"
         },
         "media": {
           "type": "image",
-          "source_url": "https://rst.ru/assets/images/pictures_news/rst-news-05-10-26-2.jpg"
+          "source_url": "https://cdn.dp.ru/images/article/2026/10/05/708e3c45-7ae3-475e-9288-138098679768.jpg"
         },
         "publication": {
           "message": {
@@ -1466,17 +1466,17 @@
               "chat_type": "channel",
               "chat_id": -78887448255074
             },
-            "timestamp": 1791175466222,
+            "timestamp": 1791175648785,
             "body": {
-              "mid": "mid.ffffb84095ab659e01a10a609cee73d3",
-              "seq": 117386475354354640,
-              "text": "В России вступил в силу закон о платформенной экономике\n\nВ России начал действовать закон о платформенной экономике. Он впервые устанавливает единые правила для цифровых посреднических платформ.\n\n🔗 Российский союз туриндустрии\n\n📢 ФАКТОР",
+              "mid": "mid.ffffb84095ab659e01a10a6366110d9d",
+              "seq": 117386487318777250,
+              "text": "История в огне: пожар в особняке Миллера вызвал небывалый резонанс\n\n🔗 dp.ru\n\n📢 ФАКТОР",
               "attachments": [
                 {
                   "payload": {
-                    "photo_id": 44488306248,
-                    "token": "kJPYOSnEfQ7ycJqSHKlRekMGbDQT/sDDmKbtL9Dwcj6yaZXsCTt3Qc4/D6u80euZ//TdLBk8UCYd6me0Ed7ZXxx7US00gkvLasEI1YGksCA=",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8qTZQOWcBJUy8QCFdLGU9hehjfMfVvfoBKYlDsISiwlA"
+                    "photo_id": 44489063752,
+                    "token": "Qh0c/q/VBmK53DrRpaZ/YFjMlv5or++Sx5nx5K94iea5jy4ElO0EzimFzEknh2bIFOCl1ZCynEaztcTPEve7zzlRTxOkoXhO4B7M9WJ12b8=",
+                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr83qrMH6KfHjPYTCl9-3ImUehjfMfVvfoBKYlDsISiwlA"
                   },
                   "type": "image"
                 }
@@ -1484,17 +1484,17 @@
               "markup": [
                 {
                   "from": 0,
-                  "length": 55,
+                  "length": 66,
                   "type": "strong"
                 },
                 {
-                  "url": "https://rst.ru/novosti/novosti-turizm/v-rossii-vstupil-v-silu-zakon-o-platformennoj-ekonomike.html",
-                  "from": 199,
-                  "length": 28,
+                  "url": "https://www.dp.ru/a/2026/10/05/istorija-v-ogne-pozhar-v-osobnjake",
+                  "from": 71,
+                  "length": 5,
                   "type": "link"
                 },
                 {
-                  "from": 232,
+                  "from": 81,
                   "length": 6,
                   "type": "emphasized"
                 }
@@ -1503,13 +1503,13 @@
             "stat": {
               "views": 1
             },
-            "url": "https://max.ru/channel_faktormedia/AaEKYJzuc9M"
+            "url": "https://max.ru/channel_faktormedia/AaEKY2YRDZ0"
           }
         },
-        "duration_ms": 43428
+        "duration_ms": 50697
       },
       "expiresAt": null,
-      "versionstamp": "449b65be-1c14-4e38-9914-8b3cf583efdd"
+      "versionstamp": "660c18b8-d816-4e03-b796-515b66bc22be"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -2490,6 +2490,83 @@
       },
       "expiresAt": 1791348266385,
       "versionstamp": "4bdc9db8-7de1-45f1-9995-647041d2d315"
+    },
+    "[\"factor\",\"published_v2\",\"b9240b3d962306d741c3b75cd89dfd3f184bc1ce9c5143ac18551d80b59b5429\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "b9240b3d962306d741c3b75cd89dfd3f184bc1ce9c5143ac18551d80b59b5429"
+      ],
+      "value": true,
+      "expiresAt": 1793767648921,
+      "versionstamp": "0d7e6948-c130-4107-a33b-073c5f6d18f3"
+    },
+    "[\"factor\",\"published\",\"ee446c19be8c0b54232559ca8b0ebbd4eac3ff7fccdcd6f0081c9cb8783c1a4f\"]": {
+      "key": [
+        "factor",
+        "published",
+        "ee446c19be8c0b54232559ca8b0ebbd4eac3ff7fccdcd6f0081c9cb8783c1a4f"
+      ],
+      "value": true,
+      "expiresAt": 1793767648923,
+      "versionstamp": "aae7feda-4d57-4c7e-a734-fc464e823c8f"
+    },
+    "[\"factor\",\"published_story_v3\",\"daac6569b692aed710b5c87f2aebae9df31ef2030f83c863b1b3032790c288ef\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "daac6569b692aed710b5c87f2aebae9df31ef2030f83c863b1b3032790c288ef"
+      ],
+      "value": true,
+      "expiresAt": 1793767648924,
+      "versionstamp": "23b3c38f-5c3b-42b4-a0ab-c6f724253e5b"
+    },
+    "[\"factor\",\"recent_title_v2\",1791175648925,\"aa1ab60f51a570a02649742ae73ba5c038fe23248df1eed6bfbd343b6f4ebd81\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791175648925,
+        "aa1ab60f51a570a02649742ae73ba5c038fe23248df1eed6bfbd343b6f4ebd81"
+      ],
+      "value": "История в огне: пожар в особняке Миллера вызвал небывалый резонанс",
+      "expiresAt": 1793767648925,
+      "versionstamp": "6b409198-2052-4049-b17a-2ec4563ba806"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"aa1ab60f51a570a02649742ae73ba5c038fe23248df1eed6bfbd343b6f4ebd81\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "aa1ab60f51a570a02649742ae73ba5c038fe23248df1eed6bfbd343b6f4ebd81"
+      ],
+      "value": "История в огне: пожар в особняке Миллера вызвал небывалый резонанс",
+      "expiresAt": 1793767648926,
+      "versionstamp": "f310831d-1b3e-4c63-ad87-1c64263fd074"
+    },
+    "[\"factor\",\"published_event_v4\",\"c61ff5e72e1dddd4f8d05f74874ce4db2e9b2b617b2264c1236a2e97c0c684ca\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "c61ff5e72e1dddd4f8d05f74874ce4db2e9b2b617b2264c1236a2e97c0c684ca"
+      ],
+      "value": {
+        "category": "ПРОИСШЕСТВИЯ",
+        "family": "fire",
+        "anchors": [
+          "исто",
+          "огне",
+          "особ",
+          "милл",
+          "вызв",
+          "небы",
+          "резо"
+        ],
+        "title": "История в огне: пожар в особняке Миллера вызвал небывалый резонанс",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMic0FVX3lxTFBOQ0pjdEF6b1A0NjNPYXFvel82WnJuS1VFdmVFU1lzRTN0dG9vOEt5ZHdmMlM2bG93UFJXMmUwN0stdElPTWUwVksyMDQ4X2Y3NWVqTm8zM1hqZ3lDc3BQSG85WTg4R2o2NWZqNDA5UktOc2PSAX5BVV95cUxPQm1La2UtZXBJNTd0alMwMTJQcWhoWnBac1BLMll3OXUyX2tzc0FBSExBd1JGMVFkTG96b2Y0c09GVmpUT2ZmelBtbUxKeWlrYnVaRWVob3hQUS1xdnpsTHFYODJodTJFdWFHbHQ1Z1Y1R25ZYUdHempveEN4WXc?oc=5\" target=\"_blank\"&gt;История в огне: пожар в особняке Миллера вызвал небывалый резонанс&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;dp.ru&lt;/font&gt; Пожар в особняке Миллера вызвал небывалый резонанс и заставил реагировать на произошедшее буквальн... Пожар в особняке Миллера вызвал небывалый резонанс и заставил реагировать на произошедшее буквальн...",
+        "published_at": 1791175648927,
+        "article_url": "https://www.dp.ru/a/2026/10/05/istorija-v-ogne-pozhar-v-osobnjake"
+      },
+      "expiresAt": 1791348448927,
+      "versionstamp": "e42820e6-4891-4750-bfdb-2768a9c49837"
     }
   }
 }
