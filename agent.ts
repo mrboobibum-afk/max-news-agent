@@ -2875,7 +2875,7 @@ function scoreNewsItem(item) {
         combined.includes(pattern)
     );
     if (urgency) {
-        score += isIncident ? 15 : 20;
+        score += isIncident ? 8 : 20;
     }
     // ----------------------------------------------------------
     // Содержательные ключевые слова
