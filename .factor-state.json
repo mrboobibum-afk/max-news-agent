@@ -1369,10 +1369,10 @@
         "selected": 0,
         "reason": "publication intervals not reached",
         "rss_total": 300,
-        "duration_ms": 813
+        "duration_ms": 552
       },
       "expiresAt": null,
-      "versionstamp": "af628f88-9925-42f7-8d84-330c867b8106"
+      "versionstamp": "3db33a2f-6c3c-4b42-a37a-dba17f42e8e1"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
