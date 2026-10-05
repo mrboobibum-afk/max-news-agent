@@ -3272,8 +3272,11 @@ function buildPost(item, story, sourceName, articleUrl) {
 
     // Direct-feed style: headline first, then only the useful facts.
     // Do not repeat the headline as a separate paragraph.
+    // The body must add information, not paraphrase the headline.
+    // Russian headlines are often reworded by the source, so a high
+    // lexical threshold misses obvious repetitions.
     const shortText =
-        storySimilarity(rawShortText, headlineText) >= 0.72
+        storySimilarity(rawShortText, headlineText) >= 0.45
             ? ""
             : rawShortText;
 
