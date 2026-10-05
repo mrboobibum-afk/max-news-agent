@@ -13,12 +13,12 @@ permissions:
 
 concurrency:
   group: faktor-pipeline-v2
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 360
+    timeout-minutes: 5
 
     steps:
       - name: Checkout
@@ -32,7 +32,7 @@ jobs:
           deno-version: v2.x
 
       - name: Run FAKTOR
-        timeout-minutes: 355
+        timeout-minutes: 4
         env:
           GITHUB_ACTIONS: "true"
           MAX_BOT_TOKEN: ${{ secrets.MAX_BOT_TOKEN }}
@@ -43,65 +43,12 @@ jobs:
           MAX_IMAGE_MB: "15"
         run: |
           set -u
-
-          for iteration in $(seq 1 68); do
-            cycle_start=$(date +%s)
-            echo "FAKTOR: cycle ${iteration}/68 started at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-
-            set +e
-            timeout 240s deno run \
-              --v8-flags=--max-old-space-size=6144 \
-              --allow-net \
-              --allow-env \
-              --allow-read \
-              --allow-write \
-              --allow-run \
-              agent.ts
-            agent_status=$?
-            set -e
-
-            echo "FAKTOR: cycle ${iteration}/68 finished with status ${agent_status}"
-
-            if ! git diff --quiet -- .factor-state.json; then
-              git config user.name "github-actions[bot]"
-              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-              git add .factor-state.json
-              git commit -m "chore: update faktor state [skip ci]"
-
-              saved=0
-              for attempt in 1 2 3; do
-                git fetch origin main
-                if git rebase origin/main; then
-                  if git push origin HEAD:main; then
-                    echo "FAKTOR: state saved after cycle ${iteration}."
-                    saved=1
-                    break
-                  fi
-                else
-                  git rebase --abort || true
-                fi
-                echo "FAKTOR: state push failed on attempt ${attempt}; retrying."
-              done
-
-              if [ "$saved" -ne 1 ]; then
-                echo "FAKTOR: failed to persist state after cycle ${iteration}."
-              fi
-            fi
-
-            cycle_elapsed=$(( $(date +%s) - cycle_start ))
-            sleep_for=$((300 - cycle_elapsed))
-            if [ "$sleep_for" -gt 0 ] && [ "$iteration" -lt 68 ]; then
-              echo "FAKTOR: sleeping ${sleep_for}s until next five-minute cycle."
-              sleep "$sleep_for"
-            fi
-          done
-      - name: FAKTOR finished
-        if: always()
-        run: |
-          echo "FAKTOR: workflow reached state-save at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          echo "FAKTOR: single cycle started at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          deno run             --v8-flags=--max-old-space-size=6144             --allow-net             --allow-env             --allow-read             --allow-write             --allow-run             agent.ts
+          echo "FAKTOR: single cycle finished at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
       - name: Save FAKTOR state
-        if: always()
+        if: ${{ always() }}
         run: |
           if git diff --quiet -- .factor-state.json; then
             echo "No state changes."
@@ -112,7 +59,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           git add .factor-state.json
-          git commit -m "chore: update faktor state"
+          git commit -m "chore: update faktor state [skip ci]"
 
           for attempt in 1 2 3; do
             git fetch origin main
