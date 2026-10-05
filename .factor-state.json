@@ -42,46 +42,6 @@
       "expiresAt": 1793578015062,
       "versionstamp": "1331ee1d-00e9-4068-a154-9774fa323cce"
     },
-    "[\"factor\",\"published_event_v4\",\"4ffc10b78e70d75ba2e338a44615099d8090e58f76d177a9cacfe044a06ad055\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "4ffc10b78e70d75ba2e338a44615099d8090e58f76d177a9cacfe044a06ad055"
-      ],
-      "value": {
-        "category": "ПОЛИТИКА",
-        "family": "politics",
-        "anchors": [
-          "лука",
-          "сотр",
-          "бело",
-          "помо",
-          "ниве",
-          "санк",
-          "href",
-          "http",
-          "news",
-          "goog",
-          "arti",
-          "cbmi",
-          "targ",
-          "blan",
-          "font",
-          "colo",
-          "6f6f",
-          "ведо",
-          "подр",
-          "чита",
-          "vedo"
-        ],
-        "title": "Лукашенко: сотрудничество России и Белоруссии помогло нивелировать санкции",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMijAFBVV95cUxNMW9FdklLMmVkcEVaUC1UODlOMTRkRjh0RlJ4VF9iTk1WR3VqZWswY3FUT0U0RzdqaVRvZHB4eUtLVHdreFI4T01Ndi1GSVY5ampwRFM1cFdYVHBXTFVZREItRFVUV1lhTzdoNFBvVFZsMWxRWXl3dVBuQ2dZam9OYlFGYzRqZXMtOXpLTg?oc=5\" target=\"_blank\"&gt;Лукашенко: сотрудничество России и Белоруссии помогло нивелировать санкции&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Ведомости&lt;/font&gt; Подробности читайте на vedomosti.ru Подробности читайте на vedomosti.ru",
-        "published_at": 1790986015062,
-        "article_url": "https://www.vedomosti.ru/politics/news/2026/10/02/1233945-lukashenko-sotrudnichestvo"
-      },
-      "expiresAt": 1791158815062,
-      "versionstamp": "198c9f33-6c26-4a6d-b89a-7ed9b5e449bb"
-    },
     "[\"factor\",\"state\",\"last_urgent\"]": {
       "key": [
         "factor",
@@ -447,9 +407,9 @@
         "state",
         "last_regular"
       ],
-      "value": 1791144040828,
+      "value": 1791175423631,
       "expiresAt": null,
-      "versionstamp": "8d5aeeac-61df-4d61-82ff-cd42c2410320"
+      "versionstamp": "20d3cb32-ec0b-4a0f-8bed-e39ae1fea338"
     },
     "[\"factor\",\"published_v2\",\"31ad2257d965a02c7bc2056d6ce50a32a04684ea94f1aa4267a5445407e08019\"]": {
       "key": [
@@ -1450,13 +1410,106 @@
       ],
       "value": {
         "ok": true,
-        "selected": 0,
-        "reason": "publication intervals not reached",
+        "selected": 1,
+        "urgent": false,
+        "manual": false,
+        "score": 53,
         "rss_total": 300,
-        "duration_ms": 702
+        "diagnostics": {
+          "rss_total": 300,
+          "scored": 15,
+          "accepted": 1,
+          "short_title": 0,
+          "urgent_interval": 0,
+          "regular_interval": 0,
+          "duplicate_before_article": 0,
+          "event_duplicate_before_article": 1,
+          "bad_url": 0,
+          "article_title_mismatch": 0,
+          "duplicate_after_article": 0,
+          "event_duplicate_after_article": 0,
+          "gemini_fallback": 0,
+          "gemini_title_mismatch": 0,
+          "urgent_interval_after_gemini": 0,
+          "regular_interval_after_gemini": 0,
+          "text_duplicate": 0,
+          "video_candidates": 1,
+          "video_checked": 3,
+          "video_rejected": 3,
+          "video_validation": "not_relevant",
+          "external_video_candidates": 3,
+          "external_video_checked": 2,
+          "search_video_queries": 7,
+          "search_video_candidates": 2,
+          "search_video_checked": 4,
+          "image_candidates": 1,
+          "media_checked": 1,
+          "media_selected": "image",
+          "selected_media_source": "jsonld",
+          "media_rejected": "external_video_not_relevant",
+          "top_candidates": [],
+          "ai_provider": "gemini"
+        },
+        "item": {
+          "title": "В России вступил в силу закон о платформенной экономике - rst.ru",
+          "source": "Российский союз туриндустрии",
+          "article_url": "https://rst.ru/novosti/novosti-turizm/v-rossii-vstupil-v-silu-zakon-o-platformennoj-ekonomike.html",
+          "category": "ЭКОНОМИКА"
+        },
+        "media": {
+          "type": "image",
+          "source_url": "https://rst.ru/assets/images/pictures_news/rst-news-05-10-26-2.jpg"
+        },
+        "publication": {
+          "message": {
+            "recipient": {
+              "chat_type": "channel",
+              "chat_id": -78887448255074
+            },
+            "timestamp": 1791175466222,
+            "body": {
+              "mid": "mid.ffffb84095ab659e01a10a609cee73d3",
+              "seq": 117386475354354640,
+              "text": "В России вступил в силу закон о платформенной экономике\n\nВ России начал действовать закон о платформенной экономике. Он впервые устанавливает единые правила для цифровых посреднических платформ.\n\n🔗 Российский союз туриндустрии\n\n📢 ФАКТОР",
+              "attachments": [
+                {
+                  "payload": {
+                    "photo_id": 44488306248,
+                    "token": "kJPYOSnEfQ7ycJqSHKlRekMGbDQT/sDDmKbtL9Dwcj6yaZXsCTt3Qc4/D6u80euZ//TdLBk8UCYd6me0Ed7ZXxx7US00gkvLasEI1YGksCA=",
+                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8qTZQOWcBJUy8QCFdLGU9hehjfMfVvfoBKYlDsISiwlA"
+                  },
+                  "type": "image"
+                }
+              ],
+              "markup": [
+                {
+                  "from": 0,
+                  "length": 55,
+                  "type": "strong"
+                },
+                {
+                  "url": "https://rst.ru/novosti/novosti-turizm/v-rossii-vstupil-v-silu-zakon-o-platformennoj-ekonomike.html",
+                  "from": 199,
+                  "length": 28,
+                  "type": "link"
+                },
+                {
+                  "from": 232,
+                  "length": 6,
+                  "type": "emphasized"
+                }
+              ]
+            },
+            "stat": {
+              "views": 1
+            },
+            "url": "https://max.ru/channel_faktormedia/AaEKYJzuc9M"
+          }
+        },
+        "duration_ms": 43428
       },
       "expiresAt": null,
-      "versionstamp": "413bcdbf-e122-4b17-a405-e0aa41defa4c"
+      "versionstamp": "449b65be-1c14-4e38-9914-8b3cf583efdd"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -2362,6 +2415,81 @@
       },
       "expiresAt": 1791317173604,
       "versionstamp": "4b5ee3fd-6469-4e22-81dd-edcb15607c36"
+    },
+    "[\"factor\",\"published_v2\",\"bdb375695fe9d785eeb182960f150cafebea3d84d465eaf3212bbabd591995a7\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "bdb375695fe9d785eeb182960f150cafebea3d84d465eaf3212bbabd591995a7"
+      ],
+      "value": true,
+      "expiresAt": 1793767466380,
+      "versionstamp": "979c87ca-73e9-491d-ac8c-bb89e5e65275"
+    },
+    "[\"factor\",\"published\",\"666d92bd45ac62e19e3c29fc6d064645a7836d7f8f0a2cf3fa80fc9fc442ec19\"]": {
+      "key": [
+        "factor",
+        "published",
+        "666d92bd45ac62e19e3c29fc6d064645a7836d7f8f0a2cf3fa80fc9fc442ec19"
+      ],
+      "value": true,
+      "expiresAt": 1793767466381,
+      "versionstamp": "9d07dcf9-3308-4a11-95f4-edb40e968635"
+    },
+    "[\"factor\",\"published_story_v3\",\"609a8d4cd64313150cd20a38752d9609fcf856e4cec11e7a77ceafcc98af1a3d\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "609a8d4cd64313150cd20a38752d9609fcf856e4cec11e7a77ceafcc98af1a3d"
+      ],
+      "value": true,
+      "expiresAt": 1793767466382,
+      "versionstamp": "016498cd-a1ec-41ee-80fd-5ec044ab46d2"
+    },
+    "[\"factor\",\"recent_title_v2\",1791175466383,\"02101dc6438c107e8803e06f54d5752ba1c5ee3f6f00025ae2c4e227c415db92\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791175466383,
+        "02101dc6438c107e8803e06f54d5752ba1c5ee3f6f00025ae2c4e227c415db92"
+      ],
+      "value": "В России вступил в силу закон о платформенной экономике",
+      "expiresAt": 1793767466383,
+      "versionstamp": "827b5a6e-ebc0-4b18-8923-8c09a713384e"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"02101dc6438c107e8803e06f54d5752ba1c5ee3f6f00025ae2c4e227c415db92\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "02101dc6438c107e8803e06f54d5752ba1c5ee3f6f00025ae2c4e227c415db92"
+      ],
+      "value": "В России вступил в силу закон о платформенной экономике",
+      "expiresAt": 1793767466384,
+      "versionstamp": "05ab7b7c-c7b2-4cf7-b6a3-a9dfcd4e3c74"
+    },
+    "[\"factor\",\"published_event_v4\",\"ce20a24eb3767fbabd0d6870ba08bb14367489d8b8085fbbd026cb6799772690\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "ce20a24eb3767fbabd0d6870ba08bb14367489d8b8085fbbd026cb6799772690"
+      ],
+      "value": {
+        "category": "ЭКОНОМИКА",
+        "family": "law",
+        "anchors": [
+          "всту",
+          "силу",
+          "зако",
+          "плат",
+          "экон"
+        ],
+        "title": "В России вступил в силу закон о платформенной экономике",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMinwFBVV95cUxOSHk3RnkwX3puU0pNTFJjT0dRcUVEUnFWTW1Ebm5YRlBVdVE4OTdFWWlIQVQ2STk0U2xUZGtrbUU1VWpRdnBsaWtkRFY2Rkp1TjJ0UWR0RUZ3czlwLUZjZXJCUjVtdVBWS2N4ckRud1lESTZJOWxCcnk2aFdRenpnOEJ3bXpIUVNFbUNxd3dlQmswc1R0UGtVSGlqTG4xcnM?oc=5\" target=\"_blank\"&gt;В России вступил в силу закон о платформенной экономике&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;rst.ru&lt;/font&gt; В России начал действовать закон о платформенной экономике. Он впервые устанавливает единые правила для цифровых посреднических платформ. Закон впервые устанавливает единые правила для цифровых посреднических платформ – агрегаторов и маркетплейсов, защищая права поставщиков и покупателей. Минэкономразвития России открыло доступ к специализированному лендингу, где размещен реестр посреднических…",
+        "published_at": 1791175466385,
+        "article_url": "https://rst.ru/novosti/novosti-turizm/v-rossii-vstupil-v-silu-zakon-o-platformennoj-ekonomike.html"
+      },
+      "expiresAt": 1791348266385,
+      "versionstamp": "4bdc9db8-7de1-45f1-9995-647041d2d315"
     }
   }
 }
