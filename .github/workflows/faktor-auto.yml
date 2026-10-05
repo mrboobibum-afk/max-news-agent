@@ -1,5 +1,7 @@
 name: FAKTOR Auto
 
+# FAKTOR runner: keep scheduled five-minute polling and manual dispatch available.
+
 on:
   push:
     branches:
