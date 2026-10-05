@@ -363,9 +363,9 @@
         "state",
         "last_regular"
       ],
-      "value": 1791180076327,
+      "value": 1791183094074,
       "expiresAt": null,
-      "versionstamp": "96096554-4456-4db9-b5ca-1bb07193e4b7"
+      "versionstamp": "7dcbdfbd-4ff5-46f0-b0b9-f688a2e5bbdc"
     },
     "[\"factor\",\"published_v2\",\"31ad2257d965a02c7bc2056d6ce50a32a04684ea94f1aa4267a5445407e08019\"]": {
       "key": [
@@ -1369,7 +1369,7 @@
         "selected": 1,
         "urgent": false,
         "manual": false,
-        "score": 54,
+        "score": 51,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
@@ -1379,8 +1379,8 @@
           "urgent_interval": 0,
           "regular_interval": 0,
           "duplicate_before_article": 0,
-          "event_duplicate_before_article": 0,
-          "bad_url": 0,
+          "event_duplicate_before_article": 1,
+          "bad_url": 1,
           "article_title_mismatch": 0,
           "duplicate_after_article": 0,
           "event_duplicate_after_article": 0,
@@ -1390,18 +1390,18 @@
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
           "text_duplicate": 0,
-          "editorial_filter_rejected": 221,
-          "editorial_no_event_action": 205,
+          "editorial_filter_rejected": 222,
+          "editorial_no_event_action": 208,
           "video_candidates": 0,
           "video_checked": 0,
           "video_rejected": 0,
           "video_validation": null,
-          "external_video_candidates": 3,
-          "external_video_checked": 3,
+          "external_video_candidates": 5,
+          "external_video_checked": 5,
           "search_video_queries": 13,
           "search_video_candidates": 1,
           "search_video_checked": 0,
-          "image_candidates": 1,
+          "image_candidates": 5,
           "media_checked": 1,
           "media_selected": "image",
           "selected_media_source": "jsonld",
@@ -1410,14 +1410,14 @@
           "ai_provider": "none"
         },
         "item": {
-          "title": "Преподаватель Президентской академии на Урале представила креативные индустрии на выставке TechnoBuild - Областная газета | Свердловская область",
-          "source": "Областная газета",
-          "article_url": "https://oblgazeta.ru/pressreleases/2026/10/167903/",
-          "category": "ПРОМЫШЛЕННОСТЬ"
+          "title": "Молодой курганец сел за руль без прав и погубил пассажира в ДТП 3 октября: фото - URA.RU",
+          "source": "URA.RU",
+          "article_url": "https://ura.news/news/1053133394",
+          "category": "ПРОИСШЕСТВИЯ"
         },
         "media": {
           "type": "image",
-          "source_url": "https://oblgazeta.ru/wp-content/uploads/2026/10/%D0%A2%D0%B5%D1%85%D0%BD%D0%BE%D0%B1%D0%B8%D0%BB%D0%B4-_%D1%80%D0%B5%D0%B7%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%82.jpg"
+          "source_url": "https://cdn-img.ura.news/333/496/d4290b27-68f0-44b2-8e31-5c35424b15c5/cfppos/XL-1440.1.6.webp"
         },
         "publication": {
           "message": {
@@ -1425,17 +1425,17 @@
               "chat_type": "channel",
               "chat_id": -78887448255074
             },
-            "timestamp": 1791180096013,
+            "timestamp": 1791183124480,
             "body": {
-              "mid": "mid.ffffb84095ab659e01a10aa7420d53d5",
-              "seq": 117386778772329420,
-              "text": "Преподаватель Президентской академии на Урале представила креативные индустрии на выставке TechnoBuild\n\nДоцент кафедры экономики и управления вуза Светлана Маковкина стала модератором сессии, посвященной легендарному сысертскому фарфору.\n\n🔗 Областная газета\n\n📢 ФАКТОР",
+              "mid": "mid.ffffb84095ab659e01a10ad578004267",
+              "seq": 117386977245938270,
+              "text": "Молодой курганец сел за руль без прав и погубил пассажира в ДТП\n\nФото\n\n🔗 URA.RU\n\n📢 ФАКТОР",
               "attachments": [
                 {
                   "payload": {
-                    "photo_id": 44507269960,
-                    "token": "omY4pyaJYFYcaJ/XOBlXctjFnpLRHOjHTXhTDYmIoR638vPB/OoVUuE3BWzAsJUJ1nnK77pSZ/GFngLiXKUxwoawjHb+eSFg1Qb08ArBRt0=",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8p57McEgYhRyubL_lBEQfM-hjfMfVvfoBKYlDsISiwlA"
+                    "photo_id": 44519770184,
+                    "token": "uN4mD/Rc6axnDKWTBydDBJmLIxKxqw4bDIIxHv3ff5jbJB58Hz/b3DeRTHcSangGPTkTnetgmbF8YvSYKWB7W7TVRM257oV24fgnq3hW/To=",
+                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr861AiqGit9l6n6u4yZCLWIuhjfMfVvfoBKYlDsISiwlA"
                   },
                   "type": "image"
                 }
@@ -1443,17 +1443,17 @@
               "markup": [
                 {
                   "from": 0,
-                  "length": 102,
+                  "length": 63,
                   "type": "strong"
                 },
                 {
-                  "url": "https://oblgazeta.ru/pressreleases/2026/10/167903/",
-                  "from": 242,
-                  "length": 16,
+                  "url": "https://ura.news/news/1053133394",
+                  "from": 74,
+                  "length": 6,
                   "type": "link"
                 },
                 {
-                  "from": 263,
+                  "from": 85,
                   "length": 6,
                   "type": "emphasized"
                 }
@@ -1462,13 +1462,13 @@
             "stat": {
               "views": 1
             },
-            "url": "https://max.ru/channel_faktormedia/AaEKp0INU9U"
+            "url": "https://max.ru/channel_faktormedia/AaEK1XgAQmc"
           }
         },
-        "duration_ms": 20423
+        "duration_ms": 31184
       },
       "expiresAt": null,
-      "versionstamp": "17d397fc-d15d-4b74-af26-cb1fabfea9d8"
+      "versionstamp": "6ed8488a-778e-41c9-bbe2-4bef9126c155"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -2906,6 +2906,82 @@
       },
       "expiresAt": 1791352896161,
       "versionstamp": "7a17e98a-9605-4056-8e00-deb4c6a8c71f"
+    },
+    "[\"factor\",\"published_v2\",\"e493024544aaae0dd4a73cf94172a2ea9e09c9757e355398e43cc791b78ccc5c\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "e493024544aaae0dd4a73cf94172a2ea9e09c9757e355398e43cc791b78ccc5c"
+      ],
+      "value": true,
+      "expiresAt": 1793775124632,
+      "versionstamp": "7198203a-7e5c-4e74-9283-9184b5da2866"
+    },
+    "[\"factor\",\"published\",\"dc97742c423e952624b8b6e45435c4759a054adac830e33a2c97a73f7756e5e2\"]": {
+      "key": [
+        "factor",
+        "published",
+        "dc97742c423e952624b8b6e45435c4759a054adac830e33a2c97a73f7756e5e2"
+      ],
+      "value": true,
+      "expiresAt": 1793775124633,
+      "versionstamp": "fcf9c0db-5bf6-447d-9b8b-84cd3c9b6541"
+    },
+    "[\"factor\",\"published_story_v3\",\"7a712cbe1d14d408b2ef8ea5df0b0fe6dd5bf020c759e40b77866b8570a97826\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "7a712cbe1d14d408b2ef8ea5df0b0fe6dd5bf020c759e40b77866b8570a97826"
+      ],
+      "value": true,
+      "expiresAt": 1793775124634,
+      "versionstamp": "755b3305-9b13-4faf-b3c1-a0f8fbe44042"
+    },
+    "[\"factor\",\"recent_title_v2\",1791183124636,\"a694bf53e48b627d8216f0261a6476dbd0ae9c0c68abfae943ff62b084bfc669\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791183124636,
+        "a694bf53e48b627d8216f0261a6476dbd0ae9c0c68abfae943ff62b084bfc669"
+      ],
+      "value": "Молодой курганец сел за руль без прав и погубил пассажира в ДТП",
+      "expiresAt": 1793775124636,
+      "versionstamp": "2b85ff82-c154-4ead-b9c2-b3b8e42afaec"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"a694bf53e48b627d8216f0261a6476dbd0ae9c0c68abfae943ff62b084bfc669\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "a694bf53e48b627d8216f0261a6476dbd0ae9c0c68abfae943ff62b084bfc669"
+      ],
+      "value": "Молодой курганец сел за руль без прав и погубил пассажира в ДТП",
+      "expiresAt": 1793775124637,
+      "versionstamp": "c7077a95-68d3-4214-924b-b4abc9386e89"
+    },
+    "[\"factor\",\"published_event_v4\",\"ffd4191e43ec4e1ff3af8e4d4f2d156d9e0970467372efb6684d8d34de8af358\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "ffd4191e43ec4e1ff3af8e4d4f2d156d9e0970467372efb6684d8d34de8af358"
+      ],
+      "value": {
+        "category": "ПРОИСШЕСТВИЯ",
+        "family": "accident",
+        "anchors": [
+          "моло",
+          "кург",
+          "руль",
+          "прав",
+          "погу",
+          "пасс"
+        ],
+        "title": "Молодой курганец сел за руль без прав и погубил пассажира в ДТП",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiR0FVX3lxTE81TzFNMmprSkllckJzdnJhYlVBejlLSnNEMUVlX00xREFnbU5KWWNTbEJMRGlRNVp2R1AwWjFQUHZXd1kyR2FJ?oc=5\" target=\"_blank\"&gt;Молодой курганец сел за руль без прав и погубил пассажира в ДТП 3 октября: фото&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;URA.RU&lt;/font&gt; Фото Фото",
+        "published_at": 1791183124638,
+        "article_url": "https://ura.news/news/1053133394"
+      },
+      "expiresAt": 1791355924638,
+      "versionstamp": "93de43b8-8a42-461e-ac39-05973077fe9e"
     }
   }
 }
