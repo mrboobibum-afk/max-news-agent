@@ -1381,7 +1381,7 @@ function findVideoFromHtml(html, baseUrl) {
 
     // 5. Last-resort absolute media URLs embedded in player scripts.
     for (const match of html.matchAll(
-        /https?:\\/\\/[^"'\\s<>]+?\.(?:m3u8|mp4|mov|webm|mkv)(?:\?[^"'\\s<>]*)?/gi,
+        /https?:\/\/[^"'\s<>]+?\.(?:m3u8|mp4|mov|webm|mkv)(?:\?[^"'\s<>]*)?/gi,
     )) {
         add(match[0].replace(/\\\\\//g, "/"), 80);
     }
