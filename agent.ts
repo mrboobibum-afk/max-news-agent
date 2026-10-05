@@ -3812,8 +3812,11 @@ async function searchPublicVideoPages(item, story, diagnostics = null) {
         `"${truncate(sourceTitle || headline, 150)}" видео`,
         `"${truncate(baseEvent, 180)}" видео`,
         `${truncate(compactTerms || sourceTitle || headline, 130)} видео очевидцы`,
-        `${truncate(compactTerms || sourceTitle || headline, 110)} site:t.me видео`,
-        `${truncate(compactTerms || sourceTitle || headline, 110)} site:vk.com видео`,
+        `${truncate(compactTerms || sourceTitle || headline, 105)} site:t.me видео`,
+        `${truncate(compactTerms || sourceTitle || headline, 105)} site:vk.com видео`,
+        `${truncate(compactTerms || sourceTitle || headline, 105)} site:rutube.ru видео`,
+        `${truncate(compactTerms || sourceTitle || headline, 105)} site:ok.ru видео`,
+        `${truncate(compactTerms || sourceTitle || headline, 105)} site:dzen.ru видео`,
     ];
 
     const seen = new Set();
