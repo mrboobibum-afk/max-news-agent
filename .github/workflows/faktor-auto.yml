@@ -13,12 +13,12 @@ permissions:
 
 concurrency:
   group: faktor-pipeline-v2
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 360
 
     steps:
       - name: Checkout
@@ -49,7 +49,7 @@ jobs:
             echo "FAKTOR: cycle ${iteration}/68 started at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
             set +e
-            deno run \
+            timeout 240s deno run \
               --v8-flags=--max-old-space-size=6144 \
               --allow-net \
               --allow-env \
