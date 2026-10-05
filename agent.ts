@@ -2652,18 +2652,9 @@ function detectUrgency(item) {
 // ============================================================
 // EDITORIAL EVENT FILTER
 // ============================================================
-// This is the missing "newsroom" gate before ranking.
-// It rejects articles that are technically new in RSS but are not
-// actual news events: reviews, explainers, SEO/service pages,
-// retrospectives and generic expert commentary.
-//
-// Principle:
-//   EVENT -> ACTION / CHANGE -> CONSEQUENCE
-//
-// It is intentionally conservative: broad topics remain allowed,
-// but a candidate must contain at least one concrete event/action
-// signal unless it is an explicit high-value institutional/economic
-// change. This keeps the existing architecture and scoring intact.
+// EVENT -> ACTION / CHANGE -> CONSEQUENCE.
+// Reject reviews, explainers, SEO/service pages, retrospectives,
+// generic commentary and material without a concrete news event.
 // ============================================================
 const EDITORIAL_GARBAGE_PATTERNS = [
     /\b(?:обзор|аналитика|колонк|мнение|разбор|экспертн(?:ый|ая|ое)|исследован(?:ие|ия)|рейтинг|подборк|гид|инструкция|как\s+(?:выбрать|купить|получить|сэкономить)|тест\-драйв|прогноз)\b/i,
@@ -2695,26 +2686,16 @@ function passesEditorialEventFilter(item) {
         `${item?.title || ""} ${item?.description || ""}`,
     );
 
-    // Hard reject obvious non-news/service material.
     if (EDITORIAL_GARBAGE_PATTERNS.some((pattern) => pattern.test(text))) {
-        return {
-            pass: false,
-            reason: "editorial_non_event",
-            visual_hint: false,
-        };
+        return { pass: false, reason: "editorial_non_event", visual_hint: false };
     }
 
     const eventSignal = EDITORIAL_EVENT_PATTERNS.some((pattern) => pattern.test(text));
     const institutionalSignal = EDITORIAL_INSTITUTIONAL_PATTERNS.some((pattern) => pattern.test(text));
     const visualHint = EDITORIAL_VISUAL_HINT_PATTERNS.some((pattern) => pattern.test(text));
 
-    // A visual marker alone is not enough: it must still describe an event.
     if (!eventSignal && !institutionalSignal) {
-        return {
-            pass: false,
-            reason: "no_event_action",
-            visual_hint: visualHint,
-        };
+        return { pass: false, reason: "no_event_action", visual_hint: visualHint };
     }
 
     return {
@@ -2764,13 +2745,7 @@ function scoreNewsItem(item) {
     // Редакционный инфоповод
     // ----------------------------------------------------------
     const editorial = passesEditorialEventFilter(item);
-    if (editorial.visual_hint) {
-        // "Видео/кадры/очевидцы" is a strong direct-feed signal, but
-        // media is still verified later by the existing media branch.
-        score += 12;
-    } else {
-        score += 4;
-    }
+    score += editorial.visual_hint ? 12 : 4;
 
     // ----------------------------------------------------------
     // Срочность
@@ -3359,9 +3334,6 @@ function buildPost(item, story, sourceName, articleUrl) {
 
     // Direct-feed style: headline first, then only the useful facts.
     // Do not repeat the headline as a separate paragraph.
-    // The body must add information, not paraphrase the headline.
-    // Russian headlines are often reworded by the source, so a high
-    // lexical threshold misses obvious repetitions.
     const shortText =
         storySimilarity(rawShortText, headlineText) >= 0.45
             ? ""
@@ -4167,11 +4139,7 @@ async function chooseCandidate(items, urgentAllowed, regularAllowed, diagnostics
                 if (editorial.reason === "no_event_action") {
                     diagnostics && diagnostics.editorial_no_event_action++;
                 }
-                console.log(
-                    "Rejected by editorial event filter:",
-                    editorial.reason,
-                    item.title,
-                );
+                console.log("Rejected by editorial event filter:", editorial.reason, item.title);
                 return false;
             }
 
@@ -4998,3 +4966,66 @@ if (GITHUB_ACTIONS_MODE) {
                 path === "/run"
             ) {
                 const result = await runPipeline(true);
+                return json(result);
+            }
+
+            if (
+                request.method === "GET" &&
+                path === "/publish-test"
+            ) {
+                const result = await publishTest();
+                return json({
+                    ok: true,
+                    provider: "MAX",
+                    operation: "publish-test",
+                    chat_id: TARGET_CHAT_ID,
+                    response: result,
+                });
+            }
+
+            if (
+                request.method === "GET" &&
+                path === "/me"
+            ) {
+                const me = await maxJson("/me", {
+                    method: "GET",
+                });
+                return json({
+                    ok: true,
+                    max_me: me,
+                });
+            }
+
+            if (
+                request.method === "POST" &&
+                path === "/webhook"
+            ) {
+                const body = await request.text();
+                console.log(
+                    "WEBHOOK:",
+                    body.slice(0, 2000),
+                );
+                return json({
+                    ok: true,
+                    received: true,
+                });
+            }
+
+            return json({
+                ok: false,
+                error: "Endpoint not found",
+                path,
+            }, 404);
+        } catch (error) {
+            console.error("HTTP ERROR:", error);
+            return json({
+                ok: false,
+                error:
+                    error instanceof Error
+                        ? error.message
+                        : String(error),
+                path,
+            }, 500);
+        }
+    });
+}
