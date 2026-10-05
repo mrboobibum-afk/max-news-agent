@@ -48,9 +48,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791177836594,
+      "value": 1791178247012,
       "expiresAt": null,
-      "versionstamp": "a7bd68ab-f268-4d80-9607-9c4c65b3a0a4"
+      "versionstamp": "bc80633e-5a32-47d7-9a31-668ad39b7757"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -1366,13 +1366,109 @@
       ],
       "value": {
         "ok": true,
-        "selected": 0,
-        "reason": "publication intervals not reached",
+        "selected": 1,
+        "urgent": true,
+        "manual": false,
+        "score": 45,
         "rss_total": 300,
-        "duration_ms": 575
+        "diagnostics": {
+          "rss_total": 300,
+          "scored": 13,
+          "accepted": 1,
+          "short_title": 0,
+          "urgent_interval": 0,
+          "regular_interval": 68,
+          "duplicate_before_article": 0,
+          "event_duplicate_before_article": 5,
+          "bad_url": 1,
+          "article_title_mismatch": 0,
+          "duplicate_after_article": 0,
+          "event_duplicate_after_article": 0,
+          "old_event_new_article": 0,
+          "gemini_fallback": 0,
+          "gemini_title_mismatch": 0,
+          "urgent_interval_after_gemini": 0,
+          "regular_interval_after_gemini": 0,
+          "text_duplicate": 0,
+          "editorial_filter_rejected": 219,
+          "editorial_no_event_action": 206,
+          "video_candidates": 0,
+          "video_checked": 0,
+          "video_rejected": 0,
+          "video_validation": null,
+          "external_video_candidates": 2,
+          "external_video_checked": 2,
+          "search_video_queries": 10,
+          "search_video_candidates": 2,
+          "search_video_checked": 2,
+          "image_candidates": 2,
+          "media_checked": 1,
+          "media_selected": "image",
+          "selected_media_source": "jsonld",
+          "media_rejected": null,
+          "top_candidates": [],
+          "ai_provider": "gemini"
+        },
+        "item": {
+          "title": "Крупный пожар под Омском обернулся гибелью мужчины - omskinform.ru",
+          "source": "Омск-информ",
+          "article_url": "https://omskinform.ru/news/228096",
+          "category": "ПРОИСШЕСТВИЯ"
+        },
+        "media": {
+          "type": "image",
+          "source_url": "https://storage.yandexcloud.net/omskinform/files/images/04eef0f7-2fdc-4ffa-8031-33824eb33e34"
+        },
+        "publication": {
+          "message": {
+            "recipient": {
+              "chat_type": "channel",
+              "chat_id": -78887448255074
+            },
+            "timestamp": 1791178299348,
+            "body": {
+              "mid": "mid.ffffb84095ab659e01a10a8bd7d425ba",
+              "seq": 117386661026080200,
+              "text": "Крупный пожар под Омском: погиб мужчина\n\n🔗 Омск-информ\n\n📢 ФАКТОР",
+              "attachments": [
+                {
+                  "payload": {
+                    "photo_id": 44499742536,
+                    "token": "9EvzkUXe1rA5wj6anbhnRmbZQsHbut9UbQJsudXefAvVijg/YA3XaDQ4vzbo5a47PJCFGbvHxEGtkF7bHg1LHlFQSyB0/qsqekiz95IcAdY=",
+                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8mjJ0K0kkKqZgBhMwL7-xmuhjfMfVvfoBKYlDsISiwlA"
+                  },
+                  "type": "image"
+                }
+              ],
+              "markup": [
+                {
+                  "from": 0,
+                  "length": 39,
+                  "type": "strong"
+                },
+                {
+                  "url": "https://omskinform.ru/news/228096",
+                  "from": 44,
+                  "length": 11,
+                  "type": "link"
+                },
+                {
+                  "from": 60,
+                  "length": 6,
+                  "type": "emphasized"
+                }
+              ]
+            },
+            "stat": {
+              "views": 1
+            },
+            "url": "https://max.ru/channel_faktormedia/AaEKi9fUJbo"
+          }
+        },
+        "duration_ms": 53047
       },
       "expiresAt": null,
-      "versionstamp": "d204f88a-82bd-4ec4-857e-4aa06405d651"
+      "versionstamp": "63a5ebc7-4b6b-4a26-86fe-7e33fc699e38"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -2580,6 +2676,81 @@
       },
       "expiresAt": 1791350678761,
       "versionstamp": "08c383fa-dd3d-4947-ad77-8dd6ab60991b"
+    },
+    "[\"factor\",\"published_v2\",\"697d481547da93594936a553cd6bc5a7beda6e5987ce6077d68cabcb8623b320\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "697d481547da93594936a553cd6bc5a7beda6e5987ce6077d68cabcb8623b320"
+      ],
+      "value": true,
+      "expiresAt": 1793770299463,
+      "versionstamp": "6fe08159-12ed-4e91-8f2b-9a9ee936d39e"
+    },
+    "[\"factor\",\"published\",\"5f9dda04a5388fabe66749ba2fc733c5f9617096ba172dc5c4431b59be2dfc69\"]": {
+      "key": [
+        "factor",
+        "published",
+        "5f9dda04a5388fabe66749ba2fc733c5f9617096ba172dc5c4431b59be2dfc69"
+      ],
+      "value": true,
+      "expiresAt": 1793770299464,
+      "versionstamp": "e75e3e95-2319-4022-8219-be8a0df4680d"
+    },
+    "[\"factor\",\"published_story_v3\",\"00b0f2e40d982d9f5d985c1581717904f46c2745cd93b01d468c1b1bd6f90730\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "00b0f2e40d982d9f5d985c1581717904f46c2745cd93b01d468c1b1bd6f90730"
+      ],
+      "value": true,
+      "expiresAt": 1793770299465,
+      "versionstamp": "bba66162-8c6c-421b-bba5-17d513ed6737"
+    },
+    "[\"factor\",\"recent_title_v2\",1791178299466,\"ccd0b37f6983baec18251b2e5712d7735e6fcf0f1cdaaaf3dc9cdfcb1eabe393\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791178299466,
+        "ccd0b37f6983baec18251b2e5712d7735e6fcf0f1cdaaaf3dc9cdfcb1eabe393"
+      ],
+      "value": "Крупный пожар под Омском: погиб мужчина",
+      "expiresAt": 1793770299466,
+      "versionstamp": "235787a4-ed5a-42da-9d43-4c1ab4acd96c"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"ccd0b37f6983baec18251b2e5712d7735e6fcf0f1cdaaaf3dc9cdfcb1eabe393\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "ccd0b37f6983baec18251b2e5712d7735e6fcf0f1cdaaaf3dc9cdfcb1eabe393"
+      ],
+      "value": "Крупный пожар под Омском: погиб мужчина",
+      "expiresAt": 1793770299467,
+      "versionstamp": "39012f87-b7a4-4fea-98c1-1fc7d209bc31"
+    },
+    "[\"factor\",\"published_event_v4\",\"1671156f2cc904a8bba0bf852b3e07662c2d40e8ecd069b215999e9ef6c7ed13\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "1671156f2cc904a8bba0bf852b3e07662c2d40e8ecd069b215999e9ef6c7ed13"
+      ],
+      "value": {
+        "category": "ПРОИСШЕСТВИЯ",
+        "family": "fire",
+        "anchors": [
+          "круп",
+          "омск",
+          "обер",
+          "гибе",
+          "мужч"
+        ],
+        "title": "Крупный пожар под Омском обернулся гибелью мужчины",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiSEFVX3lxTFBiTTVPY0tXMFJSNURWcENOY0tfVVR5TjlFaDcxUmxBNXg0eEJhcFg2bnNXR25uV1NXQk1hNWM3LW9lM0VvUjdaeg?oc=5\" target=\"_blank\"&gt;Крупный пожар под Омском обернулся гибелью мужчины&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;omskinform.ru&lt;/font&gt; Под Омском зафиксирован крупный пожар. В результате инцидента погиб человек. Крупный пожар под Омском обернулся гибелью мужчины.",
+        "published_at": 1791178299468,
+        "article_url": "https://omskinform.ru/news/228096"
+      },
+      "expiresAt": 1791351099468,
+      "versionstamp": "83d29177-0696-44ff-badb-199fb04df8c3"
     }
   }
 }
