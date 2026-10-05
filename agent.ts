@@ -3786,12 +3786,23 @@ false, если это другое событие, случайная/стор�
 
 async function searchPublicVideoPages(item, story, diagnostics = null) {
     const headline = stripHtml(story?.headline || item?.title || "").trim();
-    if (!headline) return null;
+    const sourceTitle = stripHtml(item?.title || "").replace(/\s+-\s+[^|]+$/i, "").trim();
+    const sourceDescription = stripHtml(item?.description || "").trim();
+    if (!headline && !sourceTitle) return null;
 
-    const compactTerms = [...storyTokens(headline)].slice(0, 10).join(" ");
+    // Search with the original RSS wording as well as the AI headline.
+    // The AI headline can lose the location/date that makes eyewitness
+    // footage discoverable.
+    const baseEvent = sourceDescription
+        ? `${sourceTitle}. ${truncate(sourceDescription, 180)}`
+        : sourceTitle || headline;
+    const compactTerms = [...storyTokens(baseEvent)].slice(0, 14).join(" ");
     const queries = [
-        `"${truncate(headline, 150)}" видео`,
-        `${truncate(compactTerms || headline, 120)} видео очевидцы`,
+        `"${truncate(sourceTitle || headline, 150)}" видео`,
+        `"${truncate(baseEvent, 180)}" видео`,
+        `${truncate(compactTerms || sourceTitle || headline, 130)} видео очевидцы`,
+        `${truncate(compactTerms || sourceTitle || headline, 110)} site:t.me видео`,
+        `${truncate(compactTerms || sourceTitle || headline, 110)} site:vk.com видео`,
     ];
 
     const seen = new Set();
@@ -4117,7 +4128,7 @@ async function findBestMedia(articleMedia, item, story, diagnostics = null) {
 
     if (diagnostics) diagnostics.external_video_candidates = externalSources.length;
 
-    for (const sourceUrl of externalSources.slice(0, 2)) {
+    for (const sourceUrl of externalSources.slice(0, 8)) {
         if (diagnostics) diagnostics.external_video_checked++;
         console.log("Trying external/user video source:", sourceUrl);
 
