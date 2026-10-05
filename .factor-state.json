@@ -216,58 +216,15 @@
       "expiresAt": 1793655053519,
       "versionstamp": "19ef335b-2a77-4354-8f34-606503c49f26"
     },
-    "[\"factor\",\"published_event_v4\",\"0a520681fc37bbc9978a805a79d202c0f751f8b23cb7ddfba6de198150fabce4\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "0a520681fc37bbc9978a805a79d202c0f751f8b23cb7ddfba6de198150fabce4"
-      ],
-      "value": {
-        "category": "ЭКОНОМИКА",
-        "family": "economy",
-        "anchors": [
-          "экон",
-          "стат",
-          "октя",
-          "2026",
-          "ожид",
-          "href",
-          "http",
-          "news",
-          "goog",
-          "arti",
-          "cbmi",
-          "targ",
-          "blan",
-          "публ",
-          "font",
-          "colo",
-          "6f6f",
-          "finv",
-          "миро",
-          "рынк",
-          "выст",
-          "отче",
-          "анон",
-          "собы"
-        ],
-        "title": "Экономическая статистика 5-11 октября 2026: ожидания",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiowFBVV95cUxPb2pVd0J5NE8xVmtDVDkzZWdNZE5RVEFYQ3dEam1YUFVfekhMYUUyYXkyd0M4U0g3T0s5NFVZaDZROW1HTGJEcmJUN1FrYnQ4WnpCRFY2dG9kOXQ0MHNucTZaRTlvQ0plUXNIS1FXSWtzTkVlZWMyMC0zSWROR0JNSmx5ajV1ZGNXR3NIcnE5ZE9IcG1mYlNtV0pFRFJia01nVlFj?oc=5\" target=\"_blank\"&gt;Экономическая статистика 5-11 октября 2026: ожидания – Публикации&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Finversia&lt;/font&gt; Мировые рынки, выступления, отчеты, анонсы событий. Мировые рынки, выступления, отчеты, анонсы событий.",
-        "published_at": 1791063053520,
-        "article_url": "https://www.finversia.ru/publication/ekonomicheskaya-statistika-5-11-oktyabrya-2026-ozhidaniya-179323"
-      },
-      "expiresAt": 1791235853520,
-      "versionstamp": "c21b6f70-d277-4355-b601-e339815b4582"
-    },
     "[\"factor\",\"state\",\"last_regular\"]": {
       "key": [
         "factor",
         "state",
         "last_regular"
       ],
-      "value": 1791213606695,
+      "value": 1791237892387,
       "expiresAt": null,
-      "versionstamp": "36e23f82-14dc-42f4-974a-87d13825a54c"
+      "versionstamp": "e6e94a7f-ffd3-4773-abee-6af052a07960"
     },
     "[\"factor\",\"published_v2\",\"31ad2257d965a02c7bc2056d6ce50a32a04684ea94f1aa4267a5445407e08019\"]": {
       "key": [
@@ -1271,7 +1228,7 @@
         "selected": 1,
         "urgent": false,
         "manual": false,
-        "score": 60,
+        "score": 61,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
@@ -1288,38 +1245,38 @@
           "event_duplicate_after_article": 0,
           "old_event_new_article": 0,
           "gemini_fallback": 0,
-          "gemini_title_mismatch": 1,
+          "gemini_title_mismatch": 0,
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
           "text_duplicate": 0,
-          "editorial_filter_rejected": 218,
-          "editorial_no_event_action": 207,
+          "editorial_filter_rejected": 216,
+          "editorial_no_event_action": 205,
           "video_candidates": 1,
-          "video_checked": 1,
+          "video_checked": 0,
           "video_rejected": 0,
-          "video_validation": "relevant",
-          "external_video_candidates": 0,
-          "external_video_checked": 0,
-          "search_video_queries": 0,
-          "search_video_candidates": 0,
+          "video_validation": null,
+          "external_video_candidates": 3,
+          "external_video_checked": 3,
+          "search_video_queries": 13,
+          "search_video_candidates": 1,
           "search_video_checked": 0,
-          "image_candidates": 0,
-          "media_checked": 0,
-          "media_selected": "video",
-          "selected_media_source": "article",
-          "media_rejected": null,
+          "image_candidates": 3,
+          "media_checked": 1,
+          "media_selected": "image",
+          "selected_media_source": "jsonld",
+          "media_rejected": "video_download_failed",
           "top_candidates": [],
           "ai_provider": "gemini"
         },
         "item": {
-          "title": "Четыре машины и шприц на сиденье: в ДТП на новом мосту Благовещенска серьезно пострадал ребенок (фото, видео) - Amur.life",
-          "source": "Amur.life",
-          "article_url": "https://www.amur.life/news/2026/10/05/zhestkaya-avariya-na-novom-mostu-blagoveschenska-postradal-rebenok-voditel-pyan",
-          "category": "ПРОИСШЕСТВИЯ"
+          "title": "Путин подписал указ, открывающий путь к продаже российского бизнеса UniCredit - DW.com",
+          "source": "dw.com",
+          "article_url": "https://www.dw.com/ru/putin-podpisal-ukaz-otkryvausij-put-k-prodaze-rossijskogo-biznesa-unicredit/a-79556997",
+          "category": "БИЗНЕС"
         },
         "media": {
-          "type": "video",
-          "source_url": "https://cdn4.telesco.pe/file/4e4ce41858.mp4?token=vCp1AoreO-_8fRHbspLEeg0uzqI1x16_I1Z0L7MgPt1SmqeJEvvTWPl23-HvMshvP_pkg_DSd5Nuro1nuEVIYsVUyJ_OgGJPKAirOl4Mqv0jpF-liAkqa6fUlu1D7eQT2Y5hXm9BrGiGJhb9Qz_hJXjzG2cf9i7S28YQMIOCDGEYCrE1GPIm8u9B-bYIQAUgriN-RTE7AN3LPZxjnQX3zdU2FdS-fgbg-DiuStWXOMC1iSsfsK0yzs2AJZqg2bbs9X9zqyTX9sFTURJcGrbfSGUNrZDyH29O00shyw00mXZg3cFoZ2AMlDYhRerImL7mLc5tLL5mQ7fp1-7qrKyxSw"
+          "type": "image",
+          "source_url": "https://static.dw.com/image/69120183_804.jpg"
         },
         "publication": {
           "message": {
@@ -1327,37 +1284,35 @@
               "chat_type": "channel",
               "chat_id": -78887448255074
             },
-            "timestamp": 1791213636581,
+            "timestamp": 1791237917050,
             "body": {
-              "mid": "mid.ffffb84095ab659e01a10ca70be567af",
-              "seq": 117388976886998960,
-              "text": "Четыре машины и шприц на сиденье: в ДТП на новом мосту Благовещенска серьезно пострадал ребенок (фото, видео)\n\n5 октября вечером на повороте на новый мост жёстко столкнулись несколько автомобилей. По предварительным данным, участниками были четыре авто. Понадобилась помощь медиков и спасателей. Виновник аварии был в алкогольном или наркотическом опьянении. Об этом сообщил телеграм-канал dpskontrol_28rus.\n\n🔗 Amur.life\n\n📢 ФАКТОР",
+              "mid": "mid.ffffb84095ab659e01a10e19897a6299",
+              "seq": 117390568131814050,
+              "text": "Путин подписал указ о продаже российского бизнеса UniCredit\n\nПрезидент РФ подписал указ, открывающий путь к продаже российского бизнеса UniCredit. Итальянская UniCredit получит контроль над активами банка ЮниКредит в РФ. Это с большой вероятностью говорит о скорой продаже активов на условиях, одобренных Кремлем.\n\n🔗 dw.com\n\n📢 ФАКТОР",
               "attachments": [
                 {
                   "payload": {
-                    "url": "http://amur.life",
-                    "token": "f9LHodD0cOJ25H8EXlot1E251fiIowoqQ-NhpH5D9SgQNTvoj56Y4F_felB5LsejmZmwnWGFWtnP-IpWrK3NVQ0"
+                    "photo_id": 44663441480,
+                    "token": "8PFMAN91piDj72KLHz6QYp2p8Bs8A8ZLIUF8x7v/DHexgVLSRHunroyMTgd60sOKNzvajGwPTv2yarvV3sxPQ5rmp6xW3kKBuJ1QtCRKLHA=",
+                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8ePgQLnbN6p4w3DVj-8DTIehjfMfVvfoBKYlDsISiwlA"
                   },
-                  "title": "AMUR.LIFE - информационное агентство Приамурья и Дальнего Востока",
-                  "description": "Главные новости Благовещенска, Амурской области и Дальнего Востока📰 Эксклюзивные интервью🎤 Интересные видео🎥 Амур.Лайф: мы создаем социально значимые материалы о жизни Приамурья",
-                  "image_url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8GFlkOYTled_rac3HqrKcpuhjfMfVvfoBKYlDsISiwlA",
-                  "type": "share"
+                  "type": "image"
                 }
               ],
               "markup": [
                 {
                   "from": 0,
-                  "length": 109,
+                  "length": 59,
                   "type": "strong"
                 },
                 {
-                  "url": "https://www.amur.life/news/2026/10/05/zhestkaya-avariya-na-novom-mostu-blagoveschenska-postradal-rebenok-voditel-pyan",
-                  "from": 412,
-                  "length": 9,
+                  "url": "https://www.dw.com/ru/putin-podpisal-ukaz-otkryvausij-put-k-prodaze-rossijskogo-biznesa-unicredit/a-79556997",
+                  "from": 318,
+                  "length": 6,
                   "type": "link"
                 },
                 {
-                  "from": 426,
+                  "from": 329,
                   "length": 6,
                   "type": "emphasized"
                 }
@@ -1366,13 +1321,13 @@
             "stat": {
               "views": 1
             },
-            "url": "https://max.ru/channel_faktormedia/AaEMpwvlZ68"
+            "url": "https://max.ru/channel_faktormedia/AaEOGYl6Ypk"
           }
         },
-        "duration_ms": 30800
+        "duration_ms": 25653
       },
       "expiresAt": null,
-      "versionstamp": "24038f24-870e-411d-9647-c4e83a73998a"
+      "versionstamp": "a5c21225-aad3-4253-bbed-76be18928444"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -2968,6 +2923,85 @@
       },
       "expiresAt": 1791386436707,
       "versionstamp": "b6c7a37b-6d35-4eb2-bdb4-ec9540c8e306"
+    },
+    "[\"factor\",\"published_v2\",\"99f2b6da173cc3579b67e4fdf968baf3794d7b8642dbfd83904157d6dc0e44cf\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "99f2b6da173cc3579b67e4fdf968baf3794d7b8642dbfd83904157d6dc0e44cf"
+      ],
+      "value": true,
+      "expiresAt": 1793829917162,
+      "versionstamp": "2e171d8f-679d-4f4a-bc4d-a1128a1698f3"
+    },
+    "[\"factor\",\"published\",\"8867f66f2285db6f7a33fc9ea2a606a055b6aa16542b81398e9625ea09c55554\"]": {
+      "key": [
+        "factor",
+        "published",
+        "8867f66f2285db6f7a33fc9ea2a606a055b6aa16542b81398e9625ea09c55554"
+      ],
+      "value": true,
+      "expiresAt": 1793829917163,
+      "versionstamp": "48af9389-08b0-4795-be66-3d8eb56d7b33"
+    },
+    "[\"factor\",\"published_story_v3\",\"9752999c8a1f09b5cd186559f681ed8a2f9010f9cb0ced44641d3cd7a0067fe6\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "9752999c8a1f09b5cd186559f681ed8a2f9010f9cb0ced44641d3cd7a0067fe6"
+      ],
+      "value": true,
+      "expiresAt": 1793829917165,
+      "versionstamp": "7c795e54-c3f1-4ab8-a246-7749ced26dcf"
+    },
+    "[\"factor\",\"recent_title_v2\",1791237917166,\"e87e8af6dfb6896bc4d858fdba22a2541a26c0a349ecb712a412b69a62f14a87\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791237917166,
+        "e87e8af6dfb6896bc4d858fdba22a2541a26c0a349ecb712a412b69a62f14a87"
+      ],
+      "value": "Путин подписал указ о продаже российского бизнеса UniCredit",
+      "expiresAt": 1793829917166,
+      "versionstamp": "503924f8-a0b7-42e4-a0f6-7bf4dd5352f0"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"e87e8af6dfb6896bc4d858fdba22a2541a26c0a349ecb712a412b69a62f14a87\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "e87e8af6dfb6896bc4d858fdba22a2541a26c0a349ecb712a412b69a62f14a87"
+      ],
+      "value": "Путин подписал указ о продаже российского бизнеса UniCredit",
+      "expiresAt": 1793829917167,
+      "versionstamp": "21dc0be1-918d-4b61-a8af-ba614e2c8479"
+    },
+    "[\"factor\",\"published_event_v4\",\"ca6a919d6b6c4829ba22684302fdc9c756b1ed15e59af202bca012fcd5ac41d7\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "ca6a919d6b6c4829ba22684302fdc9c756b1ed15e59af202bca012fcd5ac41d7"
+      ],
+      "value": {
+        "category": "БИЗНЕС",
+        "family": "politics",
+        "anchors": [
+          "пути",
+          "подп",
+          "указ",
+          "откр",
+          "путь",
+          "прод",
+          "росс",
+          "бизн",
+          "unic"
+        ],
+        "title": "Путин подписал указ, открывающий путь к продаже российского бизнеса UniCredit",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMirAFBVV95cUxQallQRmpXSm5yQzVRSWRkYUpoOURwcm1PVEwtSU5qZlBfYXNBMUlIS1NlWDU2QWg3UExuR2hRZVJnTEhMZDZoRlZNUjNDNnAxbkdHODNKQjNhLUczd0tpbVplajRDMW15US1HV2kxX3Q3MDJ6TlNJUEEybGdibXhPSjYxSk5TVXRYOGJiLWp3Ynl5REdXVW9JNERob0RMd2NKUllEODdISm9xMjhs0gGsAUFVX3lxTE10dHhUNWFKVy1SNHRYWmJLWVJPRGpDWXpEdU01LWxqZkdITGRUMVl0Q3BZTTFfVjdYY2FoQjFRZlNXbVBnVGtCc0hmNURkVlZKSTdmQmRpYVpyallwaG5kdlgxZ2JSZGtlV2FPTmVsYmRpN0liLW5mVzNSMGxXeEwyUzVpbjZkcTdya2tkVHlSZWpET3N3SVdtRktDRTZOM1dTR3dZUEJlYUYzWlk?oc=5\" target=\"_blank\"&gt;Путин подписал указ, открывающий путь к продаже российского бизнеса UniCredit&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;DW.com&lt;/font&gt; Президент РФ подписал указ, открывающий путь к продаже российского бизнеса UniCredit. Итальянская UniCredit получит контроль над активами банка ЮниКредит в РФ. Это с большой вероятностью говорит о скорой продаже активов на условиях, одобренных Кремлем. Итальянская UniCredit получит контроль над активами банка ЮниКред",
+        "published_at": 1791237917168,
+        "article_url": "https://www.dw.com/ru/putin-podpisal-ukaz-otkryvausij-put-k-prodaze-rossijskogo-biznesa-unicredit/a-79556997"
+      },
+      "expiresAt": 1791410717168,
+      "versionstamp": "3bfec054-cc0f-4cfe-bc7d-998f32c366ed"
     }
   }
 }
