@@ -93,50 +93,6 @@
       "expiresAt": 1793596405311,
       "versionstamp": "10816ba8-9111-4306-8643-03db0cf15da0"
     },
-    "[\"factor\",\"published_event_v4\",\"2311fb9b7a9b67f692a84181f73213008b3f3f9634ae144a74631e62c52d2d21\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "2311fb9b7a9b67f692a84181f73213008b3f3f9634ae144a74631e62c52d2d21"
-      ],
-      "value": {
-        "category": "ПРОИСШЕСТВИЯ",
-        "family": "accident",
-        "anchors": [
-          "женщ",
-          "води",
-          "поги",
-          "доро",
-          "мичу",
-          "окру",
-          "прав",
-          "href",
-          "http",
-          "news",
-          "goog",
-          "arti",
-          "cbmi",
-          "targ",
-          "blan",
-          "font",
-          "colo",
-          "6f6f",
-          "резу",
-          "тран",
-          "прои",
-          "госа",
-          "уста",
-          "обст",
-          "смер"
-        ],
-        "title": "Женщина-водитель погибла в ДТП на дороге Мичуринского округа | Мичуринская правда",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiuAFBVV95cUxOOEdWLVNoN0NJVXZTM3AwMzhiN2hYRF9LVWhZYWFIWHg3Q0lfTHdFaXhWZ0YzS0k0cHQ1UHZGZG52bXdDS183cEVkdFo2NEstOE1uZnlZaUN3M1hkaVVtUHFmNjhZYVl2MWVid2x6dGZ0cGRYUlROT2NGVkNKMHJuZjUxNTJKUnczYl9XZkpuQ3FMMFJDM2tGUjQ2dmVEaW0tU2d6OGp0dkxUdUVnQUY1V0c4UWNiMDRi?oc=5\" target=\"_blank\"&gt;Женщина-водитель погибла в ДТП на дороге Мичуринского округа&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Мичуринская правда&lt;/font&gt; В Мичуринском округе в результате дорожно-транспортного происшествия погибла женщина-водитель. Госавтоинспекция устанавливает обстоятельства смертельного ДТП.",
-        "published_at": 1791004405311,
-        "article_url": "https://michpravda.ru/news/incident/2026-10-03/zhenschina-voditel-pogibla-v-dtp-na-doroge-michurinskogo-okruga-346259"
-      },
-      "expiresAt": 1791177205312,
-      "versionstamp": "90d0530d-ca1a-411a-bc33-c0e141d00dda"
-    },
     "[\"factor\",\"published_v2\",\"226ac4bff8f5ccad2caf8b390f07c6ff94e6b4d509984119030ae532b97ecbfe\"]": {
       "key": [
         "factor",
@@ -407,9 +363,9 @@
         "state",
         "last_regular"
       ],
-      "value": 1791175423631,
+      "value": 1791177771074,
       "expiresAt": null,
-      "versionstamp": "20d3cb32-ec0b-4a0f-8bed-e39ae1fea338"
+      "versionstamp": "1e494be2-2271-474c-8eb8-63ef1e10ef4a"
     },
     "[\"factor\",\"published_v2\",\"31ad2257d965a02c7bc2056d6ce50a32a04684ea94f1aa4267a5445407e08019\"]": {
       "key": [
@@ -1410,49 +1366,108 @@
       ],
       "value": {
         "ok": true,
-        "selected": 0,
-        "reason": "no new valid candidate",
+        "selected": 1,
+        "urgent": false,
+        "manual": false,
+        "score": 56,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
-          "scored": 0,
-          "accepted": 0,
+          "scored": 15,
+          "accepted": 1,
           "short_title": 0,
           "urgent_interval": 0,
           "regular_interval": 0,
           "duplicate_before_article": 0,
-          "event_duplicate_before_article": 0,
+          "event_duplicate_before_article": 1,
           "bad_url": 0,
           "article_title_mismatch": 0,
           "duplicate_after_article": 0,
           "event_duplicate_after_article": 0,
-          "gemini_fallback": 0,
+          "gemini_fallback": 1,
           "gemini_title_mismatch": 0,
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
           "text_duplicate": 0,
-          "editorial_filter_rejected": 300,
-          "editorial_no_event_action": 300,
+          "editorial_filter_rejected": 219,
+          "editorial_no_event_action": 219,
           "video_candidates": 0,
           "video_checked": 0,
           "video_rejected": 0,
           "video_validation": null,
           "external_video_candidates": 0,
           "external_video_checked": 0,
-          "search_video_queries": 0,
-          "search_video_candidates": 0,
-          "search_video_checked": 0,
-          "image_candidates": 0,
-          "media_checked": 0,
-          "media_selected": null,
-          "selected_media_source": null,
+          "search_video_queries": 7,
+          "search_video_candidates": 4,
+          "search_video_checked": 4,
+          "image_candidates": 1,
+          "media_checked": 1,
+          "media_selected": "image",
+          "selected_media_source": "jsonld",
           "media_rejected": null,
-          "top_candidates": []
+          "top_candidates": [],
+          "ai_provider": "none"
         },
-        "duration_ms": 787
+        "item": {
+          "title": "Банк России повысил курс доллара до ₽83,48 и снизил евро до ₽94,32 - Финансы Mail",
+          "source": "Финансы Mail",
+          "article_url": "https://finance.mail.ru/article/bank-rossii-povyisil-kurs-dollara-do-8348-i-snizil-evro-do-9432-69230848/",
+          "category": "ФИНАНСЫ"
+        },
+        "media": {
+          "type": "image",
+          "source_url": "https://resizer.mail.ru/p/84c5bf3e-d08f-5614-b27f-bfa347eae973/AQAzmjYhOuTK_4vXdT6aPY5-HdLC6tz7oC_Z3evFP58V6_mh7O_7vMQJZTTre0fSw_UoBmLGdJ6f1863sC0-AaawlNI.jpg"
+        },
+        "publication": {
+          "message": {
+            "recipient": {
+              "chat_type": "channel",
+              "chat_id": -78887448255074
+            },
+            "timestamp": 1791177794325,
+            "body": {
+              "mid": "mid.ffffb84095ab659e01a10a8423154baf",
+              "seq": 117386627928902580,
+              "text": "Банк России повысил курс доллара до ₽83,48 и снизил евро до ₽94,32\n\nЦентробанк утвердил официальный курс доллара выше ₽83,48 и евро на уровне ₽94,32\n\n🔗 Финансы Mail\n\n📢 ФАКТОР",
+              "attachments": [
+                {
+                  "payload": {
+                    "photo_id": 44497585992,
+                    "token": "XyRD/XXaUb9SIlQ4pkykHNJaYyT90+cgEFqB5T55Jr1kJ/dMFpiUe2Zh13EY+6foFFG8aJIc1QLu/CykbdUvUzTnE5DaGIxsJu573AL7OZi+YHYund8YqKVH4Tw4dnq0",
+                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8g-vhM3fdGxCErvdT5532AOhjfMfVvfoBKYlDsISiwlA"
+                  },
+                  "type": "image"
+                }
+              ],
+              "markup": [
+                {
+                  "from": 0,
+                  "length": 66,
+                  "type": "strong"
+                },
+                {
+                  "url": "https://finance.mail.ru/article/bank-rossii-povyisil-kurs-dollara-do-8348-i-snizil-evro-do-9432-69230848/",
+                  "from": 153,
+                  "length": 12,
+                  "type": "link"
+                },
+                {
+                  "from": 170,
+                  "length": 6,
+                  "type": "emphasized"
+                }
+              ]
+            },
+            "stat": {
+              "views": 1
+            },
+            "url": "https://max.ru/channel_faktormedia/AaEKhCMVS68"
+          }
+        },
+        "duration_ms": 24086
       },
       "expiresAt": null,
-      "versionstamp": "7b4f1dbf-20fb-4f97-a995-b269ead36b4e"
+      "versionstamp": "c6afc8de-217f-47e4-804d-0a4c58a0e2e4"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -2510,6 +2525,82 @@
       },
       "expiresAt": 1791348448927,
       "versionstamp": "e42820e6-4891-4750-bfdb-2768a9c49837"
+    },
+    "[\"factor\",\"published_v2\",\"9fbafbdc9f5d8ebfc0f85581d5bcff14751c57739df5ced45a5183a4e7147f22\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "9fbafbdc9f5d8ebfc0f85581d5bcff14751c57739df5ced45a5183a4e7147f22"
+      ],
+      "value": true,
+      "expiresAt": 1793769794483,
+      "versionstamp": "1cd234be-f8c9-4aae-b944-625114d9125f"
+    },
+    "[\"factor\",\"published\",\"95d63a9fa5a9f010bb833a47b2d9ca4be34949517f200d3708d645518ed358fe\"]": {
+      "key": [
+        "factor",
+        "published",
+        "95d63a9fa5a9f010bb833a47b2d9ca4be34949517f200d3708d645518ed358fe"
+      ],
+      "value": true,
+      "expiresAt": 1793769794484,
+      "versionstamp": "1e262338-64b8-4281-9eec-7ba03a3f2224"
+    },
+    "[\"factor\",\"published_story_v3\",\"a59ec2a75420d4a4fbd3c47d2756a210484de446d139324596e8d455c5ea4598\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "a59ec2a75420d4a4fbd3c47d2756a210484de446d139324596e8d455c5ea4598"
+      ],
+      "value": true,
+      "expiresAt": 1793769794485,
+      "versionstamp": "81c80e9f-b064-4f62-90e2-4f918a31cd08"
+    },
+    "[\"factor\",\"recent_title_v2\",1791177794486,\"ea172c5d9708c48b31f851539ca539b98d2ff038c6c9e395ebe2c8c095e54f87\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791177794486,
+        "ea172c5d9708c48b31f851539ca539b98d2ff038c6c9e395ebe2c8c095e54f87"
+      ],
+      "value": "Банк России повысил курс доллара до ₽83,48 и снизил евро до ₽94,32",
+      "expiresAt": 1793769794486,
+      "versionstamp": "bdead98c-1a30-4a7d-8d2e-70e38061a102"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"ea172c5d9708c48b31f851539ca539b98d2ff038c6c9e395ebe2c8c095e54f87\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "ea172c5d9708c48b31f851539ca539b98d2ff038c6c9e395ebe2c8c095e54f87"
+      ],
+      "value": "Банк России повысил курс доллара до ₽83,48 и снизил евро до ₽94,32",
+      "expiresAt": 1793769794487,
+      "versionstamp": "cba392b8-be1c-401c-9548-41ea5ff6c696"
+    },
+    "[\"factor\",\"published_event_v4\",\"664ef676255a27b86ce4f879bbd8e64156591c55a92e4da812d1a6ab0419ad61\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "664ef676255a27b86ce4f879bbd8e64156591c55a92e4da812d1a6ab0419ad61"
+      ],
+      "value": {
+        "category": "ФИНАНСЫ",
+        "family": "economy",
+        "anchors": [
+          "банк",
+          "повы",
+          "курс",
+          "долл",
+          "сниз",
+          "евро"
+        ],
+        "title": "Банк России повысил курс доллара до ₽83,48 и снизил евро до ₽94,32",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiqAFBVV95cUxPeWlCLTFianhaYzhySW90T2FSWTl2NG5oWnZPUG95djBidmR3bDJWMXlGR2VDUkdodmhvZlVpSEs2dU1UeVB2OHVWWGtFYWdKeUxVU19zZVJBX1g0Vzk1Qm5EX2ttWWFHN2FkcXA4YTZxSEcwaTNZWjBncFhET3ZaM1NRT0pTcHJQRWVHMUs5Rnh5aFpkSzc5Sy1JaUE5ZFdwclNKMkVBWlI?oc=5\" target=\"_blank\"&gt;Банк России повысил курс доллара до ₽83,48 и снизил евро до ₽94,32&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Финансы Mail&lt;/font&gt; Центробанк утвердил официальный курс доллара выше ₽83,48 и евро на уровне ₽94,32 Центробанк утвердил официальный курс доллара выше ₽83,48 и евро на уровне ₽94,32",
+        "published_at": 1791177794489,
+        "article_url": "https://finance.mail.ru/article/bank-rossii-povyisil-kurs-dollara-do-8348-i-snizil-evro-do-9432-69230848/"
+      },
+      "expiresAt": 1791350594489,
+      "versionstamp": "28134b15-cd9c-46d8-af71-01d0b0d60aa5"
     }
   }
 }
