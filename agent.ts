@@ -482,6 +482,106 @@ function stripHtml(value) {
         .replace(/__+/g, "")
         .trim();
 }
+function articleVisibleText(html) {
+    return stripHtml(
+        String(html || "")
+            .replace(/<script\\b[^>]*>[\\s\\S]*?<\\/script>/gi, " ")
+            .replace(/<style\\b[^>]*>[\\s\\S]*?<\\/style>/gi, " ")
+            .replace(/<noscript\\b[^>]*>[\\s\\S]*?<\\/noscript>/gi, " "),
+    ).slice(0, 12000);
+}
+
+const RU_MONTHS = {
+    января: 0, февраля: 1, марта: 2, апреля: 3, мая: 4, июня: 5,
+    июля: 6, августа: 7, сентября: 8, октября: 9, ноября: 10, декабря: 11,
+};
+
+function parseRussianDate(day, monthName, year, fallbackYear) {
+    const month = RU_MONTHS[String(monthName || "").toLowerCase()];
+    const y = Number(year || fallbackYear);
+    const d = Number(day);
+    if (month === undefined || !Number.isInteger(y) || !Number.isInteger(d)) return 0;
+    const ts = Date.UTC(y, month, d, 12, 0, 0);
+    return Number.isFinite(ts) ? ts : 0;
+}
+
+function extractEventDateCandidates(text, fallbackYear) {
+    const source = String(text || "");
+    const result = [];
+    const add = (timestamp, index, score) => {
+        if (!timestamp) return;
+        result.push({ timestamp, index, score });
+    };
+
+    for (const match of source.matchAll(/\\b(\\d{1,2})\\s+(января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря)(?:\\s+(20\\d{2}))?\\b/gi)) {
+        const index = match.index ?? 0;
+        const timestamp = parseRussianDate(match[1], match[2], match[3], fallbackYear);
+        const context = source.slice(Math.max(0, index - 180), Math.min(source.length, index + match[0].length + 180));
+        const score = /(?:произош|случил|пожар|авари|дтп|круш|погиб|пострад|взорв|обруш|атак|напад|задерж|возгор|разруш|начал|вспых|сообщил)/i.test(context) ? 3 : 0;
+        add(timestamp, index, score);
+    }
+
+    for (const match of source.matchAll(/\\b(20\\d{2})[-.](\\d{1,2})[-.](\\d{1,2})\\b/g)) {
+        const index = match.index ?? 0;
+        const timestamp = Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3]), 12, 0, 0);
+        const context = source.slice(Math.max(0, index - 180), Math.min(source.length, index + match[0].length + 180));
+        const score = /(?:произош|случил|пожар|авари|дтп|круш|погиб|пострад|взорв|обруш|атак|напад|задерж|возгор|разруш|начал|вспых|сообщил)/i.test(context) ? 3 : 0;
+        add(timestamp, index, score);
+    }
+
+    for (const match of source.matchAll(/\\b(\\d{1,2})[./](\\d{1,2})[./](20\\d{2})\\b/g)) {
+        const index = match.index ?? 0;
+        const timestamp = Date.UTC(Number(match[3]), Number(match[2]) - 1, Number(match[1]), 12, 0, 0);
+        const context = source.slice(Math.max(0, index - 180), Math.min(source.length, index + match[0].length + 180));
+        const score = /(?:произош|случил|пожар|авари|дтп|круш|погиб|пострад|взорв|обруш|атак|напад|задерж|возгор|разруш|начал|вспых|сообщил)/i.test(context) ? 3 : 0;
+        add(timestamp, index, score);
+    }
+
+    return result;
+}
+
+function hasMaterialNewDevelopment(text) {
+    return /(?:возбудил(?:и)?s+уголовн|задержал(?:и)?|арестовал(?:и)?|предъявил(?:и)?s+обвин|приговорил(?:и)?|назначил(?:и)?|уволил(?:и)?|подписал(?:и)?|утвердил(?:и)?|вступил(?:о)?s+вs+силу|объявил(?:и)?|принял(?:и)?s+решение|новыеs+данные|новыеs+подробности|сталоs+известно|обновленн(?:ые|ая)\s+данные|снова\s+произош|повторн(?:ый|о)\s+инцидент|вновь\s+загор|снова\s+загор)/i.test(String(text || ""));
+}
+
+function passesFreshEventDateFilter(item, articleMedia) {
+    const pubTimestamp = Date.parse(item?.pubDate || "") || Date.now();
+    const fallbackYear = new Date(pubTimestamp).getUTCFullYear();
+    const source = [
+        item?.title || "",
+        item?.description || "",
+        articleMedia?.description || "",
+        articleMedia?.pageText || "",
+    ].join(" ");
+    const candidates = extractEventDateCandidates(source, fallbackYear);
+    if (!candidates.length) return { pass: true, reason: "no_explicit_event_date" };
+
+    const relevant = candidates
+        .filter((entry) => entry.score > 0)
+        .sort((a, b) => (b.score - a.score) || (b.timestamp - a.timestamp));
+
+    if (!relevant.length) return { pass: true, reason: "date_not_linked_to_event" };
+
+    const eventTimestamp = relevant[0].timestamp;
+    const ageMs = pubTimestamp - eventTimestamp;
+    const stale = ageMs > 48 * 60 * 60 * 1000;
+
+    if (stale && !hasMaterialNewDevelopment(source)) {
+        return {
+            pass: false,
+            reason: "old_event_new_article",
+            event_date: new Date(eventTimestamp).toISOString(),
+            article_date: new Date(pubTimestamp).toISOString(),
+        };
+    }
+
+    return {
+        pass: true,
+        reason: stale ? "old_event_with_new_development" : "fresh_event",
+        event_date: new Date(eventTimestamp).toISOString(),
+    };
+}
+
 function escapeHtml(value) {
     return value
         .replace(/&/g, "&amp;")
@@ -1813,6 +1913,7 @@ async function extractArticleMedia(item) {
         sourceName,
         title: pageTitle || item.title,
         description: pageDescription,
+        pageText: articleVisibleText(html),
         rejectedReason: "",
     };
 }
@@ -4204,7 +4305,25 @@ async function chooseCandidate(items, urgentAllowed, regularAllowed, diagnostics
         }
 
         // --------------------------------------------------------
-        // STEP 3 — EVENT DEDUP
+        // STEP 3 — EVENT FRESHNESS
+        // A newly published article must not resurrect an old event.
+        // Allow a stale event only when the article contains a material
+        // new development.
+        // --------------------------------------------------------
+        const freshness = passesFreshEventDateFilter(item, articleMedia);
+        if (!freshness.pass) {
+            diagnostics && diagnostics.old_event_new_article++;
+            console.log(
+                "Rejected: old event in new article:",
+                item.title,
+                freshness.event_date,
+                freshness.article_date,
+            );
+            continue;
+        }
+
+        // --------------------------------------------------------
+        // STEP 4 — EVENT DEDUP
         // --------------------------------------------------------
         // This is the important fix: different articles about the same
         // real-world event must not become separate channel posts.
@@ -4320,6 +4439,7 @@ function createDiagnostics() {
         article_title_mismatch: 0,
         duplicate_after_article: 0,
         event_duplicate_after_article: 0,
+        old_event_new_article: 0,
 
         gemini_fallback: 0,
         gemini_title_mismatch: 0,
