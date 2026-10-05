@@ -363,9 +363,9 @@
         "state",
         "last_regular"
       ],
-      "value": 1791177771074,
+      "value": 1791180076327,
       "expiresAt": null,
-      "versionstamp": "1e494be2-2271-474c-8eb8-63ef1e10ef4a"
+      "versionstamp": "96096554-4456-4db9-b5ca-1bb07193e4b7"
     },
     "[\"factor\",\"published_v2\",\"31ad2257d965a02c7bc2056d6ce50a32a04684ea94f1aa4267a5445407e08019\"]": {
       "key": [
@@ -1366,13 +1366,109 @@
       ],
       "value": {
         "ok": true,
-        "selected": 0,
-        "reason": "publication intervals not reached",
+        "selected": 1,
+        "urgent": false,
+        "manual": false,
+        "score": 54,
         "rss_total": 300,
-        "duration_ms": 552
+        "diagnostics": {
+          "rss_total": 300,
+          "scored": 15,
+          "accepted": 1,
+          "short_title": 0,
+          "urgent_interval": 0,
+          "regular_interval": 0,
+          "duplicate_before_article": 0,
+          "event_duplicate_before_article": 0,
+          "bad_url": 0,
+          "article_title_mismatch": 0,
+          "duplicate_after_article": 0,
+          "event_duplicate_after_article": 0,
+          "old_event_new_article": 0,
+          "gemini_fallback": 1,
+          "gemini_title_mismatch": 0,
+          "urgent_interval_after_gemini": 0,
+          "regular_interval_after_gemini": 0,
+          "text_duplicate": 0,
+          "editorial_filter_rejected": 221,
+          "editorial_no_event_action": 205,
+          "video_candidates": 0,
+          "video_checked": 0,
+          "video_rejected": 0,
+          "video_validation": null,
+          "external_video_candidates": 3,
+          "external_video_checked": 3,
+          "search_video_queries": 13,
+          "search_video_candidates": 1,
+          "search_video_checked": 0,
+          "image_candidates": 1,
+          "media_checked": 1,
+          "media_selected": "image",
+          "selected_media_source": "jsonld",
+          "media_rejected": null,
+          "top_candidates": [],
+          "ai_provider": "none"
+        },
+        "item": {
+          "title": "Преподаватель Президентской академии на Урале представила креативные индустрии на выставке TechnoBuild - Областная газета | Свердловская область",
+          "source": "Областная газета",
+          "article_url": "https://oblgazeta.ru/pressreleases/2026/10/167903/",
+          "category": "ПРОМЫШЛЕННОСТЬ"
+        },
+        "media": {
+          "type": "image",
+          "source_url": "https://oblgazeta.ru/wp-content/uploads/2026/10/%D0%A2%D0%B5%D1%85%D0%BD%D0%BE%D0%B1%D0%B8%D0%BB%D0%B4-_%D1%80%D0%B5%D0%B7%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%82.jpg"
+        },
+        "publication": {
+          "message": {
+            "recipient": {
+              "chat_type": "channel",
+              "chat_id": -78887448255074
+            },
+            "timestamp": 1791180096013,
+            "body": {
+              "mid": "mid.ffffb84095ab659e01a10aa7420d53d5",
+              "seq": 117386778772329420,
+              "text": "Преподаватель Президентской академии на Урале представила креативные индустрии на выставке TechnoBuild\n\nДоцент кафедры экономики и управления вуза Светлана Маковкина стала модератором сессии, посвященной легендарному сысертскому фарфору.\n\n🔗 Областная газета\n\n📢 ФАКТОР",
+              "attachments": [
+                {
+                  "payload": {
+                    "photo_id": 44507269960,
+                    "token": "omY4pyaJYFYcaJ/XOBlXctjFnpLRHOjHTXhTDYmIoR638vPB/OoVUuE3BWzAsJUJ1nnK77pSZ/GFngLiXKUxwoawjHb+eSFg1Qb08ArBRt0=",
+                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8p57McEgYhRyubL_lBEQfM-hjfMfVvfoBKYlDsISiwlA"
+                  },
+                  "type": "image"
+                }
+              ],
+              "markup": [
+                {
+                  "from": 0,
+                  "length": 102,
+                  "type": "strong"
+                },
+                {
+                  "url": "https://oblgazeta.ru/pressreleases/2026/10/167903/",
+                  "from": 242,
+                  "length": 16,
+                  "type": "link"
+                },
+                {
+                  "from": 263,
+                  "length": 6,
+                  "type": "emphasized"
+                }
+              ]
+            },
+            "stat": {
+              "views": 1
+            },
+            "url": "https://max.ru/channel_faktormedia/AaEKp0INU9U"
+          }
+        },
+        "duration_ms": 20423
       },
       "expiresAt": null,
-      "versionstamp": "3db33a2f-6c3c-4b42-a37a-dba17f42e8e1"
+      "versionstamp": "17d397fc-d15d-4b74-af26-cb1fabfea9d8"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -2731,6 +2827,85 @@
       },
       "expiresAt": 1791351832087,
       "versionstamp": "1d907ead-2210-4ef8-aa70-eb34189fe67d"
+    },
+    "[\"factor\",\"published_v2\",\"af873f6e842de871ac76c3cd31b61844f1ff11cd5b9f5d60d5508b4c88952a3b\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "af873f6e842de871ac76c3cd31b61844f1ff11cd5b9f5d60d5508b4c88952a3b"
+      ],
+      "value": true,
+      "expiresAt": 1793772096155,
+      "versionstamp": "bd1ecd72-f2bf-4d00-b92a-640ec5216a28"
+    },
+    "[\"factor\",\"published\",\"27b3a43fefcb6dc6a2f967113e1941af40958fa9e0db183030d2f62ffb77e6ea\"]": {
+      "key": [
+        "factor",
+        "published",
+        "27b3a43fefcb6dc6a2f967113e1941af40958fa9e0db183030d2f62ffb77e6ea"
+      ],
+      "value": true,
+      "expiresAt": 1793772096156,
+      "versionstamp": "474217a5-f1f2-4707-9258-6db83c8554d6"
+    },
+    "[\"factor\",\"published_story_v3\",\"6a9d95c4cd44606a2e9ddcdcbc1665ca67306f3058c1940fb981b565e1ec0541\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "6a9d95c4cd44606a2e9ddcdcbc1665ca67306f3058c1940fb981b565e1ec0541"
+      ],
+      "value": true,
+      "expiresAt": 1793772096157,
+      "versionstamp": "309f026f-1026-44b8-8fd2-2f2c7bdc2506"
+    },
+    "[\"factor\",\"recent_title_v2\",1791180096158,\"34705b95fc8422d047519e9d376025c639f3e4eeb4deca41ca4350c170407a4f\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791180096158,
+        "34705b95fc8422d047519e9d376025c639f3e4eeb4deca41ca4350c170407a4f"
+      ],
+      "value": "Преподаватель Президентской академии на Урале представила креативные индустрии на выставке TechnoBuild",
+      "expiresAt": 1793772096158,
+      "versionstamp": "aab668eb-5b66-45da-a805-97c09c16266f"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"34705b95fc8422d047519e9d376025c639f3e4eeb4deca41ca4350c170407a4f\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "34705b95fc8422d047519e9d376025c639f3e4eeb4deca41ca4350c170407a4f"
+      ],
+      "value": "Преподаватель Президентской академии на Урале представила креативные индустрии на выставке TechnoBuild",
+      "expiresAt": 1793772096159,
+      "versionstamp": "91796006-66f9-4f83-a28b-bd40fa3be5e3"
+    },
+    "[\"factor\",\"published_event_v4\",\"dea23053f6cb7565b521a722d7d6f5efccf0e08ccf7abc76d101072e41e4bb5e\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "dea23053f6cb7565b521a722d7d6f5efccf0e08ccf7abc76d101072e41e4bb5e"
+      ],
+      "value": {
+        "category": "ПРОМЫШЛЕННОСТЬ",
+        "family": "politics",
+        "anchors": [
+          "преп",
+          "през",
+          "акад",
+          "урал",
+          "пред",
+          "креа",
+          "инду",
+          "выст",
+          "tech"
+        ],
+        "title": "Преподаватель Президентской академии на Урале представила креативные индустрии на выставке TechnoBuild",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiX0FVX3lxTE5MRU92dlZTSVdDd2p6MFBHVmxYVmZnT0NTMlVFVDJ4cGtFRmJnWVk3b2ZNZ1FHSTRyMUtTOU9xOUpfTnZwa2IzcDZKZU1oUFdoLWNSRVlkdFhWQmI5b2FZ?oc=5\" target=\"_blank\"&gt;Преподаватель Президентской академии на Урале представила креативные индустрии на выставке TechnoBuild&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Областная газета | Свердловская область&lt;/font&gt; Доцент кафедры экономики и управления вуза Светлана Маковкина стала модератором сессии, посвященной легендарному сысертскому фарфору. Доцент кафедры экономики и управления вуза Светлана Маковкина стала модератором сессии, посвященной легендарному сысертскому фарфору.",
+        "published_at": 1791180096161,
+        "article_url": "https://oblgazeta.ru/pressreleases/2026/10/167903/"
+      },
+      "expiresAt": 1791352896161,
+      "versionstamp": "7a17e98a-9605-4056-8e00-deb4c6a8c71f"
     }
   }
 }
