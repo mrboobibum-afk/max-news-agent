@@ -2650,6 +2650,81 @@ function detectUrgency(item) {
     return urgentPatterns.some((pattern) => text.includes(pattern));
 }
 // ============================================================
+// EDITORIAL EVENT FILTER
+// ============================================================
+// This is the missing "newsroom" gate before ranking.
+// It rejects articles that are technically new in RSS but are not
+// actual news events: reviews, explainers, SEO/service pages,
+// retrospectives and generic expert commentary.
+//
+// Principle:
+//   EVENT -> ACTION / CHANGE -> CONSEQUENCE
+//
+// It is intentionally conservative: broad topics remain allowed,
+// but a candidate must contain at least one concrete event/action
+// signal unless it is an explicit high-value institutional/economic
+// change. This keeps the existing architecture and scoring intact.
+// ============================================================
+const EDITORIAL_GARBAGE_PATTERNS = [
+    /\\b(?:обзор|аналитика|колонк|мнение|разбор|экспертн(?:ый|ая|ое)|исследован(?:ие|ия)|рейтинг|подборк|гид|инструкция|как\s+(?:выбрать|купить|получить|сэкономить)|тест\-драйв|прогноз)\\b/i,
+    /\\b(?:курс(?:ы)?\s+(?:валют|доллара|евро)|котировк(?:и|а)|погода\s+на|гороскоп|афиша|телепрограмма)\\b/i,
+    /\\b(?:вспоминаем|вспомнили|история\s+.*(?:вызвала|получила)\s+резонанс|спустя\s+годы|ранее\s+произош|хроника)\\b/i,
+    /\\b(?:5|7|10|12|20)\\s+(?:причин|способов|фактов|советов|идей|мест|вещей)\\b/i,
+];
+
+const EDITORIAL_EVENT_PATTERNS = [
+    /\\b(?:погиб|погибли|погибло|пострадал|пострадали|ранен|пропал|спас|эваку|задерж|арест|завел|возбудил|предъявил|осудил)\\w*/i,
+    /\\b(?:упал|разбил|разруш|обруш|взорв|загор|сгорел|затонул|столкнов|крушен|авари|катастроф|обстрел|атак|удар|взрыв|пожар|наводнен|землетряс)\\w*/i,
+    /\\b(?:принял|приняли|одобрил|утвердил|подписал|вступил\\s+в\\s+силу|отменил|запретил|разрешил|назначил|уволил|избрал|объявил|решил|ввел|ввели|изменил|повысил|снизил|увеличил|сократил)\\w*/i,
+    /\\b(?:запустил|запустили|начал|началась|завершил|завершили|закрыл|закрыли|открыл|открыли|возобновил|восстановил|остановил|приостановил)\\w*/i,
+    /\\b(?:вырос|выросли|снизился|снизились|подорожал|подорожали|подешевел|подешевели|обвалил|обвалились|рухнул|рухнули)\\w*/i,
+    /\\b(?:самолет|самолёт|вертолет|вертолёт|поезд|судно|корабл)\\w*\\s+(?:упал|разбил|потерпел|сошел|сошёл|столкнул)\\w*/i,
+];
+
+const EDITORIAL_INSTITUTIONAL_PATTERNS = [
+    /\\b(?:президент|правительств|госдум|совет\s+федерации|министерств|цб|центробанк|суд|прокуратур|следств|регулятор)\\w*\\b.*\\b(?:решил|решили|принял|приняли|утвердил|одобрил|подписал|ввел|вступил|запретил|разрешил|назначил|объявил|приговор|дело|санкц|указ|закон|ставк)\\w*/i,
+    /\\b(?:рубл|доллар|евро|ставк|инфляц|налог|бюджет|цены|акции|нефть|газ|производств|санкц)\\w*\\b.*(?:%|\\b(?:млрд|млн|тыс)\\b|\\b(?:вырос|сниз|повыс|пониз|измен|ввел|отмен)\\w*)/i,
+];
+
+const EDITORIAL_VISUAL_HINT_PATTERNS = [
+    /\\b(?:видео|кадр(?:ы|ов)|очевидц|снял(?:и|а)|момент(?:ы|а)|фото|снимк(?:и|ов)|запись|появилось\\s+видео)\\b/i,
+];
+
+function passesEditorialEventFilter(item) {
+    const text = normalizeForHash(
+        \`${item?.title || ""} ${item?.description || ""}\`,
+    );
+
+    // Hard reject obvious non-news/service material.
+    if (EDITORIAL_GARBAGE_PATTERNS.some((pattern) => pattern.test(text))) {
+        return {
+            pass: false,
+            reason: "editorial_non_event",
+            visual_hint: false,
+        };
+    }
+
+    const eventSignal = EDITORIAL_EVENT_PATTERNS.some((pattern) => pattern.test(text));
+    const institutionalSignal = EDITORIAL_INSTITUTIONAL_PATTERNS.some((pattern) => pattern.test(text));
+    const visualHint = EDITORIAL_VISUAL_HINT_PATTERNS.some((pattern) => pattern.test(text));
+
+    // A visual marker alone is not enough: it must still describe an event.
+    if (!eventSignal && !institutionalSignal) {
+        return {
+            pass: false,
+            reason: "no_event_action",
+            visual_hint: visualHint,
+        };
+    }
+
+    return {
+        pass: true,
+        reason: visualHint ? "event_with_visual_hint" : "event",
+        visual_hint: visualHint,
+    };
+}
+
+// ============================================================
 // NEWS SCORE
 // ============================================================
 function scoreNewsItem(item) {
@@ -2685,6 +2760,18 @@ function scoreNewsItem(item) {
     else {
         score += 2;
     }
+    // ----------------------------------------------------------
+    // Редакционный инфоповод
+    // ----------------------------------------------------------
+    const editorial = passesEditorialEventFilter(item);
+    if (editorial.visual_hint) {
+        // "Видео/кадры/очевидцы" is a strong direct-feed signal, but
+        // media is still verified later by the existing media branch.
+        score += 12;
+    } else {
+        score += 4;
+    }
+
     // ----------------------------------------------------------
     // Срочность
     // ----------------------------------------------------------
@@ -4073,6 +4160,21 @@ async function chooseCandidate(items, urgentAllowed, regularAllowed, diagnostics
                 diagnostics && diagnostics.short_title++;
                 return false;
             }
+
+            const editorial = passesEditorialEventFilter(item);
+            if (!editorial.pass) {
+                diagnostics && diagnostics.editorial_filter_rejected++;
+                if (editorial.reason === "no_event_action") {
+                    diagnostics && diagnostics.editorial_no_event_action++;
+                }
+                console.log(
+                    "Rejected by editorial event filter:",
+                    editorial.reason,
+                    item.title,
+                );
+                return false;
+            }
+
             return true;
         })
         .map(scoreNewsItem)
@@ -4256,6 +4358,8 @@ function createDiagnostics() {
         urgent_interval_after_gemini: 0,
         regular_interval_after_gemini: 0,
         text_duplicate: 0,
+        editorial_filter_rejected: 0,
+        editorial_no_event_action: 0,
 
         video_candidates: 0,
         video_checked: 0,
