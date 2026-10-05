@@ -48,9 +48,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791175598839,
+      "value": 1791177836594,
       "expiresAt": null,
-      "versionstamp": "ed4ccd42-f876-4741-8612-9448027b85a0"
+      "versionstamp": "a7bd68ab-f268-4d80-9607-9c4c65b3a0a4"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -1367,56 +1367,56 @@
       "value": {
         "ok": true,
         "selected": 1,
-        "urgent": false,
+        "urgent": true,
         "manual": false,
-        "score": 56,
+        "score": 50,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
-          "scored": 15,
+          "scored": 12,
           "accepted": 1,
           "short_title": 0,
           "urgent_interval": 0,
-          "regular_interval": 0,
+          "regular_interval": 71,
           "duplicate_before_article": 0,
-          "event_duplicate_before_article": 1,
-          "bad_url": 0,
+          "event_duplicate_before_article": 2,
+          "bad_url": 1,
           "article_title_mismatch": 0,
           "duplicate_after_article": 0,
           "event_duplicate_after_article": 0,
-          "gemini_fallback": 1,
+          "gemini_fallback": 0,
           "gemini_title_mismatch": 0,
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
           "text_duplicate": 0,
-          "editorial_filter_rejected": 219,
-          "editorial_no_event_action": 219,
+          "editorial_filter_rejected": 217,
+          "editorial_no_event_action": 204,
           "video_candidates": 0,
           "video_checked": 0,
           "video_rejected": 0,
           "video_validation": null,
-          "external_video_candidates": 0,
-          "external_video_checked": 0,
+          "external_video_candidates": 5,
+          "external_video_checked": 2,
           "search_video_queries": 7,
           "search_video_candidates": 4,
-          "search_video_checked": 4,
-          "image_candidates": 1,
+          "search_video_checked": 12,
+          "image_candidates": 5,
           "media_checked": 1,
           "media_selected": "image",
           "selected_media_source": "jsonld",
           "media_rejected": null,
           "top_candidates": [],
-          "ai_provider": "none"
+          "ai_provider": "gemini"
         },
         "item": {
-          "title": "Банк России повысил курс доллара до ₽83,48 и снизил евро до ₽94,32 - Финансы Mail",
-          "source": "Финансы Mail",
-          "article_url": "https://finance.mail.ru/article/bank-rossii-povyisil-kurs-dollara-do-8348-i-snizil-evro-do-9432-69230848/",
-          "category": "ФИНАНСЫ"
+          "title": "В Новом Уренгое в ДТП погибла женщина - URA.RU",
+          "source": "URA.RU",
+          "article_url": "https://ura.news/news/1053133352",
+          "category": "ПРОИСШЕСТВИЯ"
         },
         "media": {
           "type": "image",
-          "source_url": "https://resizer.mail.ru/p/84c5bf3e-d08f-5614-b27f-bfa347eae973/AQAzmjYhOuTK_4vXdT6aPY5-HdLC6tz7oC_Z3evFP58V6_mh7O_7vMQJZTTre0fSw_UoBmLGdJ6f1863sC0-AaawlNI.jpg"
+          "source_url": "https://cdn-img.ura.news/248/599/2e5f185d-c129-4dbe-8d8b-e2c9887c5d21/lweoaz/XL-1440.1.5.webp"
         },
         "publication": {
           "message": {
@@ -1424,17 +1424,17 @@
               "chat_type": "channel",
               "chat_id": -78887448255074
             },
-            "timestamp": 1791177794325,
+            "timestamp": 1791177878631,
             "body": {
-              "mid": "mid.ffffb84095ab659e01a10a8423154baf",
-              "seq": 117386627928902580,
-              "text": "Банк России повысил курс доллара до ₽83,48 и снизил евро до ₽94,32\n\nЦентробанк утвердил официальный курс доллара выше ₽83,48 и евро на уровне ₽94,32\n\n🔗 Финансы Mail\n\n📢 ФАКТОР",
+              "mid": "mid.ffffb84095ab659e01a10a856c673c5d",
+              "seq": 117386633453976670,
+              "text": "Женщина погибла в ДТП в Новом Уренгое\n\n🔗 URA.RU\n\n📢 ФАКТОР",
               "attachments": [
                 {
                   "payload": {
-                    "photo_id": 44497585992,
-                    "token": "XyRD/XXaUb9SIlQ4pkykHNJaYyT90+cgEFqB5T55Jr1kJ/dMFpiUe2Zh13EY+6foFFG8aJIc1QLu/CykbdUvUzTnE5DaGIxsJu573AL7OZi+YHYund8YqKVH4Tw4dnq0",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8g-vhM3fdGxCErvdT5532AOhjfMfVvfoBKYlDsISiwlA"
+                    "photo_id": 44497883720,
+                    "token": "Y7M/1tMnnSCjcPz7NP5exKcVRVqahUqJ1Y4Y4yb8dcbUXchY8tPjzteeK8TVuyh+RDyA8MlpEpTXYf71fbggMFE7gmn99lWRZxYOrq0TQQs=",
+                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8KvzhHsS8sLiq9rhYP32HL-hjfMfVvfoBKYlDsISiwlA"
                   },
                   "type": "image"
                 }
@@ -1442,17 +1442,17 @@
               "markup": [
                 {
                   "from": 0,
-                  "length": 66,
+                  "length": 37,
                   "type": "strong"
                 },
                 {
-                  "url": "https://finance.mail.ru/article/bank-rossii-povyisil-kurs-dollara-do-8348-i-snizil-evro-do-9432-69230848/",
-                  "from": 153,
-                  "length": 12,
+                  "url": "https://ura.news/news/1053133352",
+                  "from": 42,
+                  "length": 6,
                   "type": "link"
                 },
                 {
-                  "from": 170,
+                  "from": 53,
                   "length": 6,
                   "type": "emphasized"
                 }
@@ -1461,13 +1461,13 @@
             "stat": {
               "views": 1
             },
-            "url": "https://max.ru/channel_faktormedia/AaEKhCMVS68"
+            "url": "https://max.ru/channel_faktormedia/AaEKhWxnPF0"
           }
         },
-        "duration_ms": 24086
+        "duration_ms": 42730
       },
       "expiresAt": null,
-      "versionstamp": "c6afc8de-217f-47e4-804d-0a4c58a0e2e4"
+      "versionstamp": "9871b111-656c-444b-9f2f-e1c6dd9b9886"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -2601,6 +2601,80 @@
       },
       "expiresAt": 1791350594489,
       "versionstamp": "28134b15-cd9c-46d8-af71-01d0b0d60aa5"
+    },
+    "[\"factor\",\"published_v2\",\"5143dd445176e1802fb10c2c9d0f3dddb8b2f476751f263894083db163915cfb\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "5143dd445176e1802fb10c2c9d0f3dddb8b2f476751f263894083db163915cfb"
+      ],
+      "value": true,
+      "expiresAt": 1793769878755,
+      "versionstamp": "95d6102f-6316-44ef-b5b2-02e8202d0252"
+    },
+    "[\"factor\",\"published\",\"d0b42294eb810d3cb4f578dd8ae38b7523c70602f5590b625faba77b29ebf1e4\"]": {
+      "key": [
+        "factor",
+        "published",
+        "d0b42294eb810d3cb4f578dd8ae38b7523c70602f5590b625faba77b29ebf1e4"
+      ],
+      "value": true,
+      "expiresAt": 1793769878756,
+      "versionstamp": "4bd5e5e6-1711-4e28-9d12-5e877806f05e"
+    },
+    "[\"factor\",\"published_story_v3\",\"5c321d7ae1ad36ded5e7ac419cd3f28a57544ab972bfeb4247d71c8b4b29c7eb\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "5c321d7ae1ad36ded5e7ac419cd3f28a57544ab972bfeb4247d71c8b4b29c7eb"
+      ],
+      "value": true,
+      "expiresAt": 1793769878757,
+      "versionstamp": "c6661e2f-2eba-4a0b-a3b5-2572a9f8a0ca"
+    },
+    "[\"factor\",\"recent_title_v2\",1791177878759,\"75ad0b7d9a9def9113892c9fdd1450dfc7e40d300768569b9ec212dcdeb6e815\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791177878759,
+        "75ad0b7d9a9def9113892c9fdd1450dfc7e40d300768569b9ec212dcdeb6e815"
+      ],
+      "value": "Женщина погибла в ДТП в Новом Уренгое",
+      "expiresAt": 1793769878759,
+      "versionstamp": "3aa71233-ce09-4608-bc74-646f692d611e"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"75ad0b7d9a9def9113892c9fdd1450dfc7e40d300768569b9ec212dcdeb6e815\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "75ad0b7d9a9def9113892c9fdd1450dfc7e40d300768569b9ec212dcdeb6e815"
+      ],
+      "value": "Женщина погибла в ДТП в Новом Уренгое",
+      "expiresAt": 1793769878760,
+      "versionstamp": "d0d9353b-e3fd-4857-aa6d-2d7e35aa2564"
+    },
+    "[\"factor\",\"published_event_v4\",\"8320b73de7fdf58bde36f9f4d09fc9e4f6ad4ff2b07c3fb396ec4accc20b7ae5\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "8320b73de7fdf58bde36f9f4d09fc9e4f6ad4ff2b07c3fb396ec4accc20b7ae5"
+      ],
+      "value": {
+        "category": "ПРОИСШЕСТВИЯ",
+        "family": "accident",
+        "anchors": [
+          "ново",
+          "урен",
+          "поги",
+          "женщ"
+        ],
+        "title": "В Новом Уренгое в ДТП погибла женщина",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiR0FVX3lxTE9xS3lablB0LWZhcDJ3M2NwOWptMV9JS0d1NE83bld3OGd5d1QyQVhJcW5YSDlNZjhOWEtzOHN6ZVRQYjB2TFg0?oc=5\" target=\"_blank\"&gt;В Новом Уренгое в ДТП погибла женщина&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;URA.RU&lt;/font&gt; В Новом Уренгое произошло смертельное ДТП. В результате аварии погибла женщина. Читайте на URA.RU",
+        "published_at": 1791177878761,
+        "article_url": "https://ura.news/news/1053133352"
+      },
+      "expiresAt": 1791350678761,
+      "versionstamp": "08c383fa-dd3d-4947-ad77-8dd6ab60991b"
     }
   }
 }
