@@ -1366,115 +1366,13 @@
       ],
       "value": {
         "ok": true,
-        "selected": 1,
-        "urgent": true,
-        "manual": false,
-        "score": 42,
+        "selected": 0,
+        "reason": "publication intervals not reached",
         "rss_total": 300,
-        "diagnostics": {
-          "rss_total": 300,
-          "scored": 13,
-          "accepted": 1,
-          "short_title": 0,
-          "urgent_interval": 0,
-          "regular_interval": 68,
-          "duplicate_before_article": 0,
-          "event_duplicate_before_article": 6,
-          "bad_url": 1,
-          "article_title_mismatch": 0,
-          "duplicate_after_article": 0,
-          "event_duplicate_after_article": 0,
-          "old_event_new_article": 0,
-          "gemini_fallback": 1,
-          "gemini_title_mismatch": 0,
-          "urgent_interval_after_gemini": 0,
-          "regular_interval_after_gemini": 0,
-          "text_duplicate": 0,
-          "editorial_filter_rejected": 219,
-          "editorial_no_event_action": 205,
-          "video_candidates": 0,
-          "video_checked": 0,
-          "video_rejected": 0,
-          "video_validation": null,
-          "external_video_candidates": 1,
-          "external_video_checked": 1,
-          "search_video_queries": 10,
-          "search_video_candidates": 1,
-          "search_video_checked": 0,
-          "image_candidates": 12,
-          "media_checked": 1,
-          "media_selected": "image",
-          "selected_media_source": "jsonld",
-          "media_rejected": null,
-          "top_candidates": [],
-          "ai_provider": "none"
-        },
-        "item": {
-          "title": "Дикий кабан погиб под колесами авто во Владивостоке - PrimaMedia.ru",
-          "source": "PrimaMedia.ru",
-          "article_url": "https://primamedia.ru/news/2640616/",
-          "category": "АВТО"
-        },
-        "media": {
-          "type": "image",
-          "source_url": "https://primamedia.ru/f/big/6432/6431143.jpg?6c155e79591d5414888585deb2080475"
-        },
-        "publication": {
-          "message": {
-            "recipient": {
-              "chat_type": "channel",
-              "chat_id": -78887448255074
-            },
-            "timestamp": 1791179031939,
-            "body": {
-              "mid": "mid.ffffb84095ab659e01a10a97058332ff",
-              "seq": 117386709037167360,
-              "text": "Дикий кабан погиб под колесами авто во Владивостоке - PrimaMedia.ru\n\nКабан погиб после столкновения с автомобилем на Шаморовской трассе во Владивостоке. Очевидцы сообщили о ДТП и сняли последствия аварии на видео.\n\n🔗 PrimaMedia.ru\n\n📢 ФАКТОР",
-              "attachments": [
-                {
-                  "payload": {
-                    "photo_id": 44502739016,
-                    "token": "wU7o0QMoVF+HufPpZ2U0zmcuXLfVE8yBtKBv2tBE5vSQQLbm7zyogr4JwONqb7UEvUWKPDrCwLJmLT3NR10ZLCV1C6CqBB20zdscGR6gTsf/RcJhtt3XwHkmp1gc4hZm",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr87DZgjZUADvV03_v__wCKfOhjfMfVvfoBKYlDsISiwlA"
-                  },
-                  "type": "image"
-                }
-              ],
-              "markup": [
-                {
-                  "from": 0,
-                  "length": 67,
-                  "type": "strong"
-                },
-                {
-                  "url": "PrimaMedia.ru",
-                  "from": 54,
-                  "length": 13,
-                  "type": "link"
-                },
-                {
-                  "url": "https://primamedia.ru/news/2640616/",
-                  "from": 218,
-                  "length": 13,
-                  "type": "link"
-                },
-                {
-                  "from": 236,
-                  "length": 6,
-                  "type": "emphasized"
-                }
-              ]
-            },
-            "stat": {
-              "views": 1
-            },
-            "url": "https://max.ru/channel_faktormedia/AaEKlwWDMv8"
-          }
-        },
-        "duration_ms": 23755
+        "duration_ms": 663
       },
       "expiresAt": null,
-      "versionstamp": "ab8b1f29-7e31-4014-9572-1a23a943a99a"
+      "versionstamp": "68c2fb5e-6f3c-4a85-a4e1-5e6789949add"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
