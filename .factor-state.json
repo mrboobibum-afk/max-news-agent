@@ -1366,108 +1366,13 @@
       ],
       "value": {
         "ok": true,
-        "selected": 1,
-        "urgent": true,
-        "manual": false,
-        "score": 50,
+        "selected": 0,
+        "reason": "publication intervals not reached",
         "rss_total": 300,
-        "diagnostics": {
-          "rss_total": 300,
-          "scored": 12,
-          "accepted": 1,
-          "short_title": 0,
-          "urgent_interval": 0,
-          "regular_interval": 71,
-          "duplicate_before_article": 0,
-          "event_duplicate_before_article": 2,
-          "bad_url": 1,
-          "article_title_mismatch": 0,
-          "duplicate_after_article": 0,
-          "event_duplicate_after_article": 0,
-          "gemini_fallback": 0,
-          "gemini_title_mismatch": 0,
-          "urgent_interval_after_gemini": 0,
-          "regular_interval_after_gemini": 0,
-          "text_duplicate": 0,
-          "editorial_filter_rejected": 217,
-          "editorial_no_event_action": 204,
-          "video_candidates": 0,
-          "video_checked": 0,
-          "video_rejected": 0,
-          "video_validation": null,
-          "external_video_candidates": 5,
-          "external_video_checked": 2,
-          "search_video_queries": 7,
-          "search_video_candidates": 4,
-          "search_video_checked": 12,
-          "image_candidates": 5,
-          "media_checked": 1,
-          "media_selected": "image",
-          "selected_media_source": "jsonld",
-          "media_rejected": null,
-          "top_candidates": [],
-          "ai_provider": "gemini"
-        },
-        "item": {
-          "title": "В Новом Уренгое в ДТП погибла женщина - URA.RU",
-          "source": "URA.RU",
-          "article_url": "https://ura.news/news/1053133352",
-          "category": "ПРОИСШЕСТВИЯ"
-        },
-        "media": {
-          "type": "image",
-          "source_url": "https://cdn-img.ura.news/248/599/2e5f185d-c129-4dbe-8d8b-e2c9887c5d21/lweoaz/XL-1440.1.5.webp"
-        },
-        "publication": {
-          "message": {
-            "recipient": {
-              "chat_type": "channel",
-              "chat_id": -78887448255074
-            },
-            "timestamp": 1791177878631,
-            "body": {
-              "mid": "mid.ffffb84095ab659e01a10a856c673c5d",
-              "seq": 117386633453976670,
-              "text": "Женщина погибла в ДТП в Новом Уренгое\n\n🔗 URA.RU\n\n📢 ФАКТОР",
-              "attachments": [
-                {
-                  "payload": {
-                    "photo_id": 44497883720,
-                    "token": "Y7M/1tMnnSCjcPz7NP5exKcVRVqahUqJ1Y4Y4yb8dcbUXchY8tPjzteeK8TVuyh+RDyA8MlpEpTXYf71fbggMFE7gmn99lWRZxYOrq0TQQs=",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8KvzhHsS8sLiq9rhYP32HL-hjfMfVvfoBKYlDsISiwlA"
-                  },
-                  "type": "image"
-                }
-              ],
-              "markup": [
-                {
-                  "from": 0,
-                  "length": 37,
-                  "type": "strong"
-                },
-                {
-                  "url": "https://ura.news/news/1053133352",
-                  "from": 42,
-                  "length": 6,
-                  "type": "link"
-                },
-                {
-                  "from": 53,
-                  "length": 6,
-                  "type": "emphasized"
-                }
-              ]
-            },
-            "stat": {
-              "views": 1
-            },
-            "url": "https://max.ru/channel_faktormedia/AaEKhWxnPF0"
-          }
-        },
-        "duration_ms": 42730
+        "duration_ms": 575
       },
       "expiresAt": null,
-      "versionstamp": "9871b111-656c-444b-9f2f-e1c6dd9b9886"
+      "versionstamp": "d204f88a-82bd-4ec4-857e-4aa06405d651"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
