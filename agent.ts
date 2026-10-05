@@ -2784,6 +2784,13 @@ const EDITORIAL_VISUAL_HINT_PATTERNS = [
     /(?:видео|кадр(?:ы|ов)|очевидц|снял(?:и|а)|момент(?:ы|а)|фото|снимк(?:и|ов)|запись|появилось\s+видео)/i,
 ];
 
+// Дополнительный допуск для формата «Прямого эфира»: редкое, необычное,
+// первое, рекордное или массовое событие, если оно имеет визуальный сигнал.
+// Мусорный фильтр выше остается обязательным.
+const EDITORIAL_INTEREST_PATTERNS = [
+    /(?:впервые|первый\s+в\s+истории|рекорд|рекордный|необычн|редкий\s+случай|массово|массовый|вирусн|сенсац|обнаружили|появились\s+кадры)/i,
+];
+
 function passesEditorialEventFilter(item) {
     const text = normalizeForHash(
         `${item?.title || ""} ${item?.description || ""}`,
@@ -2796,8 +2803,9 @@ function passesEditorialEventFilter(item) {
     const eventSignal = EDITORIAL_EVENT_PATTERNS.some((pattern) => pattern.test(text));
     const institutionalSignal = EDITORIAL_INSTITUTIONAL_PATTERNS.some((pattern) => pattern.test(text));
     const visualHint = EDITORIAL_VISUAL_HINT_PATTERNS.some((pattern) => pattern.test(text));
+    const interestHint = EDITORIAL_INTEREST_PATTERNS.some((pattern) => pattern.test(text));
 
-    if (!eventSignal && !institutionalSignal) {
+    if (!eventSignal && !institutionalSignal && !(interestHint && visualHint)) {
         return { pass: false, reason: "no_event_action", visual_hint: visualHint };
     }
 
@@ -2805,6 +2813,7 @@ function passesEditorialEventFilter(item) {
         pass: true,
         reason: visualHint ? "event_with_visual_hint" : "event",
         visual_hint: visualHint,
+        interest_hint: interestHint,
     };
 }
 
