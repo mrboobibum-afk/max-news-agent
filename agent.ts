@@ -3852,8 +3852,11 @@ async function searchPublicVideoPages(item, story, diagnostics = null) {
         if (diagnostics) diagnostics.search_video_queries++;
 
         const url =
-            "https://www.google.com/search?tbm=vid&hl=ru&gl=RU&q=" +
-            encodeURIComponent(query);
+            /site:(?:t\.me|vk\.com|rutube\.ru|ok\.ru|dzen\.ru)/i.test(query)
+                ? "https://www.google.com/search?hl=ru&gl=RU&num=10&q=" +
+                    encodeURIComponent(query)
+                : "https://www.google.com/search?tbm=vid&hl=ru&gl=RU&q=" +
+                    encodeURIComponent(query);
 
         try {
             const response = await fetch(url, {
