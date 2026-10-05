@@ -48,9 +48,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791178247012,
+      "value": 1791179008939,
       "expiresAt": null,
-      "versionstamp": "bc80633e-5a32-47d7-9a31-668ad39b7757"
+      "versionstamp": "a7110d76-6e4e-42a5-91f4-1210bf5e432b"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -1369,7 +1369,7 @@
         "selected": 1,
         "urgent": true,
         "manual": false,
-        "score": 45,
+        "score": 42,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
@@ -1379,45 +1379,45 @@
           "urgent_interval": 0,
           "regular_interval": 68,
           "duplicate_before_article": 0,
-          "event_duplicate_before_article": 5,
+          "event_duplicate_before_article": 6,
           "bad_url": 1,
           "article_title_mismatch": 0,
           "duplicate_after_article": 0,
           "event_duplicate_after_article": 0,
           "old_event_new_article": 0,
-          "gemini_fallback": 0,
+          "gemini_fallback": 1,
           "gemini_title_mismatch": 0,
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
           "text_duplicate": 0,
           "editorial_filter_rejected": 219,
-          "editorial_no_event_action": 206,
+          "editorial_no_event_action": 205,
           "video_candidates": 0,
           "video_checked": 0,
           "video_rejected": 0,
           "video_validation": null,
-          "external_video_candidates": 2,
-          "external_video_checked": 2,
+          "external_video_candidates": 1,
+          "external_video_checked": 1,
           "search_video_queries": 10,
-          "search_video_candidates": 2,
-          "search_video_checked": 2,
-          "image_candidates": 2,
+          "search_video_candidates": 1,
+          "search_video_checked": 0,
+          "image_candidates": 12,
           "media_checked": 1,
           "media_selected": "image",
           "selected_media_source": "jsonld",
           "media_rejected": null,
           "top_candidates": [],
-          "ai_provider": "gemini"
+          "ai_provider": "none"
         },
         "item": {
-          "title": "Крупный пожар под Омском обернулся гибелью мужчины - omskinform.ru",
-          "source": "Омск-информ",
-          "article_url": "https://omskinform.ru/news/228096",
-          "category": "ПРОИСШЕСТВИЯ"
+          "title": "Дикий кабан погиб под колесами авто во Владивостоке - PrimaMedia.ru",
+          "source": "PrimaMedia.ru",
+          "article_url": "https://primamedia.ru/news/2640616/",
+          "category": "АВТО"
         },
         "media": {
           "type": "image",
-          "source_url": "https://storage.yandexcloud.net/omskinform/files/images/04eef0f7-2fdc-4ffa-8031-33824eb33e34"
+          "source_url": "https://primamedia.ru/f/big/6432/6431143.jpg?6c155e79591d5414888585deb2080475"
         },
         "publication": {
           "message": {
@@ -1425,17 +1425,17 @@
               "chat_type": "channel",
               "chat_id": -78887448255074
             },
-            "timestamp": 1791178299348,
+            "timestamp": 1791179031939,
             "body": {
-              "mid": "mid.ffffb84095ab659e01a10a8bd7d425ba",
-              "seq": 117386661026080200,
-              "text": "Крупный пожар под Омском: погиб мужчина\n\n🔗 Омск-информ\n\n📢 ФАКТОР",
+              "mid": "mid.ffffb84095ab659e01a10a97058332ff",
+              "seq": 117386709037167360,
+              "text": "Дикий кабан погиб под колесами авто во Владивостоке - PrimaMedia.ru\n\nКабан погиб после столкновения с автомобилем на Шаморовской трассе во Владивостоке. Очевидцы сообщили о ДТП и сняли последствия аварии на видео.\n\n🔗 PrimaMedia.ru\n\n📢 ФАКТОР",
               "attachments": [
                 {
                   "payload": {
-                    "photo_id": 44499742536,
-                    "token": "9EvzkUXe1rA5wj6anbhnRmbZQsHbut9UbQJsudXefAvVijg/YA3XaDQ4vzbo5a47PJCFGbvHxEGtkF7bHg1LHlFQSyB0/qsqekiz95IcAdY=",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8mjJ0K0kkKqZgBhMwL7-xmuhjfMfVvfoBKYlDsISiwlA"
+                    "photo_id": 44502739016,
+                    "token": "wU7o0QMoVF+HufPpZ2U0zmcuXLfVE8yBtKBv2tBE5vSQQLbm7zyogr4JwONqb7UEvUWKPDrCwLJmLT3NR10ZLCV1C6CqBB20zdscGR6gTsf/RcJhtt3XwHkmp1gc4hZm",
+                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr87DZgjZUADvV03_v__wCKfOhjfMfVvfoBKYlDsISiwlA"
                   },
                   "type": "image"
                 }
@@ -1443,17 +1443,23 @@
               "markup": [
                 {
                   "from": 0,
-                  "length": 39,
+                  "length": 67,
                   "type": "strong"
                 },
                 {
-                  "url": "https://omskinform.ru/news/228096",
-                  "from": 44,
-                  "length": 11,
+                  "url": "PrimaMedia.ru",
+                  "from": 54,
+                  "length": 13,
                   "type": "link"
                 },
                 {
-                  "from": 60,
+                  "url": "https://primamedia.ru/news/2640616/",
+                  "from": 218,
+                  "length": 13,
+                  "type": "link"
+                },
+                {
+                  "from": 236,
                   "length": 6,
                   "type": "emphasized"
                 }
@@ -1462,13 +1468,13 @@
             "stat": {
               "views": 1
             },
-            "url": "https://max.ru/channel_faktormedia/AaEKi9fUJbo"
+            "url": "https://max.ru/channel_faktormedia/AaEKlwWDMv8"
           }
         },
-        "duration_ms": 53047
+        "duration_ms": 23755
       },
       "expiresAt": null,
-      "versionstamp": "63a5ebc7-4b6b-4a26-86fe-7e33fc699e38"
+      "versionstamp": "ab8b1f29-7e31-4014-9572-1a23a943a99a"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -2751,6 +2757,82 @@
       },
       "expiresAt": 1791351099468,
       "versionstamp": "83d29177-0696-44ff-badb-199fb04df8c3"
+    },
+    "[\"factor\",\"published_v2\",\"2f695045417be80d040d5fed935deefd4bd58bdde29f712107d4cc04a5e82a58\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "2f695045417be80d040d5fed935deefd4bd58bdde29f712107d4cc04a5e82a58"
+      ],
+      "value": true,
+      "expiresAt": 1793771032081,
+      "versionstamp": "c3ceb9c1-3042-4c94-a447-81c7133d542d"
+    },
+    "[\"factor\",\"published\",\"93935ba211e4967f56ecc8078a159d2472b72e162ef4a083f92dd36d6437cbd5\"]": {
+      "key": [
+        "factor",
+        "published",
+        "93935ba211e4967f56ecc8078a159d2472b72e162ef4a083f92dd36d6437cbd5"
+      ],
+      "value": true,
+      "expiresAt": 1793771032083,
+      "versionstamp": "2f8526b6-4847-493b-b9ef-f18ef6330458"
+    },
+    "[\"factor\",\"published_story_v3\",\"957269396bb14e29aa11475d86799d1e5f4e9376b39cca2c00faed14f7d36740\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "957269396bb14e29aa11475d86799d1e5f4e9376b39cca2c00faed14f7d36740"
+      ],
+      "value": true,
+      "expiresAt": 1793771032084,
+      "versionstamp": "0125ce9d-e279-42c1-be58-6a3461564742"
+    },
+    "[\"factor\",\"recent_title_v2\",1791179032085,\"9004ce209234c1c313c7142e50d79a25b279870b6f4ffe195cca571c22c253ce\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791179032085,
+        "9004ce209234c1c313c7142e50d79a25b279870b6f4ffe195cca571c22c253ce"
+      ],
+      "value": "Дикий кабан погиб под колесами авто во Владивостоке - PrimaMedia.ru",
+      "expiresAt": 1793771032085,
+      "versionstamp": "bd90cc9b-02d1-4fe0-8d6b-a9f1e566a353"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"9004ce209234c1c313c7142e50d79a25b279870b6f4ffe195cca571c22c253ce\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "9004ce209234c1c313c7142e50d79a25b279870b6f4ffe195cca571c22c253ce"
+      ],
+      "value": "Дикий кабан погиб под колесами авто во Владивостоке - PrimaMedia.ru",
+      "expiresAt": 1793771032086,
+      "versionstamp": "1b460b60-3864-4034-9855-b57018b8a322"
+    },
+    "[\"factor\",\"published_event_v4\",\"9508d096a60cb954558dc8fb7fb681d402dd811886671432044648fbaf64f5f7\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "9508d096a60cb954558dc8fb7fb681d402dd811886671432044648fbaf64f5f7"
+      ],
+      "value": {
+        "category": "АВТО",
+        "family": "accident",
+        "anchors": [
+          "дики",
+          "каба",
+          "коле",
+          "авто",
+          "влад",
+          "prim"
+        ],
+        "title": "Дикий кабан погиб под колесами авто во Владивостоке - PrimaMedia.ru",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiS0FVX3lxTE52N2VxNm1SVEtRUXpBNVEtZGl0NUk1T0JTQTFxWVJIYlhUbFgwamxEQ1NQSjZUdTBBUDA2M2p5R01DbTNLdzVVSVNRRQ?oc=5\" target=\"_blank\"&gt;Дикий кабан погиб под колесами авто во Владивостоке&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;PrimaMedia.ru&lt;/font&gt; Кабан погиб после столкновения с автомобилем на Шаморовской трассе во Владивостоке. Очевидцы сообщили о ДТП и сняли последствия аварии на видео. Кабан погиб после столкновения с автомобилем на Шаморовской трассе во Владивостоке. Очевидцы сообщили о ДТП и сняли последствия аварии на видео.",
+        "published_at": 1791179032087,
+        "article_url": "https://primamedia.ru/news/2640616/"
+      },
+      "expiresAt": 1791351832087,
+      "versionstamp": "1d907ead-2210-4ef8-aa70-eb34189fe67d"
     }
   }
 }
