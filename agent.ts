@@ -57,7 +57,7 @@ const MAX_VIDEO_BYTES = Number(Deno.env.get("MAX_VIDEO_MB") ?? "60") * 1024 * 10
 const MAX_IMAGE_BYTES = Number(Deno.env.get("MAX_IMAGE_MB") ?? "15") * 1024 * 1024;
 const RSS_LIMIT_PER_FEED = 30;
 const MAX_RSS_ITEMS = 300;
-const SCORE_CANDIDATES = 45;
+const SCORE_CANDIDATES = 15;
 const GEMINI_CANDIDATES = 10;
 const MAX_HISTORY_CHECKED = 300;
 const MAX_POST_LENGTH = 3900;
@@ -1794,7 +1794,7 @@ async function extractArticleMedia(item) {
 
     if (!videoUrl) {
         const embeddedPlayers = collectEmbeddedVideoPageUrls(html, finalUrl);
-        for (const playerUrl of embeddedPlayers) {
+        for (const playerUrl of embeddedPlayers.slice(0, 2)) {
             videoUrl = await resolveVideoFromEmbeddedPage(playerUrl);
             if (videoUrl) break;
         }
@@ -3679,7 +3679,7 @@ async function searchPublicVideoPages(item, story, diagnostics = null) {
             if (!response.ok) continue;
 
             const html = await response.text();
-            const links = extractLinks(html);
+            const links = extractLinks(html).slice(0, 8);
 
             for (const pageUrl of links) {
                 if (diagnostics) diagnostics.search_video_candidates++;
@@ -3784,7 +3784,7 @@ async function searchIndependentVideo(item, story, articleMedia, diagnostics = n
                 url: rssUrl,
             });
 
-            for (const result of results.slice(0, 6)) {
+            for (const result of results.slice(0, 2)) {
                 const resolvedArticleUrl = await resolveArticleUrl(result);
                 const normalizedResultUrl = normalizeUrl(resolvedArticleUrl);
 
@@ -3826,7 +3826,7 @@ async function searchIndependentVideo(item, story, articleMedia, diagnostics = n
                         page.finalUrl,
                     );
 
-                    for (const playerUrl of embeddedPlayers.slice(0, 4)) {
+                    for (const playerUrl of embeddedPlayers.slice(0, 2)) {
                         const resolvedVideoUrl =
                             await resolveVideoFromEmbeddedPage(playerUrl);
                         if (resolvedVideoUrl) {
@@ -3954,7 +3954,7 @@ async function findBestMedia(articleMedia, item, story, diagnostics = null) {
 
     if (diagnostics) diagnostics.external_video_candidates = externalSources.length;
 
-    for (const sourceUrl of externalSources.slice(0, 3)) {
+    for (const sourceUrl of externalSources.slice(0, 2)) {
         if (diagnostics) diagnostics.external_video_checked++;
         console.log("Trying external/user video source:", sourceUrl);
 
