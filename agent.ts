@@ -485,9 +485,9 @@ function stripHtml(value) {
 function articleVisibleText(html) {
     return stripHtml(
         String(html || "")
-            .replace(/<script\\b[^>]*>[\\s\\S]*?<\\/script>/gi, " ")
-            .replace(/<style\\b[^>]*>[\\s\\S]*?<\\/style>/gi, " ")
-            .replace(/<noscript\\b[^>]*>[\\s\\S]*?<\\/noscript>/gi, " "),
+            .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
+            .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " ")
+            .replace(/<noscript\b[^>]*>[\s\S]*?<\/noscript>/gi, " "),
     ).slice(0, 12000);
 }
 
