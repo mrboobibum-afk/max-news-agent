@@ -2857,7 +2857,7 @@ function scoreNewsItem(item) {
     // Редакционный инфоповод
     // ----------------------------------------------------------
     const editorial = passesEditorialEventFilter(item);
-    score += editorial.visual_hint ? 12 : 4;
+    score += editorial.visual_hint ? 20 : 4;
 
     // ----------------------------------------------------------
     // Срочность
