@@ -134,45 +134,6 @@
       "expiresAt": 1793615235411,
       "versionstamp": "2b5e2ddf-574e-48fb-b433-d44794c5a6f0"
     },
-    "[\"factor\",\"published_event_v4\",\"fdb539b097c679c8a7e818dbd9fa94a2439b9d20376482b58aa52da673ee9da4\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "fdb539b097c679c8a7e818dbd9fa94a2439b9d20376482b58aa52da673ee9da4"
-      ],
-      "value": {
-        "category": "ПРОИСШЕСТВИЯ",
-        "family": "fire",
-        "anchors": [
-          "прик",
-          "жите",
-          "черм",
-          "href",
-          "http",
-          "news",
-          "goog",
-          "arti",
-          "cbmi",
-          "targ",
-          "blan",
-          "font",
-          "colo",
-          "6f6f",
-          "резу",
-          "сутк",
-          "огне",
-          "поту",
-          "реги",
-          "возг"
-        ],
-        "title": "В Прикамье на пожаре погиб житель Чёрмоза",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiVEFVX3lxTFBzaFVMSmZRUlI2TlNhR3M4bW51MGZvSTNYZUE3X0dRTGFaVmN0UUlGeFFMazlnMmFRUGg4SG5lSmRXamt3THVMQ0ZGUy1VbXRtX05TRg?oc=5\" target=\"_blank\"&gt;В Прикамье на пожаре погиб житель Чёрмоза&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Newsko.ru&lt;/font&gt; В Прикамье в результате пожара погиб житель Чёрмоза. За сутки огнеборцы потушили в регионе 12 возгораний",
-        "published_at": 1791023235411,
-        "article_url": "https://www.newsko.ru/news/nk-9441369.html"
-      },
-      "expiresAt": 1791196035411,
-      "versionstamp": "7c8b04f8-1891-42b5-96d5-0676da684db3"
-    },
     "[\"factor\",\"published_v2\",\"6a5b5f84aa94c26fc8cffbf6010227ba86b427ab9db4c52a25b78ed70e5fa26b\"]": {
       "key": [
         "factor",
@@ -213,65 +174,6 @@
       "value": "Российские войска взяли три населенных пункта, дело Жанны Немцовой и санкции Японии",
       "expiresAt": 1793630944064,
       "versionstamp": "7289d137-7117-4617-b1bc-389be9764af9"
-    },
-    "[\"factor\",\"published_event_v4\",\"5f688ecbc7f7bcf2ac16936d3389735e3c0dce8a42dd7fb7302d1d0e49979bc4\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "5f688ecbc7f7bcf2ac16936d3389735e3c0dce8a42dd7fb7302d1d0e49979bc4"
-      ],
-      "value": {
-        "category": "МИР",
-        "family": "military",
-        "anchors": [
-          "росс",
-          "войс",
-          "взял",
-          "насе",
-          "пунк",
-          "дело",
-          "жанн",
-          "немц",
-          "япон",
-          "усил",
-          "санк",
-          "href",
-          "http",
-          "news",
-          "goog",
-          "arti",
-          "cbmi",
-          "targ",
-          "blan",
-          "font",
-          "colo",
-          "6f6f",
-          "ново",
-          "рубр",
-          "пред",
-          "акту",
-          "собы",
-          "вклю",
-          "взят",
-          "трех",
-          "иван",
-          "забы",
-          "спец",
-          "воен",
-          "опер",
-          "инфо",
-          "друг",
-          "важн",
-          "рубе",
-          "глав"
-        ],
-        "title": "Россия и мир: российские войска взяли три населенных пункта, дело Жанны Немцовой и Япония усиливает санкции",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiT0FVX3lxTFBxUWE1OXRUNEg1bnVaRVpLR2h5TmhnR3RhTmdKSWVEZmhrdzRYbERwREdMMmlSMVg5b21jYzNDUEUxYWZmMERhZ2dpZVVqdDg?oc=5\" target=\"_blank\"&gt;Россия и мир: российские войска взяли три населенных пункта, дело Жанны Немцовой и Япония усиливает санкции&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;newsivanovo.ru&lt;/font&gt; В новостной рубрике представлены актуальные события, включая взятие трех населенных пунктов российскими войсками, дело Жанны Немцовой и усиление санкций Японией. «Ивановские новости» не забывают о новостях специальной военной операции, но также предлагают актуальную информацию о других важных событиях в России и за рубежом. Главные новости 2 октября – в традиционной ежедневной рубрике «Россия и мир».",
-        "published_at": 1791038944064,
-        "article_url": "https://newsivanovo.ru/fn_1961225.html"
-      },
-      "expiresAt": 1791211744064,
-      "versionstamp": "7d5cdb15-d2fe-45dd-a4c5-189d1352eb4b"
     },
     "[\"factor\",\"published_v2\",\"4bf847d168513382bc9ffd182ce3a026deff83e4d635e81d2702192a7adf544b\"]": {
       "key": [
@@ -363,9 +265,9 @@
         "state",
         "last_regular"
       ],
-      "value": 1791183094074,
+      "value": 1791213606695,
       "expiresAt": null,
-      "versionstamp": "7dcbdfbd-4ff5-46f0-b0b9-f688a2e5bbdc"
+      "versionstamp": "36e23f82-14dc-42f4-974a-87d13825a54c"
     },
     "[\"factor\",\"published_v2\",\"31ad2257d965a02c7bc2056d6ce50a32a04684ea94f1aa4267a5445407e08019\"]": {
       "key": [
@@ -1369,7 +1271,7 @@
         "selected": 1,
         "urgent": false,
         "manual": false,
-        "score": 51,
+        "score": 60,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
@@ -1379,45 +1281,45 @@
           "urgent_interval": 0,
           "regular_interval": 0,
           "duplicate_before_article": 0,
-          "event_duplicate_before_article": 1,
-          "bad_url": 1,
+          "event_duplicate_before_article": 0,
+          "bad_url": 0,
           "article_title_mismatch": 0,
           "duplicate_after_article": 0,
           "event_duplicate_after_article": 0,
           "old_event_new_article": 0,
-          "gemini_fallback": 1,
-          "gemini_title_mismatch": 0,
+          "gemini_fallback": 0,
+          "gemini_title_mismatch": 1,
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
           "text_duplicate": 0,
-          "editorial_filter_rejected": 222,
-          "editorial_no_event_action": 208,
-          "video_candidates": 0,
-          "video_checked": 0,
+          "editorial_filter_rejected": 218,
+          "editorial_no_event_action": 207,
+          "video_candidates": 1,
+          "video_checked": 1,
           "video_rejected": 0,
-          "video_validation": null,
-          "external_video_candidates": 5,
-          "external_video_checked": 5,
-          "search_video_queries": 13,
-          "search_video_candidates": 1,
+          "video_validation": "relevant",
+          "external_video_candidates": 0,
+          "external_video_checked": 0,
+          "search_video_queries": 0,
+          "search_video_candidates": 0,
           "search_video_checked": 0,
-          "image_candidates": 5,
-          "media_checked": 1,
-          "media_selected": "image",
-          "selected_media_source": "jsonld",
+          "image_candidates": 0,
+          "media_checked": 0,
+          "media_selected": "video",
+          "selected_media_source": "article",
           "media_rejected": null,
           "top_candidates": [],
-          "ai_provider": "none"
+          "ai_provider": "gemini"
         },
         "item": {
-          "title": "Молодой курганец сел за руль без прав и погубил пассажира в ДТП 3 октября: фото - URA.RU",
-          "source": "URA.RU",
-          "article_url": "https://ura.news/news/1053133394",
+          "title": "Четыре машины и шприц на сиденье: в ДТП на новом мосту Благовещенска серьезно пострадал ребенок (фото, видео) - Amur.life",
+          "source": "Amur.life",
+          "article_url": "https://www.amur.life/news/2026/10/05/zhestkaya-avariya-na-novom-mostu-blagoveschenska-postradal-rebenok-voditel-pyan",
           "category": "ПРОИСШЕСТВИЯ"
         },
         "media": {
-          "type": "image",
-          "source_url": "https://cdn-img.ura.news/333/496/d4290b27-68f0-44b2-8e31-5c35424b15c5/cfppos/XL-1440.1.6.webp"
+          "type": "video",
+          "source_url": "https://cdn4.telesco.pe/file/4e4ce41858.mp4?token=vCp1AoreO-_8fRHbspLEeg0uzqI1x16_I1Z0L7MgPt1SmqeJEvvTWPl23-HvMshvP_pkg_DSd5Nuro1nuEVIYsVUyJ_OgGJPKAirOl4Mqv0jpF-liAkqa6fUlu1D7eQT2Y5hXm9BrGiGJhb9Qz_hJXjzG2cf9i7S28YQMIOCDGEYCrE1GPIm8u9B-bYIQAUgriN-RTE7AN3LPZxjnQX3zdU2FdS-fgbg-DiuStWXOMC1iSsfsK0yzs2AJZqg2bbs9X9zqyTX9sFTURJcGrbfSGUNrZDyH29O00shyw00mXZg3cFoZ2AMlDYhRerImL7mLc5tLL5mQ7fp1-7qrKyxSw"
         },
         "publication": {
           "message": {
@@ -1425,35 +1327,37 @@
               "chat_type": "channel",
               "chat_id": -78887448255074
             },
-            "timestamp": 1791183124480,
+            "timestamp": 1791213636581,
             "body": {
-              "mid": "mid.ffffb84095ab659e01a10ad578004267",
-              "seq": 117386977245938270,
-              "text": "Молодой курганец сел за руль без прав и погубил пассажира в ДТП\n\nФото\n\n🔗 URA.RU\n\n📢 ФАКТОР",
+              "mid": "mid.ffffb84095ab659e01a10ca70be567af",
+              "seq": 117388976886998960,
+              "text": "Четыре машины и шприц на сиденье: в ДТП на новом мосту Благовещенска серьезно пострадал ребенок (фото, видео)\n\n5 октября вечером на повороте на новый мост жёстко столкнулись несколько автомобилей. По предварительным данным, участниками были четыре авто. Понадобилась помощь медиков и спасателей. Виновник аварии был в алкогольном или наркотическом опьянении. Об этом сообщил телеграм-канал dpskontrol_28rus.\n\n🔗 Amur.life\n\n📢 ФАКТОР",
               "attachments": [
                 {
                   "payload": {
-                    "photo_id": 44519770184,
-                    "token": "uN4mD/Rc6axnDKWTBydDBJmLIxKxqw4bDIIxHv3ff5jbJB58Hz/b3DeRTHcSangGPTkTnetgmbF8YvSYKWB7W7TVRM257oV24fgnq3hW/To=",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr861AiqGit9l6n6u4yZCLWIuhjfMfVvfoBKYlDsISiwlA"
+                    "url": "http://amur.life",
+                    "token": "f9LHodD0cOJ25H8EXlot1E251fiIowoqQ-NhpH5D9SgQNTvoj56Y4F_felB5LsejmZmwnWGFWtnP-IpWrK3NVQ0"
                   },
-                  "type": "image"
+                  "title": "AMUR.LIFE - информационное агентство Приамурья и Дальнего Востока",
+                  "description": "Главные новости Благовещенска, Амурской области и Дальнего Востока📰 Эксклюзивные интервью🎤 Интересные видео🎥 Амур.Лайф: мы создаем социально значимые материалы о жизни Приамурья",
+                  "image_url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8GFlkOYTled_rac3HqrKcpuhjfMfVvfoBKYlDsISiwlA",
+                  "type": "share"
                 }
               ],
               "markup": [
                 {
                   "from": 0,
-                  "length": 63,
+                  "length": 109,
                   "type": "strong"
                 },
                 {
-                  "url": "https://ura.news/news/1053133394",
-                  "from": 74,
-                  "length": 6,
+                  "url": "https://www.amur.life/news/2026/10/05/zhestkaya-avariya-na-novom-mostu-blagoveschenska-postradal-rebenok-voditel-pyan",
+                  "from": 412,
+                  "length": 9,
                   "type": "link"
                 },
                 {
-                  "from": 85,
+                  "from": 426,
                   "length": 6,
                   "type": "emphasized"
                 }
@@ -1462,13 +1366,13 @@
             "stat": {
               "views": 1
             },
-            "url": "https://max.ru/channel_faktormedia/AaEK1XgAQmc"
+            "url": "https://max.ru/channel_faktormedia/AaEMpwvlZ68"
           }
         },
-        "duration_ms": 31184
+        "duration_ms": 30800
       },
       "expiresAt": null,
-      "versionstamp": "6ed8488a-778e-41c9-bbe2-4bef9126c155"
+      "versionstamp": "24038f24-870e-411d-9647-c4e83a73998a"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -2982,6 +2886,88 @@
       },
       "expiresAt": 1791355924638,
       "versionstamp": "93de43b8-8a42-461e-ac39-05973077fe9e"
+    },
+    "[\"factor\",\"published_v2\",\"29d4f6b713212d5e6e9ae67a0b4cd9764e66aaf915eed3da956f888f29597e19\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "29d4f6b713212d5e6e9ae67a0b4cd9764e66aaf915eed3da956f888f29597e19"
+      ],
+      "value": true,
+      "expiresAt": 1793805636700,
+      "versionstamp": "8637ca87-1950-4675-935e-379e0d68a0f6"
+    },
+    "[\"factor\",\"published\",\"488fb4f790b4f12b150034119cec450e7129dc23b72d40ef5f0dc411f3d602b8\"]": {
+      "key": [
+        "factor",
+        "published",
+        "488fb4f790b4f12b150034119cec450e7129dc23b72d40ef5f0dc411f3d602b8"
+      ],
+      "value": true,
+      "expiresAt": 1793805636702,
+      "versionstamp": "388af347-2686-419e-ba21-e50de596844c"
+    },
+    "[\"factor\",\"published_story_v3\",\"10e8ac5af63ad1d8fb4452f1a56e656528917334e8af04ab28cadbf723eeedff\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "10e8ac5af63ad1d8fb4452f1a56e656528917334e8af04ab28cadbf723eeedff"
+      ],
+      "value": true,
+      "expiresAt": 1793805636703,
+      "versionstamp": "571b7cf4-4dff-4611-8808-e1213ddc5cc4"
+    },
+    "[\"factor\",\"recent_title_v2\",1791213636704,\"9d0e0afdd109d93be6fda2a79979d5e7be5567c586487feb054fe9f5adbfc00a\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791213636704,
+        "9d0e0afdd109d93be6fda2a79979d5e7be5567c586487feb054fe9f5adbfc00a"
+      ],
+      "value": "Четыре машины и шприц на сиденье: в ДТП на новом мосту Благовещенска серьезно пострадал ребенок (фото, видео)",
+      "expiresAt": 1793805636704,
+      "versionstamp": "fb548580-ed0f-442e-a446-0af7f14fb657"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"9d0e0afdd109d93be6fda2a79979d5e7be5567c586487feb054fe9f5adbfc00a\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "9d0e0afdd109d93be6fda2a79979d5e7be5567c586487feb054fe9f5adbfc00a"
+      ],
+      "value": "Четыре машины и шприц на сиденье: в ДТП на новом мосту Благовещенска серьезно пострадал ребенок (фото, видео)",
+      "expiresAt": 1793805636705,
+      "versionstamp": "7bc70344-b0b0-4cfa-856d-bdc1293f265f"
+    },
+    "[\"factor\",\"published_event_v4\",\"2f8ed326a9f706a030e4b33a542170f965c17c0503cc95b8776cbe4f4ea2e1d4\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "2f8ed326a9f706a030e4b33a542170f965c17c0503cc95b8776cbe4f4ea2e1d4"
+      ],
+      "value": {
+        "category": "ПРОИСШЕСТВИЯ",
+        "family": "accident",
+        "anchors": [
+          "четы",
+          "маши",
+          "шпри",
+          "сиде",
+          "ново",
+          "мост",
+          "благ",
+          "серь",
+          "пост",
+          "ребе",
+          "фото",
+          "виде"
+        ],
+        "title": "Четыре машины и шприц на сиденье: в ДТП на новом мосту Благовещенска серьезно пострадал ребенок (фото, видео)",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiuAFBVV95cUxONFR6amRfMlJnbXRHX08xcTFiZzZ3ZDI3M3pwdHg3NGxfSUQzcHlhYU80cC1qZnBlUU1KRXhZN05mSFZ3UDZrM3l0czVXRkxIWmt1ZVdrSlJIUzROWEsyMUZWc0RKY3Zvamtkbnl1WDczR051R285S3Q4aUhHS3FXUlhuUUM2LTAtSXdFOEpCU25RSFo5OTR6TjJZSUhSeWV3bEJ2aUJLVy0tWW42UUtyMEl6T3FSV1kw?oc=5\" target=\"_blank\"&gt;Четыре машины и шприц на сиденье: в ДТП на новом мосту Благовещенска серьезно пострадал ребенок (фото, видео)&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Amur.life&lt;/font&gt; 5 октября вечером на повороте на новый мост жёстко столкнулись несколько автомобилей. По предварительным данным, участниками были четыре авто. Понадобилась помощь медиков и спасателей. Виновник аварии был в алкогольном или наркотическом опьянении. Об этом сообщил телеграм-канал dpskontrol_28rus. 5 октября вечером на повороте на новый мост жёстко столкнулись несколько автомобилей. По предварительным данным, участниками были четыре авто. Понадобилась помощь медиков и спасателей. Виновник аварии был ",
+        "published_at": 1791213636706,
+        "article_url": "https://www.amur.life/news/2026/10/05/zhestkaya-avariya-na-novom-mostu-blagoveschenska-postradal-rebenok-voditel-pyan"
+      },
+      "expiresAt": 1791386436707,
+      "versionstamp": "b6c7a37b-6d35-4eb2-bdb4-ec9540c8e306"
     }
   }
 }
