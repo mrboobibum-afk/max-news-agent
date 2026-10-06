@@ -40,13 +40,29 @@ jobs:
           MAX_BOT_TOKEN: ${{ secrets.MAX_BOT_TOKEN }}
           TARGET_CHAT_ID: ${{ secrets.TARGET_CHAT_ID }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
+
+          # AnyModel используется как резервный текстовый AI-провайдер
+          # через существующую Qwen/DashScope-совместимую функцию в agent.ts.
+          DASHSCOPE_API_KEY: ${{ secrets.ANYMODEL_API_KEY }}
+          QWEN_BASE_URL: "https://anymodel.org/v1"
+          QWEN_MODEL: "am/gpt-oss-20b"
+
           MAX_VIDEO_MB: "30"
           MAX_IMAGE_MB: "15"
+
         run: |
           set -u
           echo "FAKTOR: single cycle started at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          deno run             --v8-flags=--max-old-space-size=6144             --allow-net             --allow-env             --allow-read             --allow-write             --allow-run             agent.ts
+
+          deno run \
+            --v8-flags=--max-old-space-size=6144 \
+            --allow-net \
+            --allow-env \
+            --allow-read \
+            --allow-write \
+            --allow-run \
+            agent.ts
+
           echo "FAKTOR: single cycle finished at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
       - name: Save FAKTOR state
@@ -65,6 +81,7 @@ jobs:
 
           for attempt in 1 2 3; do
             git fetch origin main
+
             if git rebase origin/main; then
               if git push origin HEAD:main; then
                 echo "FAKTOR state saved."
@@ -73,6 +90,7 @@ jobs:
             else
               git rebase --abort || true
             fi
+
             echo "State push failed on attempt $attempt; retrying."
           done
 
