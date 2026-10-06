@@ -222,9 +222,9 @@
         "state",
         "last_regular"
       ],
-      "value": 1791237892387,
+      "value": 1791252802011,
       "expiresAt": null,
-      "versionstamp": "e6e94a7f-ffd3-4773-abee-6af052a07960"
+      "versionstamp": "972955ea-7f76-4a98-a62d-64d858830af8"
     },
     "[\"factor\",\"published_v2\",\"31ad2257d965a02c7bc2056d6ce50a32a04684ea94f1aa4267a5445407e08019\"]": {
       "key": [
@@ -266,54 +266,6 @@
       "value": "Мобильный чип Exynos 2700 от Samsung запущен в серийное производство, согласно утечке",
       "expiresAt": 1793664027148,
       "versionstamp": "88e83807-3e98-4f3c-90b8-e3daa8fea87e"
-    },
-    "[\"factor\",\"published_event_v4\",\"216345114b3e3ff93f6e87dce3a2e93d317639883572a9a722b85871a5cd7024\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "216345114b3e3ff93f6e87dce3a2e93d317639883572a9a722b85871a5cd7024"
-      ],
-      "value": {
-        "category": "ПРОМЫШЛЕННОСТЬ",
-        "family": "промышленность",
-        "anchors": [
-          "моби",
-          "exyn",
-          "2700",
-          "sams",
-          "запу",
-          "сери",
-          "прои",
-          "утеч",
-          "href",
-          "http",
-          "news",
-          "goog",
-          "arti",
-          "cbmi",
-          "targ",
-          "blan",
-          "font",
-          "colo",
-          "6f6f",
-          "mobi",
-          "revi",
-          "проц",
-          "пока",
-          "резу",
-          "выше",
-          "конк",
-          "qual",
-          "тест",
-          "geek"
-        ],
-        "title": "Мобильный чип Exynos 2700 от Samsung запущен в серийное производство, согласно утечке",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiwAFBVV95cUxQODlBTjJvbEhpZlpQRGFFT19FblEtQkFKbjdmdnpvQk1ENTgyQ2RJQmg1MGJKZ2tVSFg3S0NWYXEtNWZfSGVqUkpZZ1Y2TERrdkt2czRWamxZYU1Zd05ISG9vY2dGaVdzcjJ6RE5EX1ZYNlhMSjhTZFhpa0oxWHViOWhValNqQm00S3BZaGRvU0E5UlRtS1dvMDVSQVAtWmZ5eFJMeU5LUXFORWJhLXE4OGFrdG94dGJqWUk1MzB6akQ?oc=5\" target=\"_blank\"&gt;Мобильный чип Exynos 2700 от Samsung запущен в серийное производство, согласно утечке&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Mobile-review.com&lt;/font&gt; Процессор показал результат на 9,5% выше конкурента Qualcomm в тесте Geekbench 6 Процессор показал результат на 9,5% выше конкурента Qualcomm в тесте Geekbench 6",
-        "published_at": 1791072027149,
-        "article_url": "https://mobile-review.com/all/news/mobilnyj-chip-exynos-2700-ot-samsung-zapushhen-v-serijnoe-proizvodstvo-soglasno-utechke/"
-      },
-      "expiresAt": 1791244827149,
-      "versionstamp": "c0ff52c6-1d78-4648-bffe-03bfd95a296b"
     },
     "[\"factor\",\"published_v2\",\"09a3011b22ca820d51e5def221cfe1c501cac1ef4feec853fe8ab33a1c064dca\"]": {
       "key": [
@@ -1228,7 +1180,7 @@
         "selected": 1,
         "urgent": false,
         "manual": false,
-        "score": 61,
+        "score": 32,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
@@ -1238,45 +1190,45 @@
           "urgent_interval": 0,
           "regular_interval": 0,
           "duplicate_before_article": 0,
-          "event_duplicate_before_article": 0,
-          "bad_url": 0,
+          "event_duplicate_before_article": 6,
+          "bad_url": 1,
           "article_title_mismatch": 0,
           "duplicate_after_article": 0,
           "event_duplicate_after_article": 0,
           "old_event_new_article": 0,
-          "gemini_fallback": 0,
+          "gemini_fallback": 1,
           "gemini_title_mismatch": 0,
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
           "text_duplicate": 0,
-          "editorial_filter_rejected": 216,
-          "editorial_no_event_action": 205,
-          "video_candidates": 1,
+          "editorial_filter_rejected": 223,
+          "editorial_no_event_action": 212,
+          "video_candidates": 0,
           "video_checked": 0,
           "video_rejected": 0,
           "video_validation": null,
-          "external_video_candidates": 3,
-          "external_video_checked": 3,
+          "external_video_candidates": 1,
+          "external_video_checked": 1,
           "search_video_queries": 13,
           "search_video_candidates": 1,
           "search_video_checked": 0,
-          "image_candidates": 3,
+          "image_candidates": 1,
           "media_checked": 1,
           "media_selected": "image",
-          "selected_media_source": "jsonld",
-          "media_rejected": "video_download_failed",
+          "selected_media_source": "meta",
+          "media_rejected": null,
           "top_candidates": [],
-          "ai_provider": "gemini"
+          "ai_provider": "none"
         },
         "item": {
-          "title": "Путин подписал указ, открывающий путь к продаже российского бизнеса UniCredit - DW.com",
-          "source": "dw.com",
-          "article_url": "https://www.dw.com/ru/putin-podpisal-ukaz-otkryvausij-put-k-prodaze-rossijskogo-biznesa-unicredit/a-79556997",
-          "category": "БИЗНЕС"
+          "title": "С начала октября Пермский театр оперы и балета продал по акции 1,5 тысячи билетов - Newsko.ru",
+          "source": "«Новый компаньон»",
+          "article_url": "https://www.newsko.ru/news/nk-9445108.html",
+          "category": "КУЛЬТУРА"
         },
         "media": {
           "type": "image",
-          "source_url": "https://static.dw.com/image/69120183_804.jpg"
+          "source_url": "https://www.newsko.ru/media/4621634/opernyy.jpg?size=600"
         },
         "publication": {
           "message": {
@@ -1284,17 +1236,17 @@
               "chat_type": "channel",
               "chat_id": -78887448255074
             },
-            "timestamp": 1791237917050,
+            "timestamp": 1791252844806,
             "body": {
-              "mid": "mid.ffffb84095ab659e01a10e19897a6299",
-              "seq": 117390568131814050,
-              "text": "Путин подписал указ о продаже российского бизнеса UniCredit\n\nПрезидент РФ подписал указ, открывающий путь к продаже российского бизнеса UniCredit. Итальянская UniCredit получит контроль над активами банка ЮниКредит в РФ. Это с большой вероятностью говорит о скорой продаже активов на условиях, одобренных Кремлем.\n\n🔗 dw.com\n\n📢 ФАКТОР",
+              "mid": "mid.ffffb84095ab659e01a10efd51065406",
+              "seq": 117391546437227520,
+              "text": "С начала октября Пермский театр оперы и балета продал по акции 1,5 тысячи билетов\n\n&laquo;Новый компаньон&raquo;, новости Перми и Пермского края, политика, власть, экономика, общество, культура\n\n🔗 «Новый компаньон»\n\n📢 ФАКТОР",
               "attachments": [
                 {
                   "payload": {
-                    "photo_id": 44663441480,
-                    "token": "8PFMAN91piDj72KLHz6QYp2p8Bs8A8ZLIUF8x7v/DHexgVLSRHunroyMTgd60sOKNzvajGwPTv2yarvV3sxPQ5rmp6xW3kKBuJ1QtCRKLHA=",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8ePgQLnbN6p4w3DVj-8DTIehjfMfVvfoBKYlDsISiwlA"
+                    "photo_id": 44673369160,
+                    "token": "BSZitln2FazwwjaTYGIVPcff5wBadLiJiHFc3gJ9MCaJ+UKyL5QK7IjuBxZw9j7WvDP/HavObWmKnxT1YN37VtTjywea3CqdE0HW/sVhCj8=",
+                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8v-tc2l4roSeXni33lN2LL-hjfMfVvfoBKYlDsISiwlA"
                   },
                   "type": "image"
                 }
@@ -1302,17 +1254,17 @@
               "markup": [
                 {
                   "from": 0,
-                  "length": 59,
+                  "length": 81,
                   "type": "strong"
                 },
                 {
-                  "url": "https://www.dw.com/ru/putin-podpisal-ukaz-otkryvausij-put-k-prodaze-rossijskogo-biznesa-unicredit/a-79556997",
-                  "from": 318,
-                  "length": 6,
+                  "url": "https://www.newsko.ru/news/nk-9445108.html",
+                  "from": 198,
+                  "length": 17,
                   "type": "link"
                 },
                 {
-                  "from": 329,
+                  "from": 220,
                   "length": 6,
                   "type": "emphasized"
                 }
@@ -1321,13 +1273,13 @@
             "stat": {
               "views": 1
             },
-            "url": "https://max.ru/channel_faktormedia/AaEOGYl6Ypk"
+            "url": "https://max.ru/channel_faktormedia/AaEO_VEGVAY"
           }
         },
-        "duration_ms": 25653
+        "duration_ms": 43737
       },
       "expiresAt": null,
-      "versionstamp": "a5c21225-aad3-4253-bbed-76be18928444"
+      "versionstamp": "73fdf668-3805-4bf9-98b3-d6c2279bc35b"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -3002,6 +2954,86 @@
       },
       "expiresAt": 1791410717168,
       "versionstamp": "3bfec054-cc0f-4cfe-bc7d-998f32c366ed"
+    },
+    "[\"factor\",\"published_v2\",\"0f86630548a2fa9e70cc403fdfb2f68afbd4079dd13e71cde464d509f6f8a80d\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "0f86630548a2fa9e70cc403fdfb2f68afbd4079dd13e71cde464d509f6f8a80d"
+      ],
+      "value": true,
+      "expiresAt": 1793844844932,
+      "versionstamp": "de4a2997-5930-4838-ac61-64fc2ec5f9f8"
+    },
+    "[\"factor\",\"published\",\"0600471efe2c88f7ac541ee3f20fcd6ee330e473e918d0233574507d04ac7f52\"]": {
+      "key": [
+        "factor",
+        "published",
+        "0600471efe2c88f7ac541ee3f20fcd6ee330e473e918d0233574507d04ac7f52"
+      ],
+      "value": true,
+      "expiresAt": 1793844844933,
+      "versionstamp": "d98350dc-d01b-4cd6-907b-733394adfeba"
+    },
+    "[\"factor\",\"published_story_v3\",\"3202b1daab176c2a68b0a5991d54f0e13608f1030e10d8b9d36e50dad97842aa\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "3202b1daab176c2a68b0a5991d54f0e13608f1030e10d8b9d36e50dad97842aa"
+      ],
+      "value": true,
+      "expiresAt": 1793844844934,
+      "versionstamp": "e520e9c9-1697-4b0a-b1c2-df73889aece3"
+    },
+    "[\"factor\",\"recent_title_v2\",1791252844936,\"bea6c8df898fb1d274415dc432cffeef3626a54bbb1e8eef91238d5b903a79ff\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791252844936,
+        "bea6c8df898fb1d274415dc432cffeef3626a54bbb1e8eef91238d5b903a79ff"
+      ],
+      "value": "С начала октября Пермский театр оперы и балета продал по акции 1,5 тысячи билетов",
+      "expiresAt": 1793844844936,
+      "versionstamp": "302e620c-7d93-45ad-873a-8050efbfeb0d"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"bea6c8df898fb1d274415dc432cffeef3626a54bbb1e8eef91238d5b903a79ff\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "bea6c8df898fb1d274415dc432cffeef3626a54bbb1e8eef91238d5b903a79ff"
+      ],
+      "value": "С начала октября Пермский театр оперы и балета продал по акции 1,5 тысячи билетов",
+      "expiresAt": 1793844844937,
+      "versionstamp": "e8384b13-bba8-4ea0-9104-6269ff93c12c"
+    },
+    "[\"factor\",\"published_event_v4\",\"eff5578c74ce801169f8d7119c6693a11e2c18d234f663042c0a761ea2766f6a\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "eff5578c74ce801169f8d7119c6693a11e2c18d234f663042c0a761ea2766f6a"
+      ],
+      "value": {
+        "category": "КУЛЬТУРА",
+        "family": "politics",
+        "anchors": [
+          "нача",
+          "октя",
+          "перм",
+          "теат",
+          "опер",
+          "бале",
+          "прод",
+          "акци",
+          "тыся",
+          "биле"
+        ],
+        "title": "С начала октября Пермский театр оперы и балета продал по акции 1,5 тысячи билетов",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiVEFVX3lxTFBxLS00Y3d1UnJvODZLTzhmc1BqUzJoeFNUVzNTQUtGdEVIWWFXaW5fSFRSeG9VcmRpNW1JY2tvZFdoeGw3V2FvWGF1NXF6emdYRk1MWQ?oc=5\" target=\"_blank\"&gt;С начала октября Пермский театр оперы и балета продал по акции 1,5 тысячи билетов&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Newsko.ru&lt;/font&gt; &laquo;Новый компаньон&raquo;, новости Перми и Пермского края, политика, власть, экономика, общество, культура &laquo;Новый компаньон&raquo;, новости Перми и Пермского края, политика, власть, экономика, общество, культура",
+        "published_at": 1791252844937,
+        "article_url": "https://www.newsko.ru/news/nk-9445108.html"
+      },
+      "expiresAt": 1791425644938,
+      "versionstamp": "04334115-3c0e-4a0d-87e9-10575bf8d73f"
     }
   }
 }
