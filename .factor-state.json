@@ -48,9 +48,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791295607711,
+      "value": 1791301816512,
       "expiresAt": null,
-      "versionstamp": "bb5d4fc7-c044-4c90-9817-ff0accf77424"
+      "versionstamp": "d01f0da9-e6e4-418b-8b2d-48adf8984833"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -780,32 +780,6 @@
       "expiresAt": 1793720825157,
       "versionstamp": "976e7b8b-0a18-4dc7-958b-6049a4f679de"
     },
-    "[\"factor\",\"published_event_v4\",\"6eb2fc5c87ef9d25edff6f8135b44f355fa6f62e98fbcfaa9ffd505f70e1d2d5\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "6eb2fc5c87ef9d25edff6f8135b44f355fa6f62e98fbcfaa9ffd505f70e1d2d5"
-      ],
-      "value": {
-        "category": "ПРОИСШЕСТВИЯ",
-        "family": "fire",
-        "anchors": [
-          "бого",
-          "октя",
-          "2026",
-          "гори",
-          "терр",
-          "бывш",
-          "свин"
-        ],
-        "title": "Пожар в Богословке 4 октября 2026: горит территория бывшего свинарника",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMihwFBVV95cUxNYnhBVmVJallVVzh5SWdsc3RzSWtneDhWbkFXb2pZMXlmcDNtNlI4dFY0dXd6TlNYVnhYSGx4RElCbjkxVGlvbWVDMFhhUTYydE1rRG0tdlV6dGl1OENwVDVXdXZpNWhRU3k1WEl5RWZsa0dseUllbmdNWlBxYjRaRV9hcWtQbkk?oc=5\" target=\"_blank\"&gt;Пожар в Богословке 4 октября 2026: горит территория бывшего свинарника&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Пензенская правда&lt;/font&gt; Пожар в Богословке произошел 4 октября 2026. Рассказываем, что здесь горит территория бывшего свинарника. Пожар в Богословке произошел 4 октября 2026. Рассказываем, что здесь горит территория бывшего свинарника.",
-        "published_at": 1791128825158,
-        "article_url": "https://pravda-news.ru/news/proisshestviya/pozhar-v-bogoslovke-4-oktyabrya-2026/"
-      },
-      "expiresAt": 1791301625158,
-      "versionstamp": "e096bb0e-b03c-4ae8-8db4-55b1b808badf"
-    },
     "[\"factor\",\"state\",\"last_pipeline\"]": {
       "key": [
         "factor",
@@ -817,7 +791,7 @@
         "selected": 1,
         "urgent": true,
         "manual": false,
-        "score": 54,
+        "score": 55,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
@@ -838,82 +812,69 @@
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
           "text_duplicate": 0,
-          "editorial_filter_rejected": 224,
-          "editorial_no_event_action": 215,
+          "editorial_filter_rejected": 215,
+          "editorial_no_event_action": 203,
           "video_candidates": 0,
           "video_checked": 0,
           "video_rejected": 0,
           "video_validation": null,
-          "external_video_candidates": 0,
-          "external_video_checked": 0,
+          "external_video_candidates": 5,
+          "external_video_checked": 5,
           "search_video_queries": 13,
-          "search_video_candidates": 1,
-          "search_video_checked": 0,
-          "image_candidates": 2,
-          "media_checked": 2,
-          "media_selected": "image",
-          "selected_media_source": "jsonld",
-          "media_rejected": null,
+          "search_video_candidates": 5,
+          "search_video_checked": 10,
+          "image_candidates": 5,
+          "media_checked": 5,
+          "media_selected": null,
+          "selected_media_source": null,
+          "media_rejected": "no_relevant_media",
           "top_candidates": [],
           "ai_provider": "gemini"
         },
         "item": {
-          "title": "«Катехону» закон не писан. Как необъявленное чрезвычайное положение отменяет право — Новая Газета - Новая газета",
-          "source": "Новая газета",
-          "article_url": "https://novayagazeta.ru/articles/2026/10/06/katekhonu-zakon-ne-pisan",
-          "category": "ПРАВО"
+          "title": "Россияне попали в ДТП на Пхукете, есть погибший - URA.RU",
+          "source": "URA.RU",
+          "article_url": "https://ura.news/news/1053133970",
+          "category": "ПРОИСШЕСТВИЯ"
         },
-        "media": {
-          "type": "image_group",
-          "count": 2,
-          "source_url": [
-            "https://novayagazeta.ru/static/snippets/5146b368013a4cedae612f9f69c6970c.webp",
-            "https://novayagazeta.ru/static/records/47578333339a4fdeacbd509c5f39d670.webp"
-          ]
-        },
+        "media": null,
         "publication": {
           "message": {
             "recipient": {
               "chat_type": "channel",
               "chat_id": -78887448255074
             },
-            "timestamp": 1791295646599,
+            "timestamp": 1791301893097,
             "body": {
-              "mid": "mid.ffffb84095ab659e01a1118a6b875e04",
-              "seq": 117394351495536130,
-              "text": "Новая Газета: необъявленное ЧП отменяет право в России\n\nНовая Газета утверждает, что в России необъявленное чрезвычайное положение отменяет право. Издание напоминает, что Федеральный конституционный закон о ЧП допускает ограничения прав и свобод граждан при его введении указом президента.\n\n🔗 Новая газета\n\n📢 ФАКТОР",
+              "mid": "mid.ffffb84095ab659e01a111e9bbe92f06",
+              "seq": 117394760866017020,
+              "text": "ДТП с россиянами на Пхукете: есть погибший\n\n🔗 URA.RU\n\n📢 ФАКТОР",
               "attachments": [
                 {
                   "payload": {
-                    "photo_id": 44801473864,
-                    "token": "kvOp6I776naJ6rUqIfH0s8EU4xAqSSj5FXtn+rcZVEZgwB/ZlvBj9xukjygIpJTMRM44AJ4rw4+WYUBPXMKHZ4SknVdvyHTKCPb1hY6YBg0=",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8fl6rygrMNIaPHsl0d_a0fuhjfMfVvfoBKYlDsISiwlA"
+                    "url": "http://ura.ru",
+                    "token": "f9LHodD0cOIkWujLbcLkQIktFtPzwqrnM7kFNFzLoxs8c05WhXchyfiulVp_2Iz7jB3xEbTTneSiBEBci6YR_oA"
                   },
-                  "type": "image"
-                },
-                {
-                  "payload": {
-                    "photo_id": 44801476936,
-                    "token": "mGOYoFHc5xgn85u0F63TdAne4Vmags/+0YNc3sqWRUke8+OBZ5impD3pM4dR5CFj+zDBSyCQZ6Vex/sJ0T5wTNgVuw6ZFSoYsiVxn1K7ArU=",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8zci3GEaGq50LLLwQolg2iuhjfMfVvfoBKYlDsISiwlA"
-                  },
-                  "type": "image"
+                  "title": "URA.RU: Главные новости России и мира сегодня, новости Урала",
+                  "description": "Будьте в курсе самых главных и свежих новостей России и мира на сегодняшний день. Читайте о событиях последнего часа и эксклюзивные новости Урала только на URA.RU",
+                  "image_url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8QQEEXrhGrla3zn7B4aCI2OhjfMfVvfoBKYlDsISiwlA",
+                  "type": "share"
                 }
               ],
               "markup": [
                 {
                   "from": 0,
-                  "length": 54,
+                  "length": 42,
                   "type": "strong"
                 },
                 {
-                  "url": "https://novayagazeta.ru/articles/2026/10/06/katekhonu-zakon-ne-pisan",
-                  "from": 294,
-                  "length": 12,
+                  "url": "https://ura.news/news/1053133970",
+                  "from": 47,
+                  "length": 6,
                   "type": "link"
                 },
                 {
-                  "from": 311,
+                  "from": 58,
                   "length": 6,
                   "type": "emphasized"
                 }
@@ -922,13 +883,13 @@
             "stat": {
               "views": 1
             },
-            "url": "https://max.ru/channel_faktormedia/AaERimuHXgQ"
+            "url": "https://max.ru/channel_faktormedia/AaER6bvpLwY"
           }
         },
-        "duration_ms": 39686
+        "duration_ms": 77365
       },
       "expiresAt": null,
-      "versionstamp": "7fcab592-d805-4467-b76b-26faf9dfcaea"
+      "versionstamp": "7497f5d9-c3af-442e-9da6-3659cf3b04e1"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -2919,6 +2880,95 @@
       },
       "expiresAt": 1791468446732,
       "versionstamp": "348a7357-4bbc-4394-a371-4f521d5758b7"
+    },
+    "[\"factor\",\"published_v2\",\"0fafbba87a3c0aaebc6c330e3ec4514e6d09dc9252e61535c4b44caae0f08566\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "0fafbba87a3c0aaebc6c330e3ec4514e6d09dc9252e61535c4b44caae0f08566"
+      ],
+      "value": true,
+      "expiresAt": 1793893893245,
+      "versionstamp": "406be4a8-8066-4990-9ace-8200a6b298dc"
+    },
+    "[\"factor\",\"published\",\"3cad93890ae050d449f6fd04bca79f5da4122559d7bb81e6d09cfb19d19bbe0b\"]": {
+      "key": [
+        "factor",
+        "published",
+        "3cad93890ae050d449f6fd04bca79f5da4122559d7bb81e6d09cfb19d19bbe0b"
+      ],
+      "value": true,
+      "expiresAt": 1793893893246,
+      "versionstamp": "7f6b46a2-9764-415a-a4be-6b3b5b1e55a6"
+    },
+    "[\"factor\",\"published_story_v3\",\"f3682e9ca83e1a7e58a80cc47e80ed17e9543f5ff7782bf54bd57e377b9cf2ed\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "f3682e9ca83e1a7e58a80cc47e80ed17e9543f5ff7782bf54bd57e377b9cf2ed"
+      ],
+      "value": true,
+      "expiresAt": 1793893893251,
+      "versionstamp": "8dd82b73-7cd7-451e-8bf2-7102397a43ba"
+    },
+    "[\"factor\",\"recent_title_v2\",1791301893253,\"4b220ea5b1920600fc945aacd79caa1cc14e8ff9d20f7dc65a2af11510464d80\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791301893253,
+        "4b220ea5b1920600fc945aacd79caa1cc14e8ff9d20f7dc65a2af11510464d80"
+      ],
+      "value": "ДТП с россиянами на Пхукете: есть погибший",
+      "expiresAt": 1793893893253,
+      "versionstamp": "ae82402d-c4b7-426e-a706-2da17cbc062e"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"4b220ea5b1920600fc945aacd79caa1cc14e8ff9d20f7dc65a2af11510464d80\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "4b220ea5b1920600fc945aacd79caa1cc14e8ff9d20f7dc65a2af11510464d80"
+      ],
+      "value": "ДТП с россиянами на Пхукете: есть погибший",
+      "expiresAt": 1793893893254,
+      "versionstamp": "2766c84f-3515-46df-a493-dfa5e22cb6d9"
+    },
+    "[\"factor\",\"published_event_v4\",\"65d0ac6a00cb69a012a59a59b245674d60b0e8ee007468296edf0254003a7b25\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "65d0ac6a00cb69a012a59a59b245674d60b0e8ee007468296edf0254003a7b25"
+      ],
+      "value": {
+        "category": "ПРОИСШЕСТВИЯ",
+        "family": "accident",
+        "anchors": [
+          "росс",
+          "попа",
+          "пхук",
+          "есть",
+          "поги"
+        ],
+        "title": "Россияне попали в ДТП на Пхукете, есть погибший",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiR0FVX3lxTE5qWUNYTkRhSHNpOWRGdDRoY1NBdXIzMzJzdmZIcnNFd3lEUHAyWjdJcGZXZ2tBWGRMM3gxakVLYlQ5SGdYSk5V?oc=5\" target=\"_blank\"&gt;Россияне попали в ДТП на Пхукете, есть погибший&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;URA.RU&lt;/font&gt; Россияне попали в ДТП на Пхукете. В результате происшествия есть погибший. Читайте на URA.RU",
+        "published_at": 1791301893260,
+        "article_url": "https://ura.news/news/1053133970"
+      },
+      "expiresAt": 1791474693260,
+      "versionstamp": "bb86b333-2978-4285-ab09-9ce12071c2d3"
+    },
+    "[\"factor\",\"state\",\"incident_count\",2026,9,6,15]": {
+      "key": [
+        "factor",
+        "state",
+        "incident_count",
+        2026,
+        9,
+        6,
+        15
+      ],
+      "value": 1,
+      "expiresAt": 1791309093262,
+      "versionstamp": "592a8cd0-4d42-465b-9a29-a4354dae5392"
     }
   }
 }
