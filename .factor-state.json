@@ -48,9 +48,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791277226168,
+      "value": 1791295607711,
       "expiresAt": null,
-      "versionstamp": "6cf92928-934d-4462-b120-e12c88671660"
+      "versionstamp": "bb5d4fc7-c044-4c90-9817-ff0accf77424"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -815,9 +815,9 @@
       "value": {
         "ok": true,
         "selected": 1,
-        "urgent": false,
+        "urgent": true,
         "manual": false,
-        "score": 57,
+        "score": 54,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
@@ -838,34 +838,38 @@
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
           "text_duplicate": 0,
-          "editorial_filter_rejected": 220,
-          "editorial_no_event_action": 205,
+          "editorial_filter_rejected": 224,
+          "editorial_no_event_action": 215,
           "video_candidates": 0,
           "video_checked": 0,
           "video_rejected": 0,
           "video_validation": null,
-          "external_video_candidates": 3,
-          "external_video_checked": 3,
+          "external_video_candidates": 0,
+          "external_video_checked": 0,
           "search_video_queries": 13,
           "search_video_candidates": 1,
           "search_video_checked": 0,
-          "image_candidates": 1,
-          "media_checked": 1,
+          "image_candidates": 2,
+          "media_checked": 2,
           "media_selected": "image",
-          "selected_media_source": "meta",
+          "selected_media_source": "jsonld",
           "media_rejected": null,
           "top_candidates": [],
-          "ai_provider": "qwen"
+          "ai_provider": "gemini"
         },
         "item": {
-          "title": "Правительство утвердило стратегию развития биоэкономики до 2036 года - Agroinvestor.ru",
-          "source": "Agroinvestor.ru",
-          "article_url": "https://www.agroinvestor.ru/markets/news/46639-pravitelstvo-utverdilo-strategiyu-razvitiya-bioekonomiki-do-2036-goda/",
-          "category": "ПОЛИТИКА"
+          "title": "«Катехону» закон не писан. Как необъявленное чрезвычайное положение отменяет право — Новая Газета - Новая газета",
+          "source": "Новая газета",
+          "article_url": "https://novayagazeta.ru/articles/2026/10/06/katekhonu-zakon-ne-pisan",
+          "category": "ПРАВО"
         },
         "media": {
-          "type": "image",
-          "source_url": "https://www.agroinvestor.ru/upload/iblock/c91/c91465bd5fd89a0469a60000c86dae23.jpg"
+          "type": "image_group",
+          "count": 2,
+          "source_url": [
+            "https://novayagazeta.ru/static/snippets/5146b368013a4cedae612f9f69c6970c.webp",
+            "https://novayagazeta.ru/static/records/47578333339a4fdeacbd509c5f39d670.webp"
+          ]
         },
         "publication": {
           "message": {
@@ -873,17 +877,25 @@
               "chat_type": "channel",
               "chat_id": -78887448255074
             },
-            "timestamp": 1791285011124,
+            "timestamp": 1791295646599,
             "body": {
-              "mid": "mid.ffffb84095ab659e01a110e822b45d23",
-              "seq": 117393654489046300,
-              "text": "Правительство утвердило стратегию развития биоэкономики до 2036 года\n\n🔗 Agroinvestor.ru\n\n📢 ФАКТОР",
+              "mid": "mid.ffffb84095ab659e01a1118a6b875e04",
+              "seq": 117394351495536130,
+              "text": "Новая Газета: необъявленное ЧП отменяет право в России\n\nНовая Газета утверждает, что в России необъявленное чрезвычайное положение отменяет право. Издание напоминает, что Федеральный конституционный закон о ЧП допускает ограничения прав и свобод граждан при его введении указом президента.\n\n🔗 Новая газета\n\n📢 ФАКТОР",
               "attachments": [
                 {
                   "payload": {
-                    "photo_id": 44768008520,
-                    "token": "baXWdho4oIA0/+43Wr686WXrVpU+BVD8aVDAKRU9k95LEbXrMEEFfmgyucPDvK5fczMHdT9va+ODEKpp7r+CQdvgcZXQ9lQf5lIDe3mKwyk=",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8hA86BiZXrpEhTOHoLFLbFOhjfMfVvfoBKYlDsISiwlA"
+                    "photo_id": 44801473864,
+                    "token": "kvOp6I776naJ6rUqIfH0s8EU4xAqSSj5FXtn+rcZVEZgwB/ZlvBj9xukjygIpJTMRM44AJ4rw4+WYUBPXMKHZ4SknVdvyHTKCPb1hY6YBg0=",
+                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8fl6rygrMNIaPHsl0d_a0fuhjfMfVvfoBKYlDsISiwlA"
+                  },
+                  "type": "image"
+                },
+                {
+                  "payload": {
+                    "photo_id": 44801476936,
+                    "token": "mGOYoFHc5xgn85u0F63TdAne4Vmags/+0YNc3sqWRUke8+OBZ5impD3pM4dR5CFj+zDBSyCQZ6Vex/sJ0T5wTNgVuw6ZFSoYsiVxn1K7ArU=",
+                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8zci3GEaGq50LLLwQolg2iuhjfMfVvfoBKYlDsISiwlA"
                   },
                   "type": "image"
                 }
@@ -891,17 +903,17 @@
               "markup": [
                 {
                   "from": 0,
-                  "length": 68,
+                  "length": 54,
                   "type": "strong"
                 },
                 {
-                  "url": "https://www.agroinvestor.ru/markets/news/46639-pravitelstvo-utverdilo-strategiyu-razvitiya-bioekonomiki-do-2036-goda/",
-                  "from": 73,
-                  "length": 15,
+                  "url": "https://novayagazeta.ru/articles/2026/10/06/katekhonu-zakon-ne-pisan",
+                  "from": 294,
+                  "length": 12,
                   "type": "link"
                 },
                 {
-                  "from": 93,
+                  "from": 311,
                   "length": 6,
                   "type": "emphasized"
                 }
@@ -910,13 +922,13 @@
             "stat": {
               "views": 1
             },
-            "url": "https://max.ru/channel_faktormedia/AaEQ6CK0XSM"
+            "url": "https://max.ru/channel_faktormedia/AaERimuHXgQ"
           }
         },
-        "duration_ms": 75298
+        "duration_ms": 39686
       },
       "expiresAt": null,
-      "versionstamp": "47723955-5a97-4c5c-868b-9e616f18a716"
+      "versionstamp": "7fcab592-d805-4467-b76b-26faf9dfcaea"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -2827,6 +2839,86 @@
       },
       "expiresAt": 1791457811258,
       "versionstamp": "5378bdfa-138f-4ba5-84db-a32da67f2a52"
+    },
+    "[\"factor\",\"published_v2\",\"f29364bbcd5809d3eb081782350ba08f308901633ffbae1a544345af8be7b4a2\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "f29364bbcd5809d3eb081782350ba08f308901633ffbae1a544345af8be7b4a2"
+      ],
+      "value": true,
+      "expiresAt": 1793887646726,
+      "versionstamp": "24d4245a-f93f-4855-92d6-e3c2055a0ef8"
+    },
+    "[\"factor\",\"published\",\"7e47aeedcc709d2033cbabf5701e442032a38d8ca25732c87ab3a6aa4032c954\"]": {
+      "key": [
+        "factor",
+        "published",
+        "7e47aeedcc709d2033cbabf5701e442032a38d8ca25732c87ab3a6aa4032c954"
+      ],
+      "value": true,
+      "expiresAt": 1793887646727,
+      "versionstamp": "ba78bd08-18d5-475e-a4b0-47ff0cac1013"
+    },
+    "[\"factor\",\"published_story_v3\",\"cd9505dc119fd4667cf75fecb1c3ea0ec950b6119121516339e53984e8f0a870\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "cd9505dc119fd4667cf75fecb1c3ea0ec950b6119121516339e53984e8f0a870"
+      ],
+      "value": true,
+      "expiresAt": 1793887646728,
+      "versionstamp": "fa830ec4-34d3-43fd-90c5-97d3b018e6d0"
+    },
+    "[\"factor\",\"recent_title_v2\",1791295646729,\"0ec2e836074d8b64b1dd327ed1e3b42be8b7fd747ab91a71f46713388e07c5a4\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791295646729,
+        "0ec2e836074d8b64b1dd327ed1e3b42be8b7fd747ab91a71f46713388e07c5a4"
+      ],
+      "value": "Новая Газета: необъявленное ЧП отменяет право в России",
+      "expiresAt": 1793887646729,
+      "versionstamp": "9ca42fa6-082c-4e13-8424-abad9f096754"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"0ec2e836074d8b64b1dd327ed1e3b42be8b7fd747ab91a71f46713388e07c5a4\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "0ec2e836074d8b64b1dd327ed1e3b42be8b7fd747ab91a71f46713388e07c5a4"
+      ],
+      "value": "Новая Газета: необъявленное ЧП отменяет право в России",
+      "expiresAt": 1793887646730,
+      "versionstamp": "9a2f128f-dd85-4336-a3bc-61fe7503ca50"
+    },
+    "[\"factor\",\"published_event_v4\",\"69cf761bce11e95458378e3a458a5638bf2c091881cb1a7617449ebfdd5f3642\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "69cf761bce11e95458378e3a458a5638bf2c091881cb1a7617449ebfdd5f3642"
+      ],
+      "value": {
+        "category": "ПРАВО",
+        "family": "politics",
+        "anchors": [
+          "кате",
+          "зако",
+          "писа",
+          "необ",
+          "чрез",
+          "поло",
+          "отме",
+          "прав",
+          "нова",
+          "газе"
+        ],
+        "title": "«Катехону» закон не писан. Как необъявленное чрезвычайное положение отменяет право — Новая газета",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMid0FVX3lxTE0wajY4RVZqSG45UU9mRDV2dXh5VkJ2cF9ZN0RTcFpiUThpYUJ1aFozNnM1Tng4dHFvMDlUb1ZfU2NSSXdBbGVwVTZnN2Nsdl9UUEcwQzVwNlBacHJaU0RlRGs3RDBLME9zblhEVmtPb0N5NS03Ymh30gF8QVVfeXFMTzRFNFJiRTVobUxQSHo2XzlRNmlrTjhPYWVST2pHX3ExNnZUeTZGb3dqMlpBU2NETUg3UjMzOVlLVV9vZGRheWVROVlfd1c3cHFNUmFzTi1uVVhIYzd2WFRjcTZOSkd1MWxqMGFIRFNLZzVZeDBQbWxtakc0NA?oc=5\" target=\"_blank\"&gt;«Катехону» закон не писан. Как необъявленное чрезвычайное положение отменяет право — Новая Газета&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Новая газета&lt;/font&gt; Новая Газета утверждает, что в России необъявленное чрезвычайное положение отменяет право. Издание напоминает, что Федеральный конституционный закон о ЧП допускает ограничения прав и свобод граждан при его введении указом президента. Если кто не знает, в России действует Федеральный конституционный закон «О чрезвычайном положении» от 5 мая 2001 года № 3-ФКЗ в редакции от 2 ноября 2023 года. В соответствии с ним чрезвычайное п",
+        "published_at": 1791295646732,
+        "article_url": "https://novayagazeta.ru/articles/2026/10/06/katekhonu-zakon-ne-pisan"
+      },
+      "expiresAt": 1791468446732,
+      "versionstamp": "348a7357-4bbc-4394-a371-4f521d5758b7"
     }
   }
 }
