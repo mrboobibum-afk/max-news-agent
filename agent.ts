@@ -2226,15 +2226,18 @@ async function publishToMax(text, mediaToken) {
         notify: true,
         disable_link_preview: true,
     };
-    if (mediaToken) {
-        body.attachments = [
-            {
-                type: mediaToken.type,
-                payload: {
-                    token: mediaToken.token,
-                },
+    const mediaTokens = Array.isArray(mediaToken)
+        ? mediaToken
+        : mediaToken
+            ? [mediaToken]
+            : [];
+    if (mediaTokens.length) {
+        body.attachments = mediaTokens.map((token) => ({
+            type: token.type,
+            payload: {
+                token: token.token,
             },
-        ];
+        }));
     }
     return await maxJson(`/messages?chat_id=${encodeURIComponent(TARGET_CHAT_ID)}`, {
         method: "POST",
@@ -2752,6 +2755,15 @@ function detectUrgency(item) {
     ];
     return urgentPatterns.some((pattern) => text.includes(pattern));
 }
+
+function isIncidentItem(item) {
+    const text = normalizeForHash(`${item?.title || ""} ${item?.description || ""}`);
+    return [
+        "дтп", "пожар", "авария", "катастроф", "крушение",
+        "землетрясение", "цунами", "погиб", "погибли", "пострадал",
+        "пострадали", "взрыв",
+    ].some((pattern) => text.includes(pattern));
+}
 // ============================================================
 // EDITORIAL EVENT FILTER
 // ============================================================
@@ -2764,6 +2776,7 @@ const EDITORIAL_GARBAGE_PATTERNS = [
     /(?:курс(?:ы)?\s+(?:валют|доллара|евро)|официальн(?:ый|ого)\s+курс|котировк(?:и|а)|погода\s+на|гороскоп|афиша|телепрограмма)/i,
     /(?:вспоминаем|вспомнили|история\s+.*(?:вызвала|получила)\s+резонанс|спустя\s+годы|ранее\s+произош|хроника)/i,
     /(?:5|7|10|12|20)\s+(?:причин|способов|фактов|советов|идей|мест|вещей)/i,
+    /(?:пресс[\s-]*релиз|пресс[\s-]*служб[аы].*(?:сообщил|сообщила|представил|представила)|официальное\s+сообщение\s+компани)/i,
 ];
 
 const EDITORIAL_EVENT_PATTERNS = [
@@ -2866,14 +2879,7 @@ function scoreNewsItem(item) {
     // остальную ленту. Государственные, мировые, экономические и
     // другие действительно срочные события получают более высокий
     // приоритет, чем обычные происшествия.
-    const incidentPatterns = [
-        "дтп", "пожар", "авария", "катастроф", "крушение",
-        "землетрясение", "цунами", "погиб", "погибли", "пострадал",
-        "пострадали", "взрыв",
-    ];
-    const isIncident = incidentPatterns.some((pattern) =>
-        combined.includes(pattern)
-    );
+    const isIncident = isIncidentItem(item);
     if (urgency) {
         score += isIncident ? 8 : 20;
     }
@@ -4224,7 +4230,11 @@ async function findBestMedia(articleMedia, item, story, diagnostics = null) {
 
     if (diagnostics) diagnostics.image_candidates = candidates.length;
     let checked = 0;
+    const verifiedImages = [];
+    const seenImageUrls = new Set();
     for (const candidate of candidates.slice(0, 5)) {
+        if (!candidate?.url || seenImageUrls.has(candidate.url)) continue;
+        seenImageUrls.add(candidate.url);
         checked++;
         if (diagnostics) diagnostics.media_checked = checked;
         console.log("Trying article image candidate:", candidate.source, candidate.url);
@@ -4239,8 +4249,11 @@ async function findBestMedia(articleMedia, item, story, diagnostics = null) {
             diagnostics.media_selected = "image";
             diagnostics.selected_media_source = candidate.source;
         }
-        return image;
+        verifiedImages.push(image);
+        if (verifiedImages.length >= 3) break;
     }
+
+    if (verifiedImages.length) return verifiedImages;
 
     // ----------------------------------------------------------
     // 3. TEXT — better no image than a wrong image.
@@ -4643,6 +4656,13 @@ async function publishWithMediaRetry(text, mediaInfo) {
             }
         }
     }
+    // Some MAX deployments accept only one attachment per message. If a
+    // multi-photo request is rejected after all normal retries, preserve the
+    // publication by retrying with the first verified image.
+    if (Array.isArray(mediaInfo) && mediaInfo.length > 1) {
+        console.warn("MAX rejected multi-media publication; retrying with one attachment");
+        return await publishWithMediaRetry(text, mediaInfo[0]);
+    }
     throw (lastError instanceof Error
         ? lastError
         : new Error(String(lastError)));
@@ -4773,6 +4793,27 @@ async function executePipeline(manual = false) {
         const { item, story, articleMedia, score, } = candidate;
         const urgent = story.urgent ||
             detectUrgency(item);
+        const incident = isIncidentItem(item);
+        const incidentHourKey = [
+            "factor",
+            "state",
+            "incident_count",
+            new Date(now).getUTCFullYear(),
+            new Date(now).getUTCMonth(),
+            new Date(now).getUTCDate(),
+            new Date(now).getUTCHours(),
+        ];
+        const incidentCount = Number((await db.get(incidentHourKey)).value ?? 0);
+        if (incident && !manual && incidentCount >= 3) {
+            const result = {
+                ok: true,
+                selected: 0,
+                reason: "incident hourly cap reached",
+                diagnostics,
+            };
+            await db.set(["factor", "state", "last_pipeline"], result);
+            return result;
+        }
         if (urgent &&
             !urgentAllowed &&
             !manual) {
@@ -4851,12 +4892,16 @@ async function executePipeline(manual = false) {
         // --------------------------------------------------------
         if (media) {
             try {
-                console.log("Uploading media:", media.type, media.bytes.byteLength);
-                const token = await uploadMedia(media);
-                mediaInfo = {
-                    type: media.type,
-                    token,
-                };
+                const mediaItems = Array.isArray(media) ? media : [media];
+                console.log("Uploading media:", mediaItems.map((item) => `${item.type}:${item.bytes.byteLength}`).join(", "));
+                mediaInfo = [];
+                for (const mediaItem of mediaItems) {
+                    const token = await uploadMedia(mediaItem);
+                    mediaInfo.push({
+                        type: mediaItem.type,
+                        token,
+                    });
+                }
             }
             catch (error) {
                 console.error("Media upload failed:", error instanceof Error
@@ -4870,7 +4915,7 @@ async function executePipeline(manual = false) {
         // PUBLISH
         // --------------------------------------------------------
         let publication;
-        if (mediaInfo) {
+        if (mediaInfo?.length) {
             try {
                 publication =
                     await publishWithMediaRetry(text, mediaInfo);
@@ -4913,6 +4958,11 @@ async function executePipeline(manual = false) {
                 "last_regular",
             ], now);
         }
+        if (incident) {
+            await db.set(incidentHourKey, incidentCount + 1, {
+                expireIn: 2 * 60 * 60 * 1000,
+            });
+        }
         const result = {
             ok: true,
             selected: 1,
@@ -4929,8 +4979,13 @@ async function executePipeline(manual = false) {
             },
             media: media
                 ? {
-                    type: media.type,
-                    source_url: media.sourceUrl,
+                    type: Array.isArray(media)
+                        ? "image_group"
+                        : media.type,
+                    count: Array.isArray(media) ? media.length : 1,
+                    source_url: Array.isArray(media)
+                        ? media.map((entry) => entry.sourceUrl)
+                        : media.sourceUrl,
                 }
                 : null,
             publication,
