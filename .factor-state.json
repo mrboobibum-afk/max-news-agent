@@ -554,33 +554,6 @@
       "expiresAt": 1793704542707,
       "versionstamp": "66a45d76-2696-4e7a-a2a3-b06f0598bc9b"
     },
-    "[\"factor\",\"published_event_v4\",\"9a40c66ac3b4e562c7e2b342a9e7ca30234e3d31a0c30b9edbc26a663ddaa058\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "9a40c66ac3b4e562c7e2b342a9e7ca30234e3d31a0c30b9edbc26a663ddaa058"
-      ],
-      "value": {
-        "category": "ПРОИСШЕСТВИЯ",
-        "family": "accident",
-        "anchors": [
-          "летн",
-          "деву",
-          "поги",
-          "беля",
-          "райо",
-          "орен",
-          "обла",
-          "риа5"
-        ],
-        "title": "16-летняя девушка погибла в ДТП в Беляевском районе — Новости Оренбурга и Оренбургской области на РИА56",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiigFBVV95cUxPS3kwX3F2MnM0bTRiMlY3aU1WeExxaWpRNVJIbUJrTzZMNVp2a0ZtSnpjWjFudm1FcmVyMFQ4M3dyd1Z3T0NmaXFNUThDUjVKTk1NSXlyQ1dHYkVQaEdXcTV0dlpNRzJHcWVFOC1KWVdXM2tObHM0Q2ZnYVY5M1dVMVh2UVl2czlSX2c?oc=5\" target=\"_blank\"&gt;16-летняя девушка погибла в ДТП в Беляевском районе&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;RIA56&lt;/font&gt; В Беляевском районе в ДТП погибла 16-летняя девушка.",
-        "published_at": 1791112542707,
-        "article_url": "https://ria56.ru/posts/16-letnyaya-devushka-pogibla-v-dtp-v-belyaevskom-rajone.htm"
-      },
-      "expiresAt": 1791285342707,
-      "versionstamp": "e3ba942b-01ae-4ffd-85ec-74da5724517d"
-    },
     "[\"factor\",\"published_v2\",\"3e281463b5da5426020cfa05305519f09b3260859623a858aa8cfa3bd5b2f83e\"]": {
       "key": [
         "factor",
@@ -621,31 +594,6 @@
       "value": "В Норильске водитель Mazda погиб в ДТП с грузовиком",
       "expiresAt": 1793704922727,
       "versionstamp": "a4a115ec-a455-43e5-be3c-1766c536fed1"
-    },
-    "[\"factor\",\"published_event_v4\",\"5d4c109bba2886e851856162dc18f497c6013ec2bccf7f3675ed5af17506d451\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "5d4c109bba2886e851856162dc18f497c6013ec2bccf7f3675ed5af17506d451"
-      ],
-      "value": {
-        "category": "ПРОИСШЕСТВИЯ",
-        "family": "accident",
-        "anchors": [
-          "нори",
-          "води",
-          "mazd",
-          "груз",
-          "горо",
-          "прим"
-        ],
-        "title": "В Норильске водитель Mazda погиб в ДТП с грузовиком — Город Прима",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiiwFBVV95cUxPUWhmcTRLZ3NpRHloU1o4bndqRlJ1bHppSHFLTmUxT3ROcDI0d2FOelpyQmczYVE3OEFMZ0p5OS1NYk5SeGs4YlFXbGxsZXpPMnBIZjFXSUMwNkNtRFhlM3p4emhHdFVQN0ZyY2NXQVJRLVBELXVTckVxakp5Ml9EYWNuTnhUMVk5TWVz?oc=5\" target=\"_blank\"&gt;В Норильске водитель Mazda погиб в ДТП с грузовиком&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Город Прима&lt;/font&gt; В Норильске 4 октября 2026 года произошло смертельное ДТП с участием Mazda и грузовика, в котором погиб водитель легкового автомобиля. В Норильске водитель Mazda погиб в ДТП с грузовиком Смертельное ДТП в Норильске 4 октября 2026 года",
-        "published_at": 1791112922728,
-        "article_url": "https://gorodprima.ru/2026/10/04/v-norilske-voditel-mazda-pogib-v-dtp-s-gruzovikom/"
-      },
-      "expiresAt": 1791285722728,
-      "versionstamp": "e20af98f-c0fe-4c4d-a876-99e1a0ac3e80"
     },
     "[\"factor\",\"published_v2\",\"299c7c1c750e1efff95b963629d358bac9b269db5dfdeb9365ab2d0ee69fc343\"]": {
       "key": [
@@ -688,31 +636,6 @@
       "expiresAt": 1793705473781,
       "versionstamp": "00930de9-2666-499a-84fb-efddcc72385a"
     },
-    "[\"factor\",\"published_event_v4\",\"5d02bd3e13f2e29ab47575d34e00d428d2f2f4b54a4929a46a661778f810abf0\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "5d02bd3e13f2e29ab47575d34e00d428d2f2f4b54a4929a46a661778f810abf0"
-      ],
-      "value": {
-        "category": "ПОЛИТИКА",
-        "family": "crime",
-        "anchors": [
-          "дочь",
-          "убит",
-          "моск",
-          "женщ",
-          "нашл",
-          "мерт"
-        ],
-        "title": "Дочь убитой в Москве женщины нашли мертвой",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMid0FVX3lxTE01cEE2M0hxZkJweG1MMzRDY3IxN2hfbXhIdVpKODhsaEhpbGpLLU5aaGoxR01mMEVQbW9vMzNaWGZ6SFNIcTA0bS1NSDVYYzRFOFNjeGk4LUVqQ2VsZkRxOGt5QnZRUjhRUTdSci1MX2pLRDYyTjFn?oc=5\" target=\"_blank\"&gt;Дочь убитой в Москве женщины нашли мертвой&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Ведомости&lt;/font&gt; Обнаружено тело дочери женщины, ранее убитой в Москве. Подробности читайте на vedomosti.ru",
-        "published_at": 1791113473781,
-        "article_url": "https://www.vedomosti.ru/society/news/2026/10/04/1234054-doch-ubitoi"
-      },
-      "expiresAt": 1791286273781,
-      "versionstamp": "3cde5bec-47f9-44cd-a76e-30dbfabd4bda"
-    },
     "[\"factor\",\"published_v2\",\"426ed5d2c26d5343b8dedd507bbafe466e73f9f886221ad6e77284b08343ede4\"]": {
       "key": [
         "factor",
@@ -754,30 +677,6 @@
       "expiresAt": 1793705719345,
       "versionstamp": "defee1f3-afa0-4342-b620-a44b5cb40fac"
     },
-    "[\"factor\",\"published_event_v4\",\"50d67dceb44a5287f92f5c98032e68b2b6de9b01e2a6d77de5fba92e5c72c8f9\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "50d67dceb44a5287f92f5c98032e68b2b6de9b01e2a6d77de5fba92e5c72c8f9"
-      ],
-      "value": {
-        "category": "ПРОИСШЕСТВИЯ",
-        "family": "fire",
-        "anchors": [
-          "базе",
-          "втор",
-          "лока",
-          "пенз",
-          "обла"
-        ],
-        "title": "Пожар на базе вторсырья локализован в Пензенской области",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiT0FVX3lxTE1yTG1DTDA5QnYwbU9NcHVXRVkyT0M3T3dXS3I4QkRCUHY2SzVOYzlTREhSTEZoOFJGUk5RRWRha05oWEpQQnJBdjl2ellWM2vSAUtBVV95cUxPejU3VTJCeXRqcENwVW03YzVCdlh4WTNmNjlzQU1VMEJjbkI5RjJnUU9CUDV3bUVXV0pPcWNOc1g0R01qOHNFNlNGRzg?oc=5\" target=\"_blank\"&gt;Пожар на базе вторсырья локализован в Пензенской области&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Интерфакс&lt;/font&gt; В Пензенской области пожарные локализовали возгорание на базе вторсырья. Пожарные локализовали возгорание на базе вторсырья в районе села Богословка в Пензенской области, сообщила в воскресенье пресс-служба регионального ГУ МЧС",
-        "published_at": 1791113719346,
-        "article_url": "https://www.interfax.ru/russia/1120243"
-      },
-      "expiresAt": 1791286519346,
-      "versionstamp": "e13db736-a09d-4d3e-afcf-5444c08cabca"
-    },
     "[\"factor\",\"published_v2\",\"f565375305fd201090a341a7be38057835afe7b5dfe0eceedfbd1015f53dcd65\"]": {
       "key": [
         "factor",
@@ -818,34 +717,6 @@
       "value": "Еще один банк подключил клиентов к цифровому рублю",
       "expiresAt": 1793706028187,
       "versionstamp": "6166f733-8451-4135-b910-044b8e9781ea"
-    },
-    "[\"factor\",\"published_event_v4\",\"68be51cfe5ad437cf5f90ab087022eafaa91940b813b7393ec149651d4f6050e\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "68be51cfe5ad437cf5f90ab087022eafaa91940b813b7393ec149651d4f6050e"
-      ],
-      "value": {
-        "category": "ФИНАНСЫ",
-        "family": "economy",
-        "anchors": [
-          "один",
-          "банк",
-          "подк",
-          "клие",
-          "цифр",
-          "рубл",
-          "дост",
-          "комп",
-          "людя"
-        ],
-        "title": "Еще один банк подключил клиентов к цифровому рублю: что теперь доступно компаниям и людям",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiUkFVX3lxTE1mV05xSEctcnQ3d0t6czZwOTJuVE96a1lzNUhFazM3V3dDNjFwaGNjT0Q3SC1Ea3ZDMHp4SVVlME1qa2xsSGdGVTBxbzlrZTRSVGfSAVJBVV95cUxNZldOcUhHLXJ0N3dLenM2cDkyblRPemtZczVIRWszN1d3QzYxcGhjY09EN0gtRGt2QzB6eElVZTBNamtsbEhnRlUwcW85a2U0UlRn?oc=5\" target=\"_blank\"&gt;Еще один банк подключил клиентов к цифровому рублю: что теперь доступно компаниям и людям&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Банки Юга.ру&lt;/font&gt; &lt;a href=\"https://news.google.com/rss/articles/CBMiUkFVX3lxTE1mV05xSEctcnQ3d0t6czZwOTJuVE96a1lzNUhFazM3V3dDNjFwaGNjT0Q3SC1Ea3ZDMHp4SVVlME1qa2xsSGdGVTBxbzlrZTRSVGfSAVJBVV95cUxNZldOcUhHLXJ0N3dLenM2cDkyblRPemtZczVIRWszN1d3QzYxcGhjY09EN0gtRGt2QzB6eElVZTBNamtsbEhnRlUwcW85a2U0UlRn?oc=5\" target=\"_blank\"&gt;Еще один банк подключил клиентов к цифровому рублю: что теперь доступно компаниям и людям&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Банки Юга.ру&lt;/font&gt;",
-        "published_at": 1791114028188,
-        "article_url": "https://bank.yuga.ru/newsfeed/amp/10508/"
-      },
-      "expiresAt": 1791286828188,
-      "versionstamp": "af60b168-9302-4625-be2c-0c82e70402f9"
     },
     "[\"factor\",\"recent_title_v2\",1791114730797,\"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\"]": {
       "key": [
