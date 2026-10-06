@@ -48,9 +48,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791179008939,
+      "value": 1791277226168,
       "expiresAt": null,
-      "versionstamp": "a7110d76-6e4e-42a5-91f4-1210bf5e432b"
+      "versionstamp": "6cf92928-934d-4462-b120-e12c88671660"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -308,59 +308,6 @@
       "expiresAt": 1793683692951,
       "versionstamp": "a1e77d07-9266-4c7c-9e37-0dc0a4f13fb9"
     },
-    "[\"factor\",\"published_event_v4\",\"3afcb0568501f6cae7a27885057dc08b47271b3828573535f483e5445e981b4f\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "3afcb0568501f6cae7a27885057dc08b47271b3828573535f483e5445e981b4f"
-      ],
-      "value": {
-        "category": "ПОЛИТИКА",
-        "family": "crime",
-        "anchors": [
-          "подо",
-          "убий",
-          "брит",
-          "поли",
-          "уиде",
-          "обви",
-          "подг",
-          "тера",
-          "найд",
-          "фара",
-          "news",
-          "русс",
-          "служ",
-          "href",
-          "http",
-          "goog",
-          "arti",
-          "cbmi",
-          "targ",
-          "blan",
-          "font",
-          "colo",
-          "6f6f",
-          "джош",
-          "керр",
-          "конс",
-          "парт",
-          "refo",
-          "пятн",
-          "пред",
-          "одно",
-          "числ",
-          "отно",
-          "лиде"
-        ],
-        "title": "Подозреваемый в убийстве британского политика Энн Уидеком обвинен в подготовке теракта против Найджела Фараджа - BBC News Русская служба",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiX0FVX3lxTE5Sa0tJOXM1WmRMaDI2cDNnUW1veU5TWDZCbkhoUGVaN0ZNWkxWS2M1NUhZR3BidS01QnpNeTJQV0VjWDJGb1hfcV94UFU4TVFnLV9oWUJRYk16RnhxWXVr0gFkQVVfeXFMT212bVVScTBJMlVKcGVHWVBvcVlkaC00WW1oVERVaWdLdjFrM1dnTEpzMUw1R1ZTR2lLeEFrYjd0Z3JpcWFIQ3p2QjZKbHRlTFUxWUplUXh4LTJhd0tubTc5SkF1Nw?oc=5\" target=\"_blank\"&gt;Подозреваемый в убийстве британского политика Энн Уидеком обвинен в подготовке теракта против Найджела Фараджа&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;BBC&lt;/font&gt; Британцу Джошуа Керри, обвиняемому в убийстве консервативного политика из партии Reform UK Энн Уидеком, в пятницу предъявили еще одно обвинение — в подготовке терактов, в том числе в отношении лидера той же партии Найджела Фараджа. Британцу Джошуа Керри, обвиняемому в убийстве консервативного политика из партии Reform UK Энн Уидеком, в пятницу предъявили еще одно обвинение — в подготовке терактов, в том числе в отношении лидера той же партии Найджела Фараджа.",
-        "published_at": 1791091692951,
-        "article_url": "https://www.bbc.com/russian/articles/cmg47y5g750po"
-      },
-      "expiresAt": 1791264492951,
-      "versionstamp": "a47a444b-fe45-40a3-8d45-12d19a230c4e"
-    },
     "[\"factor\",\"published_v2\",\"6657e4005e7482d95a6d0ada5b5c027db33c6deff0316b916e4058bc3710d248\"]": {
       "key": [
         "factor",
@@ -401,56 +348,6 @@
       "value": "Житель Орска через суд взыскал 180 тысяч рублей с недобросовестного мастера по лестницам",
       "expiresAt": 1793684456703,
       "versionstamp": "17e87ed7-e7ae-4b74-9530-d98f40fecaaa"
-    },
-    "[\"factor\",\"published_event_v4\",\"1f4d55e7a035a13f91e394855b25c2a8d162cd92e2e16cf58d19c3d5b372fa18\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "1f4d55e7a035a13f91e394855b25c2a8d162cd92e2e16cf58d19c3d5b372fa18"
-      ],
-      "value": {
-        "category": "ПРАВО",
-        "family": "law",
-        "anchors": [
-          "жите",
-          "орск",
-          "чере",
-          "взыс",
-          "тыся",
-          "рубл",
-          "недо",
-          "маст",
-          "лест",
-          "href",
-          "http",
-          "news",
-          "goog",
-          "arti",
-          "cbmi",
-          "targ",
-          "blan",
-          "font",
-          "colo",
-          "6f6f",
-          "oren",
-          "мужч",
-          "зака",
-          "отда",
-          "пред",
-          "проп",
-          "рабо",
-          "выпо",
-          "спус",
-          "врем",
-          "поше"
-        ],
-        "title": "Житель Орска через суд взыскал 180 тысяч рублей с недобросовестного мастера по лестницам",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiTEFVX3lxTE9WdXl3aV9EbjByNFo4bGRvR3hUYm9sM2kzczV2R090VHc3SEZ5WlB1ZXBOWEEwRE1rNC1Wend4LWJxZjk4aXZNa3FnV2g?oc=5\" target=\"_blank\"&gt;Житель Орска через суд взыскал 180 тысяч рублей с недобросовестного мастера по лестницам&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Orenday.ru&lt;/font&gt; Мужчина заказал лестницу, отдал 45 тысяч предоплаты, но мастер пропал и работу не выполнил. Спустя время заказчик пошел в суд. Мужчина заказал лестницу, отдал 45 тысяч предоплаты, но мастер пропал и работу не выполнил. Спустя время заказчик пошел в суд.",
-        "published_at": 1791092456704,
-        "article_url": "https://orenday.ru/2026/031026214152"
-      },
-      "expiresAt": 1791265256704,
-      "versionstamp": "91e759ce-0cd1-4620-aaf8-9aadad4d186b"
     },
     "[\"factor\",\"published_v2\",\"7eec436c4137be5b633850e6ebe6bce95ce3f7aa9e35e3920197e9a85ca62f89\"]": {
       "key": [
@@ -1178,9 +1075,9 @@
       "value": {
         "ok": true,
         "selected": 1,
-        "urgent": false,
+        "urgent": true,
         "manual": false,
-        "score": 32,
+        "score": 79,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
@@ -1190,18 +1087,18 @@
           "urgent_interval": 0,
           "regular_interval": 0,
           "duplicate_before_article": 0,
-          "event_duplicate_before_article": 6,
-          "bad_url": 1,
+          "event_duplicate_before_article": 0,
+          "bad_url": 0,
           "article_title_mismatch": 0,
           "duplicate_after_article": 0,
           "event_duplicate_after_article": 0,
           "old_event_new_article": 0,
-          "gemini_fallback": 1,
+          "gemini_fallback": 0,
           "gemini_title_mismatch": 0,
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
           "text_duplicate": 0,
-          "editorial_filter_rejected": 223,
+          "editorial_filter_rejected": 229,
           "editorial_no_event_action": 212,
           "video_candidates": 0,
           "video_checked": 0,
@@ -1215,20 +1112,20 @@
           "image_candidates": 1,
           "media_checked": 1,
           "media_selected": "image",
-          "selected_media_source": "meta",
+          "selected_media_source": "jsonld",
           "media_rejected": null,
           "top_candidates": [],
-          "ai_provider": "none"
+          "ai_provider": "gemini"
         },
         "item": {
-          "title": "С начала октября Пермский театр оперы и балета продал по акции 1,5 тысячи билетов - Newsko.ru",
-          "source": "«Новый компаньон»",
-          "article_url": "https://www.newsko.ru/news/nk-9445108.html",
-          "category": "КУЛЬТУРА"
+          "title": "Президент Южной Кореи заявил о применении ИИ хакерами в масштабных кибератаках на банки страны - Anadolu Ajansı",
+          "source": "Anadolu",
+          "article_url": "https://www.aa.com.tr/ru/%D0%BC%D0%B8%D1%80/%D0%BF%D1%80%D0%B5%D0%B7%D0%B8%D0%B4%D0%B5%D0%BD%D1%82-%D1%8E%D0%B6%D0%BD%D0%BE%D0%B9-%D0%BA%D0%BE%D1%80%D0%B5%D0%B8-%D0%B7%D0%B0%D1%8F%D0%B2%D0%B8%D0%BB-%D0%BE-%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B8-%D0%B8%D0%B8-%D1%85%D0%B0%D0%BA%D0%B5%D1%80%D0%B0%D0%BC%D0%B8-%D0%B2-%D0%BC%D0%B0%D1%81%D1%88%D1%82%D0%B0%D0%B1%D0%BD%D1%8B%D1%85-%D0%BA%D0%B8%D0%B1%D0%B5%D1%80%D0%B0%D1%82%D0%B0%D0%BA%D0%B0%D1%85-%D0%BD%D0%B0-%D0%B1%D0%B0%D0%BD%D0%BA%D0%B8-%D1%81%D1%82%D1%80%D0%B0%D0%BD%D1%8B/4079408",
+          "category": "ПОЛИТИКА"
         },
         "media": {
           "type": "image",
-          "source_url": "https://www.newsko.ru/media/4621634/opernyy.jpg?size=600"
+          "source_url": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/10/06/thumbs_b_c_9247361bf4e6c01675bd07e5427d2fa2.jpg"
         },
         "publication": {
           "message": {
@@ -1236,17 +1133,17 @@
               "chat_type": "channel",
               "chat_id": -78887448255074
             },
-            "timestamp": 1791252844806,
+            "timestamp": 1791277259122,
             "body": {
-              "mid": "mid.ffffb84095ab659e01a10efd51065406",
-              "seq": 117391546437227520,
-              "text": "С начала октября Пермский театр оперы и балета продал по акции 1,5 тысячи билетов\n\n&laquo;Новый компаньон&raquo;, новости Перми и Пермского края, политика, власть, экономика, общество, культура\n\n🔗 «Новый компаньон»\n\n📢 ФАКТОР",
+              "mid": "mid.ffffb84095ab659e01a11071d9724454",
+              "seq": 117393146453836880,
+              "text": "Президент Южной Кореи заявил о применении ИИ хакерами в кибератаках на банки\n\n🔗 Anadolu\n\n📢 ФАКТОР",
               "attachments": [
                 {
                   "payload": {
-                    "photo_id": 44673369160,
-                    "token": "BSZitln2FazwwjaTYGIVPcff5wBadLiJiHFc3gJ9MCaJ+UKyL5QK7IjuBxZw9j7WvDP/HavObWmKnxT1YN37VtTjywea3CqdE0HW/sVhCj8=",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8v-tc2l4roSeXni33lN2LL-hjfMfVvfoBKYlDsISiwlA"
+                    "photo_id": 44743568968,
+                    "token": "s5r7P3VYeoxUiVYgXV68nkyxCoze/+GwKqinM2ACuh72MGyMc9I2g97DC4ILah7u2hj4ICxo3IrPc4AsEkBW1ITJV7J2CNMLHYw6Vj5ku+c=",
+                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8Z8r3OmGoJnM6B8Blea0NX-hjfMfVvfoBKYlDsISiwlA"
                   },
                   "type": "image"
                 }
@@ -1254,17 +1151,17 @@
               "markup": [
                 {
                   "from": 0,
-                  "length": 81,
+                  "length": 76,
                   "type": "strong"
                 },
                 {
-                  "url": "https://www.newsko.ru/news/nk-9445108.html",
-                  "from": 198,
-                  "length": 17,
+                  "url": "https://www.aa.com.tr/ru/%D0%BC%D0%B8%D1%80/%D0%BF%D1%80%D0%B5%D0%B7%D0%B8%D0%B4%D0%B5%D0%BD%D1%82-%D1%8E%D0%B6%D0%BD%D0%BE%D0%B9-%D0%BA%D0%BE%D1%80%D0%B5%D0%B8-%D0%B7%D0%B0%D1%8F%D0%B2%D0%B8%D0%BB-%D0%BE-%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B8-%D0%B8%D0%B8-%D1%85%D0%B0%D0%BA%D0%B5%D1%80%D0%B0%D0%BC%D0%B8-%D0%B2-%D0%BC%D0%B0%D1%81%D1%88%D1%82%D0%B0%D0%B1%D0%BD%D1%8B%D1%85-%D0%BA%D0%B8%D0%B1%D0%B5%D1%80%D0%B0%D1%82%D0%B0%D0%BA%D0%B0%D1%85-%D0%BD%D0%B0-%D0%B1%D0%B0%D0%BD%D0%BA%D0%B8-%D1%81%D1%82%D1%80%D0%B0%D0%BD%D1%8B/4079408",
+                  "from": 81,
+                  "length": 7,
                   "type": "link"
                 },
                 {
-                  "from": 220,
+                  "from": 93,
                   "length": 6,
                   "type": "emphasized"
                 }
@@ -1273,13 +1170,13 @@
             "stat": {
               "views": 1
             },
-            "url": "https://max.ru/channel_faktormedia/AaEO_VEGVAY"
+            "url": "https://max.ru/channel_faktormedia/AaEQcdlyRFQ"
           }
         },
-        "duration_ms": 43737
+        "duration_ms": 33712
       },
       "expiresAt": null,
-      "versionstamp": "73fdf668-3805-4bf9-98b3-d6c2279bc35b"
+      "versionstamp": "72f75b74-e8f5-406f-ba81-3b7422488450"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -3034,6 +2931,85 @@
       },
       "expiresAt": 1791425644938,
       "versionstamp": "04334115-3c0e-4a0d-87e9-10575bf8d73f"
+    },
+    "[\"factor\",\"published_v2\",\"822271cf33406c654b03682f3307f45b0e9fa63f2caaa049962ddeca70bf8db0\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "822271cf33406c654b03682f3307f45b0e9fa63f2caaa049962ddeca70bf8db0"
+      ],
+      "value": true,
+      "expiresAt": 1793869259254,
+      "versionstamp": "50f14100-2c16-43fe-918a-b6fdacd39f03"
+    },
+    "[\"factor\",\"published\",\"d5d2aa384255b0c6c1b1682bb70f07e78654e4cce8887c93343d62bd3a48a97b\"]": {
+      "key": [
+        "factor",
+        "published",
+        "d5d2aa384255b0c6c1b1682bb70f07e78654e4cce8887c93343d62bd3a48a97b"
+      ],
+      "value": true,
+      "expiresAt": 1793869259256,
+      "versionstamp": "0eac1b28-c244-4397-8e80-ec32fc619815"
+    },
+    "[\"factor\",\"published_story_v3\",\"d7efcb65ad7bf1fde388fb988be3027d29d334d8fff4245177209ac1c743062c\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "d7efcb65ad7bf1fde388fb988be3027d29d334d8fff4245177209ac1c743062c"
+      ],
+      "value": true,
+      "expiresAt": 1793869259258,
+      "versionstamp": "045225ef-614c-4c3e-bf51-d004768b9c61"
+    },
+    "[\"factor\",\"recent_title_v2\",1791277259259,\"0de33c04431409467c791cc61436a40210435cd340d605a02a3fa2a0faafaa65\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791277259259,
+        "0de33c04431409467c791cc61436a40210435cd340d605a02a3fa2a0faafaa65"
+      ],
+      "value": "Президент Южной Кореи заявил о применении ИИ хакерами в кибератаках на банки",
+      "expiresAt": 1793869259259,
+      "versionstamp": "87de24d1-8ed3-486a-bed4-528fbef10d2f"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"0de33c04431409467c791cc61436a40210435cd340d605a02a3fa2a0faafaa65\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "0de33c04431409467c791cc61436a40210435cd340d605a02a3fa2a0faafaa65"
+      ],
+      "value": "Президент Южной Кореи заявил о применении ИИ хакерами в кибератаках на банки",
+      "expiresAt": 1793869259260,
+      "versionstamp": "60e84f80-97f3-49e6-be1b-cbd1c04ec8c2"
+    },
+    "[\"factor\",\"published_event_v4\",\"d381b971f838863846591065b99e76f7d90f9da08d6cc9047bb054aab4f86181\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "d381b971f838863846591065b99e76f7d90f9da08d6cc9047bb054aab4f86181"
+      ],
+      "value": {
+        "category": "ПОЛИТИКА",
+        "family": "military",
+        "anchors": [
+          "през",
+          "южно",
+          "коре",
+          "прим",
+          "хаке",
+          "масш",
+          "кибе",
+          "банк",
+          "стра"
+        ],
+        "title": "Президент Южной Кореи заявил о применении ИИ хакерами в масштабных кибератаках на банки страны",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMi-wVBVV95cUxPUWRKTWpYNkh1Wl9fd3NTUmt3cUVYRURJdExJRW1jWmIxcE1ZS2pJbU9jZ29UYVExaTY4dXBNa3k2QW1Yc3A1MzNJeGZQQnFyT2RjclR5R01KOEdJNmdIakNPVmowb0Y3MzhFSzJ1WnJSWGF3WVlYdU5GVFdtUDR6bHQyQVF5cnFodk5FV2IyWDhSNFc4QlBSYU4yRlE4VUJSMDhHZG9rSTN0OGEyOHRSVGJVOE5BODV1R2MyNEJZWHAzeVV3X2ttM3kzT3RGb3VyOHlFQ0JBTUtoMFIxcC1IVlcxSlRSMTdlUEM5a090eTE5dk83dDUwRDhUZzFjSnEwaHJVSGhnRUkzYUtFaTh0SnlrNEl3S0V5TTJOSjlaUDdSVnNxa0tkUWhXZ2VuTGlRY0x2djB3VktSMExMaHZBdE1CYlJZN2JxQ0pPQzZBd3NRTkFnaGpXeHBlM2VRQ09yRnFvUE41VUl1TWZsbEpiWU95NkZuRG1objdqVzVQeFNOWjdkaGt1dWhGaVdGOTJvdzZnbnd6a2RqcEV1VG1tTW5SSWs5QkhtLUZ6NFNkQnlleGFtNXp0TjhOVnBjYlNUQy1qYmpvYXY0UDhlVE9mNzlPX2VIQUhlZ1NNLUpmUlNLV2lRRXJGbHRVNUx6U1FJeDRwWFVGT2hyUzBBb2hTcUhJb0k1RThCNmt0TkhpaWtRUmdtSTdYYXprVVIxTXFZcGxZQjVjT0NsREpEc29fZnRBZ3BXczI3aVZLeXdxTGJmeWJ5ZTlSQlJkNFVmUXV0anhIN2YtU1FqZk5BWU5HRkx1ajZfRTN2X2VscTctSF9kYjJLLTAyU3JadU9NMEZHMmJaRlZTTUgtUV9sanNjZWhKSGYwYlVqMU0xcGpRTk5rTERyX1kzcUtHQ1BNX0FNclRHa29zcGl2a1FUVzFOT0VIbEJ",
+        "published_at": 1791277259262,
+        "article_url": "https://www.aa.com.tr/ru/%D0%BC%D0%B8%D1%80/%D0%BF%D1%80%D0%B5%D0%B7%D0%B8%D0%B4%D0%B5%D0%BD%D1%82-%D1%8E%D0%B6%D0%BD%D0%BE%D0%B9-%D0%BA%D0%BE%D1%80%D0%B5%D0%B8-%D0%B7%D0%B0%D1%8F%D0%B2%D0%B8%D0%BB-%D0%BE-%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B8-%D0%B8%D0%B8-%D1%85%D0%B0%D0%BA%D0%B5%D1%80%D0%B0%D0%BC%D0%B8-%D0%B2-%D0%BC%D0%B0%D1%81%D1%88%D1%82%D0%B0%D0%B1%D0%BD%D1%8B%D1%85-%D0%BA%D0%B8%D0%B1%D0%B5%D1%80%D0%B0%D1%82%D0%B0%D0%BA%D0%B0%D1%85-%D0%BD%D0%B0-%D0%B1%D0%B0%D0%BD%D0%BA%D0%B8-%D1%81%D1%82%D1%80%D0%B0%D0%BD%D1%8B/4079408"
+      },
+      "expiresAt": 1791450059262,
+      "versionstamp": "b3c1675c-9905-4dbf-8a2d-a14c460381f2"
     }
   }
 }
