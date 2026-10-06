@@ -222,9 +222,9 @@
         "state",
         "last_regular"
       ],
-      "value": 1791252802011,
+      "value": 1791284936718,
       "expiresAt": null,
-      "versionstamp": "972955ea-7f76-4a98-a62d-64d858830af8"
+      "versionstamp": "6a0166c9-f5e0-479c-a5f2-d1aba227ca80"
     },
     "[\"factor\",\"published_v2\",\"31ad2257d965a02c7bc2056d6ce50a32a04684ea94f1aa4267a5445407e08019\"]": {
       "key": [
@@ -390,59 +390,6 @@
       "expiresAt": 1793699916856,
       "versionstamp": "79675feb-8b88-4a51-b2b2-7d8b89c87114"
     },
-    "[\"factor\",\"published_event_v4\",\"7e88f283cc656dbc0c8c3f3c7e4ad024fdbe4eb00ae8e7398ddcbaf856ca5d8e\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "7e88f283cc656dbc0c8c3f3c7e4ad024fdbe4eb00ae8e7398ddcbaf856ca5d8e"
-      ],
-      "value": {
-        "category": "АВТО",
-        "family": "transport",
-        "anchors": [
-          "арха",
-          "обла",
-          "отре",
-          "учас",
-          "трас",
-          "прил",
-          "куло",
-          "наци",
-          "прое",
-          "href",
-          "http",
-          "news",
-          "goog",
-          "arti",
-          "cbmi",
-          "targ",
-          "blan",
-          "font",
-          "colo",
-          "6f6f",
-          "авто",
-          "терр",
-          "вель",
-          "окру",
-          "подд",
-          "нацп",
-          "инфр",
-          "жизн",
-          "реги",
-          "мини",
-          "тран",
-          "речь",
-          "идет",
-          "кило"
-        ],
-        "title": "В Архангельской области отремонтируют участок трассы Прилуки — Кулой | Национальные проекты РФ",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMivAFBVV95cUxQSG0zTm9JU1JCNTZOcVdQOXIwSTA2ckxXdVp0RFRhOUZpZ1NZdVRybWwtOTVPR3NTY3BGQm5aaVhlSmhSX0NfalF6U3BlajVUZ1E0aWl3dXY4OWlaRWJJckU3NTZVSlRsbDY2ZHowdm1jdVBEdndzLUdmdTdMSzhRRVNjbldCdFVUNEU3ejBNVTk4bDZEQ0JLYmZvUEZXRTJiUF9ISVZJTTNOdVB5Ry1fOXRPUTdZYTZnMFNXVQ?oc=5\" target=\"_blank\"&gt;В Архангельской области отремонтируют участок трассы Прилуки — Кулой&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Национальные проекты России&lt;/font&gt; Участок автодороги Прилуки — Кулой на территории Вельского округа Архангельской области отремонтируют при поддержке нацпроекта «Инфраструктура для жизни», сообщили в региональном министерстве транспорта Речь идет об отрезке с 0-го по 3-й километр Участок автодороги Прилуки — Кулой на территории Вельского округа Архангельской области отремонтируют при поддержке нацпроекта «Инфраструктура для жизни», сообщили в региональном министерстве транспорта Речь идет об отрезке с 0-го по 3-й километр",
-        "published_at": 1791107916857,
-        "article_url": "https://xn--80aapampemcchfmo7a3c9ehj.xn--p1ai/news/v-arkhangelskoy-oblasti-otremontiruyut-uchastok-trassy-priluki-kuloy/"
-      },
-      "expiresAt": 1791280716857,
-      "versionstamp": "e69ab3d9-575d-482a-bea6-0a3cd88db131"
-    },
     "[\"factor\",\"published_v2\",\"d3ede51f4d84bb829f825b5b77295f17ceaefa291b5cda6eb82ee097c4fab17e\"]": {
       "key": [
         "factor",
@@ -483,30 +430,6 @@
       "value": "Огнеборцы тушили пожар в амурском селе — АМУР.Инфо",
       "expiresAt": 1793703041883,
       "versionstamp": "94144f71-f32c-4f8e-93dc-056f2ea9efe8"
-    },
-    "[\"factor\",\"published_event_v4\",\"55735336886aa367f2ba40063fce98e65dd99a2a8cb7e3f5d087bfa913de123f\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "55735336886aa367f2ba40063fce98e65dd99a2a8cb7e3f5d087bfa913de123f"
-      ],
-      "value": {
-        "category": "ПРОИСШЕСТВИЯ",
-        "family": "fire",
-        "anchors": [
-          "огне",
-          "туши",
-          "амур",
-          "селе",
-          "инфо"
-        ],
-        "title": "Огнеборцы тушили пожар в амурском селе — АМУР.Инфо",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiekFVX3lxTE9uRFV2TldmN1dkcS1Zc3U3SldDZVYzUFR3SjNVUVZ6ODJSS19jaHpPSnRYRm1id29UaUJTc0dKcWxDYnVDN1A4aUpBSktxYUNKZXRiNVh2ZGhkajVQakN4NkpBUEhGTTN3SjZreklTRktPQVRlbHNXdUZB?oc=5\" target=\"_blank\"&gt;Огнеборцы тушили пожар в амурском селе&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;amur.info&lt;/font&gt; Огнеборцы тушили пожар в амурском селе | Cвежие новости Благовещенска, Амурской области, Дальнего Востока и России Огнеборцы тушили пожар в амурском селе | Cвежие новости Благовещенска, Амурской области, Дальнего Востока и России",
-        "published_at": 1791111041884,
-        "article_url": "https://amur.info/2026/10/04/pozharnye-tushili-pozhar-v-amurskom-sele/"
-      },
-      "expiresAt": 1791283841884,
-      "versionstamp": "d1e7356a-adb7-4bb4-a418-c0d27bcb30e9"
     },
     "[\"factor\",\"published_v2\",\"47a02a85c0106259947d2031005967faa4d8a7b766ff6c345db535f62c17bb39\"]": {
       "key": [
@@ -549,33 +472,6 @@
       "expiresAt": 1793703147181,
       "versionstamp": "fb9b5312-81bf-4254-b377-e244e5ca01a1"
     },
-    "[\"factor\",\"published_event_v4\",\"f25ac2394e3c2e3a394121b0e66209e2244cd38db25fbcaf5ca3b05a1850a1d0\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "f25ac2394e3c2e3a394121b0e66209e2244cd38db25fbcaf5ca3b05a1850a1d0"
-      ],
-      "value": {
-        "category": "ПРАВО",
-        "family": "crime",
-        "anchors": [
-          "пете",
-          "реша",
-          "вопр",
-          "арес",
-          "студ",
-          "убив",
-          "мать",
-          "брат"
-        ],
-        "title": "В Петербурге суд решает вопрос об аресте студента, убившего мать и брата",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMipAFBVV95cUxPbWh3d3IxQnpWZnRRX3BSc2RKeGdEbEd3S3p0bk1FcF80NDRfOHdhSzlXZnRaR2FTeDJ0SWUxQkwxNVgwcUJXbW1leklaUzlUZjRQQ3plNTFUdUp3Z21ZREFXOXl6bGxuWGllc1NEVjlVZHBDRFl2N295V3ExWXZtSnFEaTJ4NDNBSnZuTTh5VndaN1FVZ1E5R1hQYXBhX2thdnctRg?oc=5\" target=\"_blank\"&gt;В Петербурге суд решает вопрос об аресте студента, убившего мать и брата&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;78.ru&lt;/font&gt; В Петербурге суд рассматривает ходатайство об аресте 21-летнего студента, обвиняемого в жестоком убийстве матери и брата. В Петербурге суд рассматривает ходатайство об аресте 21-летнего подсудимого, обвиняемого в жестоком убийстве матери и брата. Трагедия произошла в квартире на Наличной ...",
-        "published_at": 1791111147182,
-        "article_url": "https://78.ru/news/2026-10-04/v-peterburge-sud-reshaet-vopros-ob-areste-studenta-ubivshego-mat-i-brata"
-      },
-      "expiresAt": 1791283947182,
-      "versionstamp": "06242b12-5cf8-4f9c-b398-f5ce050f6002"
-    },
     "[\"factor\",\"published_v2\",\"728867f21aac8640633dbff3b7ba143c23aba59a0819311652b19d1d2cb00217\"]": {
       "key": [
         "factor",
@@ -616,33 +512,6 @@
       "value": "Жители Кирова жалуются на автомобили, издающие звуки, напоминающие взрывы",
       "expiresAt": 1793704113746,
       "versionstamp": "8302ab9e-514f-4cbf-965b-869a99ff3d0d"
-    },
-    "[\"factor\",\"published_event_v4\",\"d474e9b9e6350629ac50746f3ceb702fd923a3c1c7a2d4998a76947064c50daf\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "d474e9b9e6350629ac50746f3ceb702fd923a3c1c7a2d4998a76947064c50daf"
-      ],
-      "value": {
-        "category": "АВТО",
-        "family": "accident",
-        "anchors": [
-          "жите",
-          "киро",
-          "жалу",
-          "авто",
-          "изда",
-          "звук",
-          "напо",
-          "взры"
-        ],
-        "title": "Жители Кирова жалуются на автомобили, издающие звуки, напоминающие взрывы",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMihwFBVV95cUxQcHdpM00tNGV1clpaeURjZVFSRmlhbHBrU1RINW5PYjA3Qm1qcExvVXoyMzg2SnZHemNKVXJGUXdoT0hWZ212NVVlWm8xaFQzbDU2dEtMVmZUNlc5a2Rsck1sNGdTXzJEY0xaSmhOWjA1TkVFMGVCcDFUNWE5emhxd29VWFpMdTA?oc=5\" target=\"_blank\"&gt;Жители Кирова жалуются на автомобили, издающие звуки, напоминающие взрывы&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;pravda.ru&lt;/font&gt; Горожане Кирова направили открытое письмо с требованием привлечь к ответственности владельцев автомобилей, которые создают громкий шум, напоминающий взрывы Горожане Кирова направили открытое письмо с требованием привлечь к ответственности владельцев автомобилей, которые создают громкий шум, напоминающий взрывы",
-        "published_at": 1791112113746,
-        "article_url": "https://www.pravda.ru/news/districts/2419899-kirov-loud-exhaust-cars-complaints/"
-      },
-      "expiresAt": 1791284913747,
-      "versionstamp": "5280e308-9d2e-476e-b732-bfa3ba2b0d89"
     },
     "[\"factor\",\"published_v2\",\"bc00a52091327e1bfbe0d542474e513f313e820d3ae88e6c07d18f1ece0c4f4d\"]": {
       "key": [
@@ -1075,9 +944,9 @@
       "value": {
         "ok": true,
         "selected": 1,
-        "urgent": true,
+        "urgent": false,
         "manual": false,
-        "score": 79,
+        "score": 57,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
@@ -1098,34 +967,34 @@
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
           "text_duplicate": 0,
-          "editorial_filter_rejected": 229,
-          "editorial_no_event_action": 212,
+          "editorial_filter_rejected": 220,
+          "editorial_no_event_action": 205,
           "video_candidates": 0,
           "video_checked": 0,
           "video_rejected": 0,
           "video_validation": null,
-          "external_video_candidates": 1,
-          "external_video_checked": 1,
+          "external_video_candidates": 3,
+          "external_video_checked": 3,
           "search_video_queries": 13,
           "search_video_candidates": 1,
           "search_video_checked": 0,
           "image_candidates": 1,
           "media_checked": 1,
           "media_selected": "image",
-          "selected_media_source": "jsonld",
+          "selected_media_source": "meta",
           "media_rejected": null,
           "top_candidates": [],
-          "ai_provider": "gemini"
+          "ai_provider": "qwen"
         },
         "item": {
-          "title": "Президент Южной Кореи заявил о применении ИИ хакерами в масштабных кибератаках на банки страны - Anadolu Ajansı",
-          "source": "Anadolu",
-          "article_url": "https://www.aa.com.tr/ru/%D0%BC%D0%B8%D1%80/%D0%BF%D1%80%D0%B5%D0%B7%D0%B8%D0%B4%D0%B5%D0%BD%D1%82-%D1%8E%D0%B6%D0%BD%D0%BE%D0%B9-%D0%BA%D0%BE%D1%80%D0%B5%D0%B8-%D0%B7%D0%B0%D1%8F%D0%B2%D0%B8%D0%BB-%D0%BE-%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B8-%D0%B8%D0%B8-%D1%85%D0%B0%D0%BA%D0%B5%D1%80%D0%B0%D0%BC%D0%B8-%D0%B2-%D0%BC%D0%B0%D1%81%D1%88%D1%82%D0%B0%D0%B1%D0%BD%D1%8B%D1%85-%D0%BA%D0%B8%D0%B1%D0%B5%D1%80%D0%B0%D1%82%D0%B0%D0%BA%D0%B0%D1%85-%D0%BD%D0%B0-%D0%B1%D0%B0%D0%BD%D0%BA%D0%B8-%D1%81%D1%82%D1%80%D0%B0%D0%BD%D1%8B/4079408",
+          "title": "Правительство утвердило стратегию развития биоэкономики до 2036 года - Agroinvestor.ru",
+          "source": "Agroinvestor.ru",
+          "article_url": "https://www.agroinvestor.ru/markets/news/46639-pravitelstvo-utverdilo-strategiyu-razvitiya-bioekonomiki-do-2036-goda/",
           "category": "ПОЛИТИКА"
         },
         "media": {
           "type": "image",
-          "source_url": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/10/06/thumbs_b_c_9247361bf4e6c01675bd07e5427d2fa2.jpg"
+          "source_url": "https://www.agroinvestor.ru/upload/iblock/c91/c91465bd5fd89a0469a60000c86dae23.jpg"
         },
         "publication": {
           "message": {
@@ -1133,17 +1002,17 @@
               "chat_type": "channel",
               "chat_id": -78887448255074
             },
-            "timestamp": 1791277259122,
+            "timestamp": 1791285011124,
             "body": {
-              "mid": "mid.ffffb84095ab659e01a11071d9724454",
-              "seq": 117393146453836880,
-              "text": "Президент Южной Кореи заявил о применении ИИ хакерами в кибератаках на банки\n\n🔗 Anadolu\n\n📢 ФАКТОР",
+              "mid": "mid.ffffb84095ab659e01a110e822b45d23",
+              "seq": 117393654489046300,
+              "text": "Правительство утвердило стратегию развития биоэкономики до 2036 года\n\n🔗 Agroinvestor.ru\n\n📢 ФАКТОР",
               "attachments": [
                 {
                   "payload": {
-                    "photo_id": 44743568968,
-                    "token": "s5r7P3VYeoxUiVYgXV68nkyxCoze/+GwKqinM2ACuh72MGyMc9I2g97DC4ILah7u2hj4ICxo3IrPc4AsEkBW1ITJV7J2CNMLHYw6Vj5ku+c=",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8Z8r3OmGoJnM6B8Blea0NX-hjfMfVvfoBKYlDsISiwlA"
+                    "photo_id": 44768008520,
+                    "token": "baXWdho4oIA0/+43Wr686WXrVpU+BVD8aVDAKRU9k95LEbXrMEEFfmgyucPDvK5fczMHdT9va+ODEKpp7r+CQdvgcZXQ9lQf5lIDe3mKwyk=",
+                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8hA86BiZXrpEhTOHoLFLbFOhjfMfVvfoBKYlDsISiwlA"
                   },
                   "type": "image"
                 }
@@ -1151,13 +1020,13 @@
               "markup": [
                 {
                   "from": 0,
-                  "length": 76,
+                  "length": 68,
                   "type": "strong"
                 },
                 {
-                  "url": "https://www.aa.com.tr/ru/%D0%BC%D0%B8%D1%80/%D0%BF%D1%80%D0%B5%D0%B7%D0%B8%D0%B4%D0%B5%D0%BD%D1%82-%D1%8E%D0%B6%D0%BD%D0%BE%D0%B9-%D0%BA%D0%BE%D1%80%D0%B5%D0%B8-%D0%B7%D0%B0%D1%8F%D0%B2%D0%B8%D0%BB-%D0%BE-%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B8-%D0%B8%D0%B8-%D1%85%D0%B0%D0%BA%D0%B5%D1%80%D0%B0%D0%BC%D0%B8-%D0%B2-%D0%BC%D0%B0%D1%81%D1%88%D1%82%D0%B0%D0%B1%D0%BD%D1%8B%D1%85-%D0%BA%D0%B8%D0%B1%D0%B5%D1%80%D0%B0%D1%82%D0%B0%D0%BA%D0%B0%D1%85-%D0%BD%D0%B0-%D0%B1%D0%B0%D0%BD%D0%BA%D0%B8-%D1%81%D1%82%D1%80%D0%B0%D0%BD%D1%8B/4079408",
-                  "from": 81,
-                  "length": 7,
+                  "url": "https://www.agroinvestor.ru/markets/news/46639-pravitelstvo-utverdilo-strategiyu-razvitiya-bioekonomiki-do-2036-goda/",
+                  "from": 73,
+                  "length": 15,
                   "type": "link"
                 },
                 {
@@ -1170,13 +1039,13 @@
             "stat": {
               "views": 1
             },
-            "url": "https://max.ru/channel_faktormedia/AaEQcdlyRFQ"
+            "url": "https://max.ru/channel_faktormedia/AaEQ6CK0XSM"
           }
         },
-        "duration_ms": 33712
+        "duration_ms": 75298
       },
       "expiresAt": null,
-      "versionstamp": "72f75b74-e8f5-406f-ba81-3b7422488450"
+      "versionstamp": "47723955-5a97-4c5c-868b-9e616f18a716"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -3010,6 +2879,83 @@
       },
       "expiresAt": 1791450059262,
       "versionstamp": "b3c1675c-9905-4dbf-8a2d-a14c460381f2"
+    },
+    "[\"factor\",\"published_v2\",\"e97c3b2fc271c4598078796e6a205d5512fb0010a46b84b9c351025a5046faf9\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "e97c3b2fc271c4598078796e6a205d5512fb0010a46b84b9c351025a5046faf9"
+      ],
+      "value": true,
+      "expiresAt": 1793877011251,
+      "versionstamp": "ebe950fe-75e6-4743-b85c-de377f2f210d"
+    },
+    "[\"factor\",\"published\",\"ee7dd6e796d36cf60f067c4e7ee9f6d04748ba29954ffcca1660f60b1ebe20eb\"]": {
+      "key": [
+        "factor",
+        "published",
+        "ee7dd6e796d36cf60f067c4e7ee9f6d04748ba29954ffcca1660f60b1ebe20eb"
+      ],
+      "value": true,
+      "expiresAt": 1793877011252,
+      "versionstamp": "bfc79d40-8779-48a6-9a8c-0078c9a079ee"
+    },
+    "[\"factor\",\"published_story_v3\",\"3c0a3e40085e06991dd47b7e7ac53283139724acbd7fbaaa04973928552b1ede\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "3c0a3e40085e06991dd47b7e7ac53283139724acbd7fbaaa04973928552b1ede"
+      ],
+      "value": true,
+      "expiresAt": 1793877011254,
+      "versionstamp": "fdd38da7-c8c5-49f6-a056-394f46bd77b2"
+    },
+    "[\"factor\",\"recent_title_v2\",1791285011255,\"e419345f0ae8ca7b47a8ce3e8a920c4a0c9e18925faaf81c4cc3360b8f4df926\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791285011255,
+        "e419345f0ae8ca7b47a8ce3e8a920c4a0c9e18925faaf81c4cc3360b8f4df926"
+      ],
+      "value": "Правительство утвердило стратегию развития биоэкономики до 2036 года",
+      "expiresAt": 1793877011255,
+      "versionstamp": "409893cb-2db1-4271-b81b-68c3c88ce301"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"e419345f0ae8ca7b47a8ce3e8a920c4a0c9e18925faaf81c4cc3360b8f4df926\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "e419345f0ae8ca7b47a8ce3e8a920c4a0c9e18925faaf81c4cc3360b8f4df926"
+      ],
+      "value": "Правительство утвердило стратегию развития биоэкономики до 2036 года",
+      "expiresAt": 1793877011256,
+      "versionstamp": "61472365-6379-444a-bc45-34a9b1413123"
+    },
+    "[\"factor\",\"published_event_v4\",\"f6042a8b8a7bc5104899bc00f0fffb8274bc5a28b971edde71574c8fbbc01efe\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "f6042a8b8a7bc5104899bc00f0fffb8274bc5a28b971edde71574c8fbbc01efe"
+      ],
+      "value": {
+        "category": "ПОЛИТИКА",
+        "family": "politics",
+        "anchors": [
+          "прав",
+          "утве",
+          "стра",
+          "разв",
+          "биоэ",
+          "2036",
+          "года"
+        ],
+        "title": "Правительство утвердило стратегию развития биоэкономики до 2036 года",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiuAFBVV95cUxPdTc2cGhTMWtMYTdzYW01SE1fTUZBRnpCSnR5eGFZX3dSVl9RMGNQRWZNQzFjWGJyWW1ybDhwTkd2N3JabGx5UHJQLWFmSnBvQnNhUWxUTWhYMTBUVy1FLU1sSndULTFJZU14dnFQMTYtck5kWEZLb1JTWEp5Q1VJQUtlaGdEUG10LXFVU0hxd0lzM2ZRTXdpTHVPNkRTSDhnYS1tTnFyYWF0MjdZbkl4cnJoRzVFZHVj?oc=5\" target=\"_blank\"&gt;Правительство утвердило стратегию развития биоэкономики до 2036 года&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Agroinvestor.ru&lt;/font&gt; Правительство утвердило стратегию развития биоэкономики до 2036 года. Сфера открывает новые перспективы для сельского хозяйства. Эта сфера открывает новые перспективы в том числе для сельского хозяйства",
+        "published_at": 1791285011258,
+        "article_url": "https://www.agroinvestor.ru/markets/news/46639-pravitelstvo-utverdilo-strategiyu-razvitiya-bioekonomiki-do-2036-goda/"
+      },
+      "expiresAt": 1791457811258,
+      "versionstamp": "5378bdfa-138f-4ba5-84db-a32da67f2a52"
     }
   }
 }
