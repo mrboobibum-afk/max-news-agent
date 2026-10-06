@@ -48,9 +48,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791301816512,
+      "value": 1791318956069,
       "expiresAt": null,
-      "versionstamp": "d01f0da9-e6e4-418b-8b2d-48adf8984833"
+      "versionstamp": "fdd1f9a6-f169-49d2-bbb9-c1d84998c2da"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -791,7 +791,7 @@
         "selected": 1,
         "urgent": true,
         "manual": false,
-        "score": 55,
+        "score": 49,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
@@ -812,69 +812,73 @@
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
           "text_duplicate": 0,
-          "editorial_filter_rejected": 215,
-          "editorial_no_event_action": 203,
+          "editorial_filter_rejected": 221,
+          "editorial_no_event_action": 206,
           "video_candidates": 0,
           "video_checked": 0,
           "video_rejected": 0,
           "video_validation": null,
-          "external_video_candidates": 5,
-          "external_video_checked": 5,
+          "external_video_candidates": 1,
+          "external_video_checked": 1,
           "search_video_queries": 13,
-          "search_video_candidates": 5,
-          "search_video_checked": 10,
-          "image_candidates": 5,
-          "media_checked": 5,
-          "media_selected": null,
-          "selected_media_source": null,
-          "media_rejected": "no_relevant_media",
+          "search_video_candidates": 6,
+          "search_video_checked": 11,
+          "image_candidates": 1,
+          "media_checked": 1,
+          "media_selected": "image",
+          "selected_media_source": "meta",
+          "media_rejected": null,
           "top_candidates": [],
           "ai_provider": "gemini"
         },
         "item": {
-          "title": "Россияне попали в ДТП на Пхукете, есть погибший - URA.RU",
-          "source": "URA.RU",
-          "article_url": "https://ura.news/news/1053133970",
+          "title": "Пожар повредил четырехквартирный дом в Воронеже - Новости Воронежа интернет-газета",
+          "source": "Новости Воронежа - Все важные новости Воронежа и области: происшествия, политика, жизнь города",
+          "article_url": "https://novostivoronezha.ru/2026/10/06/364837",
           "category": "ПРОИСШЕСТВИЯ"
         },
-        "media": null,
+        "media": {
+          "type": "image_group",
+          "count": 1,
+          "source_url": [
+            "https://novostivoronezha.ru/wp-content/uploads/2024/09/IMG_1836-1-scaled.jpg"
+          ]
+        },
         "publication": {
           "message": {
             "recipient": {
               "chat_type": "channel",
               "chat_id": -78887448255074
             },
-            "timestamp": 1791301893097,
+            "timestamp": 1791319031387,
             "body": {
-              "mid": "mid.ffffb84095ab659e01a111e9bbe92f06",
-              "seq": 117394760866017020,
-              "text": "ДТП с россиянами на Пхукете: есть погибший\n\n🔗 URA.RU\n\n📢 ФАКТОР",
+              "mid": "mid.ffffb84095ab659e01a112ef3e5b2775",
+              "seq": 117395884040988530,
+              "text": "Пожар повредил четырехквартирный дом в Воронеже\n\nВ Воронеже произошел пожар в четырехквартирном доме. Огонь уничтожил часть пристройки и повредил кухню. Инцидент зафиксирован на улице Вольной.\n\n🔗 Новости Воронежа - Все важные новости Воронежа и области: происшествия, политика, жизнь города\n\n📢 ФАКТОР",
               "attachments": [
                 {
                   "payload": {
-                    "url": "http://ura.ru",
-                    "token": "f9LHodD0cOIkWujLbcLkQIktFtPzwqrnM7kFNFzLoxs8c05WhXchyfiulVp_2Iz7jB3xEbTTneSiBEBci6YR_oA"
+                    "photo_id": 44851528776,
+                    "token": "cxP4oVuBBZTG78RqRZGZ5j6UsfHfdSgXiPH4E5qK3aMXhB7XsYBzVodO7qHd4ePfFCMmnYPY/uoAZNlxoVdINFCkE2qFl5XH/Kc5PTFQuQFs6wSXxPvOAaD91GH1p0iL",
+                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8pYExabz4abC_LBM3IsEDEehjfMfVvfoBKYlDsISiwlA"
                   },
-                  "title": "URA.RU: Главные новости России и мира сегодня, новости Урала",
-                  "description": "Будьте в курсе самых главных и свежих новостей России и мира на сегодняшний день. Читайте о событиях последнего часа и эксклюзивные новости Урала только на URA.RU",
-                  "image_url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8QQEEXrhGrla3zn7B4aCI2OhjfMfVvfoBKYlDsISiwlA",
-                  "type": "share"
+                  "type": "image"
                 }
               ],
               "markup": [
                 {
                   "from": 0,
-                  "length": 42,
+                  "length": 47,
                   "type": "strong"
                 },
                 {
-                  "url": "https://ura.news/news/1053133970",
-                  "from": 47,
-                  "length": 6,
+                  "url": "https://novostivoronezha.ru/2026/10/06/364837",
+                  "from": 197,
+                  "length": 94,
                   "type": "link"
                 },
                 {
-                  "from": 58,
+                  "from": 296,
                   "length": 6,
                   "type": "emphasized"
                 }
@@ -883,13 +887,13 @@
             "stat": {
               "views": 1
             },
-            "url": "https://max.ru/channel_faktormedia/AaER6bvpLwY"
+            "url": "https://max.ru/channel_faktormedia/AaES7z5bJ3U"
           }
         },
-        "duration_ms": 77365
+        "duration_ms": 76098
       },
       "expiresAt": null,
-      "versionstamp": "7497f5d9-c3af-442e-9da6-3659cf3b04e1"
+      "versionstamp": "25a010c5-d9eb-4269-8650-8bcf96045986"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -942,30 +946,6 @@
       "expiresAt": 1793721053285,
       "versionstamp": "090034b0-04c2-4a6f-92a3-88f4c49dc712"
     },
-    "[\"factor\",\"published_event_v4\",\"aab4612c8ed4f8cb42910605672a6ba1f4d502d06641d95f8dae37953f8028c4\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "aab4612c8ed4f8cb42910605672a6ba1f4d502d06641d95f8dae37953f8028c4"
-      ],
-      "value": {
-        "category": "ПОЛИТИКА",
-        "family": "crime",
-        "anchors": [
-          "през",
-          "финл",
-          "ожид",
-          "напа",
-          "отве"
-        ],
-        "title": "Президент Финляндии: Ожидаем ли мы, что Россия нападет? Ответ — нет",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiSkFVX3lxTE1neHNaNkRpRy1aWDFtOFF3WG9zY2FlVlhjRmZVamM3ekFaUy1aUnUwck1xR1ZsTmFRbjBtbVo2M2RsMlF2TVVfWGVR?oc=5\" target=\"_blank\"&gt;Президент Финляндии: Ожидаем ли мы, что Россия нападет? Ответ — нет&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Независимая газета&lt;/font&gt; Президент Финляндии Александер Стубб в интервью газете El Mundo отметил проблему с коммуникацией в Европе. По его словам, некоторые лидеры смешивают две вещи. Президент Финляндии Александер Стубб заявил, что не ожидает нападения со стороны России. «В Европе у нас есть проблема с коммуникацией, потому что некоторые лидеры смешивают две вещи, — отметил политик в интервью газете El Mundo. — Одна — с",
-        "published_at": 1791129053287,
-        "article_url": "https://www.ng.ru/news/848395.html"
-      },
-      "expiresAt": 1791301853288,
-      "versionstamp": "95dd0821-212b-459c-a6af-49ef67961fb4"
-    },
     "[\"factor\",\"published_v2\",\"4316f12cd3fc3fef9b33646b83ccb28acd61ddc229b0acc03c3f2efba21a34af\"]": {
       "key": [
         "factor",
@@ -1016,32 +996,6 @@
       "value": "Лесной пожар в Священной долине инков унёс жизнь человека",
       "expiresAt": 1793724106860,
       "versionstamp": "14b01343-a863-4d39-a6f5-d8203a179f0f"
-    },
-    "[\"factor\",\"published_event_v4\",\"beb31ce3b0237f024e284b9cc1d77d2fdbbf84465db1547f997b0e02560596cf\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "beb31ce3b0237f024e284b9cc1d77d2fdbbf84465db1547f997b0e02560596cf"
-      ],
-      "value": {
-        "category": "ПРОИСШЕСТВИЯ",
-        "family": "fire",
-        "anchors": [
-          "лесн",
-          "свящ",
-          "доли",
-          "инко",
-          "унес",
-          "жизн",
-          "чело"
-        ],
-        "title": "Лесной пожар в Священной долине инков унёс жизнь человека",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiSkFVX3lxTE1xekRyMEpwakVXcDl0MkFkUWVrMEJDQ3FhNi1VSVl2c0phUVp0NWV3dUI1Ylg2bF9Sa3BVUVpjdC12bjJ0a2stNkVn?oc=5\" target=\"_blank\"&gt;Лесной пожар в Священной долине инков унёс жизнь человека&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;НИА «Экология&lt;/font&gt; В Священной долине инков произошёл лесной пожар, в результате которого погиб человек. Огонь приблизился к жилым домам и автозаправке в Перу. Региональные власти запросили авиационную помощь для борьбы с огнём. В Перу огонь приблизился к домам и автозаправке. Региональные власти запросили авиационную помощь",
-        "published_at": 1791132106981,
-        "article_url": "https://nia.eco/2026/10/04/143031/"
-      },
-      "expiresAt": 1791304906981,
-      "versionstamp": "258b1c4f-d755-4baa-b16a-777ab63c4063"
     },
     "[\"factor\",\"published_v2\",\"b585c6bd6ed54bb3a5bb2c6f1517a3caa2c0eaa0ccffffb2745db14bd772596c\"]": {
       "key": [
@@ -1094,31 +1048,6 @@
       "expiresAt": 1793724281327,
       "versionstamp": "a6f358ab-37e0-497e-a739-b830e5b8cd19"
     },
-    "[\"factor\",\"published_event_v4\",\"980b1d31adf4b791a55b4de55b029f58d77b524dc5fe586dc10b09f2d802e655\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "980b1d31adf4b791a55b4de55b029f58d77b524dc5fe586dc10b09f2d802e655"
-      ],
-      "value": {
-        "category": "ПРОМЫШЛЕННОСТЬ",
-        "family": "промышленность",
-        "anchors": [
-          "прои",
-          "лека",
-          "тата",
-          "упал",
-          "почт",
-          "трет"
-        ],
-        "title": "Производство лекарств в Татарстане упало почти на треть",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMilAFBVV95cUxORjdXYUhBclBWMkwtdV9HM3A4akxOTjZGNDZIVzVtWDAyUmJEcFZMZDZCSGdQU3lUTVJvVkJfbFZJenFGY0xrSy1mVXBydWNSZm9KdmhvamlJYnRaMFViN1JEQVBrS0h2Q0FianVWelRDNFBQc0xDdEJXU0l5a1ZBOGpzR1N0MzNMZDhUUVdiMTVURDlq?oc=5\" target=\"_blank\"&gt;Производство лекарств в Татарстане упало почти на треть&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;chelny-izvest.ru&lt;/font&gt; При этом увеличилось производство мебели При этом увеличилось производство мебели",
-        "published_at": 1791132281328,
-        "article_url": "https://chelny-izvest.ru/news/facts/proizvodstvo-lekarstv-v-tatarstane-upalo-pocti-na-tret"
-      },
-      "expiresAt": 1791305081328,
-      "versionstamp": "e7d4143d-33de-4cdf-b9b0-447d010d65ce"
-    },
     "[\"factor\",\"published_v2\",\"646a5a5ec026225899ae827446fcf75c377beae65ae08472ab87951cd5f3ec25\"]": {
       "key": [
         "factor",
@@ -1169,27 +1098,6 @@
       "value": "В Улан-Удэ в тройном ДТП погиб человек",
       "expiresAt": 1793728558551,
       "versionstamp": "851eca32-0a2a-4eac-8126-27ca1780f0ea"
-    },
-    "[\"factor\",\"published_event_v4\",\"73ae7be204ae854895f96dde09fd9a82a6c451745020a0201495ed326b65a929\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "73ae7be204ae854895f96dde09fd9a82a6c451745020a0201495ed326b65a929"
-      ],
-      "value": {
-        "category": "ПРОИСШЕСТВИЯ",
-        "family": "accident",
-        "anchors": [
-          "улан",
-          "трой"
-        ],
-        "title": "В Улан-Удэ в тройном ДТП погиб человек",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiTkFVX3lxTFA0dEdCcExQSjJYejVLX0xZaGZWYmJUdXVmcVhxYkxHTHZlRFFmYTdGOTBVaWo4OG82WFBLQUdGWjVNeFExTzVHZWtCOHpndw?oc=5\" target=\"_blank\"&gt;В Улан-Удэ в тройном ДТП погиб человек&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;vtinform.com&lt;/font&gt; В Улан-Удэ произошло утреннее тройное ДТП на Селенгинском мосту. В результате аварии погиб человек. Человек погиб в утреннем ДТП в Улан-Удэ. Тройное ДТП произошло на Селенгинском мосту, сообщает Восток-Телеинформ со ссылкой на МВД Бурятии.",
-        "published_at": 1791136558552,
-        "article_url": "https://vtinform.com/news/149/230470/"
-      },
-      "expiresAt": 1791309358552,
-      "versionstamp": "90e9bb5b-39a6-4766-9c10-0f8ef6863373"
     },
     "[\"factor\",\"published_v2\",\"e7735e5c2c636204518155e051fcd89271a895c4a16e029500860e54dffbe67f\"]": {
       "key": [
@@ -1242,32 +1150,6 @@
       "expiresAt": 1793728787279,
       "versionstamp": "d538bd68-b87a-476f-b2f0-27fbfcf91b55"
     },
-    "[\"factor\",\"published_event_v4\",\"5f8cfa1697720843663540ede8dc51a62928ad94a39395ac2ee2d03320be3ef5\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "5f8cfa1697720843663540ede8dc51a62928ad94a39395ac2ee2d03320be3ef5"
-      ],
-      "value": {
-        "category": "ТЕХНОЛОГИИ",
-        "family": "law",
-        "anchors": [
-          "иску",
-          "инте",
-          "суде",
-          "рыно",
-          "lega",
-          "tech",
-          "выро"
-        ],
-        "title": "Искусственный интеллект в суде: российский рынок legal tech вырос на 17%",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiREFVX3lxTE5xX2N3VzRPeUltdldMVHNCMmk5bWZ0SndYeFc5VkVhSlZKUUJmUUpyVE4xZXplY2FIb0ZrRHhwaGpCd3RN?oc=5\" target=\"_blank\"&gt;Искусственный интеллект в суде: российский рынок legal tech вырос на 17%&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;BFM.ru&lt;/font&gt; Самостоятельных судебных решений ИИ пока не принимает, выступая в роли помощника. Какие задачи юристы сегодня готовы передавать нейросети и кто будет отвечать за ее ошибки? Самостоятельных судебных решений ИИ пока не принимает, выступая в роли помощника. Какие задачи юристы сегодня готовы передавать нейросети и кто будет отвечать за ее ошибки?",
-        "published_at": 1791136787280,
-        "article_url": "https://www.bfm.ru/news/619831"
-      },
-      "expiresAt": 1791309587280,
-      "versionstamp": "4ac6d635-9228-4b0e-a4a1-3492fcc04c29"
-    },
     "[\"factor\",\"published_v2\",\"eec490e941faa5db557e747cdaa6ca35e528e267029c262fda94d96816ce9304\"]": {
       "key": [
         "factor",
@@ -1318,30 +1200,6 @@
       "value": "Пожар в Вяземском округе: полностью уничтожен жилой дом",
       "expiresAt": 1793730803065,
       "versionstamp": "f92be825-94d9-4759-b41b-ddb9ac36e4a4"
-    },
-    "[\"factor\",\"published_event_v4\",\"3728570b602df31467e4bad67e52e04bcd835b8408da7b09bfb7303daf743c54\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "3728570b602df31467e4bad67e52e04bcd835b8408da7b09bfb7303daf743c54"
-      ],
-      "value": {
-        "category": "ПРОИСШЕСТВИЯ",
-        "family": "fire",
-        "anchors": [
-          "вязе",
-          "окру",
-          "полн",
-          "унич",
-          "жило"
-        ],
-        "title": "Пожар в Вяземском округе: полностью уничтожен жилой дом",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMihgFBVV95cUxQWXVMY0hsWHFNTm1nTFNXcnJGY1BZWUFzMHJ3REtwOU1jM0pQakpjS2NTcG40dEZYM1lpTDFDcFpRSkRIbXVnZkhZNE9SQU5qLXlBOFRaelRvRHpoVDQ4b05uMlJxOExEWERmbmZ6eFVFcllaZXRKNmJ0TDVVei12akhPbVRWZw?oc=5\" target=\"_blank\"&gt;Пожар в Вяземском округе: полностью уничтожен жилой дом&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Смоленская газета&lt;/font&gt; Вчера, 3 октября, в селе Новый Вяземского округа произошёл пожар в частном жилом доме.... Вчера, 3 октября, в селе Новый Вяземского округа произошёл пожар в частном жилом доме....",
-        "published_at": 1791138803066,
-        "article_url": "https://smolgazeta.ru/daylynews/140936-pojar-v-vyazemskom-okruge-polnostyu.html"
-      },
-      "expiresAt": 1791311603066,
-      "versionstamp": "3fad5c6f-a8fc-4200-bf7a-a2ae37a581b2"
     },
     "[\"factor\",\"published_v2\",\"357e456f0e3ef06c64553311583831cb00959582fc50b5101631605c6956cb3e\"]": {
       "key": [
@@ -1394,30 +1252,6 @@
       "expiresAt": 1793731195829,
       "versionstamp": "9124af90-111b-42ba-9f7e-3f3e69994223"
     },
-    "[\"factor\",\"published_event_v4\",\"0764fe2592babe369bc8e871b804e8aa9c4a2f7a34828a852ce10ad0da5a5b6a\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "0764fe2592babe369bc8e871b804e8aa9c4a2f7a34828a852ce10ad0da5a5b6a"
-      ],
-      "value": {
-        "category": "ПРОИСШЕСТВИЯ",
-        "family": "fire",
-        "anchors": [
-          "пять",
-          "подр",
-          "трав",
-          "перм",
-          "крае"
-        ],
-        "title": "Пять подростков травмированы на пожаре в Пермском крае",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiVEFVX3lxTFAtay1XSExnUlR1MnFkMEFoUVVsdC15MkhYRFBrb0JmalhBZkNhcE14bEZuOWE4aXZaRldnM3F2X3NBR1BaN1R3VHdEdkdkdGd3S1J4Vw?oc=5\" target=\"_blank\"&gt;Пять подростков травмированы на пожаре в Пермском крае&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Newsko.ru&lt;/font&gt; Пять подростков получили травмы на пожаре в Пермском крае. Инцидент произошел в Чернушке, обстоятельства выясняет следствие. Следствие устанавливает обстоятельства происшествия в Чернушке",
-        "published_at": 1791139195830,
-        "article_url": "https://www.newsko.ru/news/nk-9442663.html"
-      },
-      "expiresAt": 1791311995831,
-      "versionstamp": "903a6f36-242b-4d2a-9b68-2e6d770e8709"
-    },
     "[\"factor\",\"published_v2\",\"b982ba34bbff2c344a97e0e2cd01fe50a1f980bae3d98afb2f4283eb69094d03\"]": {
       "key": [
         "factor",
@@ -1468,28 +1302,6 @@
       "value": "Многодетный отец погиб в ДТП в Татарстане",
       "expiresAt": 1793732356395,
       "versionstamp": "91a177d1-9368-45f8-97fc-f666ccf05238"
-    },
-    "[\"factor\",\"published_event_v4\",\"149c4b46bea3d8e828d80da0fafc791a72b74699a6ae23e5c5903b7dca0f6485\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "149c4b46bea3d8e828d80da0fafc791a72b74699a6ae23e5c5903b7dca0f6485"
-      ],
-      "value": {
-        "category": "ПРОИСШЕСТВИЯ",
-        "family": "accident",
-        "anchors": [
-          "мног",
-          "отец",
-          "тата"
-        ],
-        "title": "Многодетный отец погиб в ДТП в Татарстане",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMikgFBVV95cUxOT1d0MTI3N3dCcmQwemNoaE5GY3VqTW9jVW5ZTHVhazllclg1cDNhQ1dIX2JKWU9yLS02V1JOLXRjQndYX3pvN0VTTWxoS1lweHM4Q1VuZXVjeHV6TkVEMl8yOTVFRTBSR3ZwUFR0ZHlscTdzcno3Y01US2hacENqNlk2N1dCZHU4ZF9rV3E5dUt5QQ?oc=5\" target=\"_blank\"&gt;Многодетный отец погиб в ДТП в Татарстане&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Верхний Услон Новости&lt;/font&gt; В ДТП погибли два человека, еще одна пассажирка госпитализирована. В ДТП погибли два человека, еще одна пассажирка госпитализирована.",
-        "published_at": 1791140356396,
-        "article_url": "https://vuslon.ru/news/respublikanskie-novosti/mnogodetnyi-otec-pogib-v-dtp-v-tatarstane"
-      },
-      "expiresAt": 1791313156396,
-      "versionstamp": "a5aab845-9bbd-4b95-bddf-b6fc6c4ba842"
     },
     "[\"factor\",\"published_v2\",\"4117fe1665f3675abe6ba121cd3c60902813a5e435c7fe49da17210132b1a3ef\"]": {
       "key": [
@@ -1542,31 +1354,6 @@
       "expiresAt": 1793732601340,
       "versionstamp": "f894ab04-6091-4349-a6ca-f106433a0ff2"
     },
-    "[\"factor\",\"published_event_v4\",\"b4ddd928011ab27b87c8e5545ee3f928bbb8eb4c4a93cc3e8be647e9c89c793b\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "b4ddd928011ab27b87c8e5545ee3f928bbb8eb4c4a93cc3e8be647e9c89c793b"
-      ],
-      "value": {
-        "category": "АВТО",
-        "family": "accident",
-        "anchors": [
-          "важн",
-          "поче",
-          "новы",
-          "авто",
-          "объе",
-          "двиг"
-        ],
-        "title": "5 важных причин, почему в новых авто объём двигателя 1.5 л",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiUEFVX3lxTE9jU0hyVGdIVk5WVVJMV1R5ZUQ0c0xZTHVtMXY5akZjTWdtamk1eWdZYUJ4cGhXRFdCR1pndEFHWExVVmhFcjlsV2luN0JDOFVv0gFWQVVfeXFMTXMtaGhsamxzSkVkUmVmSWM5Q0laV2JWSFJHb19VVXo3RnhhSmpvbnBFX3o0RFBaczBxS3FWbFV0aVJ4ODRzMFNtWkh3QmY2dFlaRW8zY2c?oc=5\" target=\"_blank\"&gt;5 важных причин, почему в новых авто объём двигателя 1.5 л&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Авто Юга.ру&lt;/font&gt; Обзор новинок мира автомобилей, авторские материалы, репортажи об автоспорте, тест-драйвы Обзор новинок мира автомобилей, авторские материалы, репортажи об автоспорте, тест-драйвы",
-        "published_at": 1791140601341,
-        "article_url": "https://auto.yuga.ru/articles/6772.html"
-      },
-      "expiresAt": 1791313401342,
-      "versionstamp": "88bc552b-09f7-4adb-8667-9cd968e7bed2"
-    },
     "[\"factor\",\"published_v2\",\"4728ed584c28a628d5306380a8241dcc49cc048c57d875821e633a7075958cea\"]": {
       "key": [
         "factor",
@@ -1617,34 +1404,6 @@
       "value": "Зеркальная жизнь: почему ученые призывают остановить исследования, не дожидаясь катастрофы",
       "expiresAt": 1793732727269,
       "versionstamp": "591575bf-8b0b-4f1c-a926-7d80fc07b24f"
-    },
-    "[\"factor\",\"published_event_v4\",\"8c7b8906842e20c28a28d1bf69fd3c193522c2c23d5800357e4e7cfb6da17e29\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "8c7b8906842e20c28a28d1bf69fd3c193522c2c23d5800357e4e7cfb6da17e29"
-      ],
-      "value": {
-        "category": "НАУКА",
-        "family": "disaster",
-        "anchors": [
-          "зерк",
-          "жизн",
-          "поче",
-          "учен",
-          "приз",
-          "оста",
-          "иссл",
-          "дожи",
-          "ката"
-        ],
-        "title": "Зеркальная жизнь: почему ученые призывают остановить исследования, не дожидаясь катастрофы",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiswFBVV95cUxNV3VLTVlRd0s1SkpZLXpIX0FXcWF6aWd0N0xmS0VCcENPUTJ1aGZWV2lneDA4Yi04U3dkLUFmVHpXOVFRclQ4X0ZNQjRGbDZnVkEzd1dobzROZGpYYllEeFZXcHFzcFprcmYxRDlXYllLc0x0SGw2UTl2akpzcWlmNGV0VmRreXIyekpIaVdKWkR4OWRWRnowcElTQ2V3T2JnWDNmR0htckQ5VHNkeHVsc1JEcw?oc=5\" target=\"_blank\"&gt;Зеркальная жизнь: почему ученые призывают остановить исследования до катастрофы&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Поиск - новости науки и техники&lt;/font&gt; Биологи приближаются к созданию организмов, которые могут не распознаваться иммунной системой человека, животных и растений. Речь идет о так называемой зеркальной жизни — искусственных клетках, молекулы которых являются зеркальным отражением обычных. Издание The Economist призывает ввести жесткие ограничения на такие исследования, пока технология не вышла из-под контроля. Что такое зеркальная жизнь и почему она опасна [&hellip;] Биологи приближаются к созданию организмов, которые могут не распознаваться иммунно",
-        "published_at": 1791140727270,
-        "article_url": "https://poisknews.ru/biologiya/zerkalnaya-zhizn-pochemu-uchenye-prizyvayut-ostanovit-issledovaniya-do-katastrofy/"
-      },
-      "expiresAt": 1791313527271,
-      "versionstamp": "33185509-6ca7-4729-b9fa-fde2aea8762a"
     },
     "[\"factor\",\"published_v2\",\"0ae23b05ea2c9b83ccfd2100ff338eb4c4f8705b54066adf41215a860891f697\"]": {
       "key": [
@@ -1697,29 +1456,6 @@
       "expiresAt": 1793736073247,
       "versionstamp": "6306cb2c-0465-46dd-b264-a93beac15637"
     },
-    "[\"factor\",\"published_event_v4\",\"abb6d3950e17334bb0cd0ab9ef9587a16ab4c146b9eaa453cd5e22aeafd08441\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "abb6d3950e17334bb0cd0ab9ef9587a16ab4c146b9eaa453cd5e22aeafd08441"
-      ],
-      "value": {
-        "category": "ЭКОНОМИКА",
-        "family": "economy",
-        "anchors": [
-          "экон",
-          "расп",
-          "неск",
-          "част"
-        ],
-        "title": "Российская экономика распалась на несколько частей",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTE9JVEhnS1FOaFpCQUxxWEZoa1plNmRZa0UxaGVxMmYyUkdlM09GX2NKR0lsWTNBTUMtNUJXWDV6QXNTZnc2dGg0MkVzQmliT3NYS28xODJZelpvd0s3TUJMcmg5Y0xlMzN0c3VYaQ?oc=5\" target=\"_blank\"&gt;Российская экономика распалась на несколько частей&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Независимая газета&lt;/font&gt; Каждое третье предприятие начнет инвестировать при ставке 6–7%, каждому третьему в принципе все равно Каждое третье предприятие начнет инвестировать при ставке 6–7%, каждому третьему в принципе все равно",
-        "published_at": 1791144073248,
-        "article_url": "https://www.ng.ru/economics/2026-10-04/4_9595_economics.html"
-      },
-      "expiresAt": 1791316873248,
-      "versionstamp": "f3b456bb-128d-45f2-a3ed-f5c1e3163fa1"
-    },
     "[\"factor\",\"published_v2\",\"8869cffdd4f8389a12a620c45d81fbd1c3b134f7193dc54b9368570f5e57065e\"]": {
       "key": [
         "factor",
@@ -1770,31 +1506,6 @@
       "value": "Пожар в гараже амурского села ликвидировали за короткое время",
       "expiresAt": 1793736373603,
       "versionstamp": "263c045b-63c9-4bdb-afb5-1a8c77041752"
-    },
-    "[\"factor\",\"published_event_v4\",\"c14e5b4fc142b14eaf7967ff9648ad07d0f5d9543c644abe21cfe367c22c5900\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "c14e5b4fc142b14eaf7967ff9648ad07d0f5d9543c644abe21cfe367c22c5900"
-      ],
-      "value": {
-        "category": "ПРОИСШЕСТВИЯ",
-        "family": "fire",
-        "anchors": [
-          "гара",
-          "амур",
-          "села",
-          "ликв",
-          "коро",
-          "врем"
-        ],
-        "title": "Пожар в гараже амурского села ликвидировали за короткое время",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMikAFBVV95cUxOZkM5WVQ3WGxOVkhNRjdEazZfTW9hT29LemQ1Yk9hcGEwSkhNQWs4WldlbjBWamx1R25tRV9DdDlnMTF1TWZPVFRLdnF6UUtQbUhHeWhOejdxQzlyZFhsOTFvbHJKbTdfbGx0aUp2Nlh2WHZYUG5UM2YxbmlySVFqelMxTzNXamdRRi1CdG44WGM?oc=5\" target=\"_blank\"&gt;Пожар в гараже амурского села ликвидировали за короткое время&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Amur.life&lt;/font&gt; В селе Владимировка Амурской области загорелся гараж на улице Лесной. На место происшествия оперативно выехал дежурный караул пожарной части № 41 из Усть-Ивановки. В селе Владимировка Амурской области загорелся гараж на улице Лесной. На место происшествия оперативно выехал дежурный караул пожарной части № 41 из Усть-Ивановки.",
-        "published_at": 1791144373604,
-        "article_url": "https://www.amur.life/news/2026/10/04/pozhar-v-garazhe-likvidirovali-za-korotkoe-vremya"
-      },
-      "expiresAt": 1791317173604,
-      "versionstamp": "4b5ee3fd-6469-4e22-81dd-edcb15607c36"
     },
     "[\"factor\",\"published_v2\",\"bdb375695fe9d785eeb182960f150cafebea3d84d465eaf3212bbabd591995a7\"]": {
       "key": [
@@ -2956,7 +2667,80 @@
       "expiresAt": 1791474693260,
       "versionstamp": "bb86b333-2978-4285-ab09-9ce12071c2d3"
     },
-    "[\"factor\",\"state\",\"incident_count\",2026,9,6,15]": {
+    "[\"factor\",\"published_v2\",\"750a198d3efe2b91e73f41256540dfb49758ccd18693e65cd18ef62b16a62c8b\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "750a198d3efe2b91e73f41256540dfb49758ccd18693e65cd18ef62b16a62c8b"
+      ],
+      "value": true,
+      "expiresAt": 1793911031547,
+      "versionstamp": "4e6cee8e-e4cc-426f-aa13-1140fdcdb7ac"
+    },
+    "[\"factor\",\"published\",\"830c6b83100e0520d76a5c9538435dd95a5ff5ae75d300108ef6264ec81b73cf\"]": {
+      "key": [
+        "factor",
+        "published",
+        "830c6b83100e0520d76a5c9538435dd95a5ff5ae75d300108ef6264ec81b73cf"
+      ],
+      "value": true,
+      "expiresAt": 1793911031548,
+      "versionstamp": "5a9338b7-9436-4cab-ad58-2dc93441893f"
+    },
+    "[\"factor\",\"published_story_v3\",\"dd7daaa8eac4ec9485bffae44fd164710186d4263804140693c10d42671b1954\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "dd7daaa8eac4ec9485bffae44fd164710186d4263804140693c10d42671b1954"
+      ],
+      "value": true,
+      "expiresAt": 1793911031549,
+      "versionstamp": "53590421-3fdf-4e5a-b817-dc99b6d2cb6f"
+    },
+    "[\"factor\",\"recent_title_v2\",1791319031550,\"4761fd1a7bd9a54b439a441ea4f7e133420e3da4189d87f7b6e81f00276d68fd\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791319031550,
+        "4761fd1a7bd9a54b439a441ea4f7e133420e3da4189d87f7b6e81f00276d68fd"
+      ],
+      "value": "Пожар повредил четырехквартирный дом в Воронеже",
+      "expiresAt": 1793911031550,
+      "versionstamp": "3bca6f98-bcf4-4377-acd5-8c14fc2a8238"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"4761fd1a7bd9a54b439a441ea4f7e133420e3da4189d87f7b6e81f00276d68fd\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "4761fd1a7bd9a54b439a441ea4f7e133420e3da4189d87f7b6e81f00276d68fd"
+      ],
+      "value": "Пожар повредил четырехквартирный дом в Воронеже",
+      "expiresAt": 1793911031551,
+      "versionstamp": "68558b5b-57da-40ae-8896-811078885020"
+    },
+    "[\"factor\",\"published_event_v4\",\"a81c90f79dc78f4349aa91cec8e87270fdc70d62ab31f4dd723d6593863a050d\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "a81c90f79dc78f4349aa91cec8e87270fdc70d62ab31f4dd723d6593863a050d"
+      ],
+      "value": {
+        "category": "ПРОИСШЕСТВИЯ",
+        "family": "fire",
+        "anchors": [
+          "повр",
+          "четы",
+          "воро"
+        ],
+        "title": "Пожар повредил четырехквартирный дом в Воронеже | Новости Воронежа",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiWEFVX3lxTFBDdVcxcUtzYnlkMzZnUEtUQktLaVlwS0xHaF9WaEJ4TmNOS01KcndrNGY3R2F4SkxQX2cwdEpBS044RUNOMGQ5V0hjclVOejEyVFhVa29saDU?oc=5\" target=\"_blank\"&gt;Пожар повредил четырехквартирный дом в Воронеже&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Новости Воронежа интернет-газета&lt;/font&gt; В Воронеже произошел пожар в четырехквартирном доме. Огонь уничтожил часть пристройки и повредил кухню. Инцидент зафиксирован на улице Вольной. Огонь уничтожил часть пристройки и повредил кухню в здании на улице Вольной",
+        "published_at": 1791319031552,
+        "article_url": "https://novostivoronezha.ru/2026/10/06/364837"
+      },
+      "expiresAt": 1791491831552,
+      "versionstamp": "fd0cf340-edcd-4f48-ae84-6e023a8a93c5"
+    },
+    "[\"factor\",\"state\",\"incident_count\",2026,9,6,20]": {
       "key": [
         "factor",
         "state",
@@ -2964,11 +2748,11 @@
         2026,
         9,
         6,
-        15
+        20
       ],
       "value": 1,
-      "expiresAt": 1791309093262,
-      "versionstamp": "592a8cd0-4d42-465b-9a29-a4354dae5392"
+      "expiresAt": 1791326231554,
+      "versionstamp": "e99aecba-4790-4289-b84f-26976361626d"
     }
   }
 }
