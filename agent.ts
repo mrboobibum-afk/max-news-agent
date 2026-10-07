@@ -4156,15 +4156,19 @@ async function searchPublicTelegramChannelVideos(item, story, diagnostics = null
     for (const channel of PUBLIC_TELEGRAM_VIDEO_CHANNELS) {
         if (diagnostics) diagnostics.search_video_queries++;
         const channelUrl = `https://t.me/s/${channel}`;
-        try {
-            const response = await fetch(channelUrl, {
+        let pageUrl = channelUrl;
+        const seenPosts = new Set();
+
+        for (let page = 0; page < 3 && pageUrl; page++) {
+          try {
+            const response = await fetch(pageUrl, {
                 headers: {
                     "User-Agent": USER_AGENT,
                     "Accept": "text/html,application/xhtml+xml",
                 },
                 signal: AbortSignal.timeout(15000),
             });
-            if (!response.ok) continue;
+            if (!response.ok) break;
 
             const html = await response.text();
             const blocks = html.match(/<div class="tgme_widget_message_wrap[\s\S]*?(?=<div class="tgme_widget_message_wrap|$)/gi) ?? [];
@@ -4173,10 +4177,9 @@ async function searchPublicTelegramChannelVideos(item, story, diagnostics = null
                 const caption = textMatch ? stripHtml(decodeHtmlEntities(textMatch[1])) : "";
                 if (!caption) continue;
 
-                const similarity = storySimilarity(headline, caption);
-                if (similarity < 0.18 && !articleTitleMatches(headline, caption)) continue;
-
                 const postId = block.match(/data-post="[^"]+\/(\d+)"/i)?.[1];
+                if (postId && seenPosts.has(postId)) continue;
+                if (postId) seenPosts.add(postId);
                 const postUrl = postId ? `${channelUrl}/${postId}?single` : channelUrl;
                 const mediaUrls = [];
                 for (const match of block.matchAll(
@@ -4185,6 +4188,14 @@ async function searchPublicTelegramChannelVideos(item, story, diagnostics = null
                     const mediaUrl = normalizeMediaUrl(match[0]);
                     if (mediaUrl && !mediaUrls.includes(mediaUrl)) mediaUrls.push(mediaUrl);
                 }
+                if (!mediaUrls.length) continue;
+
+                // Public eyewitness captions are often much shorter or use a
+                // different inflection than the newsroom headline. Let one
+                // strong event token through; Gemini remains the final visual
+                // relevance gate before publication.
+                const similarity = storySimilarity(headline, caption);
+                if (similarity < 0.10 && !articleTitleMatches(headline, caption)) continue;
 
                 if (diagnostics) diagnostics.search_video_candidates += mediaUrls.length;
                 for (const mediaUrl of mediaUrls.slice(0, 3)) {
@@ -4212,11 +4223,12 @@ async function searchPublicTelegramChannelVideos(item, story, diagnostics = null
                     return video;
                 }
             }
-        } catch (error) {
-            console.warn(
-                "Public Telegram video search:",
-                error instanceof Error ? error.message : String(error),
-            );
+            const older = html.match(new RegExp(`href="(/s/${channel}\\?before=\\d+)"`, "i"))?.[1];
+            pageUrl = older ? `https://t.me${older}` : "";
+          } catch (error) {
+            console.warn("Public Telegram video search:", error instanceof Error ? error.message : String(error));
+            break;
+          }
         }
     }
     return null;
