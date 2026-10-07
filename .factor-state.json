@@ -222,9 +222,9 @@
         "state",
         "last_regular"
       ],
-      "value": 1791331513628,
+      "value": 1791378781585,
       "expiresAt": null,
-      "versionstamp": "08f88ed9-0917-4c42-8e58-f8ec998a4cc2"
+      "versionstamp": "3f029fd0-e37b-4619-bdde-8ca166fbd9d6"
     },
     "[\"factor\",\"published_v2\",\"31ad2257d965a02c7bc2056d6ce50a32a04684ea94f1aa4267a5445407e08019\"]": {
       "key": [
@@ -789,9 +789,9 @@
       "value": {
         "ok": true,
         "selected": 1,
-        "urgent": true,
+        "urgent": false,
         "manual": false,
-        "score": 55,
+        "score": 58,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
@@ -807,78 +807,74 @@
           "duplicate_after_article": 0,
           "event_duplicate_after_article": 0,
           "old_event_new_article": 0,
-          "gemini_fallback": 0,
+          "gemini_fallback": 1,
           "gemini_title_mismatch": 0,
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
           "text_duplicate": 0,
-          "editorial_filter_rejected": 221,
-          "editorial_no_event_action": 208,
+          "editorial_filter_rejected": 216,
+          "editorial_no_event_action": 202,
           "video_candidates": 0,
           "video_checked": 0,
           "video_rejected": 0,
           "video_validation": null,
-          "external_video_candidates": 3,
-          "external_video_checked": 3,
+          "external_video_candidates": 0,
+          "external_video_checked": 0,
           "search_video_queries": 13,
           "search_video_candidates": 1,
           "search_video_checked": 0,
-          "image_candidates": 1,
-          "media_checked": 1,
-          "media_selected": "image",
-          "selected_media_source": "meta",
-          "media_rejected": null,
+          "image_candidates": 0,
+          "media_checked": 0,
+          "media_selected": null,
+          "selected_media_source": null,
+          "media_rejected": "no_relevant_media",
           "top_candidates": [],
-          "ai_provider": "gemini"
+          "ai_provider": "none"
         },
         "item": {
-          "title": "Под Тамбовом в ДТП с грузовиком погиб водитель квадроцикла - Онлайн Тамбов.ру",
-          "source": "Онлайн Тамбов.ру",
-          "article_url": "https://www.onlinetambov.ru/news/incident/pod-tambovom-v-dtp-s-gruzovikom-pogib-voditel-kvadrotsikla/",
-          "category": "ПРОИСШЕСТВИЯ"
+          "title": "Государственный Wildberries. Любимый россиянами интернет-магазин откроет платформу госзакупок. Этого потребовал Президент - CNews.ru",
+          "source": "CNews.ru",
+          "article_url": "https://www.cnews.ru/news/top/2026-10-07_gosudarstvennyj_wildberrieslyubimyj",
+          "category": "ПОЛИТИКА"
         },
-        "media": {
-          "type": "image_group",
-          "count": 1,
-          "source_url": [
-            "https://www.onlinetambov.ru/upload/iblock/25f/9fm2b404dzl48rlns8o2s1znxf6sljtb.png"
-          ]
-        },
+        "media": null,
         "publication": {
           "message": {
             "recipient": {
               "chat_type": "channel",
               "chat_id": -78887448255074
             },
-            "timestamp": 1791374737927,
+            "timestamp": 1791378834770,
             "body": {
-              "mid": "mid.ffffb84095ab659e01a1164142074663",
-              "seq": 117399534824801890,
-              "text": "Водитель квадроцикла погиб в ДТП с грузовиком под Тамбовом\n\nПод Тамбовом в ДТП с грузовиком погиб водитель квадроцикла. Авария произошла в границах рабочего посёлка Новая Ляда.\n\n🔗 Онлайн Тамбов.ру\n\n📢 ФАКТОР",
+              "mid": "mid.ffffb84095ab659e01a1167fc55204cf",
+              "seq": 117399803315487950,
+              "text": "Государственный Wildberries. Любимый россиянами интернет-магазин откроет платформу госзакупок. Этого потребовал Президент - CNews\n\nПо поручению главы государства Wildberries откроет фирменную платформу госзакупок для образовательных учреждений. Потратить миллиарды в рамках одного тендера не удастся – предельная сумма одной...\n\n🔗 CNews.ru\n\n📢 ФАКТОР",
               "attachments": [
                 {
                   "payload": {
-                    "photo_id": 44971462728,
-                    "token": "wUdNAhVdfCgQFDg5WtiEQre1GAOFabbkUIvi+vri/If0WBCMlHg4faC6TQyyfAd00spUkLHhI+I7eegCEIJTAvx27Kp0NFKjE9zypaTYkxE=",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8OFUqtUgZmN2p5WoqCyV_m-hjfMfVvfoBKYlDsISiwlA"
+                    "url": "http://cnews.ru",
+                    "token": "f9LHodD0cOLynzNPa5ve2x5EHkdcm_DQUV7aUTlBtlirMFuPQ0Ibogjtp4UpHFik06UIGRjy9pdfROtWyv_jbiY"
                   },
-                  "type": "image"
+                  "title": "Интернет-издание о высоких технологиях - CNews",
+                  "description": "CNews – крупнейшее издание в сфере корпоративных информационных технологий в России и странах СНГ. Оперативные новости и аналитические материалы мира высоких технологий: технологические инновации, проекты в...",
+                  "image_url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8SloqpPZJPznQd0wxHFZBS-hjfMfVvfoBKYlDsISiwlA",
+                  "type": "share"
                 }
               ],
               "markup": [
                 {
                   "from": 0,
-                  "length": 58,
+                  "length": 129,
                   "type": "strong"
                 },
                 {
-                  "url": "https://www.onlinetambov.ru/news/incident/pod-tambovom-v-dtp-s-gruzovikom-pogib-voditel-kvadrotsikla/",
-                  "from": 181,
-                  "length": 16,
+                  "url": "https://www.cnews.ru/news/top/2026-10-07_gosudarstvennyj_wildberrieslyubimyj",
+                  "from": 332,
+                  "length": 8,
                   "type": "link"
                 },
                 {
-                  "from": 202,
+                  "from": 345,
                   "length": 6,
                   "type": "emphasized"
                 }
@@ -887,13 +883,13 @@
             "stat": {
               "views": 1
             },
-            "url": "https://max.ru/channel_faktormedia/AaEWQUIHRmM"
+            "url": "https://max.ru/channel_faktormedia/AaEWf8VSBM8"
           }
         },
-        "duration_ms": 38413
+        "duration_ms": 54057
       },
       "expiresAt": null,
-      "versionstamp": "1d5be885-55df-4c55-86c1-c331c30df45e"
+      "versionstamp": "7e4c66fe-2249-409b-be15-9bd37be87d89"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -2792,6 +2788,89 @@
       "value": 1,
       "expiresAt": 1791381938060,
       "versionstamp": "1c16cb2a-8e3d-4b85-b5d2-ea9b4f935376"
+    },
+    "[\"factor\",\"published_v2\",\"d55340184511fa99ca8f9c1ec55689e594bda57dc1372a5174d573427f8519e8\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "d55340184511fa99ca8f9c1ec55689e594bda57dc1372a5174d573427f8519e8"
+      ],
+      "value": true,
+      "expiresAt": 1793970834947,
+      "versionstamp": "89ec4f98-c848-43a7-bebc-b8d6b6d9c0b3"
+    },
+    "[\"factor\",\"published\",\"b7cad36b0652e008bed2770dc8d4d598c376cbdda9f14d1bf20a61d14fdabead\"]": {
+      "key": [
+        "factor",
+        "published",
+        "b7cad36b0652e008bed2770dc8d4d598c376cbdda9f14d1bf20a61d14fdabead"
+      ],
+      "value": true,
+      "expiresAt": 1793970834949,
+      "versionstamp": "8f8c4059-eea0-4db7-b945-1ea612a42b68"
+    },
+    "[\"factor\",\"published_story_v3\",\"84cb2efa980763996ec9dfb170530d09103e6420807f00306b4d8d0bb91b8ca1\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "84cb2efa980763996ec9dfb170530d09103e6420807f00306b4d8d0bb91b8ca1"
+      ],
+      "value": true,
+      "expiresAt": 1793970834950,
+      "versionstamp": "597d9131-917e-4749-965d-97759fc34dc6"
+    },
+    "[\"factor\",\"recent_title_v2\",1791378834951,\"84d100274439621b6ccc21b06386f840600216910c9041b62d6bfda32bd3daf7\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791378834951,
+        "84d100274439621b6ccc21b06386f840600216910c9041b62d6bfda32bd3daf7"
+      ],
+      "value": "Государственный Wildberries. Любимый россиянами интернет-магазин откроет платформу госзакупок. Этого потребовал Президент - CNews",
+      "expiresAt": 1793970834951,
+      "versionstamp": "ed2d2902-6ff6-41fe-8280-284e0ec0ba0d"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"84d100274439621b6ccc21b06386f840600216910c9041b62d6bfda32bd3daf7\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "84d100274439621b6ccc21b06386f840600216910c9041b62d6bfda32bd3daf7"
+      ],
+      "value": "Государственный Wildberries. Любимый россиянами интернет-магазин откроет платформу госзакупок. Этого потребовал Президент - CNews",
+      "expiresAt": 1793970834952,
+      "versionstamp": "ffe2f6b4-883c-44e3-8e3b-a8dabc9ce0c3"
+    },
+    "[\"factor\",\"published_event_v4\",\"601f84e88b55e22084ac2f88d5c58251e56964281bf33eac818d3915b249d149\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "601f84e88b55e22084ac2f88d5c58251e56964281bf33eac818d3915b249d149"
+      ],
+      "value": {
+        "category": "ПОЛИТИКА",
+        "family": "military",
+        "anchors": [
+          "госу",
+          "wild",
+          "люби",
+          "росс",
+          "инте",
+          "мага",
+          "откр",
+          "плат",
+          "госз",
+          "этог",
+          "потр",
+          "през",
+          "cnew"
+        ],
+        "title": "Государственный Wildberries. Любимый россиянами интернет-магазин откроет платформу госзакупок. Этого потребовал Президент - CNews",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiggFBVV95cUxOY1QxNmlOeUpSVkhwSVJtZGxOWWdhdnFqblduWHQyanZjY2Jkai1OTkF3R2VTU3U1M2Z4UkMyUnFNMjhEU3dyR09hcy1reUtoc3BNWXBiWTROODZRVFVBRkNHMjIxUzZIWnB3M1B1YWpZSnp0RmZaTG9xSUJHNHNSdnd3?oc=5\" target=\"_blank\"&gt;Государственный Wildberries. Любимый россиянами интернет-магазин откроет платформу госзакупок. Этого потребовал Президент&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;CNews.ru&lt;/font&gt; По поручению главы государства Wildberries откроет фирменную платформу госзакупок для образовательных учреждений. Потратить миллиарды в рамках одного тендера не удастся – предельная сумма одной... По поручению главы государства Wildberries откроет фирменную платформу госзакупок для образовательных учреждений. Потратить миллиарды в рамках одного тендера не удастся – предельная сумма одной...",
+        "published_at": 1791378834954,
+        "article_url": "https://www.cnews.ru/news/top/2026-10-07_gosudarstvennyj_wildberrieslyubimyj"
+      },
+      "expiresAt": 1791551634954,
+      "versionstamp": "8656360a-515d-4091-93ee-8a5e0b7e8e6e"
     }
   }
 }
