@@ -48,9 +48,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791378983471,
+      "value": 1791399177961,
       "expiresAt": null,
-      "versionstamp": "aa85fad1-76d5-41bd-bd3e-33ab6c439f6e"
+      "versionstamp": "c0ec53c1-2c68-4e83-8d5b-f86b6599e590"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -788,13 +788,112 @@
       ],
       "value": {
         "ok": true,
-        "selected": 0,
-        "reason": "publication intervals not reached",
+        "selected": 1,
+        "urgent": true,
+        "manual": false,
+        "score": 52,
         "rss_total": 300,
-        "duration_ms": 693
+        "diagnostics": {
+          "rss_total": 300,
+          "scored": 15,
+          "accepted": 1,
+          "short_title": 0,
+          "urgent_interval": 0,
+          "regular_interval": 0,
+          "duplicate_before_article": 0,
+          "event_duplicate_before_article": 0,
+          "bad_url": 1,
+          "article_title_mismatch": 0,
+          "duplicate_after_article": 0,
+          "event_duplicate_after_article": 0,
+          "old_event_new_article": 0,
+          "gemini_fallback": 0,
+          "gemini_title_mismatch": 0,
+          "urgent_interval_after_gemini": 0,
+          "regular_interval_after_gemini": 0,
+          "text_duplicate": 0,
+          "editorial_filter_rejected": 222,
+          "editorial_no_event_action": 208,
+          "video_candidates": 0,
+          "video_checked": 0,
+          "video_rejected": 0,
+          "video_validation": null,
+          "external_video_candidates": 2,
+          "external_video_checked": 2,
+          "search_video_queries": 14,
+          "search_video_candidates": 3,
+          "search_video_checked": 6,
+          "image_candidates": 1,
+          "media_checked": 1,
+          "media_selected": "image",
+          "selected_media_source": "jsonld",
+          "media_rejected": null,
+          "top_candidates": [],
+          "ai_provider": "gemini"
+        },
+        "item": {
+          "title": "Водитель «Рено» погиб в ДТП с «Ауди» и тягачом на трассе А-114 - Мойка78.ру",
+          "source": "Мойка78.ру Новости СПб - Актуальные новости и события Санкт-Петербурга в режиме online и каждый час. Репортажи и комментарии, фотохроника и анонсы. Политика и бизнес, культура и социальная среда, туризм и спорт.",
+          "article_url": "https://moika78.ru/news/2026-10-07/1364229-voditel-reno-pogib-v-dtp-s-audi-i-tyagachom-na-trasse-a-114/",
+          "category": "ПРОИСШЕСТВИЯ"
+        },
+        "media": {
+          "type": "image_group",
+          "count": 1,
+          "source_url": [
+            "https://moika78.ru/wp-content/uploads/2026/10/blurred-frame-28.webp"
+          ]
+        },
+        "publication": {
+          "message": {
+            "recipient": {
+              "chat_type": "channel",
+              "chat_id": -78887448255074
+            },
+            "timestamp": 1791399281525,
+            "body": {
+              "mid": "mid.ffffb84095ab659e01a117b7c3751125",
+              "seq": 117401143314026780,
+              "text": "Водитель «Рено» погиб в ДТП с «Ауди» и тягачом на трассе А-114\n\n🔗 Мойка78.ру Новости СПб - Актуальные новости и события Санкт-Петербурга в режиме online и каждый час. Репортажи и комментарии, фотохроника и анонсы. Политика и бизнес, культура и социальная среда, туризм и спорт.\n\n📢 ФАКТОР",
+              "attachments": [
+                {
+                  "payload": {
+                    "photo_id": 45036917064,
+                    "token": "fkr2ECbLqzs0+ZTodYcHEn3iJJ5JQSCksVEQmt8M1WiAYI3jsL7/snBAZaE0OrAPE3/pGGh2Nl/7nhFwTUezuQy9nLHTxVWbkLUzAZAp8a4=",
+                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8V9qG5CaEMLD_YuASX2LpVuhjfMfVvfoBKYlDsISiwlA"
+                  },
+                  "type": "image"
+                }
+              ],
+              "markup": [
+                {
+                  "from": 0,
+                  "length": 62,
+                  "type": "strong"
+                },
+                {
+                  "url": "https://moika78.ru/news/2026-10-07/1364229-voditel-reno-pogib-v-dtp-s-audi-i-tyagachom-na-trasse-a-114/",
+                  "from": 67,
+                  "length": 211,
+                  "type": "link"
+                },
+                {
+                  "from": 283,
+                  "length": 6,
+                  "type": "emphasized"
+                }
+              ]
+            },
+            "stat": {
+              "views": 1
+            },
+            "url": "https://max.ru/channel_faktormedia/AaEXt8N1ESU"
+          }
+        },
+        "duration_ms": 104475
       },
       "expiresAt": null,
-      "versionstamp": "02717526-4d7f-4b37-b2a3-eea90e49c1ba"
+      "versionstamp": "06203b93-2a06-43ef-af26-3c07aecf8c80"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -1867,37 +1966,6 @@
       "expiresAt": 1793805636705,
       "versionstamp": "7bc70344-b0b0-4cfa-856d-bdc1293f265f"
     },
-    "[\"factor\",\"published_event_v4\",\"2f8ed326a9f706a030e4b33a542170f965c17c0503cc95b8776cbe4f4ea2e1d4\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "2f8ed326a9f706a030e4b33a542170f965c17c0503cc95b8776cbe4f4ea2e1d4"
-      ],
-      "value": {
-        "category": "ПРОИСШЕСТВИЯ",
-        "family": "accident",
-        "anchors": [
-          "четы",
-          "маши",
-          "шпри",
-          "сиде",
-          "ново",
-          "мост",
-          "благ",
-          "серь",
-          "пост",
-          "ребе",
-          "фото",
-          "виде"
-        ],
-        "title": "Четыре машины и шприц на сиденье: в ДТП на новом мосту Благовещенска серьезно пострадал ребенок (фото, видео)",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiuAFBVV95cUxONFR6amRfMlJnbXRHX08xcTFiZzZ3ZDI3M3pwdHg3NGxfSUQzcHlhYU80cC1qZnBlUU1KRXhZN05mSFZ3UDZrM3l0czVXRkxIWmt1ZVdrSlJIUzROWEsyMUZWc0RKY3Zvamtkbnl1WDczR051R285S3Q4aUhHS3FXUlhuUUM2LTAtSXdFOEpCU25RSFo5OTR6TjJZSUhSeWV3bEJ2aUJLVy0tWW42UUtyMEl6T3FSV1kw?oc=5\" target=\"_blank\"&gt;Четыре машины и шприц на сиденье: в ДТП на новом мосту Благовещенска серьезно пострадал ребенок (фото, видео)&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Amur.life&lt;/font&gt; 5 октября вечером на повороте на новый мост жёстко столкнулись несколько автомобилей. По предварительным данным, участниками были четыре авто. Понадобилась помощь медиков и спасателей. Виновник аварии был в алкогольном или наркотическом опьянении. Об этом сообщил телеграм-канал dpskontrol_28rus. 5 октября вечером на повороте на новый мост жёстко столкнулись несколько автомобилей. По предварительным данным, участниками были четыре авто. Понадобилась помощь медиков и спасателей. Виновник аварии был ",
-        "published_at": 1791213636706,
-        "article_url": "https://www.amur.life/news/2026/10/05/zhestkaya-avariya-na-novom-mostu-blagoveschenska-postradal-rebenok-voditel-pyan"
-      },
-      "expiresAt": 1791386436707,
-      "versionstamp": "b6c7a37b-6d35-4eb2-bdb4-ec9540c8e306"
-    },
     "[\"factor\",\"published_v2\",\"99f2b6da173cc3579b67e4fdf968baf3794d7b8642dbfd83904157d6dc0e44cf\"]": {
       "key": [
         "factor",
@@ -2680,20 +2748,6 @@
       "expiresAt": 1791547538057,
       "versionstamp": "d701dca7-7a7c-4bd1-b07b-1d2f5f128907"
     },
-    "[\"factor\",\"state\",\"incident_count\",2026,9,7,12]": {
-      "key": [
-        "factor",
-        "state",
-        "incident_count",
-        2026,
-        9,
-        7,
-        12
-      ],
-      "value": 1,
-      "expiresAt": 1791381938060,
-      "versionstamp": "1c16cb2a-8e3d-4b85-b5d2-ea9b4f935376"
-    },
     "[\"factor\",\"published_v2\",\"d55340184511fa99ca8f9c1ec55689e594bda57dc1372a5174d573427f8519e8\"]": {
       "key": [
         "factor",
@@ -2853,7 +2907,83 @@
       "expiresAt": 1791551804188,
       "versionstamp": "91585cd8-7de3-416d-81c2-d2ff092cc455"
     },
-    "[\"factor\",\"state\",\"incident_count\",2026,9,7,13]": {
+    "[\"factor\",\"published_v2\",\"930c6d9bc00090c39cbd494d4deac141bad83e1a84838c2bee24cb8246da7e5a\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "930c6d9bc00090c39cbd494d4deac141bad83e1a84838c2bee24cb8246da7e5a"
+      ],
+      "value": true,
+      "expiresAt": 1793991281680,
+      "versionstamp": "e5cf120f-b226-4643-9306-dac254fd8964"
+    },
+    "[\"factor\",\"published\",\"2b58343ccb274ea1003e47cadad4a31d696cd238ddab1119d0cd237acbf7e148\"]": {
+      "key": [
+        "factor",
+        "published",
+        "2b58343ccb274ea1003e47cadad4a31d696cd238ddab1119d0cd237acbf7e148"
+      ],
+      "value": true,
+      "expiresAt": 1793991281681,
+      "versionstamp": "b45d7034-d14b-4a76-8252-ed3c39eb277f"
+    },
+    "[\"factor\",\"published_story_v3\",\"c623fa804a28443ec392a7f9419ca2b3005bd614afcdecfeb6906c47599df944\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "c623fa804a28443ec392a7f9419ca2b3005bd614afcdecfeb6906c47599df944"
+      ],
+      "value": true,
+      "expiresAt": 1793991281682,
+      "versionstamp": "e91d12bf-79bf-4b50-8705-43207e332f43"
+    },
+    "[\"factor\",\"recent_title_v2\",1791399281684,\"61c8f12cefaca131987f9fcdae73ae9bab47a9a67f7ea60e06f90f5c0c0d46ba\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791399281684,
+        "61c8f12cefaca131987f9fcdae73ae9bab47a9a67f7ea60e06f90f5c0c0d46ba"
+      ],
+      "value": "Водитель «Рено» погиб в ДТП с «Ауди» и тягачом на трассе А-114",
+      "expiresAt": 1793991281684,
+      "versionstamp": "9674a058-3eb8-4312-9028-4b0f274d9047"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"61c8f12cefaca131987f9fcdae73ae9bab47a9a67f7ea60e06f90f5c0c0d46ba\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "61c8f12cefaca131987f9fcdae73ae9bab47a9a67f7ea60e06f90f5c0c0d46ba"
+      ],
+      "value": "Водитель «Рено» погиб в ДТП с «Ауди» и тягачом на трассе А-114",
+      "expiresAt": 1793991281685,
+      "versionstamp": "0259848d-dfa5-4959-b186-9dad72584833"
+    },
+    "[\"factor\",\"published_event_v4\",\"181deb7845f76258744e2b36665e3524c2f9ee00aaefb53a7bfa3c4fd9a1234e\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "181deb7845f76258744e2b36665e3524c2f9ee00aaefb53a7bfa3c4fd9a1234e"
+      ],
+      "value": {
+        "category": "ПРОИСШЕСТВИЯ",
+        "family": "accident",
+        "anchors": [
+          "води",
+          "рено",
+          "ауди",
+          "тяга",
+          "трас",
+          "мойк"
+        ],
+        "title": "Водитель «Рено» погиб в ДТП с «Ауди» и тягачом на трассе А-114 - новости от Мойка78.ру",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMipgFBVV95cUxQcVNKOUVyT1pndUs4UmxTZUl1T3pWQU9nWVZYNFE2WmJMZF9FaWxBWGVvbkFuWjJOMXVseEhfZFBvalVYLUdzbktlWmFKNjZ2amhORlJ2S0F1QVBER3BvUFVwdGRDQlFFaFpUT1ZmVmhIaHRmSzltSTQ2Q1FHMklPdWdvQW9pZDQyY0ZXbTU3X1UzbDNOY3lxOU9rajFRRjVBYTIwYnhn?oc=5\" target=\"_blank\"&gt;Водитель «Рено» погиб в ДТП с «Ауди» и тягачом на трассе А-114&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Мойка78.ру&lt;/font&gt; Лобовое ДТП с участием «Ауди», «Рено» и тягача произошло на трассе А-114 под Бокситогорском. Погиб водитель «Рено». Лобовое ДТП с участием легковушек «Ауди» и «Рено» произошло на трассе А-114 под Бокситогорском. Кадры с места публикует пресс-служба Леноблпожспаса. ДТП унесло жизнь водителя «Рено»....",
+        "published_at": 1791399281686,
+        "article_url": "https://moika78.ru/news/2026-10-07/1364229-voditel-reno-pogib-v-dtp-s-audi-i-tyagachom-na-trasse-a-114/"
+      },
+      "expiresAt": 1791572081686,
+      "versionstamp": "e3163431-7aaa-4c48-a774-b494a74c8da2"
+    },
+    "[\"factor\",\"state\",\"incident_count\",2026,9,7,18]": {
       "key": [
         "factor",
         "state",
@@ -2861,11 +2991,11 @@
         2026,
         9,
         7,
-        13
+        18
       ],
       "value": 1,
-      "expiresAt": 1791386204190,
-      "versionstamp": "2915d474-2513-466b-98da-8481776b3b6f"
+      "expiresAt": 1791406481688,
+      "versionstamp": "ae93f06f-e8f3-4fc9-b97f-3fe6227eb8eb"
     }
   }
 }
