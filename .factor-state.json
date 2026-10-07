@@ -222,9 +222,9 @@
         "state",
         "last_regular"
       ],
-      "value": 1791284936718,
+      "value": 1791331513628,
       "expiresAt": null,
-      "versionstamp": "6a0166c9-f5e0-479c-a5f2-d1aba227ca80"
+      "versionstamp": "08f88ed9-0917-4c42-8e58-f8ec998a4cc2"
     },
     "[\"factor\",\"published_v2\",\"31ad2257d965a02c7bc2056d6ce50a32a04684ea94f1aa4267a5445407e08019\"]": {
       "key": [
@@ -789,9 +789,9 @@
       "value": {
         "ok": true,
         "selected": 1,
-        "urgent": true,
+        "urgent": false,
         "manual": false,
-        "score": 49,
+        "score": 37,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
@@ -802,83 +802,67 @@
           "regular_interval": 0,
           "duplicate_before_article": 0,
           "event_duplicate_before_article": 0,
-          "bad_url": 0,
+          "bad_url": 1,
           "article_title_mismatch": 0,
           "duplicate_after_article": 0,
           "event_duplicate_after_article": 0,
           "old_event_new_article": 0,
           "gemini_fallback": 0,
-          "gemini_title_mismatch": 0,
+          "gemini_title_mismatch": 1,
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
           "text_duplicate": 0,
-          "editorial_filter_rejected": 221,
-          "editorial_no_event_action": 206,
-          "video_candidates": 0,
-          "video_checked": 0,
-          "video_rejected": 0,
-          "video_validation": null,
-          "external_video_candidates": 1,
-          "external_video_checked": 1,
+          "editorial_filter_rejected": 225,
+          "editorial_no_event_action": 208,
+          "video_candidates": 1,
+          "video_checked": 2,
+          "video_rejected": 2,
+          "video_validation": "not_relevant",
+          "external_video_candidates": 3,
+          "external_video_checked": 3,
           "search_video_queries": 13,
-          "search_video_candidates": 6,
-          "search_video_checked": 11,
-          "image_candidates": 1,
-          "media_checked": 1,
-          "media_selected": "image",
-          "selected_media_source": "meta",
-          "media_rejected": null,
+          "search_video_candidates": 1,
+          "search_video_checked": 0,
+          "image_candidates": 0,
+          "media_checked": 0,
+          "media_selected": null,
+          "selected_media_source": null,
+          "media_rejected": "no_relevant_media",
           "top_candidates": [],
-          "ai_provider": "gemini"
+          "ai_provider": "qwen"
         },
         "item": {
-          "title": "Пожар повредил четырехквартирный дом в Воронеже - Новости Воронежа интернет-газета",
-          "source": "Новости Воронежа - Все важные новости Воронежа и области: происшествия, политика, жизнь города",
-          "article_url": "https://novostivoronezha.ru/2026/10/06/364837",
-          "category": "ПРОИСШЕСТВИЯ"
+          "title": "Инновационные разработки, персонифицированный подход и технологии искусственного интеллекта: в Краснодарском крае открылся Центр медицины трудового долголетия ФМБА России - Министерство транспорта Российской Федерации",
+          "source": "Министерство транспорта Российской Федерации",
+          "article_url": "https://mintrans.gov.ru/press-center/branch-news/9586",
+          "category": "ТЕХНОЛОГИИ"
         },
-        "media": {
-          "type": "image_group",
-          "count": 1,
-          "source_url": [
-            "https://novostivoronezha.ru/wp-content/uploads/2024/09/IMG_1836-1-scaled.jpg"
-          ]
-        },
+        "media": null,
         "publication": {
           "message": {
             "recipient": {
               "chat_type": "channel",
               "chat_id": -78887448255074
             },
-            "timestamp": 1791319031387,
+            "timestamp": 1791331668784,
             "body": {
-              "mid": "mid.ffffb84095ab659e01a112ef3e5b2775",
-              "seq": 117395884040988530,
-              "text": "Пожар повредил четырехквартирный дом в Воронеже\n\nВ Воронеже произошел пожар в четырехквартирном доме. Огонь уничтожил часть пристройки и повредил кухню. Инцидент зафиксирован на улице Вольной.\n\n🔗 Новости Воронежа - Все важные новости Воронежа и области: происшествия, политика, жизнь города\n\n📢 ФАКТОР",
-              "attachments": [
-                {
-                  "payload": {
-                    "photo_id": 44851528776,
-                    "token": "cxP4oVuBBZTG78RqRZGZ5j6UsfHfdSgXiPH4E5qK3aMXhB7XsYBzVodO7qHd4ePfFCMmnYPY/uoAZNlxoVdINFCkE2qFl5XH/Kc5PTFQuQFs6wSXxPvOAaD91GH1p0iL",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8pYExabz4abC_LBM3IsEDEehjfMfVvfoBKYlDsISiwlA"
-                  },
-                  "type": "image"
-                }
-              ],
+              "mid": "mid.ffffb84095ab659e01a113b013302bac",
+              "seq": 117396712245439410,
+              "text": "Инновационные разработки, персонифицированный подход и технологии искусственного интеллекта: в Краснодарском крае открылся Центр медицины трудового долголетия ФМБА России\n\nМинистерство транспорта Российской Федерации\n\n🔗 Министерство транспорта Российской Федерации\n\n📢 ФАКТОР",
               "markup": [
                 {
                   "from": 0,
-                  "length": 47,
+                  "length": 170,
                   "type": "strong"
                 },
                 {
-                  "url": "https://novostivoronezha.ru/2026/10/06/364837",
-                  "from": 197,
-                  "length": 94,
+                  "url": "https://mintrans.gov.ru/press-center/branch-news/9586",
+                  "from": 221,
+                  "length": 44,
                   "type": "link"
                 },
                 {
-                  "from": 296,
+                  "from": 270,
                   "length": 6,
                   "type": "emphasized"
                 }
@@ -887,13 +871,13 @@
             "stat": {
               "views": 1
             },
-            "url": "https://max.ru/channel_faktormedia/AaES7z5bJ3U"
+            "url": "https://max.ru/channel_faktormedia/AaETsBMwK6w"
           }
         },
-        "duration_ms": 76098
+        "duration_ms": 156025
       },
       "expiresAt": null,
-      "versionstamp": "25a010c5-d9eb-4269-8650-8bcf96045986"
+      "versionstamp": "98079d5b-ad2c-4172-83f3-9a6ef87a73bc"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -2740,19 +2724,90 @@
       "expiresAt": 1791491831552,
       "versionstamp": "fd0cf340-edcd-4f48-ae84-6e023a8a93c5"
     },
-    "[\"factor\",\"state\",\"incident_count\",2026,9,6,20]": {
+    "[\"factor\",\"published_v2\",\"99f464582a4ce206e6685c089b42ca1e82b0844cf6635b9e660a31e44df3cb9c\"]": {
       "key": [
         "factor",
-        "state",
-        "incident_count",
-        2026,
-        9,
-        6,
-        20
+        "published_v2",
+        "99f464582a4ce206e6685c089b42ca1e82b0844cf6635b9e660a31e44df3cb9c"
       ],
-      "value": 1,
-      "expiresAt": 1791326231554,
-      "versionstamp": "e99aecba-4790-4289-b84f-26976361626d"
+      "value": true,
+      "expiresAt": 1793923668946,
+      "versionstamp": "ca0b06a9-7ad2-487f-8e3c-6870eef21b0f"
+    },
+    "[\"factor\",\"published\",\"6ef5a9b8972bb411262d4711764896f349dd89c2dca0d83e16b97c27ad568087\"]": {
+      "key": [
+        "factor",
+        "published",
+        "6ef5a9b8972bb411262d4711764896f349dd89c2dca0d83e16b97c27ad568087"
+      ],
+      "value": true,
+      "expiresAt": 1793923668947,
+      "versionstamp": "d1f3e3fd-c5ba-493b-9755-e0f9688a9603"
+    },
+    "[\"factor\",\"published_story_v3\",\"17be4680df794a87c49572c643d9f8cc114873d04d129cf7d7b9f8d4960b3893\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "17be4680df794a87c49572c643d9f8cc114873d04d129cf7d7b9f8d4960b3893"
+      ],
+      "value": true,
+      "expiresAt": 1793923668948,
+      "versionstamp": "c1fb331a-7d09-4fef-ac0c-4ee2d405d3d3"
+    },
+    "[\"factor\",\"recent_title_v2\",1791331668949,\"4eb2c486ffea4b8bf0aa57a9b23f1a330fcecf4d367022d7aa5f5da46e92cbb4\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791331668949,
+        "4eb2c486ffea4b8bf0aa57a9b23f1a330fcecf4d367022d7aa5f5da46e92cbb4"
+      ],
+      "value": "Инновационные разработки, персонифицированный подход и технологии искусственного интеллекта: в Краснодарском крае открылся Центр медицины трудового долголетия ФМБА России",
+      "expiresAt": 1793923668949,
+      "versionstamp": "baf38b27-ed05-4cee-9fef-5015d694ccf6"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"4eb2c486ffea4b8bf0aa57a9b23f1a330fcecf4d367022d7aa5f5da46e92cbb4\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "4eb2c486ffea4b8bf0aa57a9b23f1a330fcecf4d367022d7aa5f5da46e92cbb4"
+      ],
+      "value": "Инновационные разработки, персонифицированный подход и технологии искусственного интеллекта: в Краснодарском крае открылся Центр медицины трудового долголетия ФМБА России",
+      "expiresAt": 1793923668951,
+      "versionstamp": "cff8619a-d761-4195-8bd2-b797ab0fb5f2"
+    },
+    "[\"factor\",\"published_event_v4\",\"2e1400c9ad412b7d2a556119ff92006b2fea8739181b2b6d8a365063d06bdcf1\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "2e1400c9ad412b7d2a556119ff92006b2fea8739181b2b6d8a365063d06bdcf1"
+      ],
+      "value": {
+        "category": "ТЕХНОЛОГИИ",
+        "family": "law",
+        "anchors": [
+          "инно",
+          "разр",
+          "перс",
+          "подх",
+          "техн",
+          "иску",
+          "инте",
+          "крас",
+          "крае",
+          "откр",
+          "цент",
+          "меди",
+          "труд",
+          "долг",
+          "фмба"
+        ],
+        "title": "Инновационные разработки, персонифицированный подход и технологии искусственного интеллекта: в Краснодарском крае открылся Центр медицины трудового долголетия ФМБА России",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiY0FVX3lxTE1KUGVMcG9rT2hLUmIwb3hoYV95SHo1b0xTdWtZaC1WS19haWtPZnpHWDVDSUI1dTJXTGV4c2NLYW9xWWIzUE1RX3YwNHV3azRmVXMxV1laM3F3ZC1jUDc4TWhiOA?oc=5\" target=\"_blank\"&gt;Инновационные разработки, персонифицированный подход и технологии искусственного интеллекта: в Краснодарском крае открылся Центр медицины трудового долголетия ФМБА России&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Министерство транспорта Российской Федерации&lt;/font&gt; Министерство транспорта Российской Федерации Министерство транспорта Российской Федерации",
+        "published_at": 1791331668963,
+        "article_url": "https://mintrans.gov.ru/press-center/branch-news/9586"
+      },
+      "expiresAt": 1791504468963,
+      "versionstamp": "3fb6d9ca-2402-4f64-988e-925df26f8a1e"
     }
   }
 }
