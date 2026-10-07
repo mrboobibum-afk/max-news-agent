@@ -788,112 +788,13 @@
       ],
       "value": {
         "ok": true,
-        "selected": 1,
-        "urgent": true,
-        "manual": false,
-        "score": 43,
+        "selected": 0,
+        "reason": "publication intervals not reached",
         "rss_total": 300,
-        "diagnostics": {
-          "rss_total": 300,
-          "scored": 12,
-          "accepted": 1,
-          "short_title": 0,
-          "urgent_interval": 0,
-          "regular_interval": 73,
-          "duplicate_before_article": 0,
-          "event_duplicate_before_article": 0,
-          "bad_url": 0,
-          "article_title_mismatch": 0,
-          "duplicate_after_article": 0,
-          "event_duplicate_after_article": 0,
-          "old_event_new_article": 0,
-          "gemini_fallback": 0,
-          "gemini_title_mismatch": 0,
-          "urgent_interval_after_gemini": 0,
-          "regular_interval_after_gemini": 0,
-          "text_duplicate": 0,
-          "editorial_filter_rejected": 215,
-          "editorial_no_event_action": 202,
-          "video_candidates": 0,
-          "video_checked": 0,
-          "video_rejected": 0,
-          "video_validation": null,
-          "external_video_candidates": 3,
-          "external_video_checked": 3,
-          "search_video_queries": 14,
-          "search_video_candidates": 1,
-          "search_video_checked": 0,
-          "image_candidates": 2,
-          "media_checked": 2,
-          "media_selected": "image",
-          "selected_media_source": "meta",
-          "media_rejected": null,
-          "top_candidates": [],
-          "ai_provider": "gemini"
-        },
-        "item": {
-          "title": "Пожар на атакованном танкере Aframax Rio потушили без разлива нефти - TKS.RU",
-          "source": "TKS.RU",
-          "article_url": "https://www.tks.ru/logistics/2026/10/07/0006/pozhar-na-atakovannom-tankere-aframax-rio-potushili-bez-razliva-nefti/",
-          "category": "ПРОИСШЕСТВИЯ"
-        },
-        "media": {
-          "type": "image_group",
-          "count": 1,
-          "source_url": [
-            "https://www.tks.ru/media/filer_public/81/58/8158d6c4-027f-42b2-863b-965f8ce8b24d/port_novoross.jpg"
-          ]
-        },
-        "publication": {
-          "message": {
-            "recipient": {
-              "chat_type": "channel",
-              "chat_id": -78887448255074
-            },
-            "timestamp": 1791379004063,
-            "body": {
-              "mid": "mid.ffffb84095ab659e01a116825a9f6143",
-              "seq": 117399814410297660,
-              "text": "Пожар на танкере Aframax Rio потушен, разлива нефти нет\n\nОткрытое горение на танкере Aframax Rio у побережья Черного моря ликвидировано. Загрязнения акватории и береговой линии нефтяным грузом не обнаружено. Спасательные суда продолжают дежурство.\n\n🔗 TKS.RU\n\n📢 ФАКТОР",
-              "attachments": [
-                {
-                  "payload": {
-                    "photo_id": 44984716616,
-                    "token": "f3oo3yAKEfhGzBlgObPuogQb3IstBsKTGxe5CGv7ly3Wk0Nmfm8cjZJrrAelnysIcKmyeACKksmcDU9x5MxjMF4BwjZ/hCeLXg+BFBAb0zjqJFdxxsFFKky+M3a16ux4",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8KQGMIJ6kD4KORRFOjYLuJ-hjfMfVvfoBKYlDsISiwlA"
-                  },
-                  "type": "image"
-                }
-              ],
-              "markup": [
-                {
-                  "from": 0,
-                  "length": 55,
-                  "type": "strong"
-                },
-                {
-                  "url": "https://www.tks.ru/logistics/2026/10/07/0006/pozhar-na-atakovannom-tankere-aframax-rio-potushili-bez-razliva-nefti/",
-                  "from": 252,
-                  "length": 6,
-                  "type": "link"
-                },
-                {
-                  "from": 263,
-                  "length": 6,
-                  "type": "emphasized"
-                }
-              ]
-            },
-            "stat": {
-              "views": 1
-            },
-            "url": "https://max.ru/channel_faktormedia/AaEWglqfYUM"
-          }
-        },
-        "duration_ms": 21520
+        "duration_ms": 693
       },
       "expiresAt": null,
-      "versionstamp": "29c6f5f3-0cac-4a17-a3e5-f16a645a740c"
+      "versionstamp": "02717526-4d7f-4b37-b2a3-eea90e49c1ba"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
