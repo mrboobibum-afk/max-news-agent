@@ -63,6 +63,10 @@ const SCORE_CANDIDATES = 15;
 const GEMINI_CANDIDATES = 10;
 const MAX_HISTORY_CHECKED = 300;
 const MAX_POST_LENGTH = 3900;
+const PUBLIC_TELEGRAM_VIDEO_CHANNELS = (Deno.env.get("PUBLIC_TELEGRAM_VIDEO_CHANNELS") ?? "novosti_efir")
+    .split(",")
+    .map((value) => value.trim().replace(/^@/, ""))
+    .filter((value) => /^[a-zA-Z0-9_]{3,64}$/.test(value));
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
     "AppleWebKit/537.36 (KHTML, like Gecko) " +
     "Chrome/140.0.0.0 Safari/537.36";
@@ -4143,6 +4147,81 @@ async function searchIndependentVideo(item, story, articleMedia, diagnostics = n
     return null;
 }
 
+async function searchPublicTelegramChannelVideos(item, story, diagnostics = null) {
+    const headline = stripHtml(story?.headline || item?.title || "")
+        .replace(/\s+-\s+[^|]+$/i, "")
+        .trim();
+    if (!headline || !PUBLIC_TELEGRAM_VIDEO_CHANNELS.length) return null;
+
+    for (const channel of PUBLIC_TELEGRAM_VIDEO_CHANNELS) {
+        if (diagnostics) diagnostics.search_video_queries++;
+        const channelUrl = `https://t.me/s/${channel}`;
+        try {
+            const response = await fetch(channelUrl, {
+                headers: {
+                    "User-Agent": USER_AGENT,
+                    "Accept": "text/html,application/xhtml+xml",
+                },
+                signal: AbortSignal.timeout(15000),
+            });
+            if (!response.ok) continue;
+
+            const html = await response.text();
+            const blocks = html.match(/<div class="tgme_widget_message_wrap[\s\S]*?(?=<div class="tgme_widget_message_wrap|$)/gi) ?? [];
+            for (const block of blocks.slice(-24).reverse()) {
+                const textMatch = block.match(/<div class="tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/i);
+                const caption = textMatch ? stripHtml(decodeHtmlEntities(textMatch[1])) : "";
+                if (!caption) continue;
+
+                const similarity = storySimilarity(headline, caption);
+                if (similarity < 0.18 && !articleTitleMatches(headline, caption)) continue;
+
+                const postId = block.match(/data-post="[^"]+\/(\d+)"/i)?.[1];
+                const postUrl = postId ? `${channelUrl}/${postId}?single` : channelUrl;
+                const mediaUrls = [];
+                for (const match of block.matchAll(
+                    /https?:\/\/[^"'<>\s]+?\.(?:mp4|mov|webm|mkv)(?:\?[^"'<>\s]*)?/gi,
+                )) {
+                    const mediaUrl = normalizeMediaUrl(match[0]);
+                    if (mediaUrl && !mediaUrls.includes(mediaUrl)) mediaUrls.push(mediaUrl);
+                }
+
+                if (diagnostics) diagnostics.search_video_candidates += mediaUrls.length;
+                for (const mediaUrl of mediaUrls.slice(0, 3)) {
+                    if (diagnostics) diagnostics.search_video_checked++;
+                    const video = await downloadMedia(mediaUrl, "video");
+                    if (!video) continue;
+
+                    const relevant = await validateVideoRelevance(
+                        item,
+                        story,
+                        video,
+                        `${caption}\nПубличный пост: ${postUrl}`,
+                    );
+                    if (!relevant) {
+                        if (diagnostics) diagnostics.video_rejected++;
+                        continue;
+                    }
+
+                    if (diagnostics) {
+                        diagnostics.media_selected = "telegram_public_video";
+                        diagnostics.selected_media_source = postUrl;
+                        diagnostics.video_validation = "relevant";
+                    }
+                    console.log("Public Telegram video selected:", postUrl);
+                    return video;
+                }
+            }
+        } catch (error) {
+            console.warn(
+                "Public Telegram video search:",
+                error instanceof Error ? error.message : String(error),
+            );
+        }
+    }
+    return null;
+}
+
 async function findBestMedia(articleMedia, item, story, diagnostics = null) {
     // ----------------------------------------------------------
     // 1. VIDEO — only publisher/article video, never stock media.
@@ -4251,7 +4330,18 @@ async function findBestMedia(articleMedia, item, story, diagnostics = null) {
         return searchedVideo;
     }
 
-    // 3b. If news search did not expose the video page, search public
+    // 3b. Public Telegram posts are often not exposed as ordinary search
+    // results, even though their HTML contains a signed CDN video URL.
+    const searchedTelegramVideo = await searchPublicTelegramChannelVideos(
+        item,
+        story,
+        diagnostics,
+    );
+    if (searchedTelegramVideo) {
+        return searchedTelegramVideo;
+    }
+
+    // 3c. If news search did not expose the video page, search public
     // video results directly. This can find eyewitness/social posts that
     // are not syndicated as normal news articles.
     const searchedWebVideo = await searchPublicVideoPages(
