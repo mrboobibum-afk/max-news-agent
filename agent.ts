@@ -1,11 +1,6 @@
 // ============================================================
-// MAX NEWS AGENT — ФАКТОР (Direct Live Edition v3)
+// MAX NEWS AGENT — ФАКТОР (Direct Live Edition v4)
 // GITHUB ACTIONS RUNTIME
-// ============================================================
-// Динамическая сетка:
-//   - Срочные / Резонансные (Молнии): каждые 5-7 минут
-//   - Обычные новости: раз в 25-30 минут (макс 3 поста в час)
-//   - Приоритет медиа: ТОЧНОЕ ВИДЕО -> ФОТО -> ТЕКСТ
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -16,9 +11,8 @@ const DASHSCOPE_API_KEY = Deno.env.get("DASHSCOPE_API_KEY") ?? "";
 const QWEN_MODEL = Deno.env.get("QWEN_MODEL") ?? "qwen3.8-max";
 const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyuncs.com/compatible-mode/v1";
 
-// Интервалы вещания «Прямого эфира»
-const URGENT_INTERVAL_MS = 5 * 60 * 1000;      // 5 минут для молний / резонанса
-const REGULAR_INTERVAL_MS = 25 * 60 * 1000;    // 25 минут для обычной повестки
+const URGENT_INTERVAL_MS = 5 * 60 * 1000;
+const REGULAR_INTERVAL_MS = 25 * 60 * 1000;
 const HISTORY_TTL_MS = 30 * 24 * 60 * 60 * 1000;
 
 const MAX_VIDEO_BYTES = Number(Deno.env.get("MAX_VIDEO_MB") ?? "50") * 1024 * 1024;
@@ -26,7 +20,7 @@ const MAX_IMAGE_BYTES = Number(Deno.env.get("MAX_IMAGE_MB") ?? "15") * 1024 * 10
 
 const RSS_LIMIT_PER_FEED = 35;
 const MAX_RSS_ITEMS = 350;
-const SCORE_CANDIDATES = 25;
+const SCORE_CANDIDATES = 20;
 
 const PUBLIC_TELEGRAM_VIDEO_CHANNELS = (Deno.env.get("PUBLIC_TELEGRAM_VIDEO_CHANNELS") ?? "shot_shot,mash,breakingmash,bazabazon,novosti_efir")
     .split(",")
@@ -70,7 +64,7 @@ const RSS_FEEDS = [
 ];
 
 // ============================================================
-// STATE STORAGE (GitHub Actions persistent state)
+// STATE STORAGE
 // ============================================================
 class FileKV {
     constructor(filePath = ".factor-state.json") {
@@ -109,7 +103,7 @@ class FileKV {
 const kv = new FileKV();
 
 // ============================================================
-// TEXT & STRING UTILITIES
+// TEXT & HTML SANITIZATION (Полная очистка мусора Google News)
 // ============================================================
 function cleanText(value) {
     let text = String(value ?? "");
@@ -120,9 +114,17 @@ function cleanText(value) {
             .replace(/&quot;/gi, '"')
             .replace(/&#39;/gi, "'")
             .replace(/&#x27;/gi, "'")
-            .replace(/&#(\d+);/g, (_, c) => String.fromCodePoint(Number(c)));
+            .replace(/&lt;/gi, "<")
+            .replace(/&gt;/gi, ">")
+            .replace(/&#(\d+);/g, (_, c) => String.fromCodePoint(Number(c)))
+            .replace(/&#x([0-9a-f]+);/gi, (_, c) => String.fromCodePoint(parseInt(c, 16)));
     }
-    return text.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+    return text
+        .replace(/<!\[CDATA\[/gi, "")         .replace(/\]\]>/gi, "")
+        .replace(/<br\s*\/?>/gi, "\n")
+        .replace(/<[^>]+>/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
 }
 
 function stripHtml(value) {
@@ -143,9 +145,8 @@ async function sha256(value) {
     return Array.from(new Uint8Array(hash)).map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
-// Извлечение ключевых корней для сверки видео
 function extractKeyRoots(text) {
-    const stopWords = new Set(["россия", "москва", "сегодня", "вчера", "стало", "известно", "сообщили", "после", "время", "видео", "кадры", "новость", "своей"]);
+    const stopWords = new Set(["россия", "москва", "сегодня", "вчера", "стало", "известно", "сообщили", "после", "видео", "кадры", "новость"]);
     return normalizeForHash(text)
         .split(" ")
         .filter((w) => w.length >= 4 && !stopWords.has(w))
@@ -153,7 +154,112 @@ function extractKeyRoots(text) {
 }
 
 // ============================================================
-// RSS PARSER
+// URL PROCESSING & GOOGLE NEWS DECODER
+// ============================================================
+function isHttpUrl(url) {
+    return /^https?:\/\//i.test(String(url ?? ""));
+}
+
+function isGoogleNewsUrl(url) {
+    try {
+        const host = new URL(url).hostname.toLowerCase();
+        return host === "news.google.com" || host.endsWith(".news.google.com");
+    } catch {
+        return false;
+    }
+}
+
+function isGoogleAsset(url) {
+    try {
+        const host = new URL(url).hostname.toLowerCase();
+        return host.includes("gstatic") || host.includes("googleusercontent") || host.includes("ggpht");
+    } catch {
+        return false;
+    }
+}
+
+function normalizeUrl(url) {
+    try {
+        const p = new URL(url);
+        p.hash = "";
+        ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid", "fbclid", "yclid"].forEach((k) => p.searchParams.delete(k));
+        return p.href;
+    } catch {
+        return "";
+    }
+}
+
+async function decodeGoogleNewsArticleUrl(googleUrl) {
+    try {
+        if (!isGoogleNewsUrl(googleUrl)) return "";
+        const parts = new URL(googleUrl).pathname.split("/").filter(Boolean);
+        const articleIndex = parts.lastIndexOf("articles");
+        if (articleIndex < 0 || !parts[articleIndex + 1]) return "";
+
+        const articleId = parts[articleIndex + 1];
+        let signature = "";
+        let timestamp = "";
+
+        const variants = [
+            `https://news.google.com/rss/articles/${encodeURIComponent(articleId)}`,
+            `https://news.google.com/articles/${encodeURIComponent(articleId)}`,
+        ];
+
+        for (const pageUrl of variants) {
+            try {
+                const res = await fetch(pageUrl, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(8000) });
+                if (!res.ok) continue;
+                const html = await res.text();
+                const sigMatch = html.match(/data-n-a-sg=["']([^"']+)["']/i);
+                const tsMatch = html.match(/data-n-a-ts=["']([^"']+)["']/i);
+                if (sigMatch?.[1] && tsMatch?.[1]) {
+                    signature = sigMatch[1];
+                    timestamp = tsMatch[1];
+                    break;
+                }
+            } catch {}
+        }
+
+        if (!signature || !timestamp) return "";
+
+        const rpc = [
+            "Fbv4je",
+            `["garturlreq",[["X","X",["X","X"],null,null,1,1,"US:en",null,1,null,null,null,null,null,0,1],"X","X",1,[1,1,1],1,1,null,0,0,null,0],"${articleId}",${Number(timestamp)},"${signature}"]`,
+        ];
+
+        const payload = new URLSearchParams({ "f.req": JSON.stringify([[rpc]]) });
+        const res = await fetch("https://news.google.com/_/DotsSplashUi/data/batchexecute", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8", "User-Agent": USER_AGENT },
+            body: payload.toString(),
+            signal: AbortSignal.timeout(10000),
+        });
+
+        if (!res.ok) return "";
+        const text = await res.text();
+        const urls = text.match(/https?:\/\/[^"\s\\]+/g) ?? [];
+        for (const raw of urls) {
+            const candidate = raw.replace(/\\\\u003d/gi, "=").replace(/\\\\u0026/gi, "&").replace(/\\\\\//g, "/");
+            if (isHttpUrl(candidate) && !isGoogleNewsUrl(candidate) && !isGoogleAsset(candidate)) {
+                return normalizeUrl(candidate);
+            }
+        }
+        return "";
+    } catch {
+        return "";
+    }
+}
+
+async function resolveArticleUrl(item) {
+    const original = normalizeUrl(item.link);
+    if (!isGoogleNewsUrl(original)) return original;
+    const decoded = await decodeGoogleNewsArticleUrl(original);
+    if (decoded && !isGoogleNewsUrl(decoded)) return decoded;
+    return "";
+}
+
+// ============================================================
+// RSS FETCHING
 // ============================================================
 function parseRSS(xml, feed) {
     const items = [];
@@ -191,7 +297,7 @@ async function loadRSS(feed) {
 }
 
 // ============================================================
-// MEDIA DOWNLOAD (FFmpeg & Direct MP4)
+// MEDIA DOWNLOAD (FFmpeg & Safe Fetch)
 // ============================================================
 async function downloadHlsVideo(url) {
     let tempPath = "";
@@ -219,7 +325,7 @@ async function downloadHlsVideo(url) {
 }
 
 async function downloadMedia(url, type) {
-    if (!url || !/^https?:\/\//i.test(url)) return null;
+    if (!url || !isHttpUrl(url) || isGoogleAsset(url)) return null;
     if (type === "video" && /\.m3u8(?:[?#]|$)/i.test(url)) return await downloadHlsVideo(url);
 
     try {
@@ -242,38 +348,16 @@ async function downloadMedia(url, type) {
 }
 
 // ============================================================
-// ВАЛИДАЦИЯ ВИДЕО (Защита от чужих роликов)
+// MEDIA RELEVANCE CHECK (Защита от чужих видео)
 // ============================================================
-async function verifyMediaRelevance(newsTitle, mediaCaption) {
-    const newsRoots = extractKeyRoots(newsTitle);
-    const mediaRoots = new Set(extractKeyRoots(mediaCaption));
-    let matches = 0;
-    for (const root of newsRoots) {
-        if (mediaRoots.has(root)) matches++;
+function isContextMatching(title, context) {
+    const titleRoots = extractKeyRoots(title);
+    const contextRoots = new Set(extractKeyRoots(context));
+    let matched = 0;
+    for (const root of titleRoots) {
+        if (contextRoots.has(root)) matched++;
     }
-
-    // Если нет даже 1 прямого совпадения ключевых корней — видео чужое
-    if (matches < 1) return false;
-
-    // Контрольная проверка смысла через Gemini
-    if (GEMINI_API_KEY) {
-        try {
-            const prompt = `Ответь ТОЛЬКО "YES" или "NO". Относится ли видео с подписью "${mediaCaption.slice(0, 300)}" к новости "${newsTitle}"?`;
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0 } }),
-                signal: AbortSignal.timeout(8000),
-            });
-            if (res.ok) {
-                const data = await res.json();
-                const text = data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim().toUpperCase();
-                return text === "YES";
-            }
-        } catch {}
-    }
-
-    return matches >= 2;
+    return matched >= 2;
 }
 
 async function searchVerifiedTelegramVideo(newsTitle) {
@@ -287,11 +371,7 @@ async function searchVerifiedTelegramVideo(newsTitle) {
             for (const block of postBlocks.slice(-15).reverse()) {
                 const textMatch = block.match(/<div class="tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/i);
                 const caption = textMatch ? cleanText(textMatch[1]) : "";
-                if (!caption) continue;
-
-                // Строгая проверка темы
-                const isRelevant = await verifyMediaRelevance(newsTitle, caption);
-                if (!isRelevant) continue;
+                if (!caption || !isContextMatching(newsTitle, caption)) continue;
 
                 const videoMatch = block.match(/https?:\/\/[^"'<>\s]+?\.(?:mp4|mov)(?:\?[^"'<>\s]*)?/i);
                 if (videoMatch) {
@@ -308,7 +388,7 @@ async function searchVerifiedTelegramVideo(newsTitle) {
 }
 
 // ============================================================
-// СКОРИНГ И ОПРЕДЕЛЕНИЕ СРОЧНОСТИ
+// EDITORIAL & AI (Формат «Прямой эфир»)
 // ============================================================
 const TRIVIAL_GARBAGE = [
     /(?:сарай|баня|гараж|мусор|трава|бытовка)\s+(?:сгорел|загорел)/i,
@@ -323,13 +403,11 @@ function evaluateNewsItem(item) {
     let score = 20;
     let urgent = false;
 
-    // Маркеры срочности (Молния)
-    if (/(?:путин|госдума|указ|закон|взрыв|атака|крушение|катастрофа|чп|эвакуация|смерч|землетрясение|теракт)/i.test(text)) {
+    if (/(?:путин|госдума|указ|закон|взрыв|атака|крушение|катастрофа|чп|эвакуация|землетрясение|теракт)/i.test(text)) {
         score += 50;
         urgent = true;
     }
 
-    // Видео-сигнал повышает рейтинг
     if (/(?:видео|кадры|момент|очевидцы|появились\s+кадры)/i.test(text)) {
         score += 40;
     }
@@ -337,19 +415,16 @@ function evaluateNewsItem(item) {
     return { item, score, urgent };
 }
 
-// ============================================================
-// AI РЕДАКТОР (Стиль «Прямой эфир»)
-// ============================================================
 async function callAI(item) {
     const prompt = `
 Ты редактор топового Telegram-канала новостей в формате «Прямой эфир».
-Сделай пост по новости:
+Сделай пост строго по новости:
 ЗАГОЛОВОК: ${item.title}
-ОПИСАНИЕ: ${item.description}
+СУТЬ: ${item.description}
 
 ПРАВИЛА:
-1. Заголовок (headline): короткий, цепляющий, передаёт главное событие без кликбейта.
-2. Текст (text): строго 1–2 динамичных предложения сути. Без вступительных фраз вроде "как стало известно", "сообщается".
+1. Заголовок (headline): короткий, мощный, передаёт суть события.
+2. Текст (text): строго 1–2 динамичных предложения. Никаких водных фраз ("как стало известно", "сообщается") и списков.
 Верни ТОЛЬКО JSON: {"headline": "...", "text": "..."}
 `;
 
@@ -369,7 +444,11 @@ async function callAI(item) {
         } catch {}
     }
 
-    return { headline: stripHtml(item.title), text: stripHtml(item.description || item.title) };
+    // Надёжный фоллбек без HTML-мусора
+    return {
+        headline: stripHtml(item.title).replace(/\s+-\s+.*$/, ""),
+        text: stripHtml(item.description).slice(0, 250) + "…",
+    };
 }
 
 // ============================================================
@@ -419,7 +498,7 @@ async function publishToMax(text, mediaToken = null, mediaType = "image") {
 
 function buildPostMessage(headline, text, sourceUrl, sourceName) {
     const parts = [`<b>${escapeHtml(headline)}</b>`, "", escapeHtml(text)];
-    if (sourceUrl && /^https?:\/\//i.test(sourceUrl)) {
+    if (sourceUrl && isHttpUrl(sourceUrl) && !isGoogleNewsUrl(sourceUrl)) {
         parts.push("", `🔗 <a href="${escapeHtml(sourceUrl)}">${escapeHtml(sourceName || "Источник")}</a>`);
     }
     parts.push("", "⚡ <i>ФАКТОР</i>");
@@ -430,20 +509,18 @@ function buildPostMessage(headline, text, sourceUrl, sourceName) {
 // MAIN PIPELINE
 // ============================================================
 async function run() {
-    console.log("=== Запуск новостного пайплайна ФАКТОР (Сетка «Прямого эфира») ===");
+    console.log("=== Запуск новостного пайплайна ФАКТОР (Direct Live v4) ===");
     const now = Date.now();
 
-    // Проверка интервалов вещания
     const lastUrgent = (await kv.get(["factor", "last_urgent"])).value ?? 0;
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
 
     const urgentAllowed = now - lastUrgent >= URGENT_INTERVAL_MS;
     const regularAllowed = now - lastRegular >= REGULAR_INTERVAL_MS;
 
-    console.log(`Интервалы: Молния доступна=${urgentAllowed}, Обычные новости доступны=${regularAllowed}`);
-
+    console.log(`Интервалы: Молния=${urgentAllowed}, Обычные=${regularAllowed}`);
     if (!urgentAllowed && !regularAllowed) {
-        console.log("Интервал между публикациями ещё не истёк. Пропуск запуска.");
+        console.log("Интервал между публикациями не наступил.");
         return;
     }
 
@@ -462,29 +539,30 @@ async function run() {
         const alreadyPub = await kv.get(["factor", "published", itemHash]);
         if (alreadyPub.value) continue;
 
-        console.log(`\nОбработка события (${urgent ? "МОЛНИЯ" : "ОБЫЧНОЕ"}): ${item.title}`);
+        console.log(`\nОбработка: ${item.title}`);
+        const realArticleUrl = await resolveArticleUrl(item);
         let selectedMedia = null;
 
-        // 1. Поиск строго проверенного видео в Telegram
+        // 1. Поиск строго подходящего видео в открытых TG-каналах
         selectedMedia = await searchVerifiedTelegramVideo(item.title);
 
-        // 2. Если видео не найдено — берём фото со страницы
-        if (!selectedMedia) {
+        // 2. Если видео не найдено — берём прямое фото со страницы статьи (без логотипов Google)
+        if (!selectedMedia && realArticleUrl) {
             try {
-                const res = await fetch(item.link, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(10000) });
+                const res = await fetch(realArticleUrl, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(10000) });
                 if (res.ok) {
                     const html = await res.text();
                     const ogImg = html.match(/<meta[^>]+(?:property|name)=["']og:image["'][^>]+content=["']([^"']+)["']/i)?.[1];
-                    if (ogImg && /^https?:\/\//i.test(ogImg)) {
+                    if (ogImg && isHttpUrl(ogImg) && !isGoogleAsset(ogImg)) {
                         selectedMedia = await downloadMedia(ogImg, "image");
                     }
                 }
             } catch {}
         }
 
-        // 3. Формирование поста в стиле «Прямого эфира»
+        // 3. Формирование чистого текста поста
         const postData = await callAI(item);
-        const postText = buildPostMessage(postData.headline, postData.text, item.link, item.source);
+        const postText = buildPostMessage(postData.headline, postData.text, realArticleUrl, item.source);
 
         try {
             let mediaToken = null;
@@ -496,15 +574,11 @@ async function run() {
             console.log("Публикация в MAX...");
             await publishToMax(postText, mediaToken, selectedMedia?.type || "image");
 
-            // Фиксируем публикацию и обновляем таймеры
             await kv.set(["factor", "published", itemHash], true, { expireIn: HISTORY_TTL_MS });
-            if (urgent) {
-                await kv.set(["factor", "last_urgent"], now);
-            } else {
-                await kv.set(["factor", "last_regular"], now);
-            }
+            if (urgent) await kv.set(["factor", "last_urgent"], now);
+            else await kv.set(["factor", "last_regular"], now);
 
-            console.log(`✅ Опубликовано: ${postData.headline}`);
+            console.log(`✅ Успешно опубликовано: ${postData.headline}`);
             return;
         } catch (err) {
             console.error("Ошибка при публикации с медиа, пробуем чистый текст:", err);
