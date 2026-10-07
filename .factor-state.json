@@ -48,9 +48,9 @@
         "state",
         "last_urgent"
       ],
-      "value": 1791352130498,
+      "value": 1791374700371,
       "expiresAt": null,
-      "versionstamp": "e00f304f-43f7-4d09-a46a-d8baceb72c7a"
+      "versionstamp": "f2365557-bc86-472a-92b7-98f79bb45f70"
     },
     "[\"factor\",\"published_v2\",\"dd946fc7536bb21d7ee43066da00abc8159a93af8935a1621f0d2c22fb5124a7\"]": {
       "key": [
@@ -791,7 +791,7 @@
         "selected": 1,
         "urgent": true,
         "manual": false,
-        "score": 52,
+        "score": 55,
         "rss_total": 300,
         "diagnostics": {
           "rss_total": 300,
@@ -802,24 +802,24 @@
           "regular_interval": 0,
           "duplicate_before_article": 0,
           "event_duplicate_before_article": 0,
-          "bad_url": 1,
+          "bad_url": 0,
           "article_title_mismatch": 0,
           "duplicate_after_article": 0,
           "event_duplicate_after_article": 0,
           "old_event_new_article": 0,
           "gemini_fallback": 0,
-          "gemini_title_mismatch": 1,
+          "gemini_title_mismatch": 0,
           "urgent_interval_after_gemini": 0,
           "regular_interval_after_gemini": 0,
           "text_duplicate": 0,
-          "editorial_filter_rejected": 208,
-          "editorial_no_event_action": 189,
+          "editorial_filter_rejected": 221,
+          "editorial_no_event_action": 208,
           "video_candidates": 0,
           "video_checked": 0,
           "video_rejected": 0,
           "video_validation": null,
-          "external_video_candidates": 2,
-          "external_video_checked": 2,
+          "external_video_candidates": 3,
+          "external_video_checked": 3,
           "search_video_queries": 13,
           "search_video_candidates": 1,
           "search_video_checked": 0,
@@ -829,19 +829,19 @@
           "selected_media_source": "meta",
           "media_rejected": null,
           "top_candidates": [],
-          "ai_provider": "qwen"
+          "ai_provider": "gemini"
         },
         "item": {
-          "title": "В Сысертском районе в нелепом ДТП погиб мужчина — он ехал на своем квадроцикле, перевернулся и оказался придавлен... - «Уральский рабочий»",
-          "source": "Газета &laquo;Уральский рабочий&raquo;",
-          "article_url": "https://xn----7sbbe6addecj3bpgj0a0fvd.xn--p1ai/news/item/65726",
+          "title": "Под Тамбовом в ДТП с грузовиком погиб водитель квадроцикла - Онлайн Тамбов.ру",
+          "source": "Онлайн Тамбов.ру",
+          "article_url": "https://www.onlinetambov.ru/news/incident/pod-tambovom-v-dtp-s-gruzovikom-pogib-voditel-kvadrotsikla/",
           "category": "ПРОИСШЕСТВИЯ"
         },
         "media": {
           "type": "image_group",
           "count": 1,
           "source_url": [
-            "https://xn----7sbbe6addecj3bpgj0a0fvd.xn--p1ai/media/publications/b/b/bb2916ed44ea598ec341bf4b65a05119_1152x_.jpg"
+            "https://www.onlinetambov.ru/upload/iblock/25f/9fm2b404dzl48rlns8o2s1znxf6sljtb.png"
           ]
         },
         "publication": {
@@ -850,17 +850,17 @@
               "chat_type": "channel",
               "chat_id": -78887448255074
             },
-            "timestamp": 1791352200770,
+            "timestamp": 1791374737927,
             "body": {
-              "mid": "mid.ffffb84095ab659e01a114e95e424db3",
-              "seq": 117398057829682610,
-              "text": "В Сысертском районе в нелепом ДТП погиб мужчина — он ехал на своем квадроцикле, перевернулся и оказался придавлен...\n\nСамые важные события Свердловской области\n\n🔗 Газета &laquo;Уральский рабочий&raquo;\n\n📢 ФАКТОР",
+              "mid": "mid.ffffb84095ab659e01a1164142074663",
+              "seq": 117399534824801890,
+              "text": "Водитель квадроцикла погиб в ДТП с грузовиком под Тамбовом\n\nПод Тамбовом в ДТП с грузовиком погиб водитель квадроцикла. Авария произошла в границах рабочего посёлка Новая Ляда.\n\n🔗 Онлайн Тамбов.ру\n\n📢 ФАКТОР",
               "attachments": [
                 {
                   "payload": {
-                    "photo_id": 44896473416,
-                    "token": "cWmJOlxdwXNeGZRLlzi5WIP+uvAaThgzk5zup5inJ/mMiXMZce87whFb1QxuXhtS3s84uZNlnD/XdkSu9I0AzZoJS2l4PZNUicF/2fzYxiA=",
-                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8WWasDwjOntTvC_FRbvxjWOhjfMfVvfoBKYlDsISiwlA"
+                    "photo_id": 44971462728,
+                    "token": "wUdNAhVdfCgQFDg5WtiEQre1GAOFabbkUIvi+vri/If0WBCMlHg4faC6TQyyfAd00spUkLHhI+I7eegCEIJTAvx27Kp0NFKjE9zypaTYkxE=",
+                    "url": "https://i.oneme.ru/i?r=BTGBPUwtwgYUeoFhO7rESmr8OFUqtUgZmN2p5WoqCyV_m-hjfMfVvfoBKYlDsISiwlA"
                   },
                   "type": "image"
                 }
@@ -868,17 +868,17 @@
               "markup": [
                 {
                   "from": 0,
-                  "length": 116,
+                  "length": 58,
                   "type": "strong"
                 },
                 {
-                  "url": "https://xn----7sbbe6addecj3bpgj0a0fvd.xn--p1ai/news/item/65726",
-                  "from": 164,
-                  "length": 38,
+                  "url": "https://www.onlinetambov.ru/news/incident/pod-tambovom-v-dtp-s-gruzovikom-pogib-voditel-kvadrotsikla/",
+                  "from": 181,
+                  "length": 16,
                   "type": "link"
                 },
                 {
-                  "from": 207,
+                  "from": 202,
                   "length": 6,
                   "type": "emphasized"
                 }
@@ -887,13 +887,13 @@
             "stat": {
               "views": 1
             },
-            "url": "https://max.ru/channel_faktormedia/AaEU6V5CTbM"
+            "url": "https://max.ru/channel_faktormedia/AaEWQUIHRmM"
           }
         },
-        "duration_ms": 71026
+        "duration_ms": 38413
       },
       "expiresAt": null,
-      "versionstamp": "f32c0b30-fdc4-4d62-9d48-b9a77a0cfce9"
+      "versionstamp": "1d5be885-55df-4c55-86c1-c331c30df45e"
     },
     "[\"factor\",\"published_v2\",\"6198f10f8707d013f88a82917f23fe42ef6123b67f40c55c85bc3209c65b5ee6\"]": {
       "key": [
@@ -1864,34 +1864,6 @@
       "expiresAt": 1793772096159,
       "versionstamp": "91796006-66f9-4f83-a28b-bd40fa3be5e3"
     },
-    "[\"factor\",\"published_event_v4\",\"dea23053f6cb7565b521a722d7d6f5efccf0e08ccf7abc76d101072e41e4bb5e\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "dea23053f6cb7565b521a722d7d6f5efccf0e08ccf7abc76d101072e41e4bb5e"
-      ],
-      "value": {
-        "category": "ПРОМЫШЛЕННОСТЬ",
-        "family": "politics",
-        "anchors": [
-          "преп",
-          "през",
-          "акад",
-          "урал",
-          "пред",
-          "креа",
-          "инду",
-          "выст",
-          "tech"
-        ],
-        "title": "Преподаватель Президентской академии на Урале представила креативные индустрии на выставке TechnoBuild",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiX0FVX3lxTE5MRU92dlZTSVdDd2p6MFBHVmxYVmZnT0NTMlVFVDJ4cGtFRmJnWVk3b2ZNZ1FHSTRyMUtTOU9xOUpfTnZwa2IzcDZKZU1oUFdoLWNSRVlkdFhWQmI5b2FZ?oc=5\" target=\"_blank\"&gt;Преподаватель Президентской академии на Урале представила креативные индустрии на выставке TechnoBuild&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Областная газета | Свердловская область&lt;/font&gt; Доцент кафедры экономики и управления вуза Светлана Маковкина стала модератором сессии, посвященной легендарному сысертскому фарфору. Доцент кафедры экономики и управления вуза Светлана Маковкина стала модератором сессии, посвященной легендарному сысертскому фарфору.",
-        "published_at": 1791180096161,
-        "article_url": "https://oblgazeta.ru/pressreleases/2026/10/167903/"
-      },
-      "expiresAt": 1791352896161,
-      "versionstamp": "7a17e98a-9605-4056-8e00-deb4c6a8c71f"
-    },
     "[\"factor\",\"published_v2\",\"e493024544aaae0dd4a73cf94172a2ea9e09c9757e355398e43cc791b78ccc5c\"]": {
       "key": [
         "factor",
@@ -1942,31 +1914,6 @@
       "value": "Молодой курганец сел за руль без прав и погубил пассажира в ДТП",
       "expiresAt": 1793775124637,
       "versionstamp": "c7077a95-68d3-4214-924b-b4abc9386e89"
-    },
-    "[\"factor\",\"published_event_v4\",\"ffd4191e43ec4e1ff3af8e4d4f2d156d9e0970467372efb6684d8d34de8af358\"]": {
-      "key": [
-        "factor",
-        "published_event_v4",
-        "ffd4191e43ec4e1ff3af8e4d4f2d156d9e0970467372efb6684d8d34de8af358"
-      ],
-      "value": {
-        "category": "ПРОИСШЕСТВИЯ",
-        "family": "accident",
-        "anchors": [
-          "моло",
-          "кург",
-          "руль",
-          "прав",
-          "погу",
-          "пасс"
-        ],
-        "title": "Молодой курганец сел за руль без прав и погубил пассажира в ДТП",
-        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiR0FVX3lxTE81TzFNMmprSkllckJzdnJhYlVBejlLSnNEMUVlX00xREFnbU5KWWNTbEJMRGlRNVp2R1AwWjFQUHZXd1kyR2FJ?oc=5\" target=\"_blank\"&gt;Молодой курганец сел за руль без прав и погубил пассажира в ДТП 3 октября: фото&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;URA.RU&lt;/font&gt; Фото Фото",
-        "published_at": 1791183124638,
-        "article_url": "https://ura.news/news/1053133394"
-      },
-      "expiresAt": 1791355924638,
-      "versionstamp": "93de43b8-8a42-461e-ac39-05973077fe9e"
     },
     "[\"factor\",\"published_v2\",\"29d4f6b713212d5e6e9ae67a0b4cd9764e66aaf915eed3da956f888f29597e19\"]": {
       "key": [
@@ -2758,7 +2705,81 @@
       "expiresAt": 1791525000897,
       "versionstamp": "e37cc093-8c44-411a-9332-4e08b5e3d10e"
     },
-    "[\"factor\",\"state\",\"incident_count\",2026,9,7,5]": {
+    "[\"factor\",\"published_v2\",\"f8c7454d9c454a00f44da7725a61aa34752eaec52a022e603a8779e6e78a18aa\"]": {
+      "key": [
+        "factor",
+        "published_v2",
+        "f8c7454d9c454a00f44da7725a61aa34752eaec52a022e603a8779e6e78a18aa"
+      ],
+      "value": true,
+      "expiresAt": 1793966738051,
+      "versionstamp": "a3f3eb38-812d-4b15-9392-79088c8db2cd"
+    },
+    "[\"factor\",\"published\",\"faa7ad945f1870ed7ea5c224a73fd345dd5673b7c8dea6089632d9f8f2c56f1d\"]": {
+      "key": [
+        "factor",
+        "published",
+        "faa7ad945f1870ed7ea5c224a73fd345dd5673b7c8dea6089632d9f8f2c56f1d"
+      ],
+      "value": true,
+      "expiresAt": 1793966738052,
+      "versionstamp": "7d0a9c73-0096-4112-9bd5-103525168b02"
+    },
+    "[\"factor\",\"published_story_v3\",\"5d823423d64fcf5eae80671c6f207d39e6205973ffc75a059698a5ae18270edc\"]": {
+      "key": [
+        "factor",
+        "published_story_v3",
+        "5d823423d64fcf5eae80671c6f207d39e6205973ffc75a059698a5ae18270edc"
+      ],
+      "value": true,
+      "expiresAt": 1793966738053,
+      "versionstamp": "6761f38b-ce78-4401-b022-e261e1557945"
+    },
+    "[\"factor\",\"recent_title_v2\",1791374738054,\"a028967dcc96a3720c32578e3367107f05cf296f027bb9e00802e2cad359dee7\"]": {
+      "key": [
+        "factor",
+        "recent_title_v2",
+        1791374738054,
+        "a028967dcc96a3720c32578e3367107f05cf296f027bb9e00802e2cad359dee7"
+      ],
+      "value": "Водитель квадроцикла погиб в ДТП с грузовиком под Тамбовом",
+      "expiresAt": 1793966738054,
+      "versionstamp": "ec75f709-abeb-41cd-bba9-6b768ad3e358"
+    },
+    "[\"factor\",\"recent_headline_v3\",\"a028967dcc96a3720c32578e3367107f05cf296f027bb9e00802e2cad359dee7\"]": {
+      "key": [
+        "factor",
+        "recent_headline_v3",
+        "a028967dcc96a3720c32578e3367107f05cf296f027bb9e00802e2cad359dee7"
+      ],
+      "value": "Водитель квадроцикла погиб в ДТП с грузовиком под Тамбовом",
+      "expiresAt": 1793966738055,
+      "versionstamp": "163f9497-4763-45f9-a7bc-1abf1c5e304d"
+    },
+    "[\"factor\",\"published_event_v4\",\"1bde5cc42b3da063033d9855f58d39c8ffb0612b41b47cf1bba3f64018fefbf3\"]": {
+      "key": [
+        "factor",
+        "published_event_v4",
+        "1bde5cc42b3da063033d9855f58d39c8ffb0612b41b47cf1bba3f64018fefbf3"
+      ],
+      "value": {
+        "category": "ПРОИСШЕСТВИЯ",
+        "family": "accident",
+        "anchors": [
+          "тамб",
+          "груз",
+          "води",
+          "квад"
+        ],
+        "title": "Под Тамбовом в ДТП с грузовиком погиб водитель квадроцикла",
+        "description": "&lt;a href=\"https://news.google.com/rss/articles/CBMiowFBVV95cUxNR01SYk5HRmxsRldZR2sxRTgyWS10eUsyNldOOG5USUpxckR3OFByV2VwOTRNTElNbEJsRFV6UmdoYS1Eb0x3YkNPM09ZUkdQbEx4Tmc1aTFlcjFudzFtbkNlT1pXQ3ZyNllDc3QxQjNBYnBNeThuMGJPTzMteWx2SjhiSW1MaV9sa2kzU2RqX2pQeV9ickRFeWliQ1c5R2hDTDcw?oc=5\" target=\"_blank\"&gt;Под Тамбовом в ДТП с грузовиком погиб водитель квадроцикла&lt;/a&gt; &lt;font color=\"#6f6f6f\"&gt;Онлайн Тамбов.ру&lt;/font&gt; Под Тамбовом в ДТП с грузовиком погиб водитель квадроцикла. Авария произошла в границах рабочего посёлка Новая Ляда. Авария произошла в границах рабочего посёлка Новая Ляда",
+        "published_at": 1791374738057,
+        "article_url": "https://www.onlinetambov.ru/news/incident/pod-tambovom-v-dtp-s-gruzovikom-pogib-voditel-kvadrotsikla/"
+      },
+      "expiresAt": 1791547538057,
+      "versionstamp": "d701dca7-7a7c-4bd1-b07b-1d2f5f128907"
+    },
+    "[\"factor\",\"state\",\"incident_count\",2026,9,7,12]": {
       "key": [
         "factor",
         "state",
@@ -2766,11 +2787,11 @@
         2026,
         9,
         7,
-        5
+        12
       ],
       "value": 1,
-      "expiresAt": 1791359400899,
-      "versionstamp": "7e144717-a8c7-47ef-adbf-49d0d0747b51"
+      "expiresAt": 1791381938060,
+      "versionstamp": "1c16cb2a-8e3d-4b85-b5d2-ea9b4f935376"
     }
   }
 }
