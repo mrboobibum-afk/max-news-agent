@@ -1388,6 +1388,30 @@ function isDirectVideoUrl(url) {
         lower.includes(".m3u8") ||
         lower.includes(".mpd");
 }
+
+function normalizePublicVideoPageUrl(rawUrl) {
+    if (!isHttpUrl(rawUrl)) return "";
+    try {
+        const parsed = new URL(rawUrl);
+        const host = parsed.hostname.toLowerCase();
+        if (host !== "t.me" && !host.endsWith(".t.me")) return parsed.href;
+
+        const parts = parsed.pathname.split("/").filter(Boolean);
+        // Share/invite links are not media posts and commonly lead to a
+        // page with no downloadable video. Keep only canonical post URLs.
+        if (parts[0] === "share" || parts[0] === "joinchat" || parts[0]?.startsWith("+")) {
+            return "";
+        }
+
+        const postIndex = parts[0] === "s" ? 2 : 1;
+        if (!parts[postIndex] || !/^\d+$/.test(parts[postIndex])) return "";
+        const username = parts[0] === "s" ? parts[1] : parts[0];
+        if (!username || !/^[-\w]{3,64}$/i.test(username)) return "";
+        return `https://t.me/s/${username}/${parts[postIndex]}?single`;
+    } catch {
+        return "";
+    }
+}
 function collectVideoUrls(value, result) {
     if (typeof value ===
         "string") {
@@ -1576,6 +1600,24 @@ async function resolveVideoFromEmbeddedPage(url, depth = 0) {
 
         const direct = findVideoFromHtml(html, response.url || url);
         if (direct) return direct;
+
+        // Telegram public post pages expose signed CDN mp4 URLs in the
+        // rendered HTML, but not necessarily inside a <video> element.
+        // Decode entities/escaped slashes before passing them to the normal
+        // media downloader; never bypass private chats or invite links.
+        if (/t\.me\//i.test(response.url || url)) {
+            const telegramVideos = [];
+            for (const match of html.matchAll(
+                /https?:\/\/[^"'<>\s]+?\.(?:mp4|mov|webm|mkv)(?:\?[^"'<>\s]*)?/gi,
+            )) {
+                const candidate = absoluteUrl(
+                    normalizeMediaUrl(match[0]),
+                    response.url || url,
+                );
+                if (candidate && isDirectVideoUrl(candidate)) telegramVideos.push(candidate);
+            }
+            if (telegramVideos.length) return telegramVideos[0];
+        }
 
         // A nested player is common with VK/78.ru/Rutube wrappers.
         const nested = collectEmbeddedVideoPageUrls(html, response.url || url);
@@ -3818,7 +3860,7 @@ async function searchPublicVideoPages(item, story, diagnostics = null) {
         `"${truncate(sourceTitle || headline, 150)}" видео`,
         `"${truncate(baseEvent, 180)}" видео`,
         `${truncate(compactTerms || sourceTitle || headline, 130)} видео очевидцы`,
-        `${truncate(compactTerms || sourceTitle || headline, 105)} site:t.me видео`,
+        `${truncate(compactTerms || sourceTitle || headline, 105)} site:t.me/s видео`,
         `${truncate(compactTerms || sourceTitle || headline, 105)} site:vk.com видео`,
         `${truncate(compactTerms || sourceTitle || headline, 105)} site:rutube.ru видео`,
         `${truncate(compactTerms || sourceTitle || headline, 105)} site:ok.ru видео`,
@@ -3842,6 +3884,9 @@ async function searchPublicVideoPages(item, story, diagnostics = null) {
             }
             if (!isHttpUrl(value)) return;
             if (/^(?:https?:\/\/)?(?:www\.)?google\./i.test(value)) return;
+            const publicPage = normalizePublicVideoPageUrl(value);
+            if (!publicPage && /(?:t\.me|telegram\.me)/i.test(value)) return;
+            value = publicPage || value;
             if (seen.has(value)) return;
             seen.add(value);
             links.push(value);
