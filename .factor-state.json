@@ -32,7 +32,7 @@
         "factor",
         "last_urgent"
       ],
-      "value": 1791462527624,
+      "value": 1791462849093,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"4aa61af2633c5fed40cebea96de68e39d8c4d97e99a8a3a751b34d5ca32bef5c\"]": {
@@ -198,6 +198,38 @@
         ]
       },
       "expiresAt": 1791635347685
+    },
+    "[\"factor\",\"published\",\"38cfb2bf1db7b63d9e7ea75649466d1d405489c22eacf2d492685d2656ee8be8\"]": {
+      "key": [
+        "factor",
+        "published",
+        "38cfb2bf1db7b63d9e7ea75649466d1d405489c22eacf2d492685d2656ee8be8"
+      ],
+      "value": true,
+      "expiresAt": 1791635673875
+    },
+    "[\"factor\",\"published_topic\",\"38cfb2bf1db7b63d9e7ea75649466d1d405489c22eacf2d492685d2656ee8be8\"]": {
+      "key": [
+        "factor",
+        "published_topic",
+        "38cfb2bf1db7b63d9e7ea75649466d1d405489c22eacf2d492685d2656ee8be8"
+      ],
+      "value": {
+        "title": "ВСУ ударили по российскому региону в 2500 километрах от границы: Политика: Россия - https://lenta.news/",
+        "roots": [
+          "удари",
+          "росси",
+          "регио",
+          "2500",
+          "килом",
+          "грани",
+          "полит",
+          "https",
+          "lenta",
+          "news"
+        ]
+      },
+      "expiresAt": 1791635673876
     }
   }
 }
