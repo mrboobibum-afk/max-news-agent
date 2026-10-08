@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — ФАКТОР (Direct Live Edition v14)
+// MAX NEWS AGENT — ФАКТОР (Direct Live Edition v15)
 // GITHUB ACTIONS RUNTIME
 // ============================================================
 
@@ -391,85 +391,8 @@ function validateMediaSignature(bytes, type) {
 // ============================================================
 // MEDIA DOWNLOADERS
 // ============================================================
-async function downloadWithYtDlp(targetUrl) {
-    if (!isHttpUrl(targetUrl) || isGoogleAsset(targetUrl)) return null;
-    let tempPath = "";
-    try {
-        tempPath = await Deno.makeTempFile({ suffix: ".mp4" });
-        const command = new Deno.Command("yt-dlp", {
-            args: [
-                "--no-warnings",
-                "--quiet",
-                "-f", "mp4/bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best",
-                "--max-filesize", `${MAX_VIDEO_BYTES}`,
-                "-o", tempPath,
-                targetUrl,
-            ],
-            stdout: "null",
-            stderr: "piped",
-        });
-
-        const res = await command.output();
-        if (!res.success) return null;
-
-        const stat = await Deno.stat(tempPath);
-        if (!stat.size || stat.size < MIN_VIDEO_BYTES || stat.size > MAX_VIDEO_BYTES) return null;
-
-        const bytes = await Deno.readFile(tempPath);
-        if (!validateMediaSignature(bytes, "video")) return null;
-
-        return {
-            type: "video",
-            bytes,
-            contentType: "video/mp4",
-            extension: "mp4",
-            sourceUrl: targetUrl,
-        };
-    } catch {
-        return null;
-    } finally {
-        if (tempPath) {
-            try { await Deno.remove(tempPath); } catch {}
-        }
-    }
-}
-
-async function downloadHlsVideo(url) {
-    let tempPath = "";
-    try {
-        tempPath = await Deno.makeTempFile({ suffix: ".mp4" });
-        const command = new Deno.Command("ffmpeg", {
-            args: ["-hide_banner", "-loglevel", "error", "-y", "-user_agent", USER_AGENT, "-i", url, "-t", "90", "-c", "copy", "-movflags", "+faststart", tempPath],
-            stdout: "null",
-            stderr: "piped",
-        });
-        const res = await command.output();
-        if (!res.success) return null;
-
-        const stat = await Deno.stat(tempPath);
-        if (!stat.size || stat.size < MIN_VIDEO_BYTES || stat.size > MAX_VIDEO_BYTES) return null;
-
-        const bytes = await Deno.readFile(tempPath);
-        if (!validateMediaSignature(bytes, "video")) return null;
-
-        return { type: "video", bytes, contentType: "video/mp4", extension: "mp4" };
-    } catch {
-        return null;
-    } finally {
-        if (tempPath) {
-            try { await Deno.remove(tempPath); } catch {}
-        }
-    }
-}
-
 async function downloadMedia(url, type) {
     if (!url || !isHttpUrl(url) || isGoogleAsset(url)) return null;
-
-    if (type === "video") {
-        if (/\.m3u8(?:[?#]|$)/i.test(url)) return await downloadHlsVideo(url);
-        const ytdlpResult = await downloadWithYtDlp(url);
-        if (ytdlpResult) return ytdlpResult;
-    }
 
     try {
         const res = await fetch(url, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(type === "video" ? 35000 : 15000) });
@@ -493,21 +416,30 @@ async function downloadMedia(url, type) {
     }
 }
 
-// Отбор чистых фотографий с блокировкой плашек Интерфакса и других брендовых карточек
+// Извлечение чистого изображения статьи (с защитой от реверсивных атрибутов и плашек)
 function extractCleanImage(html, baseUrl) {
     const isStub = (u) => {
         const low = u.toLowerCase();
         return /(?:bfm_share|logo|avatar|1x1|pixel|banner|advert|stub|placeholder|default_og|share_fb|social_preview|interfax_share|interfax.*card|img\.interfax\.ru\/.*card)/i.test(low);
     };
 
-    // 1. Метатег og:image (проверяем, что это не авто-плашка)
-    const ogImgRaw = html.match(/<meta[^>]+(?:property|name)=["']og:image["'][^>]+content=["']([^"']+)["']/i)?.[1];
-    const ogImg = resolveRelativeUrl(ogImgRaw, baseUrl);
+    // 1. Метатег og:image (поддержка любого порядка атрибутов)
+    const ogMatch = html.match(/<meta\b[^>]*?(?:property|name)=["']og:image["'][^>]*?content=["']([^"']+)["']/i) ||
+                    html.match(/<meta\b[^>]*?content=["']([^"']+)["'][^>]*?(?:property|name)=["']og:image["']/i);
+    const ogImg = resolveRelativeUrl(ogMatch?.[1], baseUrl);
     if (ogImg && isHttpUrl(ogImg) && !isGoogleAsset(ogImg) && !isStub(ogImg)) {
         return ogImg;
     }
 
-    // 2. Изображения из контента статьи
+    // 2. Метатег twitter:image
+    const twMatch = html.match(/<meta\b[^>]*?(?:property|name)=["']twitter:image(?::src)?["'][^>]*?content=["']([^"']+)["']/i) ||
+                    html.match(/<meta\b[^>]*?content=["']([^"']+)["'][^>]*?(?:property|name)=["']twitter:image(?::src)?["']/i);
+    const twImg = resolveRelativeUrl(twMatch?.[1], baseUrl);
+    if (twImg && isHttpUrl(twImg) && !isGoogleAsset(twImg) && !isStub(twImg)) {
+        return twImg;
+    }
+
+    // 3. Изображения из контента статьи
     for (const m of html.matchAll(/<img\b[^>]*?(?:src|data-src|data-original)=["']([^"']+)["'][^>]*>/gi)) {
         const fullUrl = resolveRelativeUrl(m[1], baseUrl);
         if (fullUrl && isHttpUrl(fullUrl) && !isGoogleAsset(fullUrl) && !isStub(fullUrl)) {
@@ -515,24 +447,6 @@ function extractCleanImage(html, baseUrl) {
         }
     }
     return null;
-}
-
-function extractVideoFromArticleHtml(html, baseUrl) {
-    const directMatches = [];
-    for (const m of html.matchAll(/<(?:video|source)\b[^>]*?(?:src|data-src|data-video)=["']([^"']+)["']/gi)) {
-        const full = resolveRelativeUrl(m[1], baseUrl);
-        if (full && isHttpUrl(full) && !isGoogleAsset(full)) directMatches.push(full);
-    }
-    const ogVideoRaw = html.match(/<meta[^>]+(?:property|name)=["']og:video(?::url)?["'][^>]+content=["']([^"']+)["']/i)?.[1];
-    const ogVideo = resolveRelativeUrl(ogVideoRaw, baseUrl);
-    if (ogVideo && isHttpUrl(ogVideo) && !isGoogleAsset(ogVideo)) directMatches.push(ogVideo);
-
-    for (const m of html.matchAll(/["'](?:video_url|videoUrl|file|stream|hls|m3u8)["']\s*:\s*["']([^"']+)["']/gi)) {
-        const full = resolveRelativeUrl(m[1].replace(/\\\//g, "/"), baseUrl);
-        if (full && isHttpUrl(full) && !isGoogleAsset(full)) directMatches.push(full);
-    }
-
-    return directMatches.filter((u) => u.includes(".mp4") || u.includes(".m3u8") || u.includes("vk.com") || u.includes("rutube.ru"));
 }
 
 function isContextMatching(title, context) {
@@ -562,7 +476,7 @@ async function searchVerifiedTelegramVideo(newsTitle) {
                 if (videoMatch) {
                     const downloaded = await downloadMedia(videoMatch[0], "video");
                     if (downloaded) {
-                        console.log(`✅ Найдено видео в @${channel}: ${caption.slice(0, 50)}...`);
+                        console.log(`✅ Найдено тематическое видео в @${channel}: ${caption.slice(0, 50)}...`);
                         return downloaded;
                     }
                 }
@@ -591,11 +505,12 @@ async function searchWebEyewitnessVideo(newsTitle) {
             if (!pageRes.ok) continue;
             const pageHtml = await pageRes.text();
 
-            const videos = extractVideoFromArticleHtml(pageHtml, realUrl);
-            for (const vUrl of videos) {
-                const downloaded = await downloadMedia(vUrl, "video");
+            const ogVideoRaw = pageHtml.match(/<meta[^>]+(?:property|name)=["']og:video(?::url)?["'][^>]+content=["']([^"']+)["']/i)?.[1];
+            const ogVideo = resolveRelativeUrl(ogVideoRaw, realUrl);
+            if (ogVideo && isHttpUrl(ogVideo) && !isGoogleAsset(ogVideo) && ogVideo.includes(".mp4")) {
+                const downloaded = await downloadMedia(ogVideo, "video");
                 if (downloaded) {
-                    console.log(`✅ Найдено видео через веб-поиск: ${vUrl}`);
+                    console.log(`✅ Найдено прямое видео очевидцев: ${ogVideo}`);
                     return downloaded;
                 }
             }
@@ -755,7 +670,7 @@ function buildPostMessage(headline, text, sourceUrl, sourceName) {
 // MAIN PIPELINE
 // ============================================================
 async function run() {
-    console.log("=== Запуск новостного пайплайна ФАКТОР (Live Speed v14) ===");
+    console.log("=== Запуск новостного пайплайна ФАКТОР (Live Speed v15) ===");
     const now = Date.now();
 
     const lastUrgent = (await kv.get(["factor", "last_urgent"])).value ?? 0;
@@ -799,57 +714,40 @@ async function run() {
         let selectedMedia = null;
         let articleHtml = "";
 
-        // 1. Видео на странице статьи
+        // 1. Загрузка страницы статьи для анализа
         if (realArticleUrl) {
             try {
                 const res = await fetch(realArticleUrl, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(10000) });
                 if (res.ok) {
                     articleHtml = await res.text();
-                    const articleVideos = extractVideoFromArticleHtml(articleHtml, realArticleUrl);
-                    for (const vUrl of articleVideos) {
-                        const downloaded = await downloadMedia(vUrl, "video");
-                        if (downloaded) {
-                            console.log(`✅ Найдено видео на сайте СМИ: ${vUrl}`);
-                            selectedMedia = downloaded;
-                            break;
-                        }
-                    }
-
-                    if (!selectedMedia) {
-                        const directPageVideo = await downloadWithYtDlp(realArticleUrl);
-                        if (directPageVideo) {
-                            console.log(`✅ yt-dlp извлек видео со страницы статьи`);
-                            selectedMedia = directPageVideo;
-                        }
-                    }
                 }
             } catch {}
         }
 
-        // 2. Видео в Telegram
-        if (!selectedMedia || selectedMedia.type !== "video") {
+        // 2. ПРИОРИТЕТ: Главное фото статьи (og:image, twitter:image, контентные фото)
+        if (articleHtml && realArticleUrl) {
+            const photoUrl = extractCleanImage(articleHtml, realArticleUrl);
+            if (photoUrl) {
+                selectedMedia = await downloadMedia(photoUrl, "image");
+                if (selectedMedia) {
+                    console.log(`✅ Захвачено главное фото статьи: ${photoUrl}`);
+                }
+            }
+        }
+
+        // 3. Если фото статьи не нашлось — проверяем проверенные Telegram-каналы на точное совпадение темы
+        if (!selectedMedia) {
             const tgVideo = await searchVerifiedTelegramVideo(item.title);
             if (tgVideo) {
                 selectedMedia = tgVideo;
             }
         }
 
-        // 3. Открытый веб-поиск видео очевидцев
-        if (!selectedMedia || selectedMedia.type !== "video") {
+        // 4. Если медиа всё ещё нет — проверяем видео очевидцев через прямой поиск
+        if (!selectedMedia) {
             const webVideo = await searchWebEyewitnessVideo(item.title);
             if (webVideo) {
                 selectedMedia = webVideo;
-            }
-        }
-
-        // 4. Гарантированный захват фото статьи (с фильтром против плашек Интерфакса)
-        if (!selectedMedia && articleHtml && realArticleUrl) {
-            const photoUrl = extractCleanImage(articleHtml, realArticleUrl);
-            if (photoUrl) {
-                selectedMedia = await downloadMedia(photoUrl, "image");
-                if (selectedMedia) {
-                    console.log(`✅ Захвачено фото статьи: ${photoUrl}`);
-                }
             }
         }
 
