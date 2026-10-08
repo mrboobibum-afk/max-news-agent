@@ -11,7 +11,10 @@ const QWEN_MODEL = Deno.env.get("QWEN_MODEL") ?? "qwen3.8-max";
 const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyuncs.com/compatible-mode/v1";
 
 const URGENT_INTERVAL_MS = 2 * 60 * 1000;
-const REGULAR_INTERVAL_MS = 4 * 60 * 1000;
+// Плавающий интервал публикаций: 10–60 минут.
+const REGULAR_MIN_INTERVAL_MS = 10 * 60 * 1000;
+const REGULAR_MAX_INTERVAL_MS = 60 * 60 * 1000;
+const MEDIA_PACKET_MAX = 5;
 const HISTORY_TTL_MS = 72 * 60 * 60 * 1000;
 
 const MIN_IMAGE_BYTES = 15 * 1024;
@@ -197,14 +200,18 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
 
                 if (BORING_TOPICS.some(r => r.test(textRaw))) continue;
 
-                const vMatch = post.match(/https?:\/\/[^"'<>\s]+?\.(?:mp4)(?:\?[^"'<>\s]*)?/i)?.[0];
-                const imgMatch = post.match(/background-image:url\('([^']+)'\)/i)?.[1];
+                const videoMatches = [...post.matchAll(/https?:\/\/[^"'<>\s]+?\.(?:mp4)(?:\?[^"'<>\s]*)?/gi)].map(m => m[0]);
+                const imageMatches = [...post.matchAll(/background-image:url\('([^']+)'\)/gi)].map(m => m[1]).filter(u => !isTrashUrl(u));
 
                 const sanitized = sanitizeRawText(textRaw);
                 const firstSentence = sanitized.split(/[.!?]\s/)[0] || sanitized;
+                const mediaUrls = [
+                    ...videoMatches.map(mediaUrl => ({ mediaUrl, mediaType: "video" })),
+                    ...imageMatches.map(mediaUrl => ({ mediaUrl, mediaType: "image" })),
+                ];
 
-                if (vMatch) {
-                    liveItems.push({ title: firstSentence.slice(0, 90), desc: sanitized, mediaUrl: vMatch, mediaType: "video", sourceName: "Прямой эфир" });
+                for (const media of mediaUrls) {
+                    liveItems.push({ title: firstSentence.slice(0, 90), desc: sanitized, mediaUrl: media.mediaUrl, mediaType: media.mediaType, sourceName: "Прямой эфир" });
                 } else if (imgMatch && !isTrashUrl(imgMatch)) {
                     liveItems.push({ title: firstSentence.slice(0, 90), desc: sanitized, mediaUrl: imgMatch, mediaType: "image", sourceName: "Прямой эфир" });
                 }
@@ -303,17 +310,17 @@ async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<
     return initData.token || json?.token || json?.photos?.[0]?.token || json?.videos?.[0]?.token;
 }
 
-async function sendPostToMax(text: string, mediaToken: string, mediaType: "image" | "video") {
+async function sendPostToMax(text: string, media: Array<{ token: string, type: "image" | "video" }>) {
     const client = await initMaxHttpClient();
     const body: any = {
         text,
         format: "html",
         notify: true,
         disable_link_preview: true,
-        attachments: [{ type: mediaType, payload: { token: mediaToken } }]
+        attachments: media.map(item => ({ type: item.type, payload: { token: item.token } }))
     };
 
-    const res = await fetch(`${MAX_API}/messages?chat_id=${encodeURIComponent(TARGET_CHAT_ID)}`, {
+    const res = await fetch(MAX_API + "/messages?chat_id=" + encodeURIComponent(TARGET_CHAT_ID), {
         method: "POST",
         headers: { "Authorization": MAX_BOT_TOKEN, "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -322,13 +329,42 @@ async function sendPostToMax(text: string, mediaToken: string, mediaType: "image
     return res.ok;
 }
 
+function getMediaPacket(item: any, candidates: any[]): any[] {
+    const baseRoots = new Set(getRoots(item.title));
+    const scored = candidates.map(candidate => {
+        if (!candidate.mediaUrl || isTrashUrl(candidate.mediaUrl)) return { candidate, score: -1 };
+        const roots = getRoots(candidate.title);
+        const overlap = roots.filter((r: string) => baseRoots.has(r)).length;
+        const sameTitle = candidate.title === item.title ? 1 : 0;
+        return { candidate, score: overlap * 10 + sameTitle };
+    }).filter(x => x.score > 0).sort((a, b) => b.score - a.score);
+    const packet: any[] = [];
+    const seen = new Set<string>();
+    for (const { candidate } of scored) {
+        if (seen.has(candidate.mediaUrl)) continue;
+        seen.add(candidate.mediaUrl);
+        packet.push(candidate);
+        if (packet.length >= MEDIA_PACKET_MAX) break;
+    }
+    if (!packet.some(x => x.mediaUrl === item.mediaUrl)) {
+        packet.unshift(item);
+        if (packet.length > MEDIA_PACKET_MAX) packet.pop();
+    }
+    return packet;
+}
+
 async function run() {
     console.log("=== ЭФИР v21: Запуск отбора событий ===");
     const now = Date.now();
 
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
-    if (now - lastRegular < REGULAR_INTERVAL_MS) {
-        console.log("Пауза вещания активна.");
+    let nextDelay = (await kv.get(["factor", "next_regular_delay"])).value;
+    if (!nextDelay) {
+        nextDelay = REGULAR_MIN_INTERVAL_MS;
+        await kv.set(["factor", "next_regular_delay"], nextDelay);
+    }
+    if (now - lastRegular < nextDelay) {
+        console.log("Пауза вещания активна: следующая публикация примерно через " + Math.ceil((nextDelay - (now - lastRegular)) / 60000) + " мин.");
         return;
     }
 
@@ -364,28 +400,31 @@ async function run() {
         if ((await kv.get(["factor", "pub", hash])).value) continue;
         if (await isDuplicate(item.title)) continue;
 
-        console.log(`\nОбработка: ${item.title}`);
-        const mediaBytes = await downloadBuffer(item.mediaUrl, item.mediaType === "video");
-        if (!mediaBytes) continue;
+        console.log("\nОбработка: " + item.title);
+        const mediaPacket = getMediaPacket(item, candidates);
+        const uploaded: Array<{ token: string, type: "image" | "video" }> = [];
+        for (const media of mediaPacket) {
+            const mediaBytes = await downloadBuffer(media.mediaUrl, media.mediaType === "video");
+            if (!mediaBytes) continue;
+            try {
+                const token = await uploadToMax(mediaBytes, media.mediaType);
+                if (token) uploaded.push({ token, type: media.mediaType });
+            } catch (e) {
+                console.error("Ошибка загрузки медиа:", e);
+            }
+            if (uploaded.length >= MEDIA_PACKET_MAX) break;
+        }
+        if (!uploaded.length) continue;
 
         const post = await formatNewsPost(item.title, item.desc);
-        const postHtml = `<b>${escapeHtml(post.headline)}</b>\n\n${escapeHtml(post.text)}\n\n⚡ <i>ФАКТОР</i>`;
-
-        let token: string | null = null;
-        try {
-            token = await uploadToMax(mediaBytes, item.mediaType);
-        } catch (e) {
-            console.error("Ошибка загрузки медиа:", e);
-            continue;
-        }
-
-        if (!token) continue;
-
-        const sent = await sendPostToMax(postHtml, token, item.mediaType);
+        const postHtml = "<b>" + escapeHtml(post.headline) + "</b>\n\n" + escapeHtml(post.text) + "\n\n⚡ <i>ФАКТОР</i>";
+        const sent = await sendPostToMax(postHtml, uploaded);
         if (sent) {
-            console.log(`🔥 ОПУБЛИКОВАНО (${item.mediaType}): ${post.headline}`);
+            console.log("🔥 ОПУБЛИКОВАНО (медиа: " + uploaded.length + "): " + post.headline);
             await kv.set(["factor", "pub", hash], true, { expireIn: HISTORY_TTL_MS });
             await kv.set(["factor", "topic", hash], { title: item.title, roots: getRoots(item.title) }, { expireIn: HISTORY_TTL_MS });
+            const nextDelay = Math.floor(REGULAR_MIN_INTERVAL_MS + Math.random() * (REGULAR_MAX_INTERVAL_MS - REGULAR_MIN_INTERVAL_MS + 1));
+            await kv.set(["factor", "next_regular_delay"], nextDelay);
             await kv.set(["factor", "last_regular"], now);
             return;
         }
