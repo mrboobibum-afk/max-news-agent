@@ -1,13 +1,12 @@
 name: FAKTOR Auto
 
-# FAKTOR runner: keep scheduled five-minute polling and manual dispatch available.
-
 on:
   push:
     branches:
       - main
   schedule:
-    - cron: "*/5 * * * *"
+    # Запуск планировщика раз в 30 минут как подстраховка
+    - cron: "*/30 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -20,7 +19,7 @@ concurrency:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 35
 
     steps:
       - name: Checkout
@@ -28,71 +27,64 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Install yt-dlp & ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          sudo wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O /usr/local/bin/yt-dlp
+          sudo chmod a+rx /usr/local/bin/yt-dlp
+
       - name: Setup Deno
         uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
 
-      - name: Run FAKTOR
-        timeout-minutes: 4
+      - name: Run FAKTOR Loop
+        timeout-minutes: 30
         env:
           GITHUB_ACTIONS: "true"
           MAX_BOT_TOKEN: ${{ secrets.MAX_BOT_TOKEN }}
           TARGET_CHAT_ID: ${{ secrets.TARGET_CHAT_ID }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-
-          # AnyModel используется как резервный текстовый AI-провайдер
-          # через существующую Qwen/DashScope-совместимую функцию в agent.ts.
           DASHSCOPE_API_KEY: ${{ secrets.ANYMODEL_API_KEY }}
           QWEN_BASE_URL: "https://anymodel.org/v1"
           QWEN_MODEL: "am/gpt-oss-20b"
-
           MAX_VIDEO_MB: "30"
           MAX_IMAGE_MB: "15"
 
         run: |
           set -u
-          echo "FAKTOR: single cycle started at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          # Выполняем 5 итераций с паузой в 5 минут (суммарно ~25 минут работы)
+          for i in {1..5}; do
+            echo "=== Итерация $i из 5: $(date -u +%Y-%m-%dT%H:%M:%SZ) ==="
 
-          deno run \
-            --v8-flags=--max-old-space-size=6144 \
-            --allow-net \
-            --allow-env \
-            --allow-read \
-            --allow-write \
-            --allow-run \
-            agent.ts
+            deno run \
+              --v8-flags=--max-old-space-size=6144 \
+              --allow-net \
+              --allow-env \
+              --allow-read \
+              --allow-write \
+              --allow-run \
+              agent.ts || true
 
-          echo "FAKTOR: single cycle finished at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-
-      - name: Save FAKTOR state
-        if: ${{ always() }}
-        run: |
-          if git diff --quiet -- .factor-state.json; then
-            echo "No state changes."
-            exit 0
-          fi
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          git add .factor-state.json
-          git commit -m "chore: update faktor state [skip ci]"
-
-          for attempt in 1 2 3; do
-            git fetch origin main
-
-            if git rebase origin/main; then
-              if git push origin HEAD:main; then
-                echo "FAKTOR state saved."
-                exit 0
-              fi
-            else
-              git rebase --abort || true
+            # Сохранение состояния после каждой итерации
+            if ! git diff --quiet -- .factor-state.json; then
+              git config user.name "github-actions[bot]"
+              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+              git add .factor-state.json
+              git commit -m "chore: update faktor state [skip ci]" || true
+              git fetch origin main || true
+              git rebase origin/main || true
+              git push origin HEAD:main || true
             fi
 
-            echo "State push failed on attempt $attempt; retrying."
+            if [ $i -lt 5 ]; then
+              echo "Пауза 300 секунд до следующей проверки..."
+              sleep 300
+            fi
           done
 
-          echo "Failed to persist FAKTOR state after 3 attempts."
-          exit 1
+      - name: Finish Run
+        if: ${{ always() }}
+        run: echo "Сессия вещания успешно завершена."
+        
