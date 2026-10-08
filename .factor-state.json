@@ -32,7 +32,7 @@
         "factor",
         "last_urgent"
       ],
-      "value": 1791464455348,
+      "value": 1791465321601,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"4aa61af2633c5fed40cebea96de68e39d8c4d97e99a8a3a751b34d5ca32bef5c\"]": {
@@ -145,7 +145,7 @@
         "e81f9e64cb7e638bdf84906cbcc6f123bfe29c249950c8d1b0a7742bf5e1fec9"
       ],
       "value": true,
-      "expiresAt": 1791636636364
+      "expiresAt": 1791638149603
     },
     "[\"factor\",\"published_topic\",\"e81f9e64cb7e638bdf84906cbcc6f123bfe29c249950c8d1b0a7742bf5e1fec9\"]": {
       "key": [
@@ -166,135 +166,7 @@
           "gorod"
         ]
       },
-      "expiresAt": 1791636636365
-    },
-    "[\"factor\",\"published\",\"463b3177dea18c83b100cb130131393dea7c1ab7950849ae8a78748a61e75cee\"]": {
-      "key": [
-        "factor",
-        "published",
-        "463b3177dea18c83b100cb130131393dea7c1ab7950849ae8a78748a61e75cee"
-      ],
-      "value": true,
-      "expiresAt": 1791636953522
-    },
-    "[\"factor\",\"published_topic\",\"463b3177dea18c83b100cb130131393dea7c1ab7950849ae8a78748a61e75cee\"]": {
-      "key": [
-        "factor",
-        "published_topic",
-        "463b3177dea18c83b100cb130131393dea7c1ab7950849ae8a78748a61e75cee"
-      ],
-      "value": {
-        "title": "В Рязанской области открылся филиал Национального центра «Россия» - Национальный центр «Россия»",
-        "roots": [
-          "рязан",
-          "облас",
-          "откры",
-          "филиа",
-          "нацио",
-          "центр",
-          "нацио",
-          "центр"
-        ]
-      },
-      "expiresAt": 1791636953523
-    },
-    "[\"factor\",\"last_domain\"]": {
-      "key": [
-        "factor",
-        "last_domain"
-      ],
-      "value": "tasnimnews.ir",
-      "expiresAt": 1791468394115
-    },
-    "[\"factor\",\"published\",\"a12e6d038e0655ae02113d66c5ec9493fed5217f23e8474488086dc0c80629c1\"]": {
-      "key": [
-        "factor",
-        "published",
-        "a12e6d038e0655ae02113d66c5ec9493fed5217f23e8474488086dc0c80629c1"
-      ],
-      "value": true,
-      "expiresAt": 1791637278637
-    },
-    "[\"factor\",\"published_topic\",\"a12e6d038e0655ae02113d66c5ec9493fed5217f23e8474488086dc0c80629c1\"]": {
-      "key": [
-        "factor",
-        "published_topic",
-        "a12e6d038e0655ae02113d66c5ec9493fed5217f23e8474488086dc0c80629c1"
-      ],
-      "value": {
-        "title": "В Краснодаре загорелось одно из предприятий из-за падения обломков БПЛА - Эксперт ЮГ",
-        "roots": [
-          "красн",
-          "загор",
-          "одно",
-          "предп",
-          "паден",
-          "облом",
-          "бпла",
-          "экспе"
-        ]
-      },
-      "expiresAt": 1791637278638
-    },
-    "[\"factor\",\"published\",\"c2c4bb648d4223012f8cb2d236f9b6b3c711620887969f6899018a449bd97246\"]": {
-      "key": [
-        "factor",
-        "published",
-        "c2c4bb648d4223012f8cb2d236f9b6b3c711620887969f6899018a449bd97246"
-      ],
-      "value": true,
-      "expiresAt": 1791637594114
-    },
-    "[\"factor\",\"published_topic\",\"c2c4bb648d4223012f8cb2d236f9b6b3c711620887969f6899018a449bd97246\"]": {
-      "key": [
-        "factor",
-        "published_topic",
-        "c2c4bb648d4223012f8cb2d236f9b6b3c711620887969f6899018a449bd97246"
-      ],
-      "value": {
-        "title": "Абдоллахи: Ненависть к сионистскому режиму в США достигла более 50% - تسنیم",
-        "roots": [
-          "абдол",
-          "ненав",
-          "сиони",
-          "режим",
-          "дости",
-          "более"
-        ]
-      },
-      "expiresAt": 1791637594115
-    },
-    "[\"factor\",\"pub\",\"9422f5218b0827db5826e727fb7d1dbc0565dddc812dad505919374ec2bfc15f\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "9422f5218b0827db5826e727fb7d1dbc0565dddc812dad505919374ec2bfc15f"
-      ],
-      "value": true,
-      "expiresAt": 1791637907439
-    },
-    "[\"factor\",\"topic\",\"9422f5218b0827db5826e727fb7d1dbc0565dddc812dad505919374ec2bfc15f\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "9422f5218b0827db5826e727fb7d1dbc0565dddc812dad505919374ec2bfc15f"
-      ],
-      "value": {
-        "title": "БПЛА атаковали крупный дата-центр «Яндекса»: пользователи жалуются на сбои - Inkazan.ru",
-        "roots": [
-          "бпла",
-          "атако",
-          "крупн",
-          "дата",
-          "центр",
-          "яндек",
-          "польз",
-          "жалую",
-          "сбои",
-          "inkaz"
-        ]
-      },
-      "expiresAt": 1791637907440
+      "expiresAt": 1791638149603
     }
   }
 }
