@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791451936264,
+      "value": 1791463515042,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -259,6 +259,38 @@
         ]
       },
       "expiresAt": 1791636013247
+    },
+    "[\"factor\",\"published\",\"dc865ea682b177c069d01ce346fa919bd3491bf1ced06ede49eaa6d96e559117\"]": {
+      "key": [
+        "factor",
+        "published",
+        "dc865ea682b177c069d01ce346fa919bd3491bf1ced06ede49eaa6d96e559117"
+      ],
+      "value": true,
+      "expiresAt": 1791636354039
+    },
+    "[\"factor\",\"published_topic\",\"dc865ea682b177c069d01ce346fa919bd3491bf1ced06ede49eaa6d96e559117\"]": {
+      "key": [
+        "factor",
+        "published_topic",
+        "dc865ea682b177c069d01ce346fa919bd3491bf1ced06ede49eaa6d96e559117"
+      ],
+      "value": {
+        "title": "Линейка умных часов Huawei Watch 6 / 6 Pro. Космические, керамические, титановые - Mobile-review.com",
+        "roots": [
+          "линей",
+          "умных",
+          "часов",
+          "huawe",
+          "watch",
+          "косми",
+          "керам",
+          "титан",
+          "mobil",
+          "revie"
+        ]
+      },
+      "expiresAt": 1791636354039
     }
   }
 }
