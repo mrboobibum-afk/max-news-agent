@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — ФАКТОР («Прямой эфир» Pure Edition v20)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Strict Live Video/Action Edition)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -21,7 +21,7 @@ const MAX_VIDEO_BYTES = 30 * 1024 * 1024;
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
 
-// Сертификаты Минцифры РФ
+// Сертификаты Минцифры РФ для MAX
 const MAX_ROOT_CA_URL = "https://gu-st.ru/content/lending/russian_trusted_root_ca_pem.crt";
 const MAX_SUB_CA_URL = "https://gu-st.ru/content/lending/russian_trusted_sub_ca_pem.crt";
 let maxHttpClient: Deno.HttpClient | null = null;
@@ -40,19 +40,25 @@ async function initMaxHttpClient() {
     return maxHttpClient;
 }
 
-// ПРЯМЫЕ ИСТОЧНИКИ РФ
-const DIRECT_FEEDS = [
-    { name: "РИА Новости", cat: "ГЛАВНОЕ", url: "https://ria.ru/export/rss2/archive/index.xml" },
+// Оперативные Telegram-каналы (первый приоритет эфира)
+const TG_LIVE_CHANNELS = ["shot_shot", "bazabazon", "novosti_efir", "readovkanews", "mash"];
+
+// Вторичные новостные ленты
+const NEWS_FEEDS = [
     { name: "РБК", cat: "ГЛАВНОЕ", url: "https://rssexport.rbc.ru/rbcnews/news/30/full.rss" },
-    { name: "Lenta.ru", cat: "РОССИЯ", url: "https://lenta.ru/rss/news" },
+    { name: "Lenta.ru", cat: "ПРОИСШЕСТВИЯ", url: "https://lenta.ru/rss/news" },
+    { name: "РИА Новости", cat: "ГЛАВНОЕ", url: "https://ria.ru/export/rss2/archive/index.xml" },
     { name: "Коммерсантъ", cat: "ЭКОНОМИКА", url: "https://www.kommersant.ru/RSS/news.xml" },
-    { name: "Известия", cat: "ГЛАВНОЕ", url: "https://iz.ru/xml/rss/all.xml" },
-    { name: "ТАСС", cat: "ГЛАВНОЕ", url: "https://tass.ru/rss/v2.xml" },
 ];
 
-const TG_PUBLIC_CHANNELS = ["shot_shot", "bazabazon", "novosti_efir", "readovkanews", "mchs_official"];
+// СТОП-ЛИСТ СКУЧНЫХ И ПРОТОКОЛЬНЫХ ТЕМ
+const BORING_TOPICS = [
+    /(?:сесси[яи]|форум|круглый\s+стол|конференци[яи]|совещани[ея]|заседани[ея]|брифинг)/i,
+    /(?:рэц|экспортер|клиентск|госуслуг|росреестр|минфин|ведомств)/i,
+    /(?:напомнил|отметил|заявил\s+о\s+важности|подчеркнул|выразил\s+надежду)/i,
+    /(?:гороскоп|погода|курс\s+валют|скидк|выходн)/i
+];
 
-// БАЗА СОСТОЯНИЯ
 class FileKV {
     private file = ".factor-state.json";
     private data: any = null;
@@ -100,11 +106,13 @@ const kv = new FileKV();
 function cleanText(val: any): string {
     return String(val ?? "")
         .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/gi, "$1")
-        .replace(/<[^>]+>/g, " ")
-        .replace(/&nbsp;/gi, " ")
+        .replace(/&laquo;/gi, "«")
+        .replace(/&raquo;/gi, "»")
         .replace(/&quot;/gi, '"')
         .replace(/&#39;/gi, "'")
         .replace(/&amp;/gi, "&")
+        .replace(/&nbsp;/gi, " ")
+        .replace(/<[^>]+>/g, " ")
         .replace(/\s+/g, " ")
         .trim();
 }
@@ -114,7 +122,7 @@ function escapeHtml(val: any): string {
 }
 
 function getRoots(str: string): string[] {
-    const stops = new Set(["россия", "москва", "сегодня", "вчера", "сообщили", "после", "видео", "новости", "словам", "данный", "момент", "стало", "известно", "действия", "предупредили"]);
+    const stops = new Set(["россия", "москва", "сегодня", "вчера", "сообщили", "после", "видео", "новости", "словам", "данный", "момент", "стало", "известно"]);
     return cleanText(str).toLowerCase().replace(/[^a-zа-я0-9]+/gi, " ").split(" ")
         .filter(w => w.length >= 4 && !stops.has(w))
         .map(w => w.slice(0, 5));
@@ -133,32 +141,18 @@ async function isDuplicate(title: string): Promise<boolean> {
     return false;
 }
 
-// ФИЛЬТР МУСОРА И ЧУЖИХ ПЛАШЕК
-function isTrashImage(url: string): boolean {
+function isTrashUrl(url: string): boolean {
     const low = url.toLowerCase();
     return (
-        low.includes("card") ||
-        low.includes("textcard") ||
-        low.includes("social_card") ||
-        low.includes("share") ||
-        low.includes("preview_card") ||
-        low.includes("interfax.ru/ftproot") ||
-        low.includes("digest") ||
-        low.includes("mash") ||
-        low.includes("logo") ||
-        low.includes("avatar") ||
-        low.includes("placeholder") ||
-        low.includes("stub") ||
-        low.includes("1x1") ||
-        low.includes("pixel") ||
-        low.includes(".svg") ||
-        low.includes("google") ||
-        low.includes("banner")
+        low.includes("card") || low.includes("textcard") || low.includes("share") ||
+        low.includes("logo") || low.includes("avatar") || low.includes("stub") ||
+        low.includes("1x1") || low.includes("pixel") || low.includes(".svg") ||
+        low.includes("google") || low.includes("interfax.ru/ftproot")
     );
 }
 
 async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array | null> {
-    if (!url || isTrashImage(url)) return null;
+    if (!url || isTrashUrl(url)) return null;
     try {
         const res = await fetch(url, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(isVideo ? 35000 : 12000) });
         if (!res.ok) return null;
@@ -176,74 +170,45 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
     }
 }
 
-// ПОИСК НАСТОЯЩЕГО ФОТО В СТАТЬЕ
-function findRealArticlePhoto(html: string, base: string): string | null {
-    const og = html.match(/<meta\b[^>]*?(?:property|name)=["']og:image["'][^>]*?content=["']([^"']+)["']/i)?.[1]
-            || html.match(/<meta\b[^>]*?content=["']([^"']+)["'][^>]*?(?:property|name)=["']og:image["']/i)?.[1];
-    if (og && !isTrashImage(og)) {
-        try { return new URL(og, base).href; } catch {}
-    }
-
-    for (const m of html.matchAll(/<img\b[^>]*?(?:src|data-src|data-original)=["']([^"']+)["'][^>]*>/gi)) {
-        const src = m[1];
-        if (src && !isTrashImage(src) && !src.includes(".gif")) {
-            try { return new URL(src, base).href; } catch {}
-        }
-    }
-    return null;
-}
-
-// СТРОГИЙ ПОИСК В TELEGRAM (ТОЛЬКО 100% СОВПАДЕНИЕ ТЕМЫ)
-async function getTelegramLiveMedia(title: string): Promise<{ bytes: Uint8Array, type: "image" | "video" } | null> {
-    const roots = getRoots(title);
-    if (roots.length < 3) return null;
-
-    for (const ch of TG_PUBLIC_CHANNELS) {
+// ПАРСИНГ ЖИВОГО ЭФИРА ИЗ TELEGRAM
+async function fetchTelegramLiveFeed(): Promise<any[]> {
+    const liveItems: any[] = [];
+    for (const ch of TG_LIVE_CHANNELS) {
         try {
             const res = await fetch(`https://t.me/s/${ch}`, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(8000) });
             if (!res.ok) continue;
             const html = await res.text();
 
-            for (const post of (html.match(/<div class="tgme_widget_message_wrap[\s\S]*?(?=<div class="tgme_widget_message_wrap|$)/gi) ?? []).slice(-15).reverse()) {
-                const text = cleanText(post.match(/<div class="tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/i)?.[1]);
-                
-                // Исключаем огромные дайджесты
-                if (text.length > 600) continue;
+            const posts = html.match(/<div class="tgme_widget_message_wrap[\s\S]*?(?=<div class="tgme_widget_message_wrap|$)/gi) ?? [];
+            for (const post of posts.slice(-10).reverse()) {
+                const textRaw = cleanText(post.match(/<div class="tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/i)?.[1]);
+                if (!textRaw || textRaw.length < 30 || textRaw.length > 500) continue;
 
-                let matches = 0;
-                for (const r of roots) if (text.toLowerCase().includes(r)) matches++;
-                
-                // Требуем не менее 3 совпадений ключевых слов
-                if (matches < 3) continue;
+                // Проверка на скучные темы
+                if (BORING_TOPICS.some(r => r.test(textRaw))) continue;
 
                 const vMatch = post.match(/https?:\/\/[^"'<>\s]+?\.(?:mp4)(?:\?[^"'<>\s]*)?/i)?.[0];
-                if (vMatch) {
-                    const buf = await downloadBuffer(vMatch, true);
-                    if (buf) return { bytes: buf, type: "video" };
-                }
-
                 const imgMatch = post.match(/background-image:url\('([^']+)'\)/i)?.[1];
-                if (imgMatch && !isTrashImage(imgMatch)) {
-                    const buf = await downloadBuffer(imgMatch, false);
-                    if (buf) return { bytes: buf, type: "image" };
+
+                if (vMatch) {
+                    liveItems.push({ title: textRaw.slice(0, 80), desc: textRaw, mediaUrl: vMatch, mediaType: "video", sourceName: "Прямой эфир" });
+                } else if (imgMatch && !isTrashUrl(imgMatch)) {
+                    liveItems.push({ title: textRaw.slice(0, 80), desc: textRaw, mediaUrl: imgMatch, mediaType: "image", sourceName: "Прямой эфир" });
                 }
             }
         } catch {}
     }
-    return null;
+    return liveItems;
 }
 
-// ГЕНЕРАЦИЯ ПОСТА
 async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, text: string }> {
-    const cleanDesc = cleanText(desc).replace(/^(?:тасс|риа новости|лента|rbc|коммерсантъ|интерфакс|bfm).*?[-—:]\s*/i, "");
-    const prompt = `Ты редактор топового канала «Прямой эфир».
-Сделай мощный пост:
-НОВОСТЬ: ${title}
-СУТЬ: ${cleanDesc}
+    const prompt = `Ты шеф-редактор телеграм-канала «Прямой эфир».
+Сделай яркий, динамичный новостной пост:
+ТЕКСТ: ${desc}
 
-ПРАВИЛА:
-1. Заголовок (headline): до 7 слов, хлёсткий, без кавычек и воды.
-2. Текст (text): строго 1-2 предложения сути. Без официоза и без упоминания названий СМИ.
+СТРОГИЕ ПРАВИЛА:
+1. Заголовок (headline): до 6-8 слов, громкий, суть события (без кавычек).
+2. Текст (text): строго 1-2 предложения, динамично, факты. Никакой бюрократии.
 Верни ТОЛЬКО JSON: {"headline": "...", "text": "..."}`;
 
     if (GEMINI_API_KEY) {
@@ -282,12 +247,11 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
     }
 
     return {
-        headline: cleanText(title).replace(/\s+[-—]\s+.*$/, ""),
-        text: cleanDesc.slice(0, 150) + ".",
+        headline: cleanText(title),
+        text: cleanText(desc).slice(0, 150) + ".",
     };
 }
 
-// MAX API
 async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<string> {
     const client = await initMaxHttpClient();
     const upInit = await fetch(`${MAX_API}/uploads?type=${type}`, {
@@ -327,90 +291,60 @@ async function sendPostToMax(text: string, mediaToken: string, mediaType: "image
     return res.ok;
 }
 
-// ОСНОВНОЙ ПАЙПЛАЙН
 async function run() {
-    console.log("=== ЭФИР v20: Запуск отбора ===");
+    console.log("=== ЭФИР: Сбор экстренных и живых событий ===");
     const now = Date.now();
 
-    const lastUrgent = (await kv.get(["factor", "last_urgent"])).value ?? 0;
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
-
-    if (now - lastUrgent < URGENT_INTERVAL_MS && now - lastRegular < REGULAR_INTERVAL_MS) {
-        console.log("Таймаут вещания активен.");
+    if (now - lastRegular < REGULAR_INTERVAL_MS) {
+        console.log("Пауза вещания активна.");
         return;
     }
 
-    const allCandidates: any[] = [];
-    await Promise.all(DIRECT_FEEDS.map(async (feed) => {
-        try {
-            const res = await fetch(feed.url, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(8000) });
-            if (!res.ok) return;
-            const xml = await res.text();
-            for (const item of (xml.match(/<item[\s\S]*?<\/item>/gi) ?? []).slice(0, 10)) {
-                const title = cleanText(item.match(/<title[\s\S]*?>([\s\S]*?)<\/title>/i)?.[1]);
-                const link = cleanText(item.match(/<link[\s\S]*?>([\s\S]*?)<\/link>/i)?.[1]);
-                const desc = cleanText(item.match(/<description[\s\S]*?>([\s\S]*?)<\/description>/i)?.[1]);
-                const enclosureImg = item.match(/<enclosure[^>]+url=["']([^"']+)["'][^>]+type=["']image/i)?.[1];
+    // 1. СНАЧАЛА ПРОВЕРЯЕМ ОПЕРАТИВНЫЕ TELEGRAM-КАНАЛЫ (Видео и ЧП)
+    const candidates = await fetchTelegramLiveFeed();
 
-                if (title && link) {
-                    allCandidates.push({ title, link, desc, sourceName: feed.name, category: feed.cat, enclosureImg });
+    // 2. ЕСЛИ В TG ТИШИНА, СМОТРИМ СМИ (НО С ФИЛЬТРОМ СКУЧНЫХ ТЕМ)
+    if (candidates.length === 0) {
+        await Promise.all(NEWS_FEEDS.map(async (feed) => {
+            try {
+                const res = await fetch(feed.url, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(8000) });
+                if (!res.ok) return;
+                const xml = await res.text();
+                for (const item of (xml.match(/<item[\s\S]*?<\/item>/gi) ?? []).slice(0, 10)) {
+                    const title = cleanText(item.match(/<title[\s\S]*?>([\s\S]*?)<\/title>/i)?.[1]);
+                    const desc = cleanText(item.match(/<description[\s\S]*?>([\s\S]*?)<\/description>/i)?.[1]);
+                    const link = cleanText(item.match(/<link[\s\S]*?>([\s\S]*?)<\/link>/i)?.[1]);
+                    const encImg = item.match(/<enclosure[^>]+url=["']([^"']+)["'][^>]+type=["']image/i)?.[1];
+
+                    if (BORING_TOPICS.some(r => r.test(`${title} ${desc}`))) continue;
+
+                    if (title && encImg && !isTrashUrl(encImg)) {
+                        candidates.push({ title, desc, mediaUrl: encImg, mediaType: "image", sourceName: feed.name, link });
+                    }
                 }
-            }
-        } catch {}
-    }));
+            } catch {}
+        }));
+    }
 
-    allCandidates.sort(() => Math.random() - 0.5);
-
-    for (const item of allCandidates) {
+    // Обработка кандидатов
+    for (const item of candidates) {
         const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(item.title))))
             .map(b => b.toString(16).padStart(2, "0")).join("");
 
         if ((await kv.get(["factor", "pub", hash])).value) continue;
         if (await isDuplicate(item.title)) continue;
 
-        console.log(`\nОбработка: [${item.sourceName}] ${item.title}`);
-        let mediaData: { bytes: Uint8Array, type: "image" | "video" } | null = null;
-
-        // 1. ПРИОРИТЕТ: Реальное фото статьи с сайта (не плашка и не комикс)
-        if (item.enclosureImg && !isTrashImage(item.enclosureImg)) {
-            const b = await downloadBuffer(item.enclosureImg, false);
-            if (b) mediaData = { bytes: b, type: "image" };
-        }
-
-        if (!mediaData) {
-            try {
-                const pageRes = await fetch(item.link, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(8000) });
-                if (pageRes.ok) {
-                    const html = await pageRes.text();
-                    const photoUrl = findRealArticlePhoto(html, item.link);
-                    if (photoUrl) {
-                        const b = await downloadBuffer(photoUrl, false);
-                        if (b) mediaData = { bytes: b, type: "image" };
-                    }
-                }
-            } catch {}
-        }
-
-        // 2. Только если на сайте фото нет — строгий поиск оперативного медиа в Telegram
-        if (!mediaData) {
-            const tgMedia = await getTelegramLiveMedia(item.title);
-            if (tgMedia) {
-                mediaData = tgMedia;
-            }
-        }
-
-        // Без качественного медиа новость не публикуется
-        if (!mediaData) {
-            console.log("Нет качественного фото, пропускаем.");
-            continue;
-        }
+        console.log(`\nВыбрано событие: ${item.title}`);
+        const mediaBytes = await downloadBuffer(item.mediaUrl, item.mediaType === "video");
+        if (!mediaBytes) continue;
 
         const post = await formatNewsPost(item.title, item.desc);
-        const postHtml = `<b>${escapeHtml(post.headline)}</b>\n\n${escapeHtml(post.text)}\n\n🔗 <a href="${escapeHtml(item.link)}">${escapeHtml(item.sourceName)}</a>\n\n⚡ <i>ФАКТОР</i>`;
+        const postHtml = `<b>${escapeHtml(post.headline)}</b>\n\n${escapeHtml(post.text)}\n\n⚡ <i>ФАКТОР</i>`;
 
         let token: string | null = null;
         try {
-            token = await uploadToMax(mediaData.bytes, mediaData.type);
+            token = await uploadToMax(mediaBytes, item.mediaType);
         } catch (e) {
             console.error("Ошибка загрузки медиа:", e);
             continue;
@@ -418,9 +352,9 @@ async function run() {
 
         if (!token) continue;
 
-        const sent = await sendPostToMax(postHtml, token, mediaData.type);
+        const sent = await sendPostToMax(postHtml, token, item.mediaType);
         if (sent) {
-            console.log(`🔥 ОПУБЛИКОВАНО: ${post.headline}`);
+            console.log(`🔥 ВЫШЛО В ЭФИР (${item.mediaType}): ${post.headline}`);
             await kv.set(["factor", "pub", hash], true, { expireIn: HISTORY_TTL_MS });
             await kv.set(["factor", "topic", hash], { title: item.title, roots: getRoots(item.title) }, { expireIn: HISTORY_TTL_MS });
             await kv.set(["factor", "last_regular"], now);
@@ -428,7 +362,7 @@ async function run() {
         }
     }
 
-    console.log("В этом цикле подходящих событий с медиа не найдено.");
+    console.log("Подходящих живых событий пока нет.");
 }
 
 await run();
