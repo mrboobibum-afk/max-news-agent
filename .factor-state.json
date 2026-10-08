@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791468718566,
+      "value": 1791469088392,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -196,6 +196,36 @@
         ]
       },
       "expiresAt": 1791727938842
+    },
+    "[\"factor\",\"pub\",\"d7fe42f21164f2a0d075cf6b7a5ada0d0fef036847b6285d82fe137d527f3916\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d7fe42f21164f2a0d075cf6b7a5ada0d0fef036847b6285d82fe137d527f3916"
+      ],
+      "value": true,
+      "expiresAt": 1791728307287
+    },
+    "[\"factor\",\"topic\",\"d7fe42f21164f2a0d075cf6b7a5ada0d0fef036847b6285d82fe137d527f3916\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d7fe42f21164f2a0d075cf6b7a5ada0d0fef036847b6285d82fe137d527f3916"
+      ],
+      "value": {
+        "title": "Пловчиха Чикунова выиграла этап Кубка мира в Ташкенте на 200 м брассом",
+        "roots": [
+          "пловч",
+          "чикун",
+          "выигр",
+          "этап",
+          "кубка",
+          "мира",
+          "ташке",
+          "брасс"
+        ]
+      },
+      "expiresAt": 1791728307288
     }
   }
 }
