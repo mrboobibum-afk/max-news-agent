@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791472727703,
+      "value": 1791473042806,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -543,6 +543,34 @@
         ]
       },
       "expiresAt": 1791731941228
+    },
+    "[\"factor\",\"pub\",\"8875befa85916539d28d2656fb9602b8d904a1b8b5f94c79b7874147b5b19e73\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "8875befa85916539d28d2656fb9602b8d904a1b8b5f94c79b7874147b5b19e73"
+      ],
+      "value": true,
+      "expiresAt": 1791732259374
+    },
+    "[\"factor\",\"topic\",\"8875befa85916539d28d2656fb9602b8d904a1b8b5f94c79b7874147b5b19e73\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "8875befa85916539d28d2656fb9602b8d904a1b8b5f94c79b7874147b5b19e73"
+      ],
+      "value": {
+        "title": "Тем временем Google снова оштрафовали в России на 3,8 млн рублей",
+        "roots": [
+          "време",
+          "googl",
+          "снова",
+          "оштра",
+          "росси",
+          "рубле"
+        ]
+      },
+      "expiresAt": 1791732259374
     }
   }
 }
