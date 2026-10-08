@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — ФАКТОР (Direct Live Edition v15)
+// MAX NEWS AGENT — ФАКТОР (Direct Live Edition v16)
 // GITHUB ACTIONS RUNTIME
 // ============================================================
 
@@ -36,7 +36,7 @@ const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
 // ============================================================
 const MAX_ROOT_CA_URL = "https://gu-st.ru/content/lending/russian_trusted_root_ca_pem.crt";
 const MAX_SUB_CA_URL = "https://gu-st.ru/content/lending/russian_trusted_sub_ca_pem.crt";
-let maxHttpClient = null;
+let maxHttpClient: Deno.HttpClient | null = null;
 
 async function initMaxHttpClient() {
     if (maxHttpClient) return maxHttpClient;
@@ -54,23 +54,26 @@ async function initMaxHttpClient() {
 }
 
 // ============================================================
-// RSS FEEDS
+// RSS FEEDS (РАЗНООБРАЗНЫЕ ИСТОЧНИКИ)
 // ============================================================
 const RSS_FEEDS = [
     { category: "ГЛАВНОЕ", emoji: "⚡", url: "https://news.google.com/rss?hl=ru&gl=RU&ceid=RU:ru" },
-    { category: "ВИДЕО_ЭФИР", emoji: "🎥", url: "https://news.google.com/rss/search?q=видео+OR+кадры+OR+момент+OR+очевидцы&hl=ru&gl=RU&ceid=RU:ru" },
-    { category: "РОССИЯ", emoji: "🇷🇺", url: "https://news.google.com/rss/search?q=Россия+OR+Москва+OR+Краснодар+OR+Татарстан&hl=ru&gl=RU&ceid=RU:ru" },
-    { category: "МИР", emoji: "🌍", url: "https://news.google.com/rss/search?q=world+OR+международные+события&hl=ru&gl=RU&ceid=RU:ru" },
+    { category: "РОССИЯ", emoji: "🇷🇺", url: "https://news.google.com/rss/search?q=Россия+OR+Москва+OR+Петербург+OR+Казань+OR+Сибирь&hl=ru&gl=RU&ceid=RU:ru" },
     { category: "ИНЦИДЕНТЫ", emoji: "🚨", url: "https://news.google.com/rss/search?q=ЧП+OR+крушение+OR+стихия+OR+БПЛА+OR+взрыв+OR+сбой&hl=ru&gl=RU&ceid=RU:ru" },
+    { category: "МИР", emoji: "🌍", url: "https://news.google.com/rss/search?q=мир+OR+международные+события+OR+США+OR+Китай+OR+Европа&hl=ru&gl=RU&ceid=RU:ru" },
+    { category: "ТЕХНОЛОГИИ", emoji: "🚀", url: "https://news.google.com/rss/search?q=наука+OR+технологии+OR+космос+OR+ИТ&hl=ru&gl=RU&ceid=RU:ru" },
+    { category: "ЭКОНОМИКА", emoji: "📈", url: "https://news.google.com/rss/search?q=экономика+OR+рынки+OR+нефть+OR+бизнес&hl=ru&gl=RU&ceid=RU:ru" },
 ];
 
 // ============================================================
 // STATE STORAGE
 // ============================================================
 class FileKV {
+    private filePath: string;
+    private data: any = null;
+
     constructor(filePath = ".factor-state.json") {
         this.filePath = filePath;
-        this.data = null;
     }
 
     async load() {
@@ -84,13 +87,13 @@ class FileKV {
         return this.data;
     }
 
-    async get(key) {
+    async get(key: any[]) {
         const data = await this.load();
         const entry = data.entries[JSON.stringify(key)];
         return { value: entry?.value ?? null };
     }
 
-    async set(key, value, options = {}) {
+    async set(key: any[], value: any, options: { expireIn?: number } = {}) {
         const data = await this.load();
         data.entries[JSON.stringify(key)] = {
             key,
@@ -104,7 +107,7 @@ class FileKV {
         const data = await this.load();
         const topics = [];
         const now = Date.now();
-        for (const [k, v] of Object.entries(data.entries)) {
+        for (const [k, v] of Object.entries<any>(data.entries)) {
             if (k.startsWith('["factor","published_topic",') && v?.value) {
                 if (!v.expiresAt || v.expiresAt > now) {
                     topics.push(v.value);
@@ -120,7 +123,7 @@ const kv = new FileKV();
 // ============================================================
 // TEXT & HTML SANITIZATION
 // ============================================================
-function cleanText(value) {
+function cleanText(value: any): string {
     let text = String(value ?? "");
     for (let i = 0; i < 2; i++) {
         text = text
@@ -143,25 +146,25 @@ function cleanText(value) {
         .trim();
 }
 
-function stripHtml(value) {
+function stripHtml(value: any): string {
     return cleanText(value).replace(/[*_]/g, "").trim();
 }
 
-function escapeHtml(value) {
+function escapeHtml(value: any): string {
     return String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
-function normalizeForHash(value) {
+function normalizeForHash(value: any): string {
     return stripHtml(value).toLowerCase().replace(/ё/g, "е").replace(/[^a-zа-я0-9]+/gi, " ").trim();
 }
 
-async function sha256(value) {
+async function sha256(value: string): Promise<string> {
     const data = new TextEncoder().encode(value);
     const hash = await crypto.subtle.digest("SHA-256", data);
     return Array.from(new Uint8Array(hash)).map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
-function extractKeyRoots(text) {
+function extractKeyRoots(text: string): string[] {
     const stopWords = new Set(["россия", "москва", "сегодня", "вчера", "стало", "известно", "сообщили", "после", "видео", "кадры", "новость", "своей", "словам"]);
     return normalizeForHash(text)
         .split(" ")
@@ -169,7 +172,7 @@ function extractKeyRoots(text) {
         .map((w) => (w.length > 5 ? w.slice(0, 5) : w));
 }
 
-async function isSemanticallyDuplicate(title) {
+async function isSemanticallyDuplicate(title: string): Promise<boolean> {
     const currentRoots = extractKeyRoots(title);
     if (currentRoots.length === 0) return false;
 
@@ -188,9 +191,9 @@ async function isSemanticallyDuplicate(title) {
     return false;
 }
 
-function sanitizeDescriptionText(desc) {
+function sanitizeDescriptionText(desc: string): string {
     let text = stripHtml(desc);
-    text = text.replace(/^(?:bfm\.ru|интерфакс|тасс|риа\s+новости|lenta\.ru|rbc\.ru|коммерсантъ|ведомости|бизнес\s+online)\s*[:-]?\s*/gi, "");
+    text = text.replace(/^(?:bfm\.ru|интерфакс|тасс|риа\s+новости|lenta\.ru|rbc\.ru|коммерсантъ|ведомости|бизнес\s+online|gorod55|e1\.ru)\s*[:-]?\s*/gi, "");
     text = text.replace(/\s+(?:интерфакс|тасс|риа|bfm\.ru|astra|rtvi|mash|shot)\b[\s\S]*$/i, "");
     return text.trim();
 }
@@ -198,11 +201,11 @@ function sanitizeDescriptionText(desc) {
 // ============================================================
 // URL PROCESSING & GOOGLE NEWS DECODER
 // ============================================================
-function isHttpUrl(url) {
+function isHttpUrl(url: string | null | undefined): boolean {
     return /^https?:\/\//i.test(String(url ?? ""));
 }
 
-function isGoogleNewsUrl(url) {
+function isGoogleNewsUrl(url: string): boolean {
     try {
         const host = new URL(url).hostname.toLowerCase();
         return host === "news.google.com" || host.endsWith(".news.google.com");
@@ -211,7 +214,7 @@ function isGoogleNewsUrl(url) {
     }
 }
 
-function isGoogleAsset(url) {
+function isGoogleAsset(url: string): boolean {
     try {
         const host = new URL(url).hostname.toLowerCase();
         return host.includes("gstatic") || host.includes("googleusercontent") || host.includes("ggpht");
@@ -220,7 +223,7 @@ function isGoogleAsset(url) {
     }
 }
 
-function normalizeUrl(url) {
+function normalizeUrl(url: string): string {
     try {
         const p = new URL(url);
         p.hash = "";
@@ -231,7 +234,7 @@ function normalizeUrl(url) {
     }
 }
 
-function resolveRelativeUrl(relativeOrFull, baseUrl) {
+function resolveRelativeUrl(relativeOrFull: string | null | undefined, baseUrl: string): string | null {
     if (!relativeOrFull) return null;
     try {
         return new URL(relativeOrFull, baseUrl).href;
@@ -240,7 +243,15 @@ function resolveRelativeUrl(relativeOrFull, baseUrl) {
     }
 }
 
-async function decodeGoogleNewsArticleUrl(googleUrl) {
+function extractDomain(url: string): string {
+    try {
+        return new URL(url).hostname.replace(/^www\./i, "").toLowerCase();
+    } catch {
+        return "unknown";
+    }
+}
+
+async function decodeGoogleNewsArticleUrl(googleUrl: string): Promise<string> {
     try {
         if (!isGoogleNewsUrl(googleUrl)) return "";
         const parts = new URL(googleUrl).pathname.split("/").filter(Boolean);
@@ -301,7 +312,7 @@ async function decodeGoogleNewsArticleUrl(googleUrl) {
     }
 }
 
-async function resolveArticleUrl(item) {
+async function resolveArticleUrl(item: any): Promise<string> {
     const original = normalizeUrl(item.link);
     if (!isGoogleNewsUrl(original)) return original;
     const decoded = await decodeGoogleNewsArticleUrl(original);
@@ -312,7 +323,7 @@ async function resolveArticleUrl(item) {
 // ============================================================
 // RSS FETCHING
 // ============================================================
-function parseRSS(xml, feed) {
+function parseRSS(xml: string, feed: any) {
     const items = [];
     const matches = xml.match(/<item\b[\s\S]*?<\/item>/gi) ?? [];
     const now = Date.now();
@@ -328,10 +339,7 @@ function parseRSS(xml, feed) {
         const pubDateRaw = cleanText(dateMatch?.[1]);
         const pubTimestamp = Date.parse(pubDateRaw) || now;
 
-        if (now - pubTimestamp > MAX_NEWS_AGE_MS) {
-            continue;
-        }
-
+        if (now - pubTimestamp > MAX_NEWS_AGE_MS) continue;
         if (!title || !link) continue;
 
         items.push({
@@ -346,7 +354,7 @@ function parseRSS(xml, feed) {
     return items;
 }
 
-async function loadRSS(feed) {
+async function loadRSS(feed: any) {
     try {
         const res = await fetch(feed.url, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(12000) });
         if (!res.ok) return [];
@@ -359,7 +367,7 @@ async function loadRSS(feed) {
 // ============================================================
 // MEDIA SIGNATURE VALIDATION
 // ============================================================
-function validateMediaSignature(bytes, type) {
+function validateMediaSignature(bytes: Uint8Array, type: "image" | "video"): boolean {
     if (!bytes || bytes.length < 16) return false;
 
     const prefixStr = new TextDecoder().decode(bytes.subarray(0, 30)).toLowerCase();
@@ -391,7 +399,7 @@ function validateMediaSignature(bytes, type) {
 // ============================================================
 // MEDIA DOWNLOADERS
 // ============================================================
-async function downloadMedia(url, type) {
+async function downloadMedia(url: string, type: "image" | "video") {
     if (!url || !isHttpUrl(url) || isGoogleAsset(url)) return null;
 
     try {
@@ -416,14 +424,14 @@ async function downloadMedia(url, type) {
     }
 }
 
-// Извлечение чистого изображения статьи (с защитой от реверсивных атрибутов и плашек)
-function extractCleanImage(html, baseUrl) {
-    const isStub = (u) => {
+// Извлечение чистого изображения статьи (с защитой от плашек и логотипов)
+function extractCleanImage(html: string, baseUrl: string): string | null {
+    const isStub = (u: string) => {
         const low = u.toLowerCase();
         return /(?:bfm_share|logo|avatar|1x1|pixel|banner|advert|stub|placeholder|default_og|share_fb|social_preview|interfax_share|interfax.*card|img\.interfax\.ru\/.*card)/i.test(low);
     };
 
-    // 1. Метатег og:image (поддержка любого порядка атрибутов)
+    // 1. Метатег og:image
     const ogMatch = html.match(/<meta\b[^>]*?(?:property|name)=["']og:image["'][^>]*?content=["']([^"']+)["']/i) ||
                     html.match(/<meta\b[^>]*?content=["']([^"']+)["'][^>]*?(?:property|name)=["']og:image["']/i);
     const ogImg = resolveRelativeUrl(ogMatch?.[1], baseUrl);
@@ -439,7 +447,7 @@ function extractCleanImage(html, baseUrl) {
         return twImg;
     }
 
-    // 3. Изображения из контента статьи
+    // 3. Контентные изображения из статьи
     for (const m of html.matchAll(/<img\b[^>]*?(?:src|data-src|data-original)=["']([^"']+)["'][^>]*>/gi)) {
         const fullUrl = resolveRelativeUrl(m[1], baseUrl);
         if (fullUrl && isHttpUrl(fullUrl) && !isGoogleAsset(fullUrl) && !isStub(fullUrl)) {
@@ -449,7 +457,7 @@ function extractCleanImage(html, baseUrl) {
     return null;
 }
 
-function isContextMatching(title, context) {
+function isContextMatching(title: string, context: string): boolean {
     const titleRoots = extractKeyRoots(title);
     const contextRoots = new Set(extractKeyRoots(context));
     let matched = 0;
@@ -459,7 +467,7 @@ function isContextMatching(title, context) {
     return matched >= 2;
 }
 
-async function searchVerifiedTelegramVideo(newsTitle) {
+async function searchVerifiedTelegramVideo(newsTitle: string) {
     for (const channel of PUBLIC_TELEGRAM_VIDEO_CHANNELS) {
         try {
             const res = await fetch(`https://t.me/s/${channel}`, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(10000) });
@@ -486,39 +494,6 @@ async function searchVerifiedTelegramVideo(newsTitle) {
     return null;
 }
 
-async function searchWebEyewitnessVideo(newsTitle) {
-    const roots = extractKeyRoots(newsTitle).slice(0, 4).join(" ");
-    if (!roots) return null;
-
-    const searchUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(roots + " видео")}&hl=ru&gl=RU&ceid=RU:ru`;
-    try {
-        const res = await fetch(searchUrl, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(10000) });
-        if (!res.ok) return null;
-        const xml = await res.text();
-        const items = parseRSS(xml, { category: "ВИДЕО" });
-
-        for (const item of items.slice(0, 3)) {
-            const realUrl = await resolveArticleUrl(item);
-            if (!realUrl) continue;
-
-            const pageRes = await fetch(realUrl, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(10000) });
-            if (!pageRes.ok) continue;
-            const pageHtml = await pageRes.text();
-
-            const ogVideoRaw = pageHtml.match(/<meta[^>]+(?:property|name)=["']og:video(?::url)?["'][^>]+content=["']([^"']+)["']/i)?.[1];
-            const ogVideo = resolveRelativeUrl(ogVideoRaw, realUrl);
-            if (ogVideo && isHttpUrl(ogVideo) && !isGoogleAsset(ogVideo) && ogVideo.includes(".mp4")) {
-                const downloaded = await downloadMedia(ogVideo, "video");
-                if (downloaded) {
-                    console.log(`✅ Найдено прямое видео очевидцев: ${ogVideo}`);
-                    return downloaded;
-                }
-            }
-        }
-    } catch {}
-    return null;
-}
-
 // ============================================================
 // EDITORIAL & AI
 // ============================================================
@@ -529,7 +504,7 @@ const TRIVIAL_GARBAGE = [
     /(?:что\s+пишут\s+мировые\s+сми|дайджест|главное\s+к\s+этому\s+часу|обзор\s+прессы|картина\s+дня|главные\s+новости\s+к)/i,
 ];
 
-function evaluateNewsItem(item) {
+function evaluateNewsItem(item: any) {
     const text = normalizeForHash(`${item.title} ${item.description}`);
     if (TRIVIAL_GARBAGE.some((p) => p.test(text))) return { item, score: -100, urgent: false };
 
@@ -542,13 +517,13 @@ function evaluateNewsItem(item) {
     }
 
     if (/(?:видео|кадры|момент|очевидцы|появились\s+кадры)/i.test(text)) {
-        score += 40;
+        score += 30;
     }
 
     return { item, score, urgent };
 }
 
-async function callAI(item) {
+async function callAI(item: any) {
     const sanitizedDesc = sanitizeDescriptionText(item.description);
     const prompt = `
 Ты редактор топового Telegram-канала новостей в формате «Прямой эфир».
@@ -557,7 +532,7 @@ async function callAI(item) {
 СУТЬ: ${sanitizedDesc}
 
 СТРОГИЕ ПРАВИЛА:
-1. ОДИН ПОСТ = ОДНО СОБЫТИЕ. Удали чужие бренды СМИ ("Интерфакс", "BFM", "БИЗНЕС Online", "ТАСС").
+1. ОДИН ПОСТ = ОДНО СОБЫТИЕ. Удали чужие бренды СМИ ("Интерфакс", "BFM", "БИЗНЕС Online", "ТАСС", "Город55", "Lenta.ru").
 2. Заголовок (headline): короткий, мощный, передаёт суть только одного события.
 3. Текст (text): строго 1–2 динамичных предложения.
 Верни ТОЛЬКО JSON: {"headline": "...", "text": "..."}
@@ -615,7 +590,7 @@ async function callAI(item) {
 // ============================================================
 // MAX API
 // ============================================================
-async function maxFetch(path, options = {}) {
+async function maxFetch(path: string, options: any = {}) {
     if (!MAX_BOT_TOKEN) throw new Error("MAX_BOT_TOKEN missing");
     const headers = new Headers(options.headers ?? {});
     headers.set("Authorization", MAX_BOT_TOKEN);
@@ -625,7 +600,7 @@ async function maxFetch(path, options = {}) {
     return await fetch(`${MAX_API}${path}`, { ...options, client: client ?? undefined, headers });
 }
 
-async function uploadMediaToMax(media) {
+async function uploadMediaToMax(media: any) {
     const initRes = await maxFetch(`/uploads?type=${encodeURIComponent(media.type)}`, { method: "POST" });
     const initData = await initRes.json();
     if (!initData.url) throw new Error("MAX upload URL missing");
@@ -643,9 +618,9 @@ async function uploadMediaToMax(media) {
     return token;
 }
 
-async function publishToMax(text, mediaToken = null, mediaType = "image") {
+async function publishToMax(text: string, mediaToken: string | null = null, mediaType = "image") {
     if (!TARGET_CHAT_ID) throw new Error("TARGET_CHAT_ID missing");
-    const body = { text, format: "html", notify: true, disable_link_preview: true };
+    const body: any = { text, format: "html", notify: true, disable_link_preview: true };
     if (mediaToken) body.attachments = [{ type: mediaType, payload: { token: mediaToken } }];
 
     const res = await maxFetch(`/messages?chat_id=${encodeURIComponent(TARGET_CHAT_ID)}`, {
@@ -657,7 +632,7 @@ async function publishToMax(text, mediaToken = null, mediaType = "image") {
     return await res.json();
 }
 
-function buildPostMessage(headline, text, sourceUrl, sourceName) {
+function buildPostMessage(headline: string, text: string, sourceUrl: string, sourceName: string) {
     const parts = [`<b>${escapeHtml(headline)}</b>`, "", escapeHtml(text)];
     if (sourceUrl && isHttpUrl(sourceUrl) && !isGoogleNewsUrl(sourceUrl)) {
         parts.push("", `🔗 <a href="${escapeHtml(sourceUrl)}">${escapeHtml(sourceName || "Источник")}</a>`);
@@ -670,11 +645,12 @@ function buildPostMessage(headline, text, sourceUrl, sourceName) {
 // MAIN PIPELINE
 // ============================================================
 async function run() {
-    console.log("=== Запуск новостного пайплайна ФАКТОР (Live Speed v15) ===");
+    console.log("=== Запуск новостного пайплайна ФАКТОР (Live Speed v16) ===");
     const now = Date.now();
 
     const lastUrgent = (await kv.get(["factor", "last_urgent"])).value ?? 0;
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
+    const lastPublishedDomain = (await kv.get(["factor", "last_domain"])).value ?? "";
 
     const urgentAllowed = now - lastUrgent >= URGENT_INTERVAL_MS;
     const regularAllowed = now - lastRegular >= REGULAR_INTERVAL_MS;
@@ -685,15 +661,24 @@ async function run() {
         return;
     }
 
+    // 1. Загрузка всех лент параллельно
     const feedsData = await Promise.all(RSS_FEEDS.map(loadRSS));
-    const allItems = feedsData.flat().slice(0, MAX_RSS_ITEMS);
 
-    const evaluated = allItems
+    // 2. Чередование источников (Round-Robin), чтобы лента была разнообразной
+    const interweavedItems: any[] = [];
+    const maxLen = Math.max(...feedsData.map((f) => f.length));
+    for (let i = 0; i < maxLen; i++) {
+        for (const feedList of feedsData) {
+            if (feedList[i]) interweavedItems.push(feedList[i]);
+        }
+    }
+
+    const evaluated = interweavedItems
         .map(evaluateNewsItem)
         .filter((c) => c.score > 0)
         .filter((c) => (c.urgent ? urgentAllowed : regularAllowed));
 
-    const freshCandidates = [];
+    const freshCandidates: any[] = [];
     for (const cand of evaluated) {
         const itemHash = await sha256(normalizeForHash(cand.item.title));
         const alreadyPub = await kv.get(["factor", "published", itemHash]);
@@ -706,15 +691,20 @@ async function run() {
         if (freshCandidates.length >= 25) break;
     }
 
-    freshCandidates.sort((a, b) => b.score - a.score);
-
     for (const { item, urgent, hash } of freshCandidates) {
-        console.log(`\nОбработка: ${item.title}`);
         const realArticleUrl = await resolveArticleUrl(item);
-        let selectedMedia = null;
+        const articleDomain = realArticleUrl ? extractDomain(realArticleUrl) : "";
+
+        // Защита от монополии одного сайта: не даём постить подряд с одного ресурса
+        if (articleDomain && lastPublishedDomain && articleDomain === lastPublishedDomain && freshCandidates.length > 1) {
+            console.log(`⏭️ Пропускаем ${articleDomain}, так как прошлый пост был с этого же сайта`);
+            continue;
+        }
+
+        console.log(`\nОбработка: [${item.category}] ${item.title}`);
+        let selectedMedia: any = null;
         let articleHtml = "";
 
-        // 1. Загрузка страницы статьи для анализа
         if (realArticleUrl) {
             try {
                 const res = await fetch(realArticleUrl, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(10000) });
@@ -724,7 +714,7 @@ async function run() {
             } catch {}
         }
 
-        // 2. ПРИОРИТЕТ: Главное фото статьи (og:image, twitter:image, контентные фото)
+        // 1. ПРИОРИТЕТ: Главное фото статьи (og:image, twitter:image, контентные фото)
         if (articleHtml && realArticleUrl) {
             const photoUrl = extractCleanImage(articleHtml, realArticleUrl);
             if (photoUrl) {
@@ -735,7 +725,7 @@ async function run() {
             }
         }
 
-        // 3. Если фото статьи не нашлось — проверяем проверенные Telegram-каналы на точное совпадение темы
+        // 2. Если фото статьи не найдено — ищем подтверждённое видео в Telegram
         if (!selectedMedia) {
             const tgVideo = await searchVerifiedTelegramVideo(item.title);
             if (tgVideo) {
@@ -743,15 +733,7 @@ async function run() {
             }
         }
 
-        // 4. Если медиа всё ещё нет — проверяем видео очевидцев через прямой поиск
-        if (!selectedMedia) {
-            const webVideo = await searchWebEyewitnessVideo(item.title);
-            if (webVideo) {
-                selectedMedia = webVideo;
-            }
-        }
-
-        // 5. Текст поста
+        // 3. Формирование текста поста
         const postData = await callAI(item);
         const postText = buildPostMessage(postData.headline, postData.text, realArticleUrl, item.source);
 
@@ -765,12 +747,17 @@ async function run() {
             console.log("Публикация в MAX...");
             await publishToMax(postText, mediaToken, selectedMedia?.type || "image");
 
+            // Сохранение в базу
             await kv.set(["factor", "published", hash], true, { expireIn: HISTORY_TTL_MS });
             await kv.set(
                 ["factor", "published_topic", hash],
                 { title: item.title, roots: extractKeyRoots(item.title) },
                 { expireIn: HISTORY_TTL_MS }
             );
+
+            if (articleDomain) {
+                await kv.set(["factor", "last_domain"], articleDomain, { expireIn: 3600 * 1000 });
+            }
 
             if (urgent) await kv.set(["factor", "last_urgent"], now);
             else await kv.set(["factor", "last_regular"], now);
@@ -787,6 +774,10 @@ async function run() {
                     { title: item.title, roots: extractKeyRoots(item.title) },
                     { expireIn: HISTORY_TTL_MS }
                 );
+
+                if (articleDomain) {
+                    await kv.set(["factor", "last_domain"], articleDomain, { expireIn: 3600 * 1000 });
+                }
 
                 if (urgent) await kv.set(["factor", "last_urgent"], now);
                 else await kv.set(["factor", "last_regular"], now);
