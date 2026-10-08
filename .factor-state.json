@@ -32,7 +32,7 @@
         "factor",
         "last_urgent"
       ],
-      "value": 1791454266921,
+      "value": 1791462209670,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"4aa61af2633c5fed40cebea96de68e39d8c4d97e99a8a3a751b34d5ca32bef5c\"]": {
@@ -138,164 +138,35 @@
       },
       "expiresAt": 1791625412496
     },
-    "[\"factor\",\"published\",\"d0d7ef5cc55f88eeb2ace55198bb64a1c2df2954eda8995e04a819deaafbf273\"]": {
+    "[\"factor\",\"published\",\"e81f9e64cb7e638bdf84906cbcc6f123bfe29c249950c8d1b0a7742bf5e1fec9\"]": {
       "key": [
         "factor",
         "published",
-        "d0d7ef5cc55f88eeb2ace55198bb64a1c2df2954eda8995e04a819deaafbf273"
+        "e81f9e64cb7e638bdf84906cbcc6f123bfe29c249950c8d1b0a7742bf5e1fec9"
       ],
       "value": true,
-      "expiresAt": 1791625780599
+      "expiresAt": 1791635026265
     },
-    "[\"factor\",\"published_topic\",\"d0d7ef5cc55f88eeb2ace55198bb64a1c2df2954eda8995e04a819deaafbf273\"]": {
+    "[\"factor\",\"published_topic\",\"e81f9e64cb7e638bdf84906cbcc6f123bfe29c249950c8d1b0a7742bf5e1fec9\"]": {
       "key": [
         "factor",
         "published_topic",
-        "d0d7ef5cc55f88eeb2ace55198bb64a1c2df2954eda8995e04a819deaafbf273"
+        "e81f9e64cb7e638bdf84906cbcc6f123bfe29c249950c8d1b0a7742bf5e1fec9"
       ],
       "value": {
-        "title": "Часть сервисов «Яндекса» работают с перебоями из-за пожара в центре обработки данных под Рязанью - BFM.ru",
+        "title": "Атака беспилотников на Омскую область 8 октября: что известно на данный момент - Gorod55",
         "roots": [
-          "часть",
-          "серви",
-          "яндек",
-          "работ",
-          "переб",
-          "пожар",
-          "центр",
-          "обраб",
-          "данны",
-          "рязан"
-        ]
-      },
-      "expiresAt": 1791625780600
-    },
-    "[\"factor\",\"published\",\"f6b0bc9cdedfee4204eff6d5542aabf91ddd4674bfbb7f63a9a1b5a8e5915ff4\"]": {
-      "key": [
-        "factor",
-        "published",
-        "f6b0bc9cdedfee4204eff6d5542aabf91ddd4674bfbb7f63a9a1b5a8e5915ff4"
-      ],
-      "value": true,
-      "expiresAt": 1791626115136
-    },
-    "[\"factor\",\"published_topic\",\"f6b0bc9cdedfee4204eff6d5542aabf91ddd4674bfbb7f63a9a1b5a8e5915ff4\"]": {
-      "key": [
-        "factor",
-        "published_topic",
-        "f6b0bc9cdedfee4204eff6d5542aabf91ddd4674bfbb7f63a9a1b5a8e5915ff4"
-      ],
-      "value": {
-        "title": "Над Татарстаном сбили БПЛА - БИЗНЕС Online — Новости Казани",
-        "roots": [
-          "татар",
-          "сбили",
-          "бпла",
-          "бизне",
-          "onlin",
-          "новос",
-          "казан"
-        ]
-      },
-      "expiresAt": 1791626115137
-    },
-    "[\"factor\",\"published\",\"45e78b9ec38f5e52d89d08f5d4b4ad5b0ee1e63df9786fba8527197c83bdfe5d\"]": {
-      "key": [
-        "factor",
-        "published",
-        "45e78b9ec38f5e52d89d08f5d4b4ad5b0ee1e63df9786fba8527197c83bdfe5d"
-      ],
-      "value": true,
-      "expiresAt": 1791626444810
-    },
-    "[\"factor\",\"published_topic\",\"45e78b9ec38f5e52d89d08f5d4b4ad5b0ee1e63df9786fba8527197c83bdfe5d\"]": {
-      "key": [
-        "factor",
-        "published_topic",
-        "45e78b9ec38f5e52d89d08f5d4b4ad5b0ee1e63df9786fba8527197c83bdfe5d"
-      ],
-      "value": {
-        "title": "Трамп: Я не думаю, что чума в России — это дело американских биолабораторий - EADaily",
-        "roots": [
-          "трамп",
-          "думаю",
-          "чума",
-          "росси",
-          "дело",
-          "амери",
-          "биола",
-          "eadai"
-        ]
-      },
-      "expiresAt": 1791626444845
-    },
-    "[\"factor\",\"published\",\"2e163e2eba8d445fbc31261d8e626b6ca13a13ce1aab20f3fdb7f712187bfc2d\"]": {
-      "key": [
-        "factor",
-        "published",
-        "2e163e2eba8d445fbc31261d8e626b6ca13a13ce1aab20f3fdb7f712187bfc2d"
-      ],
-      "value": true,
-      "expiresAt": 1791626764999
-    },
-    "[\"factor\",\"published_topic\",\"2e163e2eba8d445fbc31261d8e626b6ca13a13ce1aab20f3fdb7f712187bfc2d\"]": {
-      "key": [
-        "factor",
-        "published_topic",
-        "2e163e2eba8d445fbc31261d8e626b6ca13a13ce1aab20f3fdb7f712187bfc2d"
-      ],
-      "value": {
-        "title": "Росавиация «закрыла» небо над Омском из-за опасности БПЛА 8 октября — Новости Омска и области - Город55 - Gorod55",
-        "roots": [
-          "росав",
-          "закры",
-          "небо",
-          "омско",
-          "опасн",
-          "бпла",
-          "октяб",
-          "новос",
-          "омска",
+          "атака",
+          "беспи",
+          "омску",
           "облас",
-          "город",
+          "октяб",
+          "данны",
+          "момен",
           "gorod"
         ]
       },
-      "expiresAt": 1791626765000
-    },
-    "[\"factor\",\"published\",\"f682471af58a9beb28202ee2b05f1126b5d8e4e02f47d20bd0ab90efe77d3124\"]": {
-      "key": [
-        "factor",
-        "published",
-        "f682471af58a9beb28202ee2b05f1126b5d8e4e02f47d20bd0ab90efe77d3124"
-      ],
-      "value": true,
-      "expiresAt": 1791627096353
-    },
-    "[\"factor\",\"published_topic\",\"f682471af58a9beb28202ee2b05f1126b5d8e4e02f47d20bd0ab90efe77d3124\"]": {
-      "key": [
-        "factor",
-        "published_topic",
-        "f682471af58a9beb28202ee2b05f1126b5d8e4e02f47d20bd0ab90efe77d3124"
-      ],
-      "value": {
-        "title": "Трамп отверг одну из версий вокруг ситуации в Иркутской области: Политика: Мир - https://lenta.news/",
-        "roots": [
-          "трамп",
-          "отвер",
-          "одну",
-          "верси",
-          "вокру",
-          "ситуа",
-          "иркут",
-          "облас",
-          "полит",
-          "https",
-          "lenta",
-          "news"
-        ]
-      },
-      "expiresAt": 1791627096354
+      "expiresAt": 1791635026266
     }
   }
 }
