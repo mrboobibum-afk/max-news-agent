@@ -3,7 +3,7 @@ name: FAKTOR Auto
 on:
   schedule:
     # Запуск новой смены каждый час
-    - cron: "0 * * * *"
+    - cron: "5 * * * *"
   workflow_dispatch:
 
 permissions:
