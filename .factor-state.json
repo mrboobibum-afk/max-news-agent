@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791474611072,
+      "value": 1791488059272,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -694,6 +694,43 @@
         ]
       },
       "expiresAt": 1791733829794
+    },
+    "[\"factor\",\"next_regular_delay\"]": {
+      "key": [
+        "factor",
+        "next_regular_delay"
+      ],
+      "value": 769750,
+      "expiresAt": null
+    },
+    "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb"
+      ],
+      "value": true,
+      "expiresAt": 1791747275909
+    },
+    "[\"factor\",\"topic\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb"
+      ],
+      "value": {
+        "title": "«Крузак» с блатными номерами снёс припаркованные авто на юго-востоке Москвы",
+        "roots": [
+          "круза",
+          "блатн",
+          "номер",
+          "припа",
+          "авто",
+          "восто",
+          "москв"
+        ]
+      },
+      "expiresAt": 1791747275910
     }
   }
 }
