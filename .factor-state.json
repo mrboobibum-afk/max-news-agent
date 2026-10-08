@@ -3031,7 +3031,7 @@
         "factor",
         "last_urgent"
       ],
-      "value": 1791442191946,
+      "value": 1791442593389,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"fc44bd627732507d8cd7132c3aa66d0e97d92e6b47e72ac5a5886e905748f635\"]": {
@@ -3078,6 +3078,36 @@
       ],
       "value": true,
       "expiresAt": 1794034204955
+    },
+    "[\"factor\",\"published\",\"45e78b9ec38f5e52d89d08f5d4b4ad5b0ee1e63df9786fba8527197c83bdfe5d\"]": {
+      "key": [
+        "factor",
+        "published",
+        "45e78b9ec38f5e52d89d08f5d4b4ad5b0ee1e63df9786fba8527197c83bdfe5d"
+      ],
+      "value": true,
+      "expiresAt": 1791615406274
+    },
+    "[\"factor\",\"published_topic\",\"45e78b9ec38f5e52d89d08f5d4b4ad5b0ee1e63df9786fba8527197c83bdfe5d\"]": {
+      "key": [
+        "factor",
+        "published_topic",
+        "45e78b9ec38f5e52d89d08f5d4b4ad5b0ee1e63df9786fba8527197c83bdfe5d"
+      ],
+      "value": {
+        "title": "Трамп: Я не думаю, что чума в России — это дело американских биолабораторий - EADaily",
+        "roots": [
+          "трамп",
+          "думаю",
+          "чума",
+          "росси",
+          "дело",
+          "амери",
+          "биола",
+          "eadai"
+        ]
+      },
+      "expiresAt": 1791615406276
     }
   }
 }
