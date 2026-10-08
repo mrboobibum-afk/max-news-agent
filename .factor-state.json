@@ -3031,7 +3031,7 @@
         "factor",
         "last_urgent"
       ],
-      "value": 1791443619199,
+      "value": 1791443833260,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"fc44bd627732507d8cd7132c3aa66d0e97d92e6b47e72ac5a5886e905748f635\"]": {
@@ -3169,6 +3169,35 @@
         ]
       },
       "expiresAt": 1791616430052
+    },
+    "[\"factor\",\"published\",\"4593c94bad7171261ae9ace0f0b8aa503b2b119159a7655895302ffd182165f0\"]": {
+      "key": [
+        "factor",
+        "published",
+        "4593c94bad7171261ae9ace0f0b8aa503b2b119159a7655895302ffd182165f0"
+      ],
+      "value": true,
+      "expiresAt": 1791616660580
+    },
+    "[\"factor\",\"published_topic\",\"4593c94bad7171261ae9ace0f0b8aa503b2b119159a7655895302ffd182165f0\"]": {
+      "key": [
+        "factor",
+        "published_topic",
+        "4593c94bad7171261ae9ace0f0b8aa503b2b119159a7655895302ffd182165f0"
+      ],
+      "value": {
+        "title": "«Яндекс» сообщил об «инциденте» и проблемах в одной из зон Yandex Cloud - BFM.ru",
+        "roots": [
+          "яндек",
+          "сообщ",
+          "инцид",
+          "пробл",
+          "одной",
+          "yande",
+          "cloud"
+        ]
+      },
+      "expiresAt": 1791616660583
     }
   }
 }
