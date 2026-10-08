@@ -32,7 +32,7 @@
         "factor",
         "last_urgent"
       ],
-      "value": 1791463175517,
+      "value": 1791463807475,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"4aa61af2633c5fed40cebea96de68e39d8c4d97e99a8a3a751b34d5ca32bef5c\"]": {
@@ -145,7 +145,7 @@
         "e81f9e64cb7e638bdf84906cbcc6f123bfe29c249950c8d1b0a7742bf5e1fec9"
       ],
       "value": true,
-      "expiresAt": 1791635026265
+      "expiresAt": 1791636636364
     },
     "[\"factor\",\"published_topic\",\"e81f9e64cb7e638bdf84906cbcc6f123bfe29c249950c8d1b0a7742bf5e1fec9\"]": {
       "key": [
@@ -166,131 +166,7 @@
           "gorod"
         ]
       },
-      "expiresAt": 1791635026266
-    },
-    "[\"factor\",\"published\",\"e752d3e4142c9b9fe68d8e89249c24b465f26673522e0bba4c45ea7753f53e15\"]": {
-      "key": [
-        "factor",
-        "published",
-        "e752d3e4142c9b9fe68d8e89249c24b465f26673522e0bba4c45ea7753f53e15"
-      ],
-      "value": true,
-      "expiresAt": 1791635347685
-    },
-    "[\"factor\",\"published_topic\",\"e752d3e4142c9b9fe68d8e89249c24b465f26673522e0bba4c45ea7753f53e15\"]": {
-      "key": [
-        "factor",
-        "published_topic",
-        "e752d3e4142c9b9fe68d8e89249c24b465f26673522e0bba4c45ea7753f53e15"
-      ],
-      "value": {
-        "title": "Песков заявил, что Трамп не поздравил Путина телеграммой с днем рождения - Интерфакс",
-        "roots": [
-          "песко",
-          "заяви",
-          "трамп",
-          "поздр",
-          "путин",
-          "телег",
-          "днем",
-          "рожде",
-          "интер"
-        ]
-      },
-      "expiresAt": 1791635347685
-    },
-    "[\"factor\",\"published\",\"38cfb2bf1db7b63d9e7ea75649466d1d405489c22eacf2d492685d2656ee8be8\"]": {
-      "key": [
-        "factor",
-        "published",
-        "38cfb2bf1db7b63d9e7ea75649466d1d405489c22eacf2d492685d2656ee8be8"
-      ],
-      "value": true,
-      "expiresAt": 1791635673875
-    },
-    "[\"factor\",\"published_topic\",\"38cfb2bf1db7b63d9e7ea75649466d1d405489c22eacf2d492685d2656ee8be8\"]": {
-      "key": [
-        "factor",
-        "published_topic",
-        "38cfb2bf1db7b63d9e7ea75649466d1d405489c22eacf2d492685d2656ee8be8"
-      ],
-      "value": {
-        "title": "ВСУ ударили по российскому региону в 2500 километрах от границы: Политика: Россия - https://lenta.news/",
-        "roots": [
-          "удари",
-          "росси",
-          "регио",
-          "2500",
-          "килом",
-          "грани",
-          "полит",
-          "https",
-          "lenta",
-          "news"
-        ]
-      },
-      "expiresAt": 1791635673876
-    },
-    "[\"factor\",\"published\",\"f6b0bc9cdedfee4204eff6d5542aabf91ddd4674bfbb7f63a9a1b5a8e5915ff4\"]": {
-      "key": [
-        "factor",
-        "published",
-        "f6b0bc9cdedfee4204eff6d5542aabf91ddd4674bfbb7f63a9a1b5a8e5915ff4"
-      ],
-      "value": true,
-      "expiresAt": 1791636013246
-    },
-    "[\"factor\",\"published_topic\",\"f6b0bc9cdedfee4204eff6d5542aabf91ddd4674bfbb7f63a9a1b5a8e5915ff4\"]": {
-      "key": [
-        "factor",
-        "published_topic",
-        "f6b0bc9cdedfee4204eff6d5542aabf91ddd4674bfbb7f63a9a1b5a8e5915ff4"
-      ],
-      "value": {
-        "title": "Над Татарстаном сбили БПЛА - БИЗНЕС Online — Новости Казани",
-        "roots": [
-          "татар",
-          "сбили",
-          "бпла",
-          "бизне",
-          "onlin",
-          "новос",
-          "казан"
-        ]
-      },
-      "expiresAt": 1791636013247
-    },
-    "[\"factor\",\"published\",\"dc865ea682b177c069d01ce346fa919bd3491bf1ced06ede49eaa6d96e559117\"]": {
-      "key": [
-        "factor",
-        "published",
-        "dc865ea682b177c069d01ce346fa919bd3491bf1ced06ede49eaa6d96e559117"
-      ],
-      "value": true,
-      "expiresAt": 1791636354039
-    },
-    "[\"factor\",\"published_topic\",\"dc865ea682b177c069d01ce346fa919bd3491bf1ced06ede49eaa6d96e559117\"]": {
-      "key": [
-        "factor",
-        "published_topic",
-        "dc865ea682b177c069d01ce346fa919bd3491bf1ced06ede49eaa6d96e559117"
-      ],
-      "value": {
-        "title": "Линейка умных часов Huawei Watch 6 / 6 Pro. Космические, керамические, титановые - Mobile-review.com",
-        "roots": [
-          "линей",
-          "умных",
-          "часов",
-          "huawe",
-          "watch",
-          "косми",
-          "керам",
-          "титан",
-          "mobil",
-          "revie"
-        ]
-      },
-      "expiresAt": 1791636354039
+      "expiresAt": 1791636636365
     }
   }
 }
