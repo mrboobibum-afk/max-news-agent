@@ -1,13 +1,13 @@
 // ============================================================
-// MAX NEWS AGENT — ФАКТОР (Direct Live Edition v9)
+// MAX NEWS AGENT — ФАКТОР (Direct Live Edition v10)
 // GITHUB ACTIONS RUNTIME
 // ============================================================
-// Обновления v9:
-//   - Защита от чёрных экранов и пустых медиа (Magic Bytes Validation)
-//   - Отсечение ошибок серверов (HTML/Cloudflare вместо картинок)
+// Обновления v10:
+//   - Блокировка дайджестов и сборников (один пост = одна новость)
+//   - Защита от склеек заголовков мировых СМИ
+//   - Проверка сигнатур файлов (защита от чёрных экранов)
 //   - Смысловой фильтр повторов (48 часов)
-//   - Поддержка yt-dlp для видео
-//   - Плотный темп вещания: 3 мин (молнии), 8 мин (обычные)
+//   - Темп вещания: 3 мин (молнии), 8 мин (обычные)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -23,9 +23,8 @@ const REGULAR_INTERVAL_MS = 8 * 60 * 1000;
 const HISTORY_TTL_MS = 48 * 60 * 60 * 1000;
 const MAX_NEWS_AGE_MS = 12 * 60 * 60 * 1000;
 
-// Ограничения размеров медиафайлов
-const MIN_IMAGE_BYTES = 25 * 1024;             // Фото не может весить меньше 25 КБ
-const MIN_VIDEO_BYTES = 100 * 1024;            // Видео не может весить меньше 100 КБ
+const MIN_IMAGE_BYTES = 25 * 1024;
+const MIN_VIDEO_BYTES = 100 * 1024;
 const MAX_VIDEO_BYTES = Number(Deno.env.get("MAX_VIDEO_MB") ?? "50") * 1024 * 1024;
 const MAX_IMAGE_BYTES = Number(Deno.env.get("MAX_IMAGE_MB") ?? "15") * 1024 * 1024;
 
@@ -178,7 +177,6 @@ function extractKeyRoots(text) {
         .map((w) => (w.length > 5 ? w.slice(0, 5) : w));
 }
 
-// Проверка на смысловой повтор темы
 async function isSemanticallyDuplicate(title) {
     const currentRoots = extractKeyRoots(title);
     if (currentRoots.length === 0) return false;
@@ -351,25 +349,20 @@ async function loadRSS(feed) {
 }
 
 // ============================================================
-// ВАЛИДАЦИЯ СИГНАТУР ФАЙЛОВ (MAGIC BYTES)
+// MEDIA SIGNATURE VALIDATION
 // ============================================================
-// Проверяет реальные байты файла, чтобы MAX не получал пустые заглушки и HTML
 function validateMediaSignature(bytes, type) {
     if (!bytes || bytes.length < 16) return false;
 
-    // Проверяем, не скачался ли HTML или JSON с ошибкой
     const prefixStr = new TextDecoder().decode(bytes.subarray(0, 30)).toLowerCase();
     if (prefixStr.includes("<!doctype") || prefixStr.includes("<html") || prefixStr.includes("<?xml") || prefixStr.includes("{")) {
-        console.warn("⚠️ Файл отклонён: сервер вернул HTML/JSON с ошибкой вместо медиафайла");
+        console.warn("⚠️ Файл отклонён: получен HTML/текст вместо медиа");
         return false;
     }
 
     if (type === "image") {
-        // JPEG: FF D8 FF
         if (bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff) return true;
-        // PNG: 89 50 4E 47
         if (bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4e && bytes[3] === 0x47) return true;
-        // WEBP: RIFF....WEBP
         if (bytes[0] === 0x52 && bytes[1] === 0x49 && bytes[2] === 0x46 && bytes[3] === 0x46) {
             const webpSig = new TextDecoder().decode(bytes.subarray(8, 12));
             if (webpSig === "WEBP") return true;
@@ -378,10 +371,8 @@ function validateMediaSignature(bytes, type) {
     }
 
     if (type === "video") {
-        // MP4 / MOV: ....ftyp
         const ftyp = new TextDecoder().decode(bytes.subarray(4, 8));
         if (ftyp === "ftyp") return true;
-        // WebM / Matroska: 1A 45 DF A3
         if (bytes[0] === 0x1a && bytes[1] === 0x45 && bytes[2] === 0xdf && bytes[3] === 0xa3) return true;
         return false;
     }
@@ -390,7 +381,7 @@ function validateMediaSignature(bytes, type) {
 }
 
 // ============================================================
-// YT-DLP & MEDIA DOWNLOAD
+// MEDIA DOWNLOADERS
 // ============================================================
 async function downloadWithYtDlp(targetUrl) {
     if (!isHttpUrl(targetUrl) || isGoogleAsset(targetUrl)) return null;
@@ -480,16 +471,8 @@ async function downloadMedia(url, type) {
         const minSize = type === "video" ? MIN_VIDEO_BYTES : MIN_IMAGE_BYTES;
         const maxSize = type === "video" ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
 
-        // Жёсткая проверка: отсекаем пустоту и битые файлы
-        if (buf.byteLength < minSize || buf.byteLength > maxSize) {
-            console.warn(`⚠️ Медиафайл пропущен: неверный размер (${buf.byteLength} байт)`);
-            return null;
-        }
-
-        // Проверка заголовков файла (Magic Bytes)
-        if (!validateMediaSignature(buf, type)) {
-            return null;
-        }
+        if (buf.byteLength < minSize || buf.byteLength > maxSize) return null;
+        if (!validateMediaSignature(buf, type)) return null;
 
         return {
             type,
@@ -502,7 +485,6 @@ async function downloadMedia(url, type) {
     }
 }
 
-// Отбор качественного фото статьи (без плашек соцсетей и логотипов)
 function extractCleanImage(html) {
     for (const m of html.matchAll(/<img\b[^>]*?(?:src|data-src)=["']([^"']+)["'][^>]*>/gi)) {
         const u = m[1];
@@ -541,9 +523,6 @@ function extractVideoFromArticleHtml(html) {
     return directMatches.filter((u) => u.includes(".mp4") || u.includes(".m3u8") || u.includes("vk.com") || u.includes("rutube.ru"));
 }
 
-// ============================================================
-// MEDIA RELEVANCE CHECK
-// ============================================================
 function isContextMatching(title, context) {
     const titleRoots = extractKeyRoots(title);
     const contextRoots = new Set(extractKeyRoots(context));
@@ -582,12 +561,14 @@ async function searchVerifiedTelegramVideo(newsTitle) {
 }
 
 // ============================================================
-// EDITORIAL & AI (Формат «Прямой эфир»)
+// EDITORIAL & AI (Фильтр дайджестов и формат «Прямой эфир»)
 // ============================================================
 const TRIVIAL_GARBAGE = [
     /(?:сарай|баня|гараж|мусор|трава|бытовка)\s+(?:сгорел|загорел)/i,
     /(?:столкнулись\s+(?:две|три)\s+легковушки|мелкое\s+дтп|притерлись)/i,
     /(?:гороскоп|курс\s+валют|погода\s+на|афиша|обзор\s+цен|как\s+сэкономить)/i,
+    // Блокировка подборок и дайджестов мировых СМИ:
+    /(?:что\s+пишут\s+мировые\s+сми|дайджест|главное\s+к\s+этому\s+часу|обзор\s+прессы|картина\s+дня|главные\s+новости\s+к)/i,
 ];
 
 function evaluateNewsItem(item) {
@@ -616,9 +597,10 @@ async function callAI(item) {
 ЗАГОЛОВОК: ${item.title}
 СУТЬ: ${item.description}
 
-ПРАВИЛА:
-1. Заголовок (headline): короткий, мощный, передаёт суть события.
-2. Текст (text): строго 1–2 динамичных предложения. Никаких водных фраз ("как стало известно", "сообщается") и списков.
+СТРОГИЕ ПРАВИЛА:
+1. ОДИН ПОСТ = ОДНО СОБЫТИЕ. Если в исходных данных дайджест, подборка или перечисление разных тем, выбери ТОЛЬКО ПЕРВОЕ главное событие из заголовка. Полностью проигнорируй остальные темы.
+2. Заголовок (headline): короткий, мощный, передаёт суть только этого одного события.
+3. Текст (text): строго 1–2 динамичных предложения. Без списков и без вводных фраз.
 Верни ТОЛЬКО JSON: {"headline": "...", "text": "..."}
 `;
 
@@ -638,9 +620,13 @@ async function callAI(item) {
         } catch {}
     }
 
+    // Фоллбек: берём только заголовок и самое первое предложение описания
+    const cleanDesc = stripHtml(item.description);
+    const firstSentence = cleanDesc.split(/[.!?]\s/)[0] || cleanDesc;
+
     return {
         headline: stripHtml(item.title).replace(/\s+-\s+.*$/, ""),
-        text: stripHtml(item.description).slice(0, 250) + "…",
+        text: firstSentence.slice(0, 180) + ".",
     };
 }
 
@@ -702,7 +688,7 @@ function buildPostMessage(headline, text, sourceUrl, sourceName) {
 // MAIN PIPELINE
 // ============================================================
 async function run() {
-    console.log("=== Запуск новостного пайплайна ФАКТОР (Live Speed v9) ===");
+    console.log("=== Запуск новостного пайплайна ФАКТОР (Live Speed v10) ===");
     const now = Date.now();
 
     const lastUrgent = (await kv.get(["factor", "last_urgent"])).value ?? 0;
@@ -769,7 +755,6 @@ async function run() {
                         }
                     }
 
-                    // Чистое фото статьи (с проверкой сигнатур)
                     if (!selectedMedia) {
                         const cleanImg = extractCleanImage(html);
                         if (cleanImg && isHttpUrl(cleanImg) && !isGoogleAsset(cleanImg)) {
@@ -780,7 +765,7 @@ async function run() {
             } catch {}
         }
 
-        // 2. Глубокий поиск видео очевидцев в Telegram
+        // 2. Поиск проверенного видео в Telegram
         if (!selectedMedia || selectedMedia.type !== "video") {
             const tgVideo = await searchVerifiedTelegramVideo(item.title);
             if (tgVideo) {
@@ -817,7 +802,6 @@ async function run() {
         } catch (err) {
             console.error("Ошибка при публикации с медиа, пробуем чистый текст:", err);
             try {
-                // Если медиафайл вызвал ошибку — отправляем без вложений, чистым текстом
                 await publishToMax(postText);
                 await kv.set(["factor", "published", hash], true, { expireIn: HISTORY_TTL_MS });
                 await kv.set(
