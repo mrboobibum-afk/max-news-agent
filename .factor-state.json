@@ -32,7 +32,7 @@
         "factor",
         "last_urgent"
       ],
-      "value": 1791453946723,
+      "value": 1791454266921,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"4aa61af2633c5fed40cebea96de68e39d8c4d97e99a8a3a751b34d5ca32bef5c\"]": {
@@ -262,6 +262,40 @@
         ]
       },
       "expiresAt": 1791626765000
+    },
+    "[\"factor\",\"published\",\"f682471af58a9beb28202ee2b05f1126b5d8e4e02f47d20bd0ab90efe77d3124\"]": {
+      "key": [
+        "factor",
+        "published",
+        "f682471af58a9beb28202ee2b05f1126b5d8e4e02f47d20bd0ab90efe77d3124"
+      ],
+      "value": true,
+      "expiresAt": 1791627096353
+    },
+    "[\"factor\",\"published_topic\",\"f682471af58a9beb28202ee2b05f1126b5d8e4e02f47d20bd0ab90efe77d3124\"]": {
+      "key": [
+        "factor",
+        "published_topic",
+        "f682471af58a9beb28202ee2b05f1126b5d8e4e02f47d20bd0ab90efe77d3124"
+      ],
+      "value": {
+        "title": "Трамп отверг одну из версий вокруг ситуации в Иркутской области: Политика: Мир - https://lenta.news/",
+        "roots": [
+          "трамп",
+          "отвер",
+          "одну",
+          "верси",
+          "вокру",
+          "ситуа",
+          "иркут",
+          "облас",
+          "полит",
+          "https",
+          "lenta",
+          "news"
+        ]
+      },
+      "expiresAt": 1791627096354
     }
   }
 }
