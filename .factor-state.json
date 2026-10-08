@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791473360912,
+      "value": 1791473675742,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -603,6 +603,38 @@
         ]
       },
       "expiresAt": 1791732574246
+    },
+    "[\"factor\",\"pub\",\"084eeb47541f0db6eb345bede7abfa6ee304e58f7436e07f64ce22102956a677\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "084eeb47541f0db6eb345bede7abfa6ee304e58f7436e07f64ce22102956a677"
+      ],
+      "value": true,
+      "expiresAt": 1791732886633
+    },
+    "[\"factor\",\"topic\",\"084eeb47541f0db6eb345bede7abfa6ee304e58f7436e07f64ce22102956a677\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "084eeb47541f0db6eb345bede7abfa6ee304e58f7436e07f64ce22102956a677"
+      ],
+      "value": {
+        "title": "50 тысяч рублей даёт Альфа-Банк, если предложить троим друзьям открыть счёт для бизнеса ",
+        "roots": [
+          "тысяч",
+          "рубле",
+          "альфа",
+          "банк",
+          "если",
+          "предл",
+          "троим",
+          "друзь",
+          "откры",
+          "бизне"
+        ]
+      },
+      "expiresAt": 1791732886633
     }
   }
 }
