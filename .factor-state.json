@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791472096846,
+      "value": 1791472413893,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -481,6 +481,37 @@
         ]
       },
       "expiresAt": 1791731312061
+    },
+    "[\"factor\",\"pub\",\"700c32aa1552048a649bbea910b954f2257053a1bb19b0d04ca0cfae709e3b7b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "700c32aa1552048a649bbea910b954f2257053a1bb19b0d04ca0cfae709e3b7b"
+      ],
+      "value": true,
+      "expiresAt": 1791731625719
+    },
+    "[\"factor\",\"topic\",\"700c32aa1552048a649bbea910b954f2257053a1bb19b0d04ca0cfae709e3b7b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "700c32aa1552048a649bbea910b954f2257053a1bb19b0d04ca0cfae709e3b7b"
+      ],
+      "value": {
+        "title": "Зеленский потребовал от Трампа дать Украине Starlink и «закрыть России экономику» ",
+        "roots": [
+          "зелен",
+          "потре",
+          "трамп",
+          "дать",
+          "украи",
+          "starl",
+          "закры",
+          "росси",
+          "эконо"
+        ]
+      },
+      "expiresAt": 1791731625720
     }
   }
 }
