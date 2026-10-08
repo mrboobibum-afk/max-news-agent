@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791464138051,
+      "value": 1791464780161,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -203,8 +203,8 @@
         "factor",
         "last_domain"
       ],
-      "value": "expertsouth.ru",
-      "expiresAt": 1791468078638
+      "value": "tasnimnews.ir",
+      "expiresAt": 1791468394115
     },
     "[\"factor\",\"published\",\"a12e6d038e0655ae02113d66c5ec9493fed5217f23e8474488086dc0c80629c1\"]": {
       "key": [
@@ -235,6 +235,34 @@
         ]
       },
       "expiresAt": 1791637278638
+    },
+    "[\"factor\",\"published\",\"c2c4bb648d4223012f8cb2d236f9b6b3c711620887969f6899018a449bd97246\"]": {
+      "key": [
+        "factor",
+        "published",
+        "c2c4bb648d4223012f8cb2d236f9b6b3c711620887969f6899018a449bd97246"
+      ],
+      "value": true,
+      "expiresAt": 1791637594114
+    },
+    "[\"factor\",\"published_topic\",\"c2c4bb648d4223012f8cb2d236f9b6b3c711620887969f6899018a449bd97246\"]": {
+      "key": [
+        "factor",
+        "published_topic",
+        "c2c4bb648d4223012f8cb2d236f9b6b3c711620887969f6899018a449bd97246"
+      ],
+      "value": {
+        "title": "Абдоллахи: Ненависть к сионистскому режиму в США достигла более 50% - تسنیم",
+        "roots": [
+          "абдол",
+          "ненав",
+          "сиони",
+          "режим",
+          "дости",
+          "более"
+        ]
+      },
+      "expiresAt": 1791637594115
     }
   }
 }
