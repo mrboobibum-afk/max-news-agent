@@ -32,7 +32,7 @@
         "factor",
         "last_urgent"
       ],
-      "value": 1791452591976,
+      "value": 1791452943291,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"4aa61af2633c5fed40cebea96de68e39d8c4d97e99a8a3a751b34d5ca32bef5c\"]": {
@@ -137,6 +137,38 @@
         ]
       },
       "expiresAt": 1791625412496
+    },
+    "[\"factor\",\"published\",\"d0d7ef5cc55f88eeb2ace55198bb64a1c2df2954eda8995e04a819deaafbf273\"]": {
+      "key": [
+        "factor",
+        "published",
+        "d0d7ef5cc55f88eeb2ace55198bb64a1c2df2954eda8995e04a819deaafbf273"
+      ],
+      "value": true,
+      "expiresAt": 1791625780599
+    },
+    "[\"factor\",\"published_topic\",\"d0d7ef5cc55f88eeb2ace55198bb64a1c2df2954eda8995e04a819deaafbf273\"]": {
+      "key": [
+        "factor",
+        "published_topic",
+        "d0d7ef5cc55f88eeb2ace55198bb64a1c2df2954eda8995e04a819deaafbf273"
+      ],
+      "value": {
+        "title": "Часть сервисов «Яндекса» работают с перебоями из-за пожара в центре обработки данных под Рязанью - BFM.ru",
+        "roots": [
+          "часть",
+          "серви",
+          "яндек",
+          "работ",
+          "переб",
+          "пожар",
+          "центр",
+          "обраб",
+          "данны",
+          "рязан"
+        ]
+      },
+      "expiresAt": 1791625780600
     }
   }
 }
