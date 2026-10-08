@@ -3031,7 +3031,7 @@
         "factor",
         "last_urgent"
       ],
-      "value": 1791444384570,
+      "value": 1791450383839,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"fc44bd627732507d8cd7132c3aa66d0e97d92e6b47e72ac5a5886e905748f635\"]": {
@@ -3256,6 +3256,32 @@
         ]
       },
       "expiresAt": 1791617201718
+    },
+    "[\"factor\",\"published\",\"053330c04f7b17825a06d737245fff37336d3d4253924a4803a700cf42ffe632\"]": {
+      "key": [
+        "factor",
+        "published",
+        "053330c04f7b17825a06d737245fff37336d3d4253924a4803a700cf42ffe632"
+      ],
+      "value": true,
+      "expiresAt": 1791623206001
+    },
+    "[\"factor\",\"published_topic\",\"053330c04f7b17825a06d737245fff37336d3d4253924a4803a700cf42ffe632\"]": {
+      "key": [
+        "factor",
+        "published_topic",
+        "053330c04f7b17825a06d737245fff37336d3d4253924a4803a700cf42ffe632"
+      ],
+      "value": {
+        "title": "В ФСБ пообещали «могнуть» нарушителей закона. Видео - 66.RU",
+        "roots": [
+          "пообе",
+          "могну",
+          "наруш",
+          "закон"
+        ]
+      },
+      "expiresAt": 1791623206003
     }
   }
 }
