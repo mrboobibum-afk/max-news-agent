@@ -32,7 +32,7 @@
         "factor",
         "last_urgent"
       ],
-      "value": 1791463807475,
+      "value": 1791464455348,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"4aa61af2633c5fed40cebea96de68e39d8c4d97e99a8a3a751b34d5ca32bef5c\"]": {
@@ -203,8 +203,38 @@
         "factor",
         "last_domain"
       ],
-      "value": "russia.ru",
-      "expiresAt": 1791467753523
+      "value": "expertsouth.ru",
+      "expiresAt": 1791468078638
+    },
+    "[\"factor\",\"published\",\"a12e6d038e0655ae02113d66c5ec9493fed5217f23e8474488086dc0c80629c1\"]": {
+      "key": [
+        "factor",
+        "published",
+        "a12e6d038e0655ae02113d66c5ec9493fed5217f23e8474488086dc0c80629c1"
+      ],
+      "value": true,
+      "expiresAt": 1791637278637
+    },
+    "[\"factor\",\"published_topic\",\"a12e6d038e0655ae02113d66c5ec9493fed5217f23e8474488086dc0c80629c1\"]": {
+      "key": [
+        "factor",
+        "published_topic",
+        "a12e6d038e0655ae02113d66c5ec9493fed5217f23e8474488086dc0c80629c1"
+      ],
+      "value": {
+        "title": "В Краснодаре загорелось одно из предприятий из-за падения обломков БПЛА - Эксперт ЮГ",
+        "roots": [
+          "красн",
+          "загор",
+          "одно",
+          "предп",
+          "паден",
+          "облом",
+          "бпла",
+          "экспе"
+        ]
+      },
+      "expiresAt": 1791637278638
     }
   }
 }
