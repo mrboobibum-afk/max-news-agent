@@ -2,7 +2,8 @@ name: FAKTOR Auto
 
 on:
   schedule:
-    - cron: "*/30 * * * *"
+    # Запуск новой смены каждый час
+    - cron: "0 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -10,12 +11,12 @@ permissions:
 
 concurrency:
   group: faktor-pipeline-v2
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 60
 
     steps:
       - name: Checkout
@@ -35,8 +36,8 @@ jobs:
         with:
           deno-version: v2.x
 
-      - name: Run FAKTOR Loop
-        timeout-minutes: 30
+      - name: Run FAKTOR 50-Min Loop
+        timeout-minutes: 55
         env:
           GITHUB_ACTIONS: "true"
           MAX_BOT_TOKEN: ${{ secrets.MAX_BOT_TOKEN }}
@@ -53,10 +54,10 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          for i in {1..5}; do
-            echo "=== Итерация $i из 5: $(date -u +%Y-%m-%dT%H:%M:%SZ) ==="
+          # 10 итераций по 5 минут = ~50 минут непрерывного эфира
+          for i in {1..10}; do
+            echo "=== Итерация $i из 10: $(date -u +%Y-%m-%dT%H:%M:%SZ) ==="
 
-            # 1. Запуск агента
             deno run \
               --v8-flags=--max-old-space-size=6144 \
               --allow-net \
@@ -66,19 +67,16 @@ jobs:
               --allow-run \
               agent.ts || true
 
-            # 2. Безопасное сохранение состояния без конфликтов
             if [ -f .factor-state.json ]; then
               git add .factor-state.json
               if ! git diff --staged --quiet; then
                 git commit -m "chore: sync state [skip ci]" || true
-                
-                # Забираем свежие изменения и разрешаем любые споры в пользу нашей базы
                 git pull origin main --rebase -X theirs || true
                 git push origin HEAD:main || true
               fi
             fi
 
-            if [ $i -lt 5 ]; then
+            if [ $i -lt 10 ]; then
               echo "Пауза 300 секунд..."
               sleep 300
             fi
@@ -86,5 +84,5 @@ jobs:
 
       - name: Finish
         if: ${{ always() }}
-        run: echo "Завершено."
+        run: echo "Часовая смена вещания завершена."
         
