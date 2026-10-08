@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791470365348,
+      "value": 1791470688740,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -339,6 +339,34 @@
         ]
       },
       "expiresAt": 1791729584941
+    },
+    "[\"factor\",\"pub\",\"820bf05211ffc8b25ad88ff1f9cc102751e5181c413e790b3e734527591eeefc\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "820bf05211ffc8b25ad88ff1f9cc102751e5181c413e790b3e734527591eeefc"
+      ],
+      "value": true,
+      "expiresAt": 1791729907871
+    },
+    "[\"factor\",\"topic\",\"820bf05211ffc8b25ad88ff1f9cc102751e5181c413e790b3e734527591eeefc\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "820bf05211ffc8b25ad88ff1f9cc102751e5181c413e790b3e734527591eeefc"
+      ],
+      "value": {
+        "title": "РЭЦ организовал клиентскую сессию для экспортеров в Санкт-Петербурге",
+        "roots": [
+          "орган",
+          "клиен",
+          "сесси",
+          "экспо",
+          "санкт",
+          "петер"
+        ]
+      },
+      "expiresAt": 1791729907872
     }
   }
 }
