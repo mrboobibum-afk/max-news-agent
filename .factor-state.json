@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791466625350,
+      "value": 1791468718566,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -167,6 +167,35 @@
         ]
       },
       "expiresAt": 1791641216904
+    },
+    "[\"factor\",\"pub\",\"d63e0fde847af2f379e5c50c697408994abf1af773b4afabb4e5aa332f80554e\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d63e0fde847af2f379e5c50c697408994abf1af773b4afabb4e5aa332f80554e"
+      ],
+      "value": true,
+      "expiresAt": 1791727938841
+    },
+    "[\"factor\",\"topic\",\"d63e0fde847af2f379e5c50c697408994abf1af773b4afabb4e5aa332f80554e\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d63e0fde847af2f379e5c50c697408994abf1af773b4afabb4e5aa332f80554e"
+      ],
+      "value": {
+        "title": "Эстонец с валютой прорвался на КПП через пограничников и сбежал в Россию",
+        "roots": [
+          "эстон",
+          "валют",
+          "прорв",
+          "через",
+          "погра",
+          "сбежа",
+          "росси"
+        ]
+      },
+      "expiresAt": 1791727938842
     }
   }
 }
