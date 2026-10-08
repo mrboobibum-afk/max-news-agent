@@ -32,7 +32,7 @@
         "factor",
         "last_urgent"
       ],
-      "value": 1791462209670,
+      "value": 1791462527624,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"4aa61af2633c5fed40cebea96de68e39d8c4d97e99a8a3a751b34d5ca32bef5c\"]": {
@@ -167,6 +167,37 @@
         ]
       },
       "expiresAt": 1791635026266
+    },
+    "[\"factor\",\"published\",\"e752d3e4142c9b9fe68d8e89249c24b465f26673522e0bba4c45ea7753f53e15\"]": {
+      "key": [
+        "factor",
+        "published",
+        "e752d3e4142c9b9fe68d8e89249c24b465f26673522e0bba4c45ea7753f53e15"
+      ],
+      "value": true,
+      "expiresAt": 1791635347685
+    },
+    "[\"factor\",\"published_topic\",\"e752d3e4142c9b9fe68d8e89249c24b465f26673522e0bba4c45ea7753f53e15\"]": {
+      "key": [
+        "factor",
+        "published_topic",
+        "e752d3e4142c9b9fe68d8e89249c24b465f26673522e0bba4c45ea7753f53e15"
+      ],
+      "value": {
+        "title": "Песков заявил, что Трамп не поздравил Путина телеграммой с днем рождения - Интерфакс",
+        "roots": [
+          "песко",
+          "заяви",
+          "трамп",
+          "поздр",
+          "путин",
+          "телег",
+          "днем",
+          "рожде",
+          "интер"
+        ]
+      },
+      "expiresAt": 1791635347685
     }
   }
 }
