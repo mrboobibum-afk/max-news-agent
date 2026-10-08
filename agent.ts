@@ -1,11 +1,13 @@
 // ============================================================
-// MAX NEWS AGENT — ФАКТОР (Direct Live Edition v5)
+// MAX NEWS AGENT — ФАКТОР (Universal Video Edition v7)
 // GITHUB ACTIONS RUNTIME
 // ============================================================
-// Сетка вещания «Прямого эфира»:
-//   - Срочные / Резонанс: от 3 минут
-//   - Обычные события: от 8 до 10 минут
-//   - Приоритет медиа: ВИДЕО СО СТРАНИЦЫ -> ВИДЕО TG -> ФОТО -> ТЕКСТ
+// Особенности:
+//   - Загрузка видео через yt-dlp (VK, RuTube, СМИ, открытый веб)
+//   - Глубокий поиск видео в публичных Telegram-каналах (до 40 постов)
+//   - Жёсткий фильтр возраста новостей (не старше 12 часов)
+//   - Сетка вещания: 3 мин (молнии), 8 мин (обычные)
+//   - Приоритет медиа: ВИДЕО (yt-dlp / прямые ссылки) -> ФОТО -> ТЕКСТ
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -16,10 +18,10 @@ const DASHSCOPE_API_KEY = Deno.env.get("DASHSCOPE_API_KEY") ?? "";
 const QWEN_MODEL = Deno.env.get("QWEN_MODEL") ?? "qwen3.8-max";
 const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyuncs.com/compatible-mode/v1";
 
-// Плотный темп вещания
 const URGENT_INTERVAL_MS = 3 * 60 * 1000;      // 3 минуты для молний
 const REGULAR_INTERVAL_MS = 8 * 60 * 1000;     // 8 минут для обычной повестки
 const HISTORY_TTL_MS = 30 * 24 * 60 * 60 * 1000;
+const MAX_NEWS_AGE_MS = 12 * 60 * 60 * 1000;   // Отсекать новости старше 12 часов
 
 const MAX_VIDEO_BYTES = Number(Deno.env.get("MAX_VIDEO_MB") ?? "50") * 1024 * 1024;
 const MAX_IMAGE_BYTES = Number(Deno.env.get("MAX_IMAGE_MB") ?? "15") * 1024 * 1024;
@@ -151,7 +153,7 @@ async function sha256(value) {
 }
 
 function extractKeyRoots(text) {
-    const stopWords = new Set(["россия", "москва", "сегодня", "вчера", "стало", "известно", "сообщили", "после", "видео", "кадры", "новость"]);
+    const stopWords = new Set(["россия", "москва", "сегодня", "вчера", "стало", "известно", "сообщили", "после", "видео", "кадры", "новость", "своей"]);
     return normalizeForHash(text)
         .split(" ")
         .filter((w) => w.length >= 4 && !stopWords.has(w))
@@ -269,6 +271,8 @@ async function resolveArticleUrl(item) {
 function parseRSS(xml, feed) {
     const items = [];
     const matches = xml.match(/<item\b[\s\S]*?<\/item>/gi) ?? [];
+    const now = Date.now();
+
     for (const itemXml of matches.slice(0, RSS_LIMIT_PER_FEED)) {
         const titleMatch = itemXml.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i);
         const linkMatch = itemXml.match(/<link\b[^>]*>([\s\S]*?)<\/link>/i);
@@ -277,13 +281,21 @@ function parseRSS(xml, feed) {
 
         const title = cleanText(titleMatch?.[1]);
         const link = cleanText(linkMatch?.[1]);
+        const pubDateRaw = cleanText(dateMatch?.[1]);
+        const pubTimestamp = Date.parse(pubDateRaw) || now;
+
+        // Отсекаем новости старше 12 часов
+        if (now - pubTimestamp > MAX_NEWS_AGE_MS) {
+            continue;
+        }
+
         if (!title || !link) continue;
 
         items.push({
             title,
             link,
             description: cleanText(descMatch?.[1]),
-            pubDate: cleanText(dateMatch?.[1]),
+            pubDate: pubDateRaw,
             category: feed.category,
             source: feed.category,
         });
@@ -302,8 +314,50 @@ async function loadRSS(feed) {
 }
 
 // ============================================================
-// MEDIA DOWNLOAD (FFmpeg & Safe Fetch)
+// YT-DLP & DIRECT VIDEO DOWNLOADER
 // ============================================================
+// Загрузка через yt-dlp для любых платформ (VK, RuTube, СМИ, плееры)
+async function downloadWithYtDlp(targetUrl) {
+    if (!isHttpUrl(targetUrl) || isGoogleAsset(targetUrl)) return null;
+    let tempPath = "";
+    try {
+        tempPath = await Deno.makeTempFile({ suffix: ".mp4" });
+        const command = new Deno.Command("yt-dlp", {
+            args: [
+                "--no-warnings",
+                "--quiet",
+                "-f", "mp4/bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best",
+                "--max-filesize", `${MAX_VIDEO_BYTES}`,
+                "-o", tempPath,
+                targetUrl,
+            ],
+            stdout: "null",
+            stderr: "piped",
+        });
+
+        const res = await command.output();
+        if (!res.success) return null;
+
+        const stat = await Deno.stat(tempPath);
+        if (!stat.size || stat.size > MAX_VIDEO_BYTES) return null;
+
+        return {
+            type: "video",
+            bytes: await Deno.readFile(tempPath),
+            contentType: "video/mp4",
+            extension: "mp4",
+            sourceUrl: targetUrl,
+        };
+    } catch {
+        return null;
+    } finally {
+        if (tempPath) {
+            try { await Deno.remove(tempPath); } catch {}
+        }
+    }
+}
+
+// Загрузка HLS потоков через ffmpeg
 async function downloadHlsVideo(url) {
     let tempPath = "";
     try {
@@ -331,7 +385,13 @@ async function downloadHlsVideo(url) {
 
 async function downloadMedia(url, type) {
     if (!url || !isHttpUrl(url) || isGoogleAsset(url)) return null;
-    if (type === "video" && /\.m3u8(?:[?#]|$)/i.test(url)) return await downloadHlsVideo(url);
+
+    if (type === "video") {
+        if (/\.m3u8(?:[?#]|$)/i.test(url)) return await downloadHlsVideo(url);
+        // Пробуем универсальный загрузчик yt-dlp для любых веб-плееров
+        const ytdlpResult = await downloadWithYtDlp(url);
+        if (ytdlpResult) return ytdlpResult;
+    }
 
     try {
         const res = await fetch(url, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(type === "video" ? 35000 : 15000) });
@@ -352,29 +412,25 @@ async function downloadMedia(url, type) {
     }
 }
 
-// Поиск видео прямо в HTML коде статьи СМИ
-function extractVideoFromArticleHtml(html, baseUrl) {
+function extractVideoFromArticleHtml(html) {
     const directMatches = [];
-    // 1. Теги <video> и <source>
     for (const m of html.matchAll(/<(?:video|source)\b[^>]*?(?:src|data-src|data-video)=["']([^"']+)["']/gi)) {
         const u = m[1];
         if (isHttpUrl(u) && !isGoogleAsset(u)) directMatches.push(u);
     }
-    // 2. og:video
     const ogVideo = html.match(/<meta[^>]+(?:property|name)=["']og:video(?::url)?["'][^>]+content=["']([^"']+)["']/i)?.[1];
     if (ogVideo && isHttpUrl(ogVideo) && !isGoogleAsset(ogVideo)) directMatches.push(ogVideo);
 
-    // 3. Встроенные конфигурации плееров
     for (const m of html.matchAll(/["'](?:video_url|videoUrl|file|stream|hls|m3u8)["']\s*:\s*["']([^"']+)["']/gi)) {
         const u = m[1].replace(/\\\//g, "/");
         if (isHttpUrl(u) && !isGoogleAsset(u)) directMatches.push(u);
     }
 
-    return directMatches.filter((u) => u.includes(".mp4") || u.includes(".m3u8"));
+    return directMatches.filter((u) => u.includes(".mp4") || u.includes(".m3u8") || u.includes("vk.com") || u.includes("rutube.ru"));
 }
 
 // ============================================================
-// MEDIA RELEVANCE CHECK
+// MEDIA RELEVANCE CHECK (Поиск в публичных Telegram-каналах)
 // ============================================================
 function isContextMatching(title, context) {
     const titleRoots = extractKeyRoots(title);
@@ -393,8 +449,9 @@ async function searchVerifiedTelegramVideo(newsTitle) {
             if (!res.ok) continue;
             const html = await res.text();
 
+            // Проверяем последние 40 постов
             const postBlocks = html.match(/<div class="tgme_widget_message_wrap[\s\S]*?(?=<div class="tgme_widget_message_wrap|$)/gi) ?? [];
-            for (const block of postBlocks.slice(-15).reverse()) {
+            for (const block of postBlocks.slice(-40).reverse()) {
                 const textMatch = block.match(/<div class="tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/i);
                 const caption = textMatch ? cleanText(textMatch[1]) : "";
                 if (!caption || !isContextMatching(newsTitle, caption)) continue;
@@ -429,7 +486,7 @@ function evaluateNewsItem(item) {
     let score = 20;
     let urgent = false;
 
-    if (/(?:путин|госдума|указ|закон|взрыв|атака|крушение|катастрофа|чп|эвакуация|землетрясение|теракт)/i.test(text)) {
+    if (/(?:путин|госдума|указ|закон|взрыв|атака|крушение|катастрофа|чп|эвакуация|землетрясение|теракт|танкер)/i.test(text)) {
         score += 50;
         urgent = true;
     }
@@ -534,7 +591,7 @@ function buildPostMessage(headline, text, sourceUrl, sourceName) {
 // MAIN PIPELINE
 // ============================================================
 async function run() {
-    console.log("=== Запуск новостного пайплайна ФАКТОР (Live Speed v5) ===");
+    console.log("=== Запуск новостного пайплайна ФАКТОР (Live Speed v7) ===");
     const now = Date.now();
 
     const lastUrgent = (await kv.get(["factor", "last_urgent"])).value ?? 0;
@@ -552,13 +609,11 @@ async function run() {
     const feedsData = await Promise.all(RSS_FEEDS.map(loadRSS));
     const allItems = feedsData.flat().slice(0, MAX_RSS_ITEMS);
 
-    // 1. Фильтрация от мусора и оценка
     const evaluated = allItems
         .map(evaluateNewsItem)
         .filter((c) => c.score > 0)
         .filter((c) => (c.urgent ? urgentAllowed : regularAllowed));
 
-    // 2. ОТСЕЧЕНИЕ УЖЕ ОПУБЛИКОВАННОГО ДО ОБРЕЗКИ СПИСКА (устраняет 4-часовой застой)
     const freshCandidates = [];
     for (const cand of evaluated) {
         const itemHash = await sha256(normalizeForHash(cand.item.title));
@@ -576,13 +631,13 @@ async function run() {
         const realArticleUrl = await resolveArticleUrl(item);
         let selectedMedia = null;
 
-        // ШАГ 1: Поиск видео прямо на сайте первоисточника статьи
+        // 1. Поиск видео на странице статьи (прямые ссылки или yt-dlp)
         if (realArticleUrl) {
             try {
                 const res = await fetch(realArticleUrl, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(10000) });
                 if (res.ok) {
                     const html = await res.text();
-                    const articleVideos = extractVideoFromArticleHtml(html, realArticleUrl);
+                    const articleVideos = extractVideoFromArticleHtml(html);
                     for (const vUrl of articleVideos) {
                         const downloaded = await downloadMedia(vUrl, "video");
                         if (downloaded) {
@@ -592,7 +647,16 @@ async function run() {
                         }
                     }
 
-                    // Если видео на сайте нет, сохраняем ссылку на фото статьи
+                    // Если видео нет, пробуем получить исходную страницу через yt-dlp напрямую
+                    if (!selectedMedia) {
+                        const directPageVideo = await downloadWithYtDlp(realArticleUrl);
+                        if (directPageVideo) {
+                            console.log(`✅ yt-dlp извлек видео со страницы статьи`);
+                            selectedMedia = directPageVideo;
+                        }
+                    }
+
+                    // Если видео так и не найдено, сохраняем фото статьи
                     if (!selectedMedia) {
                         const ogImg = html.match(/<meta[^>]+(?:property|name)=["']og:image["'][^>]+content=["']([^"']+)["']/i)?.[1];
                         if (ogImg && isHttpUrl(ogImg) && !isGoogleAsset(ogImg)) {
@@ -603,7 +667,7 @@ async function run() {
             } catch {}
         }
 
-        // ШАГ 2: Если видео не найдено на сайте статьи, ищем в открытых Telegram-каналах
+        // 2. Глубокий поиск видео очевидцев в Telegram
         if (!selectedMedia || selectedMedia.type !== "video") {
             const tgVideo = await searchVerifiedTelegramVideo(item.title);
             if (tgVideo) {
@@ -611,7 +675,7 @@ async function run() {
             }
         }
 
-        // ШАГ 3: Формирование чистого текста поста
+        // 3. Формирование текста поста
         const postData = await callAI(item);
         const postText = buildPostMessage(postData.headline, postData.text, realArticleUrl, item.source);
 
