@@ -212,7 +212,7 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
 
                 for (const media of mediaUrls) {
                     liveItems.push({ title: firstSentence.slice(0, 90), desc: sanitized, mediaUrl: media.mediaUrl, mediaType: media.mediaType, sourceName: "Прямой эфир" });
-
+                }
             }
         } catch {}
     }
