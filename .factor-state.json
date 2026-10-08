@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791463515042,
+      "value": 1791464138051,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -167,6 +167,44 @@
         ]
       },
       "expiresAt": 1791636636365
+    },
+    "[\"factor\",\"published\",\"463b3177dea18c83b100cb130131393dea7c1ab7950849ae8a78748a61e75cee\"]": {
+      "key": [
+        "factor",
+        "published",
+        "463b3177dea18c83b100cb130131393dea7c1ab7950849ae8a78748a61e75cee"
+      ],
+      "value": true,
+      "expiresAt": 1791636953522
+    },
+    "[\"factor\",\"published_topic\",\"463b3177dea18c83b100cb130131393dea7c1ab7950849ae8a78748a61e75cee\"]": {
+      "key": [
+        "factor",
+        "published_topic",
+        "463b3177dea18c83b100cb130131393dea7c1ab7950849ae8a78748a61e75cee"
+      ],
+      "value": {
+        "title": "В Рязанской области открылся филиал Национального центра «Россия» - Национальный центр «Россия»",
+        "roots": [
+          "рязан",
+          "облас",
+          "откры",
+          "филиа",
+          "нацио",
+          "центр",
+          "нацио",
+          "центр"
+        ]
+      },
+      "expiresAt": 1791636953523
+    },
+    "[\"factor\",\"last_domain\"]": {
+      "key": [
+        "factor",
+        "last_domain"
+      ],
+      "value": "russia.ru",
+      "expiresAt": 1791467753523
     }
   }
 }
