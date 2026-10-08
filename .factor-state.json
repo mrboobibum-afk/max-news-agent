@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791469724732,
+      "value": 1791470045932,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -283,6 +283,32 @@
         ]
       },
       "expiresAt": 1791728943121
+    },
+    "[\"factor\",\"pub\",\"b94f56380a690f1b15127c068e4bbdf85c4c004bbd2a0c85a0d43854d5c3f5c6\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "b94f56380a690f1b15127c068e4bbdf85c4c004bbd2a0c85a0d43854d5c3f5c6"
+      ],
+      "value": true,
+      "expiresAt": 1791729263583
+    },
+    "[\"factor\",\"topic\",\"b94f56380a690f1b15127c068e4bbdf85c4c004bbd2a0c85a0d43854d5c3f5c6\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "b94f56380a690f1b15127c068e4bbdf85c4c004bbd2a0c85a0d43854d5c3f5c6"
+      ],
+      "value": {
+        "title": "Названы лучшие пляжи мира",
+        "roots": [
+          "назва",
+          "лучши",
+          "пляжи",
+          "мира"
+        ]
+      },
+      "expiresAt": 1791729263583
     }
   }
 }
