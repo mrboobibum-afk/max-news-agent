@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791465096040,
+      "value": 1791465651366,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -167,6 +167,42 @@
         ]
       },
       "expiresAt": 1791638149603
+    },
+    "[\"factor\",\"pub\",\"9df9364ffdf012d0fd539e41ef366888959ebf9697d29cb296ccea6818d3e7a6\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "9df9364ffdf012d0fd539e41ef366888959ebf9697d29cb296ccea6818d3e7a6"
+      ],
+      "value": true,
+      "expiresAt": 1791724874909
+    },
+    "[\"factor\",\"topic\",\"9df9364ffdf012d0fd539e41ef366888959ebf9697d29cb296ccea6818d3e7a6\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "9df9364ffdf012d0fd539e41ef366888959ebf9697d29cb296ccea6818d3e7a6"
+      ],
+      "value": {
+        "title": "В ГД призвали ликвидировать первопричины атак на территорию России",
+        "roots": [
+          "призв",
+          "ликви",
+          "перво",
+          "атак",
+          "терри",
+          "росси"
+        ]
+      },
+      "expiresAt": 1791724874910
+    },
+    "[\"factor\",\"last_source\"]": {
+      "key": [
+        "factor",
+        "last_source"
+      ],
+      "value": "Известия",
+      "expiresAt": 1791469274910
     }
   }
 }
