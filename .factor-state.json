@@ -3282,6 +3282,47 @@
         ]
       },
       "expiresAt": 1791623206003
+    },
+    "[\"factor\",\"published\",\"4aa61af2633c5fed40cebea96de68e39d8c4d97e99a8a3a751b34d5ca32bef5c\"]": {
+      "key": [
+        "factor",
+        "published",
+        "4aa61af2633c5fed40cebea96de68e39d8c4d97e99a8a3a751b34d5ca32bef5c"
+      ],
+      "value": true,
+      "expiresAt": 1791623525689
+    },
+    "[\"factor\",\"published_topic\",\"4aa61af2633c5fed40cebea96de68e39d8c4d97e99a8a3a751b34d5ca32bef5c\"]": {
+      "key": [
+        "factor",
+        "published_topic",
+        "4aa61af2633c5fed40cebea96de68e39d8c4d97e99a8a3a751b34d5ca32bef5c"
+      ],
+      "value": {
+        "title": "Рубио не видит в данный момент признаков скорого мирного решения конфликта на Украине - Интерфакс",
+        "roots": [
+          "рубио",
+          "видит",
+          "данны",
+          "момен",
+          "призн",
+          "скоро",
+          "мирно",
+          "решен",
+          "конфл",
+          "украи",
+          "интер"
+        ]
+      },
+      "expiresAt": 1791623525691
+    },
+    "[\"factor\",\"last_regular\"]": {
+      "key": [
+        "factor",
+        "last_regular"
+      ],
+      "value": 1791450707878,
+      "expiresAt": null
     }
   }
 }
