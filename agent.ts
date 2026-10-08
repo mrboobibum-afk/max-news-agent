@@ -1,6 +1,11 @@
 // ============================================================
-// MAX NEWS AGENT — ФАКТОР (Direct Live Edition v4)
+// MAX NEWS AGENT — ФАКТОР (Direct Live Edition v5)
 // GITHUB ACTIONS RUNTIME
+// ============================================================
+// Сетка вещания «Прямого эфира»:
+//   - Срочные / Резонанс: от 3 минут
+//   - Обычные события: от 8 до 10 минут
+//   - Приоритет медиа: ВИДЕО СО СТРАНИЦЫ -> ВИДЕО TG -> ФОТО -> ТЕКСТ
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -11,16 +16,16 @@ const DASHSCOPE_API_KEY = Deno.env.get("DASHSCOPE_API_KEY") ?? "";
 const QWEN_MODEL = Deno.env.get("QWEN_MODEL") ?? "qwen3.8-max";
 const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyuncs.com/compatible-mode/v1";
 
-const URGENT_INTERVAL_MS = 5 * 60 * 1000;
-const REGULAR_INTERVAL_MS = 25 * 60 * 1000;
+// Плотный темп вещания
+const URGENT_INTERVAL_MS = 3 * 60 * 1000;      // 3 минуты для молний
+const REGULAR_INTERVAL_MS = 8 * 60 * 1000;     // 8 минут для обычной повестки
 const HISTORY_TTL_MS = 30 * 24 * 60 * 60 * 1000;
 
 const MAX_VIDEO_BYTES = Number(Deno.env.get("MAX_VIDEO_MB") ?? "50") * 1024 * 1024;
 const MAX_IMAGE_BYTES = Number(Deno.env.get("MAX_IMAGE_MB") ?? "15") * 1024 * 1024;
 
-const RSS_LIMIT_PER_FEED = 35;
-const MAX_RSS_ITEMS = 350;
-const SCORE_CANDIDATES = 20;
+const RSS_LIMIT_PER_FEED = 40;
+const MAX_RSS_ITEMS = 400;
 
 const PUBLIC_TELEGRAM_VIDEO_CHANNELS = (Deno.env.get("PUBLIC_TELEGRAM_VIDEO_CHANNELS") ?? "shot_shot,mash,breakingmash,bazabazon,novosti_efir")
     .split(",")
@@ -103,7 +108,7 @@ class FileKV {
 const kv = new FileKV();
 
 // ============================================================
-// TEXT & HTML SANITIZATION (Полная очистка мусора Google News)
+// TEXT & HTML SANITIZATION
 // ============================================================
 function cleanText(value) {
     let text = String(value ?? "");
@@ -347,8 +352,29 @@ async function downloadMedia(url, type) {
     }
 }
 
+// Поиск видео прямо в HTML коде статьи СМИ
+function extractVideoFromArticleHtml(html, baseUrl) {
+    const directMatches = [];
+    // 1. Теги <video> и <source>
+    for (const m of html.matchAll(/<(?:video|source)\b[^>]*?(?:src|data-src|data-video)=["']([^"']+)["']/gi)) {
+        const u = m[1];
+        if (isHttpUrl(u) && !isGoogleAsset(u)) directMatches.push(u);
+    }
+    // 2. og:video
+    const ogVideo = html.match(/<meta[^>]+(?:property|name)=["']og:video(?::url)?["'][^>]+content=["']([^"']+)["']/i)?.[1];
+    if (ogVideo && isHttpUrl(ogVideo) && !isGoogleAsset(ogVideo)) directMatches.push(ogVideo);
+
+    // 3. Встроенные конфигурации плееров
+    for (const m of html.matchAll(/["'](?:video_url|videoUrl|file|stream|hls|m3u8)["']\s*:\s*["']([^"']+)["']/gi)) {
+        const u = m[1].replace(/\\\//g, "/");
+        if (isHttpUrl(u) && !isGoogleAsset(u)) directMatches.push(u);
+    }
+
+    return directMatches.filter((u) => u.includes(".mp4") || u.includes(".m3u8"));
+}
+
 // ============================================================
-// MEDIA RELEVANCE CHECK (Защита от чужих видео)
+// MEDIA RELEVANCE CHECK
 // ============================================================
 function isContextMatching(title, context) {
     const titleRoots = extractKeyRoots(title);
@@ -377,7 +403,7 @@ async function searchVerifiedTelegramVideo(newsTitle) {
                 if (videoMatch) {
                     const downloaded = await downloadMedia(videoMatch[0], "video");
                     if (downloaded) {
-                        console.log(`✅ Найдено подтверждённое видео (@${channel}): ${caption.slice(0, 50)}...`);
+                        console.log(`✅ Найдено видео в @${channel}: ${caption.slice(0, 50)}...`);
                         return downloaded;
                     }
                 }
@@ -444,7 +470,6 @@ async function callAI(item) {
         } catch {}
     }
 
-    // Надёжный фоллбек без HTML-мусора
     return {
         headline: stripHtml(item.title).replace(/\s+-\s+.*$/, ""),
         text: stripHtml(item.description).slice(0, 250) + "…",
@@ -509,7 +534,7 @@ function buildPostMessage(headline, text, sourceUrl, sourceName) {
 // MAIN PIPELINE
 // ============================================================
 async function run() {
-    console.log("=== Запуск новостного пайплайна ФАКТОР (Direct Live v4) ===");
+    console.log("=== Запуск новостного пайплайна ФАКТОР (Live Speed v5) ===");
     const now = Date.now();
 
     const lastUrgent = (await kv.get(["factor", "last_urgent"])).value ?? 0;
@@ -518,49 +543,75 @@ async function run() {
     const urgentAllowed = now - lastUrgent >= URGENT_INTERVAL_MS;
     const regularAllowed = now - lastRegular >= REGULAR_INTERVAL_MS;
 
-    console.log(`Интервалы: Молния=${urgentAllowed}, Обычные=${regularAllowed}`);
+    console.log(`Таймеры вещания: Молния=${urgentAllowed}, Обычные=${regularAllowed}`);
     if (!urgentAllowed && !regularAllowed) {
-        console.log("Интервал между публикациями не наступил.");
+        console.log("Интервал между публикациями ещё не истёк.");
         return;
     }
 
     const feedsData = await Promise.all(RSS_FEEDS.map(loadRSS));
     const allItems = feedsData.flat().slice(0, MAX_RSS_ITEMS);
 
-    const candidates = allItems
+    // 1. Фильтрация от мусора и оценка
+    const evaluated = allItems
         .map(evaluateNewsItem)
         .filter((c) => c.score > 0)
-        .filter((c) => (c.urgent ? urgentAllowed : regularAllowed))
-        .sort((a, b) => b.score - a.score)
-        .slice(0, SCORE_CANDIDATES);
+        .filter((c) => (c.urgent ? urgentAllowed : regularAllowed));
 
-    for (const { item, urgent } of candidates) {
-        const itemHash = await sha256(normalizeForHash(item.title));
+    // 2. ОТСЕЧЕНИЕ УЖЕ ОПУБЛИКОВАННОГО ДО ОБРЕЗКИ СПИСКА (устраняет 4-часовой застой)
+    const freshCandidates = [];
+    for (const cand of evaluated) {
+        const itemHash = await sha256(normalizeForHash(cand.item.title));
         const alreadyPub = await kv.get(["factor", "published", itemHash]);
-        if (alreadyPub.value) continue;
+        if (!alreadyPub.value) {
+            freshCandidates.push({ ...cand, hash: itemHash });
+        }
+        if (freshCandidates.length >= 25) break;
+    }
 
+    freshCandidates.sort((a, b) => b.score - a.score);
+
+    for (const { item, urgent, hash } of freshCandidates) {
         console.log(`\nОбработка: ${item.title}`);
         const realArticleUrl = await resolveArticleUrl(item);
         let selectedMedia = null;
 
-        // 1. Поиск строго подходящего видео в открытых TG-каналах
-        selectedMedia = await searchVerifiedTelegramVideo(item.title);
-
-        // 2. Если видео не найдено — берём прямое фото со страницы статьи (без логотипов Google)
-        if (!selectedMedia && realArticleUrl) {
+        // ШАГ 1: Поиск видео прямо на сайте первоисточника статьи
+        if (realArticleUrl) {
             try {
                 const res = await fetch(realArticleUrl, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(10000) });
                 if (res.ok) {
                     const html = await res.text();
-                    const ogImg = html.match(/<meta[^>]+(?:property|name)=["']og:image["'][^>]+content=["']([^"']+)["']/i)?.[1];
-                    if (ogImg && isHttpUrl(ogImg) && !isGoogleAsset(ogImg)) {
-                        selectedMedia = await downloadMedia(ogImg, "image");
+                    const articleVideos = extractVideoFromArticleHtml(html, realArticleUrl);
+                    for (const vUrl of articleVideos) {
+                        const downloaded = await downloadMedia(vUrl, "video");
+                        if (downloaded) {
+                            console.log(`✅ Найдено видео на сайте СМИ: ${vUrl}`);
+                            selectedMedia = downloaded;
+                            break;
+                        }
+                    }
+
+                    // Если видео на сайте нет, сохраняем ссылку на фото статьи
+                    if (!selectedMedia) {
+                        const ogImg = html.match(/<meta[^>]+(?:property|name)=["']og:image["'][^>]+content=["']([^"']+)["']/i)?.[1];
+                        if (ogImg && isHttpUrl(ogImg) && !isGoogleAsset(ogImg)) {
+                            selectedMedia = await downloadMedia(ogImg, "image");
+                        }
                     }
                 }
             } catch {}
         }
 
-        // 3. Формирование чистого текста поста
+        // ШАГ 2: Если видео не найдено на сайте статьи, ищем в открытых Telegram-каналах
+        if (!selectedMedia || selectedMedia.type !== "video") {
+            const tgVideo = await searchVerifiedTelegramVideo(item.title);
+            if (tgVideo) {
+                selectedMedia = tgVideo;
+            }
+        }
+
+        // ШАГ 3: Формирование чистого текста поста
         const postData = await callAI(item);
         const postText = buildPostMessage(postData.headline, postData.text, realArticleUrl, item.source);
 
@@ -574,7 +625,7 @@ async function run() {
             console.log("Публикация в MAX...");
             await publishToMax(postText, mediaToken, selectedMedia?.type || "image");
 
-            await kv.set(["factor", "published", itemHash], true, { expireIn: HISTORY_TTL_MS });
+            await kv.set(["factor", "published", hash], true, { expireIn: HISTORY_TTL_MS });
             if (urgent) await kv.set(["factor", "last_urgent"], now);
             else await kv.set(["factor", "last_regular"], now);
 
@@ -584,7 +635,7 @@ async function run() {
             console.error("Ошибка при публикации с медиа, пробуем чистый текст:", err);
             try {
                 await publishToMax(postText);
-                await kv.set(["factor", "published", itemHash], true, { expireIn: HISTORY_TTL_MS });
+                await kv.set(["factor", "published", hash], true, { expireIn: HISTORY_TTL_MS });
                 if (urgent) await kv.set(["factor", "last_urgent"], now);
                 else await kv.set(["factor", "last_regular"], now);
                 console.log(`✅ Опубликовано текстом: ${postData.headline}`);
