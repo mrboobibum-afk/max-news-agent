@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — ФАКТОР (Direct Live Edition v16)
+// MAX NEWS AGENT — ФАКТОР (Direct Live Edition v17)
 // GITHUB ACTIONS RUNTIME
 // ============================================================
 
@@ -16,7 +16,7 @@ const REGULAR_INTERVAL_MS = 5 * 60 * 1000;
 const HISTORY_TTL_MS = 48 * 60 * 60 * 1000;
 const MAX_NEWS_AGE_MS = 12 * 60 * 60 * 1000;
 
-const MIN_IMAGE_BYTES = 10 * 1024;
+const MIN_IMAGE_BYTES = 5 * 1024;
 const MIN_VIDEO_BYTES = 50 * 1024;
 const MAX_VIDEO_BYTES = Number(Deno.env.get("MAX_VIDEO_MB") ?? "50") * 1024 * 1024;
 const MAX_IMAGE_BYTES = Number(Deno.env.get("MAX_IMAGE_MB") ?? "15") * 1024 * 1024;
@@ -54,7 +54,7 @@ async function initMaxHttpClient() {
 }
 
 // ============================================================
-// RSS FEEDS (РАЗНООБРАЗНЫЕ ИСТОЧНИКИ)
+// RSS FEEDS (СБАЛАНСИРОВАННЫЕ ЛЕНТЫ)
 // ============================================================
 const RSS_FEEDS = [
     { category: "ГЛАВНОЕ", emoji: "⚡", url: "https://news.google.com/rss?hl=ru&gl=RU&ceid=RU:ru" },
@@ -121,7 +121,7 @@ class FileKV {
 const kv = new FileKV();
 
 // ============================================================
-// TEXT & HTML SANITIZATION
+// ТЕКСТОВАЯ ОЧИСТКА
 // ============================================================
 function cleanText(value: any): string {
     let text = String(value ?? "");
@@ -165,13 +165,17 @@ async function sha256(value: string): Promise<string> {
 }
 
 function extractKeyRoots(text: string): string[] {
-    const stopWords = new Set(["россия", "москва", "сегодня", "вчера", "стало", "известно", "сообщили", "после", "видео", "кадры", "новость", "своей", "словам"]);
+    const stopWords = new Set([
+        "россия", "москва", "сегодня", "вчера", "стало", "известно", "сообщили", 
+        "после", "видео", "кадры", "новость", "своей", "словам", "данный", "момент"
+    ]);
     return normalizeForHash(text)
         .split(" ")
         .filter((w) => w.length >= 4 && !stopWords.has(w))
         .map((w) => (w.length > 5 ? w.slice(0, 5) : w));
 }
 
+// Усиленный фильтр семантических дублей
 async function isSemanticallyDuplicate(title: string): Promise<boolean> {
     const currentRoots = extractKeyRoots(title);
     if (currentRoots.length === 0) return false;
@@ -183,18 +187,30 @@ async function isSemanticallyDuplicate(title: string): Promise<boolean> {
         for (const root of currentRoots) {
             if (prevSet.has(root)) overlap++;
         }
-        if (overlap >= 3 || (currentRoots.length <= 3 && overlap >= 2)) {
-            console.log(`⚠️ Отсеян смысловой повтор: "${title}" похожа на "${prev.title}"`);
+        // Если 2 и более ключевых корня совпали — это та же новость
+        if (overlap >= 2) {
+            console.log(`⚠️ Отсеян смысловой повтор: "${title}" похожа на "${prev.title}" (совпадений: ${overlap})`);
             return true;
         }
     }
     return false;
 }
 
-function sanitizeDescriptionText(desc: string): string {
+// Удаление следов склеенных заголовков и брендов СМИ
+function sanitizeDescriptionText(desc: string, title: string): string {
     let text = stripHtml(desc);
+
+    // Удаляем повтор самого заголовка из начала описания, если RSS его дублирует
+    const cleanT = stripHtml(title);
+    if (text.toLowerCase().startsWith(cleanT.toLowerCase())) {
+        text = text.slice(cleanT.length).trim();
+    }
+
+    // Удаление склеек изданий и перечислений других СМИ
+    text = text.replace(/(?:gorod55|e1\.ru|ngs\.ru|bfm\.ru|интерфакс|тасс|риа\s+новости|lenta\.ru|rbc\.ru|коммерсантъ|ведомости|бизнес\s+online|the\s+moscow\s+times|русская\s+служба)[\s\S]*$/gi, "");
     text = text.replace(/^(?:bfm\.ru|интерфакс|тасс|риа\s+новости|lenta\.ru|rbc\.ru|коммерсантъ|ведомости|бизнес\s+online|gorod55|e1\.ru)\s*[:-]?\s*/gi, "");
     text = text.replace(/\s+(?:интерфакс|тасс|риа|bfm\.ru|astra|rtvi|mash|shot)\b[\s\S]*$/i, "");
+    
     return text.trim();
 }
 
@@ -424,22 +440,29 @@ async function downloadMedia(url: string, type: "image" | "video") {
     }
 }
 
-// Извлечение чистого изображения статьи (с защитой от плашек и логотипов)
+// Всеядный извлекатель фото для федеральных и региональных медиа
 function extractCleanImage(html: string, baseUrl: string): string | null {
     const isStub = (u: string) => {
         const low = u.toLowerCase();
         return /(?:bfm_share|logo|avatar|1x1|pixel|banner|advert|stub|placeholder|default_og|share_fb|social_preview|interfax_share|interfax.*card|img\.interfax\.ru\/.*card)/i.test(low);
     };
 
-    // 1. Метатег og:image
-    const ogMatch = html.match(/<meta\b[^>]*?(?:property|name)=["']og:image["'][^>]*?content=["']([^"']+)["']/i) ||
-                    html.match(/<meta\b[^>]*?content=["']([^"']+)["'][^>]*?(?:property|name)=["']og:image["']/i);
+    // 1. Метатег og:image / og:image:url
+    const ogMatch = html.match(/<meta\b[^>]*?(?:property|name)=["']og:image(?::url)?["'][^>]*?content=["']([^"']+)["']/i) ||
+                    html.match(/<meta\b[^>]*?content=["']([^"']+)["'][^>]*?(?:property|name)=["']og:image(?::url)?["']/i);
     const ogImg = resolveRelativeUrl(ogMatch?.[1], baseUrl);
     if (ogImg && isHttpUrl(ogImg) && !isGoogleAsset(ogImg) && !isStub(ogImg)) {
         return ogImg;
     }
 
-    // 2. Метатег twitter:image
+    // 2. Метатег link rel="image_src"
+    const linkSrc = html.match(/<link\b[^>]*?rel=["']image_src["'][^>]*?href=["']([^"']+)["']/i)?.[1];
+    const linkImg = resolveRelativeUrl(linkSrc, baseUrl);
+    if (linkImg && isHttpUrl(linkImg) && !isGoogleAsset(linkImg) && !isStub(linkImg)) {
+        return linkImg;
+    }
+
+    // 3. Метатег twitter:image
     const twMatch = html.match(/<meta\b[^>]*?(?:property|name)=["']twitter:image(?::src)?["'][^>]*?content=["']([^"']+)["']/i) ||
                     html.match(/<meta\b[^>]*?content=["']([^"']+)["'][^>]*?(?:property|name)=["']twitter:image(?::src)?["']/i);
     const twImg = resolveRelativeUrl(twMatch?.[1], baseUrl);
@@ -447,13 +470,14 @@ function extractCleanImage(html: string, baseUrl: string): string | null {
         return twImg;
     }
 
-    // 3. Контентные изображения из статьи
-    for (const m of html.matchAll(/<img\b[^>]*?(?:src|data-src|data-original)=["']([^"']+)["'][^>]*>/gi)) {
+    // 4. Поиск по тегам <img> внутри статьи (с поддержкой lazy-load атрибутов)
+    for (const m of html.matchAll(/<img\b[^>]*?(?:src|data-src|data-original|srcset)=["']([^"'\s,]+)["'][^>]*>/gi)) {
         const fullUrl = resolveRelativeUrl(m[1], baseUrl);
         if (fullUrl && isHttpUrl(fullUrl) && !isGoogleAsset(fullUrl) && !isStub(fullUrl)) {
             return fullUrl;
         }
     }
+
     return null;
 }
 
@@ -495,7 +519,7 @@ async function searchVerifiedTelegramVideo(newsTitle: string) {
 }
 
 // ============================================================
-// EDITORIAL & AI
+// AI И РЕДАКТУРА
 // ============================================================
 const TRIVIAL_GARBAGE = [
     /(?:сарай|баня|гараж|мусор|трава|бытовка)\s+(?:сгорел|загорел)/i,
@@ -523,18 +547,26 @@ function evaluateNewsItem(item: any) {
     return { item, score, urgent };
 }
 
-async function callAI(item: any) {
-    const sanitizedDesc = sanitizeDescriptionText(item.description);
+async function callAI(item: any, articleHtml: string) {
+    const sanitizedDesc = sanitizeDescriptionText(item.description, item.title);
+
+    // Если в RSS описание пустое или склеенное, берём первый абзац из статьи
+    let contextText = sanitizedDesc;
+    if (contextText.length < 30 && articleHtml) {
+        const firstP = articleHtml.match(/<p\b[^>]*>([\s\S]*?)<\/p>/i)?.[1];
+        if (firstP) contextText = stripHtml(firstP);
+    }
+
     const prompt = `
-Ты редактор топового Telegram-канала новостей в формате «Прямой эфир».
+Ты редактор топового Telegram-канала новостей «Прямой эфир».
 Сделай пост строго по новости:
 ЗАГОЛОВОК: ${item.title}
-СУТЬ: ${sanitizedDesc}
+СУТЬ: ${contextText}
 
 СТРОГИЕ ПРАВИЛА:
-1. ОДИН ПОСТ = ОДНО СОБЫТИЕ. Удали чужие бренды СМИ ("Интерфакс", "BFM", "БИЗНЕС Online", "ТАСС", "Город55", "Lenta.ru").
-2. Заголовок (headline): короткий, мощный, передаёт суть только одного события.
-3. Текст (text): строго 1–2 динамичных предложения.
+1. ОДНО СОБЫТИЕ. Удали все названия СМИ ("Интерфакс", "BFM", "БИЗНЕС Online", "ТАСС", "Город55", "Lenta.ru", "The Moscow Times").
+2. Заголовок (headline): краткий и ёмкий.
+3. Текст (text): строго 1–2 лаконичных предложения о том, что произошло.
 Верни ТОЛЬКО JSON: {"headline": "...", "text": "..."}
 `;
 
@@ -578,12 +610,14 @@ async function callAI(item: any) {
         } catch {}
     }
 
+    // Надёжный резервный вариант без склеек СМИ
     const cleanHeadline = stripHtml(item.title).replace(/\s+-\s+.*$/, "").replace(/^«\vert{}»$/g, "");
-    const firstSentence = sanitizedDesc.split(/[.!?]\s/)[0] || sanitizedDesc;
+    let safeLead = contextText.split(/[.!?]\s/)[0] || contextText;
+    if (safeLead.length > 180) safeLead = safeLead.slice(0, 180).trim();
 
     return {
         headline: cleanHeadline,
-        text: firstSentence.slice(0, 180) + ".",
+        text: safeLead ? safeLead + "." : "Подробности уточняются.",
     };
 }
 
@@ -645,7 +679,7 @@ function buildPostMessage(headline: string, text: string, sourceUrl: string, sou
 // MAIN PIPELINE
 // ============================================================
 async function run() {
-    console.log("=== Запуск новостного пайплайна ФАКТОР (Live Speed v16) ===");
+    console.log("=== Запуск новостного пайплайна ФАКТОР (Live Speed v17) ===");
     const now = Date.now();
 
     const lastUrgent = (await kv.get(["factor", "last_urgent"])).value ?? 0;
@@ -661,10 +695,10 @@ async function run() {
         return;
     }
 
-    // 1. Загрузка всех лент параллельно
+    // 1. Параллельная загрузка лент
     const feedsData = await Promise.all(RSS_FEEDS.map(loadRSS));
 
-    // 2. Чередование источников (Round-Robin), чтобы лента была разнообразной
+    // 2. Чередование источников (Round-Robin)
     const interweavedItems: any[] = [];
     const maxLen = Math.max(...feedsData.map((f) => f.length));
     for (let i = 0; i < maxLen; i++) {
@@ -695,7 +729,7 @@ async function run() {
         const realArticleUrl = await resolveArticleUrl(item);
         const articleDomain = realArticleUrl ? extractDomain(realArticleUrl) : "";
 
-        // Защита от монополии одного сайта: не даём постить подряд с одного ресурса
+        // Защита от монополии одного сайта подряд
         if (articleDomain && lastPublishedDomain && articleDomain === lastPublishedDomain && freshCandidates.length > 1) {
             console.log(`⏭️ Пропускаем ${articleDomain}, так как прошлый пост был с этого же сайта`);
             continue;
@@ -714,7 +748,7 @@ async function run() {
             } catch {}
         }
 
-        // 1. ПРИОРИТЕТ: Главное фото статьи (og:image, twitter:image, контентные фото)
+        // 1. ПРИОРИТЕТ: Главное фото статьи
         if (articleHtml && realArticleUrl) {
             const photoUrl = extractCleanImage(articleHtml, realArticleUrl);
             if (photoUrl) {
@@ -725,7 +759,7 @@ async function run() {
             }
         }
 
-        // 2. Если фото статьи не найдено — ищем подтверждённое видео в Telegram
+        // 2. Если фото нет — ищем видео в Telegram
         if (!selectedMedia) {
             const tgVideo = await searchVerifiedTelegramVideo(item.title);
             if (tgVideo) {
@@ -733,8 +767,8 @@ async function run() {
             }
         }
 
-        // 3. Формирование текста поста
-        const postData = await callAI(item);
+        // 3. Генерация текста поста
+        const postData = await callAI(item, articleHtml);
         const postText = buildPostMessage(postData.headline, postData.text, realArticleUrl, item.source);
 
         try {
@@ -747,7 +781,7 @@ async function run() {
             console.log("Публикация в MAX...");
             await publishToMax(postText, mediaToken, selectedMedia?.type || "image");
 
-            // Сохранение в базу
+            // Сохранение в базу состояния
             await kv.set(["factor", "published", hash], true, { expireIn: HISTORY_TTL_MS });
             await kv.set(
                 ["factor", "published_topic", hash],
