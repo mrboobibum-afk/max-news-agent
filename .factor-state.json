@@ -3321,7 +3321,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791450707878,
+      "value": 1791451348058,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"39e1ebcab4309390d3f5acd20522c688bb5d449db77a3294d655576f0f3220a0\"]": {
@@ -3352,6 +3352,35 @@
         ]
       },
       "expiresAt": 1791623846045
+    },
+    "[\"factor\",\"published\",\"977bd8c9033be3389ee1f90294fe9a11485b6ebdf739fd4e9664d8aa1586b8c0\"]": {
+      "key": [
+        "factor",
+        "published",
+        "977bd8c9033be3389ee1f90294fe9a11485b6ebdf739fd4e9664d8aa1586b8c0"
+      ],
+      "value": true,
+      "expiresAt": 1791624172554
+    },
+    "[\"factor\",\"published_topic\",\"977bd8c9033be3389ee1f90294fe9a11485b6ebdf739fd4e9664d8aa1586b8c0\"]": {
+      "key": [
+        "factor",
+        "published_topic",
+        "977bd8c9033be3389ee1f90294fe9a11485b6ebdf739fd4e9664d8aa1586b8c0"
+      ],
+      "value": {
+        "title": "Новый дизайн YouTube с комментариями сбоку от видео разозлил пользователей - Код.ру",
+        "roots": [
+          "новый",
+          "дизай",
+          "youtu",
+          "комме",
+          "сбоку",
+          "разоз",
+          "польз"
+        ]
+      },
+      "expiresAt": 1791624172557
     }
   }
 }
