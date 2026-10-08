@@ -1,11 +1,7 @@
 name: FAKTOR Auto
 
 on:
-  push:
-    branches:
-      - main
   schedule:
-    # Запуск планировщика раз в 30 минут как подстраховка
     - cron: "*/30 * * * *"
   workflow_dispatch:
 
@@ -25,7 +21,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0
 
       - name: Install yt-dlp & ffmpeg
         run: |
@@ -54,10 +50,13 @@ jobs:
 
         run: |
           set -u
-          # Выполняем 5 итераций с паузой в 5 минут (суммарно ~25 минут работы)
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           for i in {1..5}; do
             echo "=== Итерация $i из 5: $(date -u +%Y-%m-%dT%H:%M:%SZ) ==="
 
+            # 1. Запуск агента
             deno run \
               --v8-flags=--max-old-space-size=6144 \
               --allow-net \
@@ -67,24 +66,25 @@ jobs:
               --allow-run \
               agent.ts || true
 
-            # Сохранение состояния после каждой итерации
-            if ! git diff --quiet -- .factor-state.json; then
-              git config user.name "github-actions[bot]"
-              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            # 2. Безопасное сохранение состояния без конфликтов
+            if [ -f .factor-state.json ]; then
               git add .factor-state.json
-              git commit -m "chore: update faktor state [skip ci]" || true
-              git fetch origin main || true
-              git rebase origin/main || true
-              git push origin HEAD:main || true
+              if ! git diff --staged --quiet; then
+                git commit -m "chore: sync state [skip ci]" || true
+                
+                # Забираем свежие изменения и разрешаем любые споры в пользу нашей базы
+                git pull origin main --rebase -X theirs || true
+                git push origin HEAD:main || true
+              fi
             fi
 
             if [ $i -lt 5 ]; then
-              echo "Пауза 300 секунд до следующей проверки..."
+              echo "Пауза 300 секунд..."
               sleep 300
             fi
           done
 
-      - name: Finish Run
+      - name: Finish
         if: ${{ always() }}
-        run: echo "Сессия вещания успешно завершена."
+        run: echo "Завершено."
         
