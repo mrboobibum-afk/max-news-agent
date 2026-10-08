@@ -32,7 +32,7 @@
         "factor",
         "last_urgent"
       ],
-      "value": 1791453617011,
+      "value": 1791453946723,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"4aa61af2633c5fed40cebea96de68e39d8c4d97e99a8a3a751b34d5ca32bef5c\"]": {
@@ -228,6 +228,40 @@
         ]
       },
       "expiresAt": 1791626444845
+    },
+    "[\"factor\",\"published\",\"2e163e2eba8d445fbc31261d8e626b6ca13a13ce1aab20f3fdb7f712187bfc2d\"]": {
+      "key": [
+        "factor",
+        "published",
+        "2e163e2eba8d445fbc31261d8e626b6ca13a13ce1aab20f3fdb7f712187bfc2d"
+      ],
+      "value": true,
+      "expiresAt": 1791626764999
+    },
+    "[\"factor\",\"published_topic\",\"2e163e2eba8d445fbc31261d8e626b6ca13a13ce1aab20f3fdb7f712187bfc2d\"]": {
+      "key": [
+        "factor",
+        "published_topic",
+        "2e163e2eba8d445fbc31261d8e626b6ca13a13ce1aab20f3fdb7f712187bfc2d"
+      ],
+      "value": {
+        "title": "Росавиация «закрыла» небо над Омском из-за опасности БПЛА 8 октября — Новости Омска и области - Город55 - Gorod55",
+        "roots": [
+          "росав",
+          "закры",
+          "небо",
+          "омско",
+          "опасн",
+          "бпла",
+          "октяб",
+          "новос",
+          "омска",
+          "облас",
+          "город",
+          "gorod"
+        ]
+      },
+      "expiresAt": 1791626765000
     }
   }
 }
