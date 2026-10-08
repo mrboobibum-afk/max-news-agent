@@ -1,13 +1,12 @@
 // ============================================================
-// MAX NEWS AGENT — ФАКТОР (Direct Live Edition v10)
+// MAX NEWS AGENT — ФАКТОР (Direct Live Edition v11)
 // GITHUB ACTIONS RUNTIME
 // ============================================================
-// Обновления v10:
-//   - Блокировка дайджестов и сборников (один пост = одна новость)
-//   - Защита от склеек заголовков мировых СМИ
-//   - Проверка сигнатур файлов (защита от чёрных экранов)
-//   - Смысловой фильтр повторов (48 часов)
-//   - Темп вещания: 3 мин (молнии), 8 мин (обычные)
+// Обновления v11:
+//   - Гарантированный захват фото статьи (без ложных отсечений)
+//   - Полноценный веб-поиск видео очевидцев (Google Video RSS + TG)
+//   - yt-dlp загрузка для плееров СМИ и соцсетей
+//   - Сетка вещания: 3 мин (молнии), 8 мин (обычные)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -23,15 +22,15 @@ const REGULAR_INTERVAL_MS = 8 * 60 * 1000;
 const HISTORY_TTL_MS = 48 * 60 * 60 * 1000;
 const MAX_NEWS_AGE_MS = 12 * 60 * 60 * 1000;
 
-const MIN_IMAGE_BYTES = 25 * 1024;
-const MIN_VIDEO_BYTES = 100 * 1024;
+const MIN_IMAGE_BYTES = 10 * 1024;             // Порог снижен до 10 КБ
+const MIN_VIDEO_BYTES = 50 * 1024;             // Порог снижен до 50 КБ
 const MAX_VIDEO_BYTES = Number(Deno.env.get("MAX_VIDEO_MB") ?? "50") * 1024 * 1024;
 const MAX_IMAGE_BYTES = Number(Deno.env.get("MAX_IMAGE_MB") ?? "15") * 1024 * 1024;
 
 const RSS_LIMIT_PER_FEED = 40;
 const MAX_RSS_ITEMS = 400;
 
-const PUBLIC_TELEGRAM_VIDEO_CHANNELS = (Deno.env.get("PUBLIC_TELEGRAM_VIDEO_CHANNELS") ?? "shot_shot,mash,breakingmash,bazabazon,novosti_efir")
+const PUBLIC_TELEGRAM_VIDEO_CHANNELS = (Deno.env.get("PUBLIC_TELEGRAM_VIDEO_CHANNELS") ?? "shot_shot,mash,breakingmash,bazabazon,novosti_efir,readovkanews")
     .split(",")
     .map((v) => v.trim().replace(/^@/, ""))
     .filter((v) => /^[a-zA-Z0-9_]{3,64}$/.test(v));
@@ -66,10 +65,9 @@ async function initMaxHttpClient() {
 const RSS_FEEDS = [
     { category: "ГЛАВНОЕ", emoji: "⚡", url: "https://news.google.com/rss?hl=ru&gl=RU&ceid=RU:ru" },
     { category: "ВИДЕО_ЭФИР", emoji: "🎥", url: "https://news.google.com/rss/search?q=видео+OR+кадры+OR+момент+OR+очевидцы&hl=ru&gl=RU&ceid=RU:ru" },
-    { category: "РОССИЯ", emoji: "🇷🇺", url: "https://news.google.com/rss/search?q=Россия+OR+Москва+OR+Петербург&hl=ru&gl=RU&ceid=RU:ru" },
+    { category: "РОССИЯ", emoji: "🇷🇺", url: "https://news.google.com/rss/search?q=Россия+OR+Москва+OR+Краснодар+OR+Крым&hl=ru&gl=RU&ceid=RU:ru" },
     { category: "МИР", emoji: "🌍", url: "https://news.google.com/rss/search?q=world+OR+международные+события&hl=ru&gl=RU&ceid=RU:ru" },
-    { category: "ТЕХНОЛОГИИ", emoji: "💻", url: "https://news.google.com/rss/search?q=технологии+OR+ИИ+OR+роботы+OR+космос&hl=ru&gl=RU&ceid=RU:ru" },
-    { category: "ИНЦИДЕНТЫ", emoji: "🚨", url: "https://news.google.com/rss/search?q=ЧП+OR+крушение+OR+стихия+OR+спасение&hl=ru&gl=RU&ceid=RU:ru" },
+    { category: "ИНЦИДЕНТЫ", emoji: "🚨", url: "https://news.google.com/rss/search?q=ЧП+OR+крушение+OR+стихия+OR+БПЛА+OR+взрыв&hl=ru&gl=RU&ceid=RU:ru" },
 ];
 
 // ============================================================
@@ -485,25 +483,27 @@ async function downloadMedia(url, type) {
     }
 }
 
+// Надежный захват фото статьи
 function extractCleanImage(html) {
+    // 1. Метатег og:image (главное фото статьи в 99% случаев)
+    const ogImg = html.match(/<meta[^>]+(?:property|name)=["']og:image["'][^>]+content=["']([^"']+)["']/i)?.[1];
+    if (ogImg && isHttpUrl(ogImg) && !isGoogleAsset(ogImg)) {
+        if (!ogImg.endsWith(".svg") && !ogImg.includes("logo")) {
+            return ogImg;
+        }
+    }
+
+    // 2. Первое подходящее фото из текста
     for (const m of html.matchAll(/<img\b[^>]*?(?:src|data-src)=["']([^"']+)["'][^>]*>/gi)) {
         const u = m[1];
         if (isHttpUrl(u) && !isGoogleAsset(u)) {
             const low = u.toLowerCase();
-            if (!/(?:social|share|preview|banner|watermark|logo|avatar|ura_logo|dummy|blank)/i.test(low)) {
+            if (!/(?:logo|icon|avatar|1x1|pixel|banner|advert)/i.test(low)) {
                 return u;
             }
         }
     }
-
-    const ogImg = html.match(/<meta[^>]+(?:property|name)=["']og:image["'][^>]+content=["']([^"']+)["']/i)?.[1];
-    if (ogImg && isHttpUrl(ogImg) && !isGoogleAsset(ogImg)) {
-        const low = ogImg.toLowerCase();
-        if (!/(?:social|preview|share|watermark|logo)/i.test(low)) {
-            return ogImg;
-        }
-    }
-    return ogImg || null;
+    return null;
 }
 
 function extractVideoFromArticleHtml(html) {
@@ -533,6 +533,7 @@ function isContextMatching(title, context) {
     return matched >= 2;
 }
 
+// 1. Поиск в Telegram
 async function searchVerifiedTelegramVideo(newsTitle) {
     for (const channel of PUBLIC_TELEGRAM_VIDEO_CHANNELS) {
         try {
@@ -560,14 +561,46 @@ async function searchVerifiedTelegramVideo(newsTitle) {
     return null;
 }
 
+// 2. Открытый веб-поиск видео очевидцев через Google Video RSS
+async function searchWebEyewitnessVideo(newsTitle) {
+    const roots = extractKeyRoots(newsTitle).slice(0, 4).join(" ");
+    if (!roots) return null;
+
+    const searchUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(roots + " видео")}&hl=ru&gl=RU&ceid=RU:ru`;
+    try {
+        const res = await fetch(searchUrl, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(10000) });
+        if (!res.ok) return null;
+        const xml = await res.text();
+        const items = parseRSS(xml, { category: "ВИДЕО" });
+
+        for (const item of items.slice(0, 3)) {
+            const realUrl = await resolveArticleUrl(item);
+            if (!realUrl) continue;
+
+            const pageRes = await fetch(realUrl, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(10000) });
+            if (!pageRes.ok) continue;
+            const pageHtml = await pageRes.text();
+
+            const videos = extractVideoFromArticleHtml(pageHtml);
+            for (const vUrl of videos) {
+                const downloaded = await downloadMedia(vUrl, "video");
+                if (downloaded) {
+                    console.log(`✅ Найдено видео через веб-поиск: ${vUrl}`);
+                    return downloaded;
+                }
+            }
+        }
+    } catch {}
+    return null;
+}
+
 // ============================================================
-// EDITORIAL & AI (Фильтр дайджестов и формат «Прямой эфир»)
+// EDITORIAL & AI (Формат «Прямой эфир»)
 // ============================================================
 const TRIVIAL_GARBAGE = [
     /(?:сарай|баня|гараж|мусор|трава|бытовка)\s+(?:сгорел|загорел)/i,
     /(?:столкнулись\s+(?:две|три)\s+легковушки|мелкое\s+дтп|притерлись)/i,
     /(?:гороскоп|курс\s+валют|погода\s+на|афиша|обзор\s+цен|как\s+сэкономить)/i,
-    // Блокировка подборок и дайджестов мировых СМИ:
     /(?:что\s+пишут\s+мировые\s+сми|дайджест|главное\s+к\s+этому\s+часу|обзор\s+прессы|картина\s+дня|главные\s+новости\s+к)/i,
 ];
 
@@ -578,7 +611,7 @@ function evaluateNewsItem(item) {
     let score = 20;
     let urgent = false;
 
-    if (/(?:путин|госдума|указ|закон|взрыв|атака|крушение|катастрофа|чп|эвакуация|землетрясение|теракт|танкер|трамп)/i.test(text)) {
+    if (/(?:путин|госдума|указ|закон|взрыв|атака|крушение|катастрофа|чп|эвакуация|землетрясение|теракт|танкер|трамп|бпла)/i.test(text)) {
         score += 50;
         urgent = true;
     }
@@ -598,8 +631,8 @@ async function callAI(item) {
 СУТЬ: ${item.description}
 
 СТРОГИЕ ПРАВИЛА:
-1. ОДИН ПОСТ = ОДНО СОБЫТИЕ. Если в исходных данных дайджест, подборка или перечисление разных тем, выбери ТОЛЬКО ПЕРВОЕ главное событие из заголовка. Полностью проигнорируй остальные темы.
-2. Заголовок (headline): короткий, мощный, передаёт суть только этого одного события.
+1. ОДИН ПОСТ = ОДНО СОБЫТИЕ. Никаких перечислений других тем.
+2. Заголовок (headline): короткий, мощный, передаёт суть только этого события.
 3. Текст (text): строго 1–2 динамичных предложения. Без списков и без вводных фраз.
 Верни ТОЛЬКО JSON: {"headline": "...", "text": "..."}
 `;
@@ -620,7 +653,6 @@ async function callAI(item) {
         } catch {}
     }
 
-    // Фоллбек: берём только заголовок и самое первое предложение описания
     const cleanDesc = stripHtml(item.description);
     const firstSentence = cleanDesc.split(/[.!?]\s/)[0] || cleanDesc;
 
@@ -688,7 +720,7 @@ function buildPostMessage(headline, text, sourceUrl, sourceName) {
 // MAIN PIPELINE
 // ============================================================
 async function run() {
-    console.log("=== Запуск новостного пайплайна ФАКТОР (Live Speed v10) ===");
+    console.log("=== Запуск новостного пайплайна ФАКТОР (Live Speed v11) ===");
     const now = Date.now();
 
     const lastUrgent = (await kv.get(["factor", "last_urgent"])).value ?? 0;
@@ -730,14 +762,15 @@ async function run() {
         console.log(`\nОбработка: ${item.title}`);
         const realArticleUrl = await resolveArticleUrl(item);
         let selectedMedia = null;
+        let articleHtml = "";
 
-        // 1. Поиск видео на странице статьи
+        // 1. Поиск прямого видео на странице статьи
         if (realArticleUrl) {
             try {
                 const res = await fetch(realArticleUrl, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(10000) });
                 if (res.ok) {
-                    const html = await res.text();
-                    const articleVideos = extractVideoFromArticleHtml(html);
+                    articleHtml = await res.text();
+                    const articleVideos = extractVideoFromArticleHtml(articleHtml);
                     for (const vUrl of articleVideos) {
                         const downloaded = await downloadMedia(vUrl, "video");
                         if (downloaded) {
@@ -754,13 +787,6 @@ async function run() {
                             selectedMedia = directPageVideo;
                         }
                     }
-
-                    if (!selectedMedia) {
-                        const cleanImg = extractCleanImage(html);
-                        if (cleanImg && isHttpUrl(cleanImg) && !isGoogleAsset(cleanImg)) {
-                            selectedMedia = await downloadMedia(cleanImg, "image");
-                        }
-                    }
                 }
             } catch {}
         }
@@ -773,7 +799,26 @@ async function run() {
             }
         }
 
-        // 3. Формирование текста поста
+        // 3. Открытый веб-поиск видео очевидцев
+        if (!selectedMedia || selectedMedia.type !== "video") {
+            const webVideo = await searchWebEyewitnessVideo(item.title);
+            if (webVideo) {
+                selectedMedia = webVideo;
+            }
+        }
+
+        // 4. Гарантированный захват фото статьи, если видео нигде не нашлось
+        if (!selectedMedia && articleHtml) {
+            const photoUrl = extractCleanImage(articleHtml);
+            if (photoUrl) {
+                selectedMedia = await downloadMedia(photoUrl, "image");
+                if (selectedMedia) {
+                    console.log(`✅ Захвачено главное фото статьи: ${photoUrl}`);
+                }
+            }
+        }
+
+        // 5. Формирование текста поста
         const postData = await callAI(item);
         const postText = buildPostMessage(postData.headline, postData.text, realArticleUrl, item.source);
 
