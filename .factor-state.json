@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791465651366,
+      "value": 1791465976561,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -201,8 +201,35 @@
         "factor",
         "last_source"
       ],
-      "value": "Известия",
-      "expiresAt": 1791469274910
+      "value": "Lenta.ru",
+      "expiresAt": 1791469600086
+    },
+    "[\"factor\",\"pub\",\"2245349461ac7d120451f1a2c05728f47b9fbadffd205373291d62b0a3cbf5d4\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "2245349461ac7d120451f1a2c05728f47b9fbadffd205373291d62b0a3cbf5d4"
+      ],
+      "value": true,
+      "expiresAt": 1791725200085
+    },
+    "[\"factor\",\"topic\",\"2245349461ac7d120451f1a2c05728f47b9fbadffd205373291d62b0a3cbf5d4\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "2245349461ac7d120451f1a2c05728f47b9fbadffd205373291d62b0a3cbf5d4"
+      ],
+      "value": {
+        "title": "Рубио высказался об урегулировании конфликта на Украине",
+        "roots": [
+          "рубио",
+          "выска",
+          "урегу",
+          "конфл",
+          "украи"
+        ]
+      },
+      "expiresAt": 1791725200085
     }
   }
 }
