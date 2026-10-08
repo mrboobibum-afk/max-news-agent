@@ -32,7 +32,7 @@
         "factor",
         "last_urgent"
       ],
-      "value": 1791465321601,
+      "value": 1791468372976,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"4aa61af2633c5fed40cebea96de68e39d8c4d97e99a8a3a751b34d5ca32bef5c\"]": {
@@ -145,7 +145,7 @@
         "e81f9e64cb7e638bdf84906cbcc6f123bfe29c249950c8d1b0a7742bf5e1fec9"
       ],
       "value": true,
-      "expiresAt": 1791638149603
+      "expiresAt": 1791641216903
     },
     "[\"factor\",\"published_topic\",\"e81f9e64cb7e638bdf84906cbcc6f123bfe29c249950c8d1b0a7742bf5e1fec9\"]": {
       "key": [
@@ -166,131 +166,7 @@
           "gorod"
         ]
       },
-      "expiresAt": 1791638149603
-    },
-    "[\"factor\",\"pub\",\"9df9364ffdf012d0fd539e41ef366888959ebf9697d29cb296ccea6818d3e7a6\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "9df9364ffdf012d0fd539e41ef366888959ebf9697d29cb296ccea6818d3e7a6"
-      ],
-      "value": true,
-      "expiresAt": 1791724874909
-    },
-    "[\"factor\",\"topic\",\"9df9364ffdf012d0fd539e41ef366888959ebf9697d29cb296ccea6818d3e7a6\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "9df9364ffdf012d0fd539e41ef366888959ebf9697d29cb296ccea6818d3e7a6"
-      ],
-      "value": {
-        "title": "В ГД призвали ликвидировать первопричины атак на территорию России",
-        "roots": [
-          "призв",
-          "ликви",
-          "перво",
-          "атак",
-          "терри",
-          "росси"
-        ]
-      },
-      "expiresAt": 1791724874910
-    },
-    "[\"factor\",\"last_source\"]": {
-      "key": [
-        "factor",
-        "last_source"
-      ],
-      "value": "Lenta.ru",
-      "expiresAt": 1791470243336
-    },
-    "[\"factor\",\"pub\",\"2245349461ac7d120451f1a2c05728f47b9fbadffd205373291d62b0a3cbf5d4\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "2245349461ac7d120451f1a2c05728f47b9fbadffd205373291d62b0a3cbf5d4"
-      ],
-      "value": true,
-      "expiresAt": 1791725200085
-    },
-    "[\"factor\",\"topic\",\"2245349461ac7d120451f1a2c05728f47b9fbadffd205373291d62b0a3cbf5d4\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "2245349461ac7d120451f1a2c05728f47b9fbadffd205373291d62b0a3cbf5d4"
-      ],
-      "value": {
-        "title": "Рубио высказался об урегулировании конфликта на Украине",
-        "roots": [
-          "рубио",
-          "выска",
-          "урегу",
-          "конфл",
-          "украи"
-        ]
-      },
-      "expiresAt": 1791725200085
-    },
-    "[\"factor\",\"pub\",\"9cc4d0d43a683a8b87ded75282eae93894f84f7867c23a9adc7ef4d874c8a129\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "9cc4d0d43a683a8b87ded75282eae93894f84f7867c23a9adc7ef4d874c8a129"
-      ],
-      "value": true,
-      "expiresAt": 1791725523945
-    },
-    "[\"factor\",\"topic\",\"9cc4d0d43a683a8b87ded75282eae93894f84f7867c23a9adc7ef4d874c8a129\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "9cc4d0d43a683a8b87ded75282eae93894f84f7867c23a9adc7ef4d874c8a129"
-      ],
-      "value": {
-        "title": "Первый участок Бирюлевской линии московского метро будет запущен в 2028 году",
-        "roots": [
-          "первы",
-          "участ",
-          "бирюл",
-          "линии",
-          "моско",
-          "метро",
-          "будет",
-          "запущ",
-          "2028",
-          "году"
-        ]
-      },
-      "expiresAt": 1791725523946
-    },
-    "[\"factor\",\"pub\",\"941a3b8784a260b41441fa358b509684da25691fd26f32a59668d51a5507f632\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "941a3b8784a260b41441fa358b509684da25691fd26f32a59668d51a5507f632"
-      ],
-      "value": true,
-      "expiresAt": 1791725843335
-    },
-    "[\"factor\",\"topic\",\"941a3b8784a260b41441fa358b509684da25691fd26f32a59668d51a5507f632\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "941a3b8784a260b41441fa358b509684da25691fd26f32a59668d51a5507f632"
-      ],
-      "value": {
-        "title": "Россиян предупредили о неожиданной опасности популярного действия на даче",
-        "roots": [
-          "росси",
-          "преду",
-          "неожи",
-          "опасн",
-          "попул",
-          "дейст",
-          "даче"
-        ]
-      },
-      "expiresAt": 1791725843335
+      "expiresAt": 1791641216904
     }
   }
 }
