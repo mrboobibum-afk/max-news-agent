@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791472413893,
+      "value": 1791472727703,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -512,6 +512,37 @@
         ]
       },
       "expiresAt": 1791731625720
+    },
+    "[\"factor\",\"pub\",\"b654ff642ce4193cb7a8ae016c6bd0b608723df9b187f1daef0017911748704d\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "b654ff642ce4193cb7a8ae016c6bd0b608723df9b187f1daef0017911748704d"
+      ],
+      "value": true,
+      "expiresAt": 1791731941227
+    },
+    "[\"factor\",\"topic\",\"b654ff642ce4193cb7a8ae016c6bd0b608723df9b187f1daef0017911748704d\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "b654ff642ce4193cb7a8ae016c6bd0b608723df9b187f1daef0017911748704d"
+      ],
+      "value": {
+        "title": "Генерал Сергей Суровикин вновь вернулся к командованию на СВО — британская газета The Tele",
+        "roots": [
+          "генер",
+          "серге",
+          "суров",
+          "вновь",
+          "верну",
+          "коман",
+          "брита",
+          "газет",
+          "tele"
+        ]
+      },
+      "expiresAt": 1791731941228
     }
   }
 }
