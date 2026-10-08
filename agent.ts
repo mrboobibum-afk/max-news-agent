@@ -1,13 +1,12 @@
 // ============================================================
-// MAX NEWS AGENT — ФАКТОР (Universal Video Edition v7)
+// MAX NEWS AGENT — ФАКТОР (Direct Live Edition v8)
 // GITHUB ACTIONS RUNTIME
 // ============================================================
-// Особенности:
-//   - Загрузка видео через yt-dlp (VK, RuTube, СМИ, открытый веб)
-//   - Глубокий поиск видео в публичных Telegram-каналах (до 40 постов)
-//   - Жёсткий фильтр возраста новостей (не старше 12 часов)
-//   - Сетка вещания: 3 мин (молнии), 8 мин (обычные)
-//   - Приоритет медиа: ВИДЕО (yt-dlp / прямые ссылки) -> ФОТО -> ТЕКСТ
+// Обновления:
+//   - Смысловой фильтр повторов (защита от пересказа одной темы)
+//   - Фильтрация плашек и превью с водяными знаками СМИ
+//   - Полноценная поддержка yt-dlp для видео
+//   - Плотный темп вещания: 3 мин (молнии), 8 мин (обычные)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -18,10 +17,10 @@ const DASHSCOPE_API_KEY = Deno.env.get("DASHSCOPE_API_KEY") ?? "";
 const QWEN_MODEL = Deno.env.get("QWEN_MODEL") ?? "qwen3.8-max";
 const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyuncs.com/compatible-mode/v1";
 
-const URGENT_INTERVAL_MS = 3 * 60 * 1000;      // 3 минуты для молний
-const REGULAR_INTERVAL_MS = 8 * 60 * 1000;     // 8 минут для обычной повестки
-const HISTORY_TTL_MS = 30 * 24 * 60 * 60 * 1000;
-const MAX_NEWS_AGE_MS = 12 * 60 * 60 * 1000;   // Отсекать новости старше 12 часов
+const URGENT_INTERVAL_MS = 3 * 60 * 1000;
+const REGULAR_INTERVAL_MS = 8 * 60 * 1000;
+const HISTORY_TTL_MS = 48 * 60 * 60 * 1000;
+const MAX_NEWS_AGE_MS = 12 * 60 * 60 * 1000;
 
 const MAX_VIDEO_BYTES = Number(Deno.env.get("MAX_VIDEO_MB") ?? "50") * 1024 * 1024;
 const MAX_IMAGE_BYTES = Number(Deno.env.get("MAX_IMAGE_MB") ?? "15") * 1024 * 1024;
@@ -105,6 +104,20 @@ class FileKV {
         };
         await Deno.writeTextFile(this.filePath, JSON.stringify(data, null, 2) + "\n");
     }
+
+    async getAllPublishedTopics() {
+        const data = await this.load();
+        const topics = [];
+        const now = Date.now();
+        for (const [k, v] of Object.entries(data.entries)) {
+            if (k.startsWith('["factor","published_topic",') && v?.value) {
+                if (!v.expiresAt || v.expiresAt > now) {
+                    topics.push(v.value);
+                }
+            }
+        }
+        return topics;
+    }
 }
 
 const kv = new FileKV();
@@ -127,7 +140,8 @@ function cleanText(value) {
             .replace(/&#x([0-9a-f]+);/gi, (_, c) => String.fromCodePoint(parseInt(c, 16)));
     }
     return text
-        .replace(/<!\[CDATA\[/gi, "")         .replace(/\]\]>/gi, "")
+        .replace(/<!\[CDATA\[/gi, "")
+        .replace(/\]\]>/gi, "")
         .replace(/<br\s*\/?>/gi, "\n")
         .replace(/<[^>]+>/g, " ")
         .replace(/\s+/g, " ")
@@ -153,11 +167,32 @@ async function sha256(value) {
 }
 
 function extractKeyRoots(text) {
-    const stopWords = new Set(["россия", "москва", "сегодня", "вчера", "стало", "известно", "сообщили", "после", "видео", "кадры", "новость", "своей"]);
+    const stopWords = new Set(["россия", "москва", "сегодня", "вчера", "стало", "известно", "сообщили", "после", "видео", "кадры", "новость", "своей", "словам"]);
     return normalizeForHash(text)
         .split(" ")
         .filter((w) => w.length >= 4 && !stopWords.has(w))
         .map((w) => (w.length > 5 ? w.slice(0, 5) : w));
+}
+
+// Проверка на смысловой повтор темы
+async function isSemanticallyDuplicate(title) {
+    const currentRoots = extractKeyRoots(title);
+    if (currentRoots.length === 0) return false;
+
+    const previousTopics = await kv.getAllPublishedTopics();
+    for (const prev of previousTopics) {
+        const prevSet = new Set(prev.roots || []);
+        let overlap = 0;
+        for (const root of currentRoots) {
+            if (prevSet.has(root)) overlap++;
+        }
+        // Если 3 и более ключевых корня совпадают — это та же новость
+        if (overlap >= 3 || (currentRoots.length <= 3 && overlap >= 2)) {
+            console.log(`⚠️ Отсеян смысловой дубликат: "${title}" похожа на ранее вышедшую "${prev.title}"`);
+            return true;
+        }
+    }
+    return false;
 }
 
 // ============================================================
@@ -284,7 +319,6 @@ function parseRSS(xml, feed) {
         const pubDateRaw = cleanText(dateMatch?.[1]);
         const pubTimestamp = Date.parse(pubDateRaw) || now;
 
-        // Отсекаем новости старше 12 часов
         if (now - pubTimestamp > MAX_NEWS_AGE_MS) {
             continue;
         }
@@ -314,9 +348,8 @@ async function loadRSS(feed) {
 }
 
 // ============================================================
-// YT-DLP & DIRECT VIDEO DOWNLOADER
+// YT-DLP & MEDIA DOWNLOAD
 // ============================================================
-// Загрузка через yt-dlp для любых платформ (VK, RuTube, СМИ, плееры)
 async function downloadWithYtDlp(targetUrl) {
     if (!isHttpUrl(targetUrl) || isGoogleAsset(targetUrl)) return null;
     let tempPath = "";
@@ -357,7 +390,6 @@ async function downloadWithYtDlp(targetUrl) {
     }
 }
 
-// Загрузка HLS потоков через ffmpeg
 async function downloadHlsVideo(url) {
     let tempPath = "";
     try {
@@ -388,7 +420,6 @@ async function downloadMedia(url, type) {
 
     if (type === "video") {
         if (/\.m3u8(?:[?#]|$)/i.test(url)) return await downloadHlsVideo(url);
-        // Пробуем универсальный загрузчик yt-dlp для любых веб-плееров
         const ytdlpResult = await downloadWithYtDlp(url);
         if (ytdlpResult) return ytdlpResult;
     }
@@ -412,6 +443,31 @@ async function downloadMedia(url, type) {
     }
 }
 
+// Отбор качественного фото статьи (без плашек соцсетей и логотипов)
+function extractCleanImage(html) {
+    // 1. Сначала ищем обычные картинки в теле статьи
+    for (const m of html.matchAll(/<img\b[^>]*?(?:src|data-src)=["']([^"']+)["'][^>]*>/gi)) {
+        const u = m[1];
+        if (isHttpUrl(u) && !isGoogleAsset(u)) {
+            const low = u.toLowerCase();
+            // Исключаем плашки, баннеры, превью соцсетей и вотермарки
+            if (!/(?:social|share|preview|banner|watermark|logo|avatar|ura_logo)/i.test(low)) {
+                return u;
+            }
+        }
+    }
+
+    // 2. Фоллбек на og:image только если это не сгенерированная плашка соцсетей
+    const ogImg = html.match(/<meta[^>]+(?:property|name)=["']og:image["'][^>]+content=["']([^"']+)["']/i)?.[1];
+    if (ogImg && isHttpUrl(ogImg) && !isGoogleAsset(ogImg)) {
+        const low = ogImg.toLowerCase();
+        if (!/(?:social|preview|share|watermark)/i.test(low)) {
+            return ogImg;
+        }
+    }
+    return ogImg || null;
+}
+
 function extractVideoFromArticleHtml(html) {
     const directMatches = [];
     for (const m of html.matchAll(/<(?:video|source)\b[^>]*?(?:src|data-src|data-video)=["']([^"']+)["']/gi)) {
@@ -430,7 +486,7 @@ function extractVideoFromArticleHtml(html) {
 }
 
 // ============================================================
-// MEDIA RELEVANCE CHECK (Поиск в публичных Telegram-каналах)
+// MEDIA RELEVANCE CHECK
 // ============================================================
 function isContextMatching(title, context) {
     const titleRoots = extractKeyRoots(title);
@@ -449,7 +505,6 @@ async function searchVerifiedTelegramVideo(newsTitle) {
             if (!res.ok) continue;
             const html = await res.text();
 
-            // Проверяем последние 40 постов
             const postBlocks = html.match(/<div class="tgme_widget_message_wrap[\s\S]*?(?=<div class="tgme_widget_message_wrap|$)/gi) ?? [];
             for (const block of postBlocks.slice(-40).reverse()) {
                 const textMatch = block.match(/<div class="tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/i);
@@ -591,7 +646,7 @@ function buildPostMessage(headline, text, sourceUrl, sourceName) {
 // MAIN PIPELINE
 // ============================================================
 async function run() {
-    console.log("=== Запуск новостного пайплайна ФАКТОР (Live Speed v7) ===");
+    console.log("=== Запуск новостного пайплайна ФАКТОР (Live Speed v8) ===");
     const now = Date.now();
 
     const lastUrgent = (await kv.get(["factor", "last_urgent"])).value ?? 0;
@@ -618,9 +673,13 @@ async function run() {
     for (const cand of evaluated) {
         const itemHash = await sha256(normalizeForHash(cand.item.title));
         const alreadyPub = await kv.get(["factor", "published", itemHash]);
-        if (!alreadyPub.value) {
-            freshCandidates.push({ ...cand, hash: itemHash });
-        }
+        if (alreadyPub.value) continue;
+
+        // Проверка на смысловой дубликат с вышедшими темами
+        const isDuplicateTopic = await isSemanticallyDuplicate(cand.item.title);
+        if (isDuplicateTopic) continue;
+
+        freshCandidates.push({ ...cand, hash: itemHash });
         if (freshCandidates.length >= 25) break;
     }
 
@@ -631,7 +690,7 @@ async function run() {
         const realArticleUrl = await resolveArticleUrl(item);
         let selectedMedia = null;
 
-        // 1. Поиск видео на странице статьи (прямые ссылки или yt-dlp)
+        // 1. Поиск видео на странице статьи
         if (realArticleUrl) {
             try {
                 const res = await fetch(realArticleUrl, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(10000) });
@@ -647,7 +706,6 @@ async function run() {
                         }
                     }
 
-                    // Если видео нет, пробуем получить исходную страницу через yt-dlp напрямую
                     if (!selectedMedia) {
                         const directPageVideo = await downloadWithYtDlp(realArticleUrl);
                         if (directPageVideo) {
@@ -656,11 +714,11 @@ async function run() {
                         }
                     }
 
-                    // Если видео так и не найдено, сохраняем фото статьи
+                    // Чистое фото статьи (без плашек соцсетей)
                     if (!selectedMedia) {
-                        const ogImg = html.match(/<meta[^>]+(?:property|name)=["']og:image["'][^>]+content=["']([^"']+)["']/i)?.[1];
-                        if (ogImg && isHttpUrl(ogImg) && !isGoogleAsset(ogImg)) {
-                            selectedMedia = await downloadMedia(ogImg, "image");
+                        const cleanImg = extractCleanImage(html);
+                        if (cleanImg && isHttpUrl(cleanImg) && !isGoogleAsset(cleanImg)) {
+                            selectedMedia = await downloadMedia(cleanImg, "image");
                         }
                     }
                 }
@@ -689,7 +747,14 @@ async function run() {
             console.log("Публикация в MAX...");
             await publishToMax(postText, mediaToken, selectedMedia?.type || "image");
 
+            // Сохраняем хэш и ключевые корни темы
             await kv.set(["factor", "published", hash], true, { expireIn: HISTORY_TTL_MS });
+            await kv.set(
+                ["factor", "published_topic", hash],
+                { title: item.title, roots: extractKeyRoots(item.title) },
+                { expireIn: HISTORY_TTL_MS }
+            );
+
             if (urgent) await kv.set(["factor", "last_urgent"], now);
             else await kv.set(["factor", "last_regular"], now);
 
@@ -700,6 +765,12 @@ async function run() {
             try {
                 await publishToMax(postText);
                 await kv.set(["factor", "published", hash], true, { expireIn: HISTORY_TTL_MS });
+                await kv.set(
+                    ["factor", "published_topic", hash],
+                    { title: item.title, roots: extractKeyRoots(item.title) },
+                    { expireIn: HISTORY_TTL_MS }
+                );
+
                 if (urgent) await kv.set(["factor", "last_urgent"], now);
                 else await kv.set(["factor", "last_regular"], now);
                 console.log(`✅ Опубликовано текстом: ${postData.headline}`);
