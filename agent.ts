@@ -1,11 +1,12 @@
 // ============================================================
-// MAX NEWS AGENT — ФАКТОР (Direct Live Edition v8)
+// MAX NEWS AGENT — ФАКТОР (Direct Live Edition v9)
 // GITHUB ACTIONS RUNTIME
 // ============================================================
-// Обновления:
-//   - Смысловой фильтр повторов (защита от пересказа одной темы)
-//   - Фильтрация плашек и превью с водяными знаками СМИ
-//   - Полноценная поддержка yt-dlp для видео
+// Обновления v9:
+//   - Защита от чёрных экранов и пустых медиа (Magic Bytes Validation)
+//   - Отсечение ошибок серверов (HTML/Cloudflare вместо картинок)
+//   - Смысловой фильтр повторов (48 часов)
+//   - Поддержка yt-dlp для видео
 //   - Плотный темп вещания: 3 мин (молнии), 8 мин (обычные)
 // ============================================================
 
@@ -22,6 +23,9 @@ const REGULAR_INTERVAL_MS = 8 * 60 * 1000;
 const HISTORY_TTL_MS = 48 * 60 * 60 * 1000;
 const MAX_NEWS_AGE_MS = 12 * 60 * 60 * 1000;
 
+// Ограничения размеров медиафайлов
+const MIN_IMAGE_BYTES = 25 * 1024;             // Фото не может весить меньше 25 КБ
+const MIN_VIDEO_BYTES = 100 * 1024;            // Видео не может весить меньше 100 КБ
 const MAX_VIDEO_BYTES = Number(Deno.env.get("MAX_VIDEO_MB") ?? "50") * 1024 * 1024;
 const MAX_IMAGE_BYTES = Number(Deno.env.get("MAX_IMAGE_MB") ?? "15") * 1024 * 1024;
 
@@ -186,9 +190,8 @@ async function isSemanticallyDuplicate(title) {
         for (const root of currentRoots) {
             if (prevSet.has(root)) overlap++;
         }
-        // Если 3 и более ключевых корня совпадают — это та же новость
         if (overlap >= 3 || (currentRoots.length <= 3 && overlap >= 2)) {
-            console.log(`⚠️ Отсеян смысловой дубликат: "${title}" похожа на ранее вышедшую "${prev.title}"`);
+            console.log(`⚠️ Отсеян смысловой повтор: "${title}" похожа на "${prev.title}"`);
             return true;
         }
     }
@@ -348,6 +351,45 @@ async function loadRSS(feed) {
 }
 
 // ============================================================
+// ВАЛИДАЦИЯ СИГНАТУР ФАЙЛОВ (MAGIC BYTES)
+// ============================================================
+// Проверяет реальные байты файла, чтобы MAX не получал пустые заглушки и HTML
+function validateMediaSignature(bytes, type) {
+    if (!bytes || bytes.length < 16) return false;
+
+    // Проверяем, не скачался ли HTML или JSON с ошибкой
+    const prefixStr = new TextDecoder().decode(bytes.subarray(0, 30)).toLowerCase();
+    if (prefixStr.includes("<!doctype") || prefixStr.includes("<html") || prefixStr.includes("<?xml") || prefixStr.includes("{")) {
+        console.warn("⚠️ Файл отклонён: сервер вернул HTML/JSON с ошибкой вместо медиафайла");
+        return false;
+    }
+
+    if (type === "image") {
+        // JPEG: FF D8 FF
+        if (bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff) return true;
+        // PNG: 89 50 4E 47
+        if (bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4e && bytes[3] === 0x47) return true;
+        // WEBP: RIFF....WEBP
+        if (bytes[0] === 0x52 && bytes[1] === 0x49 && bytes[2] === 0x46 && bytes[3] === 0x46) {
+            const webpSig = new TextDecoder().decode(bytes.subarray(8, 12));
+            if (webpSig === "WEBP") return true;
+        }
+        return false;
+    }
+
+    if (type === "video") {
+        // MP4 / MOV: ....ftyp
+        const ftyp = new TextDecoder().decode(bytes.subarray(4, 8));
+        if (ftyp === "ftyp") return true;
+        // WebM / Matroska: 1A 45 DF A3
+        if (bytes[0] === 0x1a && bytes[1] === 0x45 && bytes[2] === 0xdf && bytes[3] === 0xa3) return true;
+        return false;
+    }
+
+    return false;
+}
+
+// ============================================================
 // YT-DLP & MEDIA DOWNLOAD
 // ============================================================
 async function downloadWithYtDlp(targetUrl) {
@@ -372,11 +414,14 @@ async function downloadWithYtDlp(targetUrl) {
         if (!res.success) return null;
 
         const stat = await Deno.stat(tempPath);
-        if (!stat.size || stat.size > MAX_VIDEO_BYTES) return null;
+        if (!stat.size || stat.size < MIN_VIDEO_BYTES || stat.size > MAX_VIDEO_BYTES) return null;
+
+        const bytes = await Deno.readFile(tempPath);
+        if (!validateMediaSignature(bytes, "video")) return null;
 
         return {
             type: "video",
-            bytes: await Deno.readFile(tempPath),
+            bytes,
             contentType: "video/mp4",
             extension: "mp4",
             sourceUrl: targetUrl,
@@ -403,9 +448,12 @@ async function downloadHlsVideo(url) {
         if (!res.success) return null;
 
         const stat = await Deno.stat(tempPath);
-        if (!stat.size || stat.size > MAX_VIDEO_BYTES) return null;
+        if (!stat.size || stat.size < MIN_VIDEO_BYTES || stat.size > MAX_VIDEO_BYTES) return null;
 
-        return { type: "video", bytes: await Deno.readFile(tempPath), contentType: "video/mp4", extension: "mp4" };
+        const bytes = await Deno.readFile(tempPath);
+        if (!validateMediaSignature(bytes, "video")) return null;
+
+        return { type: "video", bytes, contentType: "video/mp4", extension: "mp4" };
     } catch {
         return null;
     } finally {
@@ -429,8 +477,19 @@ async function downloadMedia(url, type) {
         if (!res.ok) return null;
 
         const buf = new Uint8Array(await res.arrayBuffer());
-        const limit = type === "video" ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
-        if (buf.byteLength === 0 || buf.byteLength > limit) return null;
+        const minSize = type === "video" ? MIN_VIDEO_BYTES : MIN_IMAGE_BYTES;
+        const maxSize = type === "video" ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
+
+        // Жёсткая проверка: отсекаем пустоту и битые файлы
+        if (buf.byteLength < minSize || buf.byteLength > maxSize) {
+            console.warn(`⚠️ Медиафайл пропущен: неверный размер (${buf.byteLength} байт)`);
+            return null;
+        }
+
+        // Проверка заголовков файла (Magic Bytes)
+        if (!validateMediaSignature(buf, type)) {
+            return null;
+        }
 
         return {
             type,
@@ -445,23 +504,20 @@ async function downloadMedia(url, type) {
 
 // Отбор качественного фото статьи (без плашек соцсетей и логотипов)
 function extractCleanImage(html) {
-    // 1. Сначала ищем обычные картинки в теле статьи
     for (const m of html.matchAll(/<img\b[^>]*?(?:src|data-src)=["']([^"']+)["'][^>]*>/gi)) {
         const u = m[1];
         if (isHttpUrl(u) && !isGoogleAsset(u)) {
             const low = u.toLowerCase();
-            // Исключаем плашки, баннеры, превью соцсетей и вотермарки
-            if (!/(?:social|share|preview|banner|watermark|logo|avatar|ura_logo)/i.test(low)) {
+            if (!/(?:social|share|preview|banner|watermark|logo|avatar|ura_logo|dummy|blank)/i.test(low)) {
                 return u;
             }
         }
     }
 
-    // 2. Фоллбек на og:image только если это не сгенерированная плашка соцсетей
     const ogImg = html.match(/<meta[^>]+(?:property|name)=["']og:image["'][^>]+content=["']([^"']+)["']/i)?.[1];
     if (ogImg && isHttpUrl(ogImg) && !isGoogleAsset(ogImg)) {
         const low = ogImg.toLowerCase();
-        if (!/(?:social|preview|share|watermark)/i.test(low)) {
+        if (!/(?:social|preview|share|watermark|logo)/i.test(low)) {
             return ogImg;
         }
     }
@@ -541,7 +597,7 @@ function evaluateNewsItem(item) {
     let score = 20;
     let urgent = false;
 
-    if (/(?:путин|госдума|указ|закон|взрыв|атака|крушение|катастрофа|чп|эвакуация|землетрясение|теракт|танкер)/i.test(text)) {
+    if (/(?:путин|госдума|указ|закон|взрыв|атака|крушение|катастрофа|чп|эвакуация|землетрясение|теракт|танкер|трамп)/i.test(text)) {
         score += 50;
         urgent = true;
     }
@@ -646,7 +702,7 @@ function buildPostMessage(headline, text, sourceUrl, sourceName) {
 // MAIN PIPELINE
 // ============================================================
 async function run() {
-    console.log("=== Запуск новостного пайплайна ФАКТОР (Live Speed v8) ===");
+    console.log("=== Запуск новостного пайплайна ФАКТОР (Live Speed v9) ===");
     const now = Date.now();
 
     const lastUrgent = (await kv.get(["factor", "last_urgent"])).value ?? 0;
@@ -675,7 +731,6 @@ async function run() {
         const alreadyPub = await kv.get(["factor", "published", itemHash]);
         if (alreadyPub.value) continue;
 
-        // Проверка на смысловой дубликат с вышедшими темами
         const isDuplicateTopic = await isSemanticallyDuplicate(cand.item.title);
         if (isDuplicateTopic) continue;
 
@@ -714,7 +769,7 @@ async function run() {
                         }
                     }
 
-                    // Чистое фото статьи (без плашек соцсетей)
+                    // Чистое фото статьи (с проверкой сигнатур)
                     if (!selectedMedia) {
                         const cleanImg = extractCleanImage(html);
                         if (cleanImg && isHttpUrl(cleanImg) && !isGoogleAsset(cleanImg)) {
@@ -740,14 +795,13 @@ async function run() {
         try {
             let mediaToken = null;
             if (selectedMedia) {
-                console.log(`Загрузка медиа (${selectedMedia.type})...`);
+                console.log(`Загрузка медиа (${selectedMedia.type}, ${selectedMedia.bytes.byteLength} байт)...`);
                 mediaToken = await uploadMediaToMax(selectedMedia);
             }
 
             console.log("Публикация в MAX...");
             await publishToMax(postText, mediaToken, selectedMedia?.type || "image");
 
-            // Сохраняем хэш и ключевые корни темы
             await kv.set(["factor", "published", hash], true, { expireIn: HISTORY_TTL_MS });
             await kv.set(
                 ["factor", "published_topic", hash],
@@ -763,6 +817,7 @@ async function run() {
         } catch (err) {
             console.error("Ошибка при публикации с медиа, пробуем чистый текст:", err);
             try {
+                // Если медиафайл вызвал ошибку — отправляем без вложений, чистым текстом
                 await publishToMax(postText);
                 await kv.set(["factor", "published", hash], true, { expireIn: HISTORY_TTL_MS });
                 await kv.set(
