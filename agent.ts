@@ -1,6 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — ФАКТОР («Прямой эфир / Безобразие Edition»)
-// СТРОГО ЖИВОЙ ВИЗУАЛ, НИКАКИХ ПЛАШЕК И КАРТОЧЕК СМИ
+// MAX NEWS AGENT — ФАКТОР («Прямой эфир» Pure Edition v20)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -22,7 +21,7 @@ const MAX_VIDEO_BYTES = 30 * 1024 * 1024;
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
 
-// Сертификаты Минцифры
+// Сертификаты Минцифры РФ
 const MAX_ROOT_CA_URL = "https://gu-st.ru/content/lending/russian_trusted_root_ca_pem.crt";
 const MAX_SUB_CA_URL = "https://gu-st.ru/content/lending/russian_trusted_sub_ca_pem.crt";
 let maxHttpClient: Deno.HttpClient | null = null;
@@ -51,10 +50,9 @@ const DIRECT_FEEDS = [
     { name: "ТАСС", cat: "ГЛАВНОЕ", url: "https://tass.ru/rss/v2.xml" },
 ];
 
-// Оперативные каналы, откуда берут живые фото/видео
-const TG_PUBLIC_CHANNELS = ["shot_shot", "mash", "breakingmash", "bazabazon", "novosti_efir", "readovkanews", "mchs_official"];
+const TG_PUBLIC_CHANNELS = ["shot_shot", "bazabazon", "novosti_efir", "readovkanews", "mchs_official"];
 
-// База данных
+// БАЗА СОСТОЯНИЯ
 class FileKV {
     private file = ".factor-state.json";
     private data: any = null;
@@ -116,7 +114,7 @@ function escapeHtml(val: any): string {
 }
 
 function getRoots(str: string): string[] {
-    const stops = new Set(["россия", "москва", "сегодня", "вчера", "сообщили", "после", "видео", "новости", "словам", "данный", "момент", "стало", "известно"]);
+    const stops = new Set(["россия", "москва", "сегодня", "вчера", "сообщили", "после", "видео", "новости", "словам", "данный", "момент", "стало", "известно", "действия", "предупредили"]);
     return cleanText(str).toLowerCase().replace(/[^a-zа-я0-9]+/gi, " ").split(" ")
         .filter(w => w.length >= 4 && !stops.has(w))
         .map(w => w.slice(0, 5));
@@ -135,20 +133,18 @@ async function isDuplicate(title: string): Promise<boolean> {
     return false;
 }
 
-// ------------------------------------------------------------
-// ЖЕСТКИЙ ФИЛЬТР: ТОЛЬКО ЖИВЫЕ ФОТО (НИКАКИХ ПЛАШЕК И ТЕКСТОВЫХ КАРТОЧЕК)
-// ------------------------------------------------------------
+// ФИЛЬТР МУСОРА И ЧУЖИХ ПЛАШЕК
 function isTrashImage(url: string): boolean {
     const low = url.toLowerCase();
     return (
-        // Плашки СМИ с текстом
         low.includes("card") ||
         low.includes("textcard") ||
         low.includes("social_card") ||
         low.includes("share") ||
         low.includes("preview_card") ||
         low.includes("interfax.ru/ftproot") ||
-        // Логотипы и заглушки
+        low.includes("digest") ||
+        low.includes("mash") ||
         low.includes("logo") ||
         low.includes("avatar") ||
         low.includes("placeholder") ||
@@ -180,15 +176,14 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
     }
 }
 
-// Ищем ЖИВОЕ фото внутри статьи (не плашку!)
+// ПОИСК НАСТОЯЩЕГО ФОТО В СТАТЬЕ
 function findRealArticlePhoto(html: string, base: string): string | null {
-    // 1. Проверяем og:image (только если не плашка-карточка)
-    const og = html.match(/<meta\b[^>]*?(?:property|name)=["']og:image["'][^>]*?content=["']([^"']+)["']/i)?.[1];
+    const og = html.match(/<meta\b[^>]*?(?:property|name)=["']og:image["'][^>]*?content=["']([^"']+)["']/i)?.[1]
+            || html.match(/<meta\b[^>]*?content=["']([^"']+)["'][^>]*?(?:property|name)=["']og:image["']/i)?.[1];
     if (og && !isTrashImage(og)) {
         try { return new URL(og, base).href; } catch {}
     }
 
-    // 2. Ищем первое крупное фото в теле статьи
     for (const m of html.matchAll(/<img\b[^>]*?(?:src|data-src|data-original)=["']([^"']+)["'][^>]*>/gi)) {
         const src = m[1];
         if (src && !isTrashImage(src) && !src.includes(".gif")) {
@@ -198,10 +193,10 @@ function findRealArticlePhoto(html: string, base: string): string | null {
     return null;
 }
 
-// Ищем живое фото/видео очевидцев в Telegram
+// СТРОГИЙ ПОИСК В TELEGRAM (ТОЛЬКО 100% СОВПАДЕНИЕ ТЕМЫ)
 async function getTelegramLiveMedia(title: string): Promise<{ bytes: Uint8Array, type: "image" | "video" } | null> {
-    const roots = getRoots(title).slice(0, 3);
-    if (!roots.length) return null;
+    const roots = getRoots(title);
+    if (roots.length < 3) return null;
 
     for (const ch of TG_PUBLIC_CHANNELS) {
         try {
@@ -209,20 +204,24 @@ async function getTelegramLiveMedia(title: string): Promise<{ bytes: Uint8Array,
             if (!res.ok) continue;
             const html = await res.text();
 
-            for (const post of (html.match(/<div class="tgme_widget_message_wrap[\s\S]*?(?=<div class="tgme_widget_message_wrap|$)/gi) ?? []).slice(-20).reverse()) {
+            for (const post of (html.match(/<div class="tgme_widget_message_wrap[\s\S]*?(?=<div class="tgme_widget_message_wrap|$)/gi) ?? []).slice(-15).reverse()) {
                 const text = cleanText(post.match(/<div class="tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/i)?.[1]);
+                
+                // Исключаем огромные дайджесты
+                if (text.length > 600) continue;
+
                 let matches = 0;
                 for (const r of roots) if (text.toLowerCase().includes(r)) matches++;
-                if (matches < 2) continue;
+                
+                // Требуем не менее 3 совпадений ключевых слов
+                if (matches < 3) continue;
 
-                // 1. Видео
                 const vMatch = post.match(/https?:\/\/[^"'<>\s]+?\.(?:mp4)(?:\?[^"'<>\s]*)?/i)?.[0];
                 if (vMatch) {
                     const buf = await downloadBuffer(vMatch, true);
                     if (buf) return { bytes: buf, type: "video" };
                 }
 
-                // 2. Фото
                 const imgMatch = post.match(/background-image:url\('([^']+)'\)/i)?.[1];
                 if (imgMatch && !isTrashImage(imgMatch)) {
                     const buf = await downloadBuffer(imgMatch, false);
@@ -234,9 +233,7 @@ async function getTelegramLiveMedia(title: string): Promise<{ bytes: Uint8Array,
     return null;
 }
 
-// ------------------------------------------------------------
-// РЕДАКТУРА «ПРЯМОЙ ЭФИР / БЕЗОБРАЗИЕ»
-// ------------------------------------------------------------
+// ГЕНЕРАЦИЯ ПОСТА
 async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, text: string }> {
     const cleanDesc = cleanText(desc).replace(/^(?:тасс|риа новости|лента|rbc|коммерсантъ|интерфакс|bfm).*?[-—:]\s*/i, "");
     const prompt = `Ты редактор топового канала «Прямой эфир».
@@ -290,9 +287,7 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
     };
 }
 
-// ------------------------------------------------------------
-// MAX ПУБЛИКАЦИЯ
-// ------------------------------------------------------------
+// MAX API
 async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<string> {
     const client = await initMaxHttpClient();
     const upInit = await fetch(`${MAX_API}/uploads?type=${type}`, {
@@ -332,18 +327,16 @@ async function sendPostToMax(text: string, mediaToken: string, mediaType: "image
     return res.ok;
 }
 
-// ------------------------------------------------------------
-// ЦИКЛ ПРЯМОГО ЭФИРА
-// ------------------------------------------------------------
+// ОСНОВНОЙ ПАЙПЛАЙН
 async function run() {
-    console.log("=== ЭФИР: Поиск горячих событий с живым медиа ===");
+    console.log("=== ЭФИР v20: Запуск отбора ===");
     const now = Date.now();
 
     const lastUrgent = (await kv.get(["factor", "last_urgent"])).value ?? 0;
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
 
     if (now - lastUrgent < URGENT_INTERVAL_MS && now - lastRegular < REGULAR_INTERVAL_MS) {
-        console.log("Пауза вещания активна.");
+        console.log("Таймаут вещания активен.");
         return;
     }
 
@@ -366,7 +359,6 @@ async function run() {
         } catch {}
     }));
 
-    // Перемешиваем, чтобы не застревать на одном источнике
     allCandidates.sort(() => Math.random() - 0.5);
 
     for (const item of allCandidates) {
@@ -376,18 +368,11 @@ async function run() {
         if ((await kv.get(["factor", "pub", hash])).value) continue;
         if (await isDuplicate(item.title)) continue;
 
-        console.log(`\nПроверяем: [${item.sourceName}] ${item.title}`);
+        console.log(`\nОбработка: [${item.sourceName}] ${item.title}`);
         let mediaData: { bytes: Uint8Array, type: "image" | "video" } | null = null;
 
-        // 1. Сначала ищем живое видео/фото очевидцев в Telegram
-        const tgMedia = await getTelegramLiveMedia(item.title);
-        if (tgMedia) {
-            mediaData = tgMedia;
-            console.log(`✅ Найдено живое медиа (${mediaData.type}) в Telegram`);
-        }
-
-        // 2. Если в TG нет — берём реальное фото из статьи (проверяя на отсутствие плашек)
-        if (!mediaData && item.enclosureImg && !isTrashImage(item.enclosureImg)) {
+        // 1. ПРИОРИТЕТ: Реальное фото статьи с сайта (не плашка и не комикс)
+        if (item.enclosureImg && !isTrashImage(item.enclosureImg)) {
             const b = await downloadBuffer(item.enclosureImg, false);
             if (b) mediaData = { bytes: b, type: "image" };
         }
@@ -406,13 +391,20 @@ async function run() {
             } catch {}
         }
 
-        // СТРОГО: если живого медиа нет, пост не выходит
+        // 2. Только если на сайте фото нет — строгий поиск оперативного медиа в Telegram
         if (!mediaData) {
-            console.log("Нет живого медиа (отсеяно или плашка), ищем дальше...");
+            const tgMedia = await getTelegramLiveMedia(item.title);
+            if (tgMedia) {
+                mediaData = tgMedia;
+            }
+        }
+
+        // Без качественного медиа новость не публикуется
+        if (!mediaData) {
+            console.log("Нет качественного фото, пропускаем.");
             continue;
         }
 
-        // Формирование поста
         const post = await formatNewsPost(item.title, item.desc);
         const postHtml = `<b>${escapeHtml(post.headline)}</b>\n\n${escapeHtml(post.text)}\n\n🔗 <a href="${escapeHtml(item.link)}">${escapeHtml(item.sourceName)}</a>\n\n⚡ <i>ФАКТОР</i>`;
 
@@ -420,7 +412,7 @@ async function run() {
         try {
             token = await uploadToMax(mediaData.bytes, mediaData.type);
         } catch (e) {
-            console.error("Ошибка аплоада в MAX:", e);
+            console.error("Ошибка загрузки медиа:", e);
             continue;
         }
 
@@ -428,7 +420,7 @@ async function run() {
 
         const sent = await sendPostToMax(postHtml, token, mediaData.type);
         if (sent) {
-            console.log(`🔥 ВЫШЛО В ЭФИР С ЖИВЫМ МЕДИА: ${post.headline}`);
+            console.log(`🔥 ОПУБЛИКОВАНО: ${post.headline}`);
             await kv.set(["factor", "pub", hash], true, { expireIn: HISTORY_TTL_MS });
             await kv.set(["factor", "topic", hash], { title: item.title, roots: getRoots(item.title) }, { expireIn: HISTORY_TTL_MS });
             await kv.set(["factor", "last_regular"], now);
@@ -436,7 +428,7 @@ async function run() {
         }
     }
 
-    console.log("Подходящих событий с качественным живым медиа пока нет.");
+    console.log("В этом цикле подходящих событий с медиа не найдено.");
 }
 
 await run();
