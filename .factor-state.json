@@ -3031,7 +3031,7 @@
         "factor",
         "last_urgent"
       ],
-      "value": 1791443833260,
+      "value": 1791444063668,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"fc44bd627732507d8cd7132c3aa66d0e97d92e6b47e72ac5a5886e905748f635\"]": {
@@ -3198,6 +3198,35 @@
         ]
       },
       "expiresAt": 1791616660583
+    },
+    "[\"factor\",\"published\",\"f6b0bc9cdedfee4204eff6d5542aabf91ddd4674bfbb7f63a9a1b5a8e5915ff4\"]": {
+      "key": [
+        "factor",
+        "published",
+        "f6b0bc9cdedfee4204eff6d5542aabf91ddd4674bfbb7f63a9a1b5a8e5915ff4"
+      ],
+      "value": true,
+      "expiresAt": 1791616897094
+    },
+    "[\"factor\",\"published_topic\",\"f6b0bc9cdedfee4204eff6d5542aabf91ddd4674bfbb7f63a9a1b5a8e5915ff4\"]": {
+      "key": [
+        "factor",
+        "published_topic",
+        "f6b0bc9cdedfee4204eff6d5542aabf91ddd4674bfbb7f63a9a1b5a8e5915ff4"
+      ],
+      "value": {
+        "title": "Над Татарстаном сбили БПЛА - БИЗНЕС Online — Новости Казани",
+        "roots": [
+          "татар",
+          "сбили",
+          "бпла",
+          "бизне",
+          "onlin",
+          "новос",
+          "казан"
+        ]
+      },
+      "expiresAt": 1791616897096
     }
   }
 }
