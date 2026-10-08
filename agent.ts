@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — ФАКТОР (Direct Live Edition v13)
+// MAX NEWS AGENT — ФАКТОР (Direct Live Edition v14)
 // GITHUB ACTIONS RUNTIME
 // ============================================================
 
@@ -12,7 +12,7 @@ const QWEN_MODEL = Deno.env.get("QWEN_MODEL") ?? "qwen3.8-max";
 const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyuncs.com/compatible-mode/v1";
 
 const URGENT_INTERVAL_MS = 3 * 60 * 1000;
-const REGULAR_INTERVAL_MS = 8 * 60 * 1000;
+const REGULAR_INTERVAL_MS = 5 * 60 * 1000;
 const HISTORY_TTL_MS = 48 * 60 * 60 * 1000;
 const MAX_NEWS_AGE_MS = 12 * 60 * 60 * 1000;
 
@@ -493,21 +493,21 @@ async function downloadMedia(url, type) {
     }
 }
 
-// Захват изображений с поддержкой относительных путей и lazy loading
+// Отбор чистых фотографий с блокировкой плашек Интерфакса и других брендовых карточек
 function extractCleanImage(html, baseUrl) {
     const isStub = (u) => {
         const low = u.toLowerCase();
-        return /(?:bfm_share|logo|avatar|1x1|pixel|banner|advert|stub|placeholder|default_og|share_fb|social_preview)/i.test(low);
+        return /(?:bfm_share|logo|avatar|1x1|pixel|banner|advert|stub|placeholder|default_og|share_fb|social_preview|interfax_share|interfax.*card|img\.interfax\.ru\/.*card)/i.test(low);
     };
 
-    // 1. Метатег og:image
+    // 1. Метатег og:image (проверяем, что это не авто-плашка)
     const ogImgRaw = html.match(/<meta[^>]+(?:property|name)=["']og:image["'][^>]+content=["']([^"']+)["']/i)?.[1];
     const ogImg = resolveRelativeUrl(ogImgRaw, baseUrl);
     if (ogImg && isHttpUrl(ogImg) && !isGoogleAsset(ogImg) && !isStub(ogImg)) {
         return ogImg;
     }
 
-    // 2. Изображения из контента (src, data-src, data-original)
+    // 2. Изображения из контента статьи
     for (const m of html.matchAll(/<img\b[^>]*?(?:src|data-src|data-original)=["']([^"']+)["'][^>]*>/gi)) {
         const fullUrl = resolveRelativeUrl(m[1], baseUrl);
         if (fullUrl && isHttpUrl(fullUrl) && !isGoogleAsset(fullUrl) && !isStub(fullUrl)) {
@@ -621,7 +621,7 @@ function evaluateNewsItem(item) {
     let score = 20;
     let urgent = false;
 
-    if (/(?:путин|госдума|указ|закон|взрыв|атака|крушение|катастрофа|чп|эвакуация|землетрясение|теракт|танкер|трамп|бпла|сбой|яндекс)/i.test(text)) {
+    if (/(?:путин|госдума|указ|закон|взрыв|атака|крушение|катастрофа|чп|эвакуация|землетрясение|теракт|танкер|трамп|бпла|сбой|яндекс|фсб)/i.test(text)) {
         score += 50;
         urgent = true;
     }
@@ -642,7 +642,7 @@ async function callAI(item) {
 СУТЬ: ${sanitizedDesc}
 
 СТРОГИЕ ПРАВИЛА:
-1. ОДИН ПОСТ = ОДНО СОБЫТИЕ. Удали чужие бренды СМИ ("Интерфакс", "BFM", "БИЗНЕС Online").
+1. ОДИН ПОСТ = ОДНО СОБЫТИЕ. Удали чужие бренды СМИ ("Интерфакс", "BFM", "БИЗНЕС Online", "ТАСС").
 2. Заголовок (headline): короткий, мощный, передаёт суть только одного события.
 3. Текст (text): строго 1–2 динамичных предложения.
 Верни ТОЛЬКО JSON: {"headline": "...", "text": "..."}
@@ -755,7 +755,7 @@ function buildPostMessage(headline, text, sourceUrl, sourceName) {
 // MAIN PIPELINE
 // ============================================================
 async function run() {
-    console.log("=== Запуск новостного пайплайна ФАКТОР (Live Speed v13) ===");
+    console.log("=== Запуск новостного пайплайна ФАКТОР (Live Speed v14) ===");
     const now = Date.now();
 
     const lastUrgent = (await kv.get(["factor", "last_urgent"])).value ?? 0;
@@ -842,7 +842,7 @@ async function run() {
             }
         }
 
-        // 4. Гарантированный захват фото статьи с правильными ссылками
+        // 4. Гарантированный захват фото статьи (с фильтром против плашек Интерфакса)
         if (!selectedMedia && articleHtml && realArticleUrl) {
             const photoUrl = extractCleanImage(articleHtml, realArticleUrl);
             if (photoUrl) {
