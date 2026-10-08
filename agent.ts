@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Strict Live Video/Action Edition)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v21)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -40,7 +40,7 @@ async function initMaxHttpClient() {
     return maxHttpClient;
 }
 
-// Оперативные Telegram-каналы (первый приоритет эфира)
+// Оперативные каналы (первый приоритет эфира)
 const TG_LIVE_CHANNELS = ["shot_shot", "bazabazon", "novosti_efir", "readovkanews", "mash"];
 
 // Вторичные новостные ленты
@@ -51,7 +51,7 @@ const NEWS_FEEDS = [
     { name: "Коммерсантъ", cat: "ЭКОНОМИКА", url: "https://www.kommersant.ru/RSS/news.xml" },
 ];
 
-// СТОП-ЛИСТ СКУЧНЫХ И ПРОТОКОЛЬНЫХ ТЕМ
+// Стоп-лист протокольных тем
 const BORING_TOPICS = [
     /(?:сесси[яи]|форум|круглый\s+стол|конференци[яи]|совещани[ея]|заседани[ея]|брифинг)/i,
     /(?:рэц|экспортер|клиентск|госуслуг|росреестр|минфин|ведомств)/i,
@@ -170,7 +170,18 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
     }
 }
 
-// ПАРСИНГ ЖИВОГО ЭФИРА ИЗ TELEGRAM
+// Очистка текста от чужих водяных знаков и атрибуций каналов
+function sanitizeRawText(raw: string): string {
+    let t = cleanText(raw);
+    t = t.replace(/(?:данные|информация|источник|по данным|сообщает|сообщил)\s+(?:shot|mash|baza|база|риа|тасс|чп)[\s\S]*?[.—:]\s*/gi, "");
+    t = t.replace(/по\s+нашей\s+информации,?\s*/gi, "");
+    t = t.replace(/как\s+стало\s+известно,?\s*/gi, "");
+    t = t.replace(/(?:подписывайтесь|подробнее|эксклюзив|видео)\b[\s\S]*$/gi, "");
+    t = t.replace(/—\s*данные\s+[A-Za-zА-Яа-я0-9_]+/gi, "");
+    return t.trim();
+}
+
+// Парсинг Telegram-ленты
 async function fetchTelegramLiveFeed(): Promise<any[]> {
     const liveItems: any[] = [];
     for (const ch of TG_LIVE_CHANNELS) {
@@ -184,16 +195,18 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 const textRaw = cleanText(post.match(/<div class="tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/i)?.[1]);
                 if (!textRaw || textRaw.length < 30 || textRaw.length > 500) continue;
 
-                // Проверка на скучные темы
                 if (BORING_TOPICS.some(r => r.test(textRaw))) continue;
 
                 const vMatch = post.match(/https?:\/\/[^"'<>\s]+?\.(?:mp4)(?:\?[^"'<>\s]*)?/i)?.[0];
                 const imgMatch = post.match(/background-image:url\('([^']+)'\)/i)?.[1];
 
+                const sanitized = sanitizeRawText(textRaw);
+                const firstSentence = sanitized.split(/[.!?]\s/)[0] || sanitized;
+
                 if (vMatch) {
-                    liveItems.push({ title: textRaw.slice(0, 80), desc: textRaw, mediaUrl: vMatch, mediaType: "video", sourceName: "Прямой эфир" });
+                    liveItems.push({ title: firstSentence.slice(0, 90), desc: sanitized, mediaUrl: vMatch, mediaType: "video", sourceName: "Прямой эфир" });
                 } else if (imgMatch && !isTrashUrl(imgMatch)) {
-                    liveItems.push({ title: textRaw.slice(0, 80), desc: textRaw, mediaUrl: imgMatch, mediaType: "image", sourceName: "Прямой эфир" });
+                    liveItems.push({ title: firstSentence.slice(0, 90), desc: sanitized, mediaUrl: imgMatch, mediaType: "image", sourceName: "Прямой эфир" });
                 }
             }
         } catch {}
@@ -201,14 +214,29 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
     return liveItems;
 }
 
+// Форматирование без обрывов предложений
+function cutToSentence(text: string, maxLen = 220): string {
+    const trimmed = text.trim();
+    if (trimmed.length <= maxLen) return trimmed;
+    const sub = trimmed.slice(0, maxLen);
+    const lastPunct = Math.max(sub.lastIndexOf("."), sub.lastIndexOf("!"), sub.lastIndexOf("?"));
+    if (lastPunct > 50) {
+        return sub.slice(0, lastPunct + 1);
+    }
+    const lastSpace = sub.lastIndexOf(" ");
+    return (lastSpace > 0 ? sub.slice(0, lastSpace) : sub) + "...";
+}
+
 async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, text: string }> {
-    const prompt = `Ты шеф-редактор телеграм-канала «Прямой эфир».
-Сделай яркий, динамичный новостной пост:
-ТЕКСТ: ${desc}
+    const cleanDesc = sanitizeRawText(desc);
+    const prompt = `Ты шеф-редактор телеграм-канала новостей «Прямой эфир».
+Сделай чёткий новостной пост по событию:
+ТЕКСТ: ${cleanDesc}
 
 СТРОГИЕ ПРАВИЛА:
-1. Заголовок (headline): до 6-8 слов, громкий, суть события (без кавычек).
-2. Текст (text): строго 1-2 предложения, динамично, факты. Никакой бюрократии.
+1. Заголовок (headline): до 7 слов, громкий, передаёт суть события.
+2. Текст (text): строго 1-2 законченных предложения. Обязательно закончи мысль точкой, не обрывай предложение. НЕ повторяй слово в слово заголовок.
+3. Удали любые упоминания источников ("SHOT", "Mash", "Baza", "по нашей информации").
 Верни ТОЛЬКО JSON: {"headline": "...", "text": "..."}`;
 
     if (GEMINI_API_KEY) {
@@ -246,9 +274,12 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
         } catch {}
     }
 
+    const sentences = cleanDesc.split(/(?<=[.!?])\s+/).filter(Boolean);
+    const bodyText = sentences.length > 1 ? sentences.slice(1, 3).join(" ") : sentences[0];
+
     return {
-        headline: cleanText(title),
-        text: cleanText(desc).slice(0, 150) + ".",
+        headline: cleanText(title).replace(/\s+[-—]\s+.*$/, ""),
+        text: cutToSentence(bodyText || cleanDesc),
     };
 }
 
@@ -292,7 +323,7 @@ async function sendPostToMax(text: string, mediaToken: string, mediaType: "image
 }
 
 async function run() {
-    console.log("=== ЭФИР: Сбор экстренных и живых событий ===");
+    console.log("=== ЭФИР v21: Запуск отбора событий ===");
     const now = Date.now();
 
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
@@ -301,10 +332,10 @@ async function run() {
         return;
     }
 
-    // 1. СНАЧАЛА ПРОВЕРЯЕМ ОПЕРАТИВНЫЕ TELEGRAM-КАНАЛЫ (Видео и ЧП)
+    // 1. Оперативные Telegram-каналы (видео и горячие события)
     const candidates = await fetchTelegramLiveFeed();
 
-    // 2. ЕСЛИ В TG ТИШИНА, СМОТРИМ СМИ (НО С ФИЛЬТРОМ СКУЧНЫХ ТЕМ)
+    // 2. Если в TG пусто — берём чистые статьи из СМИ
     if (candidates.length === 0) {
         await Promise.all(NEWS_FEEDS.map(async (feed) => {
             try {
@@ -314,20 +345,18 @@ async function run() {
                 for (const item of (xml.match(/<item[\s\S]*?<\/item>/gi) ?? []).slice(0, 10)) {
                     const title = cleanText(item.match(/<title[\s\S]*?>([\s\S]*?)<\/title>/i)?.[1]);
                     const desc = cleanText(item.match(/<description[\s\S]*?>([\s\S]*?)<\/description>/i)?.[1]);
-                    const link = cleanText(item.match(/<link[\s\S]*?>([\s\S]*?)<\/link>/i)?.[1]);
                     const encImg = item.match(/<enclosure[^>]+url=["']([^"']+)["'][^>]+type=["']image/i)?.[1];
 
                     if (BORING_TOPICS.some(r => r.test(`${title} ${desc}`))) continue;
 
                     if (title && encImg && !isTrashUrl(encImg)) {
-                        candidates.push({ title, desc, mediaUrl: encImg, mediaType: "image", sourceName: feed.name, link });
+                        candidates.push({ title, desc, mediaUrl: encImg, mediaType: "image", sourceName: feed.name });
                     }
                 }
             } catch {}
         }));
     }
 
-    // Обработка кандидатов
     for (const item of candidates) {
         const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(item.title))))
             .map(b => b.toString(16).padStart(2, "0")).join("");
@@ -335,7 +364,7 @@ async function run() {
         if ((await kv.get(["factor", "pub", hash])).value) continue;
         if (await isDuplicate(item.title)) continue;
 
-        console.log(`\nВыбрано событие: ${item.title}`);
+        console.log(`\nОбработка: ${item.title}`);
         const mediaBytes = await downloadBuffer(item.mediaUrl, item.mediaType === "video");
         if (!mediaBytes) continue;
 
@@ -354,7 +383,7 @@ async function run() {
 
         const sent = await sendPostToMax(postHtml, token, item.mediaType);
         if (sent) {
-            console.log(`🔥 ВЫШЛО В ЭФИР (${item.mediaType}): ${post.headline}`);
+            console.log(`🔥 ОПУБЛИКОВАНО (${item.mediaType}): ${post.headline}`);
             await kv.set(["factor", "pub", hash], true, { expireIn: HISTORY_TTL_MS });
             await kv.set(["factor", "topic", hash], { title: item.title, roots: getRoots(item.title) }, { expireIn: HISTORY_TTL_MS });
             await kv.set(["factor", "last_regular"], now);
@@ -362,7 +391,7 @@ async function run() {
         }
     }
 
-    console.log("Подходящих живых событий пока нет.");
+    console.log("Подходящих событий пока нет.");
 }
 
 await run();
