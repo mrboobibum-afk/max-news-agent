@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791471784565,
+      "value": 1791472096846,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -454,6 +454,33 @@
         ]
       },
       "expiresAt": 1791730994689
+    },
+    "[\"factor\",\"pub\",\"4e08bdda72b8b5174fc8dbfb36e05f43735f6cab1f2e6909e096aa30783812c6\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4e08bdda72b8b5174fc8dbfb36e05f43735f6cab1f2e6909e096aa30783812c6"
+      ],
+      "value": true,
+      "expiresAt": 1791731312060
+    },
+    "[\"factor\",\"topic\",\"4e08bdda72b8b5174fc8dbfb36e05f43735f6cab1f2e6909e096aa30783812c6\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4e08bdda72b8b5174fc8dbfb36e05f43735f6cab1f2e6909e096aa30783812c6"
+      ],
+      "value": {
+        "title": "Омск атакуют беспилотники: в регионе работает ПВО ",
+        "roots": [
+          "омск",
+          "атаку",
+          "беспи",
+          "регио",
+          "работ"
+        ]
+      },
+      "expiresAt": 1791731312061
     }
   }
 }
