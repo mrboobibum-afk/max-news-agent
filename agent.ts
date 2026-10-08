@@ -333,8 +333,9 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
         if (!candidate.mediaUrl || isTrashUrl(candidate.mediaUrl)) return { candidate, score: -1 };
         const roots = getRoots(candidate.title);
         const overlap = roots.filter((r: string) => baseRoots.has(r)).length;
-        const sameTitle = candidate.title === item.title ? 1 : 0;
-        return { candidate, score: overlap * 10 + sameTitle };
+        const sameTitle = candidate.title === item.title;
+        const score = sameTitle ? 100 : (overlap >= 2 ? overlap * 10 : -1);
+        return { candidate, score };
     }).filter(x => x.score > 0).sort((a, b) => b.score - a.score);
     const packet: any[] = [];
     const seen = new Set<string>();
