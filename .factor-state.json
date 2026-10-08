@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791465976561,
+      "value": 1791466302255,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -201,8 +201,8 @@
         "factor",
         "last_source"
       ],
-      "value": "Lenta.ru",
-      "expiresAt": 1791469600086
+      "value": "Интерфакс",
+      "expiresAt": 1791469923946
     },
     "[\"factor\",\"pub\",\"2245349461ac7d120451f1a2c05728f47b9fbadffd205373291d62b0a3cbf5d4\"]": {
       "key": [
@@ -230,6 +230,38 @@
         ]
       },
       "expiresAt": 1791725200085
+    },
+    "[\"factor\",\"pub\",\"9cc4d0d43a683a8b87ded75282eae93894f84f7867c23a9adc7ef4d874c8a129\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "9cc4d0d43a683a8b87ded75282eae93894f84f7867c23a9adc7ef4d874c8a129"
+      ],
+      "value": true,
+      "expiresAt": 1791725523945
+    },
+    "[\"factor\",\"topic\",\"9cc4d0d43a683a8b87ded75282eae93894f84f7867c23a9adc7ef4d874c8a129\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "9cc4d0d43a683a8b87ded75282eae93894f84f7867c23a9adc7ef4d874c8a129"
+      ],
+      "value": {
+        "title": "Первый участок Бирюлевской линии московского метро будет запущен в 2028 году",
+        "roots": [
+          "первы",
+          "участ",
+          "бирюл",
+          "линии",
+          "моско",
+          "метро",
+          "будет",
+          "запущ",
+          "2028",
+          "году"
+        ]
+      },
+      "expiresAt": 1791725523946
     }
   }
 }
