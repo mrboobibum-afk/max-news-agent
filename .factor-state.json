@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791469409186,
+      "value": 1791469724732,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -254,6 +254,35 @@
         ]
       },
       "expiresAt": 1791728622842
+    },
+    "[\"factor\",\"pub\",\"1657331712b55ad5f5be7217ca515d2299757e2b45bdfb88f51e028668c0ec2f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "1657331712b55ad5f5be7217ca515d2299757e2b45bdfb88f51e028668c0ec2f"
+      ],
+      "value": true,
+      "expiresAt": 1791728943120
+    },
+    "[\"factor\",\"topic\",\"1657331712b55ad5f5be7217ca515d2299757e2b45bdfb88f51e028668c0ec2f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "1657331712b55ad5f5be7217ca515d2299757e2b45bdfb88f51e028668c0ec2f"
+      ],
+      "value": {
+        "title": "Военблогер Роман Алехин сообщил, что у него прошли обыски",
+        "roots": [
+          "военб",
+          "роман",
+          "алехи",
+          "сообщ",
+          "него",
+          "прошл",
+          "обыск"
+        ]
+      },
+      "expiresAt": 1791728943121
     }
   }
 }
