@@ -32,7 +32,7 @@
         "factor",
         "last_urgent"
       ],
-      "value": 1791451774010,
+      "value": 1791452258287,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"4aa61af2633c5fed40cebea96de68e39d8c4d97e99a8a3a751b34d5ca32bef5c\"]": {
@@ -75,6 +75,38 @@
       ],
       "value": 1791451936264,
       "expiresAt": null
+    },
+    "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
+      "key": [
+        "factor",
+        "published",
+        "d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353"
+      ],
+      "value": true,
+      "expiresAt": 1791625090461
+    },
+    "[\"factor\",\"published_topic\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
+      "key": [
+        "factor",
+        "published_topic",
+        "d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353"
+      ],
+      "value": {
+        "title": "БПЛА атаковали крупный дата-центр «Яндекса»: пользователи жалуются на сбои - Inkazan.ru",
+        "roots": [
+          "бпла",
+          "атако",
+          "крупн",
+          "дата",
+          "центр",
+          "яндек",
+          "польз",
+          "жалую",
+          "сбои",
+          "inkaz"
+        ]
+      },
+      "expiresAt": 1791625090462
     }
   }
 }
