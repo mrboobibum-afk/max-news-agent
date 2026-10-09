@@ -11,9 +11,9 @@ const QWEN_MODEL = Deno.env.get("QWEN_MODEL") ?? "qwen3.8-max";
 const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyuncs.com/compatible-mode/v1";
 
 const URGENT_INTERVAL_MS = 2 * 60 * 1000;
-// Плавающий интервал публикаций: 10–60 минут.
-const REGULAR_MIN_INTERVAL_MS = 10 * 60 * 1000;
-const REGULAR_MAX_INTERVAL_MS = 60 * 60 * 1000;
+// Плавающий интервал публикаций: 2–15 минут.
+const REGULAR_MIN_INTERVAL_MS = 2 * 60 * 1000;
+const REGULAR_MAX_INTERVAL_MS = 15 * 60 * 1000;
 const MEDIA_PACKET_MAX = 5;
 const HISTORY_TTL_MS = 72 * 60 * 60 * 1000;
 
@@ -413,7 +413,6 @@ async function run() {
             }
             if (uploaded.length >= MEDIA_PACKET_MAX) break;
         }
-        if (!uploaded.length) continue;
 
         const post = await formatNewsPost(item.title, item.desc);
         const postHtml = "<b>" + escapeHtml(post.headline) + "</b>\n\n" + escapeHtml(post.text) + "\n\n⚡ <i>ФАКТОР</i>";
