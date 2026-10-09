@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v25)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v26)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -51,13 +51,11 @@ const NEWS_FEEDS = [
     { name: "Коммерсантъ", cat: "ЭКОНОМИКА", url: "https://www.kommersant.ru/RSS/news.xml" },
 ];
 
-// Стоп-лист: протокольные темы + реклама/промо
 const BORING_TOPICS = [
     /(?:сесси[яи]|форум|круглый\s+стол|конференци[яи]|совещани[ея]|заседани[ея]|брифинг)/i,
     /(?:рэц|экспортер|клиентск|госуслуг|росреестр|минфин|ведомств)/i,
     /(?:напомнил|отметил|заявил\s+о\s+важности|подчеркнул|выразил\s+надежду)/i,
     /(?:гороскоп|погода|курс\s+валют|скидк|выходн)/i,
-    // Реклама и промо
     /(?:запускаем|представляем)\s+(?:карту|сервис|бот|приложение|проект|вашему)/i,
     /(?:наш|этот)\s+(?:телеграм[- ]?канал|канал|проект)\s+(?:представля|запуска|открыва)/i,
     /мини[- ]?приложени/i,
@@ -96,7 +94,8 @@ class FileKV {
         const now = Date.now();
         const res: any[] = [];
         for (const [k, v] of Object.entries<any>(d.entries)) {
-            if (k.startsWith('["factor","topic",') && v?.value) {
+            // Поддерживаем оба формата: новый "topic" и старый "published_topic"
+            if ((k.startsWith('["factor","topic",') || k.startsWith('["factor","published_topic",')) && v?.value) {
                 if (!v.expiresAt || v.expiresAt > now) res.push(v.value);
             }
         }
@@ -172,7 +171,6 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 const textRaw = cleanText(post.match(/<div class="tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/i)?.[1]);
                 if (!textRaw || textRaw.length < 30 || textRaw.length > 500) continue;
                 if (BORING_TOPICS.some(r => r.test(textRaw))) continue;
-                // Реклама часто содержит несколько эмодзи подряд и громкие призывы
                 const emojiCount = (textRaw.match(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu) || []).length;
                 if (emojiCount > 6 && textRaw.length < 250) continue;
                 const videoMatches = [...post.matchAll(/https?:\/\/[^"'<>\s]+?\.(?:mp4)(?:\?[^"'<>\s]*)?/gi)].map(m => m[0]);
@@ -326,7 +324,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ЭФИР v25: Запуск отбора событий ===");
+    console.log("=== ЭФИР v26: Запуск отбора событий ===");
     const now = Date.now();
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
     let nextDelay = (await kv.get(["factor", "next_regular_delay"])).value;
@@ -363,19 +361,16 @@ async function run() {
         const hasMedia = uploaded.length > 0;
         const importance = Number(post.importance) || 5;
 
-        // 1. Реклама — всегда пропускаем
         if (post.is_ad) {
             console.log(`Пропуск: реклама/промо (важность ${importance})`);
             continue;
         }
 
-        // 2. Нет медиа и неважно — пропускаем
         if (!hasMedia && importance < MIN_IMPORTANCE_FOR_TEXT_ONLY) {
             console.log(`Пропуск: нет медиа, важность ${importance} < ${MIN_IMPORTANCE_FOR_TEXT_ONLY}`);
             continue;
         }
 
-        // 3. Есть медиа, но важность слишком низкая — тоже пропускаем
         if (hasMedia && importance < MIN_IMPORTANCE_WITH_MEDIA) {
             console.log(`Пропуск: важность ${importance} < ${MIN_IMPORTANCE_WITH_MEDIA}`);
             continue;
