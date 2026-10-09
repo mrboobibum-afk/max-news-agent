@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791576936621,
+      "value": 1791577439355,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 391729,
+      "value": 297396,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -1433,6 +1433,36 @@
         ]
       },
       "expiresAt": 1791836146351
+    },
+    "[\"factor\",\"pub\",\"4fc239179b21cc563738b1f12ef8b8c53d1b3dcc190d5a1cac3dad88f5042782\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4fc239179b21cc563738b1f12ef8b8c53d1b3dcc190d5a1cac3dad88f5042782"
+      ],
+      "value": true,
+      "expiresAt": 1791836652881
+    },
+    "[\"factor\",\"topic\",\"4fc239179b21cc563738b1f12ef8b8c53d1b3dcc190d5a1cac3dad88f5042782\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4fc239179b21cc563738b1f12ef8b8c53d1b3dcc190d5a1cac3dad88f5042782"
+      ],
+      "value": {
+        "title": "Стиральная машина чуть не спалила трёхкомнатную квартиру в Москве — в момент пожара там бы",
+        "roots": [
+          "стира",
+          "машин",
+          "чуть",
+          "спали",
+          "хкомн",
+          "кварт",
+          "москв",
+          "пожар"
+        ]
+      },
+      "expiresAt": 1791836652882
     }
   }
 }
