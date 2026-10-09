@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v24)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v25)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -15,6 +15,7 @@ const REGULAR_MAX_INTERVAL_MS = 15 * 60 * 1000;
 const MEDIA_PACKET_MAX = 5;
 const HISTORY_TTL_MS = 72 * 60 * 60 * 1000;
 const MIN_IMPORTANCE_FOR_TEXT_ONLY = 7;
+const MIN_IMPORTANCE_WITH_MEDIA = 5;
 
 const MIN_IMAGE_BYTES = 15 * 1024;
 const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
@@ -50,11 +51,26 @@ const NEWS_FEEDS = [
     { name: "Коммерсантъ", cat: "ЭКОНОМИКА", url: "https://www.kommersant.ru/RSS/news.xml" },
 ];
 
+// Стоп-лист: протокольные темы + реклама/промо
 const BORING_TOPICS = [
     /(?:сесси[яи]|форум|круглый\s+стол|конференци[яи]|совещани[ея]|заседани[ея]|брифинг)/i,
     /(?:рэц|экспортер|клиентск|госуслуг|росреестр|минфин|ведомств)/i,
     /(?:напомнил|отметил|заявил\s+о\s+важности|подчеркнул|выразил\s+надежду)/i,
-    /(?:гороскоп|погода|курс\s+валют|скидк|выходн)/i
+    /(?:гороскоп|погода|курс\s+валют|скидк|выходн)/i,
+    // Реклама и промо
+    /(?:запускаем|представляем)\s+(?:карту|сервис|бот|приложение|проект|вашему)/i,
+    /(?:наш|этот)\s+(?:телеграм[- ]?канал|канал|проект)\s+(?:представля|запуска|открыва)/i,
+    /мини[- ]?приложени/i,
+    /подписывайтесь\s+(?:на|по)/i,
+    /переходите\s+по\s+ссылк/i,
+    /скачать\s+(?:бот|приложение|по\s+ссылк)/i,
+    /перейти\s+в\s+(?:бот|канал|сервис)/i,
+    /подробнее\s+(?:в|по)\s+(?:канале|ссылке|описании)/i,
+    /реклама\s*[.:!]/i,
+    /промокод/i,
+    /по\s+промокоду/i,
+    /спецпредложени/i,
+    /партнёрск(?:ий|ого)\s+материал/i,
 ];
 
 class FileKV {
@@ -156,6 +172,9 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 const textRaw = cleanText(post.match(/<div class="tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/i)?.[1]);
                 if (!textRaw || textRaw.length < 30 || textRaw.length > 500) continue;
                 if (BORING_TOPICS.some(r => r.test(textRaw))) continue;
+                // Реклама часто содержит несколько эмодзи подряд и громкие призывы
+                const emojiCount = (textRaw.match(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu) || []).length;
+                if (emojiCount > 6 && textRaw.length < 250) continue;
                 const videoMatches = [...post.matchAll(/https?:\/\/[^"'<>\s]+?\.(?:mp4)(?:\?[^"'<>\s]*)?/gi)].map(m => m[0]);
                 const imageMatches = [...post.matchAll(/background-image:url\('([^']+)'\)/gi)].map(m => m[1]).filter(u => !isTrashUrl(u));
                 const sanitized = sanitizeRawText(textRaw);
@@ -208,7 +227,7 @@ function cutToSentence(text: string, maxLen = 220): string {
     return (lastSpace > 0 ? sub.slice(0, lastSpace) : sub) + "...";
 }
 
-async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, text: string, importance: number }> {
+async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, text: string, importance: number, is_ad: boolean }> {
     const cleanDesc = sanitizeRawText(desc);
     const prompt = `Ты шеф-редактор телеграм-канала новостей «Прямой эфир».
 Сделай чёткий новостной пост по событию:
@@ -223,7 +242,8 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
    7-9 — очень важно (крупное ЧП, удар по инфраструктуре, решение власти, массовые жертвы).
    4-6 — заметно, но не срочно.
    1-3 — рутина, протокольные встречи, курьёзы, реклама.
-Верни ТОЛЬКО JSON: {"headline": "...", "text": "...", "importance": 7}`;
+5. is_ad — true, если это реклама, анонс сервиса, промо-пост канала, приглашение подписаться, реклама приложения/бота/канала. false, если это настоящая новость.
+Верни ТОЛЬКО JSON: {"headline": "...", "text": "...", "importance": 7, "is_ad": false}`;
 
     if (GEMINI_API_KEY) {
         try {
@@ -236,7 +256,7 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
             if (r.ok) {
                 const j = await r.json();
                 const p = JSON.parse(j?.candidates?.[0]?.content?.parts?.[0]?.text ?? "{}");
-                if (p.headline && p.text) return { headline: p.headline, text: p.text, importance: Number(p.importance) || 5 };
+                if (p.headline && p.text) return { headline: p.headline, text: p.text, importance: Number(p.importance) || 5, is_ad: !!p.is_ad };
             }
         } catch {}
     }
@@ -253,14 +273,14 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
                 const match = (j?.choices?.[0]?.message?.content ?? "").match(/\{[\s\S]*\}/);
                 if (match) {
                     const p = JSON.parse(match[0]);
-                    if (p.headline && p.text) return { headline: p.headline, text: p.text, importance: Number(p.importance) || 5 };
+                    if (p.headline && p.text) return { headline: p.headline, text: p.text, importance: Number(p.importance) || 5, is_ad: !!p.is_ad };
                 }
             }
         } catch {}
     }
     const sentences = cleanDesc.split(/(?<=[.!?])\s+/).filter(Boolean);
     const bodyText = sentences.length > 1 ? sentences.slice(1, 3).join(" ") : sentences[0];
-    return { headline: cleanText(title).replace(/\s+[-—]\s+.*$/, ""), text: cutToSentence(bodyText || cleanDesc), importance: 5 };
+    return { headline: cleanText(title).replace(/\s+[-—]\s+.*$/, ""), text: cutToSentence(bodyText || cleanDesc), importance: 5, is_ad: false };
 }
 
 async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<string> {
@@ -291,8 +311,6 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
         const roots = getRoots(candidate.title);
         const overlap = roots.filter((r: string) => baseRoots.has(r)).length;
         const sameTitle = candidate.title === item.title;
-        // Точное совпадение заголовка → 100, иначе нужно 4+ общих корня.
-        // Раньше было 2 — из-за этого подтягивалось чужое медиа.
         const score = sameTitle ? 100 : (overlap >= 4 ? overlap * 10 : -1);
         return { candidate, score };
     }).filter(x => x.score > 0).sort((a, b) => b.score - a.score);
@@ -304,13 +322,11 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
         packet.push(candidate);
         if (packet.length >= MEDIA_PACKET_MAX) break;
     }
-    // Убран unshift(item) — больше не подтягиваем чужое медиа.
-    // Если у самой новости нет медиа — пакет будет пустой, и сработает фильтр важности.
     return packet;
 }
 
 async function run() {
-    console.log("=== ЭФИР v24: Запуск отбора событий ===");
+    console.log("=== ЭФИР v25: Запуск отбора событий ===");
     const now = Date.now();
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
     let nextDelay = (await kv.get(["factor", "next_regular_delay"])).value;
@@ -347,8 +363,21 @@ async function run() {
         const hasMedia = uploaded.length > 0;
         const importance = Number(post.importance) || 5;
 
+        // 1. Реклама — всегда пропускаем
+        if (post.is_ad) {
+            console.log(`Пропуск: реклама/промо (важность ${importance})`);
+            continue;
+        }
+
+        // 2. Нет медиа и неважно — пропускаем
         if (!hasMedia && importance < MIN_IMPORTANCE_FOR_TEXT_ONLY) {
             console.log(`Пропуск: нет медиа, важность ${importance} < ${MIN_IMPORTANCE_FOR_TEXT_ONLY}`);
+            continue;
+        }
+
+        // 3. Есть медиа, но важность слишком низкая — тоже пропускаем
+        if (hasMedia && importance < MIN_IMPORTANCE_WITH_MEDIA) {
+            console.log(`Пропуск: важность ${importance} < ${MIN_IMPORTANCE_WITH_MEDIA}`);
             continue;
         }
 
