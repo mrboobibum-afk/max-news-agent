@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791502971046,
+      "value": 1791504794108,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 1686054,
+      "value": 730790,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -790,6 +790,35 @@
         ]
       },
       "expiresAt": 1791762192461
+    },
+    "[\"factor\",\"pub\",\"c7a0de581e0016e5725aa89731a6076b3e28bd5c1df3b05a06de5e944a6e1ad1\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "c7a0de581e0016e5725aa89731a6076b3e28bd5c1df3b05a06de5e944a6e1ad1"
+      ],
+      "value": true,
+      "expiresAt": 1791764010368
+    },
+    "[\"factor\",\"topic\",\"c7a0de581e0016e5725aa89731a6076b3e28bd5c1df3b05a06de5e944a6e1ad1\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "c7a0de581e0016e5725aa89731a6076b3e28bd5c1df3b05a06de5e944a6e1ad1"
+      ],
+      "value": {
+        "title": "В Латвии женщину приговорили к 6 годам тюрьмы за перевод €43 в Россию",
+        "roots": [
+          "латви",
+          "женщи",
+          "приго",
+          "годам",
+          "тюрьм",
+          "перев",
+          "росси"
+        ]
+      },
+      "expiresAt": 1791764010369
     }
   }
 }
