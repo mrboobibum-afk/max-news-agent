@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791562834063,
+      "value": 1791564033372,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 357635,
+      "value": 654445,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -1284,6 +1284,36 @@
         ]
       },
       "expiresAt": 1791822043910
+    },
+    "[\"factor\",\"pub\",\"a8e4f63a8a07d9f1732ff3888fa838150837cba1286beae62f5c26988e50d1b7\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "a8e4f63a8a07d9f1732ff3888fa838150837cba1286beae62f5c26988e50d1b7"
+      ],
+      "value": true,
+      "expiresAt": 1791823242177
+    },
+    "[\"factor\",\"topic\",\"a8e4f63a8a07d9f1732ff3888fa838150837cba1286beae62f5c26988e50d1b7\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "a8e4f63a8a07d9f1732ff3888fa838150837cba1286beae62f5c26988e50d1b7"
+      ],
+      "value": {
+        "title": "Посещение Европы для граждан РФ сейчас опасно — Песков 📢 Прямой Эфир",
+        "roots": [
+          "посещ",
+          "европ",
+          "гражд",
+          "сейча",
+          "опасн",
+          "песко",
+          "прямо",
+          "эфир"
+        ]
+      },
+      "expiresAt": 1791823242216
     }
   }
 }
