@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791561328067,
+      "value": 1791561665434,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 122317,
+      "value": 616348,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -1194,6 +1194,36 @@
         ]
       },
       "expiresAt": 1791820537375
+    },
+    "[\"factor\",\"pub\",\"d73408eeb07468b0ece0754786c37edde91f4ba8ec34c5159c910dcb51f7e8de\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d73408eeb07468b0ece0754786c37edde91f4ba8ec34c5159c910dcb51f7e8de"
+      ],
+      "value": true,
+      "expiresAt": 1791820894828
+    },
+    "[\"factor\",\"topic\",\"d73408eeb07468b0ece0754786c37edde91f4ba8ec34c5159c910dcb51f7e8de\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d73408eeb07468b0ece0754786c37edde91f4ba8ec34c5159c910dcb51f7e8de"
+      ],
+      "value": {
+        "title": "❗️ Лерчек получила 5 лет условно и штраф ₽765 млн за незаконные валютные операции Гагаринс",
+        "roots": [
+          "лерче",
+          "получ",
+          "услов",
+          "штраф",
+          "незак",
+          "валют",
+          "опера",
+          "гагар"
+        ]
+      },
+      "expiresAt": 1791820894829
     }
   }
 }
