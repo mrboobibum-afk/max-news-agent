@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v21.2)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v21.3)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -18,6 +18,9 @@ const HISTORY_TTL_MS = 72 * 60 * 60 * 1000;
 
 // Порог важности: ниже — пост не публикуется
 const MIN_IMPORTANCE = 7;
+
+// Максимальный возраст новости: посты старше этого времени игнорируются
+const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; // 3 часа
 
 const MIN_IMAGE_BYTES = 15 * 1024;
 const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
@@ -181,8 +184,17 @@ function sanitizeRawText(raw: string): string {
     return t.trim();
 }
 
+// Извлекаем дату поста из HTML t.me/s/<channel>
+function extractPostDate(postHtml: string): number | null {
+    const m = postHtml.match(/<time[^>]+datetime=["']([^"']+)["']/i);
+    if (!m) return null;
+    const t = Date.parse(m[1]);
+    return isNaN(t) ? null : t;
+}
+
 async function fetchTelegramLiveFeed(): Promise<any[]> {
     const liveItems: any[] = [];
+    const now = Date.now();
     for (const ch of TG_LIVE_CHANNELS) {
         try {
             const res = await fetch(`https://t.me/s/${ch}`, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(8000) });
@@ -191,6 +203,10 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
 
             const posts = html.match(/<div class="tgme_widget_message_wrap[\s\S]*?(?=<div class="tgme_widget_message_wrap|$)/gi) ?? [];
             for (const post of posts.slice(-10).reverse()) {
+                // Отсекаем старое: если дата известна и старше MAX_POST_AGE_MS — пропускаем
+                const postDate = extractPostDate(post);
+                if (postDate && (now - postDate) > MAX_POST_AGE_MS) continue;
+
                 const textRaw = cleanText(post.match(/<div class="tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/i)?.[1]);
                 if (!textRaw || textRaw.length < 30 || textRaw.length > 500) continue;
 
@@ -355,7 +371,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ЭФИР v21.2: Запуск отбора событий ===");
+    console.log("=== ЭФИР v21.3: Запуск отбора событий ===");
     const now = Date.now();
 
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
@@ -415,7 +431,6 @@ async function run() {
             if (uploaded.length >= MEDIA_PACKET_MAX) break;
         }
 
-        // Строго: если медиа нет — пропускаем. Без медиа ничего не выйдет.
         if (!uploaded.length) {
             console.log("Пропуск: нет медиа");
             continue;
