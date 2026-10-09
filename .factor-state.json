@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791504794108,
+      "value": 1791505711949,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 730790,
+      "value": 1648623,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -819,6 +819,35 @@
         ]
       },
       "expiresAt": 1791764010369
+    },
+    "[\"factor\",\"pub\",\"e032a3167c6749b6e3ccfd47a7d7ae719a40e6f0f95576bc7a6df1aef86eed2f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e032a3167c6749b6e3ccfd47a7d7ae719a40e6f0f95576bc7a6df1aef86eed2f"
+      ],
+      "value": true,
+      "expiresAt": 1791764928858
+    },
+    "[\"factor\",\"topic\",\"e032a3167c6749b6e3ccfd47a7d7ae719a40e6f0f95576bc7a6df1aef86eed2f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e032a3167c6749b6e3ccfd47a7d7ae719a40e6f0f95576bc7a6df1aef86eed2f"
+      ],
+      "value": {
+        "title": "Азербайджан отправил Украине гуманитарную помощь для восстановления энергосистемы",
+        "roots": [
+          "азерб",
+          "отпра",
+          "украи",
+          "гуман",
+          "помощ",
+          "восст",
+          "энерг"
+        ]
+      },
+      "expiresAt": 1791764928859
     }
   }
 }
