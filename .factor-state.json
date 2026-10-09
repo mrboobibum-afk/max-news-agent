@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791557727997,
+      "value": 1791558639700,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 774634,
+      "value": 657237,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -1022,6 +1022,36 @@
         ]
       },
       "expiresAt": 1791816940450
+    },
+    "[\"factor\",\"pub\",\"b54d86ea4e0aea3ada575dcc417e2b0076f57fe4dcac15c45b2ac5ac1e354013\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "b54d86ea4e0aea3ada575dcc417e2b0076f57fe4dcac15c45b2ac5ac1e354013"
+      ],
+      "value": true,
+      "expiresAt": 1791817851171
+    },
+    "[\"factor\",\"topic\",\"b54d86ea4e0aea3ada575dcc417e2b0076f57fe4dcac15c45b2ac5ac1e354013\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "b54d86ea4e0aea3ada575dcc417e2b0076f57fe4dcac15c45b2ac5ac1e354013"
+      ],
+      "value": {
+        "title": "В Петербурге объявляли план «Перехват» из-за предполагаемого похищения сотрудника ФССП — е",
+        "roots": [
+          "петер",
+          "объяв",
+          "план",
+          "перех",
+          "предп",
+          "похищ",
+          "сотру",
+          "фссп"
+        ]
+      },
+      "expiresAt": 1791817851172
     }
   }
 }
