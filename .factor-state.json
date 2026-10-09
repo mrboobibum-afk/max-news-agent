@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791551364957,
+      "value": 1791553163759,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 1,
+      "value": 724014,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -934,6 +934,37 @@
         ]
       },
       "expiresAt": 1791810577104
+    },
+    "[\"factor\",\"pub\",\"19dcff1c0404719a92d2d3762322ba62ed48283e17c2380e4fcb2f46343c9e89\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "19dcff1c0404719a92d2d3762322ba62ed48283e17c2380e4fcb2f46343c9e89"
+      ],
+      "value": true,
+      "expiresAt": 1791812372213
+    },
+    "[\"factor\",\"topic\",\"19dcff1c0404719a92d2d3762322ba62ed48283e17c2380e4fcb2f46343c9e89\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "19dcff1c0404719a92d2d3762322ba62ed48283e17c2380e4fcb2f46343c9e89"
+      ],
+      "value": {
+        "title": "В Калуге из-за падения обломков дронов приостановил работу бывший завод Volkswagen — СМИ",
+        "roots": [
+          "калуг",
+          "паден",
+          "облом",
+          "дроно",
+          "приос",
+          "работ",
+          "бывши",
+          "завод",
+          "volks"
+        ]
+      },
+      "expiresAt": 1791812372214
     }
   }
 }
