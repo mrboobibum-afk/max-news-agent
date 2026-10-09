@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791560071744,
+      "value": 1791560741214,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 513123,
+      "value": 552004,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -1136,6 +1136,34 @@
         ]
       },
       "expiresAt": 1791819283985
+    },
+    "[\"factor\",\"pub\",\"9064f712f3ddfc603c7da0e3b6243b0b0de3943219ee4d1698690a098cda43c3\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "9064f712f3ddfc603c7da0e3b6243b0b0de3943219ee4d1698690a098cda43c3"
+      ],
+      "value": true,
+      "expiresAt": 1791819955466
+    },
+    "[\"factor\",\"topic\",\"9064f712f3ddfc603c7da0e3b6243b0b0de3943219ee4d1698690a098cda43c3\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "9064f712f3ddfc603c7da0e3b6243b0b0de3943219ee4d1698690a098cda43c3"
+      ],
+      "value": {
+        "title": "Трампу снова не дали Нобелевскую премию мира",
+        "roots": [
+          "трамп",
+          "снова",
+          "дали",
+          "нобел",
+          "преми",
+          "мира"
+        ]
+      },
+      "expiresAt": 1791819955467
     }
   }
 }
