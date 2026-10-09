@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791558639700,
+      "value": 1791559527205,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 657237,
+      "value": 133350,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -1052,6 +1052,34 @@
         ]
       },
       "expiresAt": 1791817851172
+    },
+    "[\"factor\",\"pub\",\"41a2d6a7fff0732540fb54d168abc6c36d105973571afb1b55de5146433c1959\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "41a2d6a7fff0732540fb54d168abc6c36d105973571afb1b55de5146433c1959"
+      ],
+      "value": true,
+      "expiresAt": 1791818741994
+    },
+    "[\"factor\",\"topic\",\"41a2d6a7fff0732540fb54d168abc6c36d105973571afb1b55de5146433c1959\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "41a2d6a7fff0732540fb54d168abc6c36d105973571afb1b55de5146433c1959"
+      ],
+      "value": {
+        "title": "В Италии совершили крупнейшую в истории кражу вина ",
+        "roots": [
+          "итали",
+          "совер",
+          "крупн",
+          "истор",
+          "кражу",
+          "вина"
+        ]
+      },
+      "expiresAt": 1791818742033
     }
   }
 }
