@@ -2,8 +2,8 @@ name: FAKTOR Auto
 
 on:
   schedule:
-    # Запуск новой смены каждый час
-    - cron: "5 * * * *"
+    # Частая проверка; интервал публикаций контролирует agent.ts
+    - cron: "*/15 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -16,7 +16,7 @@ concurrency:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 20
 
     steps:
       - name: Checkout
@@ -36,8 +36,8 @@ jobs:
         with:
           deno-version: v2.x
 
-      - name: Run FAKTOR 50-Min Loop
-        timeout-minutes: 55
+      - name: Run FAKTOR once
+        timeout-minutes: 17
         env:
           GITHUB_ACTIONS: "true"
           MAX_BOT_TOKEN: ${{ secrets.MAX_BOT_TOKEN }}
@@ -48,41 +48,38 @@ jobs:
           QWEN_MODEL: "am/gpt-oss-20b"
           MAX_VIDEO_MB: "30"
           MAX_IMAGE_MB: "15"
-
         run: |
           set -u
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # 10 итераций по 5 минут = ~50 минут непрерывного эфира
-          for i in {1..10}; do
-            echo "=== Итерация $i из 10: $(date -u +%Y-%m-%dT%H:%M:%SZ) ==="
+          echo "=== Проверка публикации: $(date -u +%Y-%m-%dT%H:%M:%SZ) ==="
+          set +e
+          deno run \
+            --v8-flags=--max-old-space-size=6144 \
+            --allow-net \
+            --allow-env \
+            --allow-read \
+            --allow-write \
+            --allow-run \
+            agent.ts
+          agent_exit_code=$?
+          set -e
 
-            deno run \
-              --v8-flags=--max-old-space-size=6144 \
-              --allow-net \
-              --allow-env \
-              --allow-read \
-              --allow-write \
-              --allow-run \
-              agent.ts || true
-
-            if [ -f .factor-state.json ]; then
-              git add .factor-state.json
-              if ! git diff --staged --quiet; then
-                git commit -m "chore: sync state [skip ci]" || true
-                git pull origin main --rebase -X theirs || true
-                git push origin HEAD:main || true
-              fi
+          if [ -f .factor-state.json ]; then
+            git add .factor-state.json
+            if ! git diff --staged --quiet; then
+              git commit -m "chore: sync state [skip ci]" || true
+              git pull origin main --rebase -X theirs
+              git push origin HEAD:main
             fi
+          fi
 
-            if [ $i -lt 10 ]; then
-              echo "Пауза 300 секунд..."
-              sleep 300
-            fi
-          done
+          if [ "$agent_exit_code" -ne 0 ]; then
+            echo "::error::agent.ts завершился с кодом $agent_exit_code"
+            exit "$agent_exit_code"
+          fi
 
       - name: Finish
         if: ${{ always() }}
-        run: echo "Часовая смена вещания завершена."
-        
+        run: echo "Проверка публикации завершена."
