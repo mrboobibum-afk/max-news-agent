@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791557148583,
+      "value": 1791557727997,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 290173,
+      "value": 774634,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -996,6 +996,32 @@
         ]
       },
       "expiresAt": 1791816359531
+    },
+    "[\"factor\",\"pub\",\"bc835f68984c098637885af27c9e0ac7c5a2eb2d12ee694fcbbfa0a4b55d2b7e\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "bc835f68984c098637885af27c9e0ac7c5a2eb2d12ee694fcbbfa0a4b55d2b7e"
+      ],
+      "value": true,
+      "expiresAt": 1791816940449
+    },
+    "[\"factor\",\"topic\",\"bc835f68984c098637885af27c9e0ac7c5a2eb2d12ee694fcbbfa0a4b55d2b7e\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "bc835f68984c098637885af27c9e0ac7c5a2eb2d12ee694fcbbfa0a4b55d2b7e"
+      ],
+      "value": {
+        "title": "ИИ уничтожит человечество через 6–12 месяцев",
+        "roots": [
+          "уничт",
+          "челов",
+          "через",
+          "месяц"
+        ]
+      },
+      "expiresAt": 1791816940450
     }
   }
 }
