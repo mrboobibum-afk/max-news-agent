@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791524478504,
+      "value": 1791533625724,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 2916291,
+      "value": 2360063,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -849,34 +849,34 @@
       },
       "expiresAt": 1791764928859
     },
-    "[\"factor\",\"pub\",\"9364836e5caddbc9040cae5e09bcfefeb0a3fa3d135ef281bca4294d9d2497af\"]": {
+    "[\"factor\",\"pub\",\"b4b88db877bc3bcbb69fb9e3220d3fb975b83cb61850c70d6481d7a4e6a033c9\"]": {
       "key": [
         "factor",
         "pub",
-        "9364836e5caddbc9040cae5e09bcfefeb0a3fa3d135ef281bca4294d9d2497af"
+        "b4b88db877bc3bcbb69fb9e3220d3fb975b83cb61850c70d6481d7a4e6a033c9"
       ],
       "value": true,
-      "expiresAt": 1791783705503
+      "expiresAt": 1791792857678
     },
-    "[\"factor\",\"topic\",\"9364836e5caddbc9040cae5e09bcfefeb0a3fa3d135ef281bca4294d9d2497af\"]": {
+    "[\"factor\",\"topic\",\"b4b88db877bc3bcbb69fb9e3220d3fb975b83cb61850c70d6481d7a4e6a033c9\"]": {
       "key": [
         "factor",
         "topic",
-        "9364836e5caddbc9040cae5e09bcfefeb0a3fa3d135ef281bca4294d9d2497af"
+        "b4b88db877bc3bcbb69fb9e3220d3fb975b83cb61850c70d6481d7a4e6a033c9"
       ],
       "value": {
-        "title": "Допустимый порог превышения скорости в России предложили снизить с 20 до 5 км/ч",
+        "title": "Москвичка случайно запекла айкос с котлетами — он взорвался в духовке",
         "roots": [
-          "допус",
-          "порог",
-          "превы",
-          "скоро",
-          "росси",
-          "предл",
-          "снизи"
+          "москв",
+          "случа",
+          "запек",
+          "айкос",
+          "котле",
+          "взорв",
+          "духов"
         ]
       },
-      "expiresAt": 1791783705504
+      "expiresAt": 1791792857679
     }
   }
 }
