@@ -2,9 +2,12 @@ name: FAKTOR Auto
 
 on:
   schedule:
-    # Частая проверка; интервал публикаций контролирует agent.ts
-    - cron: "*/15 * * * *"
+    # Проверка каждые 15 минут со сдвигом от типичных границ часа.
+    - cron: "7,22,37,52 * * * *"
   workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/faktor-auto.yml"
 
 permissions:
   contents: write
