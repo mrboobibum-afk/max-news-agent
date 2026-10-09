@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791572125611,
+      "value": 1791576936621,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 853916,
+      "value": 391729,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -1405,6 +1405,34 @@
         ]
       },
       "expiresAt": 1791831338359
+    },
+    "[\"factor\",\"pub\",\"33042087df83cabed87ffdbcc863e2ef5f383a82e07b61139c062874cc937757\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "33042087df83cabed87ffdbcc863e2ef5f383a82e07b61139c062874cc937757"
+      ],
+      "value": true,
+      "expiresAt": 1791836146281
+    },
+    "[\"factor\",\"topic\",\"33042087df83cabed87ffdbcc863e2ef5f383a82e07b61139c062874cc937757\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "33042087df83cabed87ffdbcc863e2ef5f383a82e07b61139c062874cc937757"
+      ],
+      "value": {
+        "title": "Мы готовы поставлять нефть США и всему миру — Путин",
+        "roots": [
+          "готов",
+          "поста",
+          "нефть",
+          "всему",
+          "миру",
+          "путин"
+        ]
+      },
+      "expiresAt": 1791836146351
     }
   }
 }
