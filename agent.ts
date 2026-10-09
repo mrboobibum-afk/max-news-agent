@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v23)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v24)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -291,7 +291,9 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
         const roots = getRoots(candidate.title);
         const overlap = roots.filter((r: string) => baseRoots.has(r)).length;
         const sameTitle = candidate.title === item.title;
-        const score = sameTitle ? 100 : (overlap >= 2 ? overlap * 10 : -1);
+        // Точное совпадение заголовка → 100, иначе нужно 4+ общих корня.
+        // Раньше было 2 — из-за этого подтягивалось чужое медиа.
+        const score = sameTitle ? 100 : (overlap >= 4 ? overlap * 10 : -1);
         return { candidate, score };
     }).filter(x => x.score > 0).sort((a, b) => b.score - a.score);
     const packet: any[] = [];
@@ -302,15 +304,13 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
         packet.push(candidate);
         if (packet.length >= MEDIA_PACKET_MAX) break;
     }
-    if (!packet.some(x => x.mediaUrl === item.mediaUrl)) {
-        packet.unshift(item);
-        if (packet.length > MEDIA_PACKET_MAX) packet.pop();
-    }
+    // Убран unshift(item) — больше не подтягиваем чужое медиа.
+    // Если у самой новости нет медиа — пакет будет пустой, и сработает фильтр важности.
     return packet;
 }
 
 async function run() {
-    console.log("=== ЭФИР v23: Запуск отбора событий ===");
+    console.log("=== ЭФИР v24: Запуск отбора событий ===");
     const now = Date.now();
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
     let nextDelay = (await kv.get(["factor", "next_regular_delay"])).value;
