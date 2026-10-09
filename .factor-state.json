@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791505711949,
+      "value": 1791524478504,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 1648623,
+      "value": 2916291,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -848,6 +848,35 @@
         ]
       },
       "expiresAt": 1791764928859
+    },
+    "[\"factor\",\"pub\",\"9364836e5caddbc9040cae5e09bcfefeb0a3fa3d135ef281bca4294d9d2497af\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "9364836e5caddbc9040cae5e09bcfefeb0a3fa3d135ef281bca4294d9d2497af"
+      ],
+      "value": true,
+      "expiresAt": 1791783705503
+    },
+    "[\"factor\",\"topic\",\"9364836e5caddbc9040cae5e09bcfefeb0a3fa3d135ef281bca4294d9d2497af\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "9364836e5caddbc9040cae5e09bcfefeb0a3fa3d135ef281bca4294d9d2497af"
+      ],
+      "value": {
+        "title": "Допустимый порог превышения скорости в России предложили снизить с 20 до 5 км/ч",
+        "roots": [
+          "допус",
+          "порог",
+          "превы",
+          "скоро",
+          "росси",
+          "предл",
+          "снизи"
+        ]
+      },
+      "expiresAt": 1791783705504
     }
   }
 }
