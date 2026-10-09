@@ -2,9 +2,7 @@ name: FAKTOR Auto
 
 on:
   schedule:
-    # Каждые 5 минут — основа «прямого эфира»
     - cron: "*/5 * * * *"
-    # Раз в неделю — keepalive, чтобы GitHub не отключил расписание
     - cron: "0 3 * * 0"
   workflow_dispatch:
   push:
@@ -33,11 +31,8 @@ jobs:
       - name: Install yt-dlp & ffmpeg (Static)
         run: |
           sudo mkdir -p /usr/local/bin
-          # Скачиваем yt-dlp
           sudo wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O /usr/local/bin/yt-dlp
           sudo chmod a+rx /usr/local/bin/yt-dlp
-          
-          # Скачиваем статичный ffmpeg (быстро, без apt-get)
           wget https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linux64-gpl.tar.xz
           tar -xJf ffmpeg-master-latest-linux64-gpl.tar.xz
           sudo cp ffmpeg-master-latest-linux64-gpl/bin/ffmpeg /usr/local/bin/ffmpeg
@@ -84,7 +79,7 @@ jobs:
             git add .factor-state.json
             if ! git diff --staged --quiet; then
               git commit -m "chore: sync state [skip ci]" || true
-              git pull --rebase origin main || true
+              git pull --no-rebase --no-edit -X ours origin main || true
               git push origin HEAD:main || true
             fi
           fi
@@ -102,6 +97,7 @@ jobs:
           date -u > .keepalive
           git add .keepalive
           git commit -m "chore: keepalive [skip ci]" || true
+          git pull --no-rebase --no-edit -X ours origin main || true
           git push origin HEAD:main || true
 
       - name: Finish
