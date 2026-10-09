@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791569129363,
+      "value": 1791572125611,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 676441,
+      "value": 853916,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -1376,6 +1376,35 @@
         ]
       },
       "expiresAt": 1791828342082
+    },
+    "[\"factor\",\"pub\",\"2f8df7a73d2a7827f4fdf960c5193b140f36a8e2945dc7b6ebb0ae03f89657e9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "2f8df7a73d2a7827f4fdf960c5193b140f36a8e2945dc7b6ebb0ae03f89657e9"
+      ],
+      "value": true,
+      "expiresAt": 1791831338358
+    },
+    "[\"factor\",\"topic\",\"2f8df7a73d2a7827f4fdf960c5193b140f36a8e2945dc7b6ebb0ae03f89657e9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "2f8df7a73d2a7827f4fdf960c5193b140f36a8e2945dc7b6ebb0ae03f89657e9"
+      ],
+      "value": {
+        "title": "Трамп заявил, что провёл очень успешный разговор с Путиным",
+        "roots": [
+          "трамп",
+          "заяви",
+          "пров",
+          "очень",
+          "успеш",
+          "разго",
+          "путин"
+        ]
+      },
+      "expiresAt": 1791831338359
     }
   }
 }
