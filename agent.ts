@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v21)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v22)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -16,6 +16,9 @@ const REGULAR_MIN_INTERVAL_MS = 2 * 60 * 1000;
 const REGULAR_MAX_INTERVAL_MS = 15 * 60 * 1000;
 const MEDIA_PACKET_MAX = 5;
 const HISTORY_TTL_MS = 72 * 60 * 60 * 1000;
+
+// Порог важности для публикации без медиа (1–10)
+const MIN_IMPORTANCE_FOR_TEXT_ONLY = 7;
 
 const MIN_IMAGE_BYTES = 15 * 1024;
 const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
@@ -157,7 +160,13 @@ function isTrashUrl(url: string): boolean {
 async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array | null> {
     if (!url || isTrashUrl(url)) return null;
     try {
-        const res = await fetch(url, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(isVideo ? 35000 : 12000) });
+        const headers: Record<string, string> = { "User-Agent": USER_AGENT };
+        // Telegram CDN (telesco.pe) отдаёт 403 без Referer — добавляем его
+        if (/telesco\.pe|telegram\.org|cdn.*\.t\.me|t\.me/i.test(url)) {
+            headers["Referer"] = "https://t.me/";
+            headers["Accept"] = "*/*";
+        }
+        const res = await fetch(url, { headers, signal: AbortSignal.timeout(isVideo ? 35000 : 12000) });
         if (!res.ok) return null;
         const buf = new Uint8Array(await res.arrayBuffer());
         const min = isVideo ? MIN_VIDEO_BYTES : MIN_IMAGE_BYTES;
@@ -232,7 +241,7 @@ function cutToSentence(text: string, maxLen = 220): string {
     return (lastSpace > 0 ? sub.slice(0, lastSpace) : sub) + "...";
 }
 
-async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, text: string }> {
+async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, text: string, importance: number }> {
     const cleanDesc = sanitizeRawText(desc);
     const prompt = `Ты шеф-редактор телеграм-канала новостей «Прямой эфир».
 Сделай чёткий новостной пост по событию:
@@ -242,7 +251,12 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
 1. Заголовок (headline): до 7 слов, громкий, передаёт суть события.
 2. Текст (text): строго 1-2 законченных предложения. Обязательно закончи мысль точкой, не обрывай предложение. НЕ повторяй слово в слово заголовок.
 3. Удали любые упоминания источников ("SHOT", "Mash", "Baza", "по нашей информации").
-Верни ТОЛЬКО JSON: {"headline": "...", "text": "..."}`;
+4. importance — целое число от 1 до 10, насколько событие важно для широкой аудитории:
+   10 — экстренно (война, крупный теракт, катастрофа, покушение).
+   7-9 — очень важно (крупное ЧП, удар по инфраструктуре, решение власти, массовые жертвы).
+   4-6 — заметно, но не срочно.
+   1-3 — рутина, протокольные встречи, курьёзы, реклама.
+Верни ТОЛЬКО JSON: {"headline": "...", "text": "...", "importance": 7}`;
 
     if (GEMINI_API_KEY) {
         try {
@@ -255,7 +269,13 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
             if (r.ok) {
                 const j = await r.json();
                 const p = JSON.parse(j?.candidates?.[0]?.content?.parts?.[0]?.text ?? "{}");
-                if (p.headline && p.text) return p;
+                if (p.headline && p.text) {
+                    return {
+                        headline: p.headline,
+                        text: p.text,
+                        importance: Number(p.importance) || 5,
+                    };
+                }
             }
         } catch {}
     }
@@ -273,7 +293,13 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
                 const match = (j?.choices?.[0]?.message?.content ?? "").match(/\{[\s\S]*\}/);
                 if (match) {
                     const p = JSON.parse(match[0]);
-                    if (p.headline && p.text) return p;
+                    if (p.headline && p.text) {
+                        return {
+                            headline: p.headline,
+                            text: p.text,
+                            importance: Number(p.importance) || 5,
+                        };
+                    }
                 }
             }
         } catch {}
@@ -285,6 +311,7 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
     return {
         headline: cleanText(title).replace(/\s+[-—]\s+.*$/, ""),
         text: cutToSentence(bodyText || cleanDesc),
+        importance: 5,
     };
 }
 
@@ -353,7 +380,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ЭФИР v21: Запуск отбора событий ===");
+    console.log("=== ЭФИР v22: Запуск отбора событий ===");
     const now = Date.now();
 
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
@@ -415,10 +442,19 @@ async function run() {
         }
 
         const post = await formatNewsPost(item.title, item.desc);
+        const hasMedia = uploaded.length > 0;
+        const importance = Number(post.importance) || 5;
+
+        // Если медиа нет — публикуем только реально важные новости
+        if (!hasMedia && importance < MIN_IMPORTANCE_FOR_TEXT_ONLY) {
+            console.log(`Пропуск: нет медиа, важность ${importance} < ${MIN_IMPORTANCE_FOR_TEXT_ONLY}`);
+            continue;
+        }
+
         const postHtml = "<b>" + escapeHtml(post.headline) + "</b>\n\n" + escapeHtml(post.text) + "\n\n⚡ <i>ФАКТОР</i>";
         const sent = await sendPostToMax(postHtml, uploaded);
         if (sent) {
-            console.log("🔥 ОПУБЛИКОВАНО (медиа: " + uploaded.length + "): " + post.headline);
+            console.log("🔥 ОПУБЛИКОВАНО (медиа: " + uploaded.length + ", важность: " + importance + "): " + post.headline);
             await kv.set(["factor", "pub", hash], true, { expireIn: HISTORY_TTL_MS });
             await kv.set(["factor", "topic", hash], { title: item.title, roots: getRoots(item.title) }, { expireIn: HISTORY_TTL_MS });
             const nextDelay = Math.floor(REGULAR_MIN_INTERVAL_MS + Math.random() * (REGULAR_MAX_INTERVAL_MS - REGULAR_MIN_INTERVAL_MS + 1));
