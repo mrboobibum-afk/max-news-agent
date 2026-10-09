@@ -22,7 +22,7 @@ concurrency:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
 
     steps:
       - name: Checkout
@@ -30,12 +30,20 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install yt-dlp & ffmpeg
+      - name: Install yt-dlp & ffmpeg (Static)
         run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg
+          sudo mkdir -p /usr/local/bin
+          # Скачиваем yt-dlp
           sudo wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O /usr/local/bin/yt-dlp
           sudo chmod a+rx /usr/local/bin/yt-dlp
+          
+          # Скачиваем статичный ffmpeg (быстро, без apt-get)
+          wget https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linux64-gpl.tar.xz
+          tar -xJf ffmpeg-master-latest-linux64-gpl.tar.xz
+          sudo cp ffmpeg-master-latest-linux64-gpl/bin/ffmpeg /usr/local/bin/ffmpeg
+          sudo cp ffmpeg-master-latest-linux64-gpl/bin/ffprobe /usr/local/bin/ffprobe
+          sudo chmod a+rx /usr/local/bin/ffmpeg /usr/local/bin/ffprobe
+          rm -rf ffmpeg-master-latest-linux64-gpl ffmpeg-master-latest-linux64-gpl.tar.xz
 
       - name: Setup Deno
         uses: denoland/setup-deno@v2
@@ -43,7 +51,7 @@ jobs:
           deno-version: v2.x
 
       - name: Run FAKTOR once
-        timeout-minutes: 12
+        timeout-minutes: 20
         env:
           GITHUB_ACTIONS: "true"
           MAX_BOT_TOKEN: ${{ secrets.MAX_BOT_TOKEN }}
