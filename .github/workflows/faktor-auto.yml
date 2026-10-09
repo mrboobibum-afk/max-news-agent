@@ -2,12 +2,15 @@ name: FAKTOR Auto
 
 on:
   schedule:
-    # Проверка каждые 15 минут со сдвигом от типичных границ часа.
-    - cron: "7,22,37,52 * * * *"
+    # Каждые 5 минут — основа «прямого эфира»
+    - cron: "*/5 * * * *"
+    # Раз в неделю — keepalive, чтобы GitHub не отключил расписание
+    - cron: "0 3 * * 0"
   workflow_dispatch:
   push:
     paths:
       - ".github/workflows/faktor-auto.yml"
+      - "agent.ts"
 
 permissions:
   contents: write
@@ -19,7 +22,7 @@ concurrency:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
 
     steps:
       - name: Checkout
@@ -40,7 +43,7 @@ jobs:
           deno-version: v2.x
 
       - name: Run FAKTOR once
-        timeout-minutes: 17
+        timeout-minutes: 12
         env:
           GITHUB_ACTIONS: "true"
           MAX_BOT_TOKEN: ${{ secrets.MAX_BOT_TOKEN }}
@@ -73,8 +76,8 @@ jobs:
             git add .factor-state.json
             if ! git diff --staged --quiet; then
               git commit -m "chore: sync state [skip ci]" || true
-              git pull origin main --rebase -X theirs
-              git push origin HEAD:main
+              git pull --rebase origin main || true
+              git push origin HEAD:main || true
             fi
           fi
 
@@ -82,6 +85,16 @@ jobs:
             echo "::error::agent.ts завершился с кодом $agent_exit_code"
             exit "$agent_exit_code"
           fi
+
+      - name: Keepalive (weekly)
+        if: github.event.schedule == '0 3 * * 0'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          date -u > .keepalive
+          git add .keepalive
+          git commit -m "chore: keepalive [skip ci]" || true
+          git push origin HEAD:main || true
 
       - name: Finish
         if: ${{ always() }}
