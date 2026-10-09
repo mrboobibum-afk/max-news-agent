@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791562464698,
+      "value": 1791562834063,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 300473,
+      "value": 357635,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -1252,6 +1252,38 @@
         ]
       },
       "expiresAt": 1791821685545
+    },
+    "[\"factor\",\"pub\",\"349587d6d8e96751cc4c65950858e36ca3a74349343aafbbc9e36d5fdd704358\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "349587d6d8e96751cc4c65950858e36ca3a74349343aafbbc9e36d5fdd704358"
+      ],
+      "value": true,
+      "expiresAt": 1791822043909
+    },
+    "[\"factor\",\"topic\",\"349587d6d8e96751cc4c65950858e36ca3a74349343aafbbc9e36d5fdd704358\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "349587d6d8e96751cc4c65950858e36ca3a74349343aafbbc9e36d5fdd704358"
+      ],
+      "value": {
+        "title": "В результате атаки БПЛА пострадала часть инфраструктуры дата-центра Яндекса в Калуге",
+        "roots": [
+          "резул",
+          "атаки",
+          "бпла",
+          "постр",
+          "часть",
+          "инфра",
+          "дата",
+          "центр",
+          "яндек",
+          "калуг"
+        ]
+      },
+      "expiresAt": 1791822043910
     }
   }
 }
