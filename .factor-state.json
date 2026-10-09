@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791567635491,
+      "value": 1791569129363,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 159811,
+      "value": 676441,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -1346,6 +1346,36 @@
         ]
       },
       "expiresAt": 1791826845112
+    },
+    "[\"factor\",\"pub\",\"28848e3e7d2847852dfa8adc67f7d4a6dc65be4c1e558e450f36c7dfb2382214\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "28848e3e7d2847852dfa8adc67f7d4a6dc65be4c1e558e450f36c7dfb2382214"
+      ],
+      "value": true,
+      "expiresAt": 1791828342080
+    },
+    "[\"factor\",\"topic\",\"28848e3e7d2847852dfa8adc67f7d4a6dc65be4c1e558e450f36c7dfb2382214\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "28848e3e7d2847852dfa8adc67f7d4a6dc65be4c1e558e450f36c7dfb2382214"
+      ],
+      "value": {
+        "title": "Москвичам поднимут плату за проезд по МСД сразу на 32%, с 19 до 25 рублей за каждый участо",
+        "roots": [
+          "москв",
+          "подни",
+          "плату",
+          "проез",
+          "сразу",
+          "рубле",
+          "кажды",
+          "участ"
+        ]
+      },
+      "expiresAt": 1791828342082
     }
   }
 }
