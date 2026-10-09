@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791553163759,
+      "value": 1791557148583,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 724014,
+      "value": 290173,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -965,6 +965,37 @@
         ]
       },
       "expiresAt": 1791812372214
+    },
+    "[\"factor\",\"pub\",\"2b23d3893a635d9697f34f897b642ef5754060d860a890d4cf4ede804e9611ac\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "2b23d3893a635d9697f34f897b642ef5754060d860a890d4cf4ede804e9611ac"
+      ],
+      "value": true,
+      "expiresAt": 1791816359531
+    },
+    "[\"factor\",\"topic\",\"2b23d3893a635d9697f34f897b642ef5754060d860a890d4cf4ede804e9611ac\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "2b23d3893a635d9697f34f897b642ef5754060d860a890d4cf4ede804e9611ac"
+      ],
+      "value": {
+        "title": "Впервые над Ярославской областью сбили украинские разведывательные воздушные шары, запущен",
+        "roots": [
+          "вперв",
+          "яросл",
+          "облас",
+          "сбили",
+          "украи",
+          "разве",
+          "возду",
+          "шары",
+          "запущ"
+        ]
+      },
+      "expiresAt": 1791816359531
     }
   }
 }
