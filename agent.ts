@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v26)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v27)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -15,7 +15,6 @@ const REGULAR_MAX_INTERVAL_MS = 15 * 60 * 1000;
 const MEDIA_PACKET_MAX = 5;
 const HISTORY_TTL_MS = 72 * 60 * 60 * 1000;
 const MIN_IMPORTANCE_FOR_TEXT_ONLY = 7;
-const MIN_IMPORTANCE_WITH_MEDIA = 5;
 
 const MIN_IMAGE_BYTES = 15 * 1024;
 const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
@@ -51,10 +50,10 @@ const NEWS_FEEDS = [
     { name: "Коммерсантъ", cat: "ЭКОНОМИКА", url: "https://www.kommersant.ru/RSS/news.xml" },
 ];
 
+// Стоп-лист: только реально скучное + реклама. Убраны "напомнил/отметил" — они резали посты про политиков.
 const BORING_TOPICS = [
     /(?:сесси[яи]|форум|круглый\s+стол|конференци[яи]|совещани[ея]|заседани[ея]|брифинг)/i,
     /(?:рэц|экспортер|клиентск|госуслуг|росреестр|минфин|ведомств)/i,
-    /(?:напомнил|отметил|заявил\s+о\s+важности|подчеркнул|выразил\s+надежду)/i,
     /(?:гороскоп|погода|курс\s+валют|скидк|выходн)/i,
     /(?:запускаем|представляем)\s+(?:карту|сервис|бот|приложение|проект|вашему)/i,
     /(?:наш|этот)\s+(?:телеграм[- ]?канал|канал|проект)\s+(?:представля|запуска|открыва)/i,
@@ -66,7 +65,6 @@ const BORING_TOPICS = [
     /подробнее\s+(?:в|по)\s+(?:канале|ссылке|описании)/i,
     /реклама\s*[.:!]/i,
     /промокод/i,
-    /по\s+промокоду/i,
     /спецпредложени/i,
     /партнёрск(?:ий|ого)\s+материал/i,
 ];
@@ -94,7 +92,6 @@ class FileKV {
         const now = Date.now();
         const res: any[] = [];
         for (const [k, v] of Object.entries<any>(d.entries)) {
-            // Поддерживаем оба формата: новый "topic" и старый "published_topic"
             if ((k.startsWith('["factor","topic",') || k.startsWith('["factor","published_topic",')) && v?.value) {
                 if (!v.expiresAt || v.expiresAt > now) res.push(v.value);
             }
@@ -133,28 +130,36 @@ function isTrashUrl(url: string): boolean {
 async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array | null> {
     if (!url || isTrashUrl(url)) return null;
     try {
-        const headers: Record<string, string> = { "User-Agent": USER_AGENT };
-        if (/telesco\.pe|telegram\.org|cdn.*\.t\.me|t\.me/i.test(url)) {
-            headers["Referer"] = "https://t.me/";
-            headers["Accept"] = "*/*";
+        // Только User-Agent. Без Referer — Telegram CDN отдаёт 403 с ним.
+        const res = await fetch(url, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(isVideo ? 35000 : 12000) });
+        if (!res.ok) {
+            console.log(`  downloadBuffer: HTTP ${res.status} для ${url.slice(0, 80)}`);
+            return null;
         }
-        const res = await fetch(url, { headers, signal: AbortSignal.timeout(isVideo ? 35000 : 12000) });
-        if (!res.ok) return null;
         const buf = new Uint8Array(await res.arrayBuffer());
         const min = isVideo ? MIN_VIDEO_BYTES : MIN_IMAGE_BYTES;
         const max = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
-        if (buf.byteLength < min || buf.byteLength > max) return null;
+        if (buf.byteLength < min || buf.byteLength > max) {
+            console.log(`  downloadBuffer: размер ${buf.byteLength} вне [${min}, ${max}] для ${url.slice(0, 80)}`);
+            return null;
+        }
         const head = new TextDecoder().decode(buf.subarray(0, 30)).toLowerCase();
-        if (head.includes("<html")||head.includes("<!doctype")||head.includes("<?xml")) return null;
+        if (head.includes("<html")||head.includes("<!doctype")||head.includes("<?xml")) {
+            console.log(`  downloadBuffer: HTML вместо медиа для ${url.slice(0, 80)}`);
+            return null;
+        }
         return buf;
-    } catch { return null; }
+    } catch (e) {
+        console.log(`  downloadBuffer: исключение ${String(e)} для ${url.slice(0, 80)}`);
+        return null;
+    }
 }
 function sanitizeRawText(raw: string): string {
     let t = cleanText(raw);
     t = t.replace(/(?:данные|информация|источник|по данным|сообщает|сообщил)\s+(?:shot|mash|baza|база|риа|тасс|чп)[\s\S]*?[.—:]\s*/gi, "");
     t = t.replace(/по\s+нашей\s+информации,?\s*/gi, "");
     t = t.replace(/как\s+стало\s+известно,?\s*/gi, "");
-    t = t.replace(/(?:подписывайтесь|подробнее|эксклюзив|видео)\b[\s\S]*$/gi, "");
+    t = t.replace(/(?:подписывайтесь|подробнее|эксклюзив)\b[\s\S]*$/gi, "");
     t = t.replace(/—\s*данные\s+[A-Za-zА-Яа-я0-9_]+/gi, "");
     return t.trim();
 }
@@ -169,10 +174,10 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
             const posts = html.match(/<div class="tgme_widget_message_wrap[\s\S]*?(?=<div class="tgme_widget_message_wrap|$)/gi) ?? [];
             for (const post of posts.slice(-10).reverse()) {
                 const textRaw = cleanText(post.match(/<div class="tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/i)?.[1]);
-                if (!textRaw || textRaw.length < 30 || textRaw.length > 500) continue;
+                if (!textRaw || textRaw.length < 30 || textRaw.length > 1000) continue;
                 if (BORING_TOPICS.some(r => r.test(textRaw))) continue;
                 const emojiCount = (textRaw.match(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu) || []).length;
-                if (emojiCount > 6 && textRaw.length < 250) continue;
+                if (emojiCount > 8 && textRaw.length < 250) continue;
                 const videoMatches = [...post.matchAll(/https?:\/\/[^"'<>\s]+?\.(?:mp4)(?:\?[^"'<>\s]*)?/gi)].map(m => m[0]);
                 const imageMatches = [...post.matchAll(/background-image:url\('([^']+)'\)/gi)].map(m => m[1]).filter(u => !isTrashUrl(u));
                 const sanitized = sanitizeRawText(textRaw);
@@ -181,8 +186,14 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                     ...videoMatches.map(mediaUrl => ({ mediaUrl, mediaType: "video" })),
                     ...imageMatches.map(mediaUrl => ({ mediaUrl, mediaType: "image" })),
                 ];
-                for (const media of mediaUrls) {
-                    liveItems.push({ title: firstSentence.slice(0, 90), desc: sanitized, mediaUrl: media.mediaUrl, mediaType: media.mediaType, sourceName: "Прямой эфир" });
+                // Если у поста есть медиа — каждая картинка становится отдельным кандидатом с одинаковым title.
+                // Это нужно, чтобы в getMediaPacket все они собрались в один пакет.
+                if (mediaUrls.length === 0) {
+                    liveItems.push({ title: firstSentence.slice(0, 90), desc: sanitized, mediaUrl: "", mediaType: "image", sourceName: "Прямой эфир" });
+                } else {
+                    for (const media of mediaUrls) {
+                        liveItems.push({ title: firstSentence.slice(0, 90), desc: sanitized, mediaUrl: media.mediaUrl, mediaType: media.mediaType, sourceName: "Прямой эфир" });
+                    }
                 }
             }
         } catch {}
@@ -309,7 +320,8 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
         const roots = getRoots(candidate.title);
         const overlap = roots.filter((r: string) => baseRoots.has(r)).length;
         const sameTitle = candidate.title === item.title;
-        const score = sameTitle ? 100 : (overlap >= 4 ? overlap * 10 : -1);
+        // Точное совпадение заголовка → 100, иначе нужно 2+ общих корня (как было изначально).
+        const score = sameTitle ? 100 : (overlap >= 2 ? overlap * 10 : -1);
         return { candidate, score };
     }).filter(x => x.score > 0).sort((a, b) => b.score - a.score);
     const packet: any[] = [];
@@ -320,11 +332,17 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
         packet.push(candidate);
         if (packet.length >= MEDIA_PACKET_MAX) break;
     }
+    // Всегда добавляем саму новость, если у неё есть медиа — это гарантирует,
+    // что её собственные картинки/видео попадут в пакет.
+    if (item.mediaUrl && !seen.has(item.mediaUrl)) {
+        packet.unshift(item);
+        if (packet.length > MEDIA_PACKET_MAX) packet.pop();
+    }
     return packet;
 }
 
 async function run() {
-    console.log("=== ЭФИР v26: Запуск отбора событий ===");
+    console.log("=== ЭФИР v27: Запуск отбора событий ===");
     const now = Date.now();
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
     let nextDelay = (await kv.get(["factor", "next_regular_delay"])).value;
@@ -361,20 +379,19 @@ async function run() {
         const hasMedia = uploaded.length > 0;
         const importance = Number(post.importance) || 5;
 
+        // Реклама — всегда пропускаем
         if (post.is_ad) {
             console.log(`Пропуск: реклама/промо (важность ${importance})`);
             continue;
         }
 
+        // Нет медиа и неважно — пропускаем
         if (!hasMedia && importance < MIN_IMPORTANCE_FOR_TEXT_ONLY) {
             console.log(`Пропуск: нет медиа, важность ${importance} < ${MIN_IMPORTANCE_FOR_TEXT_ONLY}`);
             continue;
         }
 
-        if (hasMedia && importance < MIN_IMPORTANCE_WITH_MEDIA) {
-            console.log(`Пропуск: важность ${importance} < ${MIN_IMPORTANCE_WITH_MEDIA}`);
-            continue;
-        }
+        // Есть медиа — публикуем при любой важности. Фильтр MIN_IMPORTANCE_WITH_MEDIA убран.
 
         const postHtml = "<b>" + escapeHtml(post.headline) + "</b>\n\n" + escapeHtml(post.text) + "\n\n⚡ <i>ФАКТОР</i>\n\n#ФАКТОР";
         const sent = await sendPostToMax(postHtml, uploaded);
