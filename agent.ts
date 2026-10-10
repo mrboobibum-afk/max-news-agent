@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v21.8)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v21.9)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -134,15 +134,17 @@ function getRoots(str: string): string[] {
         .map(w => w.slice(0, 5));
 }
 
-async function isDuplicate(title: string): Promise<boolean> {
-    const roots = getRoots(title);
+// ИСПРАВЛЕНА: сравниваем и заголовок, и полный текст. Порог зависит от длины.
+async function isDuplicate(title: string, desc?: string): Promise<boolean> {
+    const roots = [...new Set([...getRoots(title), ...(desc ? getRoots(desc) : [])])];
     if (!roots.length) return false;
     const past = await kv.getAllTopics();
     for (const item of past) {
         const set = new Set(item.roots || []);
         let match = 0;
         for (const r of roots) if (set.has(r)) match++;
-        if (match >= 2) return true;
+        const needed = title.length > 60 ? 2 : 1;
+        if (match >= needed) return true;
     }
     return false;
 }
@@ -223,7 +225,6 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 ];
 
                 if (mediaUrls.length === 0) {
-                    // Текстовый кандидат без медиа — важен для важных новостей без картинок
                     liveItems.push({
                         title: firstSentence.slice(0, 90),
                         desc: sanitized,
@@ -389,7 +390,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ЭФИР v21.8: Запуск отбора событий ===");
+    console.log("=== ЭФИР v21.9: Запуск отбора событий ===");
     const now = Date.now();
 
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
@@ -446,11 +447,10 @@ async function run() {
             .map(b => b.toString(16).padStart(2, "0")).join("");
 
         if ((await kv.get(["factor", "pub", hash])).value) continue;
-        if (await isDuplicate(item.title)) continue;
+        if (await isDuplicate(item.title, item.desc)) continue;
 
         console.log("\nОбработка: " + item.title);
 
-        // Сначала — важность, чтобы не тратить время на скачивание для неважного
         const post = await formatNewsPost(item.title, item.desc);
         const importance = Number(post.importance) || 5;
 
@@ -473,7 +473,6 @@ async function run() {
             if (uploaded.length >= MEDIA_PACKET_MAX) break;
         }
 
-        // Если медиа нет — всё равно публикуем, раз важность уже прошла порог
         if (!uploaded.length) {
             console.log("Публикуем без медиа (важная новость)");
         }
