@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791658118653,
+      "value": 1791659433013,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 757525,
+      "value": 699728,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -2451,6 +2451,35 @@
         ]
       },
       "expiresAt": 1791917333274
+    },
+    "[\"factor\",\"pub\",\"3a464b42ab259d5c4b7ef2b5e098d47775229a6d869af3921629fd948c8a1da9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "3a464b42ab259d5c4b7ef2b5e098d47775229a6d869af3921629fd948c8a1da9"
+      ],
+      "value": true,
+      "expiresAt": 1791918669335
+    },
+    "[\"factor\",\"topic\",\"3a464b42ab259d5c4b7ef2b5e098d47775229a6d869af3921629fd948c8a1da9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "3a464b42ab259d5c4b7ef2b5e098d47775229a6d869af3921629fd948c8a1da9"
+      ],
+      "value": {
+        "title": "Нефтяные компании РФ по согласованию с правительством незамедлительно приступят к контракт",
+        "roots": [
+          "нефтя",
+          "компа",
+          "согла",
+          "прави",
+          "незам",
+          "прист",
+          "контр"
+        ]
+      },
+      "expiresAt": 1791918669336
     }
   }
 }
