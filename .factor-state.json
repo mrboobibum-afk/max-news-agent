@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791636030369,
+      "value": 1791637265046,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 291634,
+      "value": 1154388,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -1986,6 +1986,38 @@
         ]
       },
       "expiresAt": 1791895243752
+    },
+    "[\"factor\",\"pub\",\"11083530a978a1dd55a8f3bb75cb74ef466b5b34163350a8141e9d6bfbecb74c\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "11083530a978a1dd55a8f3bb75cb74ef466b5b34163350a8141e9d6bfbecb74c"
+      ],
+      "value": true,
+      "expiresAt": 1791896489369
+    },
+    "[\"factor\",\"topic\",\"11083530a978a1dd55a8f3bb75cb74ef466b5b34163350a8141e9d6bfbecb74c\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "11083530a978a1dd55a8f3bb75cb74ef466b5b34163350a8141e9d6bfbecb74c"
+      ],
+      "value": {
+        "title": "Премьер Финляндии Петтери Орпо намерен на следующей неделе предложить Евросовету прекратит",
+        "roots": [
+          "премь",
+          "финля",
+          "петте",
+          "орпо",
+          "намер",
+          "следу",
+          "недел",
+          "предл",
+          "еврос",
+          "прекр"
+        ]
+      },
+      "expiresAt": 1791896489370
     }
   }
 }
