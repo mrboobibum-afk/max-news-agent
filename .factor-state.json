@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791643832833,
+      "value": 1791645034730,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 840463,
+      "value": 526154,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -2172,6 +2172,34 @@
         ]
       },
       "expiresAt": 1791903077805
+    },
+    "[\"factor\",\"pub\",\"24f543589eb2528b341893f39051a0e240a8d63ecd2eff3bd02c640a93785644\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "24f543589eb2528b341893f39051a0e240a8d63ecd2eff3bd02c640a93785644"
+      ],
+      "value": true,
+      "expiresAt": 1791904299452
+    },
+    "[\"factor\",\"topic\",\"24f543589eb2528b341893f39051a0e240a8d63ecd2eff3bd02c640a93785644\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "24f543589eb2528b341893f39051a0e240a8d63ecd2eff3bd02c640a93785644"
+      ],
+      "value": {
+        "title": "🚨 Территория ТЭС и медсанчасть попали под удар ВСУ в Энергодаре, сообщил мэр.",
+        "roots": [
+          "терри",
+          "медса",
+          "попал",
+          "удар",
+          "энерг",
+          "сообщ"
+        ]
+      },
+      "expiresAt": 1791904299453
     }
   }
 }
