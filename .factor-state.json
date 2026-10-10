@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791649233900,
+      "value": 1791649852380,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 491790,
+      "value": 497397,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -2327,6 +2327,38 @@
         ]
       },
       "expiresAt": 1791908452233
+    },
+    "[\"factor\",\"pub\",\"755307775004a2202f4df5f78e798d9cbb67aa04fca00e0338e32edda02efd7a\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "755307775004a2202f4df5f78e798d9cbb67aa04fca00e0338e32edda02efd7a"
+      ],
+      "value": true,
+      "expiresAt": 1791909063470
+    },
+    "[\"factor\",\"topic\",\"755307775004a2202f4df5f78e798d9cbb67aa04fca00e0338e32edda02efd7a\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "755307775004a2202f4df5f78e798d9cbb67aa04fca00e0338e32edda02efd7a"
+      ],
+      "value": {
+        "title": "❗️ На переходе морем поражен сухогруз, доставлявший в порт Одесса грузы военного назначени",
+        "roots": [
+          "перех",
+          "морем",
+          "пораж",
+          "сухог",
+          "доста",
+          "порт",
+          "одесс",
+          "грузы",
+          "военн",
+          "назна"
+        ]
+      },
+      "expiresAt": 1791909063471
     }
   }
 }
