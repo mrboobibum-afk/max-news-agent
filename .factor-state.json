@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791630630529,
+      "value": 1791631852913,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 972083,
+      "value": 897302,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -1803,6 +1803,35 @@
         ]
       },
       "expiresAt": 1791889853072
+    },
+    "[\"factor\",\"pub\",\"a1109ddabb5ee161627d6ed0a52f1d2c2749efdb161cbac9c98af796dc060078\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "a1109ddabb5ee161627d6ed0a52f1d2c2749efdb161cbac9c98af796dc060078"
+      ],
+      "value": true,
+      "expiresAt": 1791891078531
+    },
+    "[\"factor\",\"topic\",\"a1109ddabb5ee161627d6ed0a52f1d2c2749efdb161cbac9c98af796dc060078\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "a1109ddabb5ee161627d6ed0a52f1d2c2749efdb161cbac9c98af796dc060078"
+      ],
+      "value": {
+        "title": "Международный арбитражный суд Международной торговой палаты (ICC) признал неправомерным од",
+        "roots": [
+          "между",
+          "арбит",
+          "между",
+          "торго",
+          "палат",
+          "призн",
+          "непра"
+        ]
+      },
+      "expiresAt": 1791891078531
     }
   }
 }
