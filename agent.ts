@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v21.3)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v21.4)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -11,11 +11,13 @@ const QWEN_MODEL = Deno.env.get("QWEN_MODEL") ?? "qwen3.8-max";
 const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyuncs.com/compatible-mode/v1";
 
 const URGENT_INTERVAL_MS = 2 * 60 * 1000;
-// Плавающий интервал публикаций: 10–60 минут.
 const REGULAR_MIN_INTERVAL_MS = 10 * 60 * 1000;
 const REGULAR_MAX_INTERVAL_MS = 60 * 60 * 1000;
 const MEDIA_PACKET_MAX = 5;
 const HISTORY_TTL_MS = 72 * 60 * 60 * 1000;
+
+// Жёсткий минимум между двумя публикациями — защита от гонки
+const HARD_MIN_INTERVAL_MS = 3 * 60 * 1000;
 
 const MIN_IMAGE_BYTES = 15 * 1024;
 const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
@@ -24,7 +26,6 @@ const MAX_VIDEO_BYTES = 30 * 1024 * 1024;
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
 
-// Сертификаты Минцифры РФ для MAX
 const MAX_ROOT_CA_URL = "https://gu-st.ru/content/lending/russian_trusted_root_ca_pem.crt";
 const MAX_SUB_CA_URL = "https://gu-st.ru/content/lending/russian_trusted_sub_ca_pem.crt";
 let maxHttpClient: Deno.HttpClient | null = null;
@@ -43,10 +44,8 @@ async function initMaxHttpClient() {
     return maxHttpClient;
 }
 
-// Оперативные каналы (первый приоритет эфира)
 const TG_LIVE_CHANNELS = ["shot_shot", "bazabazon", "novosti_efir", "readovkanews", "mash"];
 
-// Вторичные новостные ленты
 const NEWS_FEEDS = [
     { name: "РБК", cat: "ГЛАВНОЕ", url: "https://rssexport.rbc.ru/rbcnews/news/30/full.rss" },
     { name: "Lenta.ru", cat: "ПРОИСШЕСТВИЯ", url: "https://lenta.ru/rss/news" },
@@ -54,7 +53,6 @@ const NEWS_FEEDS = [
     { name: "Коммерсантъ", cat: "ЭКОНОМИКА", url: "https://www.kommersant.ru/RSS/news.xml" },
 ];
 
-// Стоп-лист протокольных тем
 const BORING_TOPICS = [
     /(?:сесси[яи]|форум|круглый\s+стол|конференци[яи]|совещани[ея]|заседани[ея]|брифинг)/i,
     /(?:рэц|экспортер|клиентск|госуслуг|росреестр|минфин|ведомств)/i,
@@ -131,15 +129,17 @@ function getRoots(str: string): string[] {
         .map(w => w.slice(0, 5));
 }
 
-async function isDuplicate(title: string): Promise<boolean> {
-    const roots = getRoots(title);
+// ИЗМЕНЕНО: сравнение и по заголовку, и по полному тексту. Порог зависит от длины.
+async function isDuplicate(title: string, desc?: string): Promise<boolean> {
+    const roots = [...new Set([...getRoots(title), ...(desc ? getRoots(desc) : [])])];
     if (!roots.length) return false;
     const past = await kv.getAllTopics();
     for (const item of past) {
         const set = new Set(item.roots || []);
         let match = 0;
         for (const r of roots) if (set.has(r)) match++;
-        if (match >= 2) return true;
+        const needed = title.length > 60 ? 2 : 1;
+        if (match >= needed) return true;
     }
     return false;
 }
@@ -178,7 +178,6 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
     }
 }
 
-// Очистка текста от чужих водяных знаков и атрибуций каналов
 function sanitizeRawText(raw: string): string {
     let t = cleanText(raw);
     t = t.replace(/(?:данные|информация|источник|по данным|сообщает|сообщил)\s+(?:shot|mash|baza|база|риа|тасс|чп)[\s\S]*?[.—:]\s*/gi, "");
@@ -189,7 +188,6 @@ function sanitizeRawText(raw: string): string {
     return t.trim();
 }
 
-// Парсинг Telegram-ленты
 async function fetchTelegramLiveFeed(): Promise<any[]> {
     const liveItems: any[] = [];
     for (const ch of TG_LIVE_CHANNELS) {
@@ -215,8 +213,6 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                     ...imageMatches.map(mediaUrl => ({ mediaUrl, mediaType: "image" })),
                 ];
 
-                // Если у поста нет медиа — добавляем текстового кандидата без mediaUrl.
-                // Он пройдёт цикл и опубликуется БЕЗ медиа (см. изменённый блок публикации).
                 if (mediaUrls.length === 0) {
                     liveItems.push({
                         title: firstSentence.slice(0, 90),
@@ -236,7 +232,6 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
     return liveItems;
 }
 
-// Форматирование без обрывов предложений
 function cutToSentence(text: string, maxLen = 220): string {
     const trimmed = text.trim();
     if (trimmed.length <= maxLen) return trimmed;
@@ -370,10 +365,18 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ЭФИР v21.3: Запуск отбора событий ===");
+    console.log("=== ЭФИР v21.4: Запуск отбора событий ===");
     const now = Date.now();
 
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
+
+    // Жёсткий минимум: после любой публикации — 3 минуты тишины. Защита от гонки.
+    if (now - lastRegular < HARD_MIN_INTERVAL_MS) {
+        const secondsLeft = Math.ceil((HARD_MIN_INTERVAL_MS - (now - lastRegular)) / 1000);
+        console.log(`Жёсткий интервал: ждём ещё ${secondsLeft} сек.`);
+        return;
+    }
+
     let nextDelay = (await kv.get(["factor", "next_regular_delay"])).value;
     if (!nextDelay) {
         nextDelay = REGULAR_MIN_INTERVAL_MS;
@@ -384,10 +387,8 @@ async function run() {
         return;
     }
 
-    // 1. Оперативные Telegram-каналы (видео и горячие события)
     const candidates = await fetchTelegramLiveFeed();
 
-    // 2. Если в TG пусто — берём чистые статьи из СМИ
     if (candidates.length === 0) {
         await Promise.all(NEWS_FEEDS.map(async (feed) => {
             try {
@@ -415,7 +416,6 @@ async function run() {
         }));
     }
 
-    // Дедупликация кандидатов по title — чтобы одна новость не крутилась 15 раз
     const seenTitles = new Set<string>();
     const uniqueCandidates: any[] = [];
     for (const c of candidates) {
@@ -429,7 +429,7 @@ async function run() {
             .map(b => b.toString(16).padStart(2, "0")).join("");
 
         if ((await kv.get(["factor", "pub", hash])).value) continue;
-        if (await isDuplicate(item.title)) continue;
+        if (await isDuplicate(item.title, item.desc)) continue;
 
         console.log("\nОбработка: " + item.title);
         const mediaPacket = getMediaPacket(item, candidates);
@@ -446,8 +446,6 @@ async function run() {
             if (uploaded.length >= MEDIA_PACKET_MAX) break;
         }
 
-        // ИЗМЕНЕНО: если медиа нет — всё равно публикуем текстом.
-        // Раньше было `if (!uploaded.length) continue;` — это отсекало новости без медиа.
         if (!uploaded.length) {
             console.log("Медиа не найдено — публикуем текстом");
         }
