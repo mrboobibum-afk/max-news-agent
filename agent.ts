@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v21.6)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v21.7)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -11,8 +11,8 @@ const QWEN_MODEL = Deno.env.get("QWEN_MODEL") ?? "qwen3.8-max";
 const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyuncs.com/compatible-mode/v1";
 
 const URGENT_INTERVAL_MS = 2 * 60 * 1000;
-const REGULAR_MIN_INTERVAL_MS = 10 * 60 * 1000;
-const REGULAR_MAX_INTERVAL_MS = 60 * 60 * 1000;
+const REGULAR_MIN_INTERVAL_MS = 3 * 60 * 1000;
+const REGULAR_MAX_INTERVAL_MS = 20 * 60 * 1000;
 const MEDIA_PACKET_MAX = 5;
 const HISTORY_TTL_MS = 72 * 60 * 60 * 1000;
 
@@ -222,7 +222,6 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                     ...imageMatches.map(mediaUrl => ({ mediaUrl, mediaType: "image" })),
                 ];
 
-                // Каждое медиа — отдельный кандидат с ОДИНАКОВЫМ title. Это ключ к сборке пакета из 5 медиа в один пост.
                 for (const media of mediaUrls) {
                     liveItems.push({
                         title: firstSentence.slice(0, 90),
@@ -352,11 +351,6 @@ async function sendPostToMax(text: string, media: Array<{ token: string, type: "
     return res.ok;
 }
 
-// ОРИГИНАЛЬНАЯ логика сбора пакета (как в первом коде v21):
-// 1. Скоринг всех кандидатов по пересечению корней со словами новости.
-// 2. Точное совпадение заголовка = 100, иначе 2+ общих корня = приоритет.
-// 3. unshift(item) гарантирует, что собственное медиа новости тоже в пакете.
-// Это позволяет собрать в один пост несколько фото и видео из одной темы.
 function getMediaPacket(item: any, candidates: any[]): any[] {
     const baseRoots = new Set(getRoots(item.title));
     const scored = candidates.map(candidate => {
@@ -384,7 +378,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ЭФИР v21.6: Запуск отбора событий ===");
+    console.log("=== ЭФИР v21.7: Запуск отбора событий ===");
     const now = Date.now();
 
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
@@ -421,7 +415,6 @@ async function run() {
         }));
     }
 
-    // Дедуплицируем кандидатов по title — чтобы не гонять один и тот же пост с 5 медиа 5 раз
     const seenTitles = new Set<string>();
     const uniqueCandidates: any[] = [];
     for (const c of candidates) {
