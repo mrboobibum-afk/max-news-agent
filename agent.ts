@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v21.5)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v21.6)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -222,8 +222,7 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                     ...imageMatches.map(mediaUrl => ({ mediaUrl, mediaType: "image" })),
                 ];
 
-                const postKey = Array.from(new TextEncoder().encode(sanitized)).slice(0, 60).join(",");
-
+                // Каждое медиа — отдельный кандидат с ОДИНАКОВЫМ title. Это ключ к сборке пакета из 5 медиа в один пост.
                 for (const media of mediaUrls) {
                     liveItems.push({
                         title: firstSentence.slice(0, 90),
@@ -231,7 +230,6 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                         mediaUrl: media.mediaUrl,
                         mediaType: media.mediaType,
                         sourceName: "Прямой эфир",
-                        postKey,
                     });
                 }
             }
@@ -354,22 +352,39 @@ async function sendPostToMax(text: string, media: Array<{ token: string, type: "
     return res.ok;
 }
 
+// ОРИГИНАЛЬНАЯ логика сбора пакета (как в первом коде v21):
+// 1. Скоринг всех кандидатов по пересечению корней со словами новости.
+// 2. Точное совпадение заголовка = 100, иначе 2+ общих корня = приоритет.
+// 3. unshift(item) гарантирует, что собственное медиа новости тоже в пакете.
+// Это позволяет собрать в один пост несколько фото и видео из одной темы.
 function getMediaPacket(item: any, candidates: any[]): any[] {
+    const baseRoots = new Set(getRoots(item.title));
+    const scored = candidates.map(candidate => {
+        if (!candidate.mediaUrl || isTrashUrl(candidate.mediaUrl)) return { candidate, score: -1 };
+        const roots = getRoots(candidate.title);
+        const overlap = roots.filter((r: string) => baseRoots.has(r)).length;
+        const sameTitle = candidate.title === item.title;
+        const score = sameTitle ? 100 : (overlap >= 2 ? overlap * 10 : -1);
+        return { candidate, score };
+    }).filter(x => x.score > 0).sort((a, b) => b.score - a.score);
+
     const packet: any[] = [];
     const seen = new Set<string>();
-    for (const candidate of candidates) {
-        if (!candidate.mediaUrl || isTrashUrl(candidate.mediaUrl)) continue;
-        if (!item.postKey || candidate.postKey !== item.postKey) continue;
+    for (const { candidate } of scored) {
         if (seen.has(candidate.mediaUrl)) continue;
         seen.add(candidate.mediaUrl);
         packet.push(candidate);
         if (packet.length >= MEDIA_PACKET_MAX) break;
     }
+    if (!packet.some(x => x.mediaUrl === item.mediaUrl)) {
+        packet.unshift(item);
+        if (packet.length > MEDIA_PACKET_MAX) packet.pop();
+    }
     return packet;
 }
 
 async function run() {
-    console.log("=== ЭФИР v21.5: Запуск отбора событий ===");
+    console.log("=== ЭФИР v21.6: Запуск отбора событий ===");
     const now = Date.now();
 
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
@@ -399,20 +414,20 @@ async function run() {
                     if (BORING_TOPICS.some(r => r.test(`${title} ${desc}`))) continue;
 
                     if (title && encImg && !isTrashUrl(encImg)) {
-                        const postKey = Array.from(new TextEncoder().encode(`${feed.name}:${title}`)).slice(0, 60).join(",");
-                        candidates.push({ title, desc, mediaUrl: encImg, mediaType: "image", sourceName: feed.name, postKey });
+                        candidates.push({ title, desc, mediaUrl: encImg, mediaType: "image", sourceName: feed.name });
                     }
                 }
             } catch {}
         }));
     }
 
-    const seenPostKeys = new Set<string>();
+    // Дедуплицируем кандидатов по title — чтобы не гонять один и тот же пост с 5 медиа 5 раз
+    const seenTitles = new Set<string>();
     const uniqueCandidates: any[] = [];
     for (const c of candidates) {
-        const key = c.postKey || c.title;
-        if (seenPostKeys.has(key)) continue;
-        seenPostKeys.add(key);
+        const key = c.title;
+        if (seenTitles.has(key)) continue;
+        seenTitles.add(key);
         uniqueCandidates.push(c);
     }
 
