@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791666635295,
+      "value": 1791667853558,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 1151441,
+      "value": 497547,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -2602,6 +2602,35 @@
         ]
       },
       "expiresAt": 1791925857887
+    },
+    "[\"factor\",\"pub\",\"b067bdf8cd873627d57066eb6d9c774a6551d6b3ce177d303ff1b491cfa447ed\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "b067bdf8cd873627d57066eb6d9c774a6551d6b3ce177d303ff1b491cfa447ed"
+      ],
+      "value": true,
+      "expiresAt": 1791927065139
+    },
+    "[\"factor\",\"topic\",\"b067bdf8cd873627d57066eb6d9c774a6551d6b3ce177d303ff1b491cfa447ed\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "b067bdf8cd873627d57066eb6d9c774a6551d6b3ce177d303ff1b491cfa447ed"
+      ],
+      "value": {
+        "title": "Бронетехника, поставленная западными странами для ВСУ, непригодна к реальным сражениям в з",
+        "roots": [
+          "броне",
+          "поста",
+          "запад",
+          "стран",
+          "непри",
+          "реаль",
+          "сраже"
+        ]
+      },
+      "expiresAt": 1791927065140
     }
   }
 }
