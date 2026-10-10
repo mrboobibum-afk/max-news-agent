@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791652835393,
+      "value": 1791657050031,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 219238,
+      "value": 815391,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -2388,6 +2388,38 @@
         ]
       },
       "expiresAt": 1791912045258
+    },
+    "[\"factor\",\"pub\",\"ceb2af1d8cc33051b6d6fbd0f8e2388c50fb49515ba2a416de1e1999db667dc9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "ceb2af1d8cc33051b6d6fbd0f8e2388c50fb49515ba2a416de1e1999db667dc9"
+      ],
+      "value": true,
+      "expiresAt": 1791916268881
+    },
+    "[\"factor\",\"topic\",\"ceb2af1d8cc33051b6d6fbd0f8e2388c50fb49515ba2a416de1e1999db667dc9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "ceb2af1d8cc33051b6d6fbd0f8e2388c50fb49515ba2a416de1e1999db667dc9"
+      ],
+      "value": {
+        "title": "Взрыв и пожар произошли на танкере с нефтью, который столкнулся с миной при попытке покину",
+        "roots": [
+          "взрыв",
+          "пожар",
+          "произ",
+          "танке",
+          "нефть",
+          "котор",
+          "столк",
+          "миной",
+          "попыт",
+          "покин"
+        ]
+      },
+      "expiresAt": 1791916268882
     }
   }
 }
