@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791661235359,
+      "value": 1791662464997,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 301267,
+      "value": 209123,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -2512,6 +2512,37 @@
         ]
       },
       "expiresAt": 1791920460027
+    },
+    "[\"factor\",\"pub\",\"b4353dd4d3356e81869678ad0910d16ed00e58e89f948b2263bec04057bc9ef1\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "b4353dd4d3356e81869678ad0910d16ed00e58e89f948b2263bec04057bc9ef1"
+      ],
+      "value": true,
+      "expiresAt": 1791921681354
+    },
+    "[\"factor\",\"topic\",\"b4353dd4d3356e81869678ad0910d16ed00e58e89f948b2263bec04057bc9ef1\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "b4353dd4d3356e81869678ad0910d16ed00e58e89f948b2263bec04057bc9ef1"
+      ],
+      "value": {
+        "title": "ТЦК ужесточают мобилизацию украинцев, которым становится сложно спрятаться даже в собствен",
+        "roots": [
+          "ужест",
+          "мобил",
+          "украи",
+          "котор",
+          "стано",
+          "сложн",
+          "спрят",
+          "даже",
+          "собст"
+        ]
+      },
+      "expiresAt": 1791921681356
     }
   }
 }
