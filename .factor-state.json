@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791645633321,
+      "value": 1791646831707,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 1044541,
+      "value": 934723,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -2233,6 +2233,37 @@
         ]
       },
       "expiresAt": 1791904883229
+    },
+    "[\"factor\",\"pub\",\"66fbaa46d3f6e9a314fc5fa6bb6af05f7cce8c96e394473e1625b6247a6cb215\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "66fbaa46d3f6e9a314fc5fa6bb6af05f7cce8c96e394473e1625b6247a6cb215"
+      ],
+      "value": true,
+      "expiresAt": 1791906068529
+    },
+    "[\"factor\",\"topic\",\"66fbaa46d3f6e9a314fc5fa6bb6af05f7cce8c96e394473e1625b6247a6cb215\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "66fbaa46d3f6e9a314fc5fa6bb6af05f7cce8c96e394473e1625b6247a6cb215"
+      ],
+      "value": {
+        "title": "◻️ ◻️ ◻️ Иногда лучший способ научиться готовить — просто посмотреть, как это делают профе",
+        "roots": [
+          "иногд",
+          "лучши",
+          "спосо",
+          "научи",
+          "готов",
+          "прост",
+          "посмо",
+          "делаю",
+          "профе"
+        ]
+      },
+      "expiresAt": 1791906068531
     }
   }
 }
