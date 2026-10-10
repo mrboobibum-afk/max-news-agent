@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v28)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v29)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -16,7 +16,6 @@ const HARD_MIN_INTERVAL_MS = 3 * 60 * 1000;
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000;
 
 const MEDIA_PACKET_MAX = 6;
-// СНИЖЕНО С 7 ДО 6 — теперь проходят новости уровня "политика/экономика/международка"
 const MIN_IMPORTANCE = 6;
 const HISTORY_TTL_MS = 72 * 60 * 60 * 1000;
 
@@ -47,14 +46,16 @@ async function initMaxHttpClient() {
     return maxHttpClient;
 }
 
+// ДОБАВЛЕНЫ официальные каналы — у них всегда есть медиа к важным новостям.
 const TG_LIVE_CHANNELS = [
+    "mod_russia",     // Минобороны РФ (официальные сводки)
+    "rian_ru",        // РИА Новости
+    "tass_agency",    // ТАСС
+    "rbc_news",       // РБК
     "shot_shot",      // SHOT
     "bazabazon",      // База
     "readovkanews",   // Readovka
     "mash",           // Mash
-    "rbc_news",       // РБК
-    "rian_ru",        // РИА Новости
-    "tass_agency",    // ТАСС
 ];
 
 const NEWS_FEEDS = [
@@ -180,6 +181,7 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
     const strategies: Array<Record<string, string>> = [
         { "User-Agent": USER_AGENT, "Referer": "https://t.me/", "Accept": "*/*" },
         { "User-Agent": USER_AGENT, "Referer": "https://t.me/s/shot_shot", "Accept": "image/*,*/*" },
+        { "User-Agent": USER_AGENT, "Referer": "https://t.me/s/mod_russia", "Accept": "image/*,*/*" },
         { "User-Agent": USER_AGENT },
     ];
     for (const headers of strategies) {
@@ -207,6 +209,7 @@ function sanitizeRawText(raw: string): string {
     t = t.replace(/—\s*данные\s+[A-Za-zА-Яа-я0-9_]+/gi, "");
     t = t.replace(/📢\s*Прямой Эфир/gi, "");
     t = t.replace(/⚡\s*ФАКТОР/gi, "");
+    t = t.replace(/◆\s*Подписаться[\s\S]*$/gi, "");
     return t.trim();
 }
 
@@ -325,8 +328,6 @@ function cutBody(text: string, maxLen = MAX_BODY_LEN): string {
     return (lastSpace > 0 ? sub.slice(0, lastSpace) : sub) + "...";
 }
 
-// LLM генерирует ТОЛЬКО заголовок и оценку важности.
-// Тело поста берём ДОСЛОВНО из источника — так факты (возраст, цифры, имена) не искажаются.
 async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, text: string, importance: number, is_ad: boolean }> {
     const cleanDesc = sanitizeRawText(desc);
     const bodyText = cutBody(cleanDesc);
@@ -363,12 +364,7 @@ ${cleanDesc}
             if (r.ok) {
                 const j = await r.json();
                 const p = JSON.parse(j?.candidates?.[0]?.content?.parts?.[0]?.text ?? "{}");
-                if (p.headline) return {
-                    headline: p.headline,
-                    text: bodyText,
-                    importance: Number(p.importance) || 5,
-                    is_ad: !!p.is_ad,
-                };
+                if (p.headline) return { headline: p.headline, text: bodyText, importance: Number(p.importance) || 5, is_ad: !!p.is_ad };
             }
         } catch {}
     }
@@ -386,12 +382,7 @@ ${cleanDesc}
                 const match = (j?.choices?.[0]?.message?.content ?? "").match(/\{[\s\S]*\}/);
                 if (match) {
                     const p = JSON.parse(match[0]);
-                    if (p.headline) return {
-                        headline: p.headline,
-                        text: bodyText,
-                        importance: Number(p.importance) || 5,
-                        is_ad: !!p.is_ad,
-                    };
+                    if (p.headline) return { headline: p.headline, text: bodyText, importance: Number(p.importance) || 5, is_ad: !!p.is_ad };
                 }
             }
         } catch {}
@@ -439,28 +430,54 @@ async function sendPostToMax(text: string, media: Array<{ token: string, type: "
     return res.ok;
 }
 
+// Сбор медиапакета.
+// 1) Сначала — все медиа из того же поста (postKey).
+// 2) Если их нет — FALLBACK: ищем медиа по 3+ общим корням в заголовке
+//    (жёсткий порог, чтобы не подтянуть "пляжи" к "Рыбарю").
 function getMediaPacket(item: any, candidates: any[]): any[] {
-    if (!item.postKey) return item.mediaUrl ? [item] : [];
     const packet: any[] = [];
     const seen = new Set<string>();
 
-    const samePostCandidates = candidates.filter(c => c.postKey === item.postKey);
-    const videos = samePostCandidates.filter(c => c.mediaType === "video");
-    const images = samePostCandidates.filter(c => c.mediaType === "image");
-    const ordered = [...videos, ...images];
-
-    for (const c of ordered) {
-        if (!c.mediaUrl || isTrashUrl(c.mediaUrl)) continue;
-        if (seen.has(c.mediaUrl)) continue;
-        seen.add(c.mediaUrl);
-        packet.push(c);
-        if (packet.length >= MEDIA_PACKET_MAX) break;
+    // Приоритет 1: медиа из того же поста
+    if (item.postKey) {
+        const samePost = candidates.filter(c => c.postKey === item.postKey);
+        const videos = samePost.filter(c => c.mediaType === "video");
+        const images = samePost.filter(c => c.mediaType === "image");
+        for (const c of [...videos, ...images]) {
+            if (!c.mediaUrl || isTrashUrl(c.mediaUrl)) continue;
+            if (seen.has(c.mediaUrl)) continue;
+            seen.add(c.mediaUrl);
+            packet.push(c);
+            if (packet.length >= MEDIA_PACKET_MAX) return packet;
+        }
     }
+
+    // Приоритет 2: fallback — медиа по 3+ общим корням (новость, но из другого канала)
+    if (packet.length === 0) {
+        const baseRoots = new Set(getRoots(item.title));
+        const scored = candidates
+            .filter(c => c.mediaUrl && !isTrashUrl(c.mediaUrl))
+            .map(c => {
+                const roots = getRoots(c.title);
+                const overlap = roots.filter((r: string) => baseRoots.has(r)).length;
+                return { candidate: c, overlap };
+            })
+            .filter(x => x.overlap >= 3)
+            .sort((a, b) => b.overlap - a.overlap);
+
+        for (const { candidate } of scored) {
+            if (seen.has(candidate.mediaUrl)) continue;
+            seen.add(candidate.mediaUrl);
+            packet.push(candidate);
+            if (packet.length >= MEDIA_PACKET_MAX) break;
+        }
+    }
+
     return packet;
 }
 
 async function run() {
-    console.log("=== ЭФИР v28: Запуск отбора событий ===");
+    console.log("=== ЭФИР v29: Запуск отбора событий ===");
     const now = Date.now();
 
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
