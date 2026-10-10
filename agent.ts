@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v24)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v25)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -13,7 +13,7 @@ const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyun
 const REGULAR_MIN_INTERVAL_MS = 3 * 60 * 1000;
 const REGULAR_MAX_INTERVAL_MS = 20 * 60 * 1000;
 const HARD_MIN_INTERVAL_MS = 3 * 60 * 1000;
-const MAX_POST_AGE_MS = 2 * 60 * 60 * 1000; // 2 часа — не 3
+const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000;
 
 const MEDIA_PACKET_MAX = 6;
 const MIN_IMPORTANCE = 7;
@@ -44,7 +44,17 @@ async function initMaxHttpClient() {
     return maxHttpClient;
 }
 
-const TG_LIVE_CHANNELS = ["shot_shot", "bazabazon", "novosti_efir", "readovkanews", "mash"];
+// Источники. Добавлены крупные каналы для более широкого покрытия.
+const TG_LIVE_CHANNELS = [
+    "novosti_efir",   // Прямой Эфир
+    "shot_shot",      // SHOT
+    "bazabazon",      // База
+    "readovkanews",   // Readovka
+    "mash",           // Mash
+    "rbc_news",       // РБК
+    "rian_ru",        // РИА Новости
+    "tass_agency",    // ТАСС
+];
 
 const NEWS_FEEDS = [
     { name: "РБК", cat: "ГЛАВНОЕ", url: "https://rssexport.rbc.ru/rbcnews/news/30/full.rss" },
@@ -69,13 +79,6 @@ const BORING_TOPICS = [
     /(?:введены|новые)\s+(?:правила|требования|инструкци|регламент)/i,
     /(?:правила|требования|инструкци|регламент)\s+(?:для|к)\s+(?:постов|новостей|заголовков|текст)/i,
     /(?:заголовок|текст)\s+(?:до|не\s+более)\s+\d+/i,
-];
-
-// Слова-маркеры старых новостей (если встречаются — пропускаем)
-const OLD_NEWS_MARKERS = [
-    /(?:на\s+прошлой\s+неделе|накануне\s+вечером|несколько\s+дней\s+назад)/i,
-    /(?:8|9|10)\s+октября\s+20\d\d/i,
-    /(?:вчера\s+вечером|вчера\s+днём|вчера\s+ночью)/i,
 ];
 
 class FileKV {
@@ -161,10 +164,6 @@ async function isDuplicate(title: string, desc?: string): Promise<boolean> {
     return false;
 }
 
-function isOldNews(text: string): boolean {
-    return OLD_NEWS_MARKERS.some(r => r.test(text));
-}
-
 function isTrashUrl(url: string): boolean {
     const low = url.toLowerCase();
     return (
@@ -178,11 +177,9 @@ function isTrashUrl(url: string): boolean {
 async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array | null> {
     if (!url || isTrashUrl(url)) return null;
 
-    // Несколько стратегий — Telegram CDN иногда блокирует GitHub IP,
-    // пробуем разные комбинации заголовков
     const strategies: Array<Record<string, string>> = [
         { "User-Agent": USER_AGENT, "Referer": "https://t.me/", "Accept": "*/*" },
-        { "User-Agent": USER_AGENT, "Referer": "https://t.me/s/shot_shot", "Accept": "image/*,*/*" },
+        { "User-Agent": USER_AGENT, "Referer": "https://t.me/s/novosti_efir", "Accept": "image/*,*/*" },
         { "User-Agent": USER_AGENT },
     ];
 
@@ -231,15 +228,19 @@ function simpleHash(str: string): string {
     return Math.abs(h).toString(36);
 }
 
-// ИЗМЕНЕНО: расширенное извлечение медиа из Telegram.
-// Теперь берём и video (mp4), и background-image, и <img src>.
+// ИЗМЕНЕНО: убран OLD_NEWS_MARKERS — он ложно срабатывал на сегодняшних датах.
+// Лимит текста поднят до 2000. Добавлена диагностика по каналам.
 async function fetchTelegramLiveFeed(): Promise<any[]> {
     const liveItems: any[] = [];
     const now = Date.now();
     for (const ch of TG_LIVE_CHANNELS) {
+        let found = 0;
         try {
-            const res = await fetch(`https://t.me/s/${ch}`, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(8000) });
-            if (!res.ok) continue;
+            const res = await fetch(`https://t.me/s/${ch}`, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(10000) });
+            if (!res.ok) {
+                console.log(`  [${ch}] HTTP ${res.status}`);
+                continue;
+            }
             const html = await res.text();
 
             const posts = html.match(/<div class="tgme_widget_message_wrap[\s\S]*?(?=<div class="tgme_widget_message_wrap|$)/gi) ?? [];
@@ -248,20 +249,13 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 if (postDate && (now - postDate) > MAX_POST_AGE_MS) continue;
 
                 const textRaw = cleanText(post.match(/<div class="tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/i)?.[1]);
-                if (!textRaw || textRaw.length < 30 || textRaw.length > 1000) continue;
+                if (!textRaw || textRaw.length < 30 || textRaw.length > 2000) continue;
 
                 if (BORING_TOPICS.some(r => r.test(textRaw))) continue;
-                if (isOldNews(textRaw)) continue;
 
-                // Видео mp4
                 const videoMatches = [...post.matchAll(/https?:\/\/[^"'<>\s]+?\.(?:mp4)(?:\?[^"'<>\s]*)?/gi)].map(m => m[0]);
-                // background-image (Telegram превью фото)
                 const bgImages = [...post.matchAll(/background-image:url\('([^']+)'\)/gi)].map(m => m[1]);
-                // <img src="..."> внутри поста
                 const imgTags = [...post.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)].map(m => m[1]);
-                // Ссылки на photos в href
-                const photoLinks = [...post.matchAll(/<a[^>]+href=["'](https?:\/\/t\.me\/[^"']+\?[^"']*single[^"']*)["']/gi)].map(m => m[1]);
-
                 const imageMatches = [...bgImages, ...imgTags].filter(u => !isTrashUrl(u));
 
                 const sanitized = sanitizeRawText(textRaw);
@@ -274,28 +268,18 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 ];
 
                 if (mediaUrls.length === 0) {
-                    liveItems.push({
-                        title: firstSentence.slice(0, 90),
-                        desc: sanitized,
-                        mediaUrl: "",
-                        mediaType: "image",
-                        sourceName: "Прямой эфир",
-                        postKey,
-                    });
+                    liveItems.push({ title: firstSentence.slice(0, 90), desc: sanitized, mediaUrl: "", mediaType: "image", sourceName: ch, postKey });
                 } else {
                     for (const media of mediaUrls) {
-                        liveItems.push({
-                            title: firstSentence.slice(0, 90),
-                            desc: sanitized,
-                            mediaUrl: media.mediaUrl,
-                            mediaType: media.mediaType,
-                            sourceName: "Прямой эфир",
-                            postKey,
-                        });
+                        liveItems.push({ title: firstSentence.slice(0, 90), desc: sanitized, mediaUrl: media.mediaUrl, mediaType: media.mediaType, sourceName: ch, postKey });
                     }
                 }
+                found++;
             }
-        } catch {}
+            console.log(`  [${ch}] постов: ${found}`);
+        } catch (e) {
+            console.log(`  [${ch}] ошибка: ${String(e)}`);
+        }
     }
     return liveItems;
 }
@@ -314,7 +298,6 @@ async function fetchRssFeeds(): Promise<any[]> {
                 const link = cleanText(raw.match(/<link>([\s\S]*?)<\/link>/i)?.[1]);
 
                 if (BORING_TOPICS.some(r => r.test(`${title} ${desc}`))) continue;
-                if (isOldNews(desc)) continue;
                 if (!title) continue;
 
                 const postKey = `${feed.name.toLowerCase()}_${simpleHash(title + (link || ""))}`;
@@ -359,8 +342,8 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
 2. Текст (text): 2-4 законченных предложения. Добавь контекст: масштаб, детали, последствия. Обязательно закончи мысль точкой, не обрывай предложение. НЕ повторяй слово в слово заголовок.
 3. Удали любые упоминания источников ("SHOT", "Mash", "Baza", "по нашей информации").
 4. importance — целое число от 1 до 10:
-   10 — экстренно (война, теракт, катастрофа, удар по инфраструктуре).
-   8-9 — очень важно (крупное ЧП с жертвами, решение власти, знаковая фигура).
+   10 — экстренно (война, теракт, катастрофа, удар по инфраструктуре, массовые протесты).
+   8-9 — очень важно (крупное ЧП с жертвами, решение власти, знаковая фигура, международные протесты).
    7 — важно (политическое/экономическое событие, крупные удары, санкции).
    4-6 — средне (региональное ЧП без жертв, спорт, бизнес).
    1-3 — НЕ ВАЖНО (бытовуха, ДТП без жертв, курьёзы, погода).
@@ -468,7 +451,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ЭФИР v24: Запуск отбора событий ===");
+    console.log("=== ЭФИР v25: Запуск отбора событий ===");
     const now = Date.now();
 
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
@@ -489,9 +472,14 @@ async function run() {
         return;
     }
 
+    console.log("\nИсточники (Telegram):");
     let candidates = await fetchTelegramLiveFeed();
+    console.log(`Всего кандидатов из TG: ${candidates.length}`);
+
     if (candidates.length === 0) {
+        console.log("Переключаемся на RSS...");
         candidates = await fetchRssFeeds();
+        console.log(`Всего кандидатов из RSS: ${candidates.length}`);
     }
 
     const seenPostKeys = new Set<string>();
@@ -502,6 +490,7 @@ async function run() {
         seenPostKeys.add(key);
         uniqueCandidates.push(c);
     }
+    console.log(`Уникальных постов: ${uniqueCandidates.length}`);
 
     for (const item of uniqueCandidates) {
         const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(item.title))))
