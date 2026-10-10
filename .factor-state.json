@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791634235441,
+      "value": 1791635452635,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 1149651,
+      "value": 409967,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -1924,6 +1924,37 @@
         ]
       },
       "expiresAt": 1791893447367
+    },
+    "[\"factor\",\"pub\",\"e807ff21b0a1412653ef1ad952d0b9f640eba3e3a1b4c63a0e2e3270556ebd59\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e807ff21b0a1412653ef1ad952d0b9f640eba3e3a1b4c63a0e2e3270556ebd59"
+      ],
+      "value": true,
+      "expiresAt": 1791894666430
+    },
+    "[\"factor\",\"topic\",\"e807ff21b0a1412653ef1ad952d0b9f640eba3e3a1b4c63a0e2e3270556ebd59\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e807ff21b0a1412653ef1ad952d0b9f640eba3e3a1b4c63a0e2e3270556ebd59"
+      ],
+      "value": {
+        "title": "На дорогах Марий Эл устроили охоту на водителей с помощью «тихоходов» — авто с камерой, ко",
+        "roots": [
+          "дорог",
+          "марий",
+          "устро",
+          "охоту",
+          "водит",
+          "помощ",
+          "тихох",
+          "авто",
+          "камер"
+        ]
+      },
+      "expiresAt": 1791894666432
     }
   }
 }
