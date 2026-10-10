@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791646831707,
+      "value": 1791648060079,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 934723,
+      "value": 580556,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -2264,6 +2264,38 @@
         ]
       },
       "expiresAt": 1791906068531
+    },
+    "[\"factor\",\"pub\",\"e1e7caa572d6558da6057696a7c1983435f0be9a4bf0f330a692c4a0107dfd4a\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e1e7caa572d6558da6057696a7c1983435f0be9a4bf0f330a692c4a0107dfd4a"
+      ],
+      "value": true,
+      "expiresAt": 1791907284426
+    },
+    "[\"factor\",\"topic\",\"e1e7caa572d6558da6057696a7c1983435f0be9a4bf0f330a692c4a0107dfd4a\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e1e7caa572d6558da6057696a7c1983435f0be9a4bf0f330a692c4a0107dfd4a"
+      ],
+      "value": {
+        "title": "▶ В Лондоне прошел многотысячный марш против поставок оружия Израилю, передает корреспонде",
+        "roots": [
+          "лондо",
+          "проше",
+          "много",
+          "марш",
+          "проти",
+          "поста",
+          "оружи",
+          "израи",
+          "перед",
+          "корре"
+        ]
+      },
+      "expiresAt": 1791907284427
     }
   }
 }
