@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v27)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v28)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -16,7 +16,8 @@ const HARD_MIN_INTERVAL_MS = 3 * 60 * 1000;
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000;
 
 const MEDIA_PACKET_MAX = 6;
-const MIN_IMPORTANCE = 7;
+// СНИЖЕНО С 7 ДО 6 — теперь проходят новости уровня "политика/экономика/международка"
+const MIN_IMPORTANCE = 6;
 const HISTORY_TTL_MS = 72 * 60 * 60 * 1000;
 
 const MIN_IMAGE_BYTES = 10 * 1024;
@@ -24,7 +25,6 @@ const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
 const MIN_VIDEO_BYTES = 50 * 1024;
 const MAX_VIDEO_BYTES = 30 * 1024 * 1024;
 
-// Максимум символов тела поста (взято из источника дословно)
 const MAX_BODY_LEN = 500;
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
@@ -47,7 +47,6 @@ async function initMaxHttpClient() {
     return maxHttpClient;
 }
 
-// Прямой Эфир НЕ используем как источник контента — только как ориентир важности.
 const TG_LIVE_CHANNELS = [
     "shot_shot",      // SHOT
     "bazabazon",      // База
@@ -199,8 +198,6 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
     return null;
 }
 
-// Очистка от чужих водяных знаков и атрибуций каналов.
-// Факты (цифры, возраст, имена) НЕ трогаем.
 function sanitizeRawText(raw: string): string {
     let t = cleanText(raw);
     t = t.replace(/(?:данные|информация|источник|по данным|сообщает|сообщил)\s+(?:shot|mash|baza|база|риа|тасс|чп)[\s\S]*?[.—:]\s*/gi, "");
@@ -318,7 +315,6 @@ async function fetchRssFeeds(): Promise<any[]> {
     return items;
 }
 
-// Обрезаем тело поста до MAX_BODY_LEN символов по последнему предложению.
 function cutBody(text: string, maxLen = MAX_BODY_LEN): string {
     const trimmed = text.trim();
     if (trimmed.length <= maxLen) return trimmed;
@@ -344,16 +340,17 @@ ${cleanDesc}
 
 СТРОГИЕ ПРАВИЛА:
 1. headline — заголовок до 7 слов, громкий, передаёт суть события. Обязательно 1-2 эмодзи (⚡ 🔥 🚨 💥 ⚠️) в начало или конец.
-   ЗАПРЕЩЕНО менять цифры, возраст, имена, названия городов и организаций. Если в тексте «12-летний», в заголовке тоже «12-летний», а не «5-летний» или наоборот. Если в тексте нет точного числа — не выдумывай.
+   ЗАПРЕЩЕНО менять цифры, возраст, имена, названия городов и организаций.
    ЗАПРЕЩЕНО добавлять факты, которых нет в тексте.
 2. importance — целое число 1–10:
    10 — экстренно (война, теракт, катастрофа, удар по инфраструктуре, массовые протесты).
    8-9 — очень важно (крупное ЧП с жертвами, решение власти, знаковая фигура, международные протесты).
    7 — важно (политическое/экономическое событие, крупные удары, санкции).
-   4-6 — средне (региональное ЧП без жертв, спорт, бизнес).
+   6 — заметно (международная политика, заявления лидеров, крупный бизнес).
+   4-5 — средне (региональное ЧП без жертв, спорт, мелкий бизнес).
    1-3 — НЕ ВАЖНО (бытовуха, ДТП без жертв, курьёзы, погода).
 3. is_ad — true, если это реклама, анонс сервиса, промо-пост, приглашение подписаться.
-Верни ТОЛЬКО JSON: {"headline": "⚡ ...", "importance": 7, "is_ad": false}`;
+Верни ТОЛЬКО JSON: {"headline": "⚡ ...", "importance": 6, "is_ad": false}`;
 
     if (GEMINI_API_KEY) {
         try {
@@ -400,7 +397,6 @@ ${cleanDesc}
         } catch {}
     }
 
-    // Фолбэк — если LLM недоступен, используем заголовок из источника как есть
     return { headline: fallbackHeadline, text: bodyText, importance: 5, is_ad: false };
 }
 
@@ -464,7 +460,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ЭФИР v27: Запуск отбора событий ===");
+    console.log("=== ЭФИР v28: Запуск отбора событий ===");
     const now = Date.now();
 
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
