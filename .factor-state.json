@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791595851401,
+      "value": 1791600632331,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 843142,
+      "value": 2351690,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -1600,6 +1600,32 @@
         ]
       },
       "expiresAt": 1791855070957
+    },
+    "[\"factor\",\"pub\",\"709bf826c06fb8e25fe37571ab2fe7d690c6239c7bf2ff8a73cb8ee2403489c1\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "709bf826c06fb8e25fe37571ab2fe7d690c6239c7bf2ff8a73cb8ee2403489c1"
+      ],
+      "value": true,
+      "expiresAt": 1791859888906
+    },
+    "[\"factor\",\"topic\",\"709bf826c06fb8e25fe37571ab2fe7d690c6239c7bf2ff8a73cb8ee2403489c1\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "709bf826c06fb8e25fe37571ab2fe7d690c6239c7bf2ff8a73cb8ee2403489c1"
+      ],
+      "value": {
+        "title": "У Прибалтики появился «небесный щит» от России",
+        "roots": [
+          "приба",
+          "появи",
+          "небес",
+          "росси"
+        ]
+      },
+      "expiresAt": 1791859888907
     }
   }
 }
