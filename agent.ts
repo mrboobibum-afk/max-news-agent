@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v21.7)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v21.8)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -222,14 +222,25 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                     ...imageMatches.map(mediaUrl => ({ mediaUrl, mediaType: "image" })),
                 ];
 
-                for (const media of mediaUrls) {
+                if (mediaUrls.length === 0) {
+                    // Текстовый кандидат без медиа — важен для важных новостей без картинок
                     liveItems.push({
                         title: firstSentence.slice(0, 90),
                         desc: sanitized,
-                        mediaUrl: media.mediaUrl,
-                        mediaType: media.mediaType,
+                        mediaUrl: "",
+                        mediaType: "image",
                         sourceName: "Прямой эфир",
                     });
+                } else {
+                    for (const media of mediaUrls) {
+                        liveItems.push({
+                            title: firstSentence.slice(0, 90),
+                            desc: sanitized,
+                            mediaUrl: media.mediaUrl,
+                            mediaType: media.mediaType,
+                            sourceName: "Прямой эфир",
+                        });
+                    }
                 }
             }
         } catch {}
@@ -370,7 +381,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
         packet.push(candidate);
         if (packet.length >= MEDIA_PACKET_MAX) break;
     }
-    if (!packet.some(x => x.mediaUrl === item.mediaUrl)) {
+    if (item.mediaUrl && !packet.some(x => x.mediaUrl === item.mediaUrl)) {
         packet.unshift(item);
         if (packet.length > MEDIA_PACKET_MAX) packet.pop();
     }
@@ -378,7 +389,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ЭФИР v21.7: Запуск отбора событий ===");
+    console.log("=== ЭФИР v21.8: Запуск отбора событий ===");
     const now = Date.now();
 
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
@@ -407,8 +418,14 @@ async function run() {
 
                     if (BORING_TOPICS.some(r => r.test(`${title} ${desc}`))) continue;
 
-                    if (title && encImg && !isTrashUrl(encImg)) {
-                        candidates.push({ title, desc, mediaUrl: encImg, mediaType: "image", sourceName: feed.name });
+                    if (title) {
+                        candidates.push({
+                            title,
+                            desc,
+                            mediaUrl: encImg && !isTrashUrl(encImg) ? encImg : "",
+                            mediaType: "image",
+                            sourceName: feed.name,
+                        });
                     }
                 }
             } catch {}
@@ -433,6 +450,15 @@ async function run() {
 
         console.log("\nОбработка: " + item.title);
 
+        // Сначала — важность, чтобы не тратить время на скачивание для неважного
+        const post = await formatNewsPost(item.title, item.desc);
+        const importance = Number(post.importance) || 5;
+
+        if (importance < MIN_IMPORTANCE) {
+            console.log(`Пропуск: важность ${importance} < ${MIN_IMPORTANCE}`);
+            continue;
+        }
+
         const mediaPacket = getMediaPacket(item, candidates);
         const uploaded: Array<{ token: string, type: "image" | "video" }> = [];
         for (const media of mediaPacket) {
@@ -447,17 +473,9 @@ async function run() {
             if (uploaded.length >= MEDIA_PACKET_MAX) break;
         }
 
+        // Если медиа нет — всё равно публикуем, раз важность уже прошла порог
         if (!uploaded.length) {
-            console.log("Пропуск: нет медиа");
-            continue;
-        }
-
-        const post = await formatNewsPost(item.title, item.desc);
-        const importance = Number(post.importance) || 5;
-
-        if (importance < MIN_IMPORTANCE) {
-            console.log(`Пропуск: важность ${importance} < ${MIN_IMPORTANCE}`);
-            continue;
+            console.log("Публикуем без медиа (важная новость)");
         }
 
         const postHtml = "<b>" + escapeHtml(post.headline) + "</b>\n\n" + escapeHtml(post.text) + "\n\n⚡ <i>ФАКТОР</i>\n\n#ФАКТОР";
