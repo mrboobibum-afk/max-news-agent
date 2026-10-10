@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v26)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v27)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -24,6 +24,9 @@ const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
 const MIN_VIDEO_BYTES = 50 * 1024;
 const MAX_VIDEO_BYTES = 30 * 1024 * 1024;
 
+// Максимум символов тела поста (взято из источника дословно)
+const MAX_BODY_LEN = 500;
+
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
 
 const MAX_ROOT_CA_URL = "https://gu-st.ru/content/lending/russian_trusted_root_ca_pem.crt";
@@ -45,7 +48,6 @@ async function initMaxHttpClient() {
 }
 
 // Прямой Эфир НЕ используем как источник контента — только как ориентир важности.
-// Тексты и медиа берём из собственных источников, чтобы не копировать чужой канал.
 const TG_LIVE_CHANNELS = [
     "shot_shot",      // SHOT
     "bazabazon",      // База
@@ -176,13 +178,11 @@ function isTrashUrl(url: string): boolean {
 
 async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array | null> {
     if (!url || isTrashUrl(url)) return null;
-
     const strategies: Array<Record<string, string>> = [
         { "User-Agent": USER_AGENT, "Referer": "https://t.me/", "Accept": "*/*" },
         { "User-Agent": USER_AGENT, "Referer": "https://t.me/s/shot_shot", "Accept": "image/*,*/*" },
         { "User-Agent": USER_AGENT },
     ];
-
     for (const headers of strategies) {
         try {
             const res = await fetch(url, { headers, signal: AbortSignal.timeout(isVideo ? 35000 : 15000) });
@@ -191,25 +191,25 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
             const min = isVideo ? MIN_VIDEO_BYTES : MIN_IMAGE_BYTES;
             const max = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
             if (buf.byteLength < min || buf.byteLength > max) continue;
-
             const head = new TextDecoder().decode(buf.subarray(0, 30)).toLowerCase();
             if (head.includes("<html") || head.includes("<!doctype") || head.includes("<?xml")) continue;
-
             return buf;
-        } catch {
-            continue;
-        }
+        } catch { continue; }
     }
     return null;
 }
 
+// Очистка от чужих водяных знаков и атрибуций каналов.
+// Факты (цифры, возраст, имена) НЕ трогаем.
 function sanitizeRawText(raw: string): string {
     let t = cleanText(raw);
     t = t.replace(/(?:данные|информация|источник|по данным|сообщает|сообщил)\s+(?:shot|mash|baza|база|риа|тасс|чп)[\s\S]*?[.—:]\s*/gi, "");
     t = t.replace(/по\s+нашей\s+информации,?\s*/gi, "");
     t = t.replace(/как\s+стало\s+известно,?\s*/gi, "");
-    t = t.replace(/(?:подписывайтесь|подробнее|эксклюзив|видео)\b[\s\S]*$/gi, "");
+    t = t.replace(/(?:подписывайтесь|подробнее|эксклюзив)\b[\s\S]*$/gi, "");
     t = t.replace(/—\s*данные\s+[A-Za-zА-Яа-я0-9_]+/gi, "");
+    t = t.replace(/📢\s*Прямой Эфир/gi, "");
+    t = t.replace(/⚡\s*ФАКТОР/gi, "");
     return t.trim();
 }
 
@@ -240,7 +240,6 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 continue;
             }
             const html = await res.text();
-
             const posts = html.match(/<div class="tgme_widget_message_wrap[\s\S]*?(?=<div class="tgme_widget_message_wrap|$)/gi) ?? [];
             for (const post of posts.slice(-15).reverse()) {
                 const postDate = extractPostDate(post);
@@ -319,34 +318,42 @@ async function fetchRssFeeds(): Promise<any[]> {
     return items;
 }
 
-function cutToSentence(text: string, maxLen = 220): string {
+// Обрезаем тело поста до MAX_BODY_LEN символов по последнему предложению.
+function cutBody(text: string, maxLen = MAX_BODY_LEN): string {
     const trimmed = text.trim();
     if (trimmed.length <= maxLen) return trimmed;
     const sub = trimmed.slice(0, maxLen);
     const lastPunct = Math.max(sub.lastIndexOf("."), sub.lastIndexOf("!"), sub.lastIndexOf("?"));
-    if (lastPunct > 50) return sub.slice(0, lastPunct + 1);
+    if (lastPunct > 80) return sub.slice(0, lastPunct + 1);
     const lastSpace = sub.lastIndexOf(" ");
     return (lastSpace > 0 ? sub.slice(0, lastSpace) : sub) + "...";
 }
 
+// LLM генерирует ТОЛЬКО заголовок и оценку важности.
+// Тело поста берём ДОСЛОВНО из источника — так факты (возраст, цифры, имена) не искажаются.
 async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, text: string, importance: number, is_ad: boolean }> {
     const cleanDesc = sanitizeRawText(desc);
-    const prompt = `Ты шеф-редактор телеграм-канала новостей «Прямой эфир».
-Сделай чёткий новостной пост по событию:
-ТЕКСТ: ${cleanDesc}
+    const bodyText = cutBody(cleanDesc);
+    const fallbackHeadline = cleanText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 100);
+
+    const prompt = `Ты редактор новостного канала. Ниже — текст новости.
+Сделай ТОЛЬКО ЗАГОЛОВОК и оценку важности.
+
+ТЕКСТ НОВОСТИ:
+${cleanDesc}
 
 СТРОГИЕ ПРАВИЛА:
-1. Заголовок (headline): до 7 слов, громкий, передаёт суть события. Обязательно добавь 1-2 подходящих эмодзи (⚡ 🔥 🚨 💥 ⚠️) в начало или конец заголовка.
-2. Текст (text): 2-4 законченных предложения. Добавь контекст: масштаб, детали, последствия. Обязательно закончи мысль точкой, не обрывай предложение. НЕ повторяй слово в слово заголовок.
-3. Удали любые упоминания источников ("SHOT", "Mash", "Baza", "по нашей информации").
-4. importance — целое число от 1 до 10:
+1. headline — заголовок до 7 слов, громкий, передаёт суть события. Обязательно 1-2 эмодзи (⚡ 🔥 🚨 💥 ⚠️) в начало или конец.
+   ЗАПРЕЩЕНО менять цифры, возраст, имена, названия городов и организаций. Если в тексте «12-летний», в заголовке тоже «12-летний», а не «5-летний» или наоборот. Если в тексте нет точного числа — не выдумывай.
+   ЗАПРЕЩЕНО добавлять факты, которых нет в тексте.
+2. importance — целое число 1–10:
    10 — экстренно (война, теракт, катастрофа, удар по инфраструктуре, массовые протесты).
    8-9 — очень важно (крупное ЧП с жертвами, решение власти, знаковая фигура, международные протесты).
    7 — важно (политическое/экономическое событие, крупные удары, санкции).
    4-6 — средне (региональное ЧП без жертв, спорт, бизнес).
    1-3 — НЕ ВАЖНО (бытовуха, ДТП без жертв, курьёзы, погода).
-5. is_ad — true, если это реклама, анонс сервиса, промо-пост, приглашение подписаться.
-Верни ТОЛЬКО JSON: {"headline": "⚡ ...", "text": "...", "importance": 7, "is_ad": false}`;
+3. is_ad — true, если это реклама, анонс сервиса, промо-пост, приглашение подписаться.
+Верни ТОЛЬКО JSON: {"headline": "⚡ ...", "importance": 7, "is_ad": false}`;
 
     if (GEMINI_API_KEY) {
         try {
@@ -359,7 +366,12 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
             if (r.ok) {
                 const j = await r.json();
                 const p = JSON.parse(j?.candidates?.[0]?.content?.parts?.[0]?.text ?? "{}");
-                if (p.headline && p.text) return { headline: p.headline, text: p.text, importance: Number(p.importance) || 5, is_ad: !!p.is_ad };
+                if (p.headline) return {
+                    headline: p.headline,
+                    text: bodyText,
+                    importance: Number(p.importance) || 5,
+                    is_ad: !!p.is_ad,
+                };
             }
         } catch {}
     }
@@ -377,16 +389,19 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
                 const match = (j?.choices?.[0]?.message?.content ?? "").match(/\{[\s\S]*\}/);
                 if (match) {
                     const p = JSON.parse(match[0]);
-                    if (p.headline && p.text) return { headline: p.headline, text: p.text, importance: Number(p.importance) || 5, is_ad: !!p.is_ad };
+                    if (p.headline) return {
+                        headline: p.headline,
+                        text: bodyText,
+                        importance: Number(p.importance) || 5,
+                        is_ad: !!p.is_ad,
+                    };
                 }
             }
         } catch {}
     }
 
-    const sentences = cleanDesc.split(/(?<=[.!?])\s+/).filter(Boolean);
-    const bodyText = sentences.length > 1 ? sentences.slice(1, 3).join(" ") : sentences[0];
-
-    return { headline: cleanText(title).replace(/\s+[-—]\s+.*$/, ""), text: cutToSentence(bodyText || cleanDesc), importance: 5, is_ad: false };
+    // Фолбэк — если LLM недоступен, используем заголовок из источника как есть
+    return { headline: fallbackHeadline, text: bodyText, importance: 5, is_ad: false };
 }
 
 async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<string> {
@@ -449,7 +464,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ЭФИР v26: Запуск отбора событий ===");
+    console.log("=== ЭФИР v27: Запуск отбора событий ===");
     const now = Date.now();
 
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
