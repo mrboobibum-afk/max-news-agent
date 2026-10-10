@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v21.1)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v21.2)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -154,10 +154,16 @@ function isTrashUrl(url: string): boolean {
     );
 }
 
+// ИЗМЕНЕНО: добавлен Referer для Telegram CDN. Без него telesco.pe отдаёт 403.
 async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array | null> {
     if (!url || isTrashUrl(url)) return null;
     try {
-        const res = await fetch(url, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(isVideo ? 35000 : 12000) });
+        const headers: Record<string, string> = { "User-Agent": USER_AGENT };
+        if (/telesco\.pe|telegram\.org|cdn.*\.t\.me|t\.me/i.test(url)) {
+            headers["Referer"] = "https://t.me/";
+            headers["Accept"] = "*/*";
+        }
+        const res = await fetch(url, { headers, signal: AbortSignal.timeout(isVideo ? 35000 : 12000) });
         if (!res.ok) return null;
         const buf = new Uint8Array(await res.arrayBuffer());
         const min = isVideo ? MIN_VIDEO_BYTES : MIN_IMAGE_BYTES;
@@ -353,7 +359,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ЭФИР v21.1: Запуск отбора событий ===");
+    console.log("=== ЭФИР v21.2: Запуск отбора событий ===");
     const now = Date.now();
 
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
@@ -392,7 +398,16 @@ async function run() {
         }));
     }
 
-    for (const item of candidates) {
+    // ИЗМЕНЕНО: убираем дубли кандидатов по title — чтобы одна новость не крутилась 15 раз
+    const seenTitles = new Set<string>();
+    const uniqueCandidates: any[] = [];
+    for (const c of candidates) {
+        if (seenTitles.has(c.title)) continue;
+        seenTitles.add(c.title);
+        uniqueCandidates.push(c);
+    }
+
+    for (const item of uniqueCandidates) {
         const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(item.title))))
             .map(b => b.toString(16).padStart(2, "0")).join("");
 
