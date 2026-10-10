@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791657050031,
+      "value": 1791658118653,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 815391,
+      "value": 757525,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -2420,6 +2420,37 @@
         ]
       },
       "expiresAt": 1791916268882
+    },
+    "[\"factor\",\"pub\",\"e5d2fb60d252155fb4274396e851c1965db5ca6c7954df338216d6dd833fa5f7\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e5d2fb60d252155fb4274396e851c1965db5ca6c7954df338216d6dd833fa5f7"
+      ],
+      "value": true,
+      "expiresAt": 1791917333273
+    },
+    "[\"factor\",\"topic\",\"e5d2fb60d252155fb4274396e851c1965db5ca6c7954df338216d6dd833fa5f7\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e5d2fb60d252155fb4274396e851c1965db5ca6c7954df338216d6dd833fa5f7"
+      ],
+      "value": {
+        "title": "Шаг за шагом – сжимаем тиски&#33; #СобытиеДня 💬 Канал Минобороны России в MAКС – только д",
+        "roots": [
+          "шагом",
+          "сжима",
+          "тиски",
+          "событ",
+          "канал",
+          "миноб",
+          "росси",
+          "maкс",
+          "тольк"
+        ]
+      },
+      "expiresAt": 1791917333274
     }
   }
 }
