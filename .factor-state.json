@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791635452635,
+      "value": 1791636030369,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 409967,
+      "value": 291634,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -1955,6 +1955,37 @@
         ]
       },
       "expiresAt": 1791894666432
+    },
+    "[\"factor\",\"pub\",\"15e0aee208a54d744124a0ff07bf7c8fa2e518929cb1562e00e24a50889eb5f7\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "15e0aee208a54d744124a0ff07bf7c8fa2e518929cb1562e00e24a50889eb5f7"
+      ],
+      "value": true,
+      "expiresAt": 1791895243751
+    },
+    "[\"factor\",\"topic\",\"15e0aee208a54d744124a0ff07bf7c8fa2e518929cb1562e00e24a50889eb5f7\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "15e0aee208a54d744124a0ff07bf7c8fa2e518929cb1562e00e24a50889eb5f7"
+      ],
+      "value": {
+        "title": "Главные способы борьбы с депрессией назвал академик Онищенко Это регулярное время сна, пол",
+        "roots": [
+          "главн",
+          "спосо",
+          "борьб",
+          "депре",
+          "назва",
+          "акаде",
+          "онище",
+          "регул",
+          "время"
+        ]
+      },
+      "expiresAt": 1791895243752
     }
   }
 }
