@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791633034944,
+      "value": 1791634235441,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 700027,
+      "value": 1149651,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -1893,6 +1893,37 @@
         ]
       },
       "expiresAt": 1791892248217
+    },
+    "[\"factor\",\"pub\",\"9e6e7397be901a7f440be3ff7b91757d5cb217f730953b17714553cb1451eb27\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "9e6e7397be901a7f440be3ff7b91757d5cb217f730953b17714553cb1451eb27"
+      ],
+      "value": true,
+      "expiresAt": 1791893447366
+    },
+    "[\"factor\",\"topic\",\"9e6e7397be901a7f440be3ff7b91757d5cb217f730953b17714553cb1451eb27\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "9e6e7397be901a7f440be3ff7b91757d5cb217f730953b17714553cb1451eb27"
+      ],
+      "value": {
+        "title": "Украинские переговорщики сократили срок своей поездки в США из-за сделки по дизелю между В",
+        "roots": [
+          "украи",
+          "перег",
+          "сокра",
+          "срок",
+          "своей",
+          "поезд",
+          "сделк",
+          "дизел",
+          "между"
+        ]
+      },
+      "expiresAt": 1791893447367
     }
   }
 }
