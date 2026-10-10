@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791621578428,
+      "value": 1791626918792,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 331186,
+      "value": 3219095,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -1712,6 +1712,36 @@
         ]
       },
       "expiresAt": 1791880786826
+    },
+    "[\"factor\",\"pub\",\"b1429a02c6f34ae5a0ff52867920db98aa14e9bfcc823310e4de1569b69bea0b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "b1429a02c6f34ae5a0ff52867920db98aa14e9bfcc823310e4de1569b69bea0b"
+      ],
+      "value": true,
+      "expiresAt": 1791886129145
+    },
+    "[\"factor\",\"topic\",\"b1429a02c6f34ae5a0ff52867920db98aa14e9bfcc823310e4de1569b69bea0b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "b1429a02c6f34ae5a0ff52867920db98aa14e9bfcc823310e4de1569b69bea0b"
+      ],
+      "value": {
+        "title": "В Россию запретили ввоз грузинских вин, лимонады, минеральную воду и колу ",
+        "roots": [
+          "росси",
+          "запре",
+          "ввоз",
+          "грузи",
+          "лимон",
+          "минер",
+          "воду",
+          "колу"
+        ]
+      },
+      "expiresAt": 1791886129147
     }
   }
 }
