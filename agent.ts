@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v21.3)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v21.5)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -16,11 +16,8 @@ const REGULAR_MAX_INTERVAL_MS = 60 * 60 * 1000;
 const MEDIA_PACKET_MAX = 5;
 const HISTORY_TTL_MS = 72 * 60 * 60 * 1000;
 
-// Порог важности: ниже — пост не публикуется
 const MIN_IMPORTANCE = 7;
-
-// Максимальный возраст новости: посты старше этого времени игнорируются
-const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; // 3 часа
+const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000;
 
 const MIN_IMAGE_BYTES = 15 * 1024;
 const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
@@ -60,7 +57,12 @@ const BORING_TOPICS = [
     /(?:сесси[яи]|форум|круглый\s+стол|конференци[яи]|совещани[ея]|заседани[ея]|брифинг)/i,
     /(?:рэц|экспортер|клиентск|госуслуг|росреестр|минфин|ведомств)/i,
     /(?:напомнил|отметил|заявил\s+о\s+важности|подчеркнул|выразил\s+надежду)/i,
-    /(?:гороскоп|погода|курс\s+валют|скидк|выходн)/i
+    /(?:гороскоп|погода|курс\s+валют|скидк|выходн)/i,
+    /(?:введены|введены\s+строгие|новые)\s+(?:правила|требования|инструкци|регламент)/i,
+    /(?:правила|требования|инструкци|регламент)\s+(?:для|к)\s+(?:постов|новостей|заголовков|текст)/i,
+    /(?:заголовок|текст)\s+(?:до|не\s+более)\s+\d+/i,
+    /(?:ограничивают|ограничивает)\s+длину/i,
+    /(?:завершения\s+текста\s+точкой|заканчивать\s+точкой)/i,
 ];
 
 class FileKV {
@@ -97,7 +99,7 @@ class FileKV {
         const now = Date.now();
         const res: any[] = [];
         for (const [k, v] of Object.entries<any>(d.entries)) {
-            if (k.startsWith('["factor","topic",') && v?.value) {
+            if ((k.startsWith('["factor","topic",') || k.startsWith('["factor","published_topic",')) && v?.value) {
                 if (!v.expiresAt || v.expiresAt > now) res.push(v.value);
             }
         }
@@ -184,7 +186,6 @@ function sanitizeRawText(raw: string): string {
     return t.trim();
 }
 
-// Извлекаем дату поста из HTML t.me/s/<channel>
 function extractPostDate(postHtml: string): number | null {
     const m = postHtml.match(/<time[^>]+datetime=["']([^"']+)["']/i);
     if (!m) return null;
@@ -203,7 +204,6 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
 
             const posts = html.match(/<div class="tgme_widget_message_wrap[\s\S]*?(?=<div class="tgme_widget_message_wrap|$)/gi) ?? [];
             for (const post of posts.slice(-10).reverse()) {
-                // Отсекаем старое: если дата известна и старше MAX_POST_AGE_MS — пропускаем
                 const postDate = extractPostDate(post);
                 if (postDate && (now - postDate) > MAX_POST_AGE_MS) continue;
 
@@ -222,8 +222,17 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                     ...imageMatches.map(mediaUrl => ({ mediaUrl, mediaType: "image" })),
                 ];
 
+                const postKey = Array.from(new TextEncoder().encode(sanitized)).slice(0, 60).join(",");
+
                 for (const media of mediaUrls) {
-                    liveItems.push({ title: firstSentence.slice(0, 90), desc: sanitized, mediaUrl: media.mediaUrl, mediaType: media.mediaType, sourceName: "Прямой эфир" });
+                    liveItems.push({
+                        title: firstSentence.slice(0, 90),
+                        desc: sanitized,
+                        mediaUrl: media.mediaUrl,
+                        mediaType: media.mediaType,
+                        sourceName: "Прямой эфир",
+                        postKey,
+                    });
                 }
             }
         } catch {}
@@ -250,7 +259,7 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
 ТЕКСТ: ${cleanDesc}
 
 СТРОГИЕ ПРАВИЛА:
-1. Заголовок (headline): до 7 слов, громкий, передаёт суть события.
+1. Заголовок (headline): до 7 слов, громкий, передаёт суть события. Обязательно добавь 1-2 подходящих эмодзи (⚡ 🔥 🚨 💥 ⚠️) в начало или конец заголовка.
 2. Текст (text): строго 1-2 законченных предложения. Обязательно закончи мысль точкой, не обрывай предложение. НЕ повторяй слово в слово заголовок.
 3. Удали любые упоминания источников ("SHOT", "Mash", "Baza", "по нашей информации").
 4. importance — целое число от 1 до 10, насколько событие важно для широкой аудитории:
@@ -259,7 +268,7 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
    7 — важно (заметное политическое/экономическое событие, знаковая фигура).
    4-6 — средне (региональное ЧП без жертв, спортивное событие, новость бизнеса).
    1-3 — НЕ ВАЖНО (бытовые происшествия вроде пожара в квартире, ДТП без жертв, курьёзы, светская жизнь).
-Верни ТОЛЬКО JSON: {"headline": "...", "text": "...", "importance": 7}`;
+Верни ТОЛЬКО JSON: {"headline": "⚡ ...", "text": "...", "importance": 7}`;
 
     if (GEMINI_API_KEY) {
         try {
@@ -346,32 +355,21 @@ async function sendPostToMax(text: string, media: Array<{ token: string, type: "
 }
 
 function getMediaPacket(item: any, candidates: any[]): any[] {
-    const baseRoots = new Set(getRoots(item.title));
-    const scored = candidates.map(candidate => {
-        if (!candidate.mediaUrl || isTrashUrl(candidate.mediaUrl)) return { candidate, score: -1 };
-        const roots = getRoots(candidate.title);
-        const overlap = roots.filter((r: string) => baseRoots.has(r)).length;
-        const sameTitle = candidate.title === item.title;
-        const score = sameTitle ? 100 : (overlap >= 2 ? overlap * 10 : -1);
-        return { candidate, score };
-    }).filter(x => x.score > 0).sort((a, b) => b.score - a.score);
     const packet: any[] = [];
     const seen = new Set<string>();
-    for (const { candidate } of scored) {
+    for (const candidate of candidates) {
+        if (!candidate.mediaUrl || isTrashUrl(candidate.mediaUrl)) continue;
+        if (!item.postKey || candidate.postKey !== item.postKey) continue;
         if (seen.has(candidate.mediaUrl)) continue;
         seen.add(candidate.mediaUrl);
         packet.push(candidate);
         if (packet.length >= MEDIA_PACKET_MAX) break;
     }
-    if (!packet.some(x => x.mediaUrl === item.mediaUrl)) {
-        packet.unshift(item);
-        if (packet.length > MEDIA_PACKET_MAX) packet.pop();
-    }
     return packet;
 }
 
 async function run() {
-    console.log("=== ЭФИР v21.3: Запуск отбора событий ===");
+    console.log("=== ЭФИР v21.5: Запуск отбора событий ===");
     const now = Date.now();
 
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
@@ -401,14 +399,24 @@ async function run() {
                     if (BORING_TOPICS.some(r => r.test(`${title} ${desc}`))) continue;
 
                     if (title && encImg && !isTrashUrl(encImg)) {
-                        candidates.push({ title, desc, mediaUrl: encImg, mediaType: "image", sourceName: feed.name });
+                        const postKey = Array.from(new TextEncoder().encode(`${feed.name}:${title}`)).slice(0, 60).join(",");
+                        candidates.push({ title, desc, mediaUrl: encImg, mediaType: "image", sourceName: feed.name, postKey });
                     }
                 }
             } catch {}
         }));
     }
 
-    for (const item of candidates) {
+    const seenPostKeys = new Set<string>();
+    const uniqueCandidates: any[] = [];
+    for (const c of candidates) {
+        const key = c.postKey || c.title;
+        if (seenPostKeys.has(key)) continue;
+        seenPostKeys.add(key);
+        uniqueCandidates.push(c);
+    }
+
+    for (const item of uniqueCandidates) {
         const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(item.title))))
             .map(b => b.toString(16).padStart(2, "0")).join("");
 
@@ -444,7 +452,7 @@ async function run() {
             continue;
         }
 
-        const postHtml = "<b>" + escapeHtml(post.headline) + "</b>\n\n" + escapeHtml(post.text) + "\n\n⚡ <i>ФАКТОР</i>";
+        const postHtml = "<b>" + escapeHtml(post.headline) + "</b>\n\n" + escapeHtml(post.text) + "\n\n⚡ <i>ФАКТОР</i>\n\n#ФАКТОР";
         const sent = await sendPostToMax(postHtml, uploaded);
         if (sent) {
             console.log("🔥 ОПУБЛИКОВАНО (медиа: " + uploaded.length + ", важность: " + importance + "): " + post.headline);
