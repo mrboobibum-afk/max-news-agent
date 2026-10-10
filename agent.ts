@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v25)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v26)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -44,9 +44,9 @@ async function initMaxHttpClient() {
     return maxHttpClient;
 }
 
-// Источники. Добавлены крупные каналы для более широкого покрытия.
+// Прямой Эфир НЕ используем как источник контента — только как ориентир важности.
+// Тексты и медиа берём из собственных источников, чтобы не копировать чужой канал.
 const TG_LIVE_CHANNELS = [
-    "novosti_efir",   // Прямой Эфир
     "shot_shot",      // SHOT
     "bazabazon",      // База
     "readovkanews",   // Readovka
@@ -179,7 +179,7 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
 
     const strategies: Array<Record<string, string>> = [
         { "User-Agent": USER_AGENT, "Referer": "https://t.me/", "Accept": "*/*" },
-        { "User-Agent": USER_AGENT, "Referer": "https://t.me/s/novosti_efir", "Accept": "image/*,*/*" },
+        { "User-Agent": USER_AGENT, "Referer": "https://t.me/s/shot_shot", "Accept": "image/*,*/*" },
         { "User-Agent": USER_AGENT },
     ];
 
@@ -228,8 +228,6 @@ function simpleHash(str: string): string {
     return Math.abs(h).toString(36);
 }
 
-// ИЗМЕНЕНО: убран OLD_NEWS_MARKERS — он ложно срабатывал на сегодняшних датах.
-// Лимит текста поднят до 2000. Добавлена диагностика по каналам.
 async function fetchTelegramLiveFeed(): Promise<any[]> {
     const liveItems: any[] = [];
     const now = Date.now();
@@ -451,7 +449,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ЭФИР v25: Запуск отбора событий ===");
+    console.log("=== ЭФИР v26: Запуск отбора событий ===");
     const now = Date.now();
 
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
