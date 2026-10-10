@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791615929810,
+      "value": 1791621578428,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 1924172,
+      "value": 331186,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -1681,6 +1681,37 @@
         ]
       },
       "expiresAt": 1791875143474
+    },
+    "[\"factor\",\"pub\",\"2f08bc45963ce4d1bd7340d61da788bb8c85dcd99d14b3bda23737b8540ff140\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "2f08bc45963ce4d1bd7340d61da788bb8c85dcd99d14b3bda23737b8540ff140"
+      ],
+      "value": true,
+      "expiresAt": 1791880786825
+    },
+    "[\"factor\",\"topic\",\"2f08bc45963ce4d1bd7340d61da788bb8c85dcd99d14b3bda23737b8540ff140\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "2f08bc45963ce4d1bd7340d61da788bb8c85dcd99d14b3bda23737b8540ff140"
+      ],
+      "value": {
+        "title": "Киев демонстративно атаковал нефтяной терминал в Ростовской области сразу после заявлений ",
+        "roots": [
+          "киев",
+          "демон",
+          "атако",
+          "нефтя",
+          "терми",
+          "росто",
+          "облас",
+          "сразу",
+          "заявл"
+        ]
+      },
+      "expiresAt": 1791880786826
     }
   }
 }
