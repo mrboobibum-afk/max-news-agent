@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791645034730,
+      "value": 1791645633321,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 526154,
+      "value": 1044541,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -2200,6 +2200,39 @@
         ]
       },
       "expiresAt": 1791904299453
+    },
+    "[\"factor\",\"pub\",\"1b24b8aee6a822207f9bd03b213b481d3007712fb4d44f3cfd4ebda4c5369a65\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "1b24b8aee6a822207f9bd03b213b481d3007712fb4d44f3cfd4ebda4c5369a65"
+      ],
+      "value": true,
+      "expiresAt": 1791904883228
+    },
+    "[\"factor\",\"topic\",\"1b24b8aee6a822207f9bd03b213b481d3007712fb4d44f3cfd4ebda4c5369a65\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "1b24b8aee6a822207f9bd03b213b481d3007712fb4d44f3cfd4ebda4c5369a65"
+      ],
+      "value": {
+        "title": "Казнь военного психиатра Нидала Хасана, устроившего стрельбу на базе Форт-Худ в штате Теха",
+        "roots": [
+          "казнь",
+          "военн",
+          "психи",
+          "нидал",
+          "хасан",
+          "устро",
+          "стрел",
+          "базе",
+          "форт",
+          "штате",
+          "теха"
+        ]
+      },
+      "expiresAt": 1791904883229
     }
   }
 }
