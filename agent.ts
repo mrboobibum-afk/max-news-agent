@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v21.2)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v21)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -154,16 +154,10 @@ function isTrashUrl(url: string): boolean {
     );
 }
 
-// ИЗМЕНЕНО: добавлен Referer для Telegram CDN. Без него telesco.pe отдаёт 403.
 async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array | null> {
     if (!url || isTrashUrl(url)) return null;
     try {
-        const headers: Record<string, string> = { "User-Agent": USER_AGENT };
-        if (/telesco\.pe|telegram\.org|cdn.*\.t\.me|t\.me/i.test(url)) {
-            headers["Referer"] = "https://t.me/";
-            headers["Accept"] = "*/*";
-        }
-        const res = await fetch(url, { headers, signal: AbortSignal.timeout(isVideo ? 35000 : 12000) });
+        const res = await fetch(url, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(isVideo ? 35000 : 12000) });
         if (!res.ok) return null;
         const buf = new Uint8Array(await res.arrayBuffer());
         const min = isVideo ? MIN_VIDEO_BYTES : MIN_IMAGE_BYTES;
@@ -245,10 +239,10 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
 ТЕКСТ: ${cleanDesc}
 
 СТРОГИЕ ПРАВИЛА:
-1. Заголовок (headline): до 7 слов, громкий, передаёт суть события. Обязательно добавь 1-2 подходящих эмодзи (⚡ 🔥 🚨 💥 ⚠️) в начало или конец заголовка.
-2. Текст (text): 2-4 законченных предложения. Добавь контекст: масштаб, детали, последствия. Обязательно закончи мысль точкой, не обрывай предложение. НЕ повторяй слово в слово заголовок.
+1. Заголовок (headline): до 7 слов, громкий, передаёт суть события.
+2. Текст (text): строго 1-2 законченных предложения. Обязательно закончи мысль точкой, не обрывай предложение. НЕ повторяй слово в слово заголовок.
 3. Удали любые упоминания источников ("SHOT", "Mash", "Baza", "по нашей информации").
-Верни ТОЛЬКО JSON: {"headline": "⚡ ...", "text": "..."}`;
+Верни ТОЛЬКО JSON: {"headline": "...", "text": "..."}`;
 
     if (GEMINI_API_KEY) {
         try {
@@ -359,7 +353,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ЭФИР v21.2: Запуск отбора событий ===");
+    console.log("=== ЭФИР v21: Запуск отбора событий ===");
     const now = Date.now();
 
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
@@ -398,16 +392,7 @@ async function run() {
         }));
     }
 
-    // ИЗМЕНЕНО: убираем дубли кандидатов по title — чтобы одна новость не крутилась 15 раз
-    const seenTitles = new Set<string>();
-    const uniqueCandidates: any[] = [];
-    for (const c of candidates) {
-        if (seenTitles.has(c.title)) continue;
-        seenTitles.add(c.title);
-        uniqueCandidates.push(c);
-    }
-
-    for (const item of uniqueCandidates) {
+    for (const item of candidates) {
         const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(item.title))))
             .map(b => b.toString(16).padStart(2, "0")).join("");
 
@@ -431,7 +416,7 @@ async function run() {
         if (!uploaded.length) continue;
 
         const post = await formatNewsPost(item.title, item.desc);
-        const postHtml = "<b>" + escapeHtml(post.headline) + "</b>\n\n" + escapeHtml(post.text) + "\n\n⚡ <i>ФАКТОР</i>\n\n#ФАКТОР";
+        const postHtml = "<b>" + escapeHtml(post.headline) + "</b>\n\n" + escapeHtml(post.text) + "\n\n⚡ <i>ФАКТОР</i>";
         const sent = await sendPostToMax(postHtml, uploaded);
         if (sent) {
             console.log("🔥 ОПУБЛИКОВАНО (медиа: " + uploaded.length + "): " + post.headline);
