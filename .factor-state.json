@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791638430502,
+      "value": 1791639050712,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 393588,
+      "value": 904013,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -2049,6 +2049,36 @@
         ]
       },
       "expiresAt": 1791897651462
+    },
+    "[\"factor\",\"pub\",\"0e83f67d202728a19f03350a3eb5f2db98ecac5a44ba87d44fe5857b4c7e8f65\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "0e83f67d202728a19f03350a3eb5f2db98ecac5a44ba87d44fe5857b4c7e8f65"
+      ],
+      "value": true,
+      "expiresAt": 1791898270951
+    },
+    "[\"factor\",\"topic\",\"0e83f67d202728a19f03350a3eb5f2db98ecac5a44ba87d44fe5857b4c7e8f65\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "0e83f67d202728a19f03350a3eb5f2db98ecac5a44ba87d44fe5857b4c7e8f65"
+      ],
+      "value": {
+        "title": "Более 350 рейсов задерживаются в московских аэропортах, еще около 60 отменены Серьезные сб",
+        "roots": [
+          "более",
+          "рейсо",
+          "задер",
+          "моско",
+          "аэроп",
+          "около",
+          "отмен",
+          "серье"
+        ]
+      },
+      "expiresAt": 1791898270952
     }
   }
 }
