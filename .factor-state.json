@@ -2,624 +2,1775 @@
   "version": 1,
   "entries": {
     "[\"factor\",\"published\",\"053330c04f7b17825a06d737245fff37336d3d4253924a4803a700cf42ffe632\"]": {
-      "key": ["factor","published","053330c04f7b17825a06d737245fff37336d3d4253924a4803a700cf42ffe632"],
+      "key": [
+        "factor",
+        "published",
+        "053330c04f7b17825a06d737245fff37336d3d4253924a4803a700cf42ffe632"
+      ],
       "value": true,
       "expiresAt": 1791624592952
     },
     "[\"factor\",\"published_topic\",\"053330c04f7b17825a06d737245fff37336d3d4253924a4803a700cf42ffe632\"]": {
-      "key": ["factor","published_topic","053330c04f7b17825a06d737245fff37336d3d4253924a4803a700cf42ffe632"],
+      "key": [
+        "factor",
+        "published_topic",
+        "053330c04f7b17825a06d737245fff37336d3d4253924a4803a700cf42ffe632"
+      ],
       "value": {
         "title": "В ФСБ пообещали «могнуть» нарушителей закона. Видео - 66.RU",
-        "roots": ["пообе","могну","наруш","закон"]
+        "roots": [
+          "пообе",
+          "могну",
+          "наруш",
+          "закон"
+        ]
       },
       "expiresAt": 1791624592953
     },
     "[\"factor\",\"last_urgent\"]": {
-      "key": ["factor","last_urgent"],
+      "key": [
+        "factor",
+        "last_urgent"
+      ],
       "value": 1791468372976,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"4aa61af2633c5fed40cebea96de68e39d8c4d97e99a8a3a751b34d5ca32bef5c\"]": {
-      "key": ["factor","published","4aa61af2633c5fed40cebea96de68e39d8c4d97e99a8a3a751b34d5ca32bef5c"],
+      "key": [
+        "factor",
+        "published",
+        "4aa61af2633c5fed40cebea96de68e39d8c4d97e99a8a3a751b34d5ca32bef5c"
+      ],
       "value": true,
       "expiresAt": 1791624756637
     },
     "[\"factor\",\"published_topic\",\"4aa61af2633c5fed40cebea96de68e39d8c4d97e99a8a3a751b34d5ca32bef5c\"]": {
-      "key": ["factor","published_topic","4aa61af2633c5fed40cebea96de68e39d8c4d97e99a8a3a751b34d5ca32bef5c"],
+      "key": [
+        "factor",
+        "published_topic",
+        "4aa61af2633c5fed40cebea96de68e39d8c4d97e99a8a3a751b34d5ca32bef5c"
+      ],
       "value": {
         "title": "Рубио не видит в данный момент признаков скорого мирного решения конфликта на Украине - Интерфакс",
-        "roots": ["рубио","видит","данны","момен","призн","скоро","мирно","решен","конфл","украи","интер"]
+        "roots": [
+          "рубио",
+          "видит",
+          "данны",
+          "момен",
+          "призн",
+          "скоро",
+          "мирно",
+          "решен",
+          "конфл",
+          "украи",
+          "интер"
+        ]
       },
       "expiresAt": 1791624756638
     },
     "[\"factor\",\"last_regular\"]": {
-      "key": ["factor","last_regular"],
-      "value": 1791626918792,
+      "key": [
+        "factor",
+        "last_regular"
+      ],
+      "value": 1791628248602,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
-      "key": ["factor","published","d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353"],
+      "key": [
+        "factor",
+        "published",
+        "d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353"
+      ],
       "value": true,
       "expiresAt": 1791625090461
     },
     "[\"factor\",\"published_topic\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
-      "key": ["factor","published_topic","d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353"],
+      "key": [
+        "factor",
+        "published_topic",
+        "d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353"
+      ],
       "value": {
         "title": "БПЛА атаковали крупный дата-центр «Яндекса»: пользователи жалуются на сбои - Inkazan.ru",
-        "roots": ["бпла","атако","крупн","дата","центр","яндек","польз","жалую","сбои","inkaz"]
+        "roots": [
+          "бпла",
+          "атако",
+          "крупн",
+          "дата",
+          "центр",
+          "яндек",
+          "польз",
+          "жалую",
+          "сбои",
+          "inkaz"
+        ]
       },
       "expiresAt": 1791625090462
     },
     "[\"factor\",\"published\",\"6c7e058fc89fd911b0a9b0b842d254fab6585d56d70c442fd96174f31672fd51\"]": {
-      "key": ["factor","published","6c7e058fc89fd911b0a9b0b842d254fab6585d56d70c442fd96174f31672fd51"],
+      "key": [
+        "factor",
+        "published",
+        "6c7e058fc89fd911b0a9b0b842d254fab6585d56d70c442fd96174f31672fd51"
+      ],
       "value": true,
       "expiresAt": 1791625412495
     },
     "[\"factor\",\"published_topic\",\"6c7e058fc89fd911b0a9b0b842d254fab6585d56d70c442fd96174f31672fd51\"]": {
-      "key": ["factor","published_topic","6c7e058fc89fd911b0a9b0b842d254fab6585d56d70c442fd96174f31672fd51"],
+      "key": [
+        "factor",
+        "published_topic",
+        "6c7e058fc89fd911b0a9b0b842d254fab6585d56d70c442fd96174f31672fd51"
+      ],
       "value": {
         "title": "Путину доложено о ситуации с атакованным танкером в Черном море - Интерфакс",
-        "roots": ["путин","долож","ситуа","атако","танке","черно","море","интер"]
+        "roots": [
+          "путин",
+          "долож",
+          "ситуа",
+          "атако",
+          "танке",
+          "черно",
+          "море",
+          "интер"
+        ]
       },
       "expiresAt": 1791625412496
     },
     "[\"factor\",\"published\",\"e81f9e64cb7e638bdf84906cbcc6f123bfe29c249950c8d1b0a7742bf5e1fec9\"]": {
-      "key": ["factor","published","e81f9e64cb7e638bdf84906cbcc6f123bfe29c249950c8d1b0a7742bf5e1fec9"],
+      "key": [
+        "factor",
+        "published",
+        "e81f9e64cb7e638bdf84906cbcc6f123bfe29c249950c8d1b0a7742bf5e1fec9"
+      ],
       "value": true,
       "expiresAt": 1791641216903
     },
     "[\"factor\",\"published_topic\",\"e81f9e64cb7e638bdf84906cbcc6f123bfe29c249950c8d1b0a7742bf5e1fec9\"]": {
-      "key": ["factor","published_topic","e81f9e64cb7e638bdf84906cbcc6f123bfe29c249950c8d1b0a7742bf5e1fec9"],
+      "key": [
+        "factor",
+        "published_topic",
+        "e81f9e64cb7e638bdf84906cbcc6f123bfe29c249950c8d1b0a7742bf5e1fec9"
+      ],
       "value": {
         "title": "Атака беспилотников на Омскую область 8 октября: что известно на данный момент - Gorod55",
-        "roots": ["атака","беспи","омску","облас","октяб","данны","момен","gorod"]
+        "roots": [
+          "атака",
+          "беспи",
+          "омску",
+          "облас",
+          "октяб",
+          "данны",
+          "момен",
+          "gorod"
+        ]
       },
       "expiresAt": 1791641216904
     },
     "[\"factor\",\"pub\",\"d63e0fde847af2f379e5c50c697408994abf1af773b4afabb4e5aa332f80554e\"]": {
-      "key": ["factor","pub","d63e0fde847af2f379e5c50c697408994abf1af773b4afabb4e5aa332f80554e"],
+      "key": [
+        "factor",
+        "pub",
+        "d63e0fde847af2f379e5c50c697408994abf1af773b4afabb4e5aa332f80554e"
+      ],
       "value": true,
       "expiresAt": 1791727938841
     },
     "[\"factor\",\"topic\",\"d63e0fde847af2f379e5c50c697408994abf1af773b4afabb4e5aa332f80554e\"]": {
-      "key": ["factor","topic","d63e0fde847af2f379e5c50c697408994abf1af773b4afabb4e5aa332f80554e"],
-      "value": {"title":"Эстонец с валютой прорвался на КПП через пограничников и сбежал в Россию","roots":["эстон","валют","прорв","через","погра","сбежа","росси"]},
+      "key": [
+        "factor",
+        "topic",
+        "d63e0fde847af2f379e5c50c697408994abf1af773b4afabb4e5aa332f80554e"
+      ],
+      "value": {
+        "title": "Эстонец с валютой прорвался на КПП через пограничников и сбежал в Россию",
+        "roots": [
+          "эстон",
+          "валют",
+          "прорв",
+          "через",
+          "погра",
+          "сбежа",
+          "росси"
+        ]
+      },
       "expiresAt": 1791727938842
     },
     "[\"factor\",\"pub\",\"d7fe42f21164f2a0d075cf6b7a5ada0d0fef036847b6285d82fe137d527f3916\"]": {
-      "key": ["factor","pub","d7fe42f21164f2a0d075cf6b7a5ada0d0fef036847b6285d82fe137d527f3916"],
+      "key": [
+        "factor",
+        "pub",
+        "d7fe42f21164f2a0d075cf6b7a5ada0d0fef036847b6285d82fe137d527f3916"
+      ],
       "value": true,
       "expiresAt": 1791728307287
     },
     "[\"factor\",\"topic\",\"d7fe42f21164f2a0d075cf6b7a5ada0d0fef036847b6285d82fe137d527f3916\"]": {
-      "key": ["factor","topic","d7fe42f21164f2a0d075cf6b7a5ada0d0fef036847b6285d82fe137d527f3916"],
-      "value": {"title":"Пловчиха Чикунова выиграла этап Кубка мира в Ташкенте на 200 м брассом","roots":["пловч","чикун","выигр","этап","кубка","мира","ташке","брасс"]},
+      "key": [
+        "factor",
+        "topic",
+        "d7fe42f21164f2a0d075cf6b7a5ada0d0fef036847b6285d82fe137d527f3916"
+      ],
+      "value": {
+        "title": "Пловчиха Чикунова выиграла этап Кубка мира в Ташкенте на 200 м брассом",
+        "roots": [
+          "пловч",
+          "чикун",
+          "выигр",
+          "этап",
+          "кубка",
+          "мира",
+          "ташке",
+          "брасс"
+        ]
+      },
       "expiresAt": 1791728307288
     },
     "[\"factor\",\"pub\",\"c70dd1686a99561f58fd9f1848a46167a1c123a252aee7be126d91f7e51db267\"]": {
-      "key": ["factor","pub","c70dd1686a99561f58fd9f1848a46167a1c123a252aee7be126d91f7e51db267"],
+      "key": [
+        "factor",
+        "pub",
+        "c70dd1686a99561f58fd9f1848a46167a1c123a252aee7be126d91f7e51db267"
+      ],
       "value": true,
       "expiresAt": 1791728622841
     },
     "[\"factor\",\"topic\",\"c70dd1686a99561f58fd9f1848a46167a1c123a252aee7be126d91f7e51db267\"]": {
-      "key": ["factor","topic","c70dd1686a99561f58fd9f1848a46167a1c123a252aee7be126d91f7e51db267"],
-      "value": {"title":"Глава Мосбиржи рассказал о вере в российские акции","roots":["глава","мосби","расск","вере","росси","акции"]},
+      "key": [
+        "factor",
+        "topic",
+        "c70dd1686a99561f58fd9f1848a46167a1c123a252aee7be126d91f7e51db267"
+      ],
+      "value": {
+        "title": "Глава Мосбиржи рассказал о вере в российские акции",
+        "roots": [
+          "глава",
+          "мосби",
+          "расск",
+          "вере",
+          "росси",
+          "акции"
+        ]
+      },
       "expiresAt": 1791728622842
     },
     "[\"factor\",\"pub\",\"1657331712b55ad5f5be7217ca515d2299757e2b45bdfb88f51e028668c0ec2f\"]": {
-      "key": ["factor","pub","1657331712b55ad5f5be7217ca515d2299757e2b45bdfb88f51e028668c0ec2f"],
+      "key": [
+        "factor",
+        "pub",
+        "1657331712b55ad5f5be7217ca515d2299757e2b45bdfb88f51e028668c0ec2f"
+      ],
       "value": true,
       "expiresAt": 1791728943120
     },
     "[\"factor\",\"topic\",\"1657331712b55ad5f5be7217ca515d2299757e2b45bdfb88f51e028668c0ec2f\"]": {
-      "key": ["factor","topic","1657331712b55ad5f5be7217ca515d2299757e2b45bdfb88f51e028668c0ec2f"],
-      "value": {"title":"Военблогер Роман Алехин сообщил, что у него прошли обыски","roots":["военб","роман","алехи","сообщ","него","прошл","обыск"]},
+      "key": [
+        "factor",
+        "topic",
+        "1657331712b55ad5f5be7217ca515d2299757e2b45bdfb88f51e028668c0ec2f"
+      ],
+      "value": {
+        "title": "Военблогер Роман Алехин сообщил, что у него прошли обыски",
+        "roots": [
+          "военб",
+          "роман",
+          "алехи",
+          "сообщ",
+          "него",
+          "прошл",
+          "обыск"
+        ]
+      },
       "expiresAt": 1791728943121
     },
     "[\"factor\",\"pub\",\"b94f56380a690f1b15127c068e4bbdf85c4c004bbd2a0c85a0d43854d5c3f5c6\"]": {
-      "key": ["factor","pub","b94f56380a690f1b15127c068e4bbdf85c4c004bbd2a0c85a0d43854d5c3f5c6"],
+      "key": [
+        "factor",
+        "pub",
+        "b94f56380a690f1b15127c068e4bbdf85c4c004bbd2a0c85a0d43854d5c3f5c6"
+      ],
       "value": true,
       "expiresAt": 1791729263583
     },
     "[\"factor\",\"topic\",\"b94f56380a690f1b15127c068e4bbdf85c4c004bbd2a0c85a0d43854d5c3f5c6\"]": {
-      "key": ["factor","topic","b94f56380a690f1b15127c068e4bbdf85c4c004bbd2a0c85a0d43854d5c3f5c6"],
-      "value": {"title":"Названы лучшие пляжи мира","roots":["назва","лучши","пляжи","мира"]},
+      "key": [
+        "factor",
+        "topic",
+        "b94f56380a690f1b15127c068e4bbdf85c4c004bbd2a0c85a0d43854d5c3f5c6"
+      ],
+      "value": {
+        "title": "Названы лучшие пляжи мира",
+        "roots": [
+          "назва",
+          "лучши",
+          "пляжи",
+          "мира"
+        ]
+      },
       "expiresAt": 1791729263583
     },
     "[\"factor\",\"pub\",\"5c1de8bd78c4edf36d4a383d9b412ae7ebe50009794a598fceab658b7e37168f\"]": {
-      "key": ["factor","pub","5c1de8bd78c4edf36d4a383d9b412ae7ebe50009794a598fceab658b7e37168f"],
+      "key": [
+        "factor",
+        "pub",
+        "5c1de8bd78c4edf36d4a383d9b412ae7ebe50009794a598fceab658b7e37168f"
+      ],
       "value": true,
       "expiresAt": 1791729584940
     },
     "[\"factor\",\"topic\",\"5c1de8bd78c4edf36d4a383d9b412ae7ebe50009794a598fceab658b7e37168f\"]": {
-      "key": ["factor","topic","5c1de8bd78c4edf36d4a383d9b412ae7ebe50009794a598fceab658b7e37168f"],
-      "value": {"title":"Клишас не нашел нарушения Конституции в расчете алиментов Матвея Сафонова","roots":["клиша","нашел","наруш","конст","расче","алиме","матве","сафон"]},
+      "key": [
+        "factor",
+        "topic",
+        "5c1de8bd78c4edf36d4a383d9b412ae7ebe50009794a598fceab658b7e37168f"
+      ],
+      "value": {
+        "title": "Клишас не нашел нарушения Конституции в расчете алиментов Матвея Сафонова",
+        "roots": [
+          "клиша",
+          "нашел",
+          "наруш",
+          "конст",
+          "расче",
+          "алиме",
+          "матве",
+          "сафон"
+        ]
+      },
       "expiresAt": 1791729584941
     },
     "[\"factor\",\"pub\",\"820bf05211ffc8b25ad88ff1f9cc102751e5181c413e790b3e734527591eeefc\"]": {
-      "key": ["factor","pub","820bf05211ffc8b25ad88ff1f9cc102751e5181c413e790b3e734527591eeefc"],
+      "key": [
+        "factor",
+        "pub",
+        "820bf05211ffc8b25ad88ff1f9cc102751e5181c413e790b3e734527591eeefc"
+      ],
       "value": true,
       "expiresAt": 1791729907871
     },
     "[\"factor\",\"topic\",\"820bf05211ffc8b25ad88ff1f9cc102751e5181c413e790b3e734527591eeefc\"]": {
-      "key": ["factor","topic","820bf05211ffc8b25ad88ff1f9cc102751e5181c413e790b3e734527591eeefc"],
-      "value": {"title":"РЭЦ организовал клиентскую сессию для экспортеров в Санкт-Петербурге","roots":["орган","клиен","сесси","экспо","санкт","петер"]},
+      "key": [
+        "factor",
+        "topic",
+        "820bf05211ffc8b25ad88ff1f9cc102751e5181c413e790b3e734527591eeefc"
+      ],
+      "value": {
+        "title": "РЭЦ организовал клиентскую сессию для экспортеров в Санкт-Петербурге",
+        "roots": [
+          "орган",
+          "клиен",
+          "сесси",
+          "экспо",
+          "санкт",
+          "петер"
+        ]
+      },
       "expiresAt": 1791729907872
     },
     "[\"factor\",\"pub\",\"af776ebf2e6df200140ecb5b099526ec45a349d659d93087d737b49d7b6100f5\"]": {
-      "key": ["factor","pub","af776ebf2e6df200140ecb5b099526ec45a349d659d93087d737b49d7b6100f5"],
+      "key": [
+        "factor",
+        "pub",
+        "af776ebf2e6df200140ecb5b099526ec45a349d659d93087d737b49d7b6100f5"
+      ],
       "value": true,
       "expiresAt": 1791730224594
     },
     "[\"factor\",\"topic\",\"af776ebf2e6df200140ecb5b099526ec45a349d659d93087d737b49d7b6100f5\"]": {
-      "key": ["factor","topic","af776ebf2e6df200140ecb5b099526ec45a349d659d93087d737b49d7b6100f5"],
-      "value": {"title":"Найдено природное средство для уменьшения воспаления суставов","roots":["найде","приро","средс","умень","воспа","суста"]},
+      "key": [
+        "factor",
+        "topic",
+        "af776ebf2e6df200140ecb5b099526ec45a349d659d93087d737b49d7b6100f5"
+      ],
+      "value": {
+        "title": "Найдено природное средство для уменьшения воспаления суставов",
+        "roots": [
+          "найде",
+          "приро",
+          "средс",
+          "умень",
+          "воспа",
+          "суста"
+        ]
+      },
       "expiresAt": 1791730224595
     },
     "[\"factor\",\"pub\",\"7a443f2c404df428e3713ac9dcc941af2267e036c25be8d865f3655146380847\"]": {
-      "key": ["factor","pub","7a443f2c404df428e3713ac9dcc941af2267e036c25be8d865f3655146380847"],
+      "key": [
+        "factor",
+        "pub",
+        "7a443f2c404df428e3713ac9dcc941af2267e036c25be8d865f3655146380847"
+      ],
       "value": true,
       "expiresAt": 1791730682339
     },
     "[\"factor\",\"topic\",\"7a443f2c404df428e3713ac9dcc941af2267e036c25be8d865f3655146380847\"]": {
-      "key": ["factor","topic","7a443f2c404df428e3713ac9dcc941af2267e036c25be8d865f3655146380847"],
-      "value": {"title":"Анатолия Кашпировского похоронят на Украине в Виннице, где покоятся его родители","roots":["анато","кашпи","похор","украи","винни","покоя","родит"]},
+      "key": [
+        "factor",
+        "topic",
+        "7a443f2c404df428e3713ac9dcc941af2267e036c25be8d865f3655146380847"
+      ],
+      "value": {
+        "title": "Анатолия Кашпировского похоронят на Украине в Виннице, где покоятся его родители",
+        "roots": [
+          "анато",
+          "кашпи",
+          "похор",
+          "украи",
+          "винни",
+          "покоя",
+          "родит"
+        ]
+      },
       "expiresAt": 1791730682340
     },
     "[\"factor\",\"pub\",\"144856b0098bd8d23ee553edc3f0d8594d3b52b20d8b1f687480304092230e71\"]": {
-      "key": ["factor","pub","144856b0098bd8d23ee553edc3f0d8594d3b52b20d8b1f687480304092230e71"],
+      "key": [
+        "factor",
+        "pub",
+        "144856b0098bd8d23ee553edc3f0d8594d3b52b20d8b1f687480304092230e71"
+      ],
       "value": true,
       "expiresAt": 1791730994689
     },
     "[\"factor\",\"topic\",\"144856b0098bd8d23ee553edc3f0d8594d3b52b20d8b1f687480304092230e71\"]": {
-      "key": ["factor","topic","144856b0098bd8d23ee553edc3f0d8594d3b52b20d8b1f687480304092230e71"],
-      "value": {"title":"В Рунете произошёл сбой — российские сайты работают с перебоями — «Ведомости»","roots":["рунет","произ","сбой","росси","сайты","работ","переб","ведом"]},
+      "key": [
+        "factor",
+        "topic",
+        "144856b0098bd8d23ee553edc3f0d8594d3b52b20d8b1f687480304092230e71"
+      ],
+      "value": {
+        "title": "В Рунете произошёл сбой — российские сайты работают с перебоями — «Ведомости»",
+        "roots": [
+          "рунет",
+          "произ",
+          "сбой",
+          "росси",
+          "сайты",
+          "работ",
+          "переб",
+          "ведом"
+        ]
+      },
       "expiresAt": 1791730994689
     },
     "[\"factor\",\"pub\",\"4e08bdda72b8b5174fc8dbfb36e05f43735f6cab1f2e6909e096aa30783812c6\"]": {
-      "key": ["factor","pub","4e08bdda72b8b5174fc8dbfb36e05f43735f6cab1f2e6909e096aa30783812c6"],
+      "key": [
+        "factor",
+        "pub",
+        "4e08bdda72b8b5174fc8dbfb36e05f43735f6cab1f2e6909e096aa30783812c6"
+      ],
       "value": true,
       "expiresAt": 1791731312060
     },
     "[\"factor\",\"topic\",\"4e08bdda72b8b5174fc8dbfb36e05f43735f6cab1f2e6909e096aa30783812c6\"]": {
-      "key": ["factor","topic","4e08bdda72b8b5174fc8dbfb36e05f43735f6cab1f2e6909e096aa30783812c6"],
-      "value": {"title":"Омск атакуют беспилотники: в регионе работает ПВО ","roots":["омск","атаку","беспи","регио","работ"]},
+      "key": [
+        "factor",
+        "topic",
+        "4e08bdda72b8b5174fc8dbfb36e05f43735f6cab1f2e6909e096aa30783812c6"
+      ],
+      "value": {
+        "title": "Омск атакуют беспилотники: в регионе работает ПВО ",
+        "roots": [
+          "омск",
+          "атаку",
+          "беспи",
+          "регио",
+          "работ"
+        ]
+      },
       "expiresAt": 1791731312061
     },
     "[\"factor\",\"pub\",\"700c32aa1552048a649bbea910b954f2257053a1bb19b0d04ca0cfae709e3b7b\"]": {
-      "key": ["factor","pub","700c32aa1552048a649bbea910b954f2257053a1bb19b0d04ca0cfae709e3b7b"],
+      "key": [
+        "factor",
+        "pub",
+        "700c32aa1552048a649bbea910b954f2257053a1bb19b0d04ca0cfae709e3b7b"
+      ],
       "value": true,
       "expiresAt": 1791731625719
     },
     "[\"factor\",\"topic\",\"700c32aa1552048a649bbea910b954f2257053a1bb19b0d04ca0cfae709e3b7b\"]": {
-      "key": ["factor","topic","700c32aa1552048a649bbea910b954f2257053a1bb19b0d04ca0cfae709e3b7b"],
-      "value": {"title":"Зеленский потребовал от Трампа дать Украине Starlink и «закрыть России экономику» ","roots":["зелен","потре","трамп","дать","украи","starl","закры","росси","эконо"]},
+      "key": [
+        "factor",
+        "topic",
+        "700c32aa1552048a649bbea910b954f2257053a1bb19b0d04ca0cfae709e3b7b"
+      ],
+      "value": {
+        "title": "Зеленский потребовал от Трампа дать Украине Starlink и «закрыть России экономику» ",
+        "roots": [
+          "зелен",
+          "потре",
+          "трамп",
+          "дать",
+          "украи",
+          "starl",
+          "закры",
+          "росси",
+          "эконо"
+        ]
+      },
       "expiresAt": 1791731625720
     },
     "[\"factor\",\"pub\",\"b654ff642ce4193cb7a8ae016c6bd0b608723df9b187f1daef0017911748704d\"]": {
-      "key": ["factor","pub","b654ff642ce4193cb7a8ae016c6bd0b608723df9b187f1daef0017911748704d"],
+      "key": [
+        "factor",
+        "pub",
+        "b654ff642ce4193cb7a8ae016c6bd0b608723df9b187f1daef0017911748704d"
+      ],
       "value": true,
       "expiresAt": 1791731941227
     },
     "[\"factor\",\"topic\",\"b654ff642ce4193cb7a8ae016c6bd0b608723df9b187f1daef0017911748704d\"]": {
-      "key": ["factor","topic","b654ff642ce4193cb7a8ae016c6bd0b608723df9b187f1daef0017911748704d"],
-      "value": {"title":"Генерал Сергей Суровикин вновь вернулся к командованию на СВО — британская газета The Tele","roots":["генер","серге","суров","вновь","верну","коман","брита","газет","tele"]},
+      "key": [
+        "factor",
+        "topic",
+        "b654ff642ce4193cb7a8ae016c6bd0b608723df9b187f1daef0017911748704d"
+      ],
+      "value": {
+        "title": "Генерал Сергей Суровикин вновь вернулся к командованию на СВО — британская газета The Tele",
+        "roots": [
+          "генер",
+          "серге",
+          "суров",
+          "вновь",
+          "верну",
+          "коман",
+          "брита",
+          "газет",
+          "tele"
+        ]
+      },
       "expiresAt": 1791731941228
     },
     "[\"factor\",\"pub\",\"8875befa85916539d28d2656fb9602b8d904a1b8b5f94c79b7874147b5b19e73\"]": {
-      "key": ["factor","pub","8875befa85916539d28d2656fb9602b8d904a1b8b5f94c79b7874147b5b19e73"],
+      "key": [
+        "factor",
+        "pub",
+        "8875befa85916539d28d2656fb9602b8d904a1b8b5f94c79b7874147b5b19e73"
+      ],
       "value": true,
       "expiresAt": 1791732259374
     },
     "[\"factor\",\"topic\",\"8875befa85916539d28d2656fb9602b8d904a1b8b5f94c79b7874147b5b19e73\"]": {
-      "key": ["factor","topic","8875befa85916539d28d2656fb9602b8d904a1b8b5f94c79b7874147b5b19e73"],
-      "value": {"title":"Тем временем Google снова оштрафовали в России на 3,8 млн рублей","roots":["време","googl","снова","оштра","росси","рубле"]},
+      "key": [
+        "factor",
+        "topic",
+        "8875befa85916539d28d2656fb9602b8d904a1b8b5f94c79b7874147b5b19e73"
+      ],
+      "value": {
+        "title": "Тем временем Google снова оштрафовали в России на 3,8 млн рублей",
+        "roots": [
+          "време",
+          "googl",
+          "снова",
+          "оштра",
+          "росси",
+          "рубле"
+        ]
+      },
       "expiresAt": 1791732259374
     },
     "[\"factor\",\"pub\",\"253ae4154fb980f20197d8bfb3bed66ae6eac5654b9346010c6095b1ae948285\"]": {
-      "key": ["factor","pub","253ae4154fb980f20197d8bfb3bed66ae6eac5654b9346010c6095b1ae948285"],
+      "key": [
+        "factor",
+        "pub",
+        "253ae4154fb980f20197d8bfb3bed66ae6eac5654b9346010c6095b1ae948285"
+      ],
       "value": true,
       "expiresAt": 1791732574245
     },
     "[\"factor\",\"topic\",\"253ae4154fb980f20197d8bfb3bed66ae6eac5654b9346010c6095b1ae948285\"]": {
-      "key": ["factor","topic","253ae4154fb980f20197d8bfb3bed66ae6eac5654b9346010c6095b1ae948285"],
-      "value": {"title":"Обычный четверг в России, по мнению американцев: На самом деле это трое полярных медведей ","roots":["обычн","четве","росси","мнени","амери","самом","деле","трое","поляр","медве"]},
+      "key": [
+        "factor",
+        "topic",
+        "253ae4154fb980f20197d8bfb3bed66ae6eac5654b9346010c6095b1ae948285"
+      ],
+      "value": {
+        "title": "Обычный четверг в России, по мнению американцев: На самом деле это трое полярных медведей ",
+        "roots": [
+          "обычн",
+          "четве",
+          "росси",
+          "мнени",
+          "амери",
+          "самом",
+          "деле",
+          "трое",
+          "поляр",
+          "медве"
+        ]
+      },
       "expiresAt": 1791732574246
     },
     "[\"factor\",\"pub\",\"084eeb47541f0db6eb345bede7abfa6ee304e58f7436e07f64ce22102956a677\"]": {
-      "key": ["factor","pub","084eeb47541f0db6eb345bede7abfa6ee304e58f7436e07f64ce22102956a677"],
+      "key": [
+        "factor",
+        "pub",
+        "084eeb47541f0db6eb345bede7abfa6ee304e58f7436e07f64ce22102956a677"
+      ],
       "value": true,
       "expiresAt": 1791732886633
     },
     "[\"factor\",\"topic\",\"084eeb47541f0db6eb345bede7abfa6ee304e58f7436e07f64ce22102956a677\"]": {
-      "key": ["factor","topic","084eeb47541f0db6eb345bede7abfa6ee304e58f7436e07f64ce22102956a677"],
-      "value": {"title":"50 тысяч рублей даёт Альфа-Банк, если предложить троим друзьям открыть счёт для бизнеса ","roots":["тысяч","рубле","альфа","банк","если","предл","троим","друзь","откры","бизне"]},
+      "key": [
+        "factor",
+        "topic",
+        "084eeb47541f0db6eb345bede7abfa6ee304e58f7436e07f64ce22102956a677"
+      ],
+      "value": {
+        "title": "50 тысяч рублей даёт Альфа-Банк, если предложить троим друзьям открыть счёт для бизнеса ",
+        "roots": [
+          "тысяч",
+          "рубле",
+          "альфа",
+          "банк",
+          "если",
+          "предл",
+          "троим",
+          "друзь",
+          "откры",
+          "бизне"
+        ]
+      },
       "expiresAt": 1791732886633
     },
     "[\"factor\",\"pub\",\"496edb824dd4518ca7650a2a34f171e6b62b0afdd61dcf677498b4a30082abab\"]": {
-      "key": ["factor","pub","496edb824dd4518ca7650a2a34f171e6b62b0afdd61dcf677498b4a30082abab"],
+      "key": [
+        "factor",
+        "pub",
+        "496edb824dd4518ca7650a2a34f171e6b62b0afdd61dcf677498b4a30082abab"
+      ],
       "value": true,
       "expiresAt": 1791733206323
     },
     "[\"factor\",\"topic\",\"496edb824dd4518ca7650a2a34f171e6b62b0afdd61dcf677498b4a30082abab\"]": {
-      "key": ["factor","topic","496edb824dd4518ca7650a2a34f171e6b62b0afdd61dcf677498b4a30082abab"],
-      "value": {"title":"Врачи подтвердили \"ИИ-психоз\" у десятков пациентов — все словили шизу+манию после общения ","roots":["врачи","подтв","психо","десят","пацие","слови","шизу","манию","общен"]},
+      "key": [
+        "factor",
+        "topic",
+        "496edb824dd4518ca7650a2a34f171e6b62b0afdd61dcf677498b4a30082abab"
+      ],
+      "value": {
+        "title": "Врачи подтвердили \"ИИ-психоз\" у десятков пациентов — все словили шизу+манию после общения ",
+        "roots": [
+          "врачи",
+          "подтв",
+          "психо",
+          "десят",
+          "пацие",
+          "слови",
+          "шизу",
+          "манию",
+          "общен"
+        ]
+      },
       "expiresAt": 1791733206324
     },
     "[\"factor\",\"pub\",\"43427cadb12148b102029c2b5fb01036de5aae6a528f61b882efb05067050614\"]": {
-      "key": ["factor","pub","43427cadb12148b102029c2b5fb01036de5aae6a528f61b882efb05067050614"],
+      "key": [
+        "factor",
+        "pub",
+        "43427cadb12148b102029c2b5fb01036de5aae6a528f61b882efb05067050614"
+      ],
       "value": true,
       "expiresAt": 1791733829794
     },
     "[\"factor\",\"topic\",\"43427cadb12148b102029c2b5fb01036de5aae6a528f61b882efb05067050614\"]": {
-      "key": ["factor","topic","43427cadb12148b102029c2b5fb01036de5aae6a528f61b882efb05067050614"],
-      "value": {"title":"Киев полностью остался без света после удара по энергосистеме","roots":["киев","полно","остал","света","удара","энерг"]},
+      "key": [
+        "factor",
+        "topic",
+        "43427cadb12148b102029c2b5fb01036de5aae6a528f61b882efb05067050614"
+      ],
+      "value": {
+        "title": "Киев полностью остался без света после удара по энергосистеме",
+        "roots": [
+          "киев",
+          "полно",
+          "остал",
+          "света",
+          "удара",
+          "энерг"
+        ]
+      },
       "expiresAt": 1791733829794
     },
     "[\"factor\",\"next_regular_delay\"]": {
-      "key": ["factor","next_regular_delay"],
-      "value": 1,
+      "key": [
+        "factor",
+        "next_regular_delay"
+      ],
+      "value": 779694,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
-      "key": ["factor","pub","305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb"],
+      "key": [
+        "factor",
+        "pub",
+        "305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb"
+      ],
       "value": true,
       "expiresAt": 1791747275909
     },
     "[\"factor\",\"topic\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
-      "key": ["factor","topic","305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb"],
-      "value": {"title":"«Крузак» с блатными номерами снёс припаркованные авто на юго-востоке Москвы","roots":["круза","блатн","номер","припа","авто","восто","москв"]},
+      "key": [
+        "factor",
+        "topic",
+        "305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb"
+      ],
+      "value": {
+        "title": "«Крузак» с блатными номерами снёс припаркованные авто на юго-востоке Москвы",
+        "roots": [
+          "круза",
+          "блатн",
+          "номер",
+          "припа",
+          "авто",
+          "восто",
+          "москв"
+        ]
+      },
       "expiresAt": 1791747275910
     },
     "[\"factor\",\"pub\",\"a0718c4a8c90e9f94eb58bb945226c00f7314db916c5b00834fec149f07c3e83\"]": {
-      "key": ["factor","pub","a0718c4a8c90e9f94eb58bb945226c00f7314db916c5b00834fec149f07c3e83"],
+      "key": [
+        "factor",
+        "pub",
+        "a0718c4a8c90e9f94eb58bb945226c00f7314db916c5b00834fec149f07c3e83"
+      ],
       "value": true,
       "expiresAt": 1791748196822
     },
     "[\"factor\",\"topic\",\"a0718c4a8c90e9f94eb58bb945226c00f7314db916c5b00834fec149f07c3e83\"]": {
-      "key": ["factor","topic","a0718c4a8c90e9f94eb58bb945226c00f7314db916c5b00834fec149f07c3e83"],
-      "value": {"title":"Россияне смогут увидеть звездопад Дракониды в ночь на пятницу","roots":["росси","смогу","увиде","звезд","драко","ночь","пятни"]},
+      "key": [
+        "factor",
+        "topic",
+        "a0718c4a8c90e9f94eb58bb945226c00f7314db916c5b00834fec149f07c3e83"
+      ],
+      "value": {
+        "title": "Россияне смогут увидеть звездопад Дракониды в ночь на пятницу",
+        "roots": [
+          "росси",
+          "смогу",
+          "увиде",
+          "звезд",
+          "драко",
+          "ночь",
+          "пятни"
+        ]
+      },
       "expiresAt": 1791748196823
     },
     "[\"factor\",\"pub\",\"d6bc0d666eb08214af442b7dd8b8248c0b0fea61690d7be02fc79339f237a4bf\"]": {
-      "key": ["factor","pub","d6bc0d666eb08214af442b7dd8b8248c0b0fea61690d7be02fc79339f237a4bf"],
+      "key": [
+        "factor",
+        "pub",
+        "d6bc0d666eb08214af442b7dd8b8248c0b0fea61690d7be02fc79339f237a4bf"
+      ],
       "value": true,
       "expiresAt": 1791762192460
     },
     "[\"factor\",\"topic\",\"d6bc0d666eb08214af442b7dd8b8248c0b0fea61690d7be02fc79339f237a4bf\"]": {
-      "key": ["factor","topic","d6bc0d666eb08214af442b7dd8b8248c0b0fea61690d7be02fc79339f237a4bf"],
-      "value": {"title":"Самолёт вылетел за пределы взлётно-посадочной полосы и рухнул на дорогу в Эквадоре","roots":["самол","вылет","преде","посад","полос","рухну","дорог","эквад"]},
+      "key": [
+        "factor",
+        "topic",
+        "d6bc0d666eb08214af442b7dd8b8248c0b0fea61690d7be02fc79339f237a4bf"
+      ],
+      "value": {
+        "title": "Самолёт вылетел за пределы взлётно-посадочной полосы и рухнул на дорогу в Эквадоре",
+        "roots": [
+          "самол",
+          "вылет",
+          "преде",
+          "посад",
+          "полос",
+          "рухну",
+          "дорог",
+          "эквад"
+        ]
+      },
       "expiresAt": 1791762192461
     },
     "[\"factor\",\"pub\",\"c7a0de581e0016e5725aa89731a6076b3e28bd5c1df3b05a06de5e944a6e1ad1\"]": {
-      "key": ["factor","pub","c7a0de581e0016e5725aa89731a6076b3e28bd5c1df3b05a06de5e944a6e1ad1"],
+      "key": [
+        "factor",
+        "pub",
+        "c7a0de581e0016e5725aa89731a6076b3e28bd5c1df3b05a06de5e944a6e1ad1"
+      ],
       "value": true,
       "expiresAt": 1791764010368
     },
     "[\"factor\",\"topic\",\"c7a0de581e0016e5725aa89731a6076b3e28bd5c1df3b05a06de5e944a6e1ad1\"]": {
-      "key": ["factor","topic","c7a0de581e0016e5725aa89731a6076b3e28bd5c1df3b05a06de5e944a6e1ad1"],
-      "value": {"title":"В Латвии женщину приговорили к 6 годам тюрьмы за перевод €43 в Россию","roots":["латви","женщи","приго","годам","тюрьм","перев","росси"]},
+      "key": [
+        "factor",
+        "topic",
+        "c7a0de581e0016e5725aa89731a6076b3e28bd5c1df3b05a06de5e944a6e1ad1"
+      ],
+      "value": {
+        "title": "В Латвии женщину приговорили к 6 годам тюрьмы за перевод €43 в Россию",
+        "roots": [
+          "латви",
+          "женщи",
+          "приго",
+          "годам",
+          "тюрьм",
+          "перев",
+          "росси"
+        ]
+      },
       "expiresAt": 1791764010369
     },
     "[\"factor\",\"pub\",\"e032a3167c6749b6e3ccfd47a7d7ae719a40e6f0f95576bc7a6df1aef86eed2f\"]": {
-      "key": ["factor","pub","e032a3167c6749b6e3ccfd47a7d7ae719a40e6f0f95576bc7a6df1aef86eed2f"],
+      "key": [
+        "factor",
+        "pub",
+        "e032a3167c6749b6e3ccfd47a7d7ae719a40e6f0f95576bc7a6df1aef86eed2f"
+      ],
       "value": true,
       "expiresAt": 1791764928858
     },
     "[\"factor\",\"topic\",\"e032a3167c6749b6e3ccfd47a7d7ae719a40e6f0f95576bc7a6df1aef86eed2f\"]": {
-      "key": ["factor","topic","e032a3167c6749b6e3ccfd47a7d7ae719a40e6f0f95576bc7a6df1aef86eed2f"],
-      "value": {"title":"Азербайджан отправил Украине гуманитарную помощь для восстановления энергосистемы","roots":["азерб","отпра","украи","гуман","помощ","восст","энерг"]},
+      "key": [
+        "factor",
+        "topic",
+        "e032a3167c6749b6e3ccfd47a7d7ae719a40e6f0f95576bc7a6df1aef86eed2f"
+      ],
+      "value": {
+        "title": "Азербайджан отправил Украине гуманитарную помощь для восстановления энергосистемы",
+        "roots": [
+          "азерб",
+          "отпра",
+          "украи",
+          "гуман",
+          "помощ",
+          "восст",
+          "энерг"
+        ]
+      },
       "expiresAt": 1791764928859
     },
     "[\"factor\",\"pub\",\"b4b88db877bc3bcbb69fb9e3220d3fb975b83cb61850c70d6481d7a4e6a033c9\"]": {
-      "key": ["factor","pub","b4b88db877bc3bcbb69fb9e3220d3fb975b83cb61850c70d6481d7a4e6a033c9"],
+      "key": [
+        "factor",
+        "pub",
+        "b4b88db877bc3bcbb69fb9e3220d3fb975b83cb61850c70d6481d7a4e6a033c9"
+      ],
       "value": true,
       "expiresAt": 1791792857678
     },
     "[\"factor\",\"topic\",\"b4b88db877bc3bcbb69fb9e3220d3fb975b83cb61850c70d6481d7a4e6a033c9\"]": {
-      "key": ["factor","topic","b4b88db877bc3bcbb69fb9e3220d3fb975b83cb61850c70d6481d7a4e6a033c9"],
-      "value": {"title":"Москвичка случайно запекла айкос с котлетами — он взорвался в духовке","roots":["москв","случа","запек","айкос","котле","взорв","духов"]},
+      "key": [
+        "factor",
+        "topic",
+        "b4b88db877bc3bcbb69fb9e3220d3fb975b83cb61850c70d6481d7a4e6a033c9"
+      ],
+      "value": {
+        "title": "Москвичка случайно запекла айкос с котлетами — он взорвался в духовке",
+        "roots": [
+          "москв",
+          "случа",
+          "запек",
+          "айкос",
+          "котле",
+          "взорв",
+          "духов"
+        ]
+      },
       "expiresAt": 1791792857679
     },
     "[\"factor\",\"pub\",\"64df40582ee8d40cb5df5614f16109940712e53a0acdbfbfb42ee0637d6a30fe\"]": {
-      "key": ["factor","pub","64df40582ee8d40cb5df5614f16109940712e53a0acdbfbfb42ee0637d6a30fe"],
+      "key": [
+        "factor",
+        "pub",
+        "64df40582ee8d40cb5df5614f16109940712e53a0acdbfbfb42ee0637d6a30fe"
+      ],
       "value": true,
       "expiresAt": 1791796811584
     },
     "[\"factor\",\"topic\",\"64df40582ee8d40cb5df5614f16109940712e53a0acdbfbfb42ee0637d6a30fe\"]": {
-      "key": ["factor","topic","64df40582ee8d40cb5df5614f16109940712e53a0acdbfbfb42ee0637d6a30fe"],
-      "value": {"title":"Михаилу Звинчуку может грозить до 15 лет тюрьмы в Черногории","roots":["михаи","звинч","может","грози","тюрьм","черно"]},
+      "key": [
+        "factor",
+        "topic",
+        "64df40582ee8d40cb5df5614f16109940712e53a0acdbfbfb42ee0637d6a30fe"
+      ],
+      "value": {
+        "title": "Михаилу Звинчуку может грозить до 15 лет тюрьмы в Черногории",
+        "roots": [
+          "михаи",
+          "звинч",
+          "может",
+          "грози",
+          "тюрьм",
+          "черно"
+        ]
+      },
       "expiresAt": 1791796811719
     },
     "[\"factor\",\"pub\",\"3bdc63aa523fd4cc27a150dd4d4e784bc190d63fd720ee55d93d5bccc8dcca72\"]": {
-      "key": ["factor","pub","3bdc63aa523fd4cc27a150dd4d4e784bc190d63fd720ee55d93d5bccc8dcca72"],
+      "key": [
+        "factor",
+        "pub",
+        "3bdc63aa523fd4cc27a150dd4d4e784bc190d63fd720ee55d93d5bccc8dcca72"
+      ],
       "value": true,
       "expiresAt": 1791810577103
     },
     "[\"factor\",\"topic\",\"3bdc63aa523fd4cc27a150dd4d4e784bc190d63fd720ee55d93d5bccc8dcca72\"]": {
-      "key": ["factor","topic","3bdc63aa523fd4cc27a150dd4d4e784bc190d63fd720ee55d93d5bccc8dcca72"],
-      "value": {"title":"Вместе со Звинчуком и его супругой задержаны члены его съёмочной команды","roots":["вмест","звинч","супру","задер","члены","мочно","коман"]},
+      "key": [
+        "factor",
+        "topic",
+        "3bdc63aa523fd4cc27a150dd4d4e784bc190d63fd720ee55d93d5bccc8dcca72"
+      ],
+      "value": {
+        "title": "Вместе со Звинчуком и его супругой задержаны члены его съёмочной команды",
+        "roots": [
+          "вмест",
+          "звинч",
+          "супру",
+          "задер",
+          "члены",
+          "мочно",
+          "коман"
+        ]
+      },
       "expiresAt": 1791810577104
     },
     "[\"factor\",\"pub\",\"19dcff1c0404719a92d2d3762322ba62ed48283e17c2380e4fcb2f46343c9e89\"]": {
-      "key": ["factor","pub","19dcff1c0404719a92d2d3762322ba62ed48283e17c2380e4fcb2f46343c9e89"],
+      "key": [
+        "factor",
+        "pub",
+        "19dcff1c0404719a92d2d3762322ba62ed48283e17c2380e4fcb2f46343c9e89"
+      ],
       "value": true,
       "expiresAt": 1791812372213
     },
     "[\"factor\",\"topic\",\"19dcff1c0404719a92d2d3762322ba62ed48283e17c2380e4fcb2f46343c9e89\"]": {
-      "key": ["factor","topic","19dcff1c0404719a92d2d3762322ba62ed48283e17c2380e4fcb2f46343c9e89"],
-      "value": {"title":"В Калуге из-за падения обломков дронов приостановил работу бывший завод Volkswagen — СМИ","roots":["калуг","паден","облом","дроно","приос","работ","бывши","завод","volks"]},
+      "key": [
+        "factor",
+        "topic",
+        "19dcff1c0404719a92d2d3762322ba62ed48283e17c2380e4fcb2f46343c9e89"
+      ],
+      "value": {
+        "title": "В Калуге из-за падения обломков дронов приостановил работу бывший завод Volkswagen — СМИ",
+        "roots": [
+          "калуг",
+          "паден",
+          "облом",
+          "дроно",
+          "приос",
+          "работ",
+          "бывши",
+          "завод",
+          "volks"
+        ]
+      },
       "expiresAt": 1791812372214
     },
     "[\"factor\",\"pub\",\"2b23d3893a635d9697f34f897b642ef5754060d860a890d4cf4ede804e9611ac\"]": {
-      "key": ["factor","pub","2b23d3893a635d9697f34f897b642ef5754060d860a890d4cf4ede804e9611ac"],
+      "key": [
+        "factor",
+        "pub",
+        "2b23d3893a635d9697f34f897b642ef5754060d860a890d4cf4ede804e9611ac"
+      ],
       "value": true,
       "expiresAt": 1791816359531
     },
     "[\"factor\",\"topic\",\"2b23d3893a635d9697f34f897b642ef5754060d860a890d4cf4ede804e9611ac\"]": {
-      "key": ["factor","topic","2b23d3893a635d9697f34f897b642ef5754060d860a890d4cf4ede804e9611ac"],
-      "value": {"title":"Впервые над Ярославской областью сбили украинские разведывательные воздушные шары, запущен","roots":["вперв","яросл","облас","сбили","украи","разве","возду","шары","запущ"]},
+      "key": [
+        "factor",
+        "topic",
+        "2b23d3893a635d9697f34f897b642ef5754060d860a890d4cf4ede804e9611ac"
+      ],
+      "value": {
+        "title": "Впервые над Ярославской областью сбили украинские разведывательные воздушные шары, запущен",
+        "roots": [
+          "вперв",
+          "яросл",
+          "облас",
+          "сбили",
+          "украи",
+          "разве",
+          "возду",
+          "шары",
+          "запущ"
+        ]
+      },
       "expiresAt": 1791816359531
     },
     "[\"factor\",\"pub\",\"bc835f68984c098637885af27c9e0ac7c5a2eb2d12ee694fcbbfa0a4b55d2b7e\"]": {
-      "key": ["factor","pub","bc835f68984c098637885af27c9e0ac7c5a2eb2d12ee694fcbbfa0a4b55d2b7e"],
+      "key": [
+        "factor",
+        "pub",
+        "bc835f68984c098637885af27c9e0ac7c5a2eb2d12ee694fcbbfa0a4b55d2b7e"
+      ],
       "value": true,
       "expiresAt": 1791816940449
     },
     "[\"factor\",\"topic\",\"bc835f68984c098637885af27c9e0ac7c5a2eb2d12ee694fcbbfa0a4b55d2b7e\"]": {
-      "key": ["factor","topic","bc835f68984c098637885af27c9e0ac7c5a2eb2d12ee694fcbbfa0a4b55d2b7e"],
-      "value": {"title":"ИИ уничтожит человечество через 6–12 месяцев","roots":["уничт","челов","через","месяц"]},
+      "key": [
+        "factor",
+        "topic",
+        "bc835f68984c098637885af27c9e0ac7c5a2eb2d12ee694fcbbfa0a4b55d2b7e"
+      ],
+      "value": {
+        "title": "ИИ уничтожит человечество через 6–12 месяцев",
+        "roots": [
+          "уничт",
+          "челов",
+          "через",
+          "месяц"
+        ]
+      },
       "expiresAt": 1791816940450
     },
     "[\"factor\",\"pub\",\"b54d86ea4e0aea3ada575dcc417e2b0076f57fe4dcac15c45b2ac5ac1e354013\"]": {
-      "key": ["factor","pub","b54d86ea4e0aea3ada575dcc417e2b0076f57fe4dcac15c45b2ac5ac1e354013"],
+      "key": [
+        "factor",
+        "pub",
+        "b54d86ea4e0aea3ada575dcc417e2b0076f57fe4dcac15c45b2ac5ac1e354013"
+      ],
       "value": true,
       "expiresAt": 1791817851171
     },
     "[\"factor\",\"topic\",\"b54d86ea4e0aea3ada575dcc417e2b0076f57fe4dcac15c45b2ac5ac1e354013\"]": {
-      "key": ["factor","topic","b54d86ea4e0aea3ada575dcc417e2b0076f57fe4dcac15c45b2ac5ac1e354013"],
-      "value": {"title":"В Петербурге объявляли план «Перехват» из-за предполагаемого похищения сотрудника ФССП — е","roots":["петер","объяв","план","перех","предп","похищ","сотру","фссп"]},
+      "key": [
+        "factor",
+        "topic",
+        "b54d86ea4e0aea3ada575dcc417e2b0076f57fe4dcac15c45b2ac5ac1e354013"
+      ],
+      "value": {
+        "title": "В Петербурге объявляли план «Перехват» из-за предполагаемого похищения сотрудника ФССП — е",
+        "roots": [
+          "петер",
+          "объяв",
+          "план",
+          "перех",
+          "предп",
+          "похищ",
+          "сотру",
+          "фссп"
+        ]
+      },
       "expiresAt": 1791817851172
     },
     "[\"factor\",\"pub\",\"41a2d6a7fff0732540fb54d168abc6c36d105973571afb1b55de5146433c1959\"]": {
-      "key": ["factor","pub","41a2d6a7fff0732540fb54d168abc6c36d105973571afb1b55de5146433c1959"],
+      "key": [
+        "factor",
+        "pub",
+        "41a2d6a7fff0732540fb54d168abc6c36d105973571afb1b55de5146433c1959"
+      ],
       "value": true,
       "expiresAt": 1791818741994
     },
     "[\"factor\",\"topic\",\"41a2d6a7fff0732540fb54d168abc6c36d105973571afb1b55de5146433c1959\"]": {
-      "key": ["factor","topic","41a2d6a7fff0732540fb54d168abc6c36d105973571afb1b55de5146433c1959"],
-      "value": {"title":"В Италии совершили крупнейшую в истории кражу вина ","roots":["итали","совер","крупн","истор","кражу","вина"]},
+      "key": [
+        "factor",
+        "topic",
+        "41a2d6a7fff0732540fb54d168abc6c36d105973571afb1b55de5146433c1959"
+      ],
+      "value": {
+        "title": "В Италии совершили крупнейшую в истории кражу вина ",
+        "roots": [
+          "итали",
+          "совер",
+          "крупн",
+          "истор",
+          "кражу",
+          "вина"
+        ]
+      },
       "expiresAt": 1791818742033
     },
     "[\"factor\",\"pub\",\"300f273d4dcc5dea77fb7f301e93a74a8ee966614166110316b87bd3945d36ef\"]": {
-      "key": ["factor","pub","300f273d4dcc5dea77fb7f301e93a74a8ee966614166110316b87bd3945d36ef"],
+      "key": [
+        "factor",
+        "pub",
+        "300f273d4dcc5dea77fb7f301e93a74a8ee966614166110316b87bd3945d36ef"
+      ],
       "value": true,
       "expiresAt": 1791819074421
     },
     "[\"factor\",\"topic\",\"300f273d4dcc5dea77fb7f301e93a74a8ee966614166110316b87bd3945d36ef\"]": {
-      "key": ["factor","topic","300f273d4dcc5dea77fb7f301e93a74a8ee966614166110316b87bd3945d36ef"],
-      "value": {"title":"Житель Сочи сломал четыре городские сирены, чтобы его жена не нервничала","roots":["жител","сочи","слома","четыр","город","сирен","чтобы","жена","нервн"]},
+      "key": [
+        "factor",
+        "topic",
+        "300f273d4dcc5dea77fb7f301e93a74a8ee966614166110316b87bd3945d36ef"
+      ],
+      "value": {
+        "title": "Житель Сочи сломал четыре городские сирены, чтобы его жена не нервничала",
+        "roots": [
+          "жител",
+          "сочи",
+          "слома",
+          "четыр",
+          "город",
+          "сирен",
+          "чтобы",
+          "жена",
+          "нервн"
+        ]
+      },
       "expiresAt": 1791819074421
     },
     "[\"factor\",\"pub\",\"b3195efc0f7992588a02e4ade67b04b0073fa53df08f169e4486a2594706a4d8\"]": {
-      "key": ["factor","pub","b3195efc0f7992588a02e4ade67b04b0073fa53df08f169e4486a2594706a4d8"],
+      "key": [
+        "factor",
+        "pub",
+        "b3195efc0f7992588a02e4ade67b04b0073fa53df08f169e4486a2594706a4d8"
+      ],
       "value": true,
       "expiresAt": 1791819283984
     },
     "[\"factor\",\"topic\",\"b3195efc0f7992588a02e4ade67b04b0073fa53df08f169e4486a2594706a4d8\"]": {
-      "key": ["factor","topic","b3195efc0f7992588a02e4ade67b04b0073fa53df08f169e4486a2594706a4d8"],
-      "value": {"title":"Власти Черногории получат &#036;10 млн","roots":["власт","черно","получ"]},
+      "key": [
+        "factor",
+        "topic",
+        "b3195efc0f7992588a02e4ade67b04b0073fa53df08f169e4486a2594706a4d8"
+      ],
+      "value": {
+        "title": "Власти Черногории получат &#036;10 млн",
+        "roots": [
+          "власт",
+          "черно",
+          "получ"
+        ]
+      },
       "expiresAt": 1791819283985
     },
     "[\"factor\",\"pub\",\"9064f712f3ddfc603c7da0e3b6243b0b0de3943219ee4d1698690a098cda43c3\"]": {
-      "key": ["factor","pub","9064f712f3ddfc603c7da0e3b6243b0b0de3943219ee4d1698690a098cda43c3"],
+      "key": [
+        "factor",
+        "pub",
+        "9064f712f3ddfc603c7da0e3b6243b0b0de3943219ee4d1698690a098cda43c3"
+      ],
       "value": true,
       "expiresAt": 1791819955466
     },
     "[\"factor\",\"topic\",\"9064f712f3ddfc603c7da0e3b6243b0b0de3943219ee4d1698690a098cda43c3\"]": {
-      "key": ["factor","topic","9064f712f3ddfc603c7da0e3b6243b0b0de3943219ee4d1698690a098cda43c3"],
-      "value": {"title":"Трампу снова не дали Нобелевскую премию мира","roots":["трамп","снова","дали","нобел","преми","мира"]},
+      "key": [
+        "factor",
+        "topic",
+        "9064f712f3ddfc603c7da0e3b6243b0b0de3943219ee4d1698690a098cda43c3"
+      ],
+      "value": {
+        "title": "Трампу снова не дали Нобелевскую премию мира",
+        "roots": [
+          "трамп",
+          "снова",
+          "дали",
+          "нобел",
+          "преми",
+          "мира"
+        ]
+      },
       "expiresAt": 1791819955467
     },
     "[\"factor\",\"pub\",\"175817b98f1aaa06792639ffe1faea18f8f2410918771729025b9ec0ad95c925\"]": {
-      "key": ["factor","pub","175817b98f1aaa06792639ffe1faea18f8f2410918771729025b9ec0ad95c925"],
+      "key": [
+        "factor",
+        "pub",
+        "175817b98f1aaa06792639ffe1faea18f8f2410918771729025b9ec0ad95c925"
+      ],
       "value": true,
       "expiresAt": 1791820537374
     },
     "[\"factor\",\"topic\",\"175817b98f1aaa06792639ffe1faea18f8f2410918771729025b9ec0ad95c925\"]": {
-      "key": ["factor","topic","175817b98f1aaa06792639ffe1faea18f8f2410918771729025b9ec0ad95c925"],
-      "value": {"title":"США готовят масштабные санкции против МУС — нидерландский бизнес уже отказывается от сотру","roots":["готов","масшт","санкц","проти","нидер","бизне","отказ","сотру"]},
+      "key": [
+        "factor",
+        "topic",
+        "175817b98f1aaa06792639ffe1faea18f8f2410918771729025b9ec0ad95c925"
+      ],
+      "value": {
+        "title": "США готовят масштабные санкции против МУС — нидерландский бизнес уже отказывается от сотру",
+        "roots": [
+          "готов",
+          "масшт",
+          "санкц",
+          "проти",
+          "нидер",
+          "бизне",
+          "отказ",
+          "сотру"
+        ]
+      },
       "expiresAt": 1791820537375
     },
     "[\"factor\",\"pub\",\"d73408eeb07468b0ece0754786c37edde91f4ba8ec34c5159c910dcb51f7e8de\"]": {
-      "key": ["factor","pub","d73408eeb07468b0ece0754786c37edde91f4ba8ec34c5159c910dcb51f7e8de"],
+      "key": [
+        "factor",
+        "pub",
+        "d73408eeb07468b0ece0754786c37edde91f4ba8ec34c5159c910dcb51f7e8de"
+      ],
       "value": true,
       "expiresAt": 1791820894828
     },
     "[\"factor\",\"topic\",\"d73408eeb07468b0ece0754786c37edde91f4ba8ec34c5159c910dcb51f7e8de\"]": {
-      "key": ["factor","topic","d73408eeb07468b0ece0754786c37edde91f4ba8ec34c5159c910dcb51f7e8de"],
-      "value": {"title":"❗️ Лерчек получила 5 лет условно и штраф ₽765 млн за незаконные валютные операции Гагаринс","roots":["лерче","получ","услов","штраф","незак","валют","опера","гагар"]},
+      "key": [
+        "factor",
+        "topic",
+        "d73408eeb07468b0ece0754786c37edde91f4ba8ec34c5159c910dcb51f7e8de"
+      ],
+      "value": {
+        "title": "❗️ Лерчек получила 5 лет условно и штраф ₽765 млн за незаконные валютные операции Гагаринс",
+        "roots": [
+          "лерче",
+          "получ",
+          "услов",
+          "штраф",
+          "незак",
+          "валют",
+          "опера",
+          "гагар"
+        ]
+      },
       "expiresAt": 1791820894829
     },
     "[\"factor\",\"pub\",\"e832359dcaf21744c3ef183533c220ea883dd1c23e29554833801d4f00f2ed50\"]": {
-      "key": ["factor","pub","e832359dcaf21744c3ef183533c220ea883dd1c23e29554833801d4f00f2ed50"],
+      "key": [
+        "factor",
+        "pub",
+        "e832359dcaf21744c3ef183533c220ea883dd1c23e29554833801d4f00f2ed50"
+      ],
       "value": true,
       "expiresAt": 1791821685544
     },
     "[\"factor\",\"topic\",\"e832359dcaf21744c3ef183533c220ea883dd1c23e29554833801d4f00f2ed50\"]": {
-      "key": ["factor","topic","e832359dcaf21744c3ef183533c220ea883dd1c23e29554833801d4f00f2ed50"],
-      "value": {"title":"⚠ ⚠ ⚠ ⚠ ⚠ ⚠ ⚠ ⚠ ⚠ ⚠ ⚠ Дружески напоминаем, что мы запустили мини-приложение \" КАРТА \" в MA","roots":["друже","напом","запус","мини","прило","карта"]},
+      "key": [
+        "factor",
+        "topic",
+        "e832359dcaf21744c3ef183533c220ea883dd1c23e29554833801d4f00f2ed50"
+      ],
+      "value": {
+        "title": "⚠ ⚠ ⚠ ⚠ ⚠ ⚠ ⚠ ⚠ ⚠ ⚠ ⚠ Дружески напоминаем, что мы запустили мини-приложение \" КАРТА \" в MA",
+        "roots": [
+          "друже",
+          "напом",
+          "запус",
+          "мини",
+          "прило",
+          "карта"
+        ]
+      },
       "expiresAt": 1791821685545
     },
     "[\"factor\",\"pub\",\"349587d6d8e96751cc4c65950858e36ca3a74349343aafbbc9e36d5fdd704358\"]": {
-      "key": ["factor","pub","349587d6d8e96751cc4c65950858e36ca3a74349343aafbbc9e36d5fdd704358"],
+      "key": [
+        "factor",
+        "pub",
+        "349587d6d8e96751cc4c65950858e36ca3a74349343aafbbc9e36d5fdd704358"
+      ],
       "value": true,
       "expiresAt": 1791822043909
     },
     "[\"factor\",\"topic\",\"349587d6d8e96751cc4c65950858e36ca3a74349343aafbbc9e36d5fdd704358\"]": {
-      "key": ["factor","topic","349587d6d8e96751cc4c65950858e36ca3a74349343aafbbc9e36d5fdd704358"],
-      "value": {"title":"В результате атаки БПЛА пострадала часть инфраструктуры дата-центра Яндекса в Калуге","roots":["резул","атаки","бпла","постр","часть","инфра","дата","центр","яндек","калуг"]},
+      "key": [
+        "factor",
+        "topic",
+        "349587d6d8e96751cc4c65950858e36ca3a74349343aafbbc9e36d5fdd704358"
+      ],
+      "value": {
+        "title": "В результате атаки БПЛА пострадала часть инфраструктуры дата-центра Яндекса в Калуге",
+        "roots": [
+          "резул",
+          "атаки",
+          "бпла",
+          "постр",
+          "часть",
+          "инфра",
+          "дата",
+          "центр",
+          "яндек",
+          "калуг"
+        ]
+      },
       "expiresAt": 1791822043910
     },
     "[\"factor\",\"pub\",\"a8e4f63a8a07d9f1732ff3888fa838150837cba1286beae62f5c26988e50d1b7\"]": {
-      "key": ["factor","pub","a8e4f63a8a07d9f1732ff3888fa838150837cba1286beae62f5c26988e50d1b7"],
+      "key": [
+        "factor",
+        "pub",
+        "a8e4f63a8a07d9f1732ff3888fa838150837cba1286beae62f5c26988e50d1b7"
+      ],
       "value": true,
       "expiresAt": 1791823242177
     },
     "[\"factor\",\"topic\",\"a8e4f63a8a07d9f1732ff3888fa838150837cba1286beae62f5c26988e50d1b7\"]": {
-      "key": ["factor","topic","a8e4f63a8a07d9f1732ff3888fa838150837cba1286beae62f5c26988e50d1b7"],
-      "value": {"title":"Посещение Европы для граждан РФ сейчас опасно — Песков 📢 Прямой Эфир","roots":["посещ","европ","гражд","сейча","опасн","песко","прямо","эфир"]},
+      "key": [
+        "factor",
+        "topic",
+        "a8e4f63a8a07d9f1732ff3888fa838150837cba1286beae62f5c26988e50d1b7"
+      ],
+      "value": {
+        "title": "Посещение Европы для граждан РФ сейчас опасно — Песков 📢 Прямой Эфир",
+        "roots": [
+          "посещ",
+          "европ",
+          "гражд",
+          "сейча",
+          "опасн",
+          "песко",
+          "прямо",
+          "эфир"
+        ]
+      },
       "expiresAt": 1791823242216
     },
     "[\"factor\",\"pub\",\"ed8ff6dc409522b74f2c7da45b3e5f4221195e0441cd2d726a796ae649f24b2a\"]": {
-      "key": ["factor","pub","ed8ff6dc409522b74f2c7da45b3e5f4221195e0441cd2d726a796ae649f24b2a"],
+      "key": [
+        "factor",
+        "pub",
+        "ed8ff6dc409522b74f2c7da45b3e5f4221195e0441cd2d726a796ae649f24b2a"
+      ],
       "value": true,
       "expiresAt": 1791826845111
     },
     "[\"factor\",\"topic\",\"ed8ff6dc409522b74f2c7da45b3e5f4221195e0441cd2d726a796ae649f24b2a\"]": {
-      "key": ["factor","topic","ed8ff6dc409522b74f2c7da45b3e5f4221195e0441cd2d726a796ae649f24b2a"],
-      "value": {"title":"Второй пилот FlyDubai, напавший на капитана, помолился незадолго до нападения Второй пилот","roots":["второ","пилот","flydu","напав","капит","помол","незад","напад","второ","пилот"]},
+      "key": [
+        "factor",
+        "topic",
+        "ed8ff6dc409522b74f2c7da45b3e5f4221195e0441cd2d726a796ae649f24b2a"
+      ],
+      "value": {
+        "title": "Второй пилот FlyDubai, напавший на капитана, помолился незадолго до нападения Второй пилот",
+        "roots": [
+          "второ",
+          "пилот",
+          "flydu",
+          "напав",
+          "капит",
+          "помол",
+          "незад",
+          "напад",
+          "второ",
+          "пилот"
+        ]
+      },
       "expiresAt": 1791826845112
     },
     "[\"factor\",\"pub\",\"28848e3e7d2847852dfa8adc67f7d4a6dc65be4c1e558e450f36c7dfb2382214\"]": {
-      "key": ["factor","pub","28848e3e7d2847852dfa8adc67f7d4a6dc65be4c1e558e450f36c7dfb2382214"],
+      "key": [
+        "factor",
+        "pub",
+        "28848e3e7d2847852dfa8adc67f7d4a6dc65be4c1e558e450f36c7dfb2382214"
+      ],
       "value": true,
       "expiresAt": 1791828342080
     },
     "[\"factor\",\"topic\",\"28848e3e7d2847852dfa8adc67f7d4a6dc65be4c1e558e450f36c7dfb2382214\"]": {
-      "key": ["factor","topic","28848e3e7d2847852dfa8adc67f7d4a6dc65be4c1e558e450f36c7dfb2382214"],
-      "value": {"title":"Москвичам поднимут плату за проезд по МСД сразу на 32%, с 19 до 25 рублей за каждый участо","roots":["москв","подни","плату","проез","сразу","рубле","кажды","участ"]},
+      "key": [
+        "factor",
+        "topic",
+        "28848e3e7d2847852dfa8adc67f7d4a6dc65be4c1e558e450f36c7dfb2382214"
+      ],
+      "value": {
+        "title": "Москвичам поднимут плату за проезд по МСД сразу на 32%, с 19 до 25 рублей за каждый участо",
+        "roots": [
+          "москв",
+          "подни",
+          "плату",
+          "проез",
+          "сразу",
+          "рубле",
+          "кажды",
+          "участ"
+        ]
+      },
       "expiresAt": 1791828342082
     },
     "[\"factor\",\"pub\",\"2f8df7a73d2a7827f4fdf960c5193b140f36a8e2945dc7b6ebb0ae03f89657e9\"]": {
-      "key": ["factor","pub","2f8df7a73d2a7827f4fdf960c5193b140f36a8e2945dc7b6ebb0ae03f89657e9"],
+      "key": [
+        "factor",
+        "pub",
+        "2f8df7a73d2a7827f4fdf960c5193b140f36a8e2945dc7b6ebb0ae03f89657e9"
+      ],
       "value": true,
       "expiresAt": 1791831338358
     },
     "[\"factor\",\"topic\",\"2f8df7a73d2a7827f4fdf960c5193b140f36a8e2945dc7b6ebb0ae03f89657e9\"]": {
-      "key": ["factor","topic","2f8df7a73d2a7827f4fdf960c5193b140f36a8e2945dc7b6ebb0ae03f89657e9"],
-      "value": {"title":"Трамп заявил, что провёл очень успешный разговор с Путиным","roots":["трамп","заяви","пров","очень","успеш","разго","путин"]},
+      "key": [
+        "factor",
+        "topic",
+        "2f8df7a73d2a7827f4fdf960c5193b140f36a8e2945dc7b6ebb0ae03f89657e9"
+      ],
+      "value": {
+        "title": "Трамп заявил, что провёл очень успешный разговор с Путиным",
+        "roots": [
+          "трамп",
+          "заяви",
+          "пров",
+          "очень",
+          "успеш",
+          "разго",
+          "путин"
+        ]
+      },
       "expiresAt": 1791831338359
     },
     "[\"factor\",\"pub\",\"33042087df83cabed87ffdbcc863e2ef5f383a82e07b61139c062874cc937757\"]": {
-      "key": ["factor","pub","33042087df83cabed87ffdbcc863e2ef5f383a82e07b61139c062874cc937757"],
+      "key": [
+        "factor",
+        "pub",
+        "33042087df83cabed87ffdbcc863e2ef5f383a82e07b61139c062874cc937757"
+      ],
       "value": true,
       "expiresAt": 1791836146281
     },
     "[\"factor\",\"topic\",\"33042087df83cabed87ffdbcc863e2ef5f383a82e07b61139c062874cc937757\"]": {
-      "key": ["factor","topic","33042087df83cabed87ffdbcc863e2ef5f383a82e07b61139c062874cc937757"],
-      "value": {"title":"Мы готовы поставлять нефть США и всему миру — Путин","roots":["готов","поста","нефть","всему","миру","путин"]},
+      "key": [
+        "factor",
+        "topic",
+        "33042087df83cabed87ffdbcc863e2ef5f383a82e07b61139c062874cc937757"
+      ],
+      "value": {
+        "title": "Мы готовы поставлять нефть США и всему миру — Путин",
+        "roots": [
+          "готов",
+          "поста",
+          "нефть",
+          "всему",
+          "миру",
+          "путин"
+        ]
+      },
       "expiresAt": 1791836146351
     },
     "[\"factor\",\"pub\",\"4fc239179b21cc563738b1f12ef8b8c53d1b3dcc190d5a1cac3dad88f5042782\"]": {
-      "key": ["factor","pub","4fc239179b21cc563738b1f12ef8b8c53d1b3dcc190d5a1cac3dad88f5042782"],
+      "key": [
+        "factor",
+        "pub",
+        "4fc239179b21cc563738b1f12ef8b8c53d1b3dcc190d5a1cac3dad88f5042782"
+      ],
       "value": true,
       "expiresAt": 1791836652881
     },
     "[\"factor\",\"topic\",\"4fc239179b21cc563738b1f12ef8b8c53d1b3dcc190d5a1cac3dad88f5042782\"]": {
-      "key": ["factor","topic","4fc239179b21cc563738b1f12ef8b8c53d1b3dcc190d5a1cac3dad88f5042782"],
-      "value": {"title":"Стиральная машина чуть не спалила трёхкомнатную квартиру в Москве — в момент пожара там бы","roots":["стира","машин","чуть","спали","хкомн","кварт","москв","пожар"]},
+      "key": [
+        "factor",
+        "topic",
+        "4fc239179b21cc563738b1f12ef8b8c53d1b3dcc190d5a1cac3dad88f5042782"
+      ],
+      "value": {
+        "title": "Стиральная машина чуть не спалила трёхкомнатную квартиру в Москве — в момент пожара там бы",
+        "roots": [
+          "стира",
+          "машин",
+          "чуть",
+          "спали",
+          "хкомн",
+          "кварт",
+          "москв",
+          "пожар"
+        ]
+      },
       "expiresAt": 1791836652882
     },
     "[\"factor\",\"pub\",\"e814bfe4b89968ee424d0b843fb21e8484ad5a732f6bdd8e6b59620f04f8f993\"]": {
-      "key": ["factor","pub","e814bfe4b89968ee424d0b843fb21e8484ad5a732f6bdd8e6b59620f04f8f993"],
+      "key": [
+        "factor",
+        "pub",
+        "e814bfe4b89968ee424d0b843fb21e8484ad5a732f6bdd8e6b59620f04f8f993"
+      ],
       "value": true,
       "expiresAt": 1791837066878
     },
     "[\"factor\",\"topic\",\"e814bfe4b89968ee424d0b843fb21e8484ad5a732f6bdd8e6b59620f04f8f993\"]": {
-      "key": ["factor","topic","e814bfe4b89968ee424d0b843fb21e8484ad5a732f6bdd8e6b59620f04f8f993"],
-      "value": {"title":"Сервис Яндекс Go массово сбоит, пользователи жалуются, что не могут заказать такси","roots":["серви","яндек","массо","сбоит","польз","жалую","могут","заказ","такси"]},
+      "key": [
+        "factor",
+        "topic",
+        "e814bfe4b89968ee424d0b843fb21e8484ad5a732f6bdd8e6b59620f04f8f993"
+      ],
+      "value": {
+        "title": "Сервис Яндекс Go массово сбоит, пользователи жалуются, что не могут заказать такси",
+        "roots": [
+          "серви",
+          "яндек",
+          "массо",
+          "сбоит",
+          "польз",
+          "жалую",
+          "могут",
+          "заказ",
+          "такси"
+        ]
+      },
       "expiresAt": 1791837066887
     },
     "[\"factor\",\"pub\",\"11e8c06751160c380bed2b18804dd6d8c1797c000b9e8599f0d4961ad9a42eb0\"]": {
-      "key": ["factor","pub","11e8c06751160c380bed2b18804dd6d8c1797c000b9e8599f0d4961ad9a42eb0"],
+      "key": [
+        "factor",
+        "pub",
+        "11e8c06751160c380bed2b18804dd6d8c1797c000b9e8599f0d4961ad9a42eb0"
+      ],
       "value": true,
       "expiresAt": 1791840048828
     },
     "[\"factor\",\"topic\",\"11e8c06751160c380bed2b18804dd6d8c1797c000b9e8599f0d4961ad9a42eb0\"]": {
-      "key": ["factor","topic","11e8c06751160c380bed2b18804dd6d8c1797c000b9e8599f0d4961ad9a42eb0"],
-      "value": {"title":"«Мы сожжём их НПЗ»","roots":["сожж"]},
+      "key": [
+        "factor",
+        "topic",
+        "11e8c06751160c380bed2b18804dd6d8c1797c000b9e8599f0d4961ad9a42eb0"
+      ],
+      "value": {
+        "title": "«Мы сожжём их НПЗ»",
+        "roots": [
+          "сожж"
+        ]
+      },
       "expiresAt": 1791840048829
     },
     "[\"factor\",\"pub\",\"c7a47cd2c2f49b5e477519d4480076310bad6f698de4df0644753bc7a463ab1d\"]": {
-      "key": ["factor","pub","c7a47cd2c2f49b5e477519d4480076310bad6f698de4df0644753bc7a463ab1d"],
+      "key": [
+        "factor",
+        "pub",
+        "c7a47cd2c2f49b5e477519d4480076310bad6f698de4df0644753bc7a463ab1d"
+      ],
       "value": true,
       "expiresAt": 1791850249627
     },
     "[\"factor\",\"topic\",\"c7a47cd2c2f49b5e477519d4480076310bad6f698de4df0644753bc7a463ab1d\"]": {
-      "key": ["factor","topic","c7a47cd2c2f49b5e477519d4480076310bad6f698de4df0644753bc7a463ab1d"],
-      "value": {"title":"В аэропортах Самары и Ульяновска ввели ограничения на полеты","roots":["аэроп","самар","ульян","ввели","огран","полет"]},
+      "key": [
+        "factor",
+        "topic",
+        "c7a47cd2c2f49b5e477519d4480076310bad6f698de4df0644753bc7a463ab1d"
+      ],
+      "value": {
+        "title": "В аэропортах Самары и Ульяновска ввели ограничения на полеты",
+        "roots": [
+          "аэроп",
+          "самар",
+          "ульян",
+          "ввели",
+          "огран",
+          "полет"
+        ]
+      },
       "expiresAt": 1791850249628
     },
     "[\"factor\",\"pub\",\"e1041b7033877caf1fdf18b8a8ee010b10e2d820f14f0e312f61620e174e9cc6\"]": {
-      "key": ["factor","pub","e1041b7033877caf1fdf18b8a8ee010b10e2d820f14f0e312f61620e174e9cc6"],
+      "key": [
+        "factor",
+        "pub",
+        "e1041b7033877caf1fdf18b8a8ee010b10e2d820f14f0e312f61620e174e9cc6"
+      ],
       "value": true,
       "expiresAt": 1791851470206
     },
     "[\"factor\",\"topic\",\"e1041b7033877caf1fdf18b8a8ee010b10e2d820f14f0e312f61620e174e9cc6\"]": {
-      "key": ["factor","topic","e1041b7033877caf1fdf18b8a8ee010b10e2d820f14f0e312f61620e174e9cc6"],
-      "value": {"title":"Названы регионы-лидеры по уровню материального благополучия","roots":["назва","регио","лидер","уровн","матер","благо"]},
+      "key": [
+        "factor",
+        "topic",
+        "e1041b7033877caf1fdf18b8a8ee010b10e2d820f14f0e312f61620e174e9cc6"
+      ],
+      "value": {
+        "title": "Названы регионы-лидеры по уровню материального благополучия",
+        "roots": [
+          "назва",
+          "регио",
+          "лидер",
+          "уровн",
+          "матер",
+          "благо"
+        ]
+      },
       "expiresAt": 1791851470206
     },
     "[\"factor\",\"pub\",\"21946d31771325ba4281dcce169f76757a992427ca79e2bda7aca45c9a3915da\"]": {
-      "key": ["factor","pub","21946d31771325ba4281dcce169f76757a992427ca79e2bda7aca45c9a3915da"],
+      "key": [
+        "factor",
+        "pub",
+        "21946d31771325ba4281dcce169f76757a992427ca79e2bda7aca45c9a3915da"
+      ],
       "value": true,
       "expiresAt": 1791855070956
     },
     "[\"factor\",\"topic\",\"21946d31771325ba4281dcce169f76757a992427ca79e2bda7aca45c9a3915da\"]": {
-      "key": ["factor","topic","21946d31771325ba4281dcce169f76757a992427ca79e2bda7aca45c9a3915da"],
-      "value": {"title":"В Брюсселе против митингующих пустили слезоточивый газ. Видео","roots":["брюсс","проти","митин","пусти","слезо"]},
+      "key": [
+        "factor",
+        "topic",
+        "21946d31771325ba4281dcce169f76757a992427ca79e2bda7aca45c9a3915da"
+      ],
+      "value": {
+        "title": "В Брюсселе против митингующих пустили слезоточивый газ. Видео",
+        "roots": [
+          "брюсс",
+          "проти",
+          "митин",
+          "пусти",
+          "слезо"
+        ]
+      },
       "expiresAt": 1791855070957
     },
     "[\"factor\",\"pub\",\"709bf826c06fb8e25fe37571ab2fe7d690c6239c7bf2ff8a73cb8ee2403489c1\"]": {
-      "key": ["factor","pub","709bf826c06fb8e25fe37571ab2fe7d690c6239c7bf2ff8a73cb8ee2403489c1"],
+      "key": [
+        "factor",
+        "pub",
+        "709bf826c06fb8e25fe37571ab2fe7d690c6239c7bf2ff8a73cb8ee2403489c1"
+      ],
       "value": true,
       "expiresAt": 1791859888906
     },
     "[\"factor\",\"topic\",\"709bf826c06fb8e25fe37571ab2fe7d690c6239c7bf2ff8a73cb8ee2403489c1\"]": {
-      "key": ["factor","topic","709bf826c06fb8e25fe37571ab2fe7d690c6239c7bf2ff8a73cb8ee2403489c1"],
-      "value": {"title":"У Прибалтики появился «небесный щит» от России","roots":["приба","появи","небес","росси"]},
+      "key": [
+        "factor",
+        "topic",
+        "709bf826c06fb8e25fe37571ab2fe7d690c6239c7bf2ff8a73cb8ee2403489c1"
+      ],
+      "value": {
+        "title": "У Прибалтики появился «небесный щит» от России",
+        "roots": [
+          "приба",
+          "появи",
+          "небес",
+          "росси"
+        ]
+      },
       "expiresAt": 1791859888907
     },
     "[\"factor\",\"pub\",\"2fd71f38fbe8e8f015939c8a92447fb49629bb738331e902a8130c122f7bcdc6\"]": {
-      "key": ["factor","pub","2fd71f38fbe8e8f015939c8a92447fb49629bb738331e902a8130c122f7bcdc6"],
+      "key": [
+        "factor",
+        "pub",
+        "2fd71f38fbe8e8f015939c8a92447fb49629bb738331e902a8130c122f7bcdc6"
+      ],
       "value": true,
       "expiresAt": 1791863746789
     },
     "[\"factor\",\"topic\",\"2fd71f38fbe8e8f015939c8a92447fb49629bb738331e902a8130c122f7bcdc6\"]": {
-      "key": ["factor","topic","2fd71f38fbe8e8f015939c8a92447fb49629bb738331e902a8130c122f7bcdc6"],
-      "value": {"title":"Пассажирский Airbus подал у берегов Чили сигнал о ЧС","roots":["пасса","airbu","подал","берег","чили","сигна"]},
+      "key": [
+        "factor",
+        "topic",
+        "2fd71f38fbe8e8f015939c8a92447fb49629bb738331e902a8130c122f7bcdc6"
+      ],
+      "value": {
+        "title": "Пассажирский Airbus подал у берегов Чили сигнал о ЧС",
+        "roots": [
+          "пасса",
+          "airbu",
+          "подал",
+          "берег",
+          "чили",
+          "сигна"
+        ]
+      },
       "expiresAt": 1791863746791
     },
     "[\"factor\",\"pub\",\"cd4fcf46a670c552c4771eeac55e05fef003ce4fbc80874295706749e3c1f2be\"]": {
-      "key": ["factor","pub","cd4fcf46a670c552c4771eeac55e05fef003ce4fbc80874295706749e3c1f2be"],
+      "key": [
+        "factor",
+        "pub",
+        "cd4fcf46a670c552c4771eeac55e05fef003ce4fbc80874295706749e3c1f2be"
+      ],
       "value": true,
       "expiresAt": 1791875143473
     },
     "[\"factor\",\"topic\",\"cd4fcf46a670c552c4771eeac55e05fef003ce4fbc80874295706749e3c1f2be\"]": {
-      "key": ["factor","topic","cd4fcf46a670c552c4771eeac55e05fef003ce4fbc80874295706749e3c1f2be"],
-      "value": {"title":"Плесень и кишечную палочку нашли в чае Greenfield , — \"Шот\"","roots":["плесе","кишеч","палоч","нашли","green"]},
+      "key": [
+        "factor",
+        "topic",
+        "cd4fcf46a670c552c4771eeac55e05fef003ce4fbc80874295706749e3c1f2be"
+      ],
+      "value": {
+        "title": "Плесень и кишечную палочку нашли в чае Greenfield , — \"Шот\"",
+        "roots": [
+          "плесе",
+          "кишеч",
+          "палоч",
+          "нашли",
+          "green"
+        ]
+      },
       "expiresAt": 1791875143474
     },
     "[\"factor\",\"pub\",\"2f08bc45963ce4d1bd7340d61da788bb8c85dcd99d14b3bda23737b8540ff140\"]": {
-      "key": ["factor","pub","2f08bc45963ce4d1bd7340d61da788bb8c85dcd99d14b3bda23737b8540ff140"],
+      "key": [
+        "factor",
+        "pub",
+        "2f08bc45963ce4d1bd7340d61da788bb8c85dcd99d14b3bda23737b8540ff140"
+      ],
       "value": true,
       "expiresAt": 1791880786825
     },
     "[\"factor\",\"topic\",\"2f08bc45963ce4d1bd7340d61da788bb8c85dcd99d14b3bda23737b8540ff140\"]": {
-      "key": ["factor","topic","2f08bc45963ce4d1bd7340d61da788bb8c85dcd99d14b3bda23737b8540ff140"],
-      "value": {"title":"Киев демонстративно атаковал нефтяной терминал в Ростовской области сразу после заявлений ","roots":["киев","демон","атако","нефтя","терми","росто","облас","сразу","заявл"]},
+      "key": [
+        "factor",
+        "topic",
+        "2f08bc45963ce4d1bd7340d61da788bb8c85dcd99d14b3bda23737b8540ff140"
+      ],
+      "value": {
+        "title": "Киев демонстративно атаковал нефтяной терминал в Ростовской области сразу после заявлений ",
+        "roots": [
+          "киев",
+          "демон",
+          "атако",
+          "нефтя",
+          "терми",
+          "росто",
+          "облас",
+          "сразу",
+          "заявл"
+        ]
+      },
       "expiresAt": 1791880786826
     },
     "[\"factor\",\"pub\",\"b1429a02c6f34ae5a0ff52867920db98aa14e9bfcc823310e4de1569b69bea0b\"]": {
-      "key": ["factor","pub","b1429a02c6f34ae5a0ff52867920db98aa14e9bfcc823310e4de1569b69bea0b"],
+      "key": [
+        "factor",
+        "pub",
+        "b1429a02c6f34ae5a0ff52867920db98aa14e9bfcc823310e4de1569b69bea0b"
+      ],
       "value": true,
       "expiresAt": 1791886129145
     },
     "[\"factor\",\"topic\",\"b1429a02c6f34ae5a0ff52867920db98aa14e9bfcc823310e4de1569b69bea0b\"]": {
-      "key": ["factor","topic","b1429a02c6f34ae5a0ff52867920db98aa14e9bfcc823310e4de1569b69bea0b"],
-      "value": {"title":"В Россию запретили ввоз грузинских вин, лимонады, минеральную воду и колу ","roots":["росси","запре","ввоз","грузи","лимон","минер","воду","колу"]},
+      "key": [
+        "factor",
+        "topic",
+        "b1429a02c6f34ae5a0ff52867920db98aa14e9bfcc823310e4de1569b69bea0b"
+      ],
+      "value": {
+        "title": "В Россию запретили ввоз грузинских вин, лимонады, минеральную воду и колу ",
+        "roots": [
+          "росси",
+          "запре",
+          "ввоз",
+          "грузи",
+          "лимон",
+          "минер",
+          "воду",
+          "колу"
+        ]
+      },
       "expiresAt": 1791886129147
+    },
+    "[\"factor\",\"pub\",\"4e47c43e9796f024088f6fa44c5bc0f3258f6db3d6d509a11b367ea33b3e4faa\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4e47c43e9796f024088f6fa44c5bc0f3258f6db3d6d509a11b367ea33b3e4faa"
+      ],
+      "value": true,
+      "expiresAt": 1791887463776
+    },
+    "[\"factor\",\"topic\",\"4e47c43e9796f024088f6fa44c5bc0f3258f6db3d6d509a11b367ea33b3e4faa\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4e47c43e9796f024088f6fa44c5bc0f3258f6db3d6d509a11b367ea33b3e4faa"
+      ],
+      "value": {
+        "title": "Киевское метро полностью встало — из-за исчезновения напряжения в электросети",
+        "roots": [
+          "киевс",
+          "метро",
+          "полно",
+          "встал",
+          "исчез",
+          "напря",
+          "элект"
+        ]
+      },
+      "expiresAt": 1791887463777
     }
   }
 }
