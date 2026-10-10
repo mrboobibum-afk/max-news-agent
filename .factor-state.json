@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791659433013,
+      "value": 1791661235359,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 699728,
+      "value": 301267,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -2480,6 +2480,38 @@
         ]
       },
       "expiresAt": 1791918669336
+    },
+    "[\"factor\",\"pub\",\"5382d3970141a589cd00a516b66bce37f01dd2c0f33ba0ad9aca2d4e07f2a43f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "5382d3970141a589cd00a516b66bce37f01dd2c0f33ba0ad9aca2d4e07f2a43f"
+      ],
+      "value": true,
+      "expiresAt": 1791920460025
+    },
+    "[\"factor\",\"topic\",\"5382d3970141a589cd00a516b66bce37f01dd2c0f33ba0ad9aca2d4e07f2a43f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "5382d3970141a589cd00a516b66bce37f01dd2c0f33ba0ad9aca2d4e07f2a43f"
+      ],
+      "value": {
+        "title": "Тяжелый калибр ровняет с землей позиции врага 💥 Расчёты САУ «Гиацинт-С» группировки «Вост",
+        "roots": [
+          "тяжел",
+          "калиб",
+          "ровня",
+          "земле",
+          "позиц",
+          "врага",
+          "расч",
+          "гиаци",
+          "групп",
+          "вост"
+        ]
+      },
+      "expiresAt": 1791920460027
     }
   }
 }
