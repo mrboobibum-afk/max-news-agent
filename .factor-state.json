@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 211108,
+      "value": 386408,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791756062582,
+      "value": 1791756630564,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1243,6 +1243,33 @@
         ]
       },
       "expiresAt": 1791842497981
+    },
+    "[\"factor\",\"pub\",\"f01634a45cca978ef352e22815165870df34505178200926c3599b983d312db6\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "f01634a45cca978ef352e22815165870df34505178200926c3599b983d312db6"
+      ],
+      "value": true,
+      "expiresAt": 1791843124089
+    },
+    "[\"factor\",\"topic\",\"f01634a45cca978ef352e22815165870df34505178200926c3599b983d312db6\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "f01634a45cca978ef352e22815165870df34505178200926c3599b983d312db6"
+      ],
+      "value": {
+        "title": "Танк Т-14 &#34;Армата&#34; сравнили с Ferrari - чем он лучше суперкара",
+        "roots": [
+          "армата",
+          "сравни",
+          "ferrar",
+          "лучше",
+          "суперк"
+        ]
+      },
+      "expiresAt": 1791843124090
     }
   }
 }
