@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791703852206,
+      "value": 1791709833876,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 438211,
+      "value": 373773,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -2878,6 +2878,38 @@
         ]
       },
       "expiresAt": 1791963068646
+    },
+    "[\"factor\",\"pub\",\"5b224e70dbdc0869440736c0740dc24509200d4f80ca57410714afae8bebde78\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "5b224e70dbdc0869440736c0740dc24509200d4f80ca57410714afae8bebde78"
+      ],
+      "value": true,
+      "expiresAt": 1791969044624
+    },
+    "[\"factor\",\"topic\",\"5b224e70dbdc0869440736c0740dc24509200d4f80ca57410714afae8bebde78\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "5b224e70dbdc0869440736c0740dc24509200d4f80ca57410714afae8bebde78"
+      ],
+      "value": {
+        "title": "❗️ На премьер-министра Польши Дональда Туска и министра обороны Владислава Косиняк-Камыша,",
+        "roots": [
+          "премь",
+          "минис",
+          "польш",
+          "донал",
+          "туска",
+          "минис",
+          "оборо",
+          "влади",
+          "косин",
+          "камыш"
+        ]
+      },
+      "expiresAt": 1791969044625
     }
   }
 }
