@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791691263202,
+      "value": 1791703852206,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 654429,
+      "value": 438211,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -2847,6 +2847,37 @@
         ]
       },
       "expiresAt": 1791950483906
+    },
+    "[\"factor\",\"pub\",\"9e23ea48e171d5bb3427e0637c50d8adbf9ff1057a49b0a3a334915481d09f2b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "9e23ea48e171d5bb3427e0637c50d8adbf9ff1057a49b0a3a334915481d09f2b"
+      ],
+      "value": true,
+      "expiresAt": 1791963068644
+    },
+    "[\"factor\",\"topic\",\"9e23ea48e171d5bb3427e0637c50d8adbf9ff1057a49b0a3a334915481d09f2b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "9e23ea48e171d5bb3427e0637c50d8adbf9ff1057a49b0a3a334915481d09f2b"
+      ],
+      "value": {
+        "title": "Трамп планирует переименовать Атлантический или Тихий океаны в \"океан Трампа\" или \"океан А",
+        "roots": [
+          "трамп",
+          "плани",
+          "переи",
+          "атлан",
+          "тихий",
+          "океан",
+          "океан",
+          "трамп",
+          "океан"
+        ]
+      },
+      "expiresAt": 1791963068646
     }
   }
 }
