@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 314430,
+      "value": 577314,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791739850938,
+      "value": 1791740433832,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -654,6 +654,37 @@
         ]
       },
       "expiresAt": 1791826274889
+    },
+    "[\"factor\",\"pub\",\"e09bb64e2f7ed8646de8fe126c0c05bb567ba6a7dec2d1ef6dd827cb37649148\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e09bb64e2f7ed8646de8fe126c0c05bb567ba6a7dec2d1ef6dd827cb37649148"
+      ],
+      "value": true,
+      "expiresAt": 1791826862711
+    },
+    "[\"factor\",\"topic\",\"e09bb64e2f7ed8646de8fe126c0c05bb567ba6a7dec2d1ef6dd827cb37649148\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e09bb64e2f7ed8646de8fe126c0c05bb567ba6a7dec2d1ef6dd827cb37649148"
+      ],
+      "value": {
+        "title": "В Польше задержан угрожавший совершить нападение на премьер-министра Дональда Туска и мини",
+        "roots": [
+          "польше",
+          "задерж",
+          "угрожа",
+          "соверш",
+          "нападе",
+          "премье",
+          "минист",
+          "дональ",
+          "туска"
+        ]
+      },
+      "expiresAt": 1791826862711
     }
   }
 }
