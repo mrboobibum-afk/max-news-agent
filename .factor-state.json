@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 416980,
+      "value": 186207,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791722256141,
+      "value": 1791723034223,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -45,6 +45,35 @@
         ]
       },
       "expiresAt": 1791808712240
+    },
+    "[\"factor\",\"pub\",\"a44b4cf7cf04eb4f0c3e5460ec73229dd74440e2f07ded5a5e47af07689b724c\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "a44b4cf7cf04eb4f0c3e5460ec73229dd74440e2f07ded5a5e47af07689b724c"
+      ],
+      "value": true,
+      "expiresAt": 1791809456440
+    },
+    "[\"factor\",\"topic\",\"a44b4cf7cf04eb4f0c3e5460ec73229dd74440e2f07ded5a5e47af07689b724c\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "a44b4cf7cf04eb4f0c3e5460ec73229dd74440e2f07ded5a5e47af07689b724c"
+      ],
+      "value": {
+        "title": "ВСУ стали чаще скидывать взрывные устройства с БПЛА в Брянской области, сегодня от одного ",
+        "roots": [
+          "стали",
+          "скидыв",
+          "взрывн",
+          "устрой",
+          "брянск",
+          "област",
+          "одного"
+        ]
+      },
+      "expiresAt": 1791809456440
     }
   }
 }
