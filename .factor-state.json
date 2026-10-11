@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 380799,
+      "value": 744136,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791759034544,
+      "value": 1791759661453,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1356,6 +1356,34 @@
         ]
       },
       "expiresAt": 1791845464519
+    },
+    "[\"factor\",\"pub\",\"107cc87701c41573a7b6eb020ab4cb233bdc5efabb87ec3ff044b7716241616f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "107cc87701c41573a7b6eb020ab4cb233bdc5efabb87ec3ff044b7716241616f"
+      ],
+      "value": true,
+      "expiresAt": 1791846121252
+    },
+    "[\"factor\",\"topic\",\"107cc87701c41573a7b6eb020ab4cb233bdc5efabb87ec3ff044b7716241616f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "107cc87701c41573a7b6eb020ab4cb233bdc5efabb87ec3ff044b7716241616f"
+      ],
+      "value": {
+        "title": "Хуситы атаковали аэропорт Эд-Даммама в Саудовской Аравии",
+        "roots": [
+          "хуситы",
+          "атаков",
+          "аэропо",
+          "даммам",
+          "саудов",
+          "аравии"
+        ]
+      },
+      "expiresAt": 1791846121253
     }
   }
 }
