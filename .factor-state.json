@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 668907,
+      "value": 209387,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791727260649,
+      "value": 1791728434922,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -221,6 +221,34 @@
         ]
       },
       "expiresAt": 1791813680474
+    },
+    "[\"factor\",\"pub\",\"3c0680d604926d5bbe24bccef266dbde38b8e03a3bc4c315295d8136a0cff744\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "3c0680d604926d5bbe24bccef266dbde38b8e03a3bc4c315295d8136a0cff744"
+      ],
+      "value": true,
+      "expiresAt": 1791814866763
+    },
+    "[\"factor\",\"topic\",\"3c0680d604926d5bbe24bccef266dbde38b8e03a3bc4c315295d8136a0cff744\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "3c0680d604926d5bbe24bccef266dbde38b8e03a3bc4c315295d8136a0cff744"
+      ],
+      "value": {
+        "title": "США контактируют с йеменским движением мятежников-хуситов, сообщил Трамп",
+        "roots": [
+          "контак",
+          "йеменс",
+          "движен",
+          "мятежн",
+          "хусито",
+          "трамп"
+        ]
+      },
+      "expiresAt": 1791814866763
     }
   }
 }
