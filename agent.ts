@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v31)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v32)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -19,10 +19,9 @@ const MEDIA_PACKET_MAX = 6;
 const MIN_IMPORTANCE = 6;
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
-// ==== АВТООЧИСТКА ФАЙЛА СОСТОЯНИЯ ====
-const STATE_MAX_AGE_MS = 24 * 60 * 60 * 1000;   // удаляем записи старше 24 часов
-const STATE_MAX_ENTRIES = 300;                   // если записей больше — обрезаем
-const STATE_KEEP_ENTRIES = 100;                  // оставляем столько самых свежих
+const STATE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
+const STATE_MAX_ENTRIES = 300;
+const STATE_KEEP_ENTRIES = 100;
 
 const MIN_IMAGE_BYTES = 10 * 1024;
 const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
@@ -68,13 +67,20 @@ const TG_LIVE_CHANNELS = [
     "bbbreaking",
 ];
 
+// РАСШИРЕННЫЙ список RSS — у этих источников медиа на российских CDN, скачивается без проблем
 const NEWS_FEEDS = [
-    { name: "РБК", cat: "ГЛАВНОЕ", url: "https://rssexport.rbc.ru/rbcnews/news/30/full.rss" },
-    { name: "Lenta.ru", cat: "ПРОИСШЕСТВИЯ", url: "https://lenta.ru/rss/news" },
-    { name: "РИА Новости", cat: "ГЛАВНОЕ", url: "https://ria.ru/export/rss2/archive/index.xml" },
-    { name: "Коммерсантъ", cat: "ЭКОНОМИКА", url: "https://www.kommersant.ru/RSS/news.xml" },
-    { name: "ТАСС", cat: "ГЛАВНОЕ", url: "https://tass.ru/rss/v2.xml" },
-    { name: "Известия", cat: "ГЛАВНОЕ", url: "https://iz.ru/xml/rss/all.xml" },
+    { name: "РБК", url: "https://rssexport.rbc.ru/rbcnews/news/30/full.rss" },
+    { name: "Lenta.ru", url: "https://lenta.ru/rss/news" },
+    { name: "РИА Новости", url: "https://ria.ru/export/rss2/archive/index.xml" },
+    { name: "ТАСС", url: "https://tass.ru/rss/v2.xml" },
+    { name: "Коммерсантъ", url: "https://www.kommersant.ru/RSS/news.xml" },
+    { name: "Известия", url: "https://iz.ru/xml/rss/all.xml" },
+    { name: "RT на русском", url: "https://russian.rt.com/rss" },
+    { name: "Газета.Ru", url: "https://www.gazeta.ru/export/rss/lenta.xml" },
+    { name: "Ведомости", url: "https://www.vedomosti.ru/rss/news" },
+    { name: "Российская газета", url: "https://rg.ru/xml/index.xml" },
+    { name: "Взгляд", url: "https://vz.ru/rss.xml" },
+    { name: "Фонтанка", url: "https://www.fontanka.ru/fontanka.rss" },
 ];
 
 const BORING_TOPICS = [
@@ -136,8 +142,6 @@ class FileKV {
         return res;
     }
 
-    // Автоочистка: удаляет просроченное, старое и лишнее.
-    // Возвращает статистику по удалённым записям.
     async cleanup(): Promise<{ removedExpired: number; removedOld: number; removedOverflow: number; kept: number }> {
         const d = await this.load();
         const now = Date.now();
@@ -148,29 +152,15 @@ class FileKV {
         const survivors: Array<{ key: string; entry: any }> = [];
 
         for (const [k, v] of Object.entries<any>(entries)) {
-            // 1. Просроченные (expiresAt в прошлом)
-            if (v?.expiresAt && v.expiresAt < now) {
-                removedExpired++;
-                continue;
-            }
-            // 2. Слишком старые (без expiresAt, но записаны давно)
+            if (v?.expiresAt && v.expiresAt < now) { removedExpired++; continue; }
             const ts = v?.expiresAt ? v.expiresAt - HISTORY_TTL_MS : null;
-            if (ts && (now - ts) > STATE_MAX_AGE_MS) {
-                removedOld++;
-                continue;
-            }
+            if (ts && (now - ts) > STATE_MAX_AGE_MS) { removedOld++; continue; }
             survivors.push({ key: k, entry: v });
         }
 
-        // 3. Если записей всё ещё много — оставляем только самые свежие
         let removedOverflow = 0;
         if (survivors.length > STATE_MAX_ENTRIES) {
-            // Сортируем по времени записи (по expiresAt, потом по ключу)
-            survivors.sort((a, b) => {
-                const ta = a.entry?.expiresAt ?? 0;
-                const tb = b.entry?.expiresAt ?? 0;
-                return tb - ta;
-            });
+            survivors.sort((a, b) => (b.entry?.expiresAt ?? 0) - (a.entry?.expiresAt ?? 0));
             const toDrop = survivors.slice(STATE_KEEP_ENTRIES);
             removedOverflow = toDrop.length;
             const keep = survivors.slice(0, STATE_KEEP_ENTRIES);
@@ -183,12 +173,7 @@ class FileKV {
 
         await Deno.writeTextFile(this.file, JSON.stringify(d, null, 2) + "\n");
 
-        return {
-            removedExpired,
-            removedOld,
-            removedOverflow,
-            kept: Object.keys(d.entries).length,
-        };
+        return { removedExpired, removedOld, removedOverflow, kept: Object.keys(d.entries).length };
     }
 }
 
@@ -244,7 +229,8 @@ function isTrashUrl(url: string): boolean {
         low.includes("/card") || low.includes("textcard") || low.includes("share") ||
         low.includes("logo") || low.includes("avatar") || low.includes("stub") ||
         low.includes("1x1") || low.includes("pixel") || low.includes(".svg") ||
-        low.includes("google.com") || low.includes("interfax.ru/ftproot")
+        low.includes("google.com") || low.includes("interfax.ru/ftproot") ||
+        low.includes("data:image") || low.includes("base64,")
     );
 }
 
@@ -252,9 +238,8 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
     if (!url || isTrashUrl(url)) return null;
     const strategies: Array<Record<string, string>> = [
         { "User-Agent": USER_AGENT, "Referer": "https://t.me/", "Accept": "*/*" },
-        { "User-Agent": USER_AGENT, "Referer": "https://t.me/s/shot_shot", "Accept": "image/*,*/*" },
-        { "User-Agent": USER_AGENT, "Referer": "https://t.me/s/mod_russia", "Accept": "image/*,*/*" },
-        { "User-Agent": USER_AGENT, "Referer": "https://t.me/s/rian_ru", "Accept": "image/*,*/*" },
+        { "User-Agent": USER_AGENT, "Referer": "https://lenta.ru/", "Accept": "image/*,*/*" },
+        { "User-Agent": USER_AGENT, "Referer": "https://www.rbc.ru/", "Accept": "image/*,*/*" },
         { "User-Agent": USER_AGENT },
     ];
     for (const headers of strategies) {
@@ -310,10 +295,7 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
         let found = 0;
         try {
             const res = await fetch(`https://t.me/s/${ch}`, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(10000) });
-            if (!res.ok) {
-                console.log(`  [${ch}] HTTP ${res.status}`);
-                continue;
-            }
+            if (!res.ok) { console.log(`  [${ch}] HTTP ${res.status}`); continue; }
             const html = await res.text();
             const posts = html.match(/<div class="tgme_widget_message_wrap[\s\S]*?(?=<div class="tgme_widget_message_wrap|$)/gi) ?? [];
             for (const post of posts.slice(-15).reverse()) {
@@ -322,7 +304,6 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
 
                 const textRaw = cleanText(post.match(/<div class="tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/i)?.[1]);
                 if (!textRaw || textRaw.length < 30 || textRaw.length > 2000) continue;
-
                 if (BORING_TOPICS.some(r => r.test(textRaw))) continue;
 
                 const videoMatches = [...post.matchAll(/https?:\/\/[^"'<>\s]+?\.(?:mp4)(?:\?[^"'<>\s]*)?/gi)].map(m => m[0]);
@@ -356,14 +337,16 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
     return liveItems;
 }
 
+// RSS: собираем ВСЕ картинки из описания + enclosure + media:content
 async function fetchRssFeeds(): Promise<any[]> {
     const items: any[] = [];
+    let totalFound = 0;
     await Promise.all(NEWS_FEEDS.map(async (feed) => {
         try {
-            const res = await fetch(feed.url, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(8000) });
+            const res = await fetch(feed.url, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(10000) });
             if (!res.ok) return;
             const xml = await res.text();
-            for (const raw of (xml.match(/<item[\s\S]*?<\/item>/gi) ?? []).slice(0, 10)) {
+            for (const raw of (xml.match(/<item[\s\S]*?<\/item>/gi) ?? []).slice(0, 15)) {
                 const title = cleanText(raw.match(/<title[\s\S]*?>([\s\S]*?)<\/title>/i)?.[1]);
                 const descHtml = raw.match(/<description[\s\S]*?>([\s\S]*?)<\/description>/i)?.[1] ?? "";
                 const desc = cleanText(descHtml);
@@ -376,8 +359,9 @@ async function fetchRssFeeds(): Promise<any[]> {
 
                 const enclosureImg = raw.match(/<enclosure[^>]+url=["']([^"']+)["'][^>]+type=["']image/i)?.[1];
                 const mediaContent = raw.match(/<media:content[^>]+url=["']([^"']+)["']/i)?.[1];
+                const mediaThumbnail = raw.match(/<media:thumbnail[^>]+url=["']([^"']+)["']/i)?.[1];
                 const imgMatches = [...descHtml.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)].map(m => m[1]);
-                const allImages = [enclosureImg, mediaContent, ...imgMatches].filter(Boolean).filter(u => !isTrashUrl(u));
+                const allImages = [enclosureImg, mediaContent, mediaThumbnail, ...imgMatches].filter(Boolean).filter(u => !isTrashUrl(u));
                 const uniqueImages = [...new Set(allImages)];
 
                 if (uniqueImages.length === 0) {
@@ -387,9 +371,11 @@ async function fetchRssFeeds(): Promise<any[]> {
                         items.push({ title, desc, mediaUrl: img, mediaType: "image", sourceName: feed.name, postKey });
                     }
                 }
+                totalFound++;
             }
         } catch {}
     }));
+    console.log(`RSS-источники: собрано ${totalFound} постов`);
     return items;
 }
 
@@ -505,10 +491,15 @@ async function sendPostToMax(text: string, media: Array<{ token: string, type: "
     return res.ok;
 }
 
+// Сбор медиапакета.
+// 1) Из того же поста (postKey).
+// 2) Если пусто — fallback: медиа из ЛЮБЫХ кандидатов (включая RSS) с 3+ общими корнями.
+//    RSS даёт медиа с российских CDN, оно скачивается без блокировок.
 function getMediaPacket(item: any, candidates: any[]): any[] {
     const packet: any[] = [];
     const seen = new Set<string>();
 
+    // Приоритет 1: медиа из того же поста
     if (item.postKey) {
         const samePost = candidates.filter(c => c.postKey === item.postKey);
         const videos = samePost.filter(c => c.mediaType === "video");
@@ -522,6 +513,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
         }
     }
 
+    // Приоритет 2: fallback — медиа из похожих по теме постов (RSS + TG)
     if (packet.length === 0) {
         const baseRoots = new Set(getRoots(item.title));
         const scored = candidates
@@ -546,10 +538,9 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ЭФИР v31: Запуск отбора событий ===");
+    console.log("=== ЭФИР v32: Запуск отбора событий ===");
     const now = Date.now();
 
-    // АВТООЧИСТКА при каждом запуске
     try {
         const stat = await kv.cleanup();
         console.log(`Очистка state: удалено просроченных ${stat.removedExpired}, старых ${stat.removedOld}, лишних ${stat.removedOverflow}; оставлено ${stat.kept}`);
@@ -575,15 +566,17 @@ async function run() {
         return;
     }
 
+    // ВСЕГДА грузим оба источника: TG + RSS. Не «или», а «и».
     console.log("\nИсточники (Telegram):");
-    let candidates = await fetchTelegramLiveFeed();
-    console.log(`Всего кандидатов из TG: ${candidates.length}`);
+    const tgCandidates = await fetchTelegramLiveFeed();
+    console.log(`Всего кандидатов из TG: ${tgCandidates.length}`);
 
-    if (candidates.length === 0) {
-        console.log("Переключаемся на RSS...");
-        candidates = await fetchRssFeeds();
-        console.log(`Всего кандидатов из RSS: ${candidates.length}`);
-    }
+    console.log("\nИсточники (RSS):");
+    const rssCandidates = await fetchRssFeeds();
+
+    // Объединяем пул: TG-кандидаты идут первыми, RSS — как источник медиа.
+    const candidates = [...tgCandidates, ...rssCandidates];
+    console.log(`Всего кандидатов: ${candidates.length}`);
 
     const seenPostKeys = new Set<string>();
     const uniqueCandidates: any[] = [];
