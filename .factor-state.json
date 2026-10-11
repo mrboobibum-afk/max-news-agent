@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 229946,
+      "value": 746389,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791730864430,
+      "value": 1791731433953,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -335,6 +335,37 @@
         ]
       },
       "expiresAt": 1791817327911
+    },
+    "[\"factor\",\"pub\",\"5b558aba62fddb648fff3bd99fd9a5b9789215dcb441815768e2ed675067db67\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "5b558aba62fddb648fff3bd99fd9a5b9789215dcb441815768e2ed675067db67"
+      ],
+      "value": true,
+      "expiresAt": 1791817849755
+    },
+    "[\"factor\",\"topic\",\"5b558aba62fddb648fff3bd99fd9a5b9789215dcb441815768e2ed675067db67\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "5b558aba62fddb648fff3bd99fd9a5b9789215dcb441815768e2ed675067db67"
+      ],
+      "value": {
+        "title": "Новый удар по аэропорту Эр-Рияда: снаряд неизвестного происхождения попал в терминал вылет",
+        "roots": [
+          "новый",
+          "аэропо",
+          "рияда",
+          "снаряд",
+          "неизве",
+          "происх",
+          "попал",
+          "термин",
+          "вылет"
+        ]
+      },
+      "expiresAt": 1791817849756
     }
   }
 }
