@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 186207,
+      "value": 661143,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791723034223,
+      "value": 1791723658676,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -74,6 +74,36 @@
         ]
       },
       "expiresAt": 1791809456440
+    },
+    "[\"factor\",\"pub\",\"a79403cdf747ca3bf5829b7b9842447f35b6f9e905c3e6645eecd6125e6d62fa\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "a79403cdf747ca3bf5829b7b9842447f35b6f9e905c3e6645eecd6125e6d62fa"
+      ],
+      "value": true,
+      "expiresAt": 1791810084986
+    },
+    "[\"factor\",\"topic\",\"a79403cdf747ca3bf5829b7b9842447f35b6f9e905c3e6645eecd6125e6d62fa\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "a79403cdf747ca3bf5829b7b9842447f35b6f9e905c3e6645eecd6125e6d62fa"
+      ],
+      "value": {
+        "title": "Отношения Трампа и Зеленского максимально ухудшились с момента их перепалки в Белом доме в",
+        "roots": [
+          "отноше",
+          "трампа",
+          "зеленс",
+          "максим",
+          "ухудши",
+          "момент",
+          "перепа",
+          "белом"
+        ]
+      },
+      "expiresAt": 1791810084987
     }
   }
 }
