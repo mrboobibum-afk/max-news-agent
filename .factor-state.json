@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 577314,
+      "value": 239640,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791740433832,
+      "value": 1791741035871,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -685,6 +685,36 @@
         ]
       },
       "expiresAt": 1791826862711
+    },
+    "[\"factor\",\"pub\",\"e6022bde28b9fd1ac8a1a022c158c133a2cc9c38469e214b879c13fef92c242a\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e6022bde28b9fd1ac8a1a022c158c133a2cc9c38469e214b879c13fef92c242a"
+      ],
+      "value": true,
+      "expiresAt": 1791827478328
+    },
+    "[\"factor\",\"topic\",\"e6022bde28b9fd1ac8a1a022c158c133a2cc9c38469e214b879c13fef92c242a\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e6022bde28b9fd1ac8a1a022c158c133a2cc9c38469e214b879c13fef92c242a"
+      ],
+      "value": {
+        "title": "▫️ Круто работают : дроноводы группировки «Восток» сожгли автоматические гранатомёты и мин",
+        "roots": [
+          "круто",
+          "работа",
+          "дронов",
+          "группи",
+          "восток",
+          "сожгли",
+          "автома",
+          "гранат"
+        ]
+      },
+      "expiresAt": 1791827478329
     }
   }
 }
