@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 223883,
+      "value": 660285,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791732652625,
+      "value": 1791733232780,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -395,6 +395,36 @@
         ]
       },
       "expiresAt": 1791819069676
+    },
+    "[\"factor\",\"pub\",\"2ccfe22241e20e83e3f5dd3f9bf802c8b4a4c99bb050c6689f7845e9152a3689\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "2ccfe22241e20e83e3f5dd3f9bf802c8b4a4c99bb050c6689f7845e9152a3689"
+      ],
+      "value": true,
+      "expiresAt": 1791819659985
+    },
+    "[\"factor\",\"topic\",\"2ccfe22241e20e83e3f5dd3f9bf802c8b4a4c99bb050c6689f7845e9152a3689\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "2ccfe22241e20e83e3f5dd3f9bf802c8b4a4c99bb050c6689f7845e9152a3689"
+      ],
+      "value": {
+        "title": "Туск и глава МО Владислав Косиняк-Камыш получили угрозы по электронным каналам",
+        "roots": [
+          "глава",
+          "владис",
+          "косиня",
+          "камыш",
+          "получи",
+          "угрозы",
+          "электр",
+          "канала"
+        ]
+      },
+      "expiresAt": 1791819659986
     }
   }
 }
