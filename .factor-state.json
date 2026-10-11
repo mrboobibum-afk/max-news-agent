@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 773932,
+      "value": 674267,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791748860042,
+      "value": 1791750031393,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1011,6 +1011,31 @@
         ]
       },
       "expiresAt": 1791835313440
+    },
+    "[\"factor\",\"pub\",\"e1d0adc89737ca514eedec14ce206958b015e5888e8f8099f63c46a416b3ef88\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e1d0adc89737ca514eedec14ce206958b015e5888e8f8099f63c46a416b3ef88"
+      ],
+      "value": true,
+      "expiresAt": 1791836452555
+    },
+    "[\"factor\",\"topic\",\"e1d0adc89737ca514eedec14ce206958b015e5888e8f8099f63c46a416b3ef88\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e1d0adc89737ca514eedec14ce206958b015e5888e8f8099f63c46a416b3ef88"
+      ],
+      "value": {
+        "title": "\"Нас ждет множество неприятных сюрпризов\"",
+        "roots": [
+          "множес",
+          "неприя",
+          "сюрпри"
+        ]
+      },
+      "expiresAt": 1791836452556
     }
   }
 }
