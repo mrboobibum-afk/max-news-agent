@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 1,
+      "value": 416980,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,8 +14,37 @@
         "factor",
         "last_regular"
       ],
-      "value": 0,
+      "value": 1791722256141,
       "expiresAt": null
+    },
+    "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e"
+      ],
+      "value": true,
+      "expiresAt": 1791808712240
+    },
+    "[\"factor\",\"topic\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e"
+      ],
+      "value": {
+        "title": "Три человека погибли, четверо пострадали в ДТП с двумя машинами в Оренбуржье",
+        "roots": [
+          "челове",
+          "погибл",
+          "четвер",
+          "постра",
+          "двумя",
+          "машина",
+          "оренбу"
+        ]
+      },
+      "expiresAt": 1791808712240
     }
   }
 }
