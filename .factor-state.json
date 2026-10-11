@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 660285,
+      "value": 425138,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791733232780,
+      "value": 1791734460420,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -425,6 +425,35 @@
         ]
       },
       "expiresAt": 1791819659986
+    },
+    "[\"factor\",\"pub\",\"4e0f85f07de5426bcfa6ee7ce637d553c3589ee123276f4998291ffb5ab047ad\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4e0f85f07de5426bcfa6ee7ce637d553c3589ee123276f4998291ffb5ab047ad"
+      ],
+      "value": true,
+      "expiresAt": 1791820875823
+    },
+    "[\"factor\",\"topic\",\"4e0f85f07de5426bcfa6ee7ce637d553c3589ee123276f4998291ffb5ab047ad\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4e0f85f07de5426bcfa6ee7ce637d553c3589ee123276f4998291ffb5ab047ad"
+      ],
+      "value": {
+        "title": "«Я хочу поблагодарить президента Путина» Трамп после объявления договоренности с Россией о",
+        "roots": [
+          "поблаг",
+          "презид",
+          "путина",
+          "трамп",
+          "объявл",
+          "догово",
+          "россие"
+        ]
+      },
+      "expiresAt": 1791820875823
     }
   }
 }
