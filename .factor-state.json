@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 350648,
+      "value": 874042,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791743452355,
+      "value": 1791744030949,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -834,6 +834,36 @@
         ]
       },
       "expiresAt": 1791829876158
+    },
+    "[\"factor\",\"pub\",\"14ce5d6bcbc5d5489f38f255037a6ace757309175d3176e6d129ba20467ebcd6\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "14ce5d6bcbc5d5489f38f255037a6ace757309175d3176e6d129ba20467ebcd6"
+      ],
+      "value": true,
+      "expiresAt": 1791830449905
+    },
+    "[\"factor\",\"topic\",\"14ce5d6bcbc5d5489f38f255037a6ace757309175d3176e6d129ba20467ebcd6\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "14ce5d6bcbc5d5489f38f255037a6ace757309175d3176e6d129ba20467ebcd6"
+      ],
+      "value": {
+        "title": "США угрожают прекратить поставки оружия Украине, пишет Financial Times",
+        "roots": [
+          "угрожа",
+          "прекра",
+          "постав",
+          "оружия",
+          "украин",
+          "пишет",
+          "financ",
+          "times"
+        ]
+      },
+      "expiresAt": 1791830449906
     }
   }
 }
