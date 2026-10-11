@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 315934,
+      "value": 314430,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791739234304,
+      "value": 1791739850938,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -622,6 +622,38 @@
         ]
       },
       "expiresAt": 1791825660687
+    },
+    "[\"factor\",\"pub\",\"e1c75db25f3da3ef9f5965198c50042a3541cbae237d683a5f55457c45f97783\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e1c75db25f3da3ef9f5965198c50042a3541cbae237d683a5f55457c45f97783"
+      ],
+      "value": true,
+      "expiresAt": 1791826274889
+    },
+    "[\"factor\",\"topic\",\"e1c75db25f3da3ef9f5965198c50042a3541cbae237d683a5f55457c45f97783\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e1c75db25f3da3ef9f5965198c50042a3541cbae237d683a5f55457c45f97783"
+      ],
+      "value": {
+        "title": "Более 2,5 тысяч человек сидит в тюрьмах на Украине по обвинению якобы в шпионаже в пользу ",
+        "roots": [
+          "более",
+          "тысяч",
+          "челове",
+          "сидит",
+          "тюрьма",
+          "украин",
+          "обвине",
+          "якобы",
+          "шпиона",
+          "пользу"
+        ]
+      },
+      "expiresAt": 1791826274889
     }
   }
 }
