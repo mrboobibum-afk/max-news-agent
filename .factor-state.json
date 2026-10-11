@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 554970,
+      "value": 872779,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791729050863,
+      "value": 1791729633615,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -276,6 +276,36 @@
         ]
       },
       "expiresAt": 1791815477431
+    },
+    "[\"factor\",\"pub\",\"5221c10156b3c0565d216aba3be1c9471e1b7623c4d79aef7f44a2abbb207f4b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "5221c10156b3c0565d216aba3be1c9471e1b7623c4d79aef7f44a2abbb207f4b"
+      ],
+      "value": true,
+      "expiresAt": 1791816067615
+    },
+    "[\"factor\",\"topic\",\"5221c10156b3c0565d216aba3be1c9471e1b7623c4d79aef7f44a2abbb207f4b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "5221c10156b3c0565d216aba3be1c9471e1b7623c4d79aef7f44a2abbb207f4b"
+      ],
+      "value": {
+        "title": "\"Яндекс\" предупреждает пользователей о сбоях в работе ряда сервисов в воскресенье утром",
+        "roots": [
+          "яндекс",
+          "предуп",
+          "пользо",
+          "сбоях",
+          "работе",
+          "сервис",
+          "воскре",
+          "утром"
+        ]
+      },
+      "expiresAt": 1791816067616
     }
   }
 }
