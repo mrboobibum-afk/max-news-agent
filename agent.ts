@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v30)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v31)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -17,8 +17,12 @@ const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000;
 
 const MEDIA_PACKET_MAX = 6;
 const MIN_IMPORTANCE = 6;
-// TTL истории сокращён с 72 до 24 часов — чтобы старьё не блокировало свежее
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
+
+// ==== АВТООЧИСТКА ФАЙЛА СОСТОЯНИЯ ====
+const STATE_MAX_AGE_MS = 24 * 60 * 60 * 1000;   // удаляем записи старше 24 часов
+const STATE_MAX_ENTRIES = 300;                   // если записей больше — обрезаем
+const STATE_KEEP_ENTRIES = 100;                  // оставляем столько самых свежих
 
 const MIN_IMAGE_BYTES = 10 * 1024;
 const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
@@ -47,22 +51,21 @@ async function initMaxHttpClient() {
     return maxHttpClient;
 }
 
-// Расширенный список источников — 14 каналов
 const TG_LIVE_CHANNELS = [
-    "rian_ru",        // РИА Новости
-    "tass_agency",    // ТАСС
-    "rbc_news",       // РБК
-    "mod_russia",     // Минобороны РФ
-    "vesti_news",     // Вести
-    "rt_russian",     // RT на русском
-    "ntvru",          // НТВ
-    "1tv_news",       // Первый канал
-    "shot_shot",      // SHOT
-    "bazabazon",      // База
-    "readovkanews",   // Readovka
-    "mash",           // Mash
-    "life_shot",      // Life Shot
-    "bbbreaking",     // Breaking Mash
+    "rian_ru",
+    "tass_agency",
+    "rbc_news",
+    "mod_russia",
+    "vesti_news",
+    "rt_russian",
+    "ntvru",
+    "1tv_news",
+    "shot_shot",
+    "bazabazon",
+    "readovkanews",
+    "mash",
+    "life_shot",
+    "bbbreaking",
 ];
 
 const NEWS_FEEDS = [
@@ -132,6 +135,61 @@ class FileKV {
         }
         return res;
     }
+
+    // Автоочистка: удаляет просроченное, старое и лишнее.
+    // Возвращает статистику по удалённым записям.
+    async cleanup(): Promise<{ removedExpired: number; removedOld: number; removedOverflow: number; kept: number }> {
+        const d = await this.load();
+        const now = Date.now();
+        const entries = d.entries as Record<string, any>;
+        let removedExpired = 0;
+        let removedOld = 0;
+
+        const survivors: Array<{ key: string; entry: any }> = [];
+
+        for (const [k, v] of Object.entries<any>(entries)) {
+            // 1. Просроченные (expiresAt в прошлом)
+            if (v?.expiresAt && v.expiresAt < now) {
+                removedExpired++;
+                continue;
+            }
+            // 2. Слишком старые (без expiresAt, но записаны давно)
+            const ts = v?.expiresAt ? v.expiresAt - HISTORY_TTL_MS : null;
+            if (ts && (now - ts) > STATE_MAX_AGE_MS) {
+                removedOld++;
+                continue;
+            }
+            survivors.push({ key: k, entry: v });
+        }
+
+        // 3. Если записей всё ещё много — оставляем только самые свежие
+        let removedOverflow = 0;
+        if (survivors.length > STATE_MAX_ENTRIES) {
+            // Сортируем по времени записи (по expiresAt, потом по ключу)
+            survivors.sort((a, b) => {
+                const ta = a.entry?.expiresAt ?? 0;
+                const tb = b.entry?.expiresAt ?? 0;
+                return tb - ta;
+            });
+            const toDrop = survivors.slice(STATE_KEEP_ENTRIES);
+            removedOverflow = toDrop.length;
+            const keep = survivors.slice(0, STATE_KEEP_ENTRIES);
+            d.entries = {};
+            for (const { key, entry } of keep) d.entries[key] = entry;
+        } else {
+            d.entries = {};
+            for (const { key, entry } of survivors) d.entries[key] = entry;
+        }
+
+        await Deno.writeTextFile(this.file, JSON.stringify(d, null, 2) + "\n");
+
+        return {
+            removedExpired,
+            removedOld,
+            removedOverflow,
+            kept: Object.keys(d.entries).length,
+        };
+    }
 }
 
 const kv = new FileKV();
@@ -161,8 +219,6 @@ function getRoots(str: string): string[] {
         .map(w => w.slice(0, 6));
 }
 
-// ИЗМЕНЕНО: порог дедупликации поднят. Для коротких заголовков — 2+ общих корня,
-// для длинных — 3+. Раньше было 1 общий корень = дубль — блокировало разные новости на одну тему.
 async function isDuplicate(title: string, desc?: string): Promise<boolean> {
     const titleRoots = getRoots(title);
     const allRoots = [...new Set([...titleRoots, ...(desc ? getRoots(desc) : [])])];
@@ -171,14 +227,10 @@ async function isDuplicate(title: string, desc?: string): Promise<boolean> {
     const past = await kv.getAllTopics();
     for (const item of past) {
         const set = new Set(item.roots || []);
-        // Проверяем пересечение по корням ЗАГОЛОВКА (более точное сравнение)
         let titleMatch = 0;
         for (const r of titleRoots) if (set.has(r)) titleMatch++;
-
-        // Дубль — только если 2+ общих корня в заголовке
         if (titleMatch >= 2) return true;
 
-        // Или 3+ общих корня с учётом тела
         let fullMatch = 0;
         for (const r of allRoots) if (set.has(r)) fullMatch++;
         if (fullMatch >= 3 && titleRoots.length > 0) return true;
@@ -231,6 +283,8 @@ function sanitizeRawText(raw: string): string {
     t = t.replace(/📢\s*Прямой Эфир/gi, "");
     t = t.replace(/⚡\s*ФАКТОР/gi, "");
     t = t.replace(/◆\s*Подписаться[\s\S]*$/gi, "");
+    t = t.replace(/✔\s*Подпишись[\s\S]*$/gi, "");
+    t = t.replace(/✔\s*Подписаться[\s\S]*$/gi, "");
     return t.trim();
 }
 
@@ -455,7 +509,6 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
     const packet: any[] = [];
     const seen = new Set<string>();
 
-    // Приоритет 1: медиа из того же поста
     if (item.postKey) {
         const samePost = candidates.filter(c => c.postKey === item.postKey);
         const videos = samePost.filter(c => c.mediaType === "video");
@@ -469,7 +522,6 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
         }
     }
 
-    // Приоритет 2: fallback по 3+ общим корням
     if (packet.length === 0) {
         const baseRoots = new Set(getRoots(item.title));
         const scored = candidates
@@ -494,8 +546,16 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ЭФИР v30: Запуск отбора событий ===");
+    console.log("=== ЭФИР v31: Запуск отбора событий ===");
     const now = Date.now();
+
+    // АВТООЧИСТКА при каждом запуске
+    try {
+        const stat = await kv.cleanup();
+        console.log(`Очистка state: удалено просроченных ${stat.removedExpired}, старых ${stat.removedOld}, лишних ${stat.removedOverflow}; оставлено ${stat.kept}`);
+    } catch (e) {
+        console.log("Очистка state не удалась:", String(e));
+    }
 
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
 
