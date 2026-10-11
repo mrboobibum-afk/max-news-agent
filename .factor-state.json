@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 282109,
+      "value": 211108,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791755435676,
+      "value": 1791756062582,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1213,6 +1213,36 @@
         ]
       },
       "expiresAt": 1791841874471
+    },
+    "[\"factor\",\"pub\",\"73197cc93c3c6404053c358eb683132788fc730f676d4b5c592c95b5d7ff9ef9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "73197cc93c3c6404053c358eb683132788fc730f676d4b5c592c95b5d7ff9ef9"
+      ],
+      "value": true,
+      "expiresAt": 1791842497980
+    },
+    "[\"factor\",\"topic\",\"73197cc93c3c6404053c358eb683132788fc730f676d4b5c592c95b5d7ff9ef9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "73197cc93c3c6404053c358eb683132788fc730f676d4b5c592c95b5d7ff9ef9"
+      ],
+      "value": {
+        "title": "▶️ Танкер с 750 тысячами баррелей нефти на борту подорвался на морской мине в Ормузском пр",
+        "roots": [
+          "танкер",
+          "тысяча",
+          "баррел",
+          "нефти",
+          "борту",
+          "подорв",
+          "морско",
+          "ормузс"
+        ]
+      },
+      "expiresAt": 1791842497981
     }
   }
 }
