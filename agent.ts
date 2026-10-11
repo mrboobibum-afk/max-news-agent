@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v32)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v33)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -67,7 +67,6 @@ const TG_LIVE_CHANNELS = [
     "bbbreaking",
 ];
 
-// РАСШИРЕННЫЙ список RSS — у этих источников медиа на российских CDN, скачивается без проблем
 const NEWS_FEEDS = [
     { name: "РБК", url: "https://rssexport.rbc.ru/rbcnews/news/30/full.rss" },
     { name: "Lenta.ru", url: "https://lenta.ru/rss/news" },
@@ -82,6 +81,16 @@ const NEWS_FEEDS = [
     { name: "Взгляд", url: "https://vz.ru/rss.xml" },
     { name: "Фонтанка", url: "https://www.fontanka.ru/fontanka.rss" },
 ];
+
+// Соответствие TG-канал → имя RSS-источника.
+// Нужно, чтобы при отсутствии медиа в TG-посте искать его в RSS того же издания.
+const SOURCE_MATCH: Record<string, string> = {
+    "rbc_news": "РБК",
+    "rian_ru": "РИА Новости",
+    "tass_agency": "ТАСС",
+    "rt_russian": "RT на русском",
+    "lenta_ru": "Lenta.ru",
+};
 
 const BORING_TOPICS = [
     /(?:сесси[яи]|форум|круглый\s+стол|конференци[яи]|совещани[ея]|заседани[ея]|брифинг)/i,
@@ -240,6 +249,7 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
         { "User-Agent": USER_AGENT, "Referer": "https://t.me/", "Accept": "*/*" },
         { "User-Agent": USER_AGENT, "Referer": "https://lenta.ru/", "Accept": "image/*,*/*" },
         { "User-Agent": USER_AGENT, "Referer": "https://www.rbc.ru/", "Accept": "image/*,*/*" },
+        { "User-Agent": USER_AGENT, "Referer": "https://ria.ru/", "Accept": "image/*,*/*" },
         { "User-Agent": USER_AGENT },
     ];
     for (const headers of strategies) {
@@ -321,10 +331,10 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 ];
 
                 if (mediaUrls.length === 0) {
-                    liveItems.push({ title: firstSentence.slice(0, 90), desc: sanitized, mediaUrl: "", mediaType: "image", sourceName: ch, postKey });
+                    liveItems.push({ title: firstSentence.slice(0, 90), desc: sanitized, mediaUrl: "", mediaType: "image", sourceName: ch, sourceType: "tg", postKey });
                 } else {
                     for (const media of mediaUrls) {
-                        liveItems.push({ title: firstSentence.slice(0, 90), desc: sanitized, mediaUrl: media.mediaUrl, mediaType: media.mediaType, sourceName: ch, postKey });
+                        liveItems.push({ title: firstSentence.slice(0, 90), desc: sanitized, mediaUrl: media.mediaUrl, mediaType: media.mediaType, sourceName: ch, sourceType: "tg", postKey });
                     }
                 }
                 found++;
@@ -337,7 +347,6 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
     return liveItems;
 }
 
-// RSS: собираем ВСЕ картинки из описания + enclosure + media:content
 async function fetchRssFeeds(): Promise<any[]> {
     const items: any[] = [];
     let totalFound = 0;
@@ -365,10 +374,10 @@ async function fetchRssFeeds(): Promise<any[]> {
                 const uniqueImages = [...new Set(allImages)];
 
                 if (uniqueImages.length === 0) {
-                    items.push({ title, desc, mediaUrl: "", mediaType: "image", sourceName: feed.name, postKey });
+                    items.push({ title, desc, mediaUrl: "", mediaType: "image", sourceName: feed.name, sourceType: "rss", postKey });
                 } else {
                     for (const img of uniqueImages) {
-                        items.push({ title, desc, mediaUrl: img, mediaType: "image", sourceName: feed.name, postKey });
+                        items.push({ title, desc, mediaUrl: img, mediaType: "image", sourceName: feed.name, sourceType: "rss", postKey });
                     }
                 }
                 totalFound++;
@@ -492,19 +501,21 @@ async function sendPostToMax(text: string, media: Array<{ token: string, type: "
 }
 
 // Сбор медиапакета.
-// 1) Из того же поста (postKey).
-// 2) Если пусто — fallback: медиа из ЛЮБЫХ кандидатов (включая RSS) с 3+ общими корнями.
-//    RSS даёт медиа с российских CDN, оно скачивается без блокировок.
+// 1) Медиа из того же поста (postKey).
+// 2) Медиа из RSS того же издания (sourceName match) по 2+ общим корням.
+// 3) Медиа из любого кандидата по 2+ общим корням.
 function getMediaPacket(item: any, candidates: any[]): any[] {
     const packet: any[] = [];
     const seen = new Set<string>();
 
-    // Приоритет 1: медиа из того же поста
+    // Приоритет 1: тот же пост
     if (item.postKey) {
         const samePost = candidates.filter(c => c.postKey === item.postKey);
-        const videos = samePost.filter(c => c.mediaType === "video");
-        const images = samePost.filter(c => c.mediaType === "image");
-        for (const c of [...videos, ...images]) {
+        const ordered = [
+            ...samePost.filter(c => c.mediaType === "video"),
+            ...samePost.filter(c => c.mediaType === "image"),
+        ];
+        for (const c of ordered) {
             if (!c.mediaUrl || isTrashUrl(c.mediaUrl)) continue;
             if (seen.has(c.mediaUrl)) continue;
             seen.add(c.mediaUrl);
@@ -513,17 +524,41 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
         }
     }
 
-    // Приоритет 2: fallback — медиа из похожих по теме постов (RSS + TG)
+    const baseRoots = new Set(getRoots(item.title));
+
+    // Приоритет 2: RSS того же издания
+    if (packet.length === 0 && item.sourceType === "tg") {
+        const rssName = SOURCE_MATCH[item.sourceName];
+        if (rssName) {
+            const sameSource = candidates.filter(c => c.sourceType === "rss" && c.sourceName === rssName && c.mediaUrl);
+            const scored = sameSource
+                .map(c => {
+                    const roots = getRoots(c.title);
+                    const overlap = roots.filter((r: string) => baseRoots.has(r)).length;
+                    return { candidate: c, overlap };
+                })
+                .filter(x => x.overlap >= 2)
+                .sort((a, b) => b.overlap - a.overlap);
+
+            for (const { candidate } of scored) {
+                if (seen.has(candidate.mediaUrl)) continue;
+                seen.add(candidate.mediaUrl);
+                packet.push(candidate);
+                if (packet.length >= MEDIA_PACKET_MAX) break;
+            }
+        }
+    }
+
+    // Приоритет 3: любой кандидат с 2+ общими корнями
     if (packet.length === 0) {
-        const baseRoots = new Set(getRoots(item.title));
         const scored = candidates
-            .filter(c => c.mediaUrl && !isTrashUrl(c.mediaUrl))
+            .filter(c => c.mediaUrl && !isTrashUrl(c.mediaUrl) && c.postKey !== item.postKey)
             .map(c => {
                 const roots = getRoots(c.title);
                 const overlap = roots.filter((r: string) => baseRoots.has(r)).length;
                 return { candidate: c, overlap };
             })
-            .filter(x => x.overlap >= 3)
+            .filter(x => x.overlap >= 2)
             .sort((a, b) => b.overlap - a.overlap);
 
         for (const { candidate } of scored) {
@@ -538,7 +573,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ЭФИР v32: Запуск отбора событий ===");
+    console.log("=== ЭФИР v33: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -566,7 +601,6 @@ async function run() {
         return;
     }
 
-    // ВСЕГДА грузим оба источника: TG + RSS. Не «или», а «и».
     console.log("\nИсточники (Telegram):");
     const tgCandidates = await fetchTelegramLiveFeed();
     console.log(`Всего кандидатов из TG: ${tgCandidates.length}`);
@@ -574,7 +608,6 @@ async function run() {
     console.log("\nИсточники (RSS):");
     const rssCandidates = await fetchRssFeeds();
 
-    // Объединяем пул: TG-кандидаты идут первыми, RSS — как источник медиа.
     const candidates = [...tgCandidates, ...rssCandidates];
     console.log(`Всего кандидатов: ${candidates.length}`);
 
