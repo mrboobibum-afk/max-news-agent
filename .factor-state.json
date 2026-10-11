@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 386408,
+      "value": 607453,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791756630564,
+      "value": 1791757237054,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1270,6 +1270,35 @@
         ]
       },
       "expiresAt": 1791843124090
+    },
+    "[\"factor\",\"pub\",\"31ae390f3073e715b7bfc2295b67333bd9c6f2c95e4bbe8378076caa3a262cd3\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "31ae390f3073e715b7bfc2295b67333bd9c6f2c95e4bbe8378076caa3a262cd3"
+      ],
+      "value": true,
+      "expiresAt": 1791843918107
+    },
+    "[\"factor\",\"topic\",\"31ae390f3073e715b7bfc2295b67333bd9c6f2c95e4bbe8378076caa3a262cd3\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "31ae390f3073e715b7bfc2295b67333bd9c6f2c95e4bbe8378076caa3a262cd3"
+      ],
+      "value": {
+        "title": "Посол Южной Кореи прокомментировал вероятность регулярных рейсов по СМП",
+        "roots": [
+          "посол",
+          "южной",
+          "кореи",
+          "проком",
+          "вероят",
+          "регуля",
+          "рейсов"
+        ]
+      },
+      "expiresAt": 1791843918108
     }
   }
 }
