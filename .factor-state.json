@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 674267,
+      "value": 632135,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791750031393,
+      "value": 1791751232030,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1036,6 +1036,35 @@
         ]
       },
       "expiresAt": 1791836452556
+    },
+    "[\"factor\",\"pub\",\"511920c969f9be0193747765d5b327c1ccd791abaa71271939af202137f87de9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "511920c969f9be0193747765d5b327c1ccd791abaa71271939af202137f87de9"
+      ],
+      "value": true,
+      "expiresAt": 1791837681377
+    },
+    "[\"factor\",\"topic\",\"511920c969f9be0193747765d5b327c1ccd791abaa71271939af202137f87de9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "511920c969f9be0193747765d5b327c1ccd791abaa71271939af202137f87de9"
+      ],
+      "value": {
+        "title": "Один человек погиб, двое ранены в ДНР при атаках БПЛА ВСУ с начала суток, сообщили в управ",
+        "roots": [
+          "челове",
+          "погиб",
+          "ранены",
+          "атаках",
+          "начала",
+          "суток",
+          "управ"
+        ]
+      },
+      "expiresAt": 1791837681378
     }
   }
 }
