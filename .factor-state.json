@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 723127,
+      "value": 604009,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791737068442,
+      "value": 1791738063311,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -567,6 +567,34 @@
         ]
       },
       "expiresAt": 1791823509597
+    },
+    "[\"factor\",\"pub\",\"74f1954b9c1fcca96aaa417df72de7413f449c8277d6b9339b441f52c8b68c08\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "74f1954b9c1fcca96aaa417df72de7413f449c8277d6b9339b441f52c8b68c08"
+      ],
+      "value": true,
+      "expiresAt": 1791824503250
+    },
+    "[\"factor\",\"topic\",\"74f1954b9c1fcca96aaa417df72de7413f449c8277d6b9339b441f52c8b68c08\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "74f1954b9c1fcca96aaa417df72de7413f449c8277d6b9339b441f52c8b68c08"
+      ],
+      "value": {
+        "title": "ЕС выделит Украине допфинансирование для закупки дронов и ракет",
+        "roots": [
+          "выдели",
+          "украин",
+          "допфин",
+          "закупк",
+          "дронов",
+          "ракет"
+        ]
+      },
+      "expiresAt": 1791824503251
     }
   }
 }
