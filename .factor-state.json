@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 607453,
+      "value": 727887,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791757237054,
+      "value": 1791757847988,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1299,6 +1299,35 @@
         ]
       },
       "expiresAt": 1791843918108
+    },
+    "[\"factor\",\"pub\",\"2421dbb85630b5e6e541998c802ad19f7284022733da30b825a17ca5ce5ffd36\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "2421dbb85630b5e6e541998c802ad19f7284022733da30b825a17ca5ce5ffd36"
+      ],
+      "value": true,
+      "expiresAt": 1791844292178
+    },
+    "[\"factor\",\"topic\",\"2421dbb85630b5e6e541998c802ad19f7284022733da30b825a17ca5ce5ffd36\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "2421dbb85630b5e6e541998c802ad19f7284022733da30b825a17ca5ce5ffd36"
+      ],
+      "value": {
+        "title": "❗️ Уиткофф и Кушнер могут посетить Москву в ближайшие две недели, сообщил",
+        "roots": [
+          "уиткоф",
+          "кушнер",
+          "могут",
+          "посети",
+          "москву",
+          "ближай",
+          "недели"
+        ]
+      },
+      "expiresAt": 1791844292178
     }
   }
 }
