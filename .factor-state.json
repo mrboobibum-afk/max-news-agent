@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 483204,
+      "value": 600883,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791753635989,
+      "value": 1791754253544,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1155,6 +1155,34 @@
         ]
       },
       "expiresAt": 1791840091058
+    },
+    "[\"factor\",\"pub\",\"10eabef1f3bdb1e1679da0510541fd65e3f73cbba8574dd030459c85150209db\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "10eabef1f3bdb1e1679da0510541fd65e3f73cbba8574dd030459c85150209db"
+      ],
+      "value": true,
+      "expiresAt": 1791840883186
+    },
+    "[\"factor\",\"topic\",\"10eabef1f3bdb1e1679da0510541fd65e3f73cbba8574dd030459c85150209db\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "10eabef1f3bdb1e1679da0510541fd65e3f73cbba8574dd030459c85150209db"
+      ],
+      "value": {
+        "title": "Замкнутый друг: что меняет заключение дизельной сделки между США и РФ",
+        "roots": [
+          "замкну",
+          "меняет",
+          "заключ",
+          "дизель",
+          "сделки",
+          "между"
+        ]
+      },
+      "expiresAt": 1791840883187
     }
   }
 }
