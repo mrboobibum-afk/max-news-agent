@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v29)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v30)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -11,13 +11,14 @@ const QWEN_MODEL = Deno.env.get("QWEN_MODEL") ?? "qwen3.8-max";
 const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyuncs.com/compatible-mode/v1";
 
 const REGULAR_MIN_INTERVAL_MS = 3 * 60 * 1000;
-const REGULAR_MAX_INTERVAL_MS = 20 * 60 * 1000;
+const REGULAR_MAX_INTERVAL_MS = 15 * 60 * 1000;
 const HARD_MIN_INTERVAL_MS = 3 * 60 * 1000;
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000;
 
 const MEDIA_PACKET_MAX = 6;
 const MIN_IMPORTANCE = 6;
-const HISTORY_TTL_MS = 72 * 60 * 60 * 1000;
+// TTL истории сокращён с 72 до 24 часов — чтобы старьё не блокировало свежее
+const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
 const MIN_IMAGE_BYTES = 10 * 1024;
 const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
@@ -46,16 +47,22 @@ async function initMaxHttpClient() {
     return maxHttpClient;
 }
 
-// ДОБАВЛЕНЫ официальные каналы — у них всегда есть медиа к важным новостям.
+// Расширенный список источников — 14 каналов
 const TG_LIVE_CHANNELS = [
-    "mod_russia",     // Минобороны РФ (официальные сводки)
     "rian_ru",        // РИА Новости
     "tass_agency",    // ТАСС
     "rbc_news",       // РБК
+    "mod_russia",     // Минобороны РФ
+    "vesti_news",     // Вести
+    "rt_russian",     // RT на русском
+    "ntvru",          // НТВ
+    "1tv_news",       // Первый канал
     "shot_shot",      // SHOT
     "bazabazon",      // База
     "readovkanews",   // Readovka
     "mash",           // Mash
+    "life_shot",      // Life Shot
+    "bbbreaking",     // Breaking Mash
 ];
 
 const NEWS_FEEDS = [
@@ -63,6 +70,8 @@ const NEWS_FEEDS = [
     { name: "Lenta.ru", cat: "ПРОИСШЕСТВИЯ", url: "https://lenta.ru/rss/news" },
     { name: "РИА Новости", cat: "ГЛАВНОЕ", url: "https://ria.ru/export/rss2/archive/index.xml" },
     { name: "Коммерсантъ", cat: "ЭКОНОМИКА", url: "https://www.kommersant.ru/RSS/news.xml" },
+    { name: "ТАСС", cat: "ГЛАВНОЕ", url: "https://tass.ru/rss/v2.xml" },
+    { name: "Известия", cat: "ГЛАВНОЕ", url: "https://iz.ru/xml/rss/all.xml" },
 ];
 
 const BORING_TOPICS = [
@@ -146,22 +155,33 @@ function escapeHtml(val: any): string {
 }
 
 function getRoots(str: string): string[] {
-    const stops = new Set(["россия", "москва", "сегодня", "вчера", "сообщили", "после", "видео", "новости", "словам", "данный", "момент", "стало", "известно"]);
+    const stops = new Set(["россия", "москва", "сегодня", "вчера", "сообщили", "после", "видео", "новости", "словам", "данный", "момент", "стало", "известно", "заявил", "сообщил", "рассказал"]);
     return cleanText(str).toLowerCase().replace(/[^a-zа-я0-9]+/gi, " ").split(" ")
-        .filter(w => w.length >= 4 && !stops.has(w))
-        .map(w => w.slice(0, 5));
+        .filter(w => w.length >= 5 && !stops.has(w))
+        .map(w => w.slice(0, 6));
 }
 
+// ИЗМЕНЕНО: порог дедупликации поднят. Для коротких заголовков — 2+ общих корня,
+// для длинных — 3+. Раньше было 1 общий корень = дубль — блокировало разные новости на одну тему.
 async function isDuplicate(title: string, desc?: string): Promise<boolean> {
-    const roots = [...new Set([...getRoots(title), ...(desc ? getRoots(desc) : [])])];
-    if (!roots.length) return false;
+    const titleRoots = getRoots(title);
+    const allRoots = [...new Set([...titleRoots, ...(desc ? getRoots(desc) : [])])];
+    if (!allRoots.length) return false;
+
     const past = await kv.getAllTopics();
     for (const item of past) {
         const set = new Set(item.roots || []);
-        let match = 0;
-        for (const r of roots) if (set.has(r)) match++;
-        const needed = title.length > 60 ? 2 : 1;
-        if (match >= needed) return true;
+        // Проверяем пересечение по корням ЗАГОЛОВКА (более точное сравнение)
+        let titleMatch = 0;
+        for (const r of titleRoots) if (set.has(r)) titleMatch++;
+
+        // Дубль — только если 2+ общих корня в заголовке
+        if (titleMatch >= 2) return true;
+
+        // Или 3+ общих корня с учётом тела
+        let fullMatch = 0;
+        for (const r of allRoots) if (set.has(r)) fullMatch++;
+        if (fullMatch >= 3 && titleRoots.length > 0) return true;
     }
     return false;
 }
@@ -182,6 +202,7 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
         { "User-Agent": USER_AGENT, "Referer": "https://t.me/", "Accept": "*/*" },
         { "User-Agent": USER_AGENT, "Referer": "https://t.me/s/shot_shot", "Accept": "image/*,*/*" },
         { "User-Agent": USER_AGENT, "Referer": "https://t.me/s/mod_russia", "Accept": "image/*,*/*" },
+        { "User-Agent": USER_AGENT, "Referer": "https://t.me/s/rian_ru", "Accept": "image/*,*/*" },
         { "User-Agent": USER_AGENT },
     ];
     for (const headers of strategies) {
@@ -430,10 +451,6 @@ async function sendPostToMax(text: string, media: Array<{ token: string, type: "
     return res.ok;
 }
 
-// Сбор медиапакета.
-// 1) Сначала — все медиа из того же поста (postKey).
-// 2) Если их нет — FALLBACK: ищем медиа по 3+ общим корням в заголовке
-//    (жёсткий порог, чтобы не подтянуть "пляжи" к "Рыбарю").
 function getMediaPacket(item: any, candidates: any[]): any[] {
     const packet: any[] = [];
     const seen = new Set<string>();
@@ -452,7 +469,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
         }
     }
 
-    // Приоритет 2: fallback — медиа по 3+ общим корням (новость, но из другого канала)
+    // Приоритет 2: fallback по 3+ общим корням
     if (packet.length === 0) {
         const baseRoots = new Set(getRoots(item.title));
         const scored = candidates
@@ -477,7 +494,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ЭФИР v29: Запуск отбора событий ===");
+    console.log("=== ЭФИР v30: Запуск отбора событий ===");
     const now = Date.now();
 
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
@@ -518,25 +535,29 @@ async function run() {
     }
     console.log(`Уникальных постов: ${uniqueCandidates.length}`);
 
+    let skippedDup = 0;
+    let skippedImportance = 0;
+    let passedToMedia = 0;
+
     for (const item of uniqueCandidates) {
         const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(item.title))))
             .map(b => b.toString(16).padStart(2, "0")).join("");
 
-        if ((await kv.get(["factor", "pub", hash])).value) continue;
-        if (await isDuplicate(item.title, item.desc)) continue;
+        if ((await kv.get(["factor", "pub", hash])).value) { skippedDup++; continue; }
+        if (await isDuplicate(item.title, item.desc)) { skippedDup++; continue; }
 
         console.log("\nОбработка: " + item.title);
 
         const post = await formatNewsPost(item.title, item.desc);
 
-        if (post.is_ad) {
-            console.log(`Пропуск: реклама`);
-            continue;
-        }
+        if (post.is_ad) { skippedImportance++; continue; }
         if (post.importance < MIN_IMPORTANCE) {
             console.log(`Пропуск: важность ${post.importance} < ${MIN_IMPORTANCE}`);
+            skippedImportance++;
             continue;
         }
+
+        passedToMedia++;
 
         const mediaPacket = getMediaPacket(item, candidates);
         const uploaded: Array<{ token: string, type: "image" | "video" }> = [];
@@ -573,6 +594,7 @@ async function run() {
         }
     }
 
+    console.log(`\nИтого: пропущено как дубли ${skippedDup}, отсеяно по важности ${skippedImportance}, дошло до публикации ${passedToMedia}`);
     console.log("Подходящих событий пока нет.");
 }
 
