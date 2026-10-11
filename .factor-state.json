@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 872779,
+      "value": 229946,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791729633615,
+      "value": 1791730864430,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -306,6 +306,35 @@
         ]
       },
       "expiresAt": 1791816067616
+    },
+    "[\"factor\",\"pub\",\"2cffb705d5a70db315537de55cf2feebd85a243515d4ab6a1f0c9e06adaa2a2f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "2cffb705d5a70db315537de55cf2feebd85a243515d4ab6a1f0c9e06adaa2a2f"
+      ],
+      "value": true,
+      "expiresAt": 1791817327910
+    },
+    "[\"factor\",\"topic\",\"2cffb705d5a70db315537de55cf2feebd85a243515d4ab6a1f0c9e06adaa2a2f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "2cffb705d5a70db315537de55cf2feebd85a243515d4ab6a1f0c9e06adaa2a2f"
+      ],
+      "value": {
+        "title": "❗️ Трамп выступил с утверждением, что Россия и Украина согласны на взаимную приостановку у",
+        "roots": [
+          "трамп",
+          "выступ",
+          "утверж",
+          "украин",
+          "соглас",
+          "взаимн",
+          "приост"
+        ]
+      },
+      "expiresAt": 1791817327911
     }
   }
 }
