@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 264383,
+      "value": 334302,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791752460309,
+      "value": 1791753034272,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1097,6 +1097,34 @@
         ]
       },
       "expiresAt": 1791838882518
+    },
+    "[\"factor\",\"pub\",\"00dc4070f20e4fa62bd63679a2b4bcd8a18923f88afe353106484bbb5fb56e33\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "00dc4070f20e4fa62bd63679a2b4bcd8a18923f88afe353106484bbb5fb56e33"
+      ],
+      "value": true,
+      "expiresAt": 1791839626068
+    },
+    "[\"factor\",\"topic\",\"00dc4070f20e4fa62bd63679a2b4bcd8a18923f88afe353106484bbb5fb56e33\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "00dc4070f20e4fa62bd63679a2b4bcd8a18923f88afe353106484bbb5fb56e33"
+      ],
+      "value": {
+        "title": "Ноздря в ноздрю: Китай почти догнал США по метрикам ИИ",
+        "roots": [
+          "ноздря",
+          "ноздрю",
+          "китай",
+          "почти",
+          "догнал",
+          "метрик"
+        ]
+      },
+      "expiresAt": 1791839626069
     }
   }
 }
