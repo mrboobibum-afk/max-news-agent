@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 425138,
+      "value": 196257,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791734460420,
+      "value": 1791735035261,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -454,6 +454,35 @@
         ]
       },
       "expiresAt": 1791820875823
+    },
+    "[\"factor\",\"pub\",\"babc0a2dd87c88aa49eac03389a7ad6e6cfd3cc268fba4055fcdf568facc66ca\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "babc0a2dd87c88aa49eac03389a7ad6e6cfd3cc268fba4055fcdf568facc66ca"
+      ],
+      "value": true,
+      "expiresAt": 1791821448874
+    },
+    "[\"factor\",\"topic\",\"babc0a2dd87c88aa49eac03389a7ad6e6cfd3cc268fba4055fcdf568facc66ca\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "babc0a2dd87c88aa49eac03389a7ad6e6cfd3cc268fba4055fcdf568facc66ca"
+      ],
+      "value": {
+        "title": "✈️ Зарегистрированный в США самолет-разведчик НАТО провел над Черным морем свыше семи часо",
+        "roots": [
+          "зареги",
+          "самоле",
+          "развед",
+          "провел",
+          "черным",
+          "морем",
+          "свыше"
+        ]
+      },
+      "expiresAt": 1791821448875
     }
   }
 }
