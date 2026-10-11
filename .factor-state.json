@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 744136,
+      "value": 785167,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791759661453,
+      "value": 1791760836110,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1384,6 +1384,34 @@
         ]
       },
       "expiresAt": 1791846121253
+    },
+    "[\"factor\",\"pub\",\"534f4ab79e93de87540d832ad844d4218f7676bda2c5d1aeef3edc128f5c41c0\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "534f4ab79e93de87540d832ad844d4218f7676bda2c5d1aeef3edc128f5c41c0"
+      ],
+      "value": true,
+      "expiresAt": 1791847325310
+    },
+    "[\"factor\",\"topic\",\"534f4ab79e93de87540d832ad844d4218f7676bda2c5d1aeef3edc128f5c41c0\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "534f4ab79e93de87540d832ad844d4218f7676bda2c5d1aeef3edc128f5c41c0"
+      ],
+      "value": {
+        "title": "Рыженков заявил о стремлении Польши и Белоруссии к нормализации отношений",
+        "roots": [
+          "рыженк",
+          "стремл",
+          "польши",
+          "белору",
+          "нормал",
+          "отноше"
+        ]
+      },
+      "expiresAt": 1791847325311
     }
   }
 }
