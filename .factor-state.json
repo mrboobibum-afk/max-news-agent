@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 209387,
+      "value": 554970,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791728434922,
+      "value": 1791729050863,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -249,6 +249,33 @@
         ]
       },
       "expiresAt": 1791814866763
+    },
+    "[\"factor\",\"pub\",\"d98fabec08aeade85dbff803753e8ef2312cf873be44683ee34abd658559a0f7\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d98fabec08aeade85dbff803753e8ef2312cf873be44683ee34abd658559a0f7"
+      ],
+      "value": true,
+      "expiresAt": 1791815477430
+    },
+    "[\"factor\",\"topic\",\"d98fabec08aeade85dbff803753e8ef2312cf873be44683ee34abd658559a0f7\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d98fabec08aeade85dbff803753e8ef2312cf873be44683ee34abd658559a0f7"
+      ],
+      "value": {
+        "title": "Россия сохраняет свою открытость к переговорному процессу по Украине , заявил РИА Новости ",
+        "roots": [
+          "сохран",
+          "открыт",
+          "перего",
+          "процес",
+          "украин"
+        ]
+      },
+      "expiresAt": 1791815477431
     }
   }
 }
