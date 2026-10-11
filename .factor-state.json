@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 600883,
+      "value": 282109,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791754253544,
+      "value": 1791755435676,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1183,6 +1183,36 @@
         ]
       },
       "expiresAt": 1791840883187
+    },
+    "[\"factor\",\"pub\",\"b04b3df1891c46df7d6029fdc74fb3434274b87c3930015b8d8f328dc24a698d\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "b04b3df1891c46df7d6029fdc74fb3434274b87c3930015b8d8f328dc24a698d"
+      ],
+      "value": true,
+      "expiresAt": 1791841874470
+    },
+    "[\"factor\",\"topic\",\"b04b3df1891c46df7d6029fdc74fb3434274b87c3930015b8d8f328dc24a698d\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "b04b3df1891c46df7d6029fdc74fb3434274b87c3930015b8d8f328dc24a698d"
+      ],
+      "value": {
+        "title": "Трамп заявил, что считает низкой цену, по которой РФ продает нефть: \"Он хотел бы видеть ур",
+        "roots": [
+          "трамп",
+          "считае",
+          "низкой",
+          "которо",
+          "продае",
+          "нефть",
+          "хотел",
+          "видеть"
+        ]
+      },
+      "expiresAt": 1791841874471
     }
   }
 }
