@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 866913,
+      "value": 368058,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791735636067,
+      "value": 1791736664497,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -512,6 +512,31 @@
         ]
       },
       "expiresAt": 1791822054688
+    },
+    "[\"factor\",\"pub\",\"17d6cb8183b3e5cc3ffac21c255907e94b185bdf7149983315846d5e65625bc9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "17d6cb8183b3e5cc3ffac21c255907e94b185bdf7149983315846d5e65625bc9"
+      ],
+      "value": true,
+      "expiresAt": 1791823108783
+    },
+    "[\"factor\",\"topic\",\"17d6cb8183b3e5cc3ffac21c255907e94b185bdf7149983315846d5e65625bc9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "17d6cb8183b3e5cc3ffac21c255907e94b185bdf7149983315846d5e65625bc9"
+      ],
+      "value": {
+        "title": "О чем пишет иностранная пресса",
+        "roots": [
+          "пишет",
+          "иностр",
+          "пресса"
+        ]
+      },
+      "expiresAt": 1791823108784
     }
   }
 }
