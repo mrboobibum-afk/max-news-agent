@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 665430,
+      "value": 811819,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791746434534,
+      "value": 1791747634534,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -952,6 +952,36 @@
         ]
       },
       "expiresAt": 1791832926182
+    },
+    "[\"factor\",\"pub\",\"581a2abb3ec88e0071bb25fdb388466070c6ee6ead3215c96064252c98b38b05\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "581a2abb3ec88e0071bb25fdb388466070c6ee6ead3215c96064252c98b38b05"
+      ],
+      "value": true,
+      "expiresAt": 1791834080779
+    },
+    "[\"factor\",\"topic\",\"581a2abb3ec88e0071bb25fdb388466070c6ee6ead3215c96064252c98b38b05\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "581a2abb3ec88e0071bb25fdb388466070c6ee6ead3215c96064252c98b38b05"
+      ],
+      "value": {
+        "title": "Кинокомпания Paramount завершила приобретение своего конкурента — медиагиганта Warner Bros",
+        "roots": [
+          "киноко",
+          "paramo",
+          "заверш",
+          "приобр",
+          "своего",
+          "конкур",
+          "медиаг",
+          "warner"
+        ]
+      },
+      "expiresAt": 1791834080780
     }
   }
 }
