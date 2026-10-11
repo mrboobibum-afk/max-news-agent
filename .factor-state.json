@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 874042,
+      "value": 198308,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791744030949,
+      "value": 1791745261446,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -864,6 +864,37 @@
         ]
       },
       "expiresAt": 1791830449906
+    },
+    "[\"factor\",\"pub\",\"09e9e9a04f7cde085d1e9569ee8b7648e9e6de9b0ac0465b708d4b479cdc0b3c\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "09e9e9a04f7cde085d1e9569ee8b7648e9e6de9b0ac0465b708d4b479cdc0b3c"
+      ],
+      "value": true,
+      "expiresAt": 1791831691026
+    },
+    "[\"factor\",\"topic\",\"09e9e9a04f7cde085d1e9569ee8b7648e9e6de9b0ac0465b708d4b479cdc0b3c\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "09e9e9a04f7cde085d1e9569ee8b7648e9e6de9b0ac0465b708d4b479cdc0b3c"
+      ],
+      "value": {
+        "title": "Частичное снятие запрета на экспорт дизеля не затронет интересы российских потребителей",
+        "roots": [
+          "частич",
+          "снятие",
+          "запрет",
+          "экспор",
+          "дизеля",
+          "затрон",
+          "интере",
+          "россий",
+          "потреб"
+        ]
+      },
+      "expiresAt": 1791831691027
     }
   }
 }
