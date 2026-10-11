@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 604009,
+      "value": 315934,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791738063311,
+      "value": 1791739234304,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -595,6 +595,33 @@
         ]
       },
       "expiresAt": 1791824503251
+    },
+    "[\"factor\",\"pub\",\"152c6b1aa3e2f51e5428fa17e5de91b64cdca770d2ba08dec46d01944a39fa78\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "152c6b1aa3e2f51e5428fa17e5de91b64cdca770d2ba08dec46d01944a39fa78"
+      ],
+      "value": true,
+      "expiresAt": 1791825660687
+    },
+    "[\"factor\",\"topic\",\"152c6b1aa3e2f51e5428fa17e5de91b64cdca770d2ba08dec46d01944a39fa78\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "152c6b1aa3e2f51e5428fa17e5de91b64cdca770d2ba08dec46d01944a39fa78"
+      ],
+      "value": {
+        "title": "🚨 Cредства ПВО за день сбили 112 украинских БПЛА над регионами России, сообщили в МО РФ.",
+        "roots": [
+          "cредст",
+          "сбили",
+          "украин",
+          "регион",
+          "россии"
+        ]
+      },
+      "expiresAt": 1791825660687
     }
   }
 }
