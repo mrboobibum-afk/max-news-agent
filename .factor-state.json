@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 533972,
+      "value": 442637,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791741662733,
+      "value": 1791742234523,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -745,6 +745,37 @@
         ]
       },
       "expiresAt": 1791828129712
+    },
+    "[\"factor\",\"pub\",\"7b8849efc2769113faef7917be9ac1f88af8f0c6d7c3c84e4dab63176b6f65ce\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "7b8849efc2769113faef7917be9ac1f88af8f0c6d7c3c84e4dab63176b6f65ce"
+      ],
+      "value": true,
+      "expiresAt": 1791828726347
+    },
+    "[\"factor\",\"topic\",\"7b8849efc2769113faef7917be9ac1f88af8f0c6d7c3c84e4dab63176b6f65ce\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "7b8849efc2769113faef7917be9ac1f88af8f0c6d7c3c84e4dab63176b6f65ce"
+      ],
+      "value": {
+        "title": "❗️ Пакистан объявил режим ЧП и вводит войска в провинцию Хайбер-Пахтунхва По сообщению Dun",
+        "roots": [
+          "пакист",
+          "объяви",
+          "режим",
+          "вводит",
+          "войска",
+          "провин",
+          "хайбер",
+          "пахтун",
+          "сообще"
+        ]
+      },
+      "expiresAt": 1791828726348
     }
   }
 }
