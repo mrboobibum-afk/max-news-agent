@@ -73,7 +73,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791690035115,
+      "value": 1791691263202,
       "expiresAt": null
     },
     "[\"factor\",\"published\",\"d9776a2f3971506b826af629fd5d450beb9fede2ff4b535833aaa01855231353\"]": {
@@ -700,7 +700,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 671468,
+      "value": 654429,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"305a9b77c91967c8378a642fd5e9baf3b08551c1a917c865fd63868dc4f7d5cb\"]": {
@@ -2814,6 +2814,39 @@
         ]
       },
       "expiresAt": 1791949246580
+    },
+    "[\"factor\",\"pub\",\"b4677fd4dc6d7f06f2a15180c198eea0b3cbae0713df314080fd55705a4bb122\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "b4677fd4dc6d7f06f2a15180c198eea0b3cbae0713df314080fd55705a4bb122"
+      ],
+      "value": true,
+      "expiresAt": 1791950483905
+    },
+    "[\"factor\",\"topic\",\"b4677fd4dc6d7f06f2a15180c198eea0b3cbae0713df314080fd55705a4bb122\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "b4677fd4dc6d7f06f2a15180c198eea0b3cbae0713df314080fd55705a4bb122"
+      ],
+      "value": {
+        "title": "Переход на обновленную модель высшего образования будет завершен к 2030 году, сообщил глав",
+        "roots": [
+          "перех",
+          "обнов",
+          "модел",
+          "высше",
+          "образ",
+          "будет",
+          "завер",
+          "2030",
+          "году",
+          "сообщ",
+          "глав"
+        ]
+      },
+      "expiresAt": 1791950483906
     }
   }
 }
