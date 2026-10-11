@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 785167,
+      "value": 724681,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791760836110,
+      "value": 1791762032508,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1412,6 +1412,34 @@
         ]
       },
       "expiresAt": 1791847325311
+    },
+    "[\"factor\",\"pub\",\"49836998308c7961aed8474d5778d1eea1314f408084da07f5ac0d2b4c1e9550\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "49836998308c7961aed8474d5778d1eea1314f408084da07f5ac0d2b4c1e9550"
+      ],
+      "value": true,
+      "expiresAt": 1791848683490
+    },
+    "[\"factor\",\"topic\",\"49836998308c7961aed8474d5778d1eea1314f408084da07f5ac0d2b4c1e9550\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "49836998308c7961aed8474d5778d1eea1314f408084da07f5ac0d2b4c1e9550"
+      ],
+      "value": {
+        "title": "Песков заявил о важности признания Киевом реалий на земле",
+        "roots": [
+          "песков",
+          "важнос",
+          "призна",
+          "киевом",
+          "реалий",
+          "земле"
+        ]
+      },
+      "expiresAt": 1791848683491
     }
   }
 }
