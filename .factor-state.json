@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 334302,
+      "value": 483204,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791753034272,
+      "value": 1791753635989,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1125,6 +1125,36 @@
         ]
       },
       "expiresAt": 1791839626069
+    },
+    "[\"factor\",\"pub\",\"d43cb04697023509f5f4b7f4fbe1d64bdc4ff9540fb38a5a02df0a43483786c4\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d43cb04697023509f5f4b7f4fbe1d64bdc4ff9540fb38a5a02df0a43483786c4"
+      ],
+      "value": true,
+      "expiresAt": 1791840091057
+    },
+    "[\"factor\",\"topic\",\"d43cb04697023509f5f4b7f4fbe1d64bdc4ff9540fb38a5a02df0a43483786c4\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d43cb04697023509f5f4b7f4fbe1d64bdc4ff9540fb38a5a02df0a43483786c4"
+      ],
+      "value": {
+        "title": "🚊 Движение поездов на перегоне Полужье — Выгоничи приостановлено после ночной атаки ВСУ в",
+        "roots": [
+          "движен",
+          "поездо",
+          "перего",
+          "полужь",
+          "выгони",
+          "приост",
+          "ночной",
+          "атаки"
+        ]
+      },
+      "expiresAt": 1791840091058
     }
   }
 }
