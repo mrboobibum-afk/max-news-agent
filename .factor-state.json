@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 198308,
+      "value": 390841,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791745261446,
+      "value": 1791745833513,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -895,6 +895,35 @@
         ]
       },
       "expiresAt": 1791831691027
+    },
+    "[\"factor\",\"pub\",\"4d7247970f4c7e1345377e454fd839eabd31f5849f28d83b275444b4202bf802\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4d7247970f4c7e1345377e454fd839eabd31f5849f28d83b275444b4202bf802"
+      ],
+      "value": true,
+      "expiresAt": 1791832247148
+    },
+    "[\"factor\",\"topic\",\"4d7247970f4c7e1345377e454fd839eabd31f5849f28d83b275444b4202bf802\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4d7247970f4c7e1345377e454fd839eabd31f5849f28d83b275444b4202bf802"
+      ],
+      "value": {
+        "title": "Россия вмешивалась в референдум о выходе Британии из Евросоюза в 2016 году (Brexit), заяви",
+        "roots": [
+          "вмешив",
+          "рефере",
+          "выходе",
+          "британ",
+          "евросо",
+          "brexit",
+          "заяви"
+        ]
+      },
+      "expiresAt": 1791832247149
     }
   }
 }
