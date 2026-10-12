@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 450225,
+      "value": 845847,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791768032445,
+      "value": 1791768649580,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1639,6 +1639,33 @@
         ]
       },
       "expiresAt": 1791854485061
+    },
+    "[\"factor\",\"pub\",\"d4cc2e1d4878a0d361b8200908ba3036faefdeb267459b6305fe892272818029\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d4cc2e1d4878a0d361b8200908ba3036faefdeb267459b6305fe892272818029"
+      ],
+      "value": true,
+      "expiresAt": 1791855222821
+    },
+    "[\"factor\",\"topic\",\"d4cc2e1d4878a0d361b8200908ba3036faefdeb267459b6305fe892272818029\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d4cc2e1d4878a0d361b8200908ba3036faefdeb267459b6305fe892272818029"
+      ],
+      "value": {
+        "title": "КНДР запустила неопознанный снаряд в сторону Японского моря",
+        "roots": [
+          "запуст",
+          "неопоз",
+          "снаряд",
+          "сторон",
+          "японск"
+        ]
+      },
+      "expiresAt": 1791855222821
     }
   }
 }
