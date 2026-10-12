@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 745148,
+      "value": 194537,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,40 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791838231778,
+      "value": 1791839432547,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"ceb2af1d8cc33051b6d6fbd0f8e2388c50fb49515ba2a416de1e1999db667dc9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "ceb2af1d8cc33051b6d6fbd0f8e2388c50fb49515ba2a416de1e1999db667dc9"
-      ],
-      "value": true,
-      "expiresAt": 1791838882516
-    },
-    "[\"factor\",\"topic\",\"ceb2af1d8cc33051b6d6fbd0f8e2388c50fb49515ba2a416de1e1999db667dc9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "ceb2af1d8cc33051b6d6fbd0f8e2388c50fb49515ba2a416de1e1999db667dc9"
-      ],
-      "value": {
-        "title": "Взрыв и пожар произошли на танкере с нефтью, который столкнулся с миной при попытке покину",
-        "roots": [
-          "взрыв",
-          "пожар",
-          "произо",
-          "танкер",
-          "нефтью",
-          "которы",
-          "столкн",
-          "миной",
-          "попытк",
-          "покину"
-        ]
-      },
-      "expiresAt": 1791838882518
     },
     "[\"factor\",\"pub\",\"00dc4070f20e4fa62bd63679a2b4bcd8a18923f88afe353106484bbb5fb56e33\"]": {
       "key": [
@@ -2843,6 +2811,35 @@
         ]
       },
       "expiresAt": 1791924668027
+    },
+    "[\"factor\",\"pub\",\"d1b3b92d9f0cfd29b0c033b387c04b3aebe128964b8d4b7328ed61c11b020c69\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d1b3b92d9f0cfd29b0c033b387c04b3aebe128964b8d4b7328ed61c11b020c69"
+      ],
+      "value": true,
+      "expiresAt": 1791925856809
+    },
+    "[\"factor\",\"topic\",\"d1b3b92d9f0cfd29b0c033b387c04b3aebe128964b8d4b7328ed61c11b020c69\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d1b3b92d9f0cfd29b0c033b387c04b3aebe128964b8d4b7328ed61c11b020c69"
+      ],
+      "value": {
+        "title": "Умер актер Ар Джей Митт, известный по роли Уолтера Уайта-младшего в сериале \"Во все тяжкие",
+        "roots": [
+          "актер",
+          "извест",
+          "уолтер",
+          "уайта",
+          "младше",
+          "сериал",
+          "тяжкие"
+        ]
+      },
+      "expiresAt": 1791925856809
     }
   }
 }
