@@ -17,34 +17,6 @@
       "value": 1791846061733,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"107cc87701c41573a7b6eb020ab4cb233bdc5efabb87ec3ff044b7716241616f\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "107cc87701c41573a7b6eb020ab4cb233bdc5efabb87ec3ff044b7716241616f"
-      ],
-      "value": true,
-      "expiresAt": 1791846121252
-    },
-    "[\"factor\",\"topic\",\"107cc87701c41573a7b6eb020ab4cb233bdc5efabb87ec3ff044b7716241616f\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "107cc87701c41573a7b6eb020ab4cb233bdc5efabb87ec3ff044b7716241616f"
-      ],
-      "value": {
-        "title": "Хуситы атаковали аэропорт Эд-Даммама в Саудовской Аравии",
-        "roots": [
-          "хуситы",
-          "атаков",
-          "аэропо",
-          "даммам",
-          "саудов",
-          "аравии"
-        ]
-      },
-      "expiresAt": 1791846121253
-    },
     "[\"factor\",\"pub\",\"534f4ab79e93de87540d832ad844d4218f7676bda2c5d1aeef3edc128f5c41c0\"]": {
       "key": [
         "factor",
