@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 810178,
+      "value": 349554,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791813036437,
+      "value": 1791814237085,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"aba941411901f1223e3430d7e3c871c12e00c150f3403f95d77118710c14aeb8\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "aba941411901f1223e3430d7e3c871c12e00c150f3403f95d77118710c14aeb8"
-      ],
-      "value": true,
-      "expiresAt": 1791813680473
-    },
-    "[\"factor\",\"topic\",\"aba941411901f1223e3430d7e3c871c12e00c150f3403f95d77118710c14aeb8\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "aba941411901f1223e3430d7e3c871c12e00c150f3403f95d77118710c14aeb8"
-      ],
-      "value": {
-        "title": "❗️ Группировка войск \"Центр\" освободила населенные пункты Новотроицкое и Петровское в ДНР,",
-        "roots": [
-          "группи",
-          "войск",
-          "центр",
-          "освобо",
-          "населе",
-          "пункты",
-          "новотр",
-          "петров"
-        ]
-      },
-      "expiresAt": 1791813680474
     },
     "[\"factor\",\"pub\",\"3c0680d604926d5bbe24bccef266dbde38b8e03a3bc4c315295d8136a0cff744\"]": {
       "key": [
@@ -2954,6 +2924,36 @@
         ]
       },
       "expiresAt": 1791899557000
+    },
+    "[\"factor\",\"pub\",\"dccce869fda217bc4341684a2f934a865a049b82f3eb52aa3e3bbe16ef297b20\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "dccce869fda217bc4341684a2f934a865a049b82f3eb52aa3e3bbe16ef297b20"
+      ],
+      "value": true,
+      "expiresAt": 1791900664370
+    },
+    "[\"factor\",\"topic\",\"dccce869fda217bc4341684a2f934a865a049b82f3eb52aa3e3bbe16ef297b20\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "dccce869fda217bc4341684a2f934a865a049b82f3eb52aa3e3bbe16ef297b20"
+      ],
+      "value": {
+        "title": "Лондон и Брюссель прорабатывают планы блокады Балтийского моря , заявил Патрушев - страны ",
+        "roots": [
+          "лондон",
+          "брюссе",
+          "прораб",
+          "планы",
+          "блокад",
+          "балтий",
+          "патруш",
+          "страны"
+        ]
+      },
+      "expiresAt": 1791900664371
     }
   }
 }
