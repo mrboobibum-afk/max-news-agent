@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 730347,
+      "value": 349598,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791787233186,
+      "value": 1791788465400,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2313,6 +2313,36 @@
         ]
       },
       "expiresAt": 1791873763217
+    },
+    "[\"factor\",\"pub\",\"b2cc8cac85f2727ecc1f1bd4ef113213d89d5a1b8f56957e71057b4a882cf5dc\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "b2cc8cac85f2727ecc1f1bd4ef113213d89d5a1b8f56957e71057b4a882cf5dc"
+      ],
+      "value": true,
+      "expiresAt": 1791874935860
+    },
+    "[\"factor\",\"topic\",\"b2cc8cac85f2727ecc1f1bd4ef113213d89d5a1b8f56957e71057b4a882cf5dc\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "b2cc8cac85f2727ecc1f1bd4ef113213d89d5a1b8f56957e71057b4a882cf5dc"
+      ],
+      "value": {
+        "title": "Группа переодетых в форму РФ боевиков \"Азова\" (признана террористической, запрещена в РФ) ",
+        "roots": [
+          "группа",
+          "переод",
+          "форму",
+          "боевик",
+          "азова",
+          "призна",
+          "террор",
+          "запрещ"
+        ]
+      },
+      "expiresAt": 1791874935861
     }
   }
 }
