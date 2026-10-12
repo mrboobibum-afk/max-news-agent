@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 578064,
+      "value": 601672,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791763835020,
+      "value": 1791764433656,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1497,6 +1497,35 @@
         ]
       },
       "expiresAt": 1791850415193
+    },
+    "[\"factor\",\"pub\",\"92f4680c50a11432f3febb085cf99b920acc1f50cbd80e946a2381fbb64b4baf\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "92f4680c50a11432f3febb085cf99b920acc1f50cbd80e946a2381fbb64b4baf"
+      ],
+      "value": true,
+      "expiresAt": 1791850992045
+    },
+    "[\"factor\",\"topic\",\"92f4680c50a11432f3febb085cf99b920acc1f50cbd80e946a2381fbb64b4baf\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "92f4680c50a11432f3febb085cf99b920acc1f50cbd80e946a2381fbb64b4baf"
+      ],
+      "value": {
+        "title": "В ОП предложили давать многодетным жилье из числа нераспроданных квартир",
+        "roots": [
+          "предло",
+          "давать",
+          "многод",
+          "жилье",
+          "числа",
+          "нерасп",
+          "кварти"
+        ]
+      },
+      "expiresAt": 1791850992046
     }
   }
 }
