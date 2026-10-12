@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 698234,
+      "value": 570230,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791781264293,
+      "value": 1791781967375,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2093,6 +2093,29 @@
         ]
       },
       "expiresAt": 1791867700641
+    },
+    "[\"factor\",\"pub\",\"5971877f35be5fdb961c826e2e9182235b3f25fd7f4f8ab58ea6df7f3ac1957e\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "5971877f35be5fdb961c826e2e9182235b3f25fd7f4f8ab58ea6df7f3ac1957e"
+      ],
+      "value": true,
+      "expiresAt": 1791868453911
+    },
+    "[\"factor\",\"topic\",\"5971877f35be5fdb961c826e2e9182235b3f25fd7f4f8ab58ea6df7f3ac1957e\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "5971877f35be5fdb961c826e2e9182235b3f25fd7f4f8ab58ea6df7f3ac1957e"
+      ],
+      "value": {
+        "title": "Минимум 18 тыс",
+        "roots": [
+          "миниму"
+        ]
+      },
+      "expiresAt": 1791868453912
     }
   }
 }
