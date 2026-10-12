@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 896425,
+      "value": 624159,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791802954318,
+      "value": 1791804037673,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2842,6 +2842,34 @@
         ]
       },
       "expiresAt": 1791889385888
+    },
+    "[\"factor\",\"pub\",\"d91f06a40975814aee39464f837742ecafdab2f81702e0bda8935b1c928e0fe0\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d91f06a40975814aee39464f837742ecafdab2f81702e0bda8935b1c928e0fe0"
+      ],
+      "value": true,
+      "expiresAt": 1791890508604
+    },
+    "[\"factor\",\"topic\",\"d91f06a40975814aee39464f837742ecafdab2f81702e0bda8935b1c928e0fe0\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d91f06a40975814aee39464f837742ecafdab2f81702e0bda8935b1c928e0fe0"
+      ],
+      "value": {
+        "title": "▶️ Среди пострадавших в результате ДТП в Анталье нет россиян, сообщили ТАСС в генконсульст",
+        "roots": [
+          "среди",
+          "постра",
+          "резуль",
+          "анталь",
+          "россия",
+          "генкон"
+        ]
+      },
+      "expiresAt": 1791890508606
     }
   }
 }
