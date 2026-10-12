@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 453703,
+      "value": 713131,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791777038224,
+      "value": 1791777666355,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1948,6 +1948,33 @@
         ]
       },
       "expiresAt": 1791863494468
+    },
+    "[\"factor\",\"pub\",\"7bf64b843504e85fb8142ccbae6b7312ded7da66ef0659f2daec2d2861386f24\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "7bf64b843504e85fb8142ccbae6b7312ded7da66ef0659f2daec2d2861386f24"
+      ],
+      "value": true,
+      "expiresAt": 1791864329997
+    },
+    "[\"factor\",\"topic\",\"7bf64b843504e85fb8142ccbae6b7312ded7da66ef0659f2daec2d2861386f24\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "7bf64b843504e85fb8142ccbae6b7312ded7da66ef0659f2daec2d2861386f24"
+      ],
+      "value": {
+        "title": "Welt: На Украине испугались последствий обострившихся отношений с США",
+        "roots": [
+          "украин",
+          "испуга",
+          "послед",
+          "обостр",
+          "отноше"
+        ]
+      },
+      "expiresAt": 1791864329998
     }
   }
 }
