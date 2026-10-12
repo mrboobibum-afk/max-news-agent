@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 438893,
+      "value": 676267,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,35 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791815456021,
+      "value": 1791816036192,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"d98fabec08aeade85dbff803753e8ef2312cf873be44683ee34abd658559a0f7\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "d98fabec08aeade85dbff803753e8ef2312cf873be44683ee34abd658559a0f7"
-      ],
-      "value": true,
-      "expiresAt": 1791815477430
-    },
-    "[\"factor\",\"topic\",\"d98fabec08aeade85dbff803753e8ef2312cf873be44683ee34abd658559a0f7\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "d98fabec08aeade85dbff803753e8ef2312cf873be44683ee34abd658559a0f7"
-      ],
-      "value": {
-        "title": "Россия сохраняет свою открытость к переговорному процессу по Украине , заявил РИА Новости ",
-        "roots": [
-          "сохран",
-          "открыт",
-          "перего",
-          "процес",
-          "украин"
-        ]
-      },
-      "expiresAt": 1791815477431
     },
     "[\"factor\",\"pub\",\"5221c10156b3c0565d216aba3be1c9471e1b7623c4d79aef7f44a2abbb207f4b\"]": {
       "key": [
@@ -2988,6 +2961,32 @@
         ]
       },
       "expiresAt": 1791901875159
+    },
+    "[\"factor\",\"pub\",\"0abe841ff27610e38163d9f42135610af1ff8fd24e5fcb895235f35da6b8b3c9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "0abe841ff27610e38163d9f42135610af1ff8fd24e5fcb895235f35da6b8b3c9"
+      ],
+      "value": true,
+      "expiresAt": 1791902466229
+    },
+    "[\"factor\",\"topic\",\"0abe841ff27610e38163d9f42135610af1ff8fd24e5fcb895235f35da6b8b3c9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "0abe841ff27610e38163d9f42135610af1ff8fd24e5fcb895235f35da6b8b3c9"
+      ],
+      "value": {
+        "title": "▶️ Внезапный паводок смыл дома и мосты в Непале",
+        "roots": [
+          "внезап",
+          "паводо",
+          "мосты",
+          "непале"
+        ]
+      },
+      "expiresAt": 1791902466232
     }
   }
 }
