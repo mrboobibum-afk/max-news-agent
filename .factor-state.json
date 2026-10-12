@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 725815,
+      "value": 453703,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791775851254,
+      "value": 1791777038224,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1918,6 +1918,36 @@
         ]
       },
       "expiresAt": 1791862451312
+    },
+    "[\"factor\",\"pub\",\"125dd37b23515cf6ad7dd29de54a316fa9a5670ef911ddbf2bd1e74278999193\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "125dd37b23515cf6ad7dd29de54a316fa9a5670ef911ddbf2bd1e74278999193"
+      ],
+      "value": true,
+      "expiresAt": 1791863494467
+    },
+    "[\"factor\",\"topic\",\"125dd37b23515cf6ad7dd29de54a316fa9a5670ef911ddbf2bd1e74278999193\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "125dd37b23515cf6ad7dd29de54a316fa9a5670ef911ddbf2bd1e74278999193"
+      ],
+      "value": {
+        "title": "▶️ В Литве не разместят ядерное оружие , так как страна не уцелеет в случае потенциального",
+        "roots": [
+          "литве",
+          "размес",
+          "ядерно",
+          "оружие",
+          "страна",
+          "уцелее",
+          "случае",
+          "потенц"
+        ]
+      },
+      "expiresAt": 1791863494468
     }
   }
 }
