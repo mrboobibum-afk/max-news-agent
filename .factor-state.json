@@ -17,36 +17,6 @@
       "value": 1791819637732,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"2ccfe22241e20e83e3f5dd3f9bf802c8b4a4c99bb050c6689f7845e9152a3689\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "2ccfe22241e20e83e3f5dd3f9bf802c8b4a4c99bb050c6689f7845e9152a3689"
-      ],
-      "value": true,
-      "expiresAt": 1791819659985
-    },
-    "[\"factor\",\"topic\",\"2ccfe22241e20e83e3f5dd3f9bf802c8b4a4c99bb050c6689f7845e9152a3689\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "2ccfe22241e20e83e3f5dd3f9bf802c8b4a4c99bb050c6689f7845e9152a3689"
-      ],
-      "value": {
-        "title": "Туск и глава МО Владислав Косиняк-Камыш получили угрозы по электронным каналам",
-        "roots": [
-          "глава",
-          "владис",
-          "косиня",
-          "камыш",
-          "получи",
-          "угрозы",
-          "электр",
-          "канала"
-        ]
-      },
-      "expiresAt": 1791819659986
-    },
     "[\"factor\",\"pub\",\"4e0f85f07de5426bcfa6ee7ce637d553c3589ee123276f4998291ffb5ab047ad\"]": {
       "key": [
         "factor",
