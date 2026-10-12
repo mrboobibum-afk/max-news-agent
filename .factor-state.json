@@ -17,37 +17,6 @@
       "value": 1791828636462,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"7b8849efc2769113faef7917be9ac1f88af8f0c6d7c3c84e4dab63176b6f65ce\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "7b8849efc2769113faef7917be9ac1f88af8f0c6d7c3c84e4dab63176b6f65ce"
-      ],
-      "value": true,
-      "expiresAt": 1791828726347
-    },
-    "[\"factor\",\"topic\",\"7b8849efc2769113faef7917be9ac1f88af8f0c6d7c3c84e4dab63176b6f65ce\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "7b8849efc2769113faef7917be9ac1f88af8f0c6d7c3c84e4dab63176b6f65ce"
-      ],
-      "value": {
-        "title": "❗️ Пакистан объявил режим ЧП и вводит войска в провинцию Хайбер-Пахтунхва По сообщению Dun",
-        "roots": [
-          "пакист",
-          "объяви",
-          "режим",
-          "вводит",
-          "войска",
-          "провин",
-          "хайбер",
-          "пахтун",
-          "сообще"
-        ]
-      },
-      "expiresAt": 1791828726348
-    },
     "[\"factor\",\"pub\",\"2c154c7b2114b1d816c5418878306398d637507fb8c826c919c8ec50d7313022\"]": {
       "key": [
         "factor",
