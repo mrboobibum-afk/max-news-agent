@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 390591,
+      "value": 344415,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791789035049,
+      "value": 1791789633561,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2373,6 +2373,35 @@
         ]
       },
       "expiresAt": 1791875457845
+    },
+    "[\"factor\",\"pub\",\"3547fa516101d7bfeca51546978cbf3416ae9aa1a5000f9b5bb2bd8a0764a4e5\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "3547fa516101d7bfeca51546978cbf3416ae9aa1a5000f9b5bb2bd8a0764a4e5"
+      ],
+      "value": true,
+      "expiresAt": 1791876063032
+    },
+    "[\"factor\",\"topic\",\"3547fa516101d7bfeca51546978cbf3416ae9aa1a5000f9b5bb2bd8a0764a4e5\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "3547fa516101d7bfeca51546978cbf3416ae9aa1a5000f9b5bb2bd8a0764a4e5"
+      ],
+      "value": {
+        "title": "⚖️ Экс-замгубернатора Ростовской области Окунев арестован заочно на два месяца, сообщили в",
+        "roots": [
+          "замгуб",
+          "ростов",
+          "област",
+          "окунев",
+          "аресто",
+          "заочно",
+          "месяца"
+        ]
+      },
+      "expiresAt": 1791876063033
     }
   }
 }
