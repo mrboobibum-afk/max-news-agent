@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 233227,
+      "value": 438893,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791814833585,
+      "value": 1791815456021,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"3c0680d604926d5bbe24bccef266dbde38b8e03a3bc4c315295d8136a0cff744\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "3c0680d604926d5bbe24bccef266dbde38b8e03a3bc4c315295d8136a0cff744"
-      ],
-      "value": true,
-      "expiresAt": 1791814866763
-    },
-    "[\"factor\",\"topic\",\"3c0680d604926d5bbe24bccef266dbde38b8e03a3bc4c315295d8136a0cff744\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "3c0680d604926d5bbe24bccef266dbde38b8e03a3bc4c315295d8136a0cff744"
-      ],
-      "value": {
-        "title": "США контактируют с йеменским движением мятежников-хуситов, сообщил Трамп",
-        "roots": [
-          "контак",
-          "йеменс",
-          "движен",
-          "мятежн",
-          "хусито",
-          "трамп"
-        ]
-      },
-      "expiresAt": 1791814866763
     },
     "[\"factor\",\"pub\",\"d98fabec08aeade85dbff803753e8ef2312cf873be44683ee34abd658559a0f7\"]": {
       "key": [
@@ -2985,6 +2957,37 @@
         ]
       },
       "expiresAt": 1791901258680
+    },
+    "[\"factor\",\"pub\",\"4d9cbf8eb359dabe7c6bf5846388f1ecee42e48bc534939bde9a9e8121ace5a9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4d9cbf8eb359dabe7c6bf5846388f1ecee42e48bc534939bde9a9e8121ace5a9"
+      ],
+      "value": true,
+      "expiresAt": 1791901875157
+    },
+    "[\"factor\",\"topic\",\"4d9cbf8eb359dabe7c6bf5846388f1ecee42e48bc534939bde9a9e8121ace5a9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4d9cbf8eb359dabe7c6bf5846388f1ecee42e48bc534939bde9a9e8121ace5a9"
+      ],
+      "value": {
+        "title": "Росстандарт запретил выпуск в обращение на территории России транспортных средств марок DO",
+        "roots": [
+          "росста",
+          "запрет",
+          "выпуск",
+          "обраще",
+          "террит",
+          "россии",
+          "трансп",
+          "средст",
+          "марок"
+        ]
+      },
+      "expiresAt": 1791901875159
     }
   }
 }
