@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 736798,
+      "value": 450225,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791766865723,
+      "value": 1791768032445,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1611,6 +1611,34 @@
         ]
       },
       "expiresAt": 1791853293834
+    },
+    "[\"factor\",\"pub\",\"b2fe66fb8c67d86098a860cf342680d9da5c27cfda163fd1a7300ae4a8320d3b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "b2fe66fb8c67d86098a860cf342680d9da5c27cfda163fd1a7300ae4a8320d3b"
+      ],
+      "value": true,
+      "expiresAt": 1791854485060
+    },
+    "[\"factor\",\"topic\",\"b2fe66fb8c67d86098a860cf342680d9da5c27cfda163fd1a7300ae4a8320d3b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "b2fe66fb8c67d86098a860cf342680d9da5c27cfda163fd1a7300ae4a8320d3b"
+      ],
+      "value": {
+        "title": "Мадьяр: Венгрия не сможет быстро отказаться от нефти и газа из РФ",
+        "roots": [
+          "мадьяр",
+          "венгри",
+          "сможет",
+          "быстро",
+          "отказа",
+          "нефти"
+        ]
+      },
+      "expiresAt": 1791854485061
     }
   }
 }
