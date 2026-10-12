@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 845847,
+      "value": 585084,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791768649580,
+      "value": 1791769834592,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1666,6 +1666,36 @@
         ]
       },
       "expiresAt": 1791855222821
+    },
+    "[\"factor\",\"pub\",\"c524189fe92cdfe735c4d42649d8aeac636939435f6b9cd090de137335d4b70b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "c524189fe92cdfe735c4d42649d8aeac636939435f6b9cd090de137335d4b70b"
+      ],
+      "value": true,
+      "expiresAt": 1791856269800
+    },
+    "[\"factor\",\"topic\",\"c524189fe92cdfe735c4d42649d8aeac636939435f6b9cd090de137335d4b70b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "c524189fe92cdfe735c4d42649d8aeac636939435f6b9cd090de137335d4b70b"
+      ],
+      "value": {
+        "title": "Теймуразу Гогиашвили, обвиняемому в убийстве предпринимательницы Елены Церетели и ее дочер",
+        "roots": [
+          "теймур",
+          "гогиаш",
+          "обвиня",
+          "убийст",
+          "предпр",
+          "елены",
+          "церете",
+          "дочер"
+        ]
+      },
+      "expiresAt": 1791856269801
     }
   }
 }
