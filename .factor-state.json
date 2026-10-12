@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 194537,
+      "value": 338448,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791839432547,
+      "value": 1791840031857,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"00dc4070f20e4fa62bd63679a2b4bcd8a18923f88afe353106484bbb5fb56e33\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "00dc4070f20e4fa62bd63679a2b4bcd8a18923f88afe353106484bbb5fb56e33"
-      ],
-      "value": true,
-      "expiresAt": 1791839626068
-    },
-    "[\"factor\",\"topic\",\"00dc4070f20e4fa62bd63679a2b4bcd8a18923f88afe353106484bbb5fb56e33\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "00dc4070f20e4fa62bd63679a2b4bcd8a18923f88afe353106484bbb5fb56e33"
-      ],
-      "value": {
-        "title": "Ноздря в ноздрю: Китай почти догнал США по метрикам ИИ",
-        "roots": [
-          "ноздря",
-          "ноздрю",
-          "китай",
-          "почти",
-          "догнал",
-          "метрик"
-        ]
-      },
-      "expiresAt": 1791839626069
     },
     "[\"factor\",\"pub\",\"d43cb04697023509f5f4b7f4fbe1d64bdc4ff9540fb38a5a02df0a43483786c4\"]": {
       "key": [
@@ -2840,6 +2812,36 @@
         ]
       },
       "expiresAt": 1791925856809
+    },
+    "[\"factor\",\"pub\",\"89657483baab7a73d27cb403082c071cc59538f83104ca98be3ec595c7dedf8d\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "89657483baab7a73d27cb403082c071cc59538f83104ca98be3ec595c7dedf8d"
+      ],
+      "value": true,
+      "expiresAt": 1791926457516
+    },
+    "[\"factor\",\"topic\",\"89657483baab7a73d27cb403082c071cc59538f83104ca98be3ec595c7dedf8d\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "89657483baab7a73d27cb403082c071cc59538f83104ca98be3ec595c7dedf8d"
+      ],
+      "value": {
+        "title": "Трамп выразил уверенность в том, что Путин больше стремится к заключению договоренностей п",
+        "roots": [
+          "трамп",
+          "вырази",
+          "уверен",
+          "путин",
+          "больше",
+          "стреми",
+          "заключ",
+          "догово"
+        ]
+      },
+      "expiresAt": 1791926457595
     }
   }
 }
