@@ -17,35 +17,6 @@
       "value": 1791817266690,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"2cffb705d5a70db315537de55cf2feebd85a243515d4ab6a1f0c9e06adaa2a2f\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "2cffb705d5a70db315537de55cf2feebd85a243515d4ab6a1f0c9e06adaa2a2f"
-      ],
-      "value": true,
-      "expiresAt": 1791817327910
-    },
-    "[\"factor\",\"topic\",\"2cffb705d5a70db315537de55cf2feebd85a243515d4ab6a1f0c9e06adaa2a2f\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "2cffb705d5a70db315537de55cf2feebd85a243515d4ab6a1f0c9e06adaa2a2f"
-      ],
-      "value": {
-        "title": "❗️ Трамп выступил с утверждением, что Россия и Украина согласны на взаимную приостановку у",
-        "roots": [
-          "трамп",
-          "выступ",
-          "утверж",
-          "украин",
-          "соглас",
-          "взаимн",
-          "приост"
-        ]
-      },
-      "expiresAt": 1791817327911
-    },
     "[\"factor\",\"pub\",\"5b558aba62fddb648fff3bd99fd9a5b9789215dcb441815768e2ed675067db67\"]": {
       "key": [
         "factor",
