@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 624159,
+      "value": 671297,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791804037673,
+      "value": 1791805235909,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2870,6 +2870,32 @@
         ]
       },
       "expiresAt": 1791890508606
+    },
+    "[\"factor\",\"pub\",\"c91bdc015d2fb0a2d4c094c74905c93c1433c6f7505e7a4aa8b21f80ac3c591e\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "c91bdc015d2fb0a2d4c094c74905c93c1433c6f7505e7a4aa8b21f80ac3c591e"
+      ],
+      "value": true,
+      "expiresAt": 1791891694546
+    },
+    "[\"factor\",\"topic\",\"c91bdc015d2fb0a2d4c094c74905c93c1433c6f7505e7a4aa8b21f80ac3c591e\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "c91bdc015d2fb0a2d4c094c74905c93c1433c6f7505e7a4aa8b21f80ac3c591e"
+      ],
+      "value": {
+        "title": "Зеленский не заслужил передышку на поле боя, заявил Лавров",
+        "roots": [
+          "зеленс",
+          "заслуж",
+          "переды",
+          "лавров"
+        ]
+      },
+      "expiresAt": 1791891694548
     }
   }
 }
