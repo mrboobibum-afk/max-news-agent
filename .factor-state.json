@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 329549,
+      "value": 315132,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791840657004,
+      "value": 1791841235515,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"10eabef1f3bdb1e1679da0510541fd65e3f73cbba8574dd030459c85150209db\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "10eabef1f3bdb1e1679da0510541fd65e3f73cbba8574dd030459c85150209db"
-      ],
-      "value": true,
-      "expiresAt": 1791840883186
-    },
-    "[\"factor\",\"topic\",\"10eabef1f3bdb1e1679da0510541fd65e3f73cbba8574dd030459c85150209db\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "10eabef1f3bdb1e1679da0510541fd65e3f73cbba8574dd030459c85150209db"
-      ],
-      "value": {
-        "title": "Замкнутый друг: что меняет заключение дизельной сделки между США и РФ",
-        "roots": [
-          "замкну",
-          "меняет",
-          "заключ",
-          "дизель",
-          "сделки",
-          "между"
-        ]
-      },
-      "expiresAt": 1791840883187
     },
     "[\"factor\",\"pub\",\"b04b3df1891c46df7d6029fdc74fb3434274b87c3930015b8d8f328dc24a698d\"]": {
       "key": [
@@ -2840,6 +2812,35 @@
         ]
       },
       "expiresAt": 1791927084759
+    },
+    "[\"factor\",\"pub\",\"78fc0bae60e103de9e691fc4bc16600711988c568542b79a4fc9372345805867\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "78fc0bae60e103de9e691fc4bc16600711988c568542b79a4fc9372345805867"
+      ],
+      "value": true,
+      "expiresAt": 1791927657422
+    },
+    "[\"factor\",\"topic\",\"78fc0bae60e103de9e691fc4bc16600711988c568542b79a4fc9372345805867\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "78fc0bae60e103de9e691fc4bc16600711988c568542b79a4fc9372345805867"
+      ],
+      "value": {
+        "title": "Зеленский должен сфокусироваться на заключении сделки с Россией, а не на разговорах о ней,",
+        "roots": [
+          "зеленс",
+          "должен",
+          "сфокус",
+          "заключ",
+          "сделки",
+          "россие",
+          "разгов"
+        ]
+      },
+      "expiresAt": 1791927657423
     }
   }
 }
