@@ -17,35 +17,6 @@
       "value": 1791820863911,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"4e0f85f07de5426bcfa6ee7ce637d553c3589ee123276f4998291ffb5ab047ad\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "4e0f85f07de5426bcfa6ee7ce637d553c3589ee123276f4998291ffb5ab047ad"
-      ],
-      "value": true,
-      "expiresAt": 1791820875823
-    },
-    "[\"factor\",\"topic\",\"4e0f85f07de5426bcfa6ee7ce637d553c3589ee123276f4998291ffb5ab047ad\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "4e0f85f07de5426bcfa6ee7ce637d553c3589ee123276f4998291ffb5ab047ad"
-      ],
-      "value": {
-        "title": "«Я хочу поблагодарить президента Путина» Трамп после объявления договоренности с Россией о",
-        "roots": [
-          "поблаг",
-          "презид",
-          "путина",
-          "трамп",
-          "объявл",
-          "догово",
-          "россие"
-        ]
-      },
-      "expiresAt": 1791820875823
-    },
     "[\"factor\",\"pub\",\"babc0a2dd87c88aa49eac03389a7ad6e6cfd3cc268fba4055fcdf568facc66ca\"]": {
       "key": [
         "factor",
