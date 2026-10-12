@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 601672,
+      "value": 595801,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791764433656,
+      "value": 1791765051875,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1526,6 +1526,33 @@
         ]
       },
       "expiresAt": 1791850992046
+    },
+    "[\"factor\",\"pub\",\"0d778aa3d296f9c331204ccadb052343ac9cf6944396cf606f1246b05999d6b2\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "0d778aa3d296f9c331204ccadb052343ac9cf6944396cf606f1246b05999d6b2"
+      ],
+      "value": true,
+      "expiresAt": 1791851564378
+    },
+    "[\"factor\",\"topic\",\"0d778aa3d296f9c331204ccadb052343ac9cf6944396cf606f1246b05999d6b2\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "0d778aa3d296f9c331204ccadb052343ac9cf6944396cf606f1246b05999d6b2"
+      ],
+      "value": {
+        "title": "В Минпросвещения сообщили о возможности получить профессию после провала на ОГЭ",
+        "roots": [
+          "минпро",
+          "возмож",
+          "получи",
+          "профес",
+          "провал"
+        ]
+      },
+      "expiresAt": 1791851564379
     }
   }
 }
