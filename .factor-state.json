@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 671297,
+      "value": 727067,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791805235909,
+      "value": 1791806468763,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2896,6 +2896,37 @@
         ]
       },
       "expiresAt": 1791891694548
+    },
+    "[\"factor\",\"pub\",\"087217e9d77fb05ed212d0c0d5891c93308ede7a9d3a2578a8facfbd21ae4640\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "087217e9d77fb05ed212d0c0d5891c93308ede7a9d3a2578a8facfbd21ae4640"
+      ],
+      "value": true,
+      "expiresAt": 1791892944614
+    },
+    "[\"factor\",\"topic\",\"087217e9d77fb05ed212d0c0d5891c93308ede7a9d3a2578a8facfbd21ae4640\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "087217e9d77fb05ed212d0c0d5891c93308ede7a9d3a2578a8facfbd21ae4640"
+      ],
+      "value": {
+        "title": "Почетные наименования батальонам и ротам ВС РФ будут присваивать в честь погибших защитник",
+        "roots": [
+          "почетн",
+          "наимен",
+          "баталь",
+          "ротам",
+          "будут",
+          "присва",
+          "честь",
+          "погибш",
+          "защитн"
+        ]
+      },
+      "expiresAt": 1791892944615
     }
   }
 }
