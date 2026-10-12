@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 386543,
+      "value": 206773,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,33 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791822651658,
+      "value": 1791823234931,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"17d6cb8183b3e5cc3ffac21c255907e94b185bdf7149983315846d5e65625bc9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "17d6cb8183b3e5cc3ffac21c255907e94b185bdf7149983315846d5e65625bc9"
-      ],
-      "value": true,
-      "expiresAt": 1791823108783
-    },
-    "[\"factor\",\"topic\",\"17d6cb8183b3e5cc3ffac21c255907e94b185bdf7149983315846d5e65625bc9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "17d6cb8183b3e5cc3ffac21c255907e94b185bdf7149983315846d5e65625bc9"
-      ],
-      "value": {
-        "title": "О чем пишет иностранная пресса",
-        "roots": [
-          "пишет",
-          "иностр",
-          "пресса"
-        ]
-      },
-      "expiresAt": 1791823108784
     },
     "[\"factor\",\"pub\",\"7dbaebf080a79b307b734308979d50f62c133b40b3bffb4b67391fe395376a94\"]": {
       "key": [
@@ -2925,6 +2900,38 @@
         ]
       },
       "expiresAt": 1791909105499
+    },
+    "[\"factor\",\"pub\",\"353d6416a4b97ee5310ab8955e664d7fd7d8481b583a5b4517283a681bb4e408\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "353d6416a4b97ee5310ab8955e664d7fd7d8481b583a5b4517283a681bb4e408"
+      ],
+      "value": true,
+      "expiresAt": 1791909694413
+    },
+    "[\"factor\",\"topic\",\"353d6416a4b97ee5310ab8955e664d7fd7d8481b583a5b4517283a681bb4e408\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "353d6416a4b97ee5310ab8955e664d7fd7d8481b583a5b4517283a681bb4e408"
+      ],
+      "value": {
+        "title": "Президент России Владимир Путин повторно назначил Михаила Птицына председателем Мосгорсуда",
+        "roots": [
+          "презид",
+          "россии",
+          "владим",
+          "путин",
+          "повтор",
+          "назнач",
+          "михаил",
+          "птицын",
+          "предсе",
+          "мосгор"
+        ]
+      },
+      "expiresAt": 1791909694414
     }
   }
 }
