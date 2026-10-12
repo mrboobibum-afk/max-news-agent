@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 498419,
+      "value": 827970,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791847848532,
+      "value": 1791848435279,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"49836998308c7961aed8474d5778d1eea1314f408084da07f5ac0d2b4c1e9550\"]": {
@@ -2831,6 +2831,34 @@
         ]
       },
       "expiresAt": 1791934285945
+    },
+    "[\"factor\",\"pub\",\"f3920443d683abd95c4d0b68b1b7073034d64f3a2a74e6501f56cb8ffcee22fd\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "f3920443d683abd95c4d0b68b1b7073034d64f3a2a74e6501f56cb8ffcee22fd"
+      ],
+      "value": true,
+      "expiresAt": 1791934879344
+    },
+    "[\"factor\",\"topic\",\"f3920443d683abd95c4d0b68b1b7073034d64f3a2a74e6501f56cb8ffcee22fd\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "f3920443d683abd95c4d0b68b1b7073034d64f3a2a74e6501f56cb8ffcee22fd"
+      ],
+      "value": {
+        "title": "Направлявшиеся в Москву самолеты развернулись над Литвой и сели в Стамбуле",
+        "roots": [
+          "направ",
+          "москву",
+          "самоле",
+          "развер",
+          "литвой",
+          "стамбу"
+        ]
+      },
+      "expiresAt": 1791934879345
     }
   }
 }
