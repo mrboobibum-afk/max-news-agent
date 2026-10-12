@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 606288,
+      "value": 615724,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791779454944,
+      "value": 1791780635420,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2033,6 +2033,37 @@
         ]
       },
       "expiresAt": 1791865900924
+    },
+    "[\"factor\",\"pub\",\"38411bdca63f30af6ae616e4b44ea23074509fc5c4413699d16772a894ed9ffb\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "38411bdca63f30af6ae616e4b44ea23074509fc5c4413699d16772a894ed9ffb"
+      ],
+      "value": true,
+      "expiresAt": 1791867119267
+    },
+    "[\"factor\",\"topic\",\"38411bdca63f30af6ae616e4b44ea23074509fc5c4413699d16772a894ed9ffb\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "38411bdca63f30af6ae616e4b44ea23074509fc5c4413699d16772a894ed9ffb"
+      ],
+      "value": {
+        "title": "Путин попросил Набиуллину и Силуанова доложить о старте работы цифрового рубля",
+        "roots": [
+          "путин",
+          "попрос",
+          "набиул",
+          "силуан",
+          "доложи",
+          "старте",
+          "работы",
+          "цифров",
+          "рубля"
+        ]
+      },
+      "expiresAt": 1791867119268
     }
   }
 }
