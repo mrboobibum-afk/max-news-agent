@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 604887,
+      "value": 264694,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791808260594,
+      "value": 1791809435365,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"a44b4cf7cf04eb4f0c3e5460ec73229dd74440e2f07ded5a5e47af07689b724c\"]": {
@@ -2954,6 +2954,37 @@
         ]
       },
       "expiresAt": 1791894702905
+    },
+    "[\"factor\",\"pub\",\"f3d1a64abbb0797a274e27434b022b2c804d1776a48a1c2e5abcb681aa413f85\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "f3d1a64abbb0797a274e27434b022b2c804d1776a48a1c2e5abcb681aa413f85"
+      ],
+      "value": true,
+      "expiresAt": 1791895851964
+    },
+    "[\"factor\",\"topic\",\"f3d1a64abbb0797a274e27434b022b2c804d1776a48a1c2e5abcb681aa413f85\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "f3d1a64abbb0797a274e27434b022b2c804d1776a48a1c2e5abcb681aa413f85"
+      ],
+      "value": {
+        "title": "На Земле впервые с 2010-го выросло число людей, живущих в крайней бедности – сейчас это 1,",
+        "roots": [
+          "земле",
+          "впервы",
+          "выросл",
+          "число",
+          "людей",
+          "живущи",
+          "крайне",
+          "беднос",
+          "сейчас"
+        ]
+      },
+      "expiresAt": 1791895851966
     }
   }
 }
