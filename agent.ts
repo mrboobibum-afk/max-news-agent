@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v34)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v35)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -67,6 +67,7 @@ const TG_LIVE_CHANNELS = [
     "bbbreaking",
 ];
 
+// RSS: добавлены Вести, НТВ, 1-й канал — чтобы fallback находил медиа к этим TG-каналам.
 const NEWS_FEEDS = [
     { name: "РБК", url: "https://rssexport.rbc.ru/rbcnews/news/30/full.rss" },
     { name: "Lenta.ru", url: "https://lenta.ru/rss/news" },
@@ -80,14 +81,22 @@ const NEWS_FEEDS = [
     { name: "Российская газета", url: "https://rg.ru/xml/index.xml" },
     { name: "Взгляд", url: "https://vz.ru/rss.xml" },
     { name: "Фонтанка", url: "https://www.fontanka.ru/fontanka.rss" },
+    { name: "Вести", url: "https://www.vesti.ru/vesti.rss" },
+    { name: "НТВ", url: "https://www.ntv.ru/novosti/rss/" },
+    { name: "Первый канал", url: "https://www.1tv.ru/rss/news" },
 ];
 
+// РАСШИРЕНО: добавлены Вести, НТВ, Первый канал.
+// При отсутствии медиа в TG-посте бот ищет его в RSS того же издания по 2+ общим корням.
 const SOURCE_MATCH: Record<string, string> = {
     "rbc_news": "РБК",
     "rian_ru": "РИА Новости",
     "tass_agency": "ТАСС",
     "rt_russian": "RT на русском",
     "lenta_ru": "Lenta.ru",
+    "vesti_news": "Вести",
+    "ntvru": "НТВ",
+    "1tv_news": "Первый канал",
 };
 
 const BORING_TOPICS = [
@@ -186,9 +195,6 @@ class FileKV {
 
 const kv = new FileKV();
 
-// ==== ДЕКОДИРОВАНИЕ HTML-СУЩНОСТЕЙ ====
-// Превращает &lt;p&gt; → <p>, &amp; → &, &nbsp; → пробел и т.д.
-// Вызывается ДО удаления тегов, чтобы сущности успели превратиться в теги и потом исчезнуть.
 function decodeHtmlEntities(str: string): string {
     return str
         .replace(/&lt;/gi, "<")
@@ -211,17 +217,12 @@ function decodeHtmlEntities(str: string): string {
         });
 }
 
-// ИСПРАВЛЕНО: сначала убираем CDATA → дважды декодируем HTML-сущности → убираем появившиеся теги.
 function cleanText(val: any): string {
     let t = String(val ?? "");
-    // 1. CDATA
     t = t.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/gi, "$1");
-    // 2. Двойное декодирование — защита от &amp;lt; → &lt; → <
     t = decodeHtmlEntities(t);
     t = decodeHtmlEntities(t);
-    // 3. Теперь, когда сущности раскрылись, убираем настоящие теги
     t = t.replace(/<[^>]+>/g, " ");
-    // 4. Схлопываем пробелы
     t = t.replace(/\s+/g, " ").trim();
     return t;
 }
@@ -274,6 +275,9 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
         { "User-Agent": USER_AGENT, "Referer": "https://lenta.ru/", "Accept": "image/*,*/*" },
         { "User-Agent": USER_AGENT, "Referer": "https://www.rbc.ru/", "Accept": "image/*,*/*" },
         { "User-Agent": USER_AGENT, "Referer": "https://ria.ru/", "Accept": "image/*,*/*" },
+        { "User-Agent": USER_AGENT, "Referer": "https://www.vesti.ru/", "Accept": "image/*,*/*" },
+        { "User-Agent": USER_AGENT, "Referer": "https://www.ntv.ru/", "Accept": "image/*,*/*" },
+        { "User-Agent": USER_AGENT, "Referer": "https://www.1tv.ru/", "Accept": "image/*,*/*" },
         { "User-Agent": USER_AGENT },
     ];
     for (const headers of strategies) {
@@ -590,7 +594,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ЭФИР v34: Запуск отбора событий ===");
+    console.log("=== ЭФИР v35: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
