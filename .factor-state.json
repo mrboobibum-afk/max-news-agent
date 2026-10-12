@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 850835,
+      "value": 700451,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791793237183,
+      "value": 1791794435233,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2522,6 +2522,35 @@
         ]
       },
       "expiresAt": 1791879724865
+    },
+    "[\"factor\",\"pub\",\"7398c0cce7d9f4899bc874e1a03b16c56198c38f3ef13ecf32712b0954c4fac5\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "7398c0cce7d9f4899bc874e1a03b16c56198c38f3ef13ecf32712b0954c4fac5"
+      ],
+      "value": true,
+      "expiresAt": 1791880856564
+    },
+    "[\"factor\",\"topic\",\"7398c0cce7d9f4899bc874e1a03b16c56198c38f3ef13ecf32712b0954c4fac5\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "7398c0cce7d9f4899bc874e1a03b16c56198c38f3ef13ecf32712b0954c4fac5"
+      ],
+      "value": {
+        "title": "ФАС оштрафует оператора связи \"Ловител\" (бренд Lovit) и лиц из УК ПИК за то, что те ограни",
+        "roots": [
+          "оштраф",
+          "операт",
+          "связи",
+          "ловите",
+          "бренд",
+          "lovit",
+          "ограни"
+        ]
+      },
+      "expiresAt": 1791880856565
     }
   }
 }
