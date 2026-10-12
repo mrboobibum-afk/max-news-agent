@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 417131,
+      "value": 445350,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791785436279,
+      "value": 1791786037496,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2232,6 +2232,31 @@
         ]
       },
       "expiresAt": 1791871911504
+    },
+    "[\"factor\",\"pub\",\"10017f39b71289c6fd96cf70e4adef40d10f6347bf8850ad5f3cc4f0f7a16c16\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "10017f39b71289c6fd96cf70e4adef40d10f6347bf8850ad5f3cc4f0f7a16c16"
+      ],
+      "value": true,
+      "expiresAt": 1791872493662
+    },
+    "[\"factor\",\"topic\",\"10017f39b71289c6fd96cf70e4adef40d10f6347bf8850ad5f3cc4f0f7a16c16\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "10017f39b71289c6fd96cf70e4adef40d10f6347bf8850ad5f3cc4f0f7a16c16"
+      ],
+      "value": {
+        "title": "Нехватка топлива отмечается в ВСУ в зоне СВО",
+        "roots": [
+          "нехват",
+          "топлив",
+          "отмеча"
+        ]
+      },
+      "expiresAt": 1791872493664
     }
   }
 }
