@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v33)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v34)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -82,8 +82,6 @@ const NEWS_FEEDS = [
     { name: "Фонтанка", url: "https://www.fontanka.ru/fontanka.rss" },
 ];
 
-// Соответствие TG-канал → имя RSS-источника.
-// Нужно, чтобы при отсутствии медиа в TG-посте искать его в RSS того же издания.
 const SOURCE_MATCH: Record<string, string> = {
     "rbc_news": "РБК",
     "rian_ru": "РИА Новости",
@@ -188,18 +186,44 @@ class FileKV {
 
 const kv = new FileKV();
 
-function cleanText(val: any): string {
-    return String(val ?? "")
-        .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/gi, "$1")
+// ==== ДЕКОДИРОВАНИЕ HTML-СУЩНОСТЕЙ ====
+// Превращает &lt;p&gt; → <p>, &amp; → &, &nbsp; → пробел и т.д.
+// Вызывается ДО удаления тегов, чтобы сущности успели превратиться в теги и потом исчезнуть.
+function decodeHtmlEntities(str: string): string {
+    return str
+        .replace(/&lt;/gi, "<")
+        .replace(/&gt;/gi, ">")
+        .replace(/&quot;/gi, '"')
+        .replace(/&apos;/gi, "'")
+        .replace(/&#0*39;/g, "'")
+        .replace(/&nbsp;/gi, " ")
+        .replace(/&mdash;/gi, "—")
+        .replace(/&ndash;/gi, "–")
         .replace(/&laquo;/gi, "«")
         .replace(/&raquo;/gi, "»")
-        .replace(/&quot;/gi, '"')
-        .replace(/&#39;/gi, "'")
+        .replace(/&hellip;/gi, "…")
         .replace(/&amp;/gi, "&")
-        .replace(/&nbsp;/gi, " ")
-        .replace(/<[^>]+>/g, " ")
-        .replace(/\s+/g, " ")
-        .trim();
+        .replace(/&#(\d+);/g, (_, n) => {
+            try { return String.fromCharCode(parseInt(n, 10)); } catch { return ""; }
+        })
+        .replace(/&#x([0-9a-f]+);/gi, (_, h) => {
+            try { return String.fromCharCode(parseInt(h, 16)); } catch { return ""; }
+        });
+}
+
+// ИСПРАВЛЕНО: сначала убираем CDATA → дважды декодируем HTML-сущности → убираем появившиеся теги.
+function cleanText(val: any): string {
+    let t = String(val ?? "");
+    // 1. CDATA
+    t = t.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/gi, "$1");
+    // 2. Двойное декодирование — защита от &amp;lt; → &lt; → <
+    t = decodeHtmlEntities(t);
+    t = decodeHtmlEntities(t);
+    // 3. Теперь, когда сущности раскрылись, убираем настоящие теги
+    t = t.replace(/<[^>]+>/g, " ");
+    // 4. Схлопываем пробелы
+    t = t.replace(/\s+/g, " ").trim();
+    return t;
 }
 
 function escapeHtml(val: any): string {
@@ -500,15 +524,10 @@ async function sendPostToMax(text: string, media: Array<{ token: string, type: "
     return res.ok;
 }
 
-// Сбор медиапакета.
-// 1) Медиа из того же поста (postKey).
-// 2) Медиа из RSS того же издания (sourceName match) по 2+ общим корням.
-// 3) Медиа из любого кандидата по 2+ общим корням.
 function getMediaPacket(item: any, candidates: any[]): any[] {
     const packet: any[] = [];
     const seen = new Set<string>();
 
-    // Приоритет 1: тот же пост
     if (item.postKey) {
         const samePost = candidates.filter(c => c.postKey === item.postKey);
         const ordered = [
@@ -526,7 +545,6 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 
     const baseRoots = new Set(getRoots(item.title));
 
-    // Приоритет 2: RSS того же издания
     if (packet.length === 0 && item.sourceType === "tg") {
         const rssName = SOURCE_MATCH[item.sourceName];
         if (rssName) {
@@ -549,7 +567,6 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
         }
     }
 
-    // Приоритет 3: любой кандидат с 2+ общими корнями
     if (packet.length === 0) {
         const scored = candidates
             .filter(c => c.mediaUrl && !isTrashUrl(c.mediaUrl) && c.postKey !== item.postKey)
@@ -573,7 +590,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ЭФИР v33: Запуск отбора событий ===");
+    console.log("=== ЭФИР v34: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
