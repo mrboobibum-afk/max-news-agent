@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 471357,
+      "value": 215731,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,35 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791843032328,
+      "value": 1791843635158,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"f01634a45cca978ef352e22815165870df34505178200926c3599b983d312db6\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "f01634a45cca978ef352e22815165870df34505178200926c3599b983d312db6"
-      ],
-      "value": true,
-      "expiresAt": 1791843124089
-    },
-    "[\"factor\",\"topic\",\"f01634a45cca978ef352e22815165870df34505178200926c3599b983d312db6\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "f01634a45cca978ef352e22815165870df34505178200926c3599b983d312db6"
-      ],
-      "value": {
-        "title": "Танк Т-14 &#34;Армата&#34; сравнили с Ferrari - чем он лучше суперкара",
-        "roots": [
-          "армата",
-          "сравни",
-          "ferrar",
-          "лучше",
-          "суперк"
-        ]
-      },
-      "expiresAt": 1791843124090
     },
     "[\"factor\",\"pub\",\"31ae390f3073e715b7bfc2295b67333bd9c6f2c95e4bbe8378076caa3a262cd3\"]": {
       "key": [
@@ -2838,6 +2811,33 @@
         ]
       },
       "expiresAt": 1791929461967
+    },
+    "[\"factor\",\"pub\",\"c14c10b957f528ce8c748e1ffbcc0d1fea16630b6d3780e0bd19265f745b24f2\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "c14c10b957f528ce8c748e1ffbcc0d1fea16630b6d3780e0bd19265f745b24f2"
+      ],
+      "value": true,
+      "expiresAt": 1791930232723
+    },
+    "[\"factor\",\"topic\",\"c14c10b957f528ce8c748e1ffbcc0d1fea16630b6d3780e0bd19265f745b24f2\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "c14c10b957f528ce8c748e1ffbcc0d1fea16630b6d3780e0bd19265f745b24f2"
+      ],
+      "value": {
+        "title": "Politico: Мерц представил обновленный имидж партии ХДС",
+        "roots": [
+          "politi",
+          "предст",
+          "обновл",
+          "имидж",
+          "партии"
+        ]
+      },
+      "expiresAt": 1791930232725
     }
   }
 }
