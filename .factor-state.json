@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 413745,
+      "value": 504424,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791774632103,
+      "value": 1791775234956,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1862,6 +1862,35 @@
         ]
       },
       "expiresAt": 1791861091139
+    },
+    "[\"factor\",\"pub\",\"30f9f10f3ec1c8bec6397044b095ed03151388835ece5a510efa7cfc6ff64d5f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "30f9f10f3ec1c8bec6397044b095ed03151388835ece5a510efa7cfc6ff64d5f"
+      ],
+      "value": true,
+      "expiresAt": 1791861904142
+    },
+    "[\"factor\",\"topic\",\"30f9f10f3ec1c8bec6397044b095ed03151388835ece5a510efa7cfc6ff64d5f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "30f9f10f3ec1c8bec6397044b095ed03151388835ece5a510efa7cfc6ff64d5f"
+      ],
+      "value": {
+        "title": "В Иране назвали недостаточной реакцию Вашингтона на условия Тегерана",
+        "roots": [
+          "иране",
+          "назвал",
+          "недост",
+          "реакци",
+          "вашинг",
+          "услови",
+          "тегера"
+        ]
+      },
+      "expiresAt": 1791861904143
     }
   }
 }
