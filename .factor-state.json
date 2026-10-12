@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 682661,
+      "value": 703865,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791817266690,
+      "value": 1791818438635,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"5b558aba62fddb648fff3bd99fd9a5b9789215dcb441815768e2ed675067db67\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "5b558aba62fddb648fff3bd99fd9a5b9789215dcb441815768e2ed675067db67"
-      ],
-      "value": true,
-      "expiresAt": 1791817849755
-    },
-    "[\"factor\",\"topic\",\"5b558aba62fddb648fff3bd99fd9a5b9789215dcb441815768e2ed675067db67\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "5b558aba62fddb648fff3bd99fd9a5b9789215dcb441815768e2ed675067db67"
-      ],
-      "value": {
-        "title": "Новый удар по аэропорту Эр-Рияда: снаряд неизвестного происхождения попал в терминал вылет",
-        "roots": [
-          "новый",
-          "аэропо",
-          "рияда",
-          "снаряд",
-          "неизве",
-          "происх",
-          "попал",
-          "термин",
-          "вылет"
-        ]
-      },
-      "expiresAt": 1791817849756
     },
     "[\"factor\",\"pub\",\"8e18b975a14c31482449128ed380cd460ecb6510ba54c1c8b4846c5ca441b96c\"]": {
       "key": [
@@ -2958,6 +2927,35 @@
         ]
       },
       "expiresAt": 1791903716173
+    },
+    "[\"factor\",\"pub\",\"0dfb9928e7a1d7f42ba58d94843ea33a0a21e1f8c4249140822d0405e8a6597b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "0dfb9928e7a1d7f42ba58d94843ea33a0a21e1f8c4249140822d0405e8a6597b"
+      ],
+      "value": true,
+      "expiresAt": 1791904884691
+    },
+    "[\"factor\",\"topic\",\"0dfb9928e7a1d7f42ba58d94843ea33a0a21e1f8c4249140822d0405e8a6597b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "0dfb9928e7a1d7f42ba58d94843ea33a0a21e1f8c4249140822d0405e8a6597b"
+      ],
+      "value": {
+        "title": "ЕС может подтолкнуть Киев на провокации, чтобы помешать сделке РФ и США по дизелю, заявил ",
+        "roots": [
+          "может",
+          "подтол",
+          "провок",
+          "чтобы",
+          "помеша",
+          "сделке",
+          "дизелю"
+        ]
+      },
+      "expiresAt": 1791904884757
     }
   }
 }
