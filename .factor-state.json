@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 623356,
+      "value": 581600,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791823986194,
+      "value": 1791825034144,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"74f1954b9c1fcca96aaa417df72de7413f449c8277d6b9339b441f52c8b68c08\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "74f1954b9c1fcca96aaa417df72de7413f449c8277d6b9339b441f52c8b68c08"
-      ],
-      "value": true,
-      "expiresAt": 1791824503250
-    },
-    "[\"factor\",\"topic\",\"74f1954b9c1fcca96aaa417df72de7413f449c8277d6b9339b441f52c8b68c08\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "74f1954b9c1fcca96aaa417df72de7413f449c8277d6b9339b441f52c8b68c08"
-      ],
-      "value": {
-        "title": "ЕС выделит Украине допфинансирование для закупки дронов и ракет",
-        "roots": [
-          "выдели",
-          "украин",
-          "допфин",
-          "закупк",
-          "дронов",
-          "ракет"
-        ]
-      },
-      "expiresAt": 1791824503251
     },
     "[\"factor\",\"pub\",\"152c6b1aa3e2f51e5428fa17e5de91b64cdca770d2ba08dec46d01944a39fa78\"]": {
       "key": [
@@ -2933,6 +2905,33 @@
         ]
       },
       "expiresAt": 1791910521762
+    },
+    "[\"factor\",\"pub\",\"ebcb2e3ab2014e2f8854c02bca2dff4404420506563520479fde54d27ed79f6f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "ebcb2e3ab2014e2f8854c02bca2dff4404420506563520479fde54d27ed79f6f"
+      ],
+      "value": true,
+      "expiresAt": 1791912210899
+    },
+    "[\"factor\",\"topic\",\"ebcb2e3ab2014e2f8854c02bca2dff4404420506563520479fde54d27ed79f6f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "ebcb2e3ab2014e2f8854c02bca2dff4404420506563520479fde54d27ed79f6f"
+      ],
+      "value": {
+        "title": "План по несырьевому экспорту РФ за семь месяцев перевыполнили почти на 20%",
+        "roots": [
+          "несырь",
+          "экспор",
+          "месяце",
+          "перевы",
+          "почти"
+        ]
+      },
+      "expiresAt": 1791912210900
     }
   }
 }
