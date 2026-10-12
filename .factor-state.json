@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 349554,
+      "value": 233227,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791814237085,
+      "value": 1791814833585,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"3c0680d604926d5bbe24bccef266dbde38b8e03a3bc4c315295d8136a0cff744\"]": {
@@ -2954,6 +2954,37 @@
         ]
       },
       "expiresAt": 1791900664371
+    },
+    "[\"factor\",\"pub\",\"d849062e0af1ef87c2a21658b592763231e418ab55da901efeca6b731320fddd\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d849062e0af1ef87c2a21658b592763231e418ab55da901efeca6b731320fddd"
+      ],
+      "value": true,
+      "expiresAt": 1791901258679
+    },
+    "[\"factor\",\"topic\",\"d849062e0af1ef87c2a21658b592763231e418ab55da901efeca6b731320fddd\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d849062e0af1ef87c2a21658b592763231e418ab55da901efeca6b731320fddd"
+      ],
+      "value": {
+        "title": "Журнал Newsweek назвал четырех кандидатов на смену Зеленскому после призывов Трампа к смен",
+        "roots": [
+          "журнал",
+          "newswe",
+          "назвал",
+          "четыре",
+          "кандид",
+          "смену",
+          "зеленс",
+          "призыв",
+          "трампа"
+        ]
+      },
+      "expiresAt": 1791901258680
     }
   }
 }
