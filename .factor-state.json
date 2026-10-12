@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 222474,
+      "value": 810178,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791812435534,
+      "value": 1791813036437,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"ec6cdabdb3d227b97aa9ad09de3359c95d290fe5b69f3ea025b1256a398930d4\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "ec6cdabdb3d227b97aa9ad09de3359c95d290fe5b69f3ea025b1256a398930d4"
-      ],
-      "value": true,
-      "expiresAt": 1791812468312
-    },
-    "[\"factor\",\"topic\",\"ec6cdabdb3d227b97aa9ad09de3359c95d290fe5b69f3ea025b1256a398930d4\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "ec6cdabdb3d227b97aa9ad09de3359c95d290fe5b69f3ea025b1256a398930d4"
-      ],
-      "value": {
-        "title": "Папе Римскому Льву XIV должны провести операцию на легком , чтобы удалить небольшой узел",
-        "roots": [
-          "римско",
-          "должны",
-          "провес",
-          "операц",
-          "легком",
-          "чтобы",
-          "удалит",
-          "неболь"
-        ]
-      },
-      "expiresAt": 1791812468313
     },
     "[\"factor\",\"pub\",\"068d4111e027b086c93409a0c2f1ab45d5621635d3e803043c8f7235acca65e2\"]": {
       "key": [
@@ -2986,6 +2956,33 @@
         ]
       },
       "expiresAt": 1791898865988
+    },
+    "[\"factor\",\"pub\",\"27e6b11f67774ebe42370fa6f8ed04155a9bf80510ffbd6826d3f362325c06f0\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "27e6b11f67774ebe42370fa6f8ed04155a9bf80510ffbd6826d3f362325c06f0"
+      ],
+      "value": true,
+      "expiresAt": 1791899556998
+    },
+    "[\"factor\",\"topic\",\"27e6b11f67774ebe42370fa6f8ed04155a9bf80510ffbd6826d3f362325c06f0\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "27e6b11f67774ebe42370fa6f8ed04155a9bf80510ffbd6826d3f362325c06f0"
+      ],
+      "value": {
+        "title": "▶️ Радиоактивные часы обнаружили в посылке из Израиля в Домодедове",
+        "roots": [
+          "радиоа",
+          "обнару",
+          "посылк",
+          "израил",
+          "домоде"
+        ]
+      },
+      "expiresAt": 1791899557000
     }
   }
 }
