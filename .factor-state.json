@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 681821,
+      "value": 232677,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791833453272,
+      "value": 1791834631543,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"581a2abb3ec88e0071bb25fdb388466070c6ee6ead3215c96064252c98b38b05\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "581a2abb3ec88e0071bb25fdb388466070c6ee6ead3215c96064252c98b38b05"
-      ],
-      "value": true,
-      "expiresAt": 1791834080779
-    },
-    "[\"factor\",\"topic\",\"581a2abb3ec88e0071bb25fdb388466070c6ee6ead3215c96064252c98b38b05\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "581a2abb3ec88e0071bb25fdb388466070c6ee6ead3215c96064252c98b38b05"
-      ],
-      "value": {
-        "title": "Кинокомпания Paramount завершила приобретение своего конкурента — медиагиганта Warner Bros",
-        "roots": [
-          "киноко",
-          "paramo",
-          "заверш",
-          "приобр",
-          "своего",
-          "конкур",
-          "медиаг",
-          "warner"
-        ]
-      },
-      "expiresAt": 1791834080780
     },
     "[\"factor\",\"pub\",\"6ee32575e7e9af0013f4f4484c7a0391c1f94505b1a45ecd2fce8d08c1cd362f\"]": {
       "key": [
@@ -2812,6 +2782,34 @@
         ]
       },
       "expiresAt": 1791919894483
+    },
+    "[\"factor\",\"pub\",\"c674aa41f161d57f96eb55402e5b464da72ecd4605b484ac9a21a7febb4eea94\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "c674aa41f161d57f96eb55402e5b464da72ecd4605b484ac9a21a7febb4eea94"
+      ],
+      "value": true,
+      "expiresAt": 1791921054716
+    },
+    "[\"factor\",\"topic\",\"c674aa41f161d57f96eb55402e5b464da72ecd4605b484ac9a21a7febb4eea94\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "c674aa41f161d57f96eb55402e5b464da72ecd4605b484ac9a21a7febb4eea94"
+      ],
+      "value": {
+        "title": "Силы ПВО сбили десять беспилотников, летевших на Москву, сообщил Собянин",
+        "roots": [
+          "сбили",
+          "десять",
+          "беспил",
+          "летевш",
+          "москву",
+          "собяни"
+        ]
+      },
+      "expiresAt": 1791921054717
     }
   }
 }
