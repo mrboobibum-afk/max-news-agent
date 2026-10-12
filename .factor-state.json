@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 700451,
+      "value": 877603,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791794435233,
+      "value": 1791795665823,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2551,6 +2551,31 @@
         ]
       },
       "expiresAt": 1791880856565
+    },
+    "[\"factor\",\"pub\",\"50448f512f87b970d4e6ab484be662ce2490c81218c8f83e384600ac43a5ed33\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "50448f512f87b970d4e6ab484be662ce2490c81218c8f83e384600ac43a5ed33"
+      ],
+      "value": true,
+      "expiresAt": 1791882117470
+    },
+    "[\"factor\",\"topic\",\"50448f512f87b970d4e6ab484be662ce2490c81218c8f83e384600ac43a5ed33\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "50448f512f87b970d4e6ab484be662ce2490c81218c8f83e384600ac43a5ed33"
+      ],
+      "value": {
+        "title": "❗️ ВС РФ освободили Лидино в ДНР, сообщает МО РФ.",
+        "roots": [
+          "освобо",
+          "лидино",
+          "сообща"
+        ]
+      },
+      "expiresAt": 1791882117471
     }
   }
 }
