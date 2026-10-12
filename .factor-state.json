@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 676267,
+      "value": 682661,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791816036192,
+      "value": 1791817266690,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"2cffb705d5a70db315537de55cf2feebd85a243515d4ab6a1f0c9e06adaa2a2f\"]": {
@@ -2957,6 +2957,36 @@
         ]
       },
       "expiresAt": 1791902466232
+    },
+    "[\"factor\",\"pub\",\"3068e626ce2938b619ae5bf618eada185ff5cbbfa13c08825a17d8b923814e6e\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "3068e626ce2938b619ae5bf618eada185ff5cbbfa13c08825a17d8b923814e6e"
+      ],
+      "value": true,
+      "expiresAt": 1791903716171
+    },
+    "[\"factor\",\"topic\",\"3068e626ce2938b619ae5bf618eada185ff5cbbfa13c08825a17d8b923814e6e\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "3068e626ce2938b619ae5bf618eada185ff5cbbfa13c08825a17d8b923814e6e"
+      ],
+      "value": {
+        "title": "Седьмой подозреваемый в подготовке нападения на авиабазу Фэрфорд в Великобритании отпущен ",
+        "roots": [
+          "седьмо",
+          "подозр",
+          "подгот",
+          "нападе",
+          "авиаба",
+          "фэрфор",
+          "велико",
+          "отпуще"
+        ]
+      },
+      "expiresAt": 1791903716173
     }
   }
 }
