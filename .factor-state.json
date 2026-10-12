@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 681161,
+      "value": 650815,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791810066265,
+      "value": 1791811237964,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"d66232c40334c0f1616eab27d26f4fde9301967206e88944334b7d889e5a575b\"]": {
@@ -2955,6 +2955,35 @@
         ]
       },
       "expiresAt": 1791896485971
+    },
+    "[\"factor\",\"pub\",\"7a4d2de2e7be145bc924d87de06da59215eafc37b52e3576e183408b0fed4d69\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "7a4d2de2e7be145bc924d87de06da59215eafc37b52e3576e183408b0fed4d69"
+      ],
+      "value": true,
+      "expiresAt": 1791897761078
+    },
+    "[\"factor\",\"topic\",\"7a4d2de2e7be145bc924d87de06da59215eafc37b52e3576e183408b0fed4d69\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "7a4d2de2e7be145bc924d87de06da59215eafc37b52e3576e183408b0fed4d69"
+      ],
+      "value": {
+        "title": "Количество специальностей в вузах с обязательным ЕГЭ по истории вырастет в следующем году,",
+        "roots": [
+          "количе",
+          "специа",
+          "вузах",
+          "обязат",
+          "истори",
+          "выраст",
+          "следую"
+        ]
+      },
+      "expiresAt": 1791897761079
     }
   }
 }
