@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 338448,
+      "value": 329549,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791840031857,
+      "value": 1791840657004,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"d43cb04697023509f5f4b7f4fbe1d64bdc4ff9540fb38a5a02df0a43483786c4\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "d43cb04697023509f5f4b7f4fbe1d64bdc4ff9540fb38a5a02df0a43483786c4"
-      ],
-      "value": true,
-      "expiresAt": 1791840091057
-    },
-    "[\"factor\",\"topic\",\"d43cb04697023509f5f4b7f4fbe1d64bdc4ff9540fb38a5a02df0a43483786c4\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "d43cb04697023509f5f4b7f4fbe1d64bdc4ff9540fb38a5a02df0a43483786c4"
-      ],
-      "value": {
-        "title": "🚊 Движение поездов на перегоне Полужье — Выгоничи приостановлено после ночной атаки ВСУ в",
-        "roots": [
-          "движен",
-          "поездо",
-          "перего",
-          "полужь",
-          "выгони",
-          "приост",
-          "ночной",
-          "атаки"
-        ]
-      },
-      "expiresAt": 1791840091058
     },
     "[\"factor\",\"pub\",\"10eabef1f3bdb1e1679da0510541fd65e3f73cbba8574dd030459c85150209db\"]": {
       "key": [
@@ -2842,6 +2812,34 @@
         ]
       },
       "expiresAt": 1791926457595
+    },
+    "[\"factor\",\"pub\",\"d10d2a3f9259b315a0f6b797fb57c4354a6238309e5dae50ff39c2cc3d22d549\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d10d2a3f9259b315a0f6b797fb57c4354a6238309e5dae50ff39c2cc3d22d549"
+      ],
+      "value": true,
+      "expiresAt": 1791927084758
+    },
+    "[\"factor\",\"topic\",\"d10d2a3f9259b315a0f6b797fb57c4354a6238309e5dae50ff39c2cc3d22d549\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d10d2a3f9259b315a0f6b797fb57c4354a6238309e5dae50ff39c2cc3d22d549"
+      ],
+      "value": {
+        "title": "Трамп рассержен на Зеленского и ждет от Киева прекращения ударов по НПЗ в РФ, сообщил порт",
+        "roots": [
+          "трамп",
+          "рассер",
+          "зеленс",
+          "киева",
+          "прекра",
+          "ударов"
+        ]
+      },
+      "expiresAt": 1791927084759
     }
   }
 }
