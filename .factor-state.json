@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 585084,
+      "value": 697065,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791769834592,
+      "value": 1791770464304,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1696,6 +1696,27 @@
         ]
       },
       "expiresAt": 1791856269801
+    },
+    "[\"factor\",\"pub\",\"89fea9cdcdb9866a38a799ab719d948f90f5d0a890f0f83c9320b7cf96c420f1\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "89fea9cdcdb9866a38a799ab719d948f90f5d0a890f0f83c9320b7cf96c420f1"
+      ],
+      "value": true,
+      "expiresAt": 1791857133247
+    },
+    "[\"factor\",\"topic\",\"89fea9cdcdb9866a38a799ab719d948f90f5d0a890f0f83c9320b7cf96c420f1\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "89fea9cdcdb9866a38a799ab719d948f90f5d0a890f0f83c9320b7cf96c420f1"
+      ],
+      "value": {
+        "title": "������ ������� ������������� �������� ������ �� ����������� ����",
+        "roots": []
+      },
+      "expiresAt": 1791857133248
     }
   }
 }
