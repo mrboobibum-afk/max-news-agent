@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 206773,
+      "value": 630381,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791823234931,
+      "value": 1791823834576,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"7dbaebf080a79b307b734308979d50f62c133b40b3bffb4b67391fe395376a94\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "7dbaebf080a79b307b734308979d50f62c133b40b3bffb4b67391fe395376a94"
-      ],
-      "value": true,
-      "expiresAt": 1791823509596
-    },
-    "[\"factor\",\"topic\",\"7dbaebf080a79b307b734308979d50f62c133b40b3bffb4b67391fe395376a94\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "7dbaebf080a79b307b734308979d50f62c133b40b3bffb4b67391fe395376a94"
-      ],
-      "value": {
-        "title": "Сайты и системы бронирования туроператоров работают в штатном режиме на фоне сбоя в инфрас",
-        "roots": [
-          "сайты",
-          "систем",
-          "бронир",
-          "туропе",
-          "работа",
-          "штатно",
-          "режиме",
-          "инфрас"
-        ]
-      },
-      "expiresAt": 1791823509597
     },
     "[\"factor\",\"pub\",\"74f1954b9c1fcca96aaa417df72de7413f449c8277d6b9339b441f52c8b68c08\"]": {
       "key": [
@@ -2932,6 +2902,37 @@
         ]
       },
       "expiresAt": 1791909694414
+    },
+    "[\"factor\",\"pub\",\"68bcbd7bacaa39eb18e3e7e42ab438fb65493d629c4026f86c8e2d7acdf92fc8\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "68bcbd7bacaa39eb18e3e7e42ab438fb65493d629c4026f86c8e2d7acdf92fc8"
+      ],
+      "value": true,
+      "expiresAt": 1791910363309
+    },
+    "[\"factor\",\"topic\",\"68bcbd7bacaa39eb18e3e7e42ab438fb65493d629c4026f86c8e2d7acdf92fc8\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "68bcbd7bacaa39eb18e3e7e42ab438fb65493d629c4026f86c8e2d7acdf92fc8"
+      ],
+      "value": {
+        "title": "Избили, обрили и подожгли — жестокую расправу из-за ревности устроила семья над девушкой в",
+        "roots": [
+          "избили",
+          "обрили",
+          "подожг",
+          "жесток",
+          "распра",
+          "ревнос",
+          "устрои",
+          "семья",
+          "девушк"
+        ]
+      },
+      "expiresAt": 1791910363310
     }
   }
 }
