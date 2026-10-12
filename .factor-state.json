@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 349598,
+      "value": 390591,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791788465400,
+      "value": 1791789035049,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2343,6 +2343,36 @@
         ]
       },
       "expiresAt": 1791874935861
+    },
+    "[\"factor\",\"pub\",\"e232a6817f4c373e73c1a7a029d9e08c644bfadaa8fb8517f1165f0106a54b45\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e232a6817f4c373e73c1a7a029d9e08c644bfadaa8fb8517f1165f0106a54b45"
+      ],
+      "value": true,
+      "expiresAt": 1791875457844
+    },
+    "[\"factor\",\"topic\",\"e232a6817f4c373e73c1a7a029d9e08c644bfadaa8fb8517f1165f0106a54b45\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e232a6817f4c373e73c1a7a029d9e08c644bfadaa8fb8517f1165f0106a54b45"
+      ],
+      "value": {
+        "title": "❕ К сервису для обучения нейросетей, в том числе для интеграции в боевые беспилотные систе",
+        "roots": [
+          "сервис",
+          "обучен",
+          "нейрос",
+          "числе",
+          "интегр",
+          "боевые",
+          "беспил",
+          "систе"
+        ]
+      },
+      "expiresAt": 1791875457845
     }
   }
 }
