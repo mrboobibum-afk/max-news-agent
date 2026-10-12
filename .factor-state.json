@@ -17,36 +17,6 @@
       "value": 1791827433788,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"e6022bde28b9fd1ac8a1a022c158c133a2cc9c38469e214b879c13fef92c242a\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "e6022bde28b9fd1ac8a1a022c158c133a2cc9c38469e214b879c13fef92c242a"
-      ],
-      "value": true,
-      "expiresAt": 1791827478328
-    },
-    "[\"factor\",\"topic\",\"e6022bde28b9fd1ac8a1a022c158c133a2cc9c38469e214b879c13fef92c242a\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "e6022bde28b9fd1ac8a1a022c158c133a2cc9c38469e214b879c13fef92c242a"
-      ],
-      "value": {
-        "title": "▫️ Круто работают : дроноводы группировки «Восток» сожгли автоматические гранатомёты и мин",
-        "roots": [
-          "круто",
-          "работа",
-          "дронов",
-          "группи",
-          "восток",
-          "сожгли",
-          "автома",
-          "гранат"
-        ]
-      },
-      "expiresAt": 1791827478329
-    },
     "[\"factor\",\"pub\",\"4a790195e5b31da9af0dda1b3baf61632dac0234b75900aab29f9e4ad21338c9\"]": {
       "key": [
         "factor",
