@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 510240,
+      "value": 387833,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791801053771,
+      "value": 1791801631367,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2751,6 +2751,36 @@
         ]
       },
       "expiresAt": 1791887529017
+    },
+    "[\"factor\",\"pub\",\"785b236ddb7b258ba40b450ddd785ed3506cf5c3d9ad1d5c8322631903b40340\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "785b236ddb7b258ba40b450ddd785ed3506cf5c3d9ad1d5c8322631903b40340"
+      ],
+      "value": true,
+      "expiresAt": 1791888116923
+    },
+    "[\"factor\",\"topic\",\"785b236ddb7b258ba40b450ddd785ed3506cf5c3d9ad1d5c8322631903b40340\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "785b236ddb7b258ba40b450ddd785ed3506cf5c3d9ad1d5c8322631903b40340"
+      ],
+      "value": {
+        "title": "📃 Кабмин РФ поддержал законопроект об усилении наказания за публичные призывы к терроризм",
+        "roots": [
+          "кабмин",
+          "поддер",
+          "законо",
+          "усилен",
+          "наказа",
+          "публич",
+          "призыв",
+          "террор"
+        ]
+      },
+      "expiresAt": 1791888116924
     }
   }
 }
