@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 605944,
+      "value": 524032,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791773434527,
+      "value": 1791774064808,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1804,6 +1804,35 @@
         ]
       },
       "expiresAt": 1791859901414
+    },
+    "[\"factor\",\"pub\",\"0d3d32b34a0ff9b6c0497d1e9f26f02016ce712951446e46b3f19688d1b713fd\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "0d3d32b34a0ff9b6c0497d1e9f26f02016ce712951446e46b3f19688d1b713fd"
+      ],
+      "value": true,
+      "expiresAt": 1791860714722
+    },
+    "[\"factor\",\"topic\",\"0d3d32b34a0ff9b6c0497d1e9f26f02016ce712951446e46b3f19688d1b713fd\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "0d3d32b34a0ff9b6c0497d1e9f26f02016ce712951446e46b3f19688d1b713fd"
+      ],
+      "value": {
+        "title": "В Иране пригрозили уничтожить цифровую инфраструктуру США на Ближнем Востоке",
+        "roots": [
+          "иране",
+          "пригро",
+          "уничто",
+          "цифров",
+          "инфрас",
+          "ближне",
+          "восток"
+        ]
+      },
+      "expiresAt": 1791860714723
     }
   }
 }
