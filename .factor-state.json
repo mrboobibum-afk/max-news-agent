@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 592962,
+      "value": 419752,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791797450965,
+      "value": 1791798721489,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2634,6 +2634,34 @@
         ]
       },
       "expiresAt": 1791883982719
+    },
+    "[\"factor\",\"pub\",\"fa3a845dba5b70c8d3f8bf24d014081e20a8b897986eebaabd63db7d26e1a30c\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "fa3a845dba5b70c8d3f8bf24d014081e20a8b897986eebaabd63db7d26e1a30c"
+      ],
+      "value": true,
+      "expiresAt": 1791885149720
+    },
+    "[\"factor\",\"topic\",\"fa3a845dba5b70c8d3f8bf24d014081e20a8b897986eebaabd63db7d26e1a30c\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "fa3a845dba5b70c8d3f8bf24d014081e20a8b897986eebaabd63db7d26e1a30c"
+      ],
+      "value": {
+        "title": "Пьяный 15-летний подросток насмерть сбил женщину в Казани",
+        "roots": [
+          "пьяный",
+          "летний",
+          "подрос",
+          "насмер",
+          "женщин",
+          "казани"
+        ]
+      },
+      "expiresAt": 1791885149721
     }
   }
 }
