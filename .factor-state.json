@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 703865,
+      "value": 819031,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791818438635,
+      "value": 1791819637732,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"8e18b975a14c31482449128ed380cd460ecb6510ba54c1c8b4846c5ca441b96c\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "8e18b975a14c31482449128ed380cd460ecb6510ba54c1c8b4846c5ca441b96c"
-      ],
-      "value": true,
-      "expiresAt": 1791819069675
-    },
-    "[\"factor\",\"topic\",\"8e18b975a14c31482449128ed380cd460ecb6510ba54c1c8b4846c5ca441b96c\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "8e18b975a14c31482449128ed380cd460ecb6510ba54c1c8b4846c5ca441b96c"
-      ],
-      "value": {
-        "title": "Кулеба предрек Украине коллапс систем жизнеобеспечения этой зимой",
-        "roots": [
-          "кулеба",
-          "предре",
-          "украин",
-          "коллап",
-          "систем",
-          "жизнео",
-          "зимой"
-        ]
-      },
-      "expiresAt": 1791819069676
     },
     "[\"factor\",\"pub\",\"2ccfe22241e20e83e3f5dd3f9bf802c8b4a4c99bb050c6689f7845e9152a3689\"]": {
       "key": [
@@ -2956,6 +2927,33 @@
         ]
       },
       "expiresAt": 1791904884757
+    },
+    "[\"factor\",\"pub\",\"06c26c8c07c82b0ac4f3b44dc4c1ef86dc3a4f520da1b77b1338bd2a2abfcf9e\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "06c26c8c07c82b0ac4f3b44dc4c1ef86dc3a4f520da1b77b1338bd2a2abfcf9e"
+      ],
+      "value": true,
+      "expiresAt": 1791906061385
+    },
+    "[\"factor\",\"topic\",\"06c26c8c07c82b0ac4f3b44dc4c1ef86dc3a4f520da1b77b1338bd2a2abfcf9e\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "06c26c8c07c82b0ac4f3b44dc4c1ef86dc3a4f520da1b77b1338bd2a2abfcf9e"
+      ],
+      "value": {
+        "title": "❗️ Путин ввел безвиз для граждан Вьетнама до 15 октября 2027 года",
+        "roots": [
+          "путин",
+          "безвиз",
+          "гражда",
+          "вьетна",
+          "октябр"
+        ]
+      },
+      "expiresAt": 1791906061386
     }
   }
 }
