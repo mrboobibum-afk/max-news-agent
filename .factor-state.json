@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 796478,
+      "value": 288114,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791831034279,
+      "value": 1791832235919,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"09e9e9a04f7cde085d1e9569ee8b7648e9e6de9b0ac0465b708d4b479cdc0b3c\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "09e9e9a04f7cde085d1e9569ee8b7648e9e6de9b0ac0465b708d4b479cdc0b3c"
-      ],
-      "value": true,
-      "expiresAt": 1791831691026
-    },
-    "[\"factor\",\"topic\",\"09e9e9a04f7cde085d1e9569ee8b7648e9e6de9b0ac0465b708d4b479cdc0b3c\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "09e9e9a04f7cde085d1e9569ee8b7648e9e6de9b0ac0465b708d4b479cdc0b3c"
-      ],
-      "value": {
-        "title": "Частичное снятие запрета на экспорт дизеля не затронет интересы российских потребителей",
-        "roots": [
-          "частич",
-          "снятие",
-          "запрет",
-          "экспор",
-          "дизеля",
-          "затрон",
-          "интере",
-          "россий",
-          "потреб"
-        ]
-      },
-      "expiresAt": 1791831691027
     },
     "[\"factor\",\"pub\",\"4d7247970f4c7e1345377e454fd839eabd31f5849f28d83b275444b4202bf802\"]": {
       "key": [
@@ -2809,6 +2778,35 @@
         ]
       },
       "expiresAt": 1791917481980
+    },
+    "[\"factor\",\"pub\",\"cb7f2994323279e04c83b38506ccf23ce6134f02a3392958432ae808f0d75df7\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "cb7f2994323279e04c83b38506ccf23ce6134f02a3392958432ae808f0d75df7"
+      ],
+      "value": true,
+      "expiresAt": 1791918725768
+    },
+    "[\"factor\",\"topic\",\"cb7f2994323279e04c83b38506ccf23ce6134f02a3392958432ae808f0d75df7\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "cb7f2994323279e04c83b38506ccf23ce6134f02a3392958432ae808f0d75df7"
+      ],
+      "value": {
+        "title": "Сбербанк обратился в Арбитражный суд с просьбой признать «ЕвроТранс» банкротом",
+        "roots": [
+          "сберба",
+          "обрати",
+          "арбитр",
+          "просьб",
+          "призна",
+          "евротр",
+          "банкро"
+        ]
+      },
+      "expiresAt": 1791918725770
     }
   }
 }
