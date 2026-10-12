@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 623356,
+      "value": 409612,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,63 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791823986194,
+      "value": 1791825835593,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"74f1954b9c1fcca96aaa417df72de7413f449c8277d6b9339b441f52c8b68c08\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "74f1954b9c1fcca96aaa417df72de7413f449c8277d6b9339b441f52c8b68c08"
-      ],
-      "value": true,
-      "expiresAt": 1791824503250
-    },
-    "[\"factor\",\"topic\",\"74f1954b9c1fcca96aaa417df72de7413f449c8277d6b9339b441f52c8b68c08\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "74f1954b9c1fcca96aaa417df72de7413f449c8277d6b9339b441f52c8b68c08"
-      ],
-      "value": {
-        "title": "ЕС выделит Украине допфинансирование для закупки дронов и ракет",
-        "roots": [
-          "выдели",
-          "украин",
-          "допфин",
-          "закупк",
-          "дронов",
-          "ракет"
-        ]
-      },
-      "expiresAt": 1791824503251
-    },
-    "[\"factor\",\"pub\",\"152c6b1aa3e2f51e5428fa17e5de91b64cdca770d2ba08dec46d01944a39fa78\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "152c6b1aa3e2f51e5428fa17e5de91b64cdca770d2ba08dec46d01944a39fa78"
-      ],
-      "value": true,
-      "expiresAt": 1791825660687
-    },
-    "[\"factor\",\"topic\",\"152c6b1aa3e2f51e5428fa17e5de91b64cdca770d2ba08dec46d01944a39fa78\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "152c6b1aa3e2f51e5428fa17e5de91b64cdca770d2ba08dec46d01944a39fa78"
-      ],
-      "value": {
-        "title": "🚨 Cредства ПВО за день сбили 112 украинских БПЛА над регионами России, сообщили в МО РФ.",
-        "roots": [
-          "cредст",
-          "сбили",
-          "украин",
-          "регион",
-          "россии"
-        ]
-      },
-      "expiresAt": 1791825660687
     },
     "[\"factor\",\"pub\",\"e1c75db25f3da3ef9f5965198c50042a3541cbae237d683a5f55457c45f97783\"]": {
       "key": [
@@ -2933,6 +2878,36 @@
         ]
       },
       "expiresAt": 1791910521762
+    },
+    "[\"factor\",\"pub\",\"915a22bc44783f31806841c361f7cda4aaf0820d5a088f955eaf3cc1c15c839a\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "915a22bc44783f31806841c361f7cda4aaf0820d5a088f955eaf3cc1c15c839a"
+      ],
+      "value": true,
+      "expiresAt": 1791913062061
+    },
+    "[\"factor\",\"topic\",\"915a22bc44783f31806841c361f7cda4aaf0820d5a088f955eaf3cc1c15c839a\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "915a22bc44783f31806841c361f7cda4aaf0820d5a088f955eaf3cc1c15c839a"
+      ],
+      "value": {
+        "title": "Эксперт Головатюк: новый всплеск инфляции ожидается в Молдавии к концу года",
+        "roots": [
+          "экспер",
+          "голова",
+          "новый",
+          "всплес",
+          "инфляц",
+          "ожидае",
+          "молдав",
+          "концу"
+        ]
+      },
+      "expiresAt": 1791913062064
     }
   }
 }
