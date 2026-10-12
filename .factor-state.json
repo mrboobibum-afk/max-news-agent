@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 788458,
+      "value": 510240,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791799869981,
+      "value": 1791801053771,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2722,6 +2722,35 @@
         ]
       },
       "expiresAt": 1791886323845
+    },
+    "[\"factor\",\"pub\",\"c9ac09054acbc652dad2301e962999779ed48fe4a7cdfd95ce7f27feb0e884ce\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "c9ac09054acbc652dad2301e962999779ed48fe4a7cdfd95ce7f27feb0e884ce"
+      ],
+      "value": true,
+      "expiresAt": 1791887529016
+    },
+    "[\"factor\",\"topic\",\"c9ac09054acbc652dad2301e962999779ed48fe4a7cdfd95ce7f27feb0e884ce\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "c9ac09054acbc652dad2301e962999779ed48fe4a7cdfd95ce7f27feb0e884ce"
+      ],
+      "value": {
+        "title": "❗️ Кремлю пока нечего сказать по теме \"энергетического перемирия\", контакты продолжаются, ",
+        "roots": [
+          "кремлю",
+          "нечего",
+          "сказат",
+          "энерге",
+          "переми",
+          "контак",
+          "продол"
+        ]
+      },
+      "expiresAt": 1791887529017
     }
   }
 }
