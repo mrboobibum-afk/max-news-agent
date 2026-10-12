@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 819031,
+      "value": 579333,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791819637732,
+      "value": 1791820863911,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"4e0f85f07de5426bcfa6ee7ce637d553c3589ee123276f4998291ffb5ab047ad\"]": {
@@ -2924,6 +2924,34 @@
         ]
       },
       "expiresAt": 1791906061386
+    },
+    "[\"factor\",\"pub\",\"f52538ce11a4aecc680f5d8e3748e93300bb75526ce13dcd6bb87e5c2c65efcb\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "f52538ce11a4aecc680f5d8e3748e93300bb75526ce13dcd6bb87e5c2c65efcb"
+      ],
+      "value": true,
+      "expiresAt": 1791907300175
+    },
+    "[\"factor\",\"topic\",\"f52538ce11a4aecc680f5d8e3748e93300bb75526ce13dcd6bb87e5c2c65efcb\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "f52538ce11a4aecc680f5d8e3748e93300bb75526ce13dcd6bb87e5c2c65efcb"
+      ],
+      "value": {
+        "title": "Минобрнауки предлагает проводить вузовские олимпиады так же строго, как ЕГЭ",
+        "roots": [
+          "минобр",
+          "предла",
+          "провод",
+          "вузовс",
+          "олимпи",
+          "строго"
+        ]
+      },
+      "expiresAt": 1791907300176
     }
   }
 }
