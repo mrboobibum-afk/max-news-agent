@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v36)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v37)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -67,7 +67,6 @@ const TG_LIVE_CHANNELS = [
     "bbbreaking",
 ];
 
-// РАСШИРЕНО: +8 источников, которые почти всегда публикуют новости с картинками.
 const NEWS_FEEDS = [
     { name: "РБК", url: "https://rssexport.rbc.ru/rbcnews/news/30/full.rss" },
     { name: "Lenta.ru", url: "https://lenta.ru/rss/news" },
@@ -304,6 +303,7 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
     return null;
 }
 
+// ИСПРАВЛЕНО: добавлены паттерны для подписей-приглашений чужих каналов.
 function sanitizeRawText(raw: string): string {
     let t = cleanText(raw);
     t = t.replace(/(?:данные|информация|источник|по данным|сообщает|сообщил)\s+(?:shot|mash|baza|база|риа|тасс|чп)[\s\S]*?[.—:]\s*/gi, "");
@@ -311,11 +311,23 @@ function sanitizeRawText(raw: string): string {
     t = t.replace(/как\s+стало\s+известно,?\s*/gi, "");
     t = t.replace(/(?:подписывайтесь|подробнее|эксклюзив)\b[\s\S]*$/gi, "");
     t = t.replace(/—\s*данные\s+[A-Za-zА-Яа-я0-9_]+/gi, "");
+
+    // Собственные подписи и логотипы
     t = t.replace(/📢\s*Прямой Эфир/gi, "");
     t = t.replace(/⚡\s*ФАКТОР/gi, "");
-    t = t.replace(/◆\s*Подписаться[\s\S]*$/gi, "");
-    t = t.replace(/✔\s*Подпишись[\s\S]*$/gi, "");
-    t = t.replace(/✔\s*Подписаться[\s\S]*$/gi, "");
+
+    // Приглашения-подписи чужих каналов в MAX
+    t = t.replace(/[◆♦●○■▪▫▶➡⬛⬜⭐✔☑]\s*Подписаться[\s\S]*$/gi, "");
+    t = t.replace(/[◆♦●○■▪▫▶➡⬛⬜⭐✔☑]?\s*Подпишись[\s\S]*$/gi, "");
+    t = t.replace(/[◆♦●○■▪▫▶➡⬛⬜⭐✔☑]?\s*Мы\s+в\s*["«]?Макс[еа]?["»]?[.!]?/gi, "");
+    t = t.replace(/Подписаться\s*\/\s*Мы\s+в\s*["«]?Макс[еа]?["»]?/gi, "");
+    t = t.replace(/[◆♦●○■▪▫▶➡⬛⬜⭐✔☑]?\s*Канал\s+[A-Za-zА-Яа-я0-9_\-–\s]+\s+в\s*["«]?Макс[еа]?["»]?/gi, "");
+    t = t.replace(/[◆♦●○■▪▫▶➡⬛⬜⭐✔☑]?\s*Читайте\s+нас\s+в\s*["«]?Макс[еа]?["»]?/gi, "");
+    t = t.replace(/[◆♦●○■▪▫▶➡⬛⬜⭐✔☑]?\s*Наш\s+канал\s+в\s*["«]?Макс[еа]?["»]?/gi, "");
+
+    // Убираем оставшиеся одиночные символы-маркеры в конце
+    t = t.replace(/[\s◆♦●○■▪▫▶➡⬛⬜⭐✔☑]+$/g, "");
+
     return t.trim();
 }
 
@@ -392,9 +404,9 @@ async function fetchRssFeeds(): Promise<any[]> {
             if (!res.ok) return;
             const xml = await res.text();
             for (const raw of (xml.match(/<item[\s\S]*?<\/item>/gi) ?? []).slice(0, 15)) {
-                const title = cleanText(raw.match(/<title[\s\S]*?>([\s\S]*?)<\/title>/i)?.[1]);
+                const title = sanitizeRawText(raw.match(/<title[\s\S]*?>([\s\S]*?)<\/title>/i)?.[1] ?? "");
                 const descHtml = raw.match(/<description[\s\S]*?>([\s\S]*?)<\/description>/i)?.[1] ?? "";
-                const desc = cleanText(descHtml);
+                const desc = sanitizeRawText(descHtml);
                 const link = cleanText(raw.match(/<link>([\s\S]*?)<\/link>/i)?.[1]);
 
                 if (BORING_TOPICS.some(r => r.test(`${title} ${desc}`))) continue;
@@ -437,7 +449,7 @@ function cutBody(text: string, maxLen = MAX_BODY_LEN): string {
 async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, text: string, importance: number, is_ad: boolean }> {
     const cleanDesc = sanitizeRawText(desc);
     const bodyText = cutBody(cleanDesc);
-    const fallbackHeadline = cleanText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 100);
+    const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 100);
 
     const prompt = `Ты редактор новостного канала. Ниже — текст новости.
 Сделай ТОЛЬКО ЗАГОЛОВОК и оценку важности.
@@ -602,7 +614,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ЭФИР v36: Запуск отбора событий ===");
+    console.log("=== ЭФИР v37: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
