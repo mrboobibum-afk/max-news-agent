@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 877603,
+      "value": 240311,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791795665823,
+      "value": 1791796835087,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2576,6 +2576,34 @@
         ]
       },
       "expiresAt": 1791882117471
+    },
+    "[\"factor\",\"pub\",\"8a8d9dfd7932dde8d8ce6571819ae62e79fe0ac895fffb649fae4a822088d34e\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "8a8d9dfd7932dde8d8ce6571819ae62e79fe0ac895fffb649fae4a822088d34e"
+      ],
+      "value": true,
+      "expiresAt": 1791883283236
+    },
+    "[\"factor\",\"topic\",\"8a8d9dfd7932dde8d8ce6571819ae62e79fe0ac895fffb649fae4a822088d34e\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "8a8d9dfd7932dde8d8ce6571819ae62e79fe0ac895fffb649fae4a822088d34e"
+      ],
+      "value": {
+        "title": "▶️ Землетрясение магнитудой 7,6 произошло в Панаме, сообщил Европейско-средиземноморский с",
+        "roots": [
+          "землет",
+          "магнит",
+          "произо",
+          "панаме",
+          "европе",
+          "средиз"
+        ]
+      },
+      "expiresAt": 1791883283238
     }
   }
 }
