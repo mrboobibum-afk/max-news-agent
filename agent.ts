@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v35)
+// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v36)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -67,7 +67,7 @@ const TG_LIVE_CHANNELS = [
     "bbbreaking",
 ];
 
-// RSS: добавлены Вести, НТВ, 1-й канал — чтобы fallback находил медиа к этим TG-каналам.
+// РАСШИРЕНО: +8 источников, которые почти всегда публикуют новости с картинками.
 const NEWS_FEEDS = [
     { name: "РБК", url: "https://rssexport.rbc.ru/rbcnews/news/30/full.rss" },
     { name: "Lenta.ru", url: "https://lenta.ru/rss/news" },
@@ -84,10 +84,16 @@ const NEWS_FEEDS = [
     { name: "Вести", url: "https://www.vesti.ru/vesti.rss" },
     { name: "НТВ", url: "https://www.ntv.ru/novosti/rss/" },
     { name: "Первый канал", url: "https://www.1tv.ru/rss/news" },
+    { name: "Life.ru", url: "https://life.ru/s/rss/news" },
+    { name: "КП", url: "https://www.kp.ru/rss/allsections.xml" },
+    { name: "News.ru", url: "https://news.ru/rss/" },
+    { name: "360tv", url: "https://360tv.ru/rss/" },
+    { name: "РЕН ТВ", url: "https://ren.tv/rss" },
+    { name: "БФМ", url: "https://www.bfm.ru/rss.xml" },
+    { name: "URA.ру", url: "https://ura.news/rss" },
+    { name: "Правда.ру", url: "https://www.pravda.ru/export.xml" },
 ];
 
-// РАСШИРЕНО: добавлены Вести, НТВ, Первый канал.
-// При отсутствии медиа в TG-посте бот ищет его в RSS того же издания по 2+ общим корням.
 const SOURCE_MATCH: Record<string, string> = {
     "rbc_news": "РБК",
     "rian_ru": "РИА Новости",
@@ -97,6 +103,8 @@ const SOURCE_MATCH: Record<string, string> = {
     "vesti_news": "Вести",
     "ntvru": "НТВ",
     "1tv_news": "Первый канал",
+    "life_shot": "Life.ru",
+    "bbbreaking": "КП",
 };
 
 const BORING_TOPICS = [
@@ -273,11 +281,11 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
     const strategies: Array<Record<string, string>> = [
         { "User-Agent": USER_AGENT, "Referer": "https://t.me/", "Accept": "*/*" },
         { "User-Agent": USER_AGENT, "Referer": "https://lenta.ru/", "Accept": "image/*,*/*" },
+        { "User-Agent": USER_AGENT, "Referer": "https://life.ru/", "Accept": "image/*,*/*" },
+        { "User-Agent": USER_AGENT, "Referer": "https://www.kp.ru/", "Accept": "image/*,*/*" },
+        { "User-Agent": USER_AGENT, "Referer": "https://360tv.ru/", "Accept": "image/*,*/*" },
+        { "User-Agent": USER_AGENT, "Referer": "https://ren.tv/", "Accept": "image/*,*/*" },
         { "User-Agent": USER_AGENT, "Referer": "https://www.rbc.ru/", "Accept": "image/*,*/*" },
-        { "User-Agent": USER_AGENT, "Referer": "https://ria.ru/", "Accept": "image/*,*/*" },
-        { "User-Agent": USER_AGENT, "Referer": "https://www.vesti.ru/", "Accept": "image/*,*/*" },
-        { "User-Agent": USER_AGENT, "Referer": "https://www.ntv.ru/", "Accept": "image/*,*/*" },
-        { "User-Agent": USER_AGENT, "Referer": "https://www.1tv.ru/", "Accept": "image/*,*/*" },
         { "User-Agent": USER_AGENT },
     ];
     for (const headers of strategies) {
@@ -594,7 +602,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ЭФИР v35: Запуск отбора событий ===");
+    console.log("=== ЭФИР v36: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
