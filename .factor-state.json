@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 387833,
+      "value": 516356,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791801631367,
+      "value": 1791802236228,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2781,6 +2781,36 @@
         ]
       },
       "expiresAt": 1791888116924
+    },
+    "[\"factor\",\"pub\",\"1abcd08f287bdd979de22c07795ccc138a9faff254a8b43c0b2da84dc06a4ae1\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "1abcd08f287bdd979de22c07795ccc138a9faff254a8b43c0b2da84dc06a4ae1"
+      ],
+      "value": true,
+      "expiresAt": 1791888718034
+    },
+    "[\"factor\",\"topic\",\"1abcd08f287bdd979de22c07795ccc138a9faff254a8b43c0b2da84dc06a4ae1\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "1abcd08f287bdd979de22c07795ccc138a9faff254a8b43c0b2da84dc06a4ae1"
+      ],
+      "value": {
+        "title": "❕ Песков заявил о готовности Путина дать указание не наносить ударов по Украине именно в д",
+        "roots": [
+          "песков",
+          "готовн",
+          "путина",
+          "указан",
+          "наноси",
+          "ударов",
+          "украин",
+          "именно"
+        ]
+      },
+      "expiresAt": 1791888718035
     }
   }
 }
