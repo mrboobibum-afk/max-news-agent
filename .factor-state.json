@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 581600,
+      "value": 249998,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,67 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791825034144,
+      "value": 1791826683890,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"152c6b1aa3e2f51e5428fa17e5de91b64cdca770d2ba08dec46d01944a39fa78\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "152c6b1aa3e2f51e5428fa17e5de91b64cdca770d2ba08dec46d01944a39fa78"
-      ],
-      "value": true,
-      "expiresAt": 1791825660687
-    },
-    "[\"factor\",\"topic\",\"152c6b1aa3e2f51e5428fa17e5de91b64cdca770d2ba08dec46d01944a39fa78\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "152c6b1aa3e2f51e5428fa17e5de91b64cdca770d2ba08dec46d01944a39fa78"
-      ],
-      "value": {
-        "title": "🚨 Cредства ПВО за день сбили 112 украинских БПЛА над регионами России, сообщили в МО РФ.",
-        "roots": [
-          "cредст",
-          "сбили",
-          "украин",
-          "регион",
-          "россии"
-        ]
-      },
-      "expiresAt": 1791825660687
-    },
-    "[\"factor\",\"pub\",\"e1c75db25f3da3ef9f5965198c50042a3541cbae237d683a5f55457c45f97783\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "e1c75db25f3da3ef9f5965198c50042a3541cbae237d683a5f55457c45f97783"
-      ],
-      "value": true,
-      "expiresAt": 1791826274889
-    },
-    "[\"factor\",\"topic\",\"e1c75db25f3da3ef9f5965198c50042a3541cbae237d683a5f55457c45f97783\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "e1c75db25f3da3ef9f5965198c50042a3541cbae237d683a5f55457c45f97783"
-      ],
-      "value": {
-        "title": "Более 2,5 тысяч человек сидит в тюрьмах на Украине по обвинению якобы в шпионаже в пользу ",
-        "roots": [
-          "более",
-          "тысяч",
-          "челове",
-          "сидит",
-          "тюрьма",
-          "украин",
-          "обвине",
-          "якобы",
-          "шпиона",
-          "пользу"
-        ]
-      },
-      "expiresAt": 1791826274889
     },
     "[\"factor\",\"pub\",\"e09bb64e2f7ed8646de8fe126c0c05bb567ba6a7dec2d1ef6dd827cb37649148\"]": {
       "key": [
@@ -2932,6 +2873,36 @@
         ]
       },
       "expiresAt": 1791912210900
+    },
+    "[\"factor\",\"pub\",\"46ef9f02575e4c385ea84619e464a9b370ab7d089417d337d164f95f7adf1fe2\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "46ef9f02575e4c385ea84619e464a9b370ab7d089417d337d164f95f7adf1fe2"
+      ],
+      "value": true,
+      "expiresAt": 1791913111939
+    },
+    "[\"factor\",\"topic\",\"46ef9f02575e4c385ea84619e464a9b370ab7d089417d337d164f95f7adf1fe2\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "46ef9f02575e4c385ea84619e464a9b370ab7d089417d337d164f95f7adf1fe2"
+      ],
+      "value": {
+        "title": "Реактор первого энергоблока запустили на АЭС \"Руппур\" в Бангладеш, построенной с участием ",
+        "roots": [
+          "реакто",
+          "первог",
+          "энерго",
+          "запуст",
+          "руппур",
+          "бангла",
+          "постро",
+          "участи"
+        ]
+      },
+      "expiresAt": 1791913111940
     }
   }
 }
