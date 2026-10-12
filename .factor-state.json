@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 445375,
+      "value": 662295,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791783641839,
+      "value": 1791784232451,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2175,6 +2175,35 @@
         ]
       },
       "expiresAt": 1791870077631
+    },
+    "[\"factor\",\"pub\",\"f3382f1453d532683ceedde4a193a86e9732c6208dbb9be0ae7261f2672a3f35\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "f3382f1453d532683ceedde4a193a86e9732c6208dbb9be0ae7261f2672a3f35"
+      ],
+      "value": true,
+      "expiresAt": 1791870672323
+    },
+    "[\"factor\",\"topic\",\"f3382f1453d532683ceedde4a193a86e9732c6208dbb9be0ae7261f2672a3f35\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "f3382f1453d532683ceedde4a193a86e9732c6208dbb9be0ae7261f2672a3f35"
+      ],
+      "value": {
+        "title": "❗️ ВС РФ поразили в море сухогруз, доставлявший в порт Одесса грузы военного назначения, з",
+        "roots": [
+          "порази",
+          "сухогр",
+          "достав",
+          "одесса",
+          "грузы",
+          "военно",
+          "назнач"
+        ]
+      },
+      "expiresAt": 1791870672324
     }
   }
 }
