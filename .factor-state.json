@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 524032,
+      "value": 413745,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791774064808,
+      "value": 1791774632103,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1833,6 +1833,35 @@
         ]
       },
       "expiresAt": 1791860714723
+    },
+    "[\"factor\",\"pub\",\"e23e74bf19608ca3254d02cacc268954af0978d7527c3f111da80118b7a9a665\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e23e74bf19608ca3254d02cacc268954af0978d7527c3f111da80118b7a9a665"
+      ],
+      "value": true,
+      "expiresAt": 1791861091137
+    },
+    "[\"factor\",\"topic\",\"e23e74bf19608ca3254d02cacc268954af0978d7527c3f111da80118b7a9a665\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e23e74bf19608ca3254d02cacc268954af0978d7527c3f111da80118b7a9a665"
+      ],
+      "value": {
+        "title": "📹 ВСУ охотятся на мирных жителей Константиновки в ДНР и препятствуют их эвакуации, сообщи",
+        "roots": [
+          "охотят",
+          "мирных",
+          "жителе",
+          "конста",
+          "препят",
+          "эвакуа",
+          "сообщи"
+        ]
+      },
+      "expiresAt": 1791861091139
     }
   }
 }
