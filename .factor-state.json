@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 824444,
+      "value": 323773,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791771635117,
+      "value": 1791772834145,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1747,6 +1747,33 @@
         ]
       },
       "expiresAt": 1791858069075
+    },
+    "[\"factor\",\"pub\",\"7cb5e0bbbdf39e6cb5bd0946b685944e504fbad723a4dd7d012cf81c53f92899\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "7cb5e0bbbdf39e6cb5bd0946b685944e504fbad723a4dd7d012cf81c53f92899"
+      ],
+      "value": true,
+      "expiresAt": 1791859523331
+    },
+    "[\"factor\",\"topic\",\"7cb5e0bbbdf39e6cb5bd0946b685944e504fbad723a4dd7d012cf81c53f92899\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "7cb5e0bbbdf39e6cb5bd0946b685944e504fbad723a4dd7d012cf81c53f92899"
+      ],
+      "value": {
+        "title": "Коксующийся уголь в России в октябре подорожал на 19,5–35,7%",
+        "roots": [
+          "коксую",
+          "уголь",
+          "россии",
+          "октябр",
+          "подоро"
+        ]
+      },
+      "expiresAt": 1791859523332
     }
   }
 }
