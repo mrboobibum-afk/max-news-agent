@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 315132,
+      "value": 821359,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791841235515,
+      "value": 1791841834362,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"b04b3df1891c46df7d6029fdc74fb3434274b87c3930015b8d8f328dc24a698d\"]": {
@@ -2841,6 +2841,34 @@
         ]
       },
       "expiresAt": 1791927657423
+    },
+    "[\"factor\",\"pub\",\"7f9cc542fb40ae51a4a3254f43c63590882f1379e86cc8432383f22aaf233e4f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "7f9cc542fb40ae51a4a3254f43c63590882f1379e86cc8432383f22aaf233e4f"
+      ],
+      "value": true,
+      "expiresAt": 1791928273522
+    },
+    "[\"factor\",\"topic\",\"7f9cc542fb40ae51a4a3254f43c63590882f1379e86cc8432383f22aaf233e4f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "7f9cc542fb40ae51a4a3254f43c63590882f1379e86cc8432383f22aaf233e4f"
+      ],
+      "value": {
+        "title": "Латвия запустила разведывательный дрон вдоль границы с РФ и Белоруссией",
+        "roots": [
+          "латвия",
+          "запуст",
+          "развед",
+          "вдоль",
+          "границ",
+          "белору"
+        ]
+      },
+      "expiresAt": 1791928273523
     }
   }
 }
