@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 199304,
+      "value": 730347,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791786654090,
+      "value": 1791787233186,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2285,6 +2285,34 @@
         ]
       },
       "expiresAt": 1791873095818
+    },
+    "[\"factor\",\"pub\",\"9d607d57bdd173a729e7cd05e8b2c66e6d5ed825fa70c36ca9ac53390dbbca6e\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "9d607d57bdd173a729e7cd05e8b2c66e6d5ed825fa70c36ca9ac53390dbbca6e"
+      ],
+      "value": true,
+      "expiresAt": 1791873763216
+    },
+    "[\"factor\",\"topic\",\"9d607d57bdd173a729e7cd05e8b2c66e6d5ed825fa70c36ca9ac53390dbbca6e\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "9d607d57bdd173a729e7cd05e8b2c66e6d5ed825fa70c36ca9ac53390dbbca6e"
+      ],
+      "value": {
+        "title": "❗️ Власти Польши сообщили о задержании за последние несколько дней 117 подростков после тр",
+        "roots": [
+          "власти",
+          "польши",
+          "задерж",
+          "послед",
+          "нескол",
+          "подрос"
+        ]
+      },
+      "expiresAt": 1791873763217
     }
   }
 }
