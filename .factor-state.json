@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 650815,
+      "value": 222474,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791811237964,
+      "value": 1791812435534,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"ec6cdabdb3d227b97aa9ad09de3359c95d290fe5b69f3ea025b1256a398930d4\"]": {
@@ -2956,6 +2956,36 @@
         ]
       },
       "expiresAt": 1791897761079
+    },
+    "[\"factor\",\"pub\",\"3dff4c8bd3db2a84165249a00e52f8e868a675539460f818771ea08fc8731242\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "3dff4c8bd3db2a84165249a00e52f8e868a675539460f818771ea08fc8731242"
+      ],
+      "value": true,
+      "expiresAt": 1791898865986
+    },
+    "[\"factor\",\"topic\",\"3dff4c8bd3db2a84165249a00e52f8e868a675539460f818771ea08fc8731242\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "3dff4c8bd3db2a84165249a00e52f8e868a675539460f818771ea08fc8731242"
+      ],
+      "value": {
+        "title": "Девять российских туристов оказались отрезаны наводнением в горах Непала",
+        "roots": [
+          "девять",
+          "россий",
+          "турист",
+          "оказал",
+          "отреза",
+          "наводн",
+          "горах",
+          "непала"
+        ]
+      },
+      "expiresAt": 1791898865988
     }
   }
 }
