@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 535923,
+      "value": 788458,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791799265782,
+      "value": 1791799869981,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2693,6 +2693,35 @@
         ]
       },
       "expiresAt": 1791885702520
+    },
+    "[\"factor\",\"pub\",\"b8ea48265d62acc2737af9a2cce860e31b96a676b3be1539d6c102f0df30f6f4\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "b8ea48265d62acc2737af9a2cce860e31b96a676b3be1539d6c102f0df30f6f4"
+      ],
+      "value": true,
+      "expiresAt": 1791886323844
+    },
+    "[\"factor\",\"topic\",\"b8ea48265d62acc2737af9a2cce860e31b96a676b3be1539d6c102f0df30f6f4\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "b8ea48265d62acc2737af9a2cce860e31b96a676b3be1539d6c102f0df30f6f4"
+      ],
+      "value": {
+        "title": "🗣 Главное из заявлений Дмитрия Пескова: ▪️ Россия хочет не перемирия, а долгосрочного мир",
+        "roots": [
+          "главно",
+          "заявле",
+          "дмитри",
+          "песков",
+          "хочет",
+          "переми",
+          "долгос"
+        ]
+      },
+      "expiresAt": 1791886323845
     }
   }
 }
