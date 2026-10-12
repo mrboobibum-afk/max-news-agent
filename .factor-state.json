@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 727067,
+      "value": 364944,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791806468763,
+      "value": 1791807639477,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2927,6 +2927,35 @@
         ]
       },
       "expiresAt": 1791892944615
+    },
+    "[\"factor\",\"pub\",\"0d9a8fa9bb4a3a59807fed79ece14839a9d730663a793c1e24d180b2fee1b2c4\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "0d9a8fa9bb4a3a59807fed79ece14839a9d730663a793c1e24d180b2fee1b2c4"
+      ],
+      "value": true,
+      "expiresAt": 1791894067069
+    },
+    "[\"factor\",\"topic\",\"0d9a8fa9bb4a3a59807fed79ece14839a9d730663a793c1e24d180b2fee1b2c4\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "0d9a8fa9bb4a3a59807fed79ece14839a9d730663a793c1e24d180b2fee1b2c4"
+      ],
+      "value": {
+        "title": "К безопасности стиральной машины сейчас предъявляют больше требований, чем к ИИ, заявил гл",
+        "roots": [
+          "безопа",
+          "стирал",
+          "машины",
+          "сейчас",
+          "предъя",
+          "больше",
+          "требов"
+        ]
+      },
+      "expiresAt": 1791894067070
     }
   }
 }
