@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 615724,
+      "value": 698234,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791780635420,
+      "value": 1791781264293,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2064,6 +2064,35 @@
         ]
       },
       "expiresAt": 1791867119268
+    },
+    "[\"factor\",\"pub\",\"52c754dcf8f8e50f56cfeee8a5ec730db391261fa2f894a28b15ce0af91f485d\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "52c754dcf8f8e50f56cfeee8a5ec730db391261fa2f894a28b15ce0af91f485d"
+      ],
+      "value": true,
+      "expiresAt": 1791867700639
+    },
+    "[\"factor\",\"topic\",\"52c754dcf8f8e50f56cfeee8a5ec730db391261fa2f894a28b15ce0af91f485d\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "52c754dcf8f8e50f56cfeee8a5ec730db391261fa2f894a28b15ce0af91f485d"
+      ],
+      "value": {
+        "title": "Коллективный Запад противостоит России в достижении целей СВО, заявил Володин",
+        "roots": [
+          "коллек",
+          "запад",
+          "против",
+          "россии",
+          "достиж",
+          "целей",
+          "володи"
+        ]
+      },
+      "expiresAt": 1791867700641
     }
   }
 }
