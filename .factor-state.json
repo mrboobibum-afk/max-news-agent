@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 504424,
+      "value": 725815,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791775234956,
+      "value": 1791775851254,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1891,6 +1891,33 @@
         ]
       },
       "expiresAt": 1791861904143
+    },
+    "[\"factor\",\"pub\",\"f1859e899afca95b59d325333d45c9295d641b025fc350a851eac8799a8165eb\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "f1859e899afca95b59d325333d45c9295d641b025fc350a851eac8799a8165eb"
+      ],
+      "value": true,
+      "expiresAt": 1791862451311
+    },
+    "[\"factor\",\"topic\",\"f1859e899afca95b59d325333d45c9295d641b025fc350a851eac8799a8165eb\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "f1859e899afca95b59d325333d45c9295d641b025fc350a851eac8799a8165eb"
+      ],
+      "value": {
+        "title": "Сакс заявил о недопустимости размещения европейских войск на Украине",
+        "roots": [
+          "недопу",
+          "размещ",
+          "европе",
+          "войск",
+          "украин"
+        ]
+      },
+      "expiresAt": 1791862451312
     }
   }
 }
