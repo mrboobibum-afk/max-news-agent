@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 729526,
+      "value": 850835,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791792064063,
+      "value": 1791793237183,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2493,6 +2493,35 @@
         ]
       },
       "expiresAt": 1791878786758
+    },
+    "[\"factor\",\"pub\",\"3f7c8d20a25588283d5c27000584d28feedbfba4bf05e84fd52e1b992db8c30f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "3f7c8d20a25588283d5c27000584d28feedbfba4bf05e84fd52e1b992db8c30f"
+      ],
+      "value": true,
+      "expiresAt": 1791879724864
+    },
+    "[\"factor\",\"topic\",\"3f7c8d20a25588283d5c27000584d28feedbfba4bf05e84fd52e1b992db8c30f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "3f7c8d20a25588283d5c27000584d28feedbfba4bf05e84fd52e1b992db8c30f"
+      ],
+      "value": {
+        "title": "Суд приговорил к 18 и 7 годам лишения свободы 55-летнего жителя Краснодарского края и его ",
+        "roots": [
+          "пригов",
+          "годам",
+          "лишени",
+          "свобод",
+          "летнег",
+          "жителя",
+          "красно"
+        ]
+      },
+      "expiresAt": 1791879724865
     }
   }
 }
