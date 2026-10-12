@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 323773,
+      "value": 605944,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791772834145,
+      "value": 1791773434527,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1774,6 +1774,36 @@
         ]
       },
       "expiresAt": 1791859523332
+    },
+    "[\"factor\",\"pub\",\"630c7b59b226f7cbee96e01e674b3339dd993618bf7d47da4435b82f42b9908d\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "630c7b59b226f7cbee96e01e674b3339dd993618bf7d47da4435b82f42b9908d"
+      ],
+      "value": true,
+      "expiresAt": 1791859901413
+    },
+    "[\"factor\",\"topic\",\"630c7b59b226f7cbee96e01e674b3339dd993618bf7d47da4435b82f42b9908d\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "630c7b59b226f7cbee96e01e674b3339dd993618bf7d47da4435b82f42b9908d"
+      ],
+      "value": {
+        "title": "▶️ Моряки Северного флота провели в Арктике учения по деблокированию порта, сообщили в пре",
+        "roots": [
+          "моряки",
+          "северн",
+          "флота",
+          "провел",
+          "арктик",
+          "учения",
+          "деблок",
+          "порта"
+        ]
+      },
+      "expiresAt": 1791859901414
     }
   }
 }
