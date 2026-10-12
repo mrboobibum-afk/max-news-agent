@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 344415,
+      "value": 209114,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791789633561,
+      "value": 1791790253415,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2402,6 +2402,36 @@
         ]
       },
       "expiresAt": 1791876063033
+    },
+    "[\"factor\",\"pub\",\"aa1303ff8137e778a406599d72f373873cc1d621517d9721c5bcedf505a28bf9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "aa1303ff8137e778a406599d72f373873cc1d621517d9721c5bcedf505a28bf9"
+      ],
+      "value": true,
+      "expiresAt": 1791876686996
+    },
+    "[\"factor\",\"topic\",\"aa1303ff8137e778a406599d72f373873cc1d621517d9721c5bcedf505a28bf9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "aa1303ff8137e778a406599d72f373873cc1d621517d9721c5bcedf505a28bf9"
+      ],
+      "value": {
+        "title": "Бойцы РФ охватывают Славянско-Краматорскую агломерацию с нескольких сторон, что играет важ",
+        "roots": [
+          "бойцы",
+          "охваты",
+          "славян",
+          "крамат",
+          "агломе",
+          "нескол",
+          "сторон",
+          "играет"
+        ]
+      },
+      "expiresAt": 1791876686998
     }
   }
 }
