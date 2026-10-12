@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 697065,
+      "value": 824444,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791770464304,
+      "value": 1791771635117,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1717,6 +1717,36 @@
         "roots": []
       },
       "expiresAt": 1791857133248
+    },
+    "[\"factor\",\"pub\",\"db7913f6fd4785e0194d49e8be93e4b25e108206cfc4b26e27e3cf2ec32bba33\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "db7913f6fd4785e0194d49e8be93e4b25e108206cfc4b26e27e3cf2ec32bba33"
+      ],
+      "value": true,
+      "expiresAt": 1791858069074
+    },
+    "[\"factor\",\"topic\",\"db7913f6fd4785e0194d49e8be93e4b25e108206cfc4b26e27e3cf2ec32bba33\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "db7913f6fd4785e0194d49e8be93e4b25e108206cfc4b26e27e3cf2ec32bba33"
+      ],
+      "value": {
+        "title": "Глава МЧС России Куренков впервые прибыл в КНДР , где обсудит вопросы сотрудничества в обл",
+        "roots": [
+          "глава",
+          "россии",
+          "куренк",
+          "впервы",
+          "прибыл",
+          "обсуди",
+          "вопрос",
+          "сотруд"
+        ]
+      },
+      "expiresAt": 1791858069075
     }
   }
 }
