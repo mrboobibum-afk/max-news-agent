@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 852703,
+      "value": 729526,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791790834145,
+      "value": 1791792064063,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2464,6 +2464,35 @@
         ]
       },
       "expiresAt": 1791877283455
+    },
+    "[\"factor\",\"pub\",\"17ce3c6b1a2506d81a1f7ed28686216130f8b705a9782fccd60e8ae5a8ae0c6f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "17ce3c6b1a2506d81a1f7ed28686216130f8b705a9782fccd60e8ae5a8ae0c6f"
+      ],
+      "value": true,
+      "expiresAt": 1791878786757
+    },
+    "[\"factor\",\"topic\",\"17ce3c6b1a2506d81a1f7ed28686216130f8b705a9782fccd60e8ae5a8ae0c6f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "17ce3c6b1a2506d81a1f7ed28686216130f8b705a9782fccd60e8ae5a8ae0c6f"
+      ],
+      "value": {
+        "title": "❗️ Минцифры и Минобороны решают вопрос по защите ЦОДов, сообщил Шадаев.",
+        "roots": [
+          "минциф",
+          "минобо",
+          "решают",
+          "вопрос",
+          "защите",
+          "цодов",
+          "шадаев"
+        ]
+      },
+      "expiresAt": 1791878786758
     }
   }
 }
