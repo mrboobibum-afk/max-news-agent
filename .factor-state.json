@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 209114,
+      "value": 852703,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791790253415,
+      "value": 1791790834145,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2432,6 +2432,38 @@
         ]
       },
       "expiresAt": 1791876686998
+    },
+    "[\"factor\",\"pub\",\"c8d86aabd9c412440d0460bc5177bb636bf9d20c89face5c4df336aef920be20\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "c8d86aabd9c412440d0460bc5177bb636bf9d20c89face5c4df336aef920be20"
+      ],
+      "value": true,
+      "expiresAt": 1791877283453
+    },
+    "[\"factor\",\"topic\",\"c8d86aabd9c412440d0460bc5177bb636bf9d20c89face5c4df336aef920be20\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "c8d86aabd9c412440d0460bc5177bb636bf9d20c89face5c4df336aef920be20"
+      ],
+      "value": {
+        "title": "Власти Мурманской области приняли решение запретить продажу электронных сигарет в регионе",
+        "roots": [
+          "власти",
+          "мурман",
+          "област",
+          "принял",
+          "решени",
+          "запрет",
+          "продаж",
+          "электр",
+          "сигаре",
+          "регион"
+        ]
+      },
+      "expiresAt": 1791877283455
     }
   }
 }
