@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 193520,
+      "value": 681821,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791832831831,
+      "value": 1791833453272,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"c7faca3dde9ba92d0a35b45e44f4e6b179046c0f66c9fa88c63f992797435346\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c7faca3dde9ba92d0a35b45e44f4e6b179046c0f66c9fa88c63f992797435346"
-      ],
-      "value": true,
-      "expiresAt": 1791832926181
-    },
-    "[\"factor\",\"topic\",\"c7faca3dde9ba92d0a35b45e44f4e6b179046c0f66c9fa88c63f992797435346\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c7faca3dde9ba92d0a35b45e44f4e6b179046c0f66c9fa88c63f992797435346"
-      ],
-      "value": {
-        "title": "Водитель грузовика выжил во время мощного наводнения в Чили",
-        "roots": [
-          "водите",
-          "грузов",
-          "выжил",
-          "время",
-          "мощног",
-          "наводн"
-        ]
-      },
-      "expiresAt": 1791832926182
     },
     "[\"factor\",\"pub\",\"581a2abb3ec88e0071bb25fdb388466070c6ee6ead3215c96064252c98b38b05\"]": {
       "key": [
@@ -2809,6 +2781,37 @@
         ]
       },
       "expiresAt": 1791919251793
+    },
+    "[\"factor\",\"pub\",\"866ee04152ee24eb9522db78ae4038920bdf78c8ad6590e99605ff2c80dd0816\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "866ee04152ee24eb9522db78ae4038920bdf78c8ad6590e99605ff2c80dd0816"
+      ],
+      "value": true,
+      "expiresAt": 1791919894481
+    },
+    "[\"factor\",\"topic\",\"866ee04152ee24eb9522db78ae4038920bdf78c8ad6590e99605ff2c80dd0816\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "866ee04152ee24eb9522db78ae4038920bdf78c8ad6590e99605ff2c80dd0816"
+      ],
+      "value": {
+        "title": "Аэропорт Эр-Рияда будет закрыт примерно до конца недели, сообщают диспетчеры",
+        "roots": [
+          "аэропо",
+          "рияда",
+          "будет",
+          "закрыт",
+          "пример",
+          "конца",
+          "недели",
+          "сообща",
+          "диспет"
+        ]
+      },
+      "expiresAt": 1791919894483
     }
   }
 }
