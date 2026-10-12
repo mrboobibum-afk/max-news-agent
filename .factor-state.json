@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 856943,
+      "value": 796478,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791829853955,
+      "value": 1791831034279,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"14ce5d6bcbc5d5489f38f255037a6ace757309175d3176e6d129ba20467ebcd6\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "14ce5d6bcbc5d5489f38f255037a6ace757309175d3176e6d129ba20467ebcd6"
-      ],
-      "value": true,
-      "expiresAt": 1791830449905
-    },
-    "[\"factor\",\"topic\",\"14ce5d6bcbc5d5489f38f255037a6ace757309175d3176e6d129ba20467ebcd6\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "14ce5d6bcbc5d5489f38f255037a6ace757309175d3176e6d129ba20467ebcd6"
-      ],
-      "value": {
-        "title": "США угрожают прекратить поставки оружия Украине, пишет Financial Times",
-        "roots": [
-          "угрожа",
-          "прекра",
-          "постав",
-          "оружия",
-          "украин",
-          "пишет",
-          "financ",
-          "times"
-        ]
-      },
-      "expiresAt": 1791830449906
     },
     "[\"factor\",\"pub\",\"09e9e9a04f7cde085d1e9569ee8b7648e9e6de9b0ac0465b708d4b479cdc0b3c\"]": {
       "key": [
@@ -2809,6 +2779,36 @@
         ]
       },
       "expiresAt": 1791916305541
+    },
+    "[\"factor\",\"pub\",\"058f6a5d9bea8c2401b70ba6d8616436d0d87bfcf45c9197ab8ffd0b60bfbeca\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "058f6a5d9bea8c2401b70ba6d8616436d0d87bfcf45c9197ab8ffd0b60bfbeca"
+      ],
+      "value": true,
+      "expiresAt": 1791917481979
+    },
+    "[\"factor\",\"topic\",\"058f6a5d9bea8c2401b70ba6d8616436d0d87bfcf45c9197ab8ffd0b60bfbeca\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "058f6a5d9bea8c2401b70ba6d8616436d0d87bfcf45c9197ab8ffd0b60bfbeca"
+      ],
+      "value": {
+        "title": "Компании РФ и США уже ведут переговоры о сделках по поставке дизеля, заявил Новак в интерв",
+        "roots": [
+          "компан",
+          "ведут",
+          "перего",
+          "сделка",
+          "постав",
+          "дизеля",
+          "новак",
+          "интерв"
+        ]
+      },
+      "expiresAt": 1791917481980
     }
   }
 }
