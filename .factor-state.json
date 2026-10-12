@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 714114,
+      "value": 825105,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,33 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791835832854,
+      "value": 1791837051638,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"e1d0adc89737ca514eedec14ce206958b015e5888e8f8099f63c46a416b3ef88\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "e1d0adc89737ca514eedec14ce206958b015e5888e8f8099f63c46a416b3ef88"
-      ],
-      "value": true,
-      "expiresAt": 1791836452555
-    },
-    "[\"factor\",\"topic\",\"e1d0adc89737ca514eedec14ce206958b015e5888e8f8099f63c46a416b3ef88\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "e1d0adc89737ca514eedec14ce206958b015e5888e8f8099f63c46a416b3ef88"
-      ],
-      "value": {
-        "title": "\"Нас ждет множество неприятных сюрпризов\"",
-        "roots": [
-          "множес",
-          "неприя",
-          "сюрпри"
-        ]
-      },
-      "expiresAt": 1791836452556
     },
     "[\"factor\",\"pub\",\"511920c969f9be0193747765d5b327c1ccd791abaa71271939af202137f87de9\"]": {
       "key": [
@@ -2838,6 +2813,36 @@
         ]
       },
       "expiresAt": 1791922273006
+    },
+    "[\"factor\",\"pub\",\"d1bd38d5ea18b63d3e07ee188bc11634a3406cc44648d3053bea9fadc68a5bf2\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d1bd38d5ea18b63d3e07ee188bc11634a3406cc44648d3053bea9fadc68a5bf2"
+      ],
+      "value": true,
+      "expiresAt": 1791923496657
+    },
+    "[\"factor\",\"topic\",\"d1bd38d5ea18b63d3e07ee188bc11634a3406cc44648d3053bea9fadc68a5bf2\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d1bd38d5ea18b63d3e07ee188bc11634a3406cc44648d3053bea9fadc68a5bf2"
+      ],
+      "value": {
+        "title": "США пригрозили прекратить поставки оружия и разведывательной информации для Украины, пишет",
+        "roots": [
+          "пригро",
+          "прекра",
+          "постав",
+          "оружия",
+          "развед",
+          "информ",
+          "украин",
+          "пишет"
+        ]
+      },
+      "expiresAt": 1791923496658
     }
   }
 }
