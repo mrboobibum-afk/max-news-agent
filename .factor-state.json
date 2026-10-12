@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 801007,
+      "value": 856943,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,35 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791828636462,
+      "value": 1791829853955,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"2c154c7b2114b1d816c5418878306398d637507fb8c826c919c8ec50d7313022\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "2c154c7b2114b1d816c5418878306398d637507fb8c826c919c8ec50d7313022"
-      ],
-      "value": true,
-      "expiresAt": 1791829264188
-    },
-    "[\"factor\",\"topic\",\"2c154c7b2114b1d816c5418878306398d637507fb8c826c919c8ec50d7313022\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "2c154c7b2114b1d816c5418878306398d637507fb8c826c919c8ec50d7313022"
-      ],
-      "value": {
-        "title": "❗️ Собянин сообщил о нейтрализации 10 беспилотников, летевших на столицу.",
-        "roots": [
-          "собяни",
-          "нейтра",
-          "беспил",
-          "летевш",
-          "столиц"
-        ]
-      },
-      "expiresAt": 1791829264189
     },
     "[\"factor\",\"pub\",\"95f371c9a595747aadcf30e78a7825f5840a0cf3403fd2ee79baea8c52861203\"]": {
       "key": [
@@ -2840,6 +2813,33 @@
         ]
       },
       "expiresAt": 1791915084981
+    },
+    "[\"factor\",\"pub\",\"96f50a9eaa11ce65308e335d4640b810e37c2affc3fe6b32c2fc35eb434fc516\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "96f50a9eaa11ce65308e335d4640b810e37c2affc3fe6b32c2fc35eb434fc516"
+      ],
+      "value": true,
+      "expiresAt": 1791916305539
+    },
+    "[\"factor\",\"topic\",\"96f50a9eaa11ce65308e335d4640b810e37c2affc3fe6b32c2fc35eb434fc516\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "96f50a9eaa11ce65308e335d4640b810e37c2affc3fe6b32c2fc35eb434fc516"
+      ],
+      "value": {
+        "title": "Над регионами России в течение дня сбиты 33 украинских БПЛА, сообщили в МО РФ",
+        "roots": [
+          "регион",
+          "россии",
+          "течени",
+          "сбиты",
+          "украин"
+        ]
+      },
+      "expiresAt": 1791916305541
     }
   }
 }
