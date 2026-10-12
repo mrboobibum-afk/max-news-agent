@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 821359,
+      "value": 471357,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791841834362,
+      "value": 1791843032328,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"73197cc93c3c6404053c358eb683132788fc730f676d4b5c592c95b5d7ff9ef9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "73197cc93c3c6404053c358eb683132788fc730f676d4b5c592c95b5d7ff9ef9"
-      ],
-      "value": true,
-      "expiresAt": 1791842497980
-    },
-    "[\"factor\",\"topic\",\"73197cc93c3c6404053c358eb683132788fc730f676d4b5c592c95b5d7ff9ef9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "73197cc93c3c6404053c358eb683132788fc730f676d4b5c592c95b5d7ff9ef9"
-      ],
-      "value": {
-        "title": "▶️ Танкер с 750 тысячами баррелей нефти на борту подорвался на морской мине в Ормузском пр",
-        "roots": [
-          "танкер",
-          "тысяча",
-          "баррел",
-          "нефти",
-          "борту",
-          "подорв",
-          "морско",
-          "ормузс"
-        ]
-      },
-      "expiresAt": 1791842497981
     },
     "[\"factor\",\"pub\",\"f01634a45cca978ef352e22815165870df34505178200926c3599b983d312db6\"]": {
       "key": [
@@ -2839,6 +2809,35 @@
         ]
       },
       "expiresAt": 1791928273523
+    },
+    "[\"factor\",\"pub\",\"ab4da9c2b2c3f456bfd6b00ec93335b178cd74d541c32b33b5375ac48aa2b98a\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "ab4da9c2b2c3f456bfd6b00ec93335b178cd74d541c32b33b5375ac48aa2b98a"
+      ],
+      "value": true,
+      "expiresAt": 1791929461966
+    },
+    "[\"factor\",\"topic\",\"ab4da9c2b2c3f456bfd6b00ec93335b178cd74d541c32b33b5375ac48aa2b98a\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "ab4da9c2b2c3f456bfd6b00ec93335b178cd74d541c32b33b5375ac48aa2b98a"
+      ],
+      "value": {
+        "title": "\"Поразительное лицемерие бюрократов из ЕС\" Так Кирилл Дмитриев прокомментировал слова вице",
+        "roots": [
+          "порази",
+          "лицеме",
+          "бюрокр",
+          "кирилл",
+          "дмитри",
+          "проком",
+          "слова"
+        ]
+      },
+      "expiresAt": 1791929461967
     }
   }
 }
