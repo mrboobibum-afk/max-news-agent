@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 854932,
+      "value": 801007,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791827433788,
+      "value": 1791828636462,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"4a790195e5b31da9af0dda1b3baf61632dac0234b75900aab29f9e4ad21338c9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "4a790195e5b31da9af0dda1b3baf61632dac0234b75900aab29f9e4ad21338c9"
-      ],
-      "value": true,
-      "expiresAt": 1791828129711
-    },
-    "[\"factor\",\"topic\",\"4a790195e5b31da9af0dda1b3baf61632dac0234b75900aab29f9e4ad21338c9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "4a790195e5b31da9af0dda1b3baf61632dac0234b75900aab29f9e4ad21338c9"
-      ],
-      "value": {
-        "title": "Пятерых граждан Мьянмы приговорили к 21 году тюрьмы за торговлю людьми по делу белорусской",
-        "roots": [
-          "пятеры",
-          "гражда",
-          "мьянмы",
-          "пригов",
-          "тюрьмы",
-          "торгов",
-          "людьми",
-          "белору"
-        ]
-      },
-      "expiresAt": 1791828129712
     },
     "[\"factor\",\"pub\",\"7b8849efc2769113faef7917be9ac1f88af8f0c6d7c3c84e4dab63176b6f65ce\"]": {
       "key": [
@@ -2872,6 +2842,35 @@
         ]
       },
       "expiresAt": 1791914388517
+    },
+    "[\"factor\",\"pub\",\"1238eca3bec56aa2540c8c7f58b175d71b7410b6fcba57b76e01a7c7bdcbf3b6\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "1238eca3bec56aa2540c8c7f58b175d71b7410b6fcba57b76e01a7c7bdcbf3b6"
+      ],
+      "value": true,
+      "expiresAt": 1791915084979
+    },
+    "[\"factor\",\"topic\",\"1238eca3bec56aa2540c8c7f58b175d71b7410b6fcba57b76e01a7c7bdcbf3b6\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "1238eca3bec56aa2540c8c7f58b175d71b7410b6fcba57b76e01a7c7bdcbf3b6"
+      ],
+      "value": {
+        "title": "▶️ РФ способна создавать перспективные образцы вооружений, которым нет аналогов в мире, за",
+        "roots": [
+          "способ",
+          "создав",
+          "перспе",
+          "образц",
+          "вооруж",
+          "которы",
+          "аналог"
+        ]
+      },
+      "expiresAt": 1791915084981
     }
   }
 }
