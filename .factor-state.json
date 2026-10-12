@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 364944,
+      "value": 604887,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791807639477,
+      "value": 1791808260594,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2956,6 +2956,33 @@
         ]
       },
       "expiresAt": 1791894067070
+    },
+    "[\"factor\",\"pub\",\"62b2b469c160b337c9c44dd7ec9777fd4c1e0bc3d2ea78dd028039e6f4794e11\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "62b2b469c160b337c9c44dd7ec9777fd4c1e0bc3d2ea78dd028039e6f4794e11"
+      ],
+      "value": true,
+      "expiresAt": 1791894702903
+    },
+    "[\"factor\",\"topic\",\"62b2b469c160b337c9c44dd7ec9777fd4c1e0bc3d2ea78dd028039e6f4794e11\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "62b2b469c160b337c9c44dd7ec9777fd4c1e0bc3d2ea78dd028039e6f4794e11"
+      ],
+      "value": {
+        "title": "Медведи убили двух мужчин в Иркутской области",
+        "roots": [
+          "медвед",
+          "убили",
+          "мужчин",
+          "иркутс",
+          "област"
+        ]
+      },
+      "expiresAt": 1791894702905
     }
   }
 }
