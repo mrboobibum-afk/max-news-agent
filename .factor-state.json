@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 585981,
+      "value": 778311,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791845430850,
+      "value": 1791846061733,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"471c6f97c09a7f4d4ef98fd29b98a210896f8d6819433c4cb7d8d7e35544961e\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "471c6f97c09a7f4d4ef98fd29b98a210896f8d6819433c4cb7d8d7e35544961e"
-      ],
-      "value": true,
-      "expiresAt": 1791845464518
-    },
-    "[\"factor\",\"topic\",\"471c6f97c09a7f4d4ef98fd29b98a210896f8d6819433c4cb7d8d7e35544961e\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "471c6f97c09a7f4d4ef98fd29b98a210896f8d6819433c4cb7d8d7e35544961e"
-      ],
-      "value": {
-        "title": "В МИД Словакии заявили о желании восстановить коммуникационные каналы с РФ",
-        "roots": [
-          "словак",
-          "заявил",
-          "желани",
-          "восста",
-          "коммун",
-          "каналы"
-        ]
-      },
-      "expiresAt": 1791845464519
     },
     "[\"factor\",\"pub\",\"107cc87701c41573a7b6eb020ab4cb233bdc5efabb87ec3ff044b7716241616f\"]": {
       "key": [
@@ -2833,6 +2805,32 @@
         ]
       },
       "expiresAt": 1791931852862
+    },
+    "[\"factor\",\"pub\",\"0903a2375d1ff12e4510be420373122ef226ec2926f92b3e872c50ba1772abf9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "0903a2375d1ff12e4510be420373122ef226ec2926f92b3e872c50ba1772abf9"
+      ],
+      "value": true,
+      "expiresAt": 1791932499075
+    },
+    "[\"factor\",\"topic\",\"0903a2375d1ff12e4510be420373122ef226ec2926f92b3e872c50ba1772abf9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "0903a2375d1ff12e4510be420373122ef226ec2926f92b3e872c50ba1772abf9"
+      ],
+      "value": {
+        "title": "Остановить рекламные кампании в «Яндекс",
+        "roots": [
+          "остано",
+          "реклам",
+          "кампан",
+          "яндекс"
+        ]
+      },
+      "expiresAt": 1791932499077
     }
   }
 }
