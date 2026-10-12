@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 571909,
+      "value": 606288,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791778835391,
+      "value": 1791779454944,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2003,6 +2003,36 @@
         ]
       },
       "expiresAt": 1791865598305
+    },
+    "[\"factor\",\"pub\",\"a7538c4246436f74d3ddfeadb352baf3877b3e5bd6b3853685e528de815657d8\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "a7538c4246436f74d3ddfeadb352baf3877b3e5bd6b3853685e528de815657d8"
+      ],
+      "value": true,
+      "expiresAt": 1791865900923
+    },
+    "[\"factor\",\"topic\",\"a7538c4246436f74d3ddfeadb352baf3877b3e5bd6b3853685e528de815657d8\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "a7538c4246436f74d3ddfeadb352baf3877b3e5bd6b3853685e528de815657d8"
+      ],
+      "value": {
+        "title": "ЦБ РФ усилит контроль за операторами электронных кошельков , сообщают \"Известия\" со ссылко",
+        "roots": [
+          "усилит",
+          "контро",
+          "операт",
+          "электр",
+          "кошель",
+          "сообща",
+          "извест",
+          "ссылко"
+        ]
+      },
+      "expiresAt": 1791865900924
     }
   }
 }
