@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 579333,
+      "value": 335215,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791820863911,
+      "value": 1791822036879,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"babc0a2dd87c88aa49eac03389a7ad6e6cfd3cc268fba4055fcdf568facc66ca\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "babc0a2dd87c88aa49eac03389a7ad6e6cfd3cc268fba4055fcdf568facc66ca"
-      ],
-      "value": true,
-      "expiresAt": 1791821448874
-    },
-    "[\"factor\",\"topic\",\"babc0a2dd87c88aa49eac03389a7ad6e6cfd3cc268fba4055fcdf568facc66ca\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "babc0a2dd87c88aa49eac03389a7ad6e6cfd3cc268fba4055fcdf568facc66ca"
-      ],
-      "value": {
-        "title": "✈️ Зарегистрированный в США самолет-разведчик НАТО провел над Черным морем свыше семи часо",
-        "roots": [
-          "зареги",
-          "самоле",
-          "развед",
-          "провел",
-          "черным",
-          "морем",
-          "свыше"
-        ]
-      },
-      "expiresAt": 1791821448875
     },
     "[\"factor\",\"pub\",\"d55542950684d15e8f2e528b1010808f66745f85cf71793af6a71da1bab91449\"]": {
       "key": [
@@ -2923,6 +2894,36 @@
         ]
       },
       "expiresAt": 1791907300176
+    },
+    "[\"factor\",\"pub\",\"be4ecac5fb21c45fc6becd793eb198e10134ff0624633ab56bed243ab50c7537\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "be4ecac5fb21c45fc6becd793eb198e10134ff0624633ab56bed243ab50c7537"
+      ],
+      "value": true,
+      "expiresAt": 1791908462046
+    },
+    "[\"factor\",\"topic\",\"be4ecac5fb21c45fc6becd793eb198e10134ff0624633ab56bed243ab50c7537\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "be4ecac5fb21c45fc6becd793eb198e10134ff0624633ab56bed243ab50c7537"
+      ],
+      "value": {
+        "title": "На судью Саландину и ее близких записано более 20 объектов недвижимости, приобретенных зна",
+        "roots": [
+          "судью",
+          "саланд",
+          "близки",
+          "записа",
+          "более",
+          "объект",
+          "недвиж",
+          "приобр"
+        ]
+      },
+      "expiresAt": 1791908462047
     }
   }
 }
