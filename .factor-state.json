@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 232677,
+      "value": 270259,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791834631543,
+      "value": 1791835263078,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"6ee32575e7e9af0013f4f4484c7a0391c1f94505b1a45ecd2fce8d08c1cd362f\"]": {
@@ -2810,6 +2810,36 @@
         ]
       },
       "expiresAt": 1791921054717
+    },
+    "[\"factor\",\"pub\",\"39a259ae460b32071671fd3eb5772d2b9a54e3d1fef7860a6f9cff997a39b838\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "39a259ae460b32071671fd3eb5772d2b9a54e3d1fef7860a6f9cff997a39b838"
+      ],
+      "value": true,
+      "expiresAt": 1791921704256
+    },
+    "[\"factor\",\"topic\",\"39a259ae460b32071671fd3eb5772d2b9a54e3d1fef7860a6f9cff997a39b838\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "39a259ae460b32071671fd3eb5772d2b9a54e3d1fef7860a6f9cff997a39b838"
+      ],
+      "value": {
+        "title": "Перебои в поставках нефти привели к беспрецедентному росту цен на ее страхование и перевоз",
+        "roots": [
+          "перебо",
+          "постав",
+          "нефти",
+          "привел",
+          "беспре",
+          "росту",
+          "страхо",
+          "перево"
+        ]
+      },
+      "expiresAt": 1791921704257
     }
   }
 }
