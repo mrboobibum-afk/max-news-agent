@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 595801,
+      "value": 521565,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791765051875,
+      "value": 1791766231710,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -1553,6 +1553,34 @@
         ]
       },
       "expiresAt": 1791851564379
+    },
+    "[\"factor\",\"pub\",\"f8301b8523fc5fce184916af2d1b7b252b82f7184be6b111ec5b136ef203efbd\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "f8301b8523fc5fce184916af2d1b7b252b82f7184be6b111ec5b136ef203efbd"
+      ],
+      "value": true,
+      "expiresAt": 1791852827214
+    },
+    "[\"factor\",\"topic\",\"f8301b8523fc5fce184916af2d1b7b252b82f7184be6b111ec5b136ef203efbd\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "f8301b8523fc5fce184916af2d1b7b252b82f7184be6b111ec5b136ef203efbd"
+      ],
+      "value": {
+        "title": "Зеленский ввел санкции против некоторых физических и юридических лиц из РФ",
+        "roots": [
+          "зеленс",
+          "санкци",
+          "против",
+          "некото",
+          "физиче",
+          "юридич"
+        ]
+      },
+      "expiresAt": 1791852827215
     }
   }
 }
