@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 535923,
+      "value": 196788,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791799265782,
+      "value": 1791799816800,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06dbd26dddaf7d00d89d54f42a1b65a756acb6270883fd854604d99d71c7901e\"]": {
@@ -2693,6 +2693,35 @@
         ]
       },
       "expiresAt": 1791885702520
+    },
+    "[\"factor\",\"pub\",\"59288206defba51624fbfce371f6be3d6d8aaaf955f6b0b0b80d09d850b13d26\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "59288206defba51624fbfce371f6be3d6d8aaaf955f6b0b0b80d09d850b13d26"
+      ],
+      "value": true,
+      "expiresAt": 1791886246369
+    },
+    "[\"factor\",\"topic\",\"59288206defba51624fbfce371f6be3d6d8aaaf955f6b0b0b80d09d850b13d26\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "59288206defba51624fbfce371f6be3d6d8aaaf955f6b0b0b80d09d850b13d26"
+      ],
+      "value": {
+        "title": "Контакты по теме энергетического перемирия продолжаются, Кремль проинформирует, когда буде",
+        "roots": [
+          "контак",
+          "энерге",
+          "переми",
+          "продол",
+          "кремль",
+          "проинф",
+          "когда"
+        ]
+      },
+      "expiresAt": 1791886246370
     }
   }
 }
