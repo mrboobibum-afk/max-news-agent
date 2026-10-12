@@ -17,36 +17,6 @@
       "value": 1791816036192,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"5221c10156b3c0565d216aba3be1c9471e1b7623c4d79aef7f44a2abbb207f4b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "5221c10156b3c0565d216aba3be1c9471e1b7623c4d79aef7f44a2abbb207f4b"
-      ],
-      "value": true,
-      "expiresAt": 1791816067615
-    },
-    "[\"factor\",\"topic\",\"5221c10156b3c0565d216aba3be1c9471e1b7623c4d79aef7f44a2abbb207f4b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "5221c10156b3c0565d216aba3be1c9471e1b7623c4d79aef7f44a2abbb207f4b"
-      ],
-      "value": {
-        "title": "\"Яндекс\" предупреждает пользователей о сбоях в работе ряда сервисов в воскресенье утром",
-        "roots": [
-          "яндекс",
-          "предуп",
-          "пользо",
-          "сбоях",
-          "работе",
-          "сервис",
-          "воскре",
-          "утром"
-        ]
-      },
-      "expiresAt": 1791816067616
-    },
     "[\"factor\",\"pub\",\"2cffb705d5a70db315537de55cf2feebd85a243515d4ab6a1f0c9e06adaa2a2f\"]": {
       "key": [
         "factor",
