@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 249998,
+      "value": 854932,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791826683890,
+      "value": 1791827433788,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"e09bb64e2f7ed8646de8fe126c0c05bb567ba6a7dec2d1ef6dd827cb37649148\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "e09bb64e2f7ed8646de8fe126c0c05bb567ba6a7dec2d1ef6dd827cb37649148"
-      ],
-      "value": true,
-      "expiresAt": 1791826862711
-    },
-    "[\"factor\",\"topic\",\"e09bb64e2f7ed8646de8fe126c0c05bb567ba6a7dec2d1ef6dd827cb37649148\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "e09bb64e2f7ed8646de8fe126c0c05bb567ba6a7dec2d1ef6dd827cb37649148"
-      ],
-      "value": {
-        "title": "В Польше задержан угрожавший совершить нападение на премьер-министра Дональда Туска и мини",
-        "roots": [
-          "польше",
-          "задерж",
-          "угрожа",
-          "соверш",
-          "нападе",
-          "премье",
-          "минист",
-          "дональ",
-          "туска"
-        ]
-      },
-      "expiresAt": 1791826862711
     },
     "[\"factor\",\"pub\",\"e6022bde28b9fd1ac8a1a022c158c133a2cc9c38469e214b879c13fef92c242a\"]": {
       "key": [
@@ -2906,6 +2875,33 @@
         ]
       },
       "expiresAt": 1791913111940
+    },
+    "[\"factor\",\"pub\",\"65633e64ab2d8d66119841a915484a77bbbb3c82f8aa4b4c21ab4c7dbdaa345b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "65633e64ab2d8d66119841a915484a77bbbb3c82f8aa4b4c21ab4c7dbdaa345b"
+      ],
+      "value": true,
+      "expiresAt": 1791914388516
+    },
+    "[\"factor\",\"topic\",\"65633e64ab2d8d66119841a915484a77bbbb3c82f8aa4b4c21ab4c7dbdaa345b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "65633e64ab2d8d66119841a915484a77bbbb3c82f8aa4b4c21ab4c7dbdaa345b"
+      ],
+      "value": {
+        "title": "На Украине заявили о критических повреждениях на ТЭЦ-5 в Харькове",
+        "roots": [
+          "украин",
+          "заявил",
+          "критич",
+          "повреж",
+          "харько"
+        ]
+      },
+      "expiresAt": 1791914388517
     }
   }
 }
