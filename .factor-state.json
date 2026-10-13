@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 315170,
+      "value": 392151,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791849666009,
+      "value": 1791850236114,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"a0dbcd3e88c4f89ba759eb821211fdef12682c409dbf4612d586f9011ffd4ac5\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "a0dbcd3e88c4f89ba759eb821211fdef12682c409dbf4612d586f9011ffd4ac5"
-      ],
-      "value": true,
-      "expiresAt": 1791849785818
-    },
-    "[\"factor\",\"topic\",\"a0dbcd3e88c4f89ba759eb821211fdef12682c409dbf4612d586f9011ffd4ac5\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "a0dbcd3e88c4f89ba759eb821211fdef12682c409dbf4612d586f9011ffd4ac5"
-      ],
-      "value": {
-        "title": "Полянский объяснил молчание Запада об упущенном шансе на мир на Украине",
-        "roots": [
-          "полянс",
-          "объясн",
-          "молчан",
-          "запада",
-          "упущен",
-          "шансе",
-          "украин"
-        ]
-      },
-      "expiresAt": 1791849785819
     },
     "[\"factor\",\"pub\",\"5f107ad5109124d4b3b7bc885b40c2fc124c01e5c05a0eba871029309b976f17\"]": {
       "key": [
@@ -2859,6 +2830,36 @@
         ]
       },
       "expiresAt": 1791936245565
+    },
+    "[\"factor\",\"pub\",\"044299033e7cecdfcf54b1012865953a3b86420bea121196f03b85297e892ef6\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "044299033e7cecdfcf54b1012865953a3b86420bea121196f03b85297e892ef6"
+      ],
+      "value": true,
+      "expiresAt": 1791936891665
+    },
+    "[\"factor\",\"topic\",\"044299033e7cecdfcf54b1012865953a3b86420bea121196f03b85297e892ef6\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "044299033e7cecdfcf54b1012865953a3b86420bea121196f03b85297e892ef6"
+      ],
+      "value": {
+        "title": "Трамп считает, что война США против Ирана завершится \"очень скоро",
+        "roots": [
+          "трамп",
+          "считае",
+          "война",
+          "против",
+          "ирана",
+          "заверш",
+          "очень",
+          "скоро"
+        ]
+      },
+      "expiresAt": 1791936891666
     }
   }
 }
