@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 586739,
+      "value": 292130,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791874865398,
+      "value": 1791876035267,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"e232a6817f4c373e73c1a7a029d9e08c644bfadaa8fb8517f1165f0106a54b45\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "e232a6817f4c373e73c1a7a029d9e08c644bfadaa8fb8517f1165f0106a54b45"
-      ],
-      "value": true,
-      "expiresAt": 1791875457844
-    },
-    "[\"factor\",\"topic\",\"e232a6817f4c373e73c1a7a029d9e08c644bfadaa8fb8517f1165f0106a54b45\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "e232a6817f4c373e73c1a7a029d9e08c644bfadaa8fb8517f1165f0106a54b45"
-      ],
-      "value": {
-        "title": "❕ К сервису для обучения нейросетей, в том числе для интеграции в боевые беспилотные систе",
-        "roots": [
-          "сервис",
-          "обучен",
-          "нейрос",
-          "числе",
-          "интегр",
-          "боевые",
-          "беспил",
-          "систе"
-        ]
-      },
-      "expiresAt": 1791875457845
     },
     "[\"factor\",\"pub\",\"3547fa516101d7bfeca51546978cbf3416ae9aa1a5000f9b5bb2bd8a0764a4e5\"]": {
       "key": [
@@ -2557,6 +2527,37 @@
         ]
       },
       "expiresAt": 1791961365396
+    },
+    "[\"factor\",\"pub\",\"74100de875d16fec3133e2f24357c71d5c4fd0223cbacd17e3762d6eb28e9e6f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "74100de875d16fec3133e2f24357c71d5c4fd0223cbacd17e3762d6eb28e9e6f"
+      ],
+      "value": true,
+      "expiresAt": 1791962458903
+    },
+    "[\"factor\",\"topic\",\"74100de875d16fec3133e2f24357c71d5c4fd0223cbacd17e3762d6eb28e9e6f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "74100de875d16fec3133e2f24357c71d5c4fd0223cbacd17e3762d6eb28e9e6f"
+      ],
+      "value": {
+        "title": "Более 30 миллионов рублей часами и драгоценностями отдал мошенникам 21-летний москвич",
+        "roots": [
+          "более",
+          "миллио",
+          "рублей",
+          "часами",
+          "драгоц",
+          "отдал",
+          "мошенн",
+          "летний",
+          "москви"
+        ]
+      },
+      "expiresAt": 1791962458904
     }
   }
 }
