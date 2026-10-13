@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 726779,
+      "value": 344701,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,35 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791932465494,
+      "value": 1791933635866,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"08e7c8005899b5ac4c5f5a28ee434346018d173ba9539e0a1227689ec236f8cb\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "08e7c8005899b5ac4c5f5a28ee434346018d173ba9539e0a1227689ec236f8cb"
-      ],
-      "value": true,
-      "expiresAt": 1791933472349
-    },
-    "[\"factor\",\"topic\",\"08e7c8005899b5ac4c5f5a28ee434346018d173ba9539e0a1227689ec236f8cb\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "08e7c8005899b5ac4c5f5a28ee434346018d173ba9539e0a1227689ec236f8cb"
-      ],
-      "value": {
-        "title": "Почти 200 тысяч американцев потеряли работу из-за ИИ с 2023 года",
-        "roots": [
-          "почти",
-          "тысяч",
-          "америк",
-          "потеря",
-          "работу"
-        ]
-      },
-      "expiresAt": 1791933472350
     },
     "[\"factor\",\"pub\",\"02c6c4c0002fb380809ca0b9a1e4d05ce68041f22f95b8b1ccdde506ad8e24e5\"]": {
       "key": [
@@ -2566,6 +2539,34 @@
         ]
       },
       "expiresAt": 1792019010150
+    },
+    "[\"factor\",\"pub\",\"db1e02cb7b09db1cdf98b41ecdcf1759ec4721c647f9b35c20291c6e4cab5846\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "db1e02cb7b09db1cdf98b41ecdcf1759ec4721c647f9b35c20291c6e4cab5846"
+      ],
+      "value": true,
+      "expiresAt": 1792020057391
+    },
+    "[\"factor\",\"topic\",\"db1e02cb7b09db1cdf98b41ecdcf1759ec4721c647f9b35c20291c6e4cab5846\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "db1e02cb7b09db1cdf98b41ecdcf1759ec4721c647f9b35c20291c6e4cab5846"
+      ],
+      "value": {
+        "title": "Роскачество впервые выдало российский Знак качества на чизбургер",
+        "roots": [
+          "роскач",
+          "впервы",
+          "выдало",
+          "россий",
+          "качест",
+          "чизбур"
+        ]
+      },
+      "expiresAt": 1792020057392
     }
   }
 }
