@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 665511,
+      "value": 859331,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791904835836,
+      "value": 1791906035976,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06c26c8c07c82b0ac4f3b44dc4c1ef86dc3a4f520da1b77b1338bd2a2abfcf9e\"]": {
@@ -2626,6 +2626,37 @@
         ]
       },
       "expiresAt": 1791991260647
+    },
+    "[\"factor\",\"pub\",\"00b103c5ce330c1f6809435b9754679254c3604f0201b710f4fbceae2f81bbae\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "00b103c5ce330c1f6809435b9754679254c3604f0201b710f4fbceae2f81bbae"
+      ],
+      "value": true,
+      "expiresAt": 1791992601057
+    },
+    "[\"factor\",\"topic\",\"00b103c5ce330c1f6809435b9754679254c3604f0201b710f4fbceae2f81bbae\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "00b103c5ce330c1f6809435b9754679254c3604f0201b710f4fbceae2f81bbae"
+      ],
+      "value": {
+        "title": "Перевести деньги за границу и получить их наличными теперь можно без иностранной банковско",
+        "roots": [
+          "переве",
+          "деньги",
+          "границ",
+          "получи",
+          "наличн",
+          "теперь",
+          "можно",
+          "иностр",
+          "банков"
+        ]
+      },
+      "expiresAt": 1791992601058
     }
   }
 }
