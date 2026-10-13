@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 292130,
+      "value": 524734,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791876035267,
+      "value": 1791876649062,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"3547fa516101d7bfeca51546978cbf3416ae9aa1a5000f9b5bb2bd8a0764a4e5\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "3547fa516101d7bfeca51546978cbf3416ae9aa1a5000f9b5bb2bd8a0764a4e5"
-      ],
-      "value": true,
-      "expiresAt": 1791876063032
-    },
-    "[\"factor\",\"topic\",\"3547fa516101d7bfeca51546978cbf3416ae9aa1a5000f9b5bb2bd8a0764a4e5\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "3547fa516101d7bfeca51546978cbf3416ae9aa1a5000f9b5bb2bd8a0764a4e5"
-      ],
-      "value": {
-        "title": "⚖️ Экс-замгубернатора Ростовской области Окунев арестован заочно на два месяца, сообщили в",
-        "roots": [
-          "замгуб",
-          "ростов",
-          "област",
-          "окунев",
-          "аресто",
-          "заочно",
-          "месяца"
-        ]
-      },
-      "expiresAt": 1791876063033
     },
     "[\"factor\",\"pub\",\"aa1303ff8137e778a406599d72f373873cc1d621517d9721c5bcedf505a28bf9\"]": {
       "key": [
@@ -2558,6 +2529,35 @@
         ]
       },
       "expiresAt": 1791962458904
+    },
+    "[\"factor\",\"pub\",\"652fe34c5c4c21ec8d3711ec0df2dd19d06c73c47e40b779e77d3a63fc149930\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "652fe34c5c4c21ec8d3711ec0df2dd19d06c73c47e40b779e77d3a63fc149930"
+      ],
+      "value": true,
+      "expiresAt": 1791963075681
+    },
+    "[\"factor\",\"topic\",\"652fe34c5c4c21ec8d3711ec0df2dd19d06c73c47e40b779e77d3a63fc149930\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "652fe34c5c4c21ec8d3711ec0df2dd19d06c73c47e40b779e77d3a63fc149930"
+      ],
+      "value": {
+        "title": "✈️ Зарегистрированный в США самолет-разведчик НАТО вновь замечен над нейтральными водами Ч",
+        "roots": [
+          "зареги",
+          "самоле",
+          "развед",
+          "вновь",
+          "замече",
+          "нейтра",
+          "водами"
+        ]
+      },
+      "expiresAt": 1791963075683
     }
   }
 }
