@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 844837,
+      "value": 490600,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791895836101,
+      "value": 1791897040641,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"fdbe63b0b162a44a8ea0b5ddb865856e6c073d371bf7b8a8a63d87905e939684\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "fdbe63b0b162a44a8ea0b5ddb865856e6c073d371bf7b8a8a63d87905e939684"
-      ],
-      "value": true,
-      "expiresAt": 1791896485970
-    },
-    "[\"factor\",\"topic\",\"fdbe63b0b162a44a8ea0b5ddb865856e6c073d371bf7b8a8a63d87905e939684\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "fdbe63b0b162a44a8ea0b5ddb865856e6c073d371bf7b8a8a63d87905e939684"
-      ],
-      "value": {
-        "title": "Русский язык начнут преподавать с шестого класса в ряде школ Центральноафриканской Республ",
-        "roots": [
-          "русски",
-          "начнут",
-          "препод",
-          "шестог",
-          "класса",
-          "центра",
-          "респуб"
-        ]
-      },
-      "expiresAt": 1791896485971
     },
     "[\"factor\",\"pub\",\"7a4d2de2e7be145bc924d87de06da59215eafc37b52e3576e183408b0fed4d69\"]": {
       "key": [
@@ -2626,6 +2597,36 @@
         ]
       },
       "expiresAt": 1791982262509
+    },
+    "[\"factor\",\"pub\",\"7420452dc4c04c78f9a18cd406ddcf2361fa42c2c6a1b920f1eb81c86b0aec27\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "7420452dc4c04c78f9a18cd406ddcf2361fa42c2c6a1b920f1eb81c86b0aec27"
+      ],
+      "value": true,
+      "expiresAt": 1791983513934
+    },
+    "[\"factor\",\"topic\",\"7420452dc4c04c78f9a18cd406ddcf2361fa42c2c6a1b920f1eb81c86b0aec27\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "7420452dc4c04c78f9a18cd406ddcf2361fa42c2c6a1b920f1eb81c86b0aec27"
+      ],
+      "value": {
+        "title": "Ситуация на внутреннем рынке бензина и дизельного топлива стабилизируется, отметили на сов",
+        "roots": [
+          "ситуац",
+          "внутре",
+          "рынке",
+          "бензин",
+          "дизель",
+          "топлив",
+          "стабил",
+          "отмети"
+        ]
+      },
+      "expiresAt": 1791983513935
     }
   }
 }
