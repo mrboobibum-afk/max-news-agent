@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 594362,
+      "value": 182496,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,31 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791867664294,
+      "value": 1791869641382,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"5971877f35be5fdb961c826e2e9182235b3f25fd7f4f8ab58ea6df7f3ac1957e\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "5971877f35be5fdb961c826e2e9182235b3f25fd7f4f8ab58ea6df7f3ac1957e"
-      ],
-      "value": true,
-      "expiresAt": 1791868453911
-    },
-    "[\"factor\",\"topic\",\"5971877f35be5fdb961c826e2e9182235b3f25fd7f4f8ab58ea6df7f3ac1957e\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "5971877f35be5fdb961c826e2e9182235b3f25fd7f4f8ab58ea6df7f3ac1957e"
-      ],
-      "value": {
-        "title": "Минимум 18 тыс",
-        "roots": [
-          "миниму"
-        ]
-      },
-      "expiresAt": 1791868453912
     },
     "[\"factor\",\"pub\",\"ccacb067ac049272fd63a77ee493d76d68c19d985e08d0c961a8bdae663d2b13\"]": {
       "key": [
@@ -2672,6 +2649,32 @@
         ]
       },
       "expiresAt": 1791954094852
+    },
+    "[\"factor\",\"pub\",\"4eda04151a5ea7e40b3e00ce63bda9d34bda9ee04de194b3e97712a36b6d6129\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4eda04151a5ea7e40b3e00ce63bda9d34bda9ee04de194b3e97712a36b6d6129"
+      ],
+      "value": true,
+      "expiresAt": 1791956067013
+    },
+    "[\"factor\",\"topic\",\"4eda04151a5ea7e40b3e00ce63bda9d34bda9ee04de194b3e97712a36b6d6129\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4eda04151a5ea7e40b3e00ce63bda9d34bda9ee04de194b3e97712a36b6d6129"
+      ],
+      "value": {
+        "title": "Бали столкнулся с острой нехваткой бензина",
+        "roots": [
+          "столкн",
+          "острой",
+          "нехват",
+          "бензин"
+        ]
+      },
+      "expiresAt": 1791956067014
     }
   }
 }
