@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 800692,
+      "value": 551069,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791880252625,
+      "value": 1791881434825,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"7398c0cce7d9f4899bc874e1a03b16c56198c38f3ef13ecf32712b0954c4fac5\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "7398c0cce7d9f4899bc874e1a03b16c56198c38f3ef13ecf32712b0954c4fac5"
-      ],
-      "value": true,
-      "expiresAt": 1791880856564
-    },
-    "[\"factor\",\"topic\",\"7398c0cce7d9f4899bc874e1a03b16c56198c38f3ef13ecf32712b0954c4fac5\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "7398c0cce7d9f4899bc874e1a03b16c56198c38f3ef13ecf32712b0954c4fac5"
-      ],
-      "value": {
-        "title": "ФАС оштрафует оператора связи \"Ловител\" (бренд Lovit) и лиц из УК ПИК за то, что те ограни",
-        "roots": [
-          "оштраф",
-          "операт",
-          "связи",
-          "ловите",
-          "бренд",
-          "lovit",
-          "ограни"
-        ]
-      },
-      "expiresAt": 1791880856565
     },
     "[\"factor\",\"pub\",\"50448f512f87b970d4e6ab484be662ce2490c81218c8f83e384600ac43a5ed33\"]": {
       "key": [
@@ -2559,6 +2530,30 @@
         ]
       },
       "expiresAt": 1791966675325
+    },
+    "[\"factor\",\"pub\",\"483b28764c88aab981d4cc45c7951de1ed20ed3dca080d8a0f2c0bcb78dde219\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "483b28764c88aab981d4cc45c7951de1ed20ed3dca080d8a0f2c0bcb78dde219"
+      ],
+      "value": true,
+      "expiresAt": 1791967851615
+    },
+    "[\"factor\",\"topic\",\"483b28764c88aab981d4cc45c7951de1ed20ed3dca080d8a0f2c0bcb78dde219\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "483b28764c88aab981d4cc45c7951de1ed20ed3dca080d8a0f2c0bcb78dde219"
+      ],
+      "value": {
+        "title": "ЧС объявили в энергосистеме США",
+        "roots": [
+          "объяви",
+          "энерго"
+        ]
+      },
+      "expiresAt": 1791967851617
     }
   }
 }
