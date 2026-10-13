@@ -17,33 +17,6 @@
       "value": 1791930097500,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"c14c10b957f528ce8c748e1ffbcc0d1fea16630b6d3780e0bd19265f745b24f2\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c14c10b957f528ce8c748e1ffbcc0d1fea16630b6d3780e0bd19265f745b24f2"
-      ],
-      "value": true,
-      "expiresAt": 1791930232723
-    },
-    "[\"factor\",\"topic\",\"c14c10b957f528ce8c748e1ffbcc0d1fea16630b6d3780e0bd19265f745b24f2\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c14c10b957f528ce8c748e1ffbcc0d1fea16630b6d3780e0bd19265f745b24f2"
-      ],
-      "value": {
-        "title": "Politico: Мерц представил обновленный имидж партии ХДС",
-        "roots": [
-          "politi",
-          "предст",
-          "обновл",
-          "имидж",
-          "партии"
-        ]
-      },
-      "expiresAt": 1791930232725
-    },
     "[\"factor\",\"pub\",\"db11984ffd480f0bcb14e679a545cb41a6e8b4b81ab639f98bc955fa3811752a\"]": {
       "key": [
         "factor",
