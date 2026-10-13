@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 234390,
+      "value": 465348,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791852034739,
+      "value": 1791852634550,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"f8301b8523fc5fce184916af2d1b7b252b82f7184be6b111ec5b136ef203efbd\"]": {
@@ -2839,6 +2839,35 @@
         ]
       },
       "expiresAt": 1791938459078
+    },
+    "[\"factor\",\"pub\",\"fe04b7166edfede40a8e4bc347c053090514f397c4f2eefdb25594d05bec9f1a\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "fe04b7166edfede40a8e4bc347c053090514f397c4f2eefdb25594d05bec9f1a"
+      ],
+      "value": true,
+      "expiresAt": 1791939078985
+    },
+    "[\"factor\",\"topic\",\"fe04b7166edfede40a8e4bc347c053090514f397c4f2eefdb25594d05bec9f1a\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "fe04b7166edfede40a8e4bc347c053090514f397c4f2eefdb25594d05bec9f1a"
+      ],
+      "value": {
+        "title": "Кения рассматривает возможности сотрудничества с БРИКС, сообщил в интервью ТАСС посол стра",
+        "roots": [
+          "кения",
+          "рассма",
+          "возмож",
+          "сотруд",
+          "брикс",
+          "интерв",
+          "посол"
+        ]
+      },
+      "expiresAt": 1791939078986
     }
   }
 }
