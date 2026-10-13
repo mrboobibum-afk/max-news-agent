@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 187957,
+      "value": 798749,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791901859036,
+      "value": 1791902439179,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"4d9cbf8eb359dabe7c6bf5846388f1ecee42e48bc534939bde9a9e8121ace5a9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "4d9cbf8eb359dabe7c6bf5846388f1ecee42e48bc534939bde9a9e8121ace5a9"
-      ],
-      "value": true,
-      "expiresAt": 1791901875157
-    },
-    "[\"factor\",\"topic\",\"4d9cbf8eb359dabe7c6bf5846388f1ecee42e48bc534939bde9a9e8121ace5a9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "4d9cbf8eb359dabe7c6bf5846388f1ecee42e48bc534939bde9a9e8121ace5a9"
-      ],
-      "value": {
-        "title": "Росстандарт запретил выпуск в обращение на территории России транспортных средств марок DO",
-        "roots": [
-          "росста",
-          "запрет",
-          "выпуск",
-          "обраще",
-          "террит",
-          "россии",
-          "трансп",
-          "средст",
-          "марок"
-        ]
-      },
-      "expiresAt": 1791901875159
     },
     "[\"factor\",\"pub\",\"0abe841ff27610e38163d9f42135610af1ff8fd24e5fcb895235f35da6b8b3c9\"]": {
       "key": [
@@ -2627,6 +2596,34 @@
         ]
       },
       "expiresAt": 1791988298835
+    },
+    "[\"factor\",\"pub\",\"f6350827e13de5103eeff074502c54e95315562a182cdbf16e711c637aa1a136\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "f6350827e13de5103eeff074502c54e95315562a182cdbf16e711c637aa1a136"
+      ],
+      "value": true,
+      "expiresAt": 1791988871566
+    },
+    "[\"factor\",\"topic\",\"f6350827e13de5103eeff074502c54e95315562a182cdbf16e711c637aa1a136\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "f6350827e13de5103eeff074502c54e95315562a182cdbf16e711c637aa1a136"
+      ],
+      "value": {
+        "title": "Конкретной договоренности по трехсторонней встрече по Украине нет, заявил Рябков",
+        "roots": [
+          "конкре",
+          "догово",
+          "трехст",
+          "встреч",
+          "украин",
+          "рябков"
+        ]
+      },
+      "expiresAt": 1791988871567
     }
   }
 }
