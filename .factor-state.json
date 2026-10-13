@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 652100,
+      "value": 212374,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,40 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791909055273,
+      "value": 1791910233216,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"353d6416a4b97ee5310ab8955e664d7fd7d8481b583a5b4517283a681bb4e408\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "353d6416a4b97ee5310ab8955e664d7fd7d8481b583a5b4517283a681bb4e408"
-      ],
-      "value": true,
-      "expiresAt": 1791909694413
-    },
-    "[\"factor\",\"topic\",\"353d6416a4b97ee5310ab8955e664d7fd7d8481b583a5b4517283a681bb4e408\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "353d6416a4b97ee5310ab8955e664d7fd7d8481b583a5b4517283a681bb4e408"
-      ],
-      "value": {
-        "title": "Президент России Владимир Путин повторно назначил Михаила Птицына председателем Мосгорсуда",
-        "roots": [
-          "презид",
-          "россии",
-          "владим",
-          "путин",
-          "повтор",
-          "назнач",
-          "михаил",
-          "птицын",
-          "предсе",
-          "мосгор"
-        ]
-      },
-      "expiresAt": 1791909694414
     },
     "[\"factor\",\"pub\",\"68bcbd7bacaa39eb18e3e7e42ab438fb65493d629c4026f86c8e2d7acdf92fc8\"]": {
       "key": [
@@ -2629,6 +2597,34 @@
         ]
       },
       "expiresAt": 1791995491079
+    },
+    "[\"factor\",\"pub\",\"f16dfa04e01b2d20cbe394cdbe6a0b1aa41e47040f98ea67ca17c2a9ca330f5c\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "f16dfa04e01b2d20cbe394cdbe6a0b1aa41e47040f98ea67ca17c2a9ca330f5c"
+      ],
+      "value": true,
+      "expiresAt": 1791996691121
+    },
+    "[\"factor\",\"topic\",\"f16dfa04e01b2d20cbe394cdbe6a0b1aa41e47040f98ea67ca17c2a9ca330f5c\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "f16dfa04e01b2d20cbe394cdbe6a0b1aa41e47040f98ea67ca17c2a9ca330f5c"
+      ],
+      "value": {
+        "title": "👔 Санкционные пакеты ЕС против РФ \"сами себя отрицают\", там уже не знают, что придумать н",
+        "roots": [
+          "санкци",
+          "пакеты",
+          "против",
+          "отрица",
+          "знают",
+          "придум"
+        ]
+      },
+      "expiresAt": 1791996691122
     }
   }
 }
