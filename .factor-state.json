@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 707737,
+      "value": 323459,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,64 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791861068666,
+      "value": 1791863490478,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"30f9f10f3ec1c8bec6397044b095ed03151388835ece5a510efa7cfc6ff64d5f\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "30f9f10f3ec1c8bec6397044b095ed03151388835ece5a510efa7cfc6ff64d5f"
-      ],
-      "value": true,
-      "expiresAt": 1791861904142
-    },
-    "[\"factor\",\"topic\",\"30f9f10f3ec1c8bec6397044b095ed03151388835ece5a510efa7cfc6ff64d5f\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "30f9f10f3ec1c8bec6397044b095ed03151388835ece5a510efa7cfc6ff64d5f"
-      ],
-      "value": {
-        "title": "В Иране назвали недостаточной реакцию Вашингтона на условия Тегерана",
-        "roots": [
-          "иране",
-          "назвал",
-          "недост",
-          "реакци",
-          "вашинг",
-          "услови",
-          "тегера"
-        ]
-      },
-      "expiresAt": 1791861904143
-    },
-    "[\"factor\",\"pub\",\"f1859e899afca95b59d325333d45c9295d641b025fc350a851eac8799a8165eb\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "f1859e899afca95b59d325333d45c9295d641b025fc350a851eac8799a8165eb"
-      ],
-      "value": true,
-      "expiresAt": 1791862451311
-    },
-    "[\"factor\",\"topic\",\"f1859e899afca95b59d325333d45c9295d641b025fc350a851eac8799a8165eb\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "f1859e899afca95b59d325333d45c9295d641b025fc350a851eac8799a8165eb"
-      ],
-      "value": {
-        "title": "Сакс заявил о недопустимости размещения европейских войск на Украине",
-        "roots": [
-          "недопу",
-          "размещ",
-          "европе",
-          "войск",
-          "украин"
-        ]
-      },
-      "expiresAt": 1791862451312
     },
     "[\"factor\",\"pub\",\"125dd37b23515cf6ad7dd29de54a316fa9a5670ef911ddbf2bd1e74278999193\"]": {
       "key": [
@@ -2755,6 +2699,35 @@
         ]
       },
       "expiresAt": 1791947559363
+    },
+    "[\"factor\",\"pub\",\"9ea4ee7161cc2d19660b8467c4441ae897205daf3b0074e4ac132ae8e939c4f9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "9ea4ee7161cc2d19660b8467c4441ae897205daf3b0074e4ac132ae8e939c4f9"
+      ],
+      "value": true,
+      "expiresAt": 1791950040297
+    },
+    "[\"factor\",\"topic\",\"9ea4ee7161cc2d19660b8467c4441ae897205daf3b0074e4ac132ae8e939c4f9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "9ea4ee7161cc2d19660b8467c4441ae897205daf3b0074e4ac132ae8e939c4f9"
+      ],
+      "value": {
+        "title": "\"Яндекс Пэй\" повысит пользователям ставки по накопительным счетам до 20% годовых с 11 до 1",
+        "roots": [
+          "яндекс",
+          "повыси",
+          "пользо",
+          "ставки",
+          "накопи",
+          "счетам",
+          "годовы"
+        ]
+      },
+      "expiresAt": 1791950040299
     }
   }
 }
