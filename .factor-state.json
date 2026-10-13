@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 441953,
+      "value": 850315,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,35 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791916253780,
+      "value": 1791916838019,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"96f50a9eaa11ce65308e335d4640b810e37c2affc3fe6b32c2fc35eb434fc516\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "96f50a9eaa11ce65308e335d4640b810e37c2affc3fe6b32c2fc35eb434fc516"
-      ],
-      "value": true,
-      "expiresAt": 1791916305539
-    },
-    "[\"factor\",\"topic\",\"96f50a9eaa11ce65308e335d4640b810e37c2affc3fe6b32c2fc35eb434fc516\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "96f50a9eaa11ce65308e335d4640b810e37c2affc3fe6b32c2fc35eb434fc516"
-      ],
-      "value": {
-        "title": "Над регионами России в течение дня сбиты 33 украинских БПЛА, сообщили в МО РФ",
-        "roots": [
-          "регион",
-          "россии",
-          "течени",
-          "сбиты",
-          "украин"
-        ]
-      },
-      "expiresAt": 1791916305541
     },
     "[\"factor\",\"pub\",\"058f6a5d9bea8c2401b70ba6d8616436d0d87bfcf45c9197ab8ffd0b60bfbeca\"]": {
       "key": [
@@ -2675,6 +2648,36 @@
         ]
       },
       "expiresAt": 1792002720677
+    },
+    "[\"factor\",\"pub\",\"23a37c0c7c105a2bd683b71b39abf758be8b25ae04c1e2918c9b122cca87c50e\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "23a37c0c7c105a2bd683b71b39abf758be8b25ae04c1e2918c9b122cca87c50e"
+      ],
+      "value": true,
+      "expiresAt": 1792003460180
+    },
+    "[\"factor\",\"topic\",\"23a37c0c7c105a2bd683b71b39abf758be8b25ae04c1e2918c9b122cca87c50e\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "23a37c0c7c105a2bd683b71b39abf758be8b25ae04c1e2918c9b122cca87c50e"
+      ],
+      "value": {
+        "title": "Швейцарская фармкомпания Roche заключила соглашение с китайской Rona Therapeutics о разраб",
+        "roots": [
+          "швейца",
+          "фармко",
+          "roche",
+          "заключ",
+          "соглаш",
+          "китайс",
+          "therap",
+          "разраб"
+        ]
+      },
+      "expiresAt": 1792003460181
     }
   }
 }
