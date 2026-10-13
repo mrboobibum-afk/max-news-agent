@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 719412,
+      "value": 249952,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791855055891,
+      "value": 1791856234851,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"c524189fe92cdfe735c4d42649d8aeac636939435f6b9cd090de137335d4b70b\"]": {
@@ -2838,6 +2838,34 @@
         ]
       },
       "expiresAt": 1791941813889
+    },
+    "[\"factor\",\"pub\",\"fcabaa3cbfee4997cd3c7fe134861a00b561f61f016b441b4692066c42d8502f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "fcabaa3cbfee4997cd3c7fe134861a00b561f61f016b441b4692066c42d8502f"
+      ],
+      "value": true,
+      "expiresAt": 1791942682523
+    },
+    "[\"factor\",\"topic\",\"fcabaa3cbfee4997cd3c7fe134861a00b561f61f016b441b4692066c42d8502f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "fcabaa3cbfee4997cd3c7fe134861a00b561f61f016b441b4692066c42d8502f"
+      ],
+      "value": {
+        "title": "❗️ \"Яндекс Пэй\" частично восстановил доступ к переводам и платежам",
+        "roots": [
+          "яндекс",
+          "частич",
+          "восста",
+          "доступ",
+          "перево",
+          "платеж"
+        ]
+      },
+      "expiresAt": 1791942682528
     }
   }
 }
