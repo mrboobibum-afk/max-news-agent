@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 323459,
+      "value": 702135,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,65 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791863490478,
+      "value": 1791865297821,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"125dd37b23515cf6ad7dd29de54a316fa9a5670ef911ddbf2bd1e74278999193\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "125dd37b23515cf6ad7dd29de54a316fa9a5670ef911ddbf2bd1e74278999193"
-      ],
-      "value": true,
-      "expiresAt": 1791863494467
-    },
-    "[\"factor\",\"topic\",\"125dd37b23515cf6ad7dd29de54a316fa9a5670ef911ddbf2bd1e74278999193\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "125dd37b23515cf6ad7dd29de54a316fa9a5670ef911ddbf2bd1e74278999193"
-      ],
-      "value": {
-        "title": "▶️ В Литве не разместят ядерное оружие , так как страна не уцелеет в случае потенциального",
-        "roots": [
-          "литве",
-          "размес",
-          "ядерно",
-          "оружие",
-          "страна",
-          "уцелее",
-          "случае",
-          "потенц"
-        ]
-      },
-      "expiresAt": 1791863494468
-    },
-    "[\"factor\",\"pub\",\"7bf64b843504e85fb8142ccbae6b7312ded7da66ef0659f2daec2d2861386f24\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "7bf64b843504e85fb8142ccbae6b7312ded7da66ef0659f2daec2d2861386f24"
-      ],
-      "value": true,
-      "expiresAt": 1791864329997
-    },
-    "[\"factor\",\"topic\",\"7bf64b843504e85fb8142ccbae6b7312ded7da66ef0659f2daec2d2861386f24\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "7bf64b843504e85fb8142ccbae6b7312ded7da66ef0659f2daec2d2861386f24"
-      ],
-      "value": {
-        "title": "Welt: На Украине испугались последствий обострившихся отношений с США",
-        "roots": [
-          "украин",
-          "испуга",
-          "послед",
-          "обостр",
-          "отноше"
-        ]
-      },
-      "expiresAt": 1791864329998
     },
     "[\"factor\",\"pub\",\"eb83daaee04f81c1c14bd370c5e6d1733c9ab26406bf6de36834824808fa7614\"]": {
       "key": [
@@ -2728,6 +2671,37 @@
         ]
       },
       "expiresAt": 1791950040299
+    },
+    "[\"factor\",\"pub\",\"4c9ad32c8f75fcf7c58275b233108dc96a5b98d072921b35241afc4c046e8321\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4c9ad32c8f75fcf7c58275b233108dc96a5b98d072921b35241afc4c046e8321"
+      ],
+      "value": true,
+      "expiresAt": 1791951865809
+    },
+    "[\"factor\",\"topic\",\"4c9ad32c8f75fcf7c58275b233108dc96a5b98d072921b35241afc4c046e8321\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4c9ad32c8f75fcf7c58275b233108dc96a5b98d072921b35241afc4c046e8321"
+      ],
+      "value": {
+        "title": "Тимур Иванов вновь отверг обвинение в коррупции, в том числе во взяточничестве на сумму св",
+        "roots": [
+          "тимур",
+          "иванов",
+          "вновь",
+          "отверг",
+          "обвине",
+          "корруп",
+          "числе",
+          "взяточ",
+          "сумму"
+        ]
+      },
+      "expiresAt": 1791951865811
     }
   }
 }
