@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 367577,
+      "value": 888711,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791914468783,
+      "value": 1791915161286,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"1238eca3bec56aa2540c8c7f58b175d71b7410b6fcba57b76e01a7c7bdcbf3b6\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "1238eca3bec56aa2540c8c7f58b175d71b7410b6fcba57b76e01a7c7bdcbf3b6"
-      ],
-      "value": true,
-      "expiresAt": 1791915084979
-    },
-    "[\"factor\",\"topic\",\"1238eca3bec56aa2540c8c7f58b175d71b7410b6fcba57b76e01a7c7bdcbf3b6\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "1238eca3bec56aa2540c8c7f58b175d71b7410b6fcba57b76e01a7c7bdcbf3b6"
-      ],
-      "value": {
-        "title": "▶️ РФ способна создавать перспективные образцы вооружений, которым нет аналогов в мире, за",
-        "roots": [
-          "способ",
-          "создав",
-          "перспе",
-          "образц",
-          "вооруж",
-          "которы",
-          "аналог"
-        ]
-      },
-      "expiresAt": 1791915084981
     },
     "[\"factor\",\"pub\",\"96f50a9eaa11ce65308e335d4640b810e37c2affc3fe6b32c2fc35eb434fc516\"]": {
       "key": [
@@ -2650,6 +2621,36 @@
         ]
       },
       "expiresAt": 1792000896661
+    },
+    "[\"factor\",\"pub\",\"593da314fc22e00b16b0b0ba300942d93ba1b37c8de3dc0465a5f2574f3c5a50\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "593da314fc22e00b16b0b0ba300942d93ba1b37c8de3dc0465a5f2574f3c5a50"
+      ],
+      "value": true,
+      "expiresAt": 1792001603819
+    },
+    "[\"factor\",\"topic\",\"593da314fc22e00b16b0b0ba300942d93ba1b37c8de3dc0465a5f2574f3c5a50\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "593da314fc22e00b16b0b0ba300942d93ba1b37c8de3dc0465a5f2574f3c5a50"
+      ],
+      "value": {
+        "title": "Поставки российского газа в Казахстан и транзит топлива через его территорию в Узбекистан ",
+        "roots": [
+          "постав",
+          "россий",
+          "казахс",
+          "транзи",
+          "топлив",
+          "через",
+          "террит",
+          "узбеки"
+        ]
+      },
+      "expiresAt": 1792001603820
     }
   }
 }
