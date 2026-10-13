@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 859331,
+      "value": 388325,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791906035976,
+      "value": 1791907268055,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"f52538ce11a4aecc680f5d8e3748e93300bb75526ce13dcd6bb87e5c2c65efcb\"]": {
@@ -2630,6 +2630,32 @@
         ]
       },
       "expiresAt": 1791992601058
+    },
+    "[\"factor\",\"pub\",\"8b8a7adddd1c092959bdde650af028583df5288e38fc632260c9aa9ac6d414ff\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "8b8a7adddd1c092959bdde650af028583df5288e38fc632260c9aa9ac6d414ff"
+      ],
+      "value": true,
+      "expiresAt": 1791993690848
+    },
+    "[\"factor\",\"topic\",\"8b8a7adddd1c092959bdde650af028583df5288e38fc632260c9aa9ac6d414ff\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "8b8a7adddd1c092959bdde650af028583df5288e38fc632260c9aa9ac6d414ff"
+      ],
+      "value": {
+        "title": "Посла Бельгии вызвали в МИД России",
+        "roots": [
+          "посла",
+          "бельги",
+          "вызвал",
+          "россии"
+        ]
+      },
+      "expiresAt": 1791993690849
     }
   }
 }
