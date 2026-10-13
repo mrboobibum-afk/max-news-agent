@@ -17,34 +17,6 @@
       "value": 1791873729109,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"9d607d57bdd173a729e7cd05e8b2c66e6d5ed825fa70c36ca9ac53390dbbca6e\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "9d607d57bdd173a729e7cd05e8b2c66e6d5ed825fa70c36ca9ac53390dbbca6e"
-      ],
-      "value": true,
-      "expiresAt": 1791873763216
-    },
-    "[\"factor\",\"topic\",\"9d607d57bdd173a729e7cd05e8b2c66e6d5ed825fa70c36ca9ac53390dbbca6e\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "9d607d57bdd173a729e7cd05e8b2c66e6d5ed825fa70c36ca9ac53390dbbca6e"
-      ],
-      "value": {
-        "title": "❗️ Власти Польши сообщили о задержании за последние несколько дней 117 подростков после тр",
-        "roots": [
-          "власти",
-          "польши",
-          "задерж",
-          "послед",
-          "нескол",
-          "подрос"
-        ]
-      },
-      "expiresAt": 1791873763217
-    },
     "[\"factor\",\"pub\",\"b2cc8cac85f2727ecc1f1bd4ef113213d89d5a1b8f56957e71057b4a882cf5dc\"]": {
       "key": [
         "factor",
