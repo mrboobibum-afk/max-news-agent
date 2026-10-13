@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 344701,
+      "value": 891467,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791933635866,
+      "value": 1791934251175,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"02c6c4c0002fb380809ca0b9a1e4d05ce68041f22f95b8b1ccdde506ad8e24e5\"]": {
@@ -2567,6 +2567,33 @@
         ]
       },
       "expiresAt": 1792020057392
+    },
+    "[\"factor\",\"pub\",\"7a73aed4e456630e6b579acf9856b5e20831766ec6bc4a2f58990df07a09158e\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "7a73aed4e456630e6b579acf9856b5e20831766ec6bc4a2f58990df07a09158e"
+      ],
+      "value": true,
+      "expiresAt": 1792021455867
+    },
+    "[\"factor\",\"topic\",\"7a73aed4e456630e6b579acf9856b5e20831766ec6bc4a2f58990df07a09158e\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "7a73aed4e456630e6b579acf9856b5e20831766ec6bc4a2f58990df07a09158e"
+      ],
+      "value": {
+        "title": "Папе римскому Льву XIV удалили злокачественную опухоль легкого",
+        "roots": [
+          "римско",
+          "удалил",
+          "злокач",
+          "опухол",
+          "легког"
+        ]
+      },
+      "expiresAt": 1792021455868
     }
   }
 }
