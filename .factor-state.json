@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 490600,
+      "value": 607950,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791897040641,
+      "value": 1791897637732,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"7a4d2de2e7be145bc924d87de06da59215eafc37b52e3576e183408b0fed4d69\"]": {
@@ -2627,6 +2627,35 @@
         ]
       },
       "expiresAt": 1791983513935
+    },
+    "[\"factor\",\"pub\",\"610c4e6c2b3977600d38c4f13746c5101f52a1bd1aad0bac5dad57bb6fd73073\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "610c4e6c2b3977600d38c4f13746c5101f52a1bd1aad0bac5dad57bb6fd73073"
+      ],
+      "value": true,
+      "expiresAt": 1791984076601
+    },
+    "[\"factor\",\"topic\",\"610c4e6c2b3977600d38c4f13746c5101f52a1bd1aad0bac5dad57bb6fd73073\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "610c4e6c2b3977600d38c4f13746c5101f52a1bd1aad0bac5dad57bb6fd73073"
+      ],
+      "value": {
+        "title": "США и Европа готовят предложение урегулирования конфликта на Украине из 4 пунктов, сообщил",
+        "roots": [
+          "европа",
+          "готовя",
+          "предло",
+          "урегул",
+          "конфли",
+          "украин",
+          "пункто"
+        ]
+      },
+      "expiresAt": 1791984076602
     }
   }
 }
