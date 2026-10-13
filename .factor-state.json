@@ -17,34 +17,6 @@
       "value": 1791890441882,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"d91f06a40975814aee39464f837742ecafdab2f81702e0bda8935b1c928e0fe0\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "d91f06a40975814aee39464f837742ecafdab2f81702e0bda8935b1c928e0fe0"
-      ],
-      "value": true,
-      "expiresAt": 1791890508604
-    },
-    "[\"factor\",\"topic\",\"d91f06a40975814aee39464f837742ecafdab2f81702e0bda8935b1c928e0fe0\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "d91f06a40975814aee39464f837742ecafdab2f81702e0bda8935b1c928e0fe0"
-      ],
-      "value": {
-        "title": "▶️ Среди пострадавших в результате ДТП в Анталье нет россиян, сообщили ТАСС в генконсульст",
-        "roots": [
-          "среди",
-          "постра",
-          "резуль",
-          "анталь",
-          "россия",
-          "генкон"
-        ]
-      },
-      "expiresAt": 1791890508606
-    },
     "[\"factor\",\"pub\",\"c91bdc015d2fb0a2d4c094c74905c93c1433c6f7505e7a4aa8b21f80ac3c591e\"]": {
       "key": [
         "factor",
