@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 791260,
+      "value": 261047,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791882067092,
+      "value": 1791883233886,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"8a8d9dfd7932dde8d8ce6571819ae62e79fe0ac895fffb649fae4a822088d34e\"]": {
@@ -2560,6 +2560,35 @@
         ]
       },
       "expiresAt": 1791968495597
+    },
+    "[\"factor\",\"pub\",\"6757474c8c0156b4071cd4cb568e4c7b767fc93d39f9dd5020048efaf03202d8\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "6757474c8c0156b4071cd4cb568e4c7b767fc93d39f9dd5020048efaf03202d8"
+      ],
+      "value": true,
+      "expiresAt": 1791969663848
+    },
+    "[\"factor\",\"topic\",\"6757474c8c0156b4071cd4cb568e4c7b767fc93d39f9dd5020048efaf03202d8\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "6757474c8c0156b4071cd4cb568e4c7b767fc93d39f9dd5020048efaf03202d8"
+      ],
+      "value": {
+        "title": "❗️ ВС РФ ведут бои за Николаевку, Варваровку и Нефедовку в кольце окружения в Харьковской ",
+        "roots": [
+          "ведут",
+          "никола",
+          "варвар",
+          "нефедо",
+          "кольце",
+          "окруже",
+          "харько"
+        ]
+      },
+      "expiresAt": 1791969663849
     }
   }
 }
