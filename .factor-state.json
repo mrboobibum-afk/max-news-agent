@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 497157,
+      "value": 298839,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,67 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791925267461,
+      "value": 1791927066118,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"d1b3b92d9f0cfd29b0c033b387c04b3aebe128964b8d4b7328ed61c11b020c69\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "d1b3b92d9f0cfd29b0c033b387c04b3aebe128964b8d4b7328ed61c11b020c69"
-      ],
-      "value": true,
-      "expiresAt": 1791925856809
-    },
-    "[\"factor\",\"topic\",\"d1b3b92d9f0cfd29b0c033b387c04b3aebe128964b8d4b7328ed61c11b020c69\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "d1b3b92d9f0cfd29b0c033b387c04b3aebe128964b8d4b7328ed61c11b020c69"
-      ],
-      "value": {
-        "title": "Умер актер Ар Джей Митт, известный по роли Уолтера Уайта-младшего в сериале \"Во все тяжкие",
-        "roots": [
-          "актер",
-          "извест",
-          "уолтер",
-          "уайта",
-          "младше",
-          "сериал",
-          "тяжкие"
-        ]
-      },
-      "expiresAt": 1791925856809
-    },
-    "[\"factor\",\"pub\",\"89657483baab7a73d27cb403082c071cc59538f83104ca98be3ec595c7dedf8d\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "89657483baab7a73d27cb403082c071cc59538f83104ca98be3ec595c7dedf8d"
-      ],
-      "value": true,
-      "expiresAt": 1791926457516
-    },
-    "[\"factor\",\"topic\",\"89657483baab7a73d27cb403082c071cc59538f83104ca98be3ec595c7dedf8d\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "89657483baab7a73d27cb403082c071cc59538f83104ca98be3ec595c7dedf8d"
-      ],
-      "value": {
-        "title": "Трамп выразил уверенность в том, что Путин больше стремится к заключению договоренностей п",
-        "roots": [
-          "трамп",
-          "вырази",
-          "уверен",
-          "путин",
-          "больше",
-          "стреми",
-          "заключ",
-          "догово"
-        ]
-      },
-      "expiresAt": 1791926457595
     },
     "[\"factor\",\"pub\",\"d10d2a3f9259b315a0f6b797fb57c4354a6238309e5dae50ff39c2cc3d22d549\"]": {
       "key": [
@@ -2643,6 +2584,34 @@
         ]
       },
       "expiresAt": 1792011835722
+    },
+    "[\"factor\",\"pub\",\"4d7cf676e0e6601aea0d3d704610dd7fb7587ac86d4a04cc297563f81b8fae35\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4d7cf676e0e6601aea0d3d704610dd7fb7587ac86d4a04cc297563f81b8fae35"
+      ],
+      "value": true,
+      "expiresAt": 1792013513211
+    },
+    "[\"factor\",\"topic\",\"4d7cf676e0e6601aea0d3d704610dd7fb7587ac86d4a04cc297563f81b8fae35\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4d7cf676e0e6601aea0d3d704610dd7fb7587ac86d4a04cc297563f81b8fae35"
+      ],
+      "value": {
+        "title": "Россия проведет 14 октября неформальную встречу СБ ООН по нарушениям прав человека на Укра",
+        "roots": [
+          "провед",
+          "октябр",
+          "неформ",
+          "встреч",
+          "наруше",
+          "челове"
+        ]
+      },
+      "expiresAt": 1792013513311
     }
   }
 }
