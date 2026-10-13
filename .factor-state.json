@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 184658,
+      "value": 665511,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791904236019,
+      "value": 1791904835836,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"0dfb9928e7a1d7f42ba58d94843ea33a0a21e1f8c4249140822d0405e8a6597b\"]": {
@@ -2624,6 +2624,37 @@
         ]
       },
       "expiresAt": 1791990941889
+    },
+    "[\"factor\",\"pub\",\"688fa2b97d571b0aa205a6248030b973905d95ff4791071d2c3be87cbc5bb0a5\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "688fa2b97d571b0aa205a6248030b973905d95ff4791071d2c3be87cbc5bb0a5"
+      ],
+      "value": true,
+      "expiresAt": 1791991260646
+    },
+    "[\"factor\",\"topic\",\"688fa2b97d571b0aa205a6248030b973905d95ff4791071d2c3be87cbc5bb0a5\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "688fa2b97d571b0aa205a6248030b973905d95ff4791071d2c3be87cbc5bb0a5"
+      ],
+      "value": {
+        "title": "Французские подростки штурмуют площадь Бастилии – протестующие швыряют уличную мебель, вет",
+        "roots": [
+          "францу",
+          "подрос",
+          "штурму",
+          "площад",
+          "бастил",
+          "протес",
+          "швыряю",
+          "уличну",
+          "мебель"
+        ]
+      },
+      "expiresAt": 1791991260647
     }
   }
 }
