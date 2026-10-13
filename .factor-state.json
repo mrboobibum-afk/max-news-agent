@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 203995,
+      "value": 613275,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791889833899,
+      "value": 1791890441882,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"d91f06a40975814aee39464f837742ecafdab2f81702e0bda8935b1c928e0fe0\"]": {
@@ -2588,6 +2588,38 @@
         ]
       },
       "expiresAt": 1791976262608
+    },
+    "[\"factor\",\"pub\",\"fe4c9385a71b9794337efebf09df7c97dabd34833400291796d4b54164f603f6\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "fe4c9385a71b9794337efebf09df7c97dabd34833400291796d4b54164f603f6"
+      ],
+      "value": true,
+      "expiresAt": 1791976877375
+    },
+    "[\"factor\",\"topic\",\"fe4c9385a71b9794337efebf09df7c97dabd34833400291796d4b54164f603f6\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "fe4c9385a71b9794337efebf09df7c97dabd34833400291796d4b54164f603f6"
+      ],
+      "value": {
+        "title": "Мужчина, направивший по электронным каналам угрозы в адрес Туска и главы Минобороны Косиня",
+        "roots": [
+          "мужчин",
+          "направ",
+          "электр",
+          "канала",
+          "угрозы",
+          "адрес",
+          "туска",
+          "главы",
+          "минобо",
+          "косиня"
+        ]
+      },
+      "expiresAt": 1791976877376
     }
   }
 }
