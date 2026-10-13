@@ -17,33 +17,6 @@
       "value": 1791899438906,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"27e6b11f67774ebe42370fa6f8ed04155a9bf80510ffbd6826d3f362325c06f0\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "27e6b11f67774ebe42370fa6f8ed04155a9bf80510ffbd6826d3f362325c06f0"
-      ],
-      "value": true,
-      "expiresAt": 1791899556998
-    },
-    "[\"factor\",\"topic\",\"27e6b11f67774ebe42370fa6f8ed04155a9bf80510ffbd6826d3f362325c06f0\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "27e6b11f67774ebe42370fa6f8ed04155a9bf80510ffbd6826d3f362325c06f0"
-      ],
-      "value": {
-        "title": "▶️ Радиоактивные часы обнаружили в посылке из Израиля в Домодедове",
-        "roots": [
-          "радиоа",
-          "обнару",
-          "посылк",
-          "израил",
-          "домоде"
-        ]
-      },
-      "expiresAt": 1791899557000
-    },
     "[\"factor\",\"pub\",\"dccce869fda217bc4341684a2f934a865a049b82f3eb52aa3e3bbe16ef297b20\"]": {
       "key": [
         "factor",
