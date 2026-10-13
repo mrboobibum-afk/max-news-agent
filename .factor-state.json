@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 236600,
+      "value": 257757,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791888634375,
+      "value": 1791889263919,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"1abcd08f287bdd979de22c07795ccc138a9faff254a8b43c0b2da84dc06a4ae1\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "1abcd08f287bdd979de22c07795ccc138a9faff254a8b43c0b2da84dc06a4ae1"
-      ],
-      "value": true,
-      "expiresAt": 1791888718034
-    },
-    "[\"factor\",\"topic\",\"1abcd08f287bdd979de22c07795ccc138a9faff254a8b43c0b2da84dc06a4ae1\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "1abcd08f287bdd979de22c07795ccc138a9faff254a8b43c0b2da84dc06a4ae1"
-      ],
-      "value": {
-        "title": "❕ Песков заявил о готовности Путина дать указание не наносить ударов по Украине именно в д",
-        "roots": [
-          "песков",
-          "готовн",
-          "путина",
-          "указан",
-          "наноси",
-          "ударов",
-          "украин",
-          "именно"
-        ]
-      },
-      "expiresAt": 1791888718035
     },
     "[\"factor\",\"pub\",\"c897d88e85556b99374a90aa831a08122666c5370d163fe677308840c7bcb1ed\"]": {
       "key": [
@@ -2587,6 +2557,36 @@
         ]
       },
       "expiresAt": 1791975073921
+    },
+    "[\"factor\",\"pub\",\"f94653d94ce7837c77c50e7b6dbbf867240aa3bba39e0e4f28c317a6ecd882a6\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "f94653d94ce7837c77c50e7b6dbbf867240aa3bba39e0e4f28c317a6ecd882a6"
+      ],
+      "value": true,
+      "expiresAt": 1791975690145
+    },
+    "[\"factor\",\"topic\",\"f94653d94ce7837c77c50e7b6dbbf867240aa3bba39e0e4f28c317a6ecd882a6\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "f94653d94ce7837c77c50e7b6dbbf867240aa3bba39e0e4f28c317a6ecd882a6"
+      ],
+      "value": {
+        "title": "\"Чтобы за детей не нужно было дополнительно платить\" Законопроект о детских тарифах в такс",
+        "roots": [
+          "чтобы",
+          "детей",
+          "нужно",
+          "дополн",
+          "платит",
+          "законо",
+          "детски",
+          "тарифа"
+        ]
+      },
+      "expiresAt": 1791975690146
     }
   }
 }
