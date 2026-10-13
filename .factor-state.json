@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 242105,
+      "value": 844837,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791895234254,
+      "value": 1791895836101,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"f3d1a64abbb0797a274e27434b022b2c804d1776a48a1c2e5abcb681aa413f85\"]": {
@@ -2626,6 +2626,37 @@
         ]
       },
       "expiresAt": 1791981673655
+    },
+    "[\"factor\",\"pub\",\"a1aca40e7cea7c3a94c5bcc661d56739069819277754a4190920401fb37d3b07\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "a1aca40e7cea7c3a94c5bcc661d56739069819277754a4190920401fb37d3b07"
+      ],
+      "value": true,
+      "expiresAt": 1791982262508
+    },
+    "[\"factor\",\"topic\",\"a1aca40e7cea7c3a94c5bcc661d56739069819277754a4190920401fb37d3b07\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "a1aca40e7cea7c3a94c5bcc661d56739069819277754a4190920401fb37d3b07"
+      ],
+      "value": {
+        "title": "ИИ-модели скоро смогут сами распространяться по \"умной\" бытовой технике, заявили в Anthrop",
+        "roots": [
+          "модели",
+          "скоро",
+          "смогут",
+          "распро",
+          "умной",
+          "бытово",
+          "техник",
+          "заявил",
+          "anthro"
+        ]
+      },
+      "expiresAt": 1791982262509
     }
   }
 }
