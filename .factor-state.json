@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 765912,
+      "value": 719412,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791853835248,
+      "value": 1791855055891,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"b2fe66fb8c67d86098a860cf342680d9da5c27cfda163fd1a7300ae4a8320d3b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "b2fe66fb8c67d86098a860cf342680d9da5c27cfda163fd1a7300ae4a8320d3b"
-      ],
-      "value": true,
-      "expiresAt": 1791854485060
-    },
-    "[\"factor\",\"topic\",\"b2fe66fb8c67d86098a860cf342680d9da5c27cfda163fd1a7300ae4a8320d3b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "b2fe66fb8c67d86098a860cf342680d9da5c27cfda163fd1a7300ae4a8320d3b"
-      ],
-      "value": {
-        "title": "Мадьяр: Венгрия не сможет быстро отказаться от нефти и газа из РФ",
-        "roots": [
-          "мадьяр",
-          "венгри",
-          "сможет",
-          "быстро",
-          "отказа",
-          "нефти"
-        ]
-      },
-      "expiresAt": 1791854485061
     },
     "[\"factor\",\"pub\",\"d4cc2e1d4878a0d361b8200908ba3036faefdeb267459b6305fe892272818029\"]": {
       "key": [
@@ -2867,6 +2839,32 @@
         ]
       },
       "expiresAt": 1791940271391
+    },
+    "[\"factor\",\"pub\",\"92c5c34281e17fbf64f69316c2655c7f910d833b3897d9e917e3e18de07488b4\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "92c5c34281e17fbf64f69316c2655c7f910d833b3897d9e917e3e18de07488b4"
+      ],
+      "value": true,
+      "expiresAt": 1791941813888
+    },
+    "[\"factor\",\"topic\",\"92c5c34281e17fbf64f69316c2655c7f910d833b3897d9e917e3e18de07488b4\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "92c5c34281e17fbf64f69316c2655c7f910d833b3897d9e917e3e18de07488b4"
+      ],
+      "value": {
+        "title": "ПВО уничтожили 48 украинских БПЛА на подлете к Москве",
+        "roots": [
+          "уничто",
+          "украин",
+          "подлет",
+          "москве"
+        ]
+      },
+      "expiresAt": 1791941813889
     }
   }
 }
