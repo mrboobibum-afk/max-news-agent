@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 861505,
+      "value": 648986,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,35 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791921664836,
+      "value": 1791922837021,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"a45a539270579714d8597ccdc31e33a839d13113a4139f1c6fa5e8ab0d547c3c\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "a45a539270579714d8597ccdc31e33a839d13113a4139f1c6fa5e8ab0d547c3c"
-      ],
-      "value": true,
-      "expiresAt": 1791922273005
-    },
-    "[\"factor\",\"topic\",\"a45a539270579714d8597ccdc31e33a839d13113a4139f1c6fa5e8ab0d547c3c\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "a45a539270579714d8597ccdc31e33a839d13113a4139f1c6fa5e8ab0d547c3c"
-      ],
-      "value": {
-        "title": "❕ Европа с 2022 года получила энергоресурсов из РФ на $320,7 млрд, сообщил \"Вестям\" Новак",
-        "roots": [
-          "европа",
-          "получи",
-          "энерго",
-          "вестям",
-          "новак"
-        ]
-      },
-      "expiresAt": 1791922273006
     },
     "[\"factor\",\"pub\",\"d1bd38d5ea18b63d3e07ee188bc11634a3406cc44648d3053bea9fadc68a5bf2\"]": {
       "key": [
@@ -2647,6 +2620,35 @@
         ]
       },
       "expiresAt": 1792008256456
+    },
+    "[\"factor\",\"pub\",\"c8067ef49fe8471cea03729147dbad0cca79b372cc63646c176121f22c34d2b9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "c8067ef49fe8471cea03729147dbad0cca79b372cc63646c176121f22c34d2b9"
+      ],
+      "value": true,
+      "expiresAt": 1792009969890
+    },
+    "[\"factor\",\"topic\",\"c8067ef49fe8471cea03729147dbad0cca79b372cc63646c176121f22c34d2b9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "c8067ef49fe8471cea03729147dbad0cca79b372cc63646c176121f22c34d2b9"
+      ],
+      "value": {
+        "title": "В Думе назвали странными слова помощника Мурашко о госпрограмме Минздрава",
+        "roots": [
+          "назвал",
+          "странн",
+          "слова",
+          "помощн",
+          "мурашк",
+          "госпро",
+          "минздр"
+        ]
+      },
+      "expiresAt": 1792009969891
     }
   }
 }
