@@ -17,32 +17,6 @@
       "value": 1791932465494,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"0903a2375d1ff12e4510be420373122ef226ec2926f92b3e872c50ba1772abf9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "0903a2375d1ff12e4510be420373122ef226ec2926f92b3e872c50ba1772abf9"
-      ],
-      "value": true,
-      "expiresAt": 1791932499075
-    },
-    "[\"factor\",\"topic\",\"0903a2375d1ff12e4510be420373122ef226ec2926f92b3e872c50ba1772abf9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "0903a2375d1ff12e4510be420373122ef226ec2926f92b3e872c50ba1772abf9"
-      ],
-      "value": {
-        "title": "Остановить рекламные кампании в «Яндекс",
-        "roots": [
-          "остано",
-          "реклам",
-          "кампан",
-          "яндекс"
-        ]
-      },
-      "expiresAt": 1791932499077
-    },
     "[\"factor\",\"pub\",\"08e7c8005899b5ac4c5f5a28ee434346018d173ba9539e0a1227689ec236f8cb\"]": {
       "key": [
         "factor",
