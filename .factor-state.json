@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 248651,
+      "value": 367577,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,35 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791913837498,
+      "value": 1791914468783,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"65633e64ab2d8d66119841a915484a77bbbb3c82f8aa4b4c21ab4c7dbdaa345b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "65633e64ab2d8d66119841a915484a77bbbb3c82f8aa4b4c21ab4c7dbdaa345b"
-      ],
-      "value": true,
-      "expiresAt": 1791914388516
-    },
-    "[\"factor\",\"topic\",\"65633e64ab2d8d66119841a915484a77bbbb3c82f8aa4b4c21ab4c7dbdaa345b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "65633e64ab2d8d66119841a915484a77bbbb3c82f8aa4b4c21ab4c7dbdaa345b"
-      ],
-      "value": {
-        "title": "На Украине заявили о критических повреждениях на ТЭЦ-5 в Харькове",
-        "roots": [
-          "украин",
-          "заявил",
-          "критич",
-          "повреж",
-          "харько"
-        ]
-      },
-      "expiresAt": 1791914388517
     },
     "[\"factor\",\"pub\",\"1238eca3bec56aa2540c8c7f58b175d71b7410b6fcba57b76e01a7c7bdcbf3b6\"]": {
       "key": [
@@ -2649,6 +2622,34 @@
         ]
       },
       "expiresAt": 1792000301229
+    },
+    "[\"factor\",\"pub\",\"4c77bc0787b49c7f1560bddabd2a2864611a380bbacc4052c4d3ed0983bd8002\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4c77bc0787b49c7f1560bddabd2a2864611a380bbacc4052c4d3ed0983bd8002"
+      ],
+      "value": true,
+      "expiresAt": 1792000896660
+    },
+    "[\"factor\",\"topic\",\"4c77bc0787b49c7f1560bddabd2a2864611a380bbacc4052c4d3ed0983bd8002\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4c77bc0787b49c7f1560bddabd2a2864611a380bbacc4052c4d3ed0983bd8002"
+      ],
+      "value": {
+        "title": "Стычки с полицией снова начались на демонстрациях в Париже",
+        "roots": [
+          "стычки",
+          "полици",
+          "снова",
+          "начали",
+          "демонс",
+          "париже"
+        ]
+      },
+      "expiresAt": 1792000896661
     }
   }
 }
