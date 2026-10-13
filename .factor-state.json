@@ -17,45 +17,6 @@
       "value": 1791912656884,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"915a22bc44783f31806841c361f7cda4aaf0820d5a088f955eaf3cc1c15c839a\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "915a22bc44783f31806841c361f7cda4aaf0820d5a088f955eaf3cc1c15c839a"
-      ],
-      "value": true,
-      "expiresAt": 1791913062061
-    },
-    "[\"factor\",\"pub\",\"46ef9f02575e4c385ea84619e464a9b370ab7d089417d337d164f95f7adf1fe2\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "46ef9f02575e4c385ea84619e464a9b370ab7d089417d337d164f95f7adf1fe2"
-      ],
-      "value": true,
-      "expiresAt": 1791913111939
-    },
-    "[\"factor\",\"topic\",\"46ef9f02575e4c385ea84619e464a9b370ab7d089417d337d164f95f7adf1fe2\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "46ef9f02575e4c385ea84619e464a9b370ab7d089417d337d164f95f7adf1fe2"
-      ],
-      "value": {
-        "title": "Реактор первого энергоблока запустили на АЭС \"Руппур\" в Бангладеш, построенной с участием ",
-        "roots": [
-          "реакто",
-          "первог",
-          "энерго",
-          "запуст",
-          "руппур",
-          "бангла",
-          "постро",
-          "участи"
-        ]
-      },
-      "expiresAt": 1791913111940
-    },
     "[\"factor\",\"pub\",\"65633e64ab2d8d66119841a915484a77bbbb3c82f8aa4b4c21ab4c7dbdaa345b\"]": {
       "key": [
         "factor",
