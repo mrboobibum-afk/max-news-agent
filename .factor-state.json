@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 542633,
+      "value": 301271,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791923594484,
+      "value": 1791924634582,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"2aefbdc653c7973889cf324ac44573c78d7d00b23ff0f5334470a6fb82ba04d2\"]": {
@@ -2618,6 +2618,32 @@
         ]
       },
       "expiresAt": 1792010017463
+    },
+    "[\"factor\",\"pub\",\"d67757e6832f774a75a4f3d0fe0639f7fb0c136f8b1368d8ad8eed16dfb001e4\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d67757e6832f774a75a4f3d0fe0639f7fb0c136f8b1368d8ad8eed16dfb001e4"
+      ],
+      "value": true,
+      "expiresAt": 1792011097967
+    },
+    "[\"factor\",\"topic\",\"d67757e6832f774a75a4f3d0fe0639f7fb0c136f8b1368d8ad8eed16dfb001e4\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d67757e6832f774a75a4f3d0fe0639f7fb0c136f8b1368d8ad8eed16dfb001e4"
+      ],
+      "value": {
+        "title": "🚨 Уничтожены 20 летевших на Москву БПЛА, сообщил Собянин",
+        "roots": [
+          "уничто",
+          "летевш",
+          "москву",
+          "собяни"
+        ]
+      },
+      "expiresAt": 1792011097968
     }
   }
 }
