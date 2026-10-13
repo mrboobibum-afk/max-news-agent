@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 298839,
+      "value": 312992,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791927066118,
+      "value": 1791927634728,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"d10d2a3f9259b315a0f6b797fb57c4354a6238309e5dae50ff39c2cc3d22d549\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "d10d2a3f9259b315a0f6b797fb57c4354a6238309e5dae50ff39c2cc3d22d549"
-      ],
-      "value": true,
-      "expiresAt": 1791927084758
-    },
-    "[\"factor\",\"topic\",\"d10d2a3f9259b315a0f6b797fb57c4354a6238309e5dae50ff39c2cc3d22d549\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "d10d2a3f9259b315a0f6b797fb57c4354a6238309e5dae50ff39c2cc3d22d549"
-      ],
-      "value": {
-        "title": "Трамп рассержен на Зеленского и ждет от Киева прекращения ударов по НПЗ в РФ, сообщил порт",
-        "roots": [
-          "трамп",
-          "рассер",
-          "зеленс",
-          "киева",
-          "прекра",
-          "ударов"
-        ]
-      },
-      "expiresAt": 1791927084759
     },
     "[\"factor\",\"pub\",\"78fc0bae60e103de9e691fc4bc16600711988c568542b79a4fc9372345805867\"]": {
       "key": [
@@ -2612,6 +2584,36 @@
         ]
       },
       "expiresAt": 1792013513311
+    },
+    "[\"factor\",\"pub\",\"abca8a95801ab2112d12ede9e2f31d12b52ff90b8611448940ed2c3c43e4041b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "abca8a95801ab2112d12ede9e2f31d12b52ff90b8611448940ed2c3c43e4041b"
+      ],
+      "value": true,
+      "expiresAt": 1792014082959
+    },
+    "[\"factor\",\"topic\",\"abca8a95801ab2112d12ede9e2f31d12b52ff90b8611448940ed2c3c43e4041b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "abca8a95801ab2112d12ede9e2f31d12b52ff90b8611448940ed2c3c43e4041b"
+      ],
+      "value": {
+        "title": "Африканские страны ждут на предстоящем саммите Россия — Африка решений Путина по развитию ",
+        "roots": [
+          "африка",
+          "страны",
+          "предст",
+          "саммит",
+          "африка",
+          "решени",
+          "путина",
+          "развит"
+        ]
+      },
+      "expiresAt": 1792014082960
     }
   }
 }
