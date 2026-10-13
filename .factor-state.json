@@ -17,33 +17,6 @@
       "value": 1791906035976,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"06c26c8c07c82b0ac4f3b44dc4c1ef86dc3a4f520da1b77b1338bd2a2abfcf9e\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "06c26c8c07c82b0ac4f3b44dc4c1ef86dc3a4f520da1b77b1338bd2a2abfcf9e"
-      ],
-      "value": true,
-      "expiresAt": 1791906061385
-    },
-    "[\"factor\",\"topic\",\"06c26c8c07c82b0ac4f3b44dc4c1ef86dc3a4f520da1b77b1338bd2a2abfcf9e\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "06c26c8c07c82b0ac4f3b44dc4c1ef86dc3a4f520da1b77b1338bd2a2abfcf9e"
-      ],
-      "value": {
-        "title": "❗️ Путин ввел безвиз для граждан Вьетнама до 15 октября 2027 года",
-        "roots": [
-          "путин",
-          "безвиз",
-          "гражда",
-          "вьетна",
-          "октябр"
-        ]
-      },
-      "expiresAt": 1791906061386
-    },
     "[\"factor\",\"pub\",\"f52538ce11a4aecc680f5d8e3748e93300bb75526ce13dcd6bb87e5c2c65efcb\"]": {
       "key": [
         "factor",
