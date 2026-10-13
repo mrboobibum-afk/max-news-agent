@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 445911,
+      "value": 745767,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791886232971,
+      "value": 1791886835745,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"b8ea48265d62acc2737af9a2cce860e31b96a676b3be1539d6c102f0df30f6f4\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "b8ea48265d62acc2737af9a2cce860e31b96a676b3be1539d6c102f0df30f6f4"
-      ],
-      "value": true,
-      "expiresAt": 1791886323844
-    },
-    "[\"factor\",\"topic\",\"b8ea48265d62acc2737af9a2cce860e31b96a676b3be1539d6c102f0df30f6f4\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "b8ea48265d62acc2737af9a2cce860e31b96a676b3be1539d6c102f0df30f6f4"
-      ],
-      "value": {
-        "title": "🗣 Главное из заявлений Дмитрия Пескова: ▪️ Россия хочет не перемирия, а долгосрочного мир",
-        "roots": [
-          "главно",
-          "заявле",
-          "дмитри",
-          "песков",
-          "хочет",
-          "переми",
-          "долгос"
-        ]
-      },
-      "expiresAt": 1791886323845
     },
     "[\"factor\",\"pub\",\"c9ac09054acbc652dad2301e962999779ed48fe4a7cdfd95ce7f27feb0e884ce\"]": {
       "key": [
@@ -2586,6 +2557,35 @@
         ]
       },
       "expiresAt": 1791972658523
+    },
+    "[\"factor\",\"pub\",\"b43f2cbfd24dcbeeef86bd7324d8b67a620a6bc68ed7be6d20fd6ee75cb72f96\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "b43f2cbfd24dcbeeef86bd7324d8b67a620a6bc68ed7be6d20fd6ee75cb72f96"
+      ],
+      "value": true,
+      "expiresAt": 1791973260016
+    },
+    "[\"factor\",\"topic\",\"b43f2cbfd24dcbeeef86bd7324d8b67a620a6bc68ed7be6d20fd6ee75cb72f96\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "b43f2cbfd24dcbeeef86bd7324d8b67a620a6bc68ed7be6d20fd6ee75cb72f96"
+      ],
+      "value": {
+        "title": "❕ РФ продает свой конкурентоспособный товар — энергоресурсы — на мировых рынках и будет эт",
+        "roots": [
+          "продае",
+          "конкур",
+          "товар",
+          "энерго",
+          "мировы",
+          "рынках",
+          "будет"
+        ]
+      },
+      "expiresAt": 1791973260017
     }
   }
 }
