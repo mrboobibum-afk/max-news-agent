@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 613275,
+      "value": 252252,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791890441882,
+      "value": 1791891632357,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"c91bdc015d2fb0a2d4c094c74905c93c1433c6f7505e7a4aa8b21f80ac3c591e\"]": {
@@ -2592,6 +2592,36 @@
         ]
       },
       "expiresAt": 1791976877376
+    },
+    "[\"factor\",\"pub\",\"636d2ed776f500071ae1f87798fb58bb4c5c1c8b5570eeb76027a04ef9455ab4\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "636d2ed776f500071ae1f87798fb58bb4c5c1c8b5570eeb76027a04ef9455ab4"
+      ],
+      "value": true,
+      "expiresAt": 1791978068653
+    },
+    "[\"factor\",\"topic\",\"636d2ed776f500071ae1f87798fb58bb4c5c1c8b5570eeb76027a04ef9455ab4\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "636d2ed776f500071ae1f87798fb58bb4c5c1c8b5570eeb76027a04ef9455ab4"
+      ],
+      "value": {
+        "title": "52 жителя России, в том числе 5 детей, погибли за неделю от ударов ВСУ, Киев за неделю вып",
+        "roots": [
+          "жителя",
+          "россии",
+          "числе",
+          "детей",
+          "погибл",
+          "неделю",
+          "ударов",
+          "неделю"
+        ]
+      },
+      "expiresAt": 1791978068654
     }
   }
 }
