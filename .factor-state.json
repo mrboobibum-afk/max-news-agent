@@ -17,36 +17,6 @@
       "value": 1791874865398,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"b2cc8cac85f2727ecc1f1bd4ef113213d89d5a1b8f56957e71057b4a882cf5dc\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "b2cc8cac85f2727ecc1f1bd4ef113213d89d5a1b8f56957e71057b4a882cf5dc"
-      ],
-      "value": true,
-      "expiresAt": 1791874935860
-    },
-    "[\"factor\",\"topic\",\"b2cc8cac85f2727ecc1f1bd4ef113213d89d5a1b8f56957e71057b4a882cf5dc\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "b2cc8cac85f2727ecc1f1bd4ef113213d89d5a1b8f56957e71057b4a882cf5dc"
-      ],
-      "value": {
-        "title": "Группа переодетых в форму РФ боевиков \"Азова\" (признана террористической, запрещена в РФ) ",
-        "roots": [
-          "группа",
-          "переод",
-          "форму",
-          "боевик",
-          "азова",
-          "призна",
-          "террор",
-          "запрещ"
-        ]
-      },
-      "expiresAt": 1791874935861
-    },
     "[\"factor\",\"pub\",\"e232a6817f4c373e73c1a7a029d9e08c644bfadaa8fb8517f1165f0106a54b45\"]": {
       "key": [
         "factor",
