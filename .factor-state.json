@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 232688,
+      "value": 861505,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791921035356,
+      "value": 1791921664836,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"c674aa41f161d57f96eb55402e5b464da72ecd4605b484ac9a21a7febb4eea94\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c674aa41f161d57f96eb55402e5b464da72ecd4605b484ac9a21a7febb4eea94"
-      ],
-      "value": true,
-      "expiresAt": 1791921054716
-    },
-    "[\"factor\",\"topic\",\"c674aa41f161d57f96eb55402e5b464da72ecd4605b484ac9a21a7febb4eea94\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c674aa41f161d57f96eb55402e5b464da72ecd4605b484ac9a21a7febb4eea94"
-      ],
-      "value": {
-        "title": "Силы ПВО сбили десять беспилотников, летевших на Москву, сообщил Собянин",
-        "roots": [
-          "сбили",
-          "десять",
-          "беспил",
-          "летевш",
-          "москву",
-          "собяни"
-        ]
-      },
-      "expiresAt": 1791921054717
     },
     "[\"factor\",\"pub\",\"39a259ae460b32071671fd3eb5772d2b9a54e3d1fef7860a6f9cff997a39b838\"]": {
       "key": [
@@ -2674,6 +2646,37 @@
         ]
       },
       "expiresAt": 1792007608549
+    },
+    "[\"factor\",\"pub\",\"5529bba88059a7421be4544602a5daa67d300d79ef334c22c1efdfa963a0ca0d\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "5529bba88059a7421be4544602a5daa67d300d79ef334c22c1efdfa963a0ca0d"
+      ],
+      "value": true,
+      "expiresAt": 1792008256455
+    },
+    "[\"factor\",\"topic\",\"5529bba88059a7421be4544602a5daa67d300d79ef334c22c1efdfa963a0ca0d\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "5529bba88059a7421be4544602a5daa67d300d79ef334c22c1efdfa963a0ca0d"
+      ],
+      "value": {
+        "title": "Полиция Лас-Вегаса арестовала подозреваемого в убийстве американского рэпера Тупака Шакура",
+        "roots": [
+          "полици",
+          "вегаса",
+          "аресто",
+          "подозр",
+          "убийст",
+          "америк",
+          "рэпера",
+          "тупака",
+          "шакура"
+        ]
+      },
+      "expiresAt": 1792008256456
     }
   }
 }
