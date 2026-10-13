@@ -17,31 +17,6 @@
       "value": 1791882067092,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"50448f512f87b970d4e6ab484be662ce2490c81218c8f83e384600ac43a5ed33\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "50448f512f87b970d4e6ab484be662ce2490c81218c8f83e384600ac43a5ed33"
-      ],
-      "value": true,
-      "expiresAt": 1791882117470
-    },
-    "[\"factor\",\"topic\",\"50448f512f87b970d4e6ab484be662ce2490c81218c8f83e384600ac43a5ed33\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "50448f512f87b970d4e6ab484be662ce2490c81218c8f83e384600ac43a5ed33"
-      ],
-      "value": {
-        "title": "❗️ ВС РФ освободили Лидино в ДНР, сообщает МО РФ.",
-        "roots": [
-          "освобо",
-          "лидино",
-          "сообща"
-        ]
-      },
-      "expiresAt": 1791882117471
-    },
     "[\"factor\",\"pub\",\"8a8d9dfd7932dde8d8ce6571819ae62e79fe0ac895fffb649fae4a822088d34e\"]": {
       "key": [
         "factor",
