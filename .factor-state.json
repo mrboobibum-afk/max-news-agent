@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 674371,
+      "value": 867534,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791857743257,
+      "value": 1791858653564,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"db7913f6fd4785e0194d49e8be93e4b25e108206cfc4b26e27e3cf2ec32bba33\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "db7913f6fd4785e0194d49e8be93e4b25e108206cfc4b26e27e3cf2ec32bba33"
-      ],
-      "value": true,
-      "expiresAt": 1791858069074
-    },
-    "[\"factor\",\"topic\",\"db7913f6fd4785e0194d49e8be93e4b25e108206cfc4b26e27e3cf2ec32bba33\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "db7913f6fd4785e0194d49e8be93e4b25e108206cfc4b26e27e3cf2ec32bba33"
-      ],
-      "value": {
-        "title": "Глава МЧС России Куренков впервые прибыл в КНДР , где обсудит вопросы сотрудничества в обл",
-        "roots": [
-          "глава",
-          "россии",
-          "куренк",
-          "впервы",
-          "прибыл",
-          "обсуди",
-          "вопрос",
-          "сотруд"
-        ]
-      },
-      "expiresAt": 1791858069075
     },
     "[\"factor\",\"pub\",\"7cb5e0bbbdf39e6cb5bd0946b685944e504fbad723a4dd7d012cf81c53f92899\"]": {
       "key": [
@@ -2844,6 +2814,34 @@
         ]
       },
       "expiresAt": 1791944162020
+    },
+    "[\"factor\",\"pub\",\"ae4ce475d9d42bd5b1a3734aa6ab59cb8f0c6ba8edeec953adb6fc349379dab9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "ae4ce475d9d42bd5b1a3734aa6ab59cb8f0c6ba8edeec953adb6fc349379dab9"
+      ],
+      "value": true,
+      "expiresAt": 1791945100309
+    },
+    "[\"factor\",\"topic\",\"ae4ce475d9d42bd5b1a3734aa6ab59cb8f0c6ba8edeec953adb6fc349379dab9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "ae4ce475d9d42bd5b1a3734aa6ab59cb8f0c6ba8edeec953adb6fc349379dab9"
+      ],
+      "value": {
+        "title": "МВФ снизил прогнозы роста ВВП РФ в 2026 и 2027 годах на 0,2 процентного пункта, до 0,9%",
+        "roots": [
+          "снизил",
+          "прогно",
+          "роста",
+          "годах",
+          "процен",
+          "пункта"
+        ]
+      },
+      "expiresAt": 1791945100311
     }
   }
 }
