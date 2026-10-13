@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 529722,
+      "value": 586739,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791873729109,
+      "value": 1791874865398,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"b2cc8cac85f2727ecc1f1bd4ef113213d89d5a1b8f56957e71057b4a882cf5dc\"]": {
@@ -2564,6 +2564,29 @@
         ]
       },
       "expiresAt": 1791960212044
+    },
+    "[\"factor\",\"pub\",\"fb7ec8c43a3a1573da32a35b11fedd0af9d2c715879ec3da54459423ea680bd0\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "fb7ec8c43a3a1573da32a35b11fedd0af9d2c715879ec3da54459423ea680bd0"
+      ],
+      "value": true,
+      "expiresAt": 1791961365395
+    },
+    "[\"factor\",\"topic\",\"fb7ec8c43a3a1573da32a35b11fedd0af9d2c715879ec3da54459423ea680bd0\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "fb7ec8c43a3a1573da32a35b11fedd0af9d2c715879ec3da54459423ea680bd0"
+      ],
+      "value": {
+        "title": "Рэпера P",
+        "roots": [
+          "рэпера"
+        ]
+      },
+      "expiresAt": 1791961365396
     }
   }
 }
