@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 465348,
+      "value": 250818,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791852634550,
+      "value": 1791853265366,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"f8301b8523fc5fce184916af2d1b7b252b82f7184be6b111ec5b136ef203efbd\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "f8301b8523fc5fce184916af2d1b7b252b82f7184be6b111ec5b136ef203efbd"
-      ],
-      "value": true,
-      "expiresAt": 1791852827214
-    },
-    "[\"factor\",\"topic\",\"f8301b8523fc5fce184916af2d1b7b252b82f7184be6b111ec5b136ef203efbd\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "f8301b8523fc5fce184916af2d1b7b252b82f7184be6b111ec5b136ef203efbd"
-      ],
-      "value": {
-        "title": "Зеленский ввел санкции против некоторых физических и юридических лиц из РФ",
-        "roots": [
-          "зеленс",
-          "санкци",
-          "против",
-          "некото",
-          "физиче",
-          "юридич"
-        ]
-      },
-      "expiresAt": 1791852827215
     },
     "[\"factor\",\"pub\",\"5e1d158bb97557056169888576dca80bfb1513ef38f0df396371b82e3739753e\"]": {
       "key": [
@@ -2868,6 +2840,34 @@
         ]
       },
       "expiresAt": 1791939078986
+    },
+    "[\"factor\",\"pub\",\"c3927e107d1864803b3815eb87c5bd09cbbffb49fd5dbd65ad74d5239479348d\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "c3927e107d1864803b3815eb87c5bd09cbbffb49fd5dbd65ad74d5239479348d"
+      ],
+      "value": true,
+      "expiresAt": 1791939723917
+    },
+    "[\"factor\",\"topic\",\"c3927e107d1864803b3815eb87c5bd09cbbffb49fd5dbd65ad74d5239479348d\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "c3927e107d1864803b3815eb87c5bd09cbbffb49fd5dbd65ad74d5239479348d"
+      ],
+      "value": {
+        "title": "▶️ РФ лучше всех понимает коренные причины конфликтов в Центральной Азии, заявил ТАСС Скот",
+        "roots": [
+          "лучше",
+          "понима",
+          "коренн",
+          "причин",
+          "конфли",
+          "центра"
+        ]
+      },
+      "expiresAt": 1791939723919
     }
   }
 }
