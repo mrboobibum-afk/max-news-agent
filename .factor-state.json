@@ -17,35 +17,6 @@
       "value": 1791850833840,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"92f4680c50a11432f3febb085cf99b920acc1f50cbd80e946a2381fbb64b4baf\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "92f4680c50a11432f3febb085cf99b920acc1f50cbd80e946a2381fbb64b4baf"
-      ],
-      "value": true,
-      "expiresAt": 1791850992045
-    },
-    "[\"factor\",\"topic\",\"92f4680c50a11432f3febb085cf99b920acc1f50cbd80e946a2381fbb64b4baf\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "92f4680c50a11432f3febb085cf99b920acc1f50cbd80e946a2381fbb64b4baf"
-      ],
-      "value": {
-        "title": "В ОП предложили давать многодетным жилье из числа нераспроданных квартир",
-        "roots": [
-          "предло",
-          "давать",
-          "многод",
-          "жилье",
-          "числа",
-          "нерасп",
-          "кварти"
-        ]
-      },
-      "expiresAt": 1791850992046
-    },
     "[\"factor\",\"pub\",\"0d778aa3d296f9c331204ccadb052343ac9cf6944396cf606f1246b05999d6b2\"]": {
       "key": [
         "factor",
