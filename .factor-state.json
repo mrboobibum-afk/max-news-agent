@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 607950,
+      "value": 834412,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791897637732,
+      "value": 1791898252024,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"7a4d2de2e7be145bc924d87de06da59215eafc37b52e3576e183408b0fed4d69\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "7a4d2de2e7be145bc924d87de06da59215eafc37b52e3576e183408b0fed4d69"
-      ],
-      "value": true,
-      "expiresAt": 1791897761078
-    },
-    "[\"factor\",\"topic\",\"7a4d2de2e7be145bc924d87de06da59215eafc37b52e3576e183408b0fed4d69\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "7a4d2de2e7be145bc924d87de06da59215eafc37b52e3576e183408b0fed4d69"
-      ],
-      "value": {
-        "title": "Количество специальностей в вузах с обязательным ЕГЭ по истории вырастет в следующем году,",
-        "roots": [
-          "количе",
-          "специа",
-          "вузах",
-          "обязат",
-          "истори",
-          "выраст",
-          "следую"
-        ]
-      },
-      "expiresAt": 1791897761079
     },
     "[\"factor\",\"pub\",\"3dff4c8bd3db2a84165249a00e52f8e868a675539460f818771ea08fc8731242\"]": {
       "key": [
@@ -2656,6 +2627,36 @@
         ]
       },
       "expiresAt": 1791984076602
+    },
+    "[\"factor\",\"pub\",\"69d5856ac4e36edf3af1f92d939eb1276c8e5f9b1e44c66b3c739214c1e7a98b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "69d5856ac4e36edf3af1f92d939eb1276c8e5f9b1e44c66b3c739214c1e7a98b"
+      ],
+      "value": true,
+      "expiresAt": 1791984699528
+    },
+    "[\"factor\",\"topic\",\"69d5856ac4e36edf3af1f92d939eb1276c8e5f9b1e44c66b3c739214c1e7a98b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "69d5856ac4e36edf3af1f92d939eb1276c8e5f9b1e44c66b3c739214c1e7a98b"
+      ],
+      "value": {
+        "title": "▶️ Шведская активистка Грета Тунберг присоединилась к протесту старшеклассников во Франции",
+        "roots": [
+          "шведск",
+          "активи",
+          "грета",
+          "тунбер",
+          "присое",
+          "протес",
+          "старше",
+          "франци"
+        ]
+      },
+      "expiresAt": 1791984699597
     }
   }
 }
