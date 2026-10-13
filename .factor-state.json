@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 674407,
+      "value": 233114,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791883854289,
+      "value": 1791885035068,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"fa3a845dba5b70c8d3f8bf24d014081e20a8b897986eebaabd63db7d26e1a30c\"]": {
@@ -2557,6 +2557,36 @@
         ]
       },
       "expiresAt": 1791970274492
+    },
+    "[\"factor\",\"pub\",\"246f5c24650899f04eb003400f941d1059e4fbf30d7d1d374ef8a5d87d12567a\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "246f5c24650899f04eb003400f941d1059e4fbf30d7d1d374ef8a5d87d12567a"
+      ],
+      "value": true,
+      "expiresAt": 1791971456381
+    },
+    "[\"factor\",\"topic\",\"246f5c24650899f04eb003400f941d1059e4fbf30d7d1d374ef8a5d87d12567a\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "246f5c24650899f04eb003400f941d1059e4fbf30d7d1d374ef8a5d87d12567a"
+      ],
+      "value": {
+        "title": "▶️ Мужчина в Республике Корея привязал к рукам ножи и пытался ранить прохожих в ТЦ",
+        "roots": [
+          "мужчин",
+          "респуб",
+          "корея",
+          "привяз",
+          "рукам",
+          "пыталс",
+          "ранить",
+          "прохож"
+        ]
+      },
+      "expiresAt": 1791971456382
     }
   }
 }
