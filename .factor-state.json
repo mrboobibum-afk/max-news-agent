@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 252252,
+      "value": 729812,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,34 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791891632357,
+      "value": 1791892235463,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"c91bdc015d2fb0a2d4c094c74905c93c1433c6f7505e7a4aa8b21f80ac3c591e\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c91bdc015d2fb0a2d4c094c74905c93c1433c6f7505e7a4aa8b21f80ac3c591e"
-      ],
-      "value": true,
-      "expiresAt": 1791891694546
-    },
-    "[\"factor\",\"topic\",\"c91bdc015d2fb0a2d4c094c74905c93c1433c6f7505e7a4aa8b21f80ac3c591e\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c91bdc015d2fb0a2d4c094c74905c93c1433c6f7505e7a4aa8b21f80ac3c591e"
-      ],
-      "value": {
-        "title": "Зеленский не заслужил передышку на поле боя, заявил Лавров",
-        "roots": [
-          "зеленс",
-          "заслуж",
-          "переды",
-          "лавров"
-        ]
-      },
-      "expiresAt": 1791891694548
     },
     "[\"factor\",\"pub\",\"087217e9d77fb05ed212d0c0d5891c93308ede7a9d3a2578a8facfbd21ae4640\"]": {
       "key": [
@@ -2622,6 +2596,36 @@
         ]
       },
       "expiresAt": 1791978068654
+    },
+    "[\"factor\",\"pub\",\"fe080ec64b5ae52c4b311330e7bb61d1b4aafe0316245c437b00325134caae47\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "fe080ec64b5ae52c4b311330e7bb61d1b4aafe0316245c437b00325134caae47"
+      ],
+      "value": true,
+      "expiresAt": 1791978665700
+    },
+    "[\"factor\",\"topic\",\"fe080ec64b5ae52c4b311330e7bb61d1b4aafe0316245c437b00325134caae47\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "fe080ec64b5ae52c4b311330e7bb61d1b4aafe0316245c437b00325134caae47"
+      ],
+      "value": {
+        "title": "Как проверить безопасность сохраненных паролей, показало МВД – на примере \"Яндекс Браузера",
+        "roots": [
+          "провер",
+          "безопа",
+          "сохран",
+          "пароле",
+          "показа",
+          "пример",
+          "яндекс",
+          "браузе"
+        ]
+      },
+      "expiresAt": 1791978665702
     }
   }
 }
