@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 798749,
+      "value": 336810,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791902439179,
+      "value": 1791903670383,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"3068e626ce2938b619ae5bf618eada185ff5cbbfa13c08825a17d8b923814e6e\"]": {
@@ -2598,6 +2598,33 @@
         ]
       },
       "expiresAt": 1791988871567
+    },
+    "[\"factor\",\"pub\",\"5f763c7e0ffb1f2b25eac72055cd5489f6ee111256c51caa69516f8c39e00ec9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "5f763c7e0ffb1f2b25eac72055cd5489f6ee111256c51caa69516f8c39e00ec9"
+      ],
+      "value": true,
+      "expiresAt": 1791990128837
+    },
+    "[\"factor\",\"topic\",\"5f763c7e0ffb1f2b25eac72055cd5489f6ee111256c51caa69516f8c39e00ec9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "5f763c7e0ffb1f2b25eac72055cd5489f6ee111256c51caa69516f8c39e00ec9"
+      ],
+      "value": {
+        "title": "▶️ В Энергодаре от ударов артиллерии ВСУ пострадали три человека",
+        "roots": [
+          "энерго",
+          "ударов",
+          "артилл",
+          "постра",
+          "челове"
+        ]
+      },
+      "expiresAt": 1791990128839
     }
   }
 }
