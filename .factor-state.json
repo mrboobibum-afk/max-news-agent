@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 233114,
+      "value": 515635,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791885035068,
+      "value": 1791885667803,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"fa3a845dba5b70c8d3f8bf24d014081e20a8b897986eebaabd63db7d26e1a30c\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "fa3a845dba5b70c8d3f8bf24d014081e20a8b897986eebaabd63db7d26e1a30c"
-      ],
-      "value": true,
-      "expiresAt": 1791885149720
-    },
-    "[\"factor\",\"topic\",\"fa3a845dba5b70c8d3f8bf24d014081e20a8b897986eebaabd63db7d26e1a30c\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "fa3a845dba5b70c8d3f8bf24d014081e20a8b897986eebaabd63db7d26e1a30c"
-      ],
-      "value": {
-        "title": "Пьяный 15-летний подросток насмерть сбил женщину в Казани",
-        "roots": [
-          "пьяный",
-          "летний",
-          "подрос",
-          "насмер",
-          "женщин",
-          "казани"
-        ]
-      },
-      "expiresAt": 1791885149721
     },
     "[\"factor\",\"pub\",\"9b0c0d962a981cb9b93c048e9f743d4b4f74be757c4023b1657512e23135525b\"]": {
       "key": [
@@ -2587,6 +2559,33 @@
         ]
       },
       "expiresAt": 1791971456382
+    },
+    "[\"factor\",\"pub\",\"898a12ac549b398a50496873528ab16f14441af29f9948fd3fe45db082e7c25a\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "898a12ac549b398a50496873528ab16f14441af29f9948fd3fe45db082e7c25a"
+      ],
+      "value": true,
+      "expiresAt": 1791972089928
+    },
+    "[\"factor\",\"topic\",\"898a12ac549b398a50496873528ab16f14441af29f9948fd3fe45db082e7c25a\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "898a12ac549b398a50496873528ab16f14441af29f9948fd3fe45db082e7c25a"
+      ],
+      "value": {
+        "title": "ЕК начала подготовку 23-го пакета антироссийских санкций",
+        "roots": [
+          "начала",
+          "подгот",
+          "пакета",
+          "антиро",
+          "санкци"
+        ]
+      },
+      "expiresAt": 1791972089930
     }
   }
 }
