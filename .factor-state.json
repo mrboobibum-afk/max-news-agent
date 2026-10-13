@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 850315,
+      "value": 722338,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791916838019,
+      "value": 1791918067264,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"058f6a5d9bea8c2401b70ba6d8616436d0d87bfcf45c9197ab8ffd0b60bfbeca\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "058f6a5d9bea8c2401b70ba6d8616436d0d87bfcf45c9197ab8ffd0b60bfbeca"
-      ],
-      "value": true,
-      "expiresAt": 1791917481979
-    },
-    "[\"factor\",\"topic\",\"058f6a5d9bea8c2401b70ba6d8616436d0d87bfcf45c9197ab8ffd0b60bfbeca\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "058f6a5d9bea8c2401b70ba6d8616436d0d87bfcf45c9197ab8ffd0b60bfbeca"
-      ],
-      "value": {
-        "title": "Компании РФ и США уже ведут переговоры о сделках по поставке дизеля, заявил Новак в интерв",
-        "roots": [
-          "компан",
-          "ведут",
-          "перего",
-          "сделка",
-          "постав",
-          "дизеля",
-          "новак",
-          "интерв"
-        ]
-      },
-      "expiresAt": 1791917481980
     },
     "[\"factor\",\"pub\",\"cb7f2994323279e04c83b38506ccf23ce6134f02a3392958432ae808f0d75df7\"]": {
       "key": [
@@ -2678,6 +2648,34 @@
         ]
       },
       "expiresAt": 1792003460181
+    },
+    "[\"factor\",\"pub\",\"53e5ef60c1fda8cece82df541d2919b33123de436652f5fdc09e84aecfb229d9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "53e5ef60c1fda8cece82df541d2919b33123de436652f5fdc09e84aecfb229d9"
+      ],
+      "value": true,
+      "expiresAt": 1792004494774
+    },
+    "[\"factor\",\"topic\",\"53e5ef60c1fda8cece82df541d2919b33123de436652f5fdc09e84aecfb229d9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "53e5ef60c1fda8cece82df541d2919b33123de436652f5fdc09e84aecfb229d9"
+      ],
+      "value": {
+        "title": "Новая вакцина от колоректального рака доказывает свою эффективность, сообщила РИА Новости ",
+        "roots": [
+          "новая",
+          "вакцин",
+          "колоре",
+          "доказы",
+          "эффект",
+          "сообщи"
+        ]
+      },
+      "expiresAt": 1792004494775
     }
   }
 }
