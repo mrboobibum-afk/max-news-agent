@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 827970,
+      "value": 315170,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791848435279,
+      "value": 1791849666009,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"a0dbcd3e88c4f89ba759eb821211fdef12682c409dbf4612d586f9011ffd4ac5\"]": {
@@ -2831,6 +2831,34 @@
         ]
       },
       "expiresAt": 1791934879345
+    },
+    "[\"factor\",\"pub\",\"cf527a9243286c4ceffa7ee35999d30747ef8c6f9481db8051b295fc67a8b757\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "cf527a9243286c4ceffa7ee35999d30747ef8c6f9481db8051b295fc67a8b757"
+      ],
+      "value": true,
+      "expiresAt": 1791936245564
+    },
+    "[\"factor\",\"topic\",\"cf527a9243286c4ceffa7ee35999d30747ef8c6f9481db8051b295fc67a8b757\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "cf527a9243286c4ceffa7ee35999d30747ef8c6f9481db8051b295fc67a8b757"
+      ],
+      "value": {
+        "title": "Рамзана Кадырова наградили знаком «Почетный железнодорожник",
+        "roots": [
+          "рамзан",
+          "кадыро",
+          "наград",
+          "знаком",
+          "почетн",
+          "железн"
+        ]
+      },
+      "expiresAt": 1791936245565
     }
   }
 }
