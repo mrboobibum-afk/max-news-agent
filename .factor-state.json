@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 249952,
+      "value": 674371,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,59 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791856234851,
+      "value": 1791857743257,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"c524189fe92cdfe735c4d42649d8aeac636939435f6b9cd090de137335d4b70b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c524189fe92cdfe735c4d42649d8aeac636939435f6b9cd090de137335d4b70b"
-      ],
-      "value": true,
-      "expiresAt": 1791856269800
-    },
-    "[\"factor\",\"topic\",\"c524189fe92cdfe735c4d42649d8aeac636939435f6b9cd090de137335d4b70b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c524189fe92cdfe735c4d42649d8aeac636939435f6b9cd090de137335d4b70b"
-      ],
-      "value": {
-        "title": "Теймуразу Гогиашвили, обвиняемому в убийстве предпринимательницы Елены Церетели и ее дочер",
-        "roots": [
-          "теймур",
-          "гогиаш",
-          "обвиня",
-          "убийст",
-          "предпр",
-          "елены",
-          "церете",
-          "дочер"
-        ]
-      },
-      "expiresAt": 1791856269801
-    },
-    "[\"factor\",\"pub\",\"89fea9cdcdb9866a38a799ab719d948f90f5d0a890f0f83c9320b7cf96c420f1\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "89fea9cdcdb9866a38a799ab719d948f90f5d0a890f0f83c9320b7cf96c420f1"
-      ],
-      "value": true,
-      "expiresAt": 1791857133247
-    },
-    "[\"factor\",\"topic\",\"89fea9cdcdb9866a38a799ab719d948f90f5d0a890f0f83c9320b7cf96c420f1\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "89fea9cdcdb9866a38a799ab719d948f90f5d0a890f0f83c9320b7cf96c420f1"
-      ],
-      "value": {
-        "title": "������ ������� ������������� �������� ������ �� ����������� ����",
-        "roots": []
-      },
-      "expiresAt": 1791857133248
     },
     "[\"factor\",\"pub\",\"db7913f6fd4785e0194d49e8be93e4b25e108206cfc4b26e27e3cf2ec32bba33\"]": {
       "key": [
@@ -2866,6 +2815,35 @@
         ]
       },
       "expiresAt": 1791942682528
+    },
+    "[\"factor\",\"pub\",\"b87c0c1531898c76bec63bd8b3c6a77160aa110ff9a2d9e7f9a4f0087406eb0b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "b87c0c1531898c76bec63bd8b3c6a77160aa110ff9a2d9e7f9a4f0087406eb0b"
+      ],
+      "value": true,
+      "expiresAt": 1791944162019
+    },
+    "[\"factor\",\"topic\",\"b87c0c1531898c76bec63bd8b3c6a77160aa110ff9a2d9e7f9a4f0087406eb0b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "b87c0c1531898c76bec63bd8b3c6a77160aa110ff9a2d9e7f9a4f0087406eb0b"
+      ],
+      "value": {
+        "title": "Сезон гриппа и ОРВИ в России продлится до апреля, рассказала вирусолог",
+        "roots": [
+          "сезон",
+          "гриппа",
+          "россии",
+          "продли",
+          "апреля",
+          "расска",
+          "вирусо"
+        ]
+      },
+      "expiresAt": 1791944162020
     }
   }
 }
