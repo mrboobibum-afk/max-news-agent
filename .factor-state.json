@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 328204,
+      "value": 373203,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791931235703,
+      "value": 1791931833625,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"53a1570cca2984e5a07522dcf86682a027c8e955ad11008e72ed0221d5223d1a\"]": {
@@ -2558,6 +2558,37 @@
         ]
       },
       "expiresAt": 1792017694308
+    },
+    "[\"factor\",\"pub\",\"415c2ba6ba8891294eac68913079ad442fce369605e27cad0e44d90171239cea\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "415c2ba6ba8891294eac68913079ad442fce369605e27cad0e44d90171239cea"
+      ],
+      "value": true,
+      "expiresAt": 1792018252247
+    },
+    "[\"factor\",\"topic\",\"415c2ba6ba8891294eac68913079ad442fce369605e27cad0e44d90171239cea\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "415c2ba6ba8891294eac68913079ad442fce369605e27cad0e44d90171239cea"
+      ],
+      "value": {
+        "title": "ФБР задержало сотрудника OpenAI, который установил в офисе компании прослушивающее устройс",
+        "roots": [
+          "задерж",
+          "сотруд",
+          "openai",
+          "которы",
+          "устано",
+          "офисе",
+          "компан",
+          "прослу",
+          "устрой"
+        ]
+      },
+      "expiresAt": 1792018252248
     }
   }
 }
