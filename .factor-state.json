@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 344701,
+      "value": 288948,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,65 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791933635866,
+      "value": 1791935080757,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"02c6c4c0002fb380809ca0b9a1e4d05ce68041f22f95b8b1ccdde506ad8e24e5\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "02c6c4c0002fb380809ca0b9a1e4d05ce68041f22f95b8b1ccdde506ad8e24e5"
-      ],
-      "value": true,
-      "expiresAt": 1791934285943
-    },
-    "[\"factor\",\"topic\",\"02c6c4c0002fb380809ca0b9a1e4d05ce68041f22f95b8b1ccdde506ad8e24e5\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "02c6c4c0002fb380809ca0b9a1e4d05ce68041f22f95b8b1ccdde506ad8e24e5"
-      ],
-      "value": {
-        "title": "Отчисленных могут лишить права поступить в тот же вуз в течение пяти лет после исключения",
-        "roots": [
-          "отчисл",
-          "могут",
-          "лишить",
-          "права",
-          "поступ",
-          "течени",
-          "исключ"
-        ]
-      },
-      "expiresAt": 1791934285945
-    },
-    "[\"factor\",\"pub\",\"f3920443d683abd95c4d0b68b1b7073034d64f3a2a74e6501f56cb8ffcee22fd\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "f3920443d683abd95c4d0b68b1b7073034d64f3a2a74e6501f56cb8ffcee22fd"
-      ],
-      "value": true,
-      "expiresAt": 1791934879344
-    },
-    "[\"factor\",\"topic\",\"f3920443d683abd95c4d0b68b1b7073034d64f3a2a74e6501f56cb8ffcee22fd\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "f3920443d683abd95c4d0b68b1b7073034d64f3a2a74e6501f56cb8ffcee22fd"
-      ],
-      "value": {
-        "title": "Направлявшиеся в Москву самолеты развернулись над Литвой и сели в Стамбуле",
-        "roots": [
-          "направ",
-          "москву",
-          "самоле",
-          "развер",
-          "литвой",
-          "стамбу"
-        ]
-      },
-      "expiresAt": 1791934879345
     },
     "[\"factor\",\"pub\",\"cf527a9243286c4ceffa7ee35999d30747ef8c6f9481db8051b295fc67a8b757\"]": {
       "key": [
@@ -2567,6 +2510,35 @@
         ]
       },
       "expiresAt": 1792020057392
+    },
+    "[\"factor\",\"pub\",\"f31da69c53b35e6fa740fda1ce2b4e357b37f523b0afd7069284aaada0a151d8\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "f31da69c53b35e6fa740fda1ce2b4e357b37f523b0afd7069284aaada0a151d8"
+      ],
+      "value": true,
+      "expiresAt": 1792021500415
+    },
+    "[\"factor\",\"topic\",\"f31da69c53b35e6fa740fda1ce2b4e357b37f523b0afd7069284aaada0a151d8\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "f31da69c53b35e6fa740fda1ce2b4e357b37f523b0afd7069284aaada0a151d8"
+      ],
+      "value": {
+        "title": "✈️ Пулково принял более 20 рейсов, направлявшихся в Москву, сообщили в аэропорту",
+        "roots": [
+          "пулков",
+          "принял",
+          "более",
+          "рейсов",
+          "направ",
+          "москву",
+          "аэропо"
+        ]
+      },
+      "expiresAt": 1792021500415
     }
   }
 }
