@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 472537,
+      "value": 895993,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,40 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791877237128,
+      "value": 1791877833173,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"c8d86aabd9c412440d0460bc5177bb636bf9d20c89face5c4df336aef920be20\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c8d86aabd9c412440d0460bc5177bb636bf9d20c89face5c4df336aef920be20"
-      ],
-      "value": true,
-      "expiresAt": 1791877283453
-    },
-    "[\"factor\",\"topic\",\"c8d86aabd9c412440d0460bc5177bb636bf9d20c89face5c4df336aef920be20\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c8d86aabd9c412440d0460bc5177bb636bf9d20c89face5c4df336aef920be20"
-      ],
-      "value": {
-        "title": "Власти Мурманской области приняли решение запретить продажу электронных сигарет в регионе",
-        "roots": [
-          "власти",
-          "мурман",
-          "област",
-          "принял",
-          "решени",
-          "запрет",
-          "продаж",
-          "электр",
-          "сигаре",
-          "регион"
-        ]
-      },
-      "expiresAt": 1791877283455
     },
     "[\"factor\",\"pub\",\"17ce3c6b1a2506d81a1f7ed28686216130f8b705a9782fccd60e8ae5a8ae0c6f\"]": {
       "key": [
@@ -2558,6 +2526,37 @@
         ]
       },
       "expiresAt": 1791963654962
+    },
+    "[\"factor\",\"pub\",\"8c9fe6b927412d7b4d153bd08ee8fdadc804f25b4b7cce1bcf01717e592b1db8\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "8c9fe6b927412d7b4d153bd08ee8fdadc804f25b4b7cce1bcf01717e592b1db8"
+      ],
+      "value": true,
+      "expiresAt": 1791964255813
+    },
+    "[\"factor\",\"topic\",\"8c9fe6b927412d7b4d153bd08ee8fdadc804f25b4b7cce1bcf01717e592b1db8\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "8c9fe6b927412d7b4d153bd08ee8fdadc804f25b4b7cce1bcf01717e592b1db8"
+      ],
+      "value": {
+        "title": "❗️ Разрушить дронами военный аэродром \"Балтимор\" в Воронеже, уничтожив самолеты и личный с",
+        "roots": [
+          "разруш",
+          "дронам",
+          "военны",
+          "аэродр",
+          "балтим",
+          "вороне",
+          "уничто",
+          "самоле",
+          "личный"
+        ]
+      },
+      "expiresAt": 1791964255814
     }
   }
 }
