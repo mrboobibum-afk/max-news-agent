@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 524734,
+      "value": 472537,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791876649062,
+      "value": 1791877237128,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"aa1303ff8137e778a406599d72f373873cc1d621517d9721c5bcedf505a28bf9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "aa1303ff8137e778a406599d72f373873cc1d621517d9721c5bcedf505a28bf9"
-      ],
-      "value": true,
-      "expiresAt": 1791876686996
-    },
-    "[\"factor\",\"topic\",\"aa1303ff8137e778a406599d72f373873cc1d621517d9721c5bcedf505a28bf9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "aa1303ff8137e778a406599d72f373873cc1d621517d9721c5bcedf505a28bf9"
-      ],
-      "value": {
-        "title": "Бойцы РФ охватывают Славянско-Краматорскую агломерацию с нескольких сторон, что играет важ",
-        "roots": [
-          "бойцы",
-          "охваты",
-          "славян",
-          "крамат",
-          "агломе",
-          "нескол",
-          "сторон",
-          "играет"
-        ]
-      },
-      "expiresAt": 1791876686998
     },
     "[\"factor\",\"pub\",\"c8d86aabd9c412440d0460bc5177bb636bf9d20c89face5c4df336aef920be20\"]": {
       "key": [
@@ -2558,6 +2528,36 @@
         ]
       },
       "expiresAt": 1791963075683
+    },
+    "[\"factor\",\"pub\",\"c70962ff63ac21a5c06f748aa3f9b82af3de9733d69bfb528be8a5e9d561c6eb\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "c70962ff63ac21a5c06f748aa3f9b82af3de9733d69bfb528be8a5e9d561c6eb"
+      ],
+      "value": true,
+      "expiresAt": 1791963654961
+    },
+    "[\"factor\",\"topic\",\"c70962ff63ac21a5c06f748aa3f9b82af3de9733d69bfb528be8a5e9d561c6eb\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "c70962ff63ac21a5c06f748aa3f9b82af3de9733d69bfb528be8a5e9d561c6eb"
+      ],
+      "value": {
+        "title": "Самолет, летящий из Стокгольма в Цюрих, подал сигнал бедствия в небе над Германией",
+        "roots": [
+          "самоле",
+          "летящи",
+          "стокго",
+          "цюрих",
+          "подал",
+          "сигнал",
+          "бедств",
+          "герман"
+        ]
+      },
+      "expiresAt": 1791963654962
     }
   }
 }
