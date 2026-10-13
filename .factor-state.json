@@ -17,32 +17,6 @@
       "value": 1791902439179,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"0abe841ff27610e38163d9f42135610af1ff8fd24e5fcb895235f35da6b8b3c9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "0abe841ff27610e38163d9f42135610af1ff8fd24e5fcb895235f35da6b8b3c9"
-      ],
-      "value": true,
-      "expiresAt": 1791902466229
-    },
-    "[\"factor\",\"topic\",\"0abe841ff27610e38163d9f42135610af1ff8fd24e5fcb895235f35da6b8b3c9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "0abe841ff27610e38163d9f42135610af1ff8fd24e5fcb895235f35da6b8b3c9"
-      ],
-      "value": {
-        "title": "▶️ Внезапный паводок смыл дома и мосты в Непале",
-        "roots": [
-          "внезап",
-          "паводо",
-          "мосты",
-          "непале"
-        ]
-      },
-      "expiresAt": 1791902466232
-    },
     "[\"factor\",\"pub\",\"3068e626ce2938b619ae5bf618eada185ff5cbbfa13c08825a17d8b923814e6e\"]": {
       "key": [
         "factor",
