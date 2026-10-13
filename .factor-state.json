@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 784074,
+      "value": 234390,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,35 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791850833840,
+      "value": 1791852034739,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"0d778aa3d296f9c331204ccadb052343ac9cf6944396cf606f1246b05999d6b2\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "0d778aa3d296f9c331204ccadb052343ac9cf6944396cf606f1246b05999d6b2"
-      ],
-      "value": true,
-      "expiresAt": 1791851564378
-    },
-    "[\"factor\",\"topic\",\"0d778aa3d296f9c331204ccadb052343ac9cf6944396cf606f1246b05999d6b2\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "0d778aa3d296f9c331204ccadb052343ac9cf6944396cf606f1246b05999d6b2"
-      ],
-      "value": {
-        "title": "В Минпросвещения сообщили о возможности получить профессию после провала на ОГЭ",
-        "roots": [
-          "минпро",
-          "возмож",
-          "получи",
-          "профес",
-          "провал"
-        ]
-      },
-      "expiresAt": 1791851564379
     },
     "[\"factor\",\"pub\",\"f8301b8523fc5fce184916af2d1b7b252b82f7184be6b111ec5b136ef203efbd\"]": {
       "key": [
@@ -2835,6 +2808,37 @@
         ]
       },
       "expiresAt": 1791937422011
+    },
+    "[\"factor\",\"pub\",\"041eb2e5e22f3e2348ed7ecbcd42fc917ed5d369cfeb7efbbf9c1ca610193938\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "041eb2e5e22f3e2348ed7ecbcd42fc917ed5d369cfeb7efbbf9c1ca610193938"
+      ],
+      "value": true,
+      "expiresAt": 1791938459077
+    },
+    "[\"factor\",\"topic\",\"041eb2e5e22f3e2348ed7ecbcd42fc917ed5d369cfeb7efbbf9c1ca610193938\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "041eb2e5e22f3e2348ed7ecbcd42fc917ed5d369cfeb7efbbf9c1ca610193938"
+      ],
+      "value": {
+        "title": "ВМС Франции задержали у берегов острова Реюньон в Индийском океане танкер DF Peak по подоз",
+        "roots": [
+          "франци",
+          "задерж",
+          "берего",
+          "остров",
+          "реюньо",
+          "индийс",
+          "океане",
+          "танкер",
+          "подоз"
+        ]
+      },
+      "expiresAt": 1791938459078
     }
   }
 }
