@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 388325,
+      "value": 685323,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791907268055,
+      "value": 1791907834654,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"f52538ce11a4aecc680f5d8e3748e93300bb75526ce13dcd6bb87e5c2c65efcb\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "f52538ce11a4aecc680f5d8e3748e93300bb75526ce13dcd6bb87e5c2c65efcb"
-      ],
-      "value": true,
-      "expiresAt": 1791907300175
-    },
-    "[\"factor\",\"topic\",\"f52538ce11a4aecc680f5d8e3748e93300bb75526ce13dcd6bb87e5c2c65efcb\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "f52538ce11a4aecc680f5d8e3748e93300bb75526ce13dcd6bb87e5c2c65efcb"
-      ],
-      "value": {
-        "title": "Минобрнауки предлагает проводить вузовские олимпиады так же строго, как ЕГЭ",
-        "roots": [
-          "минобр",
-          "предла",
-          "провод",
-          "вузовс",
-          "олимпи",
-          "строго"
-        ]
-      },
-      "expiresAt": 1791907300176
     },
     "[\"factor\",\"pub\",\"be4ecac5fb21c45fc6becd793eb198e10134ff0624633ab56bed243ab50c7537\"]": {
       "key": [
@@ -2656,6 +2628,36 @@
         ]
       },
       "expiresAt": 1791993690849
+    },
+    "[\"factor\",\"pub\",\"99f26ed5234fab1463caef161549495db5628df45324dfca58a17e55fe2b6e9c\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "99f26ed5234fab1463caef161549495db5628df45324dfca58a17e55fe2b6e9c"
+      ],
+      "value": true,
+      "expiresAt": 1791994253968
+    },
+    "[\"factor\",\"topic\",\"99f26ed5234fab1463caef161549495db5628df45324dfca58a17e55fe2b6e9c\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "99f26ed5234fab1463caef161549495db5628df45324dfca58a17e55fe2b6e9c"
+      ],
+      "value": {
+        "title": "РФ отвергает утверждения руководства Бельгии о гибридных, диверсионных и прямых военных уг",
+        "roots": [
+          "отверг",
+          "утверж",
+          "руково",
+          "бельги",
+          "гибрид",
+          "диверс",
+          "прямых",
+          "военны"
+        ]
+      },
+      "expiresAt": 1791994253969
     }
   }
 }
