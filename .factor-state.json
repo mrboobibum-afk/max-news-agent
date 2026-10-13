@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 373203,
+      "value": 726779,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,33 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791931833625,
+      "value": 1791932465494,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"53a1570cca2984e5a07522dcf86682a027c8e955ad11008e72ed0221d5223d1a\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "53a1570cca2984e5a07522dcf86682a027c8e955ad11008e72ed0221d5223d1a"
-      ],
-      "value": true,
-      "expiresAt": 1791931852861
-    },
-    "[\"factor\",\"topic\",\"53a1570cca2984e5a07522dcf86682a027c8e955ad11008e72ed0221d5223d1a\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "53a1570cca2984e5a07522dcf86682a027c8e955ad11008e72ed0221d5223d1a"
-      ],
-      "value": {
-        "title": "Задача обеспечить МРОТ на уровне 35 тыс",
-        "roots": [
-          "задача",
-          "обеспе",
-          "уровне"
-        ]
-      },
-      "expiresAt": 1791931852862
     },
     "[\"factor\",\"pub\",\"0903a2375d1ff12e4510be420373122ef226ec2926f92b3e872c50ba1772abf9\"]": {
       "key": [
@@ -2589,6 +2564,34 @@
         ]
       },
       "expiresAt": 1792018252248
+    },
+    "[\"factor\",\"pub\",\"2fcd1bf8e5c2586a4e0b24711faec7a9435cca11800fb2e99c631d9232fdaabf\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "2fcd1bf8e5c2586a4e0b24711faec7a9435cca11800fb2e99c631d9232fdaabf"
+      ],
+      "value": true,
+      "expiresAt": 1792019010148
+    },
+    "[\"factor\",\"topic\",\"2fcd1bf8e5c2586a4e0b24711faec7a9435cca11800fb2e99c631d9232fdaabf\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "2fcd1bf8e5c2586a4e0b24711faec7a9435cca11800fb2e99c631d9232fdaabf"
+      ],
+      "value": {
+        "title": "ВС РФ нанесли удар баллистическими ракетами по киевской ТЭЦ-4 — после серии взрывов над го",
+        "roots": [
+          "нанесл",
+          "баллис",
+          "ракета",
+          "киевск",
+          "серии",
+          "взрыво"
+        ]
+      },
+      "expiresAt": 1792019010150
     }
   }
 }
