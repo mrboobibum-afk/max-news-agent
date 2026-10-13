@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 288948,
+      "value": 277808,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791935080757,
+      "value": 1791935433599,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"cf527a9243286c4ceffa7ee35999d30747ef8c6f9481db8051b295fc67a8b757\"]": {
@@ -2539,6 +2539,33 @@
         ]
       },
       "expiresAt": 1792021500415
+    },
+    "[\"factor\",\"pub\",\"4dfa1dda1d877624cb70c9631135c67a941ee9d60e850d0694a8934eaa9050d0\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4dfa1dda1d877624cb70c9631135c67a941ee9d60e850d0694a8934eaa9050d0"
+      ],
+      "value": true,
+      "expiresAt": 1792021897568
+    },
+    "[\"factor\",\"topic\",\"4dfa1dda1d877624cb70c9631135c67a941ee9d60e850d0694a8934eaa9050d0\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4dfa1dda1d877624cb70c9631135c67a941ee9d60e850d0694a8934eaa9050d0"
+      ],
+      "value": {
+        "title": "⚡️ ВС РФ освободили Никольское в Запорожской области, сообщает МО",
+        "roots": [
+          "освобо",
+          "николь",
+          "запоро",
+          "област",
+          "сообща"
+        ]
+      },
+      "expiresAt": 1792021897569
     }
   }
 }
