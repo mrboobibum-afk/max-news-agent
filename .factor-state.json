@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 852613,
+      "value": 800692,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791879039016,
+      "value": 1791880252625,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"3f7c8d20a25588283d5c27000584d28feedbfba4bf05e84fd52e1b992db8c30f\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "3f7c8d20a25588283d5c27000584d28feedbfba4bf05e84fd52e1b992db8c30f"
-      ],
-      "value": true,
-      "expiresAt": 1791879724864
-    },
-    "[\"factor\",\"topic\",\"3f7c8d20a25588283d5c27000584d28feedbfba4bf05e84fd52e1b992db8c30f\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "3f7c8d20a25588283d5c27000584d28feedbfba4bf05e84fd52e1b992db8c30f"
-      ],
-      "value": {
-        "title": "Суд приговорил к 18 и 7 годам лишения свободы 55-летнего жителя Краснодарского края и его ",
-        "roots": [
-          "пригов",
-          "годам",
-          "лишени",
-          "свобод",
-          "летнег",
-          "жителя",
-          "красно"
-        ]
-      },
-      "expiresAt": 1791879724865
     },
     "[\"factor\",\"pub\",\"7398c0cce7d9f4899bc874e1a03b16c56198c38f3ef13ecf32712b0954c4fac5\"]": {
       "key": [
@@ -2558,6 +2529,36 @@
         ]
       },
       "expiresAt": 1791965455404
+    },
+    "[\"factor\",\"pub\",\"793c0b4be3c7fcafc993273caffd26a898bd54c011f901bf4f29679f933559d3\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "793c0b4be3c7fcafc993273caffd26a898bd54c011f901bf4f29679f933559d3"
+      ],
+      "value": true,
+      "expiresAt": 1791966675324
+    },
+    "[\"factor\",\"topic\",\"793c0b4be3c7fcafc993273caffd26a898bd54c011f901bf4f29679f933559d3\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "793c0b4be3c7fcafc993273caffd26a898bd54c011f901bf4f29679f933559d3"
+      ],
+      "value": {
+        "title": "Блогера Майкла Наки* приговорили заочно к 14 годам в России - за распространение фейков об",
+        "roots": [
+          "блогер",
+          "майкла",
+          "пригов",
+          "заочно",
+          "годам",
+          "россии",
+          "распро",
+          "фейков"
+        ]
+      },
+      "expiresAt": 1791966675325
     }
   }
 }
