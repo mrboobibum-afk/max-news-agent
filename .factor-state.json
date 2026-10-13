@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 713813,
+      "value": 328204,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791930097500,
+      "value": 1791931235703,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"db11984ffd480f0bcb14e679a545cb41a6e8b4b81ab639f98bc955fa3811752a\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "db11984ffd480f0bcb14e679a545cb41a6e8b4b81ab639f98bc955fa3811752a"
-      ],
-      "value": true,
-      "expiresAt": 1791930681471
-    },
-    "[\"factor\",\"topic\",\"db11984ffd480f0bcb14e679a545cb41a6e8b4b81ab639f98bc955fa3811752a\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "db11984ffd480f0bcb14e679a545cb41a6e8b4b81ab639f98bc955fa3811752a"
-      ],
-      "value": {
-        "title": "🚨 Налет БПЛА отражают в Невинномысске на Ставрополье, сообщил глава региона",
-        "roots": [
-          "налет",
-          "отража",
-          "невинн",
-          "ставро",
-          "глава",
-          "регион"
-        ]
-      },
-      "expiresAt": 1791930681475
     },
     "[\"factor\",\"pub\",\"53a1570cca2984e5a07522dcf86682a027c8e955ad11008e72ed0221d5223d1a\"]": {
       "key": [
@@ -2558,6 +2530,34 @@
         ]
       },
       "expiresAt": 1792016566343
+    },
+    "[\"factor\",\"pub\",\"dd44408dd71c41697cd5fc21369cab3d8a47310d36047b60e25fbb14718377a4\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "dd44408dd71c41697cd5fc21369cab3d8a47310d36047b60e25fbb14718377a4"
+      ],
+      "value": true,
+      "expiresAt": 1792017694307
+    },
+    "[\"factor\",\"topic\",\"dd44408dd71c41697cd5fc21369cab3d8a47310d36047b60e25fbb14718377a4\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "dd44408dd71c41697cd5fc21369cab3d8a47310d36047b60e25fbb14718377a4"
+      ],
+      "value": {
+        "title": "Гражданам Черногории потребуется оформление визы для въезда в Россию",
+        "roots": [
+          "гражда",
+          "черног",
+          "потреб",
+          "оформл",
+          "въезда",
+          "россию"
+        ]
+      },
+      "expiresAt": 1792017694308
     }
   }
 }
