@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 888711,
+      "value": 441953,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791915161286,
+      "value": 1791916253780,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"96f50a9eaa11ce65308e335d4640b810e37c2affc3fe6b32c2fc35eb434fc516\"]": {
@@ -2651,6 +2651,30 @@
         ]
       },
       "expiresAt": 1792001603820
+    },
+    "[\"factor\",\"pub\",\"b7962de8271069648f8f815898fc10e9945a106b1ea6ce347fee1c597294ecc7\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "b7962de8271069648f8f815898fc10e9945a106b1ea6ce347fee1c597294ecc7"
+      ],
+      "value": true,
+      "expiresAt": 1792002720675
+    },
+    "[\"factor\",\"topic\",\"b7962de8271069648f8f815898fc10e9945a106b1ea6ce347fee1c597294ecc7\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "b7962de8271069648f8f815898fc10e9945a106b1ea6ce347fee1c597294ecc7"
+      ],
+      "value": {
+        "title": "▶️ Папу Римского Льва XIV госпитализировали",
+        "roots": [
+          "римско",
+          "госпит"
+        ]
+      },
+      "expiresAt": 1792002720677
     }
   }
 }
