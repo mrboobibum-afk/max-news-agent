@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 182496,
+      "value": 257911,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791869641382,
+      "value": 1791870037542,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"ccacb067ac049272fd63a77ee493d76d68c19d985e08d0c961a8bdae663d2b13\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "ccacb067ac049272fd63a77ee493d76d68c19d985e08d0c961a8bdae663d2b13"
-      ],
-      "value": true,
-      "expiresAt": 1791869736052
-    },
-    "[\"factor\",\"topic\",\"ccacb067ac049272fd63a77ee493d76d68c19d985e08d0c961a8bdae663d2b13\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "ccacb067ac049272fd63a77ee493d76d68c19d985e08d0c961a8bdae663d2b13"
-      ],
-      "value": {
-        "title": "В корпусе третьего реактора «Фукусимы-1» обнаружили трехметровую прожженную дыру",
-        "roots": [
-          "корпус",
-          "третье",
-          "реакто",
-          "фукуси",
-          "обнару",
-          "трехме",
-          "прожже"
-        ]
-      },
-      "expiresAt": 1791869736053
     },
     "[\"factor\",\"pub\",\"e285b79af24a2e09a228872d77717477342cbfe880a72886a6bf1439228bd312\"]": {
       "key": [
@@ -2675,6 +2646,33 @@
         ]
       },
       "expiresAt": 1791956067014
+    },
+    "[\"factor\",\"pub\",\"da27f733cc3cb185e8f7044a14852141e77a38f92682eae1909d48b58375619b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "da27f733cc3cb185e8f7044a14852141e77a38f92682eae1909d48b58375619b"
+      ],
+      "value": true,
+      "expiresAt": 1791956938357
+    },
+    "[\"factor\",\"topic\",\"da27f733cc3cb185e8f7044a14852141e77a38f92682eae1909d48b58375619b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "da27f733cc3cb185e8f7044a14852141e77a38f92682eae1909d48b58375619b"
+      ],
+      "value": {
+        "title": "Международные резервы Украины сократились на 17,8% с начала года",
+        "roots": [
+          "междун",
+          "резерв",
+          "украин",
+          "сократ",
+          "начала"
+        ]
+      },
+      "expiresAt": 1791956938358
     }
   }
 }
