@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 685323,
+      "value": 652100,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791907834654,
+      "value": 1791909055273,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"be4ecac5fb21c45fc6becd793eb198e10134ff0624633ab56bed243ab50c7537\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "be4ecac5fb21c45fc6becd793eb198e10134ff0624633ab56bed243ab50c7537"
-      ],
-      "value": true,
-      "expiresAt": 1791908462046
-    },
-    "[\"factor\",\"topic\",\"be4ecac5fb21c45fc6becd793eb198e10134ff0624633ab56bed243ab50c7537\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "be4ecac5fb21c45fc6becd793eb198e10134ff0624633ab56bed243ab50c7537"
-      ],
-      "value": {
-        "title": "На судью Саландину и ее близких записано более 20 объектов недвижимости, приобретенных зна",
-        "roots": [
-          "судью",
-          "саланд",
-          "близки",
-          "записа",
-          "более",
-          "объект",
-          "недвиж",
-          "приобр"
-        ]
-      },
-      "expiresAt": 1791908462047
     },
     "[\"factor\",\"pub\",\"54133e91a853c0a097a2507dd57cd09c0f53885f0efad52442179e75a563d19e\"]": {
       "key": [
@@ -2658,6 +2628,37 @@
         ]
       },
       "expiresAt": 1791994253969
+    },
+    "[\"factor\",\"pub\",\"04cb3d358274c234fd1228226a700f2fd481de8aeaf0a4b5792b1dd66f8909b0\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "04cb3d358274c234fd1228226a700f2fd481de8aeaf0a4b5792b1dd66f8909b0"
+      ],
+      "value": true,
+      "expiresAt": 1791995491078
+    },
+    "[\"factor\",\"topic\",\"04cb3d358274c234fd1228226a700f2fd481de8aeaf0a4b5792b1dd66f8909b0\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "04cb3d358274c234fd1228226a700f2fd481de8aeaf0a4b5792b1dd66f8909b0"
+      ],
+      "value": {
+        "title": "❗️ Сотрудник Hokkaido Shimbun собирал сведения о количестве участников СВО из числа жителе",
+        "roots": [
+          "сотруд",
+          "hokkai",
+          "shimbu",
+          "собира",
+          "сведен",
+          "количе",
+          "участн",
+          "числа",
+          "жителе"
+        ]
+      },
+      "expiresAt": 1791995491079
     }
   }
 }
