@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 795223,
+      "value": 248651,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791912656884,
+      "value": 1791913837498,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"65633e64ab2d8d66119841a915484a77bbbb3c82f8aa4b4c21ab4c7dbdaa345b\"]": {
@@ -2619,6 +2619,36 @@
         ]
       },
       "expiresAt": 1791999160201
+    },
+    "[\"factor\",\"pub\",\"43444df4270de3477e2b71f32e6ce3e5af76fd7664be8bfbf415c73e8110f395\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "43444df4270de3477e2b71f32e6ce3e5af76fd7664be8bfbf415c73e8110f395"
+      ],
+      "value": true,
+      "expiresAt": 1792000301228
+    },
+    "[\"factor\",\"topic\",\"43444df4270de3477e2b71f32e6ce3e5af76fd7664be8bfbf415c73e8110f395\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "43444df4270de3477e2b71f32e6ce3e5af76fd7664be8bfbf415c73e8110f395"
+      ],
+      "value": {
+        "title": "Обвиняемая в убийстве экс-мэра Самары и его супруги перевела 33 млн рублей гадалке и други",
+        "roots": [
+          "обвиня",
+          "убийст",
+          "самары",
+          "супруг",
+          "переве",
+          "рублей",
+          "гадалк",
+          "други"
+        ]
+      },
+      "expiresAt": 1792000301229
     }
   }
 }
