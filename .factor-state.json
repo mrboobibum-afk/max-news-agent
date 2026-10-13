@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 745767,
+      "value": 487377,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791886835745,
+      "value": 1791888037178,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"c9ac09054acbc652dad2301e962999779ed48fe4a7cdfd95ce7f27feb0e884ce\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c9ac09054acbc652dad2301e962999779ed48fe4a7cdfd95ce7f27feb0e884ce"
-      ],
-      "value": true,
-      "expiresAt": 1791887529016
-    },
-    "[\"factor\",\"topic\",\"c9ac09054acbc652dad2301e962999779ed48fe4a7cdfd95ce7f27feb0e884ce\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c9ac09054acbc652dad2301e962999779ed48fe4a7cdfd95ce7f27feb0e884ce"
-      ],
-      "value": {
-        "title": "❗️ Кремлю пока нечего сказать по теме \"энергетического перемирия\", контакты продолжаются, ",
-        "roots": [
-          "кремлю",
-          "нечего",
-          "сказат",
-          "энерге",
-          "переми",
-          "контак",
-          "продол"
-        ]
-      },
-      "expiresAt": 1791887529017
     },
     "[\"factor\",\"pub\",\"785b236ddb7b258ba40b450ddd785ed3506cf5c3d9ad1d5c8322631903b40340\"]": {
       "key": [
@@ -2586,6 +2557,35 @@
         ]
       },
       "expiresAt": 1791973260017
+    },
+    "[\"factor\",\"pub\",\"e5910665adfe471766819bf5cb6034a4cbf0307057de6872b777214cbe481d2d\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e5910665adfe471766819bf5cb6034a4cbf0307057de6872b777214cbe481d2d"
+      ],
+      "value": true,
+      "expiresAt": 1791974463642
+    },
+    "[\"factor\",\"topic\",\"e5910665adfe471766819bf5cb6034a4cbf0307057de6872b777214cbe481d2d\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e5910665adfe471766819bf5cb6034a4cbf0307057de6872b777214cbe481d2d"
+      ],
+      "value": {
+        "title": "Мерц заявил , что не стремится стать народным любимцем, а его главная цель - вернуть Герма",
+        "roots": [
+          "стреми",
+          "стать",
+          "народн",
+          "любимц",
+          "главна",
+          "вернут",
+          "герма"
+        ]
+      },
+      "expiresAt": 1791974463644
     }
   }
 }
