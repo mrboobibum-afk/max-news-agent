@@ -17,36 +17,6 @@
       "value": 1791900640785,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"dccce869fda217bc4341684a2f934a865a049b82f3eb52aa3e3bbe16ef297b20\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "dccce869fda217bc4341684a2f934a865a049b82f3eb52aa3e3bbe16ef297b20"
-      ],
-      "value": true,
-      "expiresAt": 1791900664370
-    },
-    "[\"factor\",\"topic\",\"dccce869fda217bc4341684a2f934a865a049b82f3eb52aa3e3bbe16ef297b20\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "dccce869fda217bc4341684a2f934a865a049b82f3eb52aa3e3bbe16ef297b20"
-      ],
-      "value": {
-        "title": "Лондон и Брюссель прорабатывают планы блокады Балтийского моря , заявил Патрушев - страны ",
-        "roots": [
-          "лондон",
-          "брюссе",
-          "прораб",
-          "планы",
-          "блокад",
-          "балтий",
-          "патруш",
-          "страны"
-        ]
-      },
-      "expiresAt": 1791900664371
-    },
     "[\"factor\",\"pub\",\"d849062e0af1ef87c2a21658b592763231e418ab55da901efeca6b731320fddd\"]": {
       "key": [
         "factor",
