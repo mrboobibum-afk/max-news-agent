@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 212374,
+      "value": 294842,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791910233216,
+      "value": 1791910873526,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"68bcbd7bacaa39eb18e3e7e42ab438fb65493d629c4026f86c8e2d7acdf92fc8\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "68bcbd7bacaa39eb18e3e7e42ab438fb65493d629c4026f86c8e2d7acdf92fc8"
-      ],
-      "value": true,
-      "expiresAt": 1791910521760
-    },
-    "[\"factor\",\"topic\",\"68bcbd7bacaa39eb18e3e7e42ab438fb65493d629c4026f86c8e2d7acdf92fc8\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "68bcbd7bacaa39eb18e3e7e42ab438fb65493d629c4026f86c8e2d7acdf92fc8"
-      ],
-      "value": {
-        "title": "Избили, обрили и подожгли — жестокую расправу из-за ревности устроила семья над девушкой в",
-        "roots": [
-          "избили",
-          "обрили",
-          "подожг",
-          "жесток",
-          "распра",
-          "ревнос",
-          "устрои",
-          "семья",
-          "девушк"
-        ]
-      },
-      "expiresAt": 1791910521762
     },
     "[\"factor\",\"pub\",\"915a22bc44783f31806841c361f7cda4aaf0820d5a088f955eaf3cc1c15c839a\"]": {
       "key": [
@@ -2625,6 +2594,37 @@
         ]
       },
       "expiresAt": 1791996691122
+    },
+    "[\"factor\",\"pub\",\"3de0efec2ed996b4c06f237a33a33c21ef52e9751bf07bcab493663e6423d20f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "3de0efec2ed996b4c06f237a33a33c21ef52e9751bf07bcab493663e6423d20f"
+      ],
+      "value": true,
+      "expiresAt": 1791997301064
+    },
+    "[\"factor\",\"topic\",\"3de0efec2ed996b4c06f237a33a33c21ef52e9751bf07bcab493663e6423d20f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "3de0efec2ed996b4c06f237a33a33c21ef52e9751bf07bcab493663e6423d20f"
+      ],
+      "value": {
+        "title": "Гаага отказом во въезде российским гимнасткам вмешалась в формирование состава участников ",
+        "roots": [
+          "гаага",
+          "отказо",
+          "въезде",
+          "россий",
+          "гимнас",
+          "вмешал",
+          "формир",
+          "состав",
+          "участн"
+        ]
+      },
+      "expiresAt": 1791997301065
     }
   }
 }
