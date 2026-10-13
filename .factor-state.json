@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 692604,
+      "value": 187957,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791900640785,
+      "value": 1791901859036,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"d849062e0af1ef87c2a21658b592763231e418ab55da901efeca6b731320fddd\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "d849062e0af1ef87c2a21658b592763231e418ab55da901efeca6b731320fddd"
-      ],
-      "value": true,
-      "expiresAt": 1791901258679
-    },
-    "[\"factor\",\"topic\",\"d849062e0af1ef87c2a21658b592763231e418ab55da901efeca6b731320fddd\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "d849062e0af1ef87c2a21658b592763231e418ab55da901efeca6b731320fddd"
-      ],
-      "value": {
-        "title": "Журнал Newsweek назвал четырех кандидатов на смену Зеленскому после призывов Трампа к смен",
-        "roots": [
-          "журнал",
-          "newswe",
-          "назвал",
-          "четыре",
-          "кандид",
-          "смену",
-          "зеленс",
-          "призыв",
-          "трампа"
-        ]
-      },
-      "expiresAt": 1791901258680
     },
     "[\"factor\",\"pub\",\"4d9cbf8eb359dabe7c6bf5846388f1ecee42e48bc534939bde9a9e8121ace5a9\"]": {
       "key": [
@@ -2629,6 +2598,35 @@
         ]
       },
       "expiresAt": 1791987070032
+    },
+    "[\"factor\",\"pub\",\"4eeeabb809c02104b0d35fa027f229659fc7f972b8e17178b64ee6248b495428\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4eeeabb809c02104b0d35fa027f229659fc7f972b8e17178b64ee6248b495428"
+      ],
+      "value": true,
+      "expiresAt": 1791988298834
+    },
+    "[\"factor\",\"topic\",\"4eeeabb809c02104b0d35fa027f229659fc7f972b8e17178b64ee6248b495428\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4eeeabb809c02104b0d35fa027f229659fc7f972b8e17178b64ee6248b495428"
+      ],
+      "value": {
+        "title": "До конца года может пройти следующий раунд консультаций РФ и США, сообщил Рябков",
+        "roots": [
+          "конца",
+          "может",
+          "пройти",
+          "следую",
+          "раунд",
+          "консул",
+          "рябков"
+        ]
+      },
+      "expiresAt": 1791988298835
     }
   }
 }
