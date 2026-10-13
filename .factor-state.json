@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 257757,
+      "value": 203995,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791889263919,
+      "value": 1791889833899,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"d91f06a40975814aee39464f837742ecafdab2f81702e0bda8935b1c928e0fe0\"]": {
@@ -2556,6 +2556,38 @@
         ]
       },
       "expiresAt": 1791975690146
+    },
+    "[\"factor\",\"pub\",\"579fa77a1063c3be8f54d6dbd66c3bdc0f08cc9fcc8e817fefb6b82d3b9ff79e\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "579fa77a1063c3be8f54d6dbd66c3bdc0f08cc9fcc8e817fefb6b82d3b9ff79e"
+      ],
+      "value": true,
+      "expiresAt": 1791976262607
+    },
+    "[\"factor\",\"topic\",\"579fa77a1063c3be8f54d6dbd66c3bdc0f08cc9fcc8e817fefb6b82d3b9ff79e\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "579fa77a1063c3be8f54d6dbd66c3bdc0f08cc9fcc8e817fefb6b82d3b9ff79e"
+      ],
+      "value": {
+        "title": "Лукашенко назвал полной глупостью обвинения Запада в якобы планировании Минском пробить Су",
+        "roots": [
+          "лукаше",
+          "назвал",
+          "полной",
+          "глупос",
+          "обвине",
+          "запада",
+          "якобы",
+          "планир",
+          "минско",
+          "пробит"
+        ]
+      },
+      "expiresAt": 1791976262608
     }
   }
 }
