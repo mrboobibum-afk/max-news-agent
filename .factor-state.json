@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 599989,
+      "value": 876697,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792014035468,
+      "value": 1792015261921,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"a8cd23f2b62f09eea1bc7de74447c2713479d45c394f272c50ac11ef85a0817c\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "a8cd23f2b62f09eea1bc7de74447c2713479d45c394f272c50ac11ef85a0817c"
-      ],
-      "value": true,
-      "expiresAt": 1792015182625
-    },
-    "[\"factor\",\"topic\",\"a8cd23f2b62f09eea1bc7de74447c2713479d45c394f272c50ac11ef85a0817c\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "a8cd23f2b62f09eea1bc7de74447c2713479d45c394f272c50ac11ef85a0817c"
-      ],
-      "value": {
-        "title": "МИД Британии: Аргентину ждут жесткие меры в случае притязаний на Фолкленды",
-        "roots": [
-          "британ",
-          "аргент",
-          "жестки",
-          "случае",
-          "притяз",
-          "фолкле"
-        ]
-      },
-      "expiresAt": 1792015182626
     },
     "[\"factor\",\"pub\",\"fd0d12a90fd09e5337b99ce5849bbc8a8bfeb1643f3ff33dbcd3b0cf42b84823\"]": {
       "key": [
@@ -2798,6 +2770,29 @@
         ]
       },
       "expiresAt": 1792100463297
+    },
+    "[\"factor\",\"pub\",\"fb7ec8c43a3a1573da32a35b11fedd0af9d2c715879ec3da54459423ea680bd0\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "fb7ec8c43a3a1573da32a35b11fedd0af9d2c715879ec3da54459423ea680bd0"
+      ],
+      "value": true,
+      "expiresAt": 1792101684144
+    },
+    "[\"factor\",\"topic\",\"fb7ec8c43a3a1573da32a35b11fedd0af9d2c715879ec3da54459423ea680bd0\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "fb7ec8c43a3a1573da32a35b11fedd0af9d2c715879ec3da54459423ea680bd0"
+      ],
+      "value": {
+        "title": "Рэпера P",
+        "roots": [
+          "рэпера"
+        ]
+      },
+      "expiresAt": 1792101684145
     }
   }
 }
