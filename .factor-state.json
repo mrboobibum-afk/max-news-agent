@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 351319,
+      "value": 775844,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792018865456,
+      "value": 1792019435601,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"2fcd1bf8e5c2586a4e0b24711faec7a9435cca11800fb2e99c631d9232fdaabf\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "2fcd1bf8e5c2586a4e0b24711faec7a9435cca11800fb2e99c631d9232fdaabf"
-      ],
-      "value": true,
-      "expiresAt": 1792019010148
-    },
-    "[\"factor\",\"topic\",\"2fcd1bf8e5c2586a4e0b24711faec7a9435cca11800fb2e99c631d9232fdaabf\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "2fcd1bf8e5c2586a4e0b24711faec7a9435cca11800fb2e99c631d9232fdaabf"
-      ],
-      "value": {
-        "title": "ВС РФ нанесли удар баллистическими ракетами по киевской ТЭЦ-4 — после серии взрывов над го",
-        "roots": [
-          "нанесл",
-          "баллис",
-          "ракета",
-          "киевск",
-          "серии",
-          "взрыво"
-        ]
-      },
-      "expiresAt": 1792019010150
     },
     "[\"factor\",\"pub\",\"db1e02cb7b09db1cdf98b41ecdcf1759ec4721c647f9b35c20291c6e4cab5846\"]": {
       "key": [
@@ -2823,6 +2795,35 @@
         ]
       },
       "expiresAt": 1792105476433
+    },
+    "[\"factor\",\"pub\",\"a8b23d559a3717a75d9e97afdc4553bff46e7f0ee4b388920b3b98bb4f6cb797\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "a8b23d559a3717a75d9e97afdc4553bff46e7f0ee4b388920b3b98bb4f6cb797"
+      ],
+      "value": true,
+      "expiresAt": 1792105868394
+    },
+    "[\"factor\",\"topic\",\"a8b23d559a3717a75d9e97afdc4553bff46e7f0ee4b388920b3b98bb4f6cb797\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "a8b23d559a3717a75d9e97afdc4553bff46e7f0ee4b388920b3b98bb4f6cb797"
+      ],
+      "value": {
+        "title": "▶️ Маткапитал необходимо позволить использовать на покупку семейных авто отечественного пр",
+        "roots": [
+          "маткап",
+          "необхо",
+          "позвол",
+          "исполь",
+          "покупк",
+          "семейн",
+          "отечес"
+        ]
+      },
+      "expiresAt": 1792105868395
     }
   }
 }
