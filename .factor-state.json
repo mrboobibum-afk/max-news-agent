@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 672632,
+      "value": 613528,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,62 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792001436305,
+      "value": 1792003890017,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"b7962de8271069648f8f815898fc10e9945a106b1ea6ce347fee1c597294ecc7\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "b7962de8271069648f8f815898fc10e9945a106b1ea6ce347fee1c597294ecc7"
-      ],
-      "value": true,
-      "expiresAt": 1792002720675
-    },
-    "[\"factor\",\"topic\",\"b7962de8271069648f8f815898fc10e9945a106b1ea6ce347fee1c597294ecc7\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "b7962de8271069648f8f815898fc10e9945a106b1ea6ce347fee1c597294ecc7"
-      ],
-      "value": {
-        "title": "▶️ Папу Римского Льва XIV госпитализировали",
-        "roots": [
-          "римско",
-          "госпит"
-        ]
-      },
-      "expiresAt": 1792002720677
-    },
-    "[\"factor\",\"pub\",\"23a37c0c7c105a2bd683b71b39abf758be8b25ae04c1e2918c9b122cca87c50e\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "23a37c0c7c105a2bd683b71b39abf758be8b25ae04c1e2918c9b122cca87c50e"
-      ],
-      "value": true,
-      "expiresAt": 1792003460180
-    },
-    "[\"factor\",\"topic\",\"23a37c0c7c105a2bd683b71b39abf758be8b25ae04c1e2918c9b122cca87c50e\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "23a37c0c7c105a2bd683b71b39abf758be8b25ae04c1e2918c9b122cca87c50e"
-      ],
-      "value": {
-        "title": "Швейцарская фармкомпания Roche заключила соглашение с китайской Rona Therapeutics о разраб",
-        "roots": [
-          "швейца",
-          "фармко",
-          "roche",
-          "заключ",
-          "соглаш",
-          "китайс",
-          "therap",
-          "разраб"
-        ]
-      },
-      "expiresAt": 1792003460181
     },
     "[\"factor\",\"pub\",\"53e5ef60c1fda8cece82df541d2919b33123de436652f5fdc09e84aecfb229d9\"]": {
       "key": [
@@ -2726,6 +2672,35 @@
         ]
       },
       "expiresAt": 1792087921773
+    },
+    "[\"factor\",\"pub\",\"441d94268ce9bb1be26460f0fc571b9eb2dff7cbd58b537a4fb38b202d546701\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "441d94268ce9bb1be26460f0fc571b9eb2dff7cbd58b537a4fb38b202d546701"
+      ],
+      "value": true,
+      "expiresAt": 1792090336800
+    },
+    "[\"factor\",\"topic\",\"441d94268ce9bb1be26460f0fc571b9eb2dff7cbd58b537a4fb38b202d546701\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "441d94268ce9bb1be26460f0fc571b9eb2dff7cbd58b537a4fb38b202d546701"
+      ],
+      "value": {
+        "title": "Франция более не в состоянии оказывать финансовую помощь Украине",
+        "roots": [
+          "франци",
+          "более",
+          "состоя",
+          "оказыв",
+          "финанс",
+          "помощь",
+          "украин"
+        ]
+      },
+      "expiresAt": 1792090336815
     }
   }
 }
