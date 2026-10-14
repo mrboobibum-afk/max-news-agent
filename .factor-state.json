@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 414733,
+      "value": 808425,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791977450080,
+      "value": 1791978032060,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"636d2ed776f500071ae1f87798fb58bb4c5c1c8b5570eeb76027a04ef9455ab4\"]": {
@@ -2730,6 +2730,36 @@
         ]
       },
       "expiresAt": 1792063957290
+    },
+    "[\"factor\",\"pub\",\"4afcf3ee6455fe6b49ece52a4e7b136beee5c106da86d1830611c84de79cbd48\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4afcf3ee6455fe6b49ece52a4e7b136beee5c106da86d1830611c84de79cbd48"
+      ],
+      "value": true,
+      "expiresAt": 1792064456957
+    },
+    "[\"factor\",\"topic\",\"4afcf3ee6455fe6b49ece52a4e7b136beee5c106da86d1830611c84de79cbd48\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4afcf3ee6455fe6b49ece52a4e7b136beee5c106da86d1830611c84de79cbd48"
+      ],
+      "value": {
+        "title": "\"Зеленая вошь возмущена\" Без разведданных США Зеленский слепнет, мечется и паникует, заяви",
+        "roots": [
+          "зелена",
+          "возмущ",
+          "развед",
+          "зеленс",
+          "слепне",
+          "мечетс",
+          "панику",
+          "заяви"
+        ]
+      },
+      "expiresAt": 1792064456958
     }
   }
 }
