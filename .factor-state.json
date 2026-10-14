@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 863750,
+      "value": 754143,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791987035512,
+      "value": 1791988254994,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"4eeeabb809c02104b0d35fa027f229659fc7f972b8e17178b64ee6248b495428\"]": {
@@ -2730,6 +2730,34 @@
         ]
       },
       "expiresAt": 1792073457253
+    },
+    "[\"factor\",\"pub\",\"d66232c40334c0f1616eab27d26f4fde9301967206e88944334b7d889e5a575b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d66232c40334c0f1616eab27d26f4fde9301967206e88944334b7d889e5a575b"
+      ],
+      "value": true,
+      "expiresAt": 1792074683808
+    },
+    "[\"factor\",\"topic\",\"d66232c40334c0f1616eab27d26f4fde9301967206e88944334b7d889e5a575b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d66232c40334c0f1616eab27d26f4fde9301967206e88944334b7d889e5a575b"
+      ],
+      "value": {
+        "title": "\"Пришло время Украине найти нового лидера\"",
+        "roots": [
+          "пришло",
+          "время",
+          "украин",
+          "найти",
+          "нового",
+          "лидера"
+        ]
+      },
+      "expiresAt": 1792074683809
     }
   }
 }
