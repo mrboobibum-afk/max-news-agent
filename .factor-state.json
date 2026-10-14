@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 360684,
+      "value": 862747,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791949830478,
+      "value": 1791950465720,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"9ea4ee7161cc2d19660b8467c4441ae897205daf3b0074e4ac132ae8e939c4f9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "9ea4ee7161cc2d19660b8467c4441ae897205daf3b0074e4ac132ae8e939c4f9"
-      ],
-      "value": true,
-      "expiresAt": 1791950040297
-    },
-    "[\"factor\",\"topic\",\"9ea4ee7161cc2d19660b8467c4441ae897205daf3b0074e4ac132ae8e939c4f9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "9ea4ee7161cc2d19660b8467c4441ae897205daf3b0074e4ac132ae8e939c4f9"
-      ],
-      "value": {
-        "title": "\"Яндекс Пэй\" повысит пользователям ставки по накопительным счетам до 20% годовых с 11 до 1",
-        "roots": [
-          "яндекс",
-          "повыси",
-          "пользо",
-          "ставки",
-          "накопи",
-          "счетам",
-          "годовы"
-        ]
-      },
-      "expiresAt": 1791950040299
     },
     "[\"factor\",\"pub\",\"4c9ad32c8f75fcf7c58275b233108dc96a5b98d072921b35241afc4c046e8321\"]": {
       "key": [
@@ -2568,6 +2539,37 @@
         ]
       },
       "expiresAt": 1792036255733
+    },
+    "[\"factor\",\"pub\",\"99a298b31f3707181d68fd4a347ebf5a6a4a87cc92dbc9ea86f53c3ed6b2b515\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "99a298b31f3707181d68fd4a347ebf5a6a4a87cc92dbc9ea86f53c3ed6b2b515"
+      ],
+      "value": true,
+      "expiresAt": 1792036942194
+    },
+    "[\"factor\",\"topic\",\"99a298b31f3707181d68fd4a347ebf5a6a4a87cc92dbc9ea86f53c3ed6b2b515\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "99a298b31f3707181d68fd4a347ebf5a6a4a87cc92dbc9ea86f53c3ed6b2b515"
+      ],
+      "value": {
+        "title": "🚨 Число сбитых на подлете к Москве БПЛА достигло 75 с начала суток, следует из подсчетов ",
+        "roots": [
+          "число",
+          "сбитых",
+          "подлет",
+          "москве",
+          "достиг",
+          "начала",
+          "суток",
+          "следуе",
+          "подсче"
+        ]
+      },
+      "expiresAt": 1792036942195
     }
   }
 }
