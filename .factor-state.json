@@ -2394,31 +2394,31 @@
       },
       "expiresAt": 1792027955653
     },
-    "[\"factor\",\"pub\",\"74850e46af156f5fc9b26ccedc78e6b4535178d06fb13244c69fbccf89443a1d\"]": {
+    "[\"factor\",\"pub\",\"4e672bbccbddec4fe38dfe4930df0e710462e3d2a9bfc74d476871b3db715a82\"]": {
       "key": [
         "factor",
         "pub",
-        "74850e46af156f5fc9b26ccedc78e6b4535178d06fb13244c69fbccf89443a1d"
+        "4e672bbccbddec4fe38dfe4930df0e710462e3d2a9bfc74d476871b3db715a82"
       ],
       "value": true,
-      "expiresAt": 1792029801853
+      "expiresAt": 1792030865038
     },
-    "[\"factor\",\"topic\",\"74850e46af156f5fc9b26ccedc78e6b4535178d06fb13244c69fbccf89443a1d\"]": {
+    "[\"factor\",\"topic\",\"4e672bbccbddec4fe38dfe4930df0e710462e3d2a9bfc74d476871b3db715a82\"]": {
       "key": [
         "factor",
         "topic",
-        "74850e46af156f5fc9b26ccedc78e6b4535178d06fb13244c69fbccf89443a1d"
+        "4e672bbccbddec4fe38dfe4930df0e710462e3d2a9bfc74d476871b3db715a82"
       ],
       "value": {
-        "title": "Врач Праздников призвал приравнять услуги лжеврачей к покушению на убийство",
+        "title": "RMF24: на пляже в Польше нашли неопознанный летающий объект",
         "roots": [
-          "праздн",
-          "призва",
-          "прирав",
-          "услуги",
-          "лжевра",
-          "покуше",
-          "убийст"
+          "rmf24",
+          "пляже",
+          "польше",
+          "нашли",
+          "неопоз",
+          "летающ",
+          "объект"
         ]
       },
       "expiresAt": 1792029801855
