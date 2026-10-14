@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 613528,
+      "value": 322619,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792003890017,
+      "value": 1792005041007,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"53e5ef60c1fda8cece82df541d2919b33123de436652f5fdc09e84aecfb229d9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "53e5ef60c1fda8cece82df541d2919b33123de436652f5fdc09e84aecfb229d9"
-      ],
-      "value": true,
-      "expiresAt": 1792004494774
-    },
-    "[\"factor\",\"topic\",\"53e5ef60c1fda8cece82df541d2919b33123de436652f5fdc09e84aecfb229d9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "53e5ef60c1fda8cece82df541d2919b33123de436652f5fdc09e84aecfb229d9"
-      ],
-      "value": {
-        "title": "Новая вакцина от колоректального рака доказывает свою эффективность, сообщила РИА Новости ",
-        "roots": [
-          "новая",
-          "вакцин",
-          "колоре",
-          "доказы",
-          "эффект",
-          "сообщи"
-        ]
-      },
-      "expiresAt": 1792004494775
     },
     "[\"factor\",\"pub\",\"d72bed5e249b165b354520e5b96a7c264a268e779c4a7dfdd5e0c0f31b86b442\"]": {
       "key": [
@@ -2701,6 +2673,35 @@
         ]
       },
       "expiresAt": 1792090336815
+    },
+    "[\"factor\",\"pub\",\"427f9512ce2b8ccf7bba7bb22161e63ce0da783ab35981167c126c55fdd255bf\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "427f9512ce2b8ccf7bba7bb22161e63ce0da783ab35981167c126c55fdd255bf"
+      ],
+      "value": true,
+      "expiresAt": 1792091667968
+    },
+    "[\"factor\",\"topic\",\"427f9512ce2b8ccf7bba7bb22161e63ce0da783ab35981167c126c55fdd255bf\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "427f9512ce2b8ccf7bba7bb22161e63ce0da783ab35981167c126c55fdd255bf"
+      ],
+      "value": {
+        "title": "❗️ Недельная инфляция в России замедлилась до 0,11% после скачка до 0,96% неделей ранее, в",
+        "roots": [
+          "недель",
+          "инфляц",
+          "россии",
+          "замедл",
+          "скачка",
+          "неделе",
+          "ранее"
+        ]
+      },
+      "expiresAt": 1792091667969
     }
   }
 }
