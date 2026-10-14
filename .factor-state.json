@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 421941,
+      "value": 630423,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791960635140,
+      "value": 1791961268255,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"fb7ec8c43a3a1573da32a35b11fedd0af9d2c715879ec3da54459423ea680bd0\"]": {
@@ -2628,6 +2628,35 @@
         ]
       },
       "expiresAt": 1792047179945
+    },
+    "[\"factor\",\"pub\",\"f37801fed9868437d9cee5000acd9246f126db37d27a00eb7f0305885318931a\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "f37801fed9868437d9cee5000acd9246f126db37d27a00eb7f0305885318931a"
+      ],
+      "value": true,
+      "expiresAt": 1792047704076
+    },
+    "[\"factor\",\"topic\",\"f37801fed9868437d9cee5000acd9246f126db37d27a00eb7f0305885318931a\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "f37801fed9868437d9cee5000acd9246f126db37d27a00eb7f0305885318931a"
+      ],
+      "value": {
+        "title": "❗️ Сбербанк подтвердил атаки на ЦОД, все сервисы работают штатно, сообщил Ведяхин",
+        "roots": [
+          "сберба",
+          "подтве",
+          "атаки",
+          "сервис",
+          "работа",
+          "штатно",
+          "ведяхи"
+        ]
+      },
+      "expiresAt": 1792047704077
     }
   }
 }
