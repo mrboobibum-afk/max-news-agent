@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 277808,
+      "value": 475332,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,66 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791935433599,
+      "value": 1791937299884,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"cf527a9243286c4ceffa7ee35999d30747ef8c6f9481db8051b295fc67a8b757\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "cf527a9243286c4ceffa7ee35999d30747ef8c6f9481db8051b295fc67a8b757"
-      ],
-      "value": true,
-      "expiresAt": 1791936245564
-    },
-    "[\"factor\",\"topic\",\"cf527a9243286c4ceffa7ee35999d30747ef8c6f9481db8051b295fc67a8b757\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "cf527a9243286c4ceffa7ee35999d30747ef8c6f9481db8051b295fc67a8b757"
-      ],
-      "value": {
-        "title": "Рамзана Кадырова наградили знаком «Почетный железнодорожник",
-        "roots": [
-          "рамзан",
-          "кадыро",
-          "наград",
-          "знаком",
-          "почетн",
-          "железн"
-        ]
-      },
-      "expiresAt": 1791936245565
-    },
-    "[\"factor\",\"pub\",\"044299033e7cecdfcf54b1012865953a3b86420bea121196f03b85297e892ef6\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "044299033e7cecdfcf54b1012865953a3b86420bea121196f03b85297e892ef6"
-      ],
-      "value": true,
-      "expiresAt": 1791936891665
-    },
-    "[\"factor\",\"topic\",\"044299033e7cecdfcf54b1012865953a3b86420bea121196f03b85297e892ef6\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "044299033e7cecdfcf54b1012865953a3b86420bea121196f03b85297e892ef6"
-      ],
-      "value": {
-        "title": "Трамп считает, что война США против Ирана завершится \"очень скоро",
-        "roots": [
-          "трамп",
-          "считае",
-          "война",
-          "против",
-          "ирана",
-          "заверш",
-          "очень",
-          "скоро"
-        ]
-      },
-      "expiresAt": 1791936891666
     },
     "[\"factor\",\"pub\",\"9d55b93f7a847537bc7a9927d494e3f87bed60cf4c73757906573d92e766faf4\"]": {
       "key": [
@@ -2566,6 +2508,33 @@
         ]
       },
       "expiresAt": 1792021897569
+    },
+    "[\"factor\",\"pub\",\"4807a6544309b88a44b4c165e7ff7d00c1f9177aadc7d161f98903dbd237c6e0\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4807a6544309b88a44b4c165e7ff7d00c1f9177aadc7d161f98903dbd237c6e0"
+      ],
+      "value": true,
+      "expiresAt": 1792024455892
+    },
+    "[\"factor\",\"topic\",\"4807a6544309b88a44b4c165e7ff7d00c1f9177aadc7d161f98903dbd237c6e0\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4807a6544309b88a44b4c165e7ff7d00c1f9177aadc7d161f98903dbd237c6e0"
+      ],
+      "value": {
+        "title": "Рост инвестиций на 1,5% во втором квартале лишь частично компенсировал спад",
+        "roots": [
+          "инвест",
+          "втором",
+          "кварта",
+          "частич",
+          "компен"
+        ]
+      },
+      "expiresAt": 1792024455893
     }
   }
 }
