@@ -17,38 +17,6 @@
       "value": 1791976235423,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"579fa77a1063c3be8f54d6dbd66c3bdc0f08cc9fcc8e817fefb6b82d3b9ff79e\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "579fa77a1063c3be8f54d6dbd66c3bdc0f08cc9fcc8e817fefb6b82d3b9ff79e"
-      ],
-      "value": true,
-      "expiresAt": 1791976262607
-    },
-    "[\"factor\",\"topic\",\"579fa77a1063c3be8f54d6dbd66c3bdc0f08cc9fcc8e817fefb6b82d3b9ff79e\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "579fa77a1063c3be8f54d6dbd66c3bdc0f08cc9fcc8e817fefb6b82d3b9ff79e"
-      ],
-      "value": {
-        "title": "Лукашенко назвал полной глупостью обвинения Запада в якобы планировании Минском пробить Су",
-        "roots": [
-          "лукаше",
-          "назвал",
-          "полной",
-          "глупос",
-          "обвине",
-          "запада",
-          "якобы",
-          "планир",
-          "минско",
-          "пробит"
-        ]
-      },
-      "expiresAt": 1791976262608
-    },
     "[\"factor\",\"pub\",\"fe4c9385a71b9794337efebf09df7c97dabd34833400291796d4b54164f603f6\"]": {
       "key": [
         "factor",
