@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 578028,
+      "value": 380109,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791993670868,
+      "value": 1791994835133,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"99f26ed5234fab1463caef161549495db5628df45324dfca58a17e55fe2b6e9c\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "99f26ed5234fab1463caef161549495db5628df45324dfca58a17e55fe2b6e9c"
-      ],
-      "value": true,
-      "expiresAt": 1791994253968
-    },
-    "[\"factor\",\"topic\",\"99f26ed5234fab1463caef161549495db5628df45324dfca58a17e55fe2b6e9c\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "99f26ed5234fab1463caef161549495db5628df45324dfca58a17e55fe2b6e9c"
-      ],
-      "value": {
-        "title": "РФ отвергает утверждения руководства Бельгии о гибридных, диверсионных и прямых военных уг",
-        "roots": [
-          "отверг",
-          "утверж",
-          "руково",
-          "бельги",
-          "гибрид",
-          "диверс",
-          "прямых",
-          "военны"
-        ]
-      },
-      "expiresAt": 1791994253969
     },
     "[\"factor\",\"pub\",\"04cb3d358274c234fd1228226a700f2fd481de8aeaf0a4b5792b1dd66f8909b0\"]": {
       "key": [
@@ -2731,6 +2701,36 @@
         ]
       },
       "expiresAt": 1792080129851
+    },
+    "[\"factor\",\"pub\",\"cfbef0b3481755f538f8fc158127d76e2f577a6ce04c3747a9383f1634ffede9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "cfbef0b3481755f538f8fc158127d76e2f577a6ce04c3747a9383f1634ffede9"
+      ],
+      "value": true,
+      "expiresAt": 1792081276742
+    },
+    "[\"factor\",\"topic\",\"cfbef0b3481755f538f8fc158127d76e2f577a6ce04c3747a9383f1634ffede9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "cfbef0b3481755f538f8fc158127d76e2f577a6ce04c3747a9383f1634ffede9"
+      ],
+      "value": {
+        "title": "❗️ Газета Politico утверждает, что глава ФБР Кэш Патель рассчитывает в октябре посетить Ро",
+        "roots": [
+          "газета",
+          "politi",
+          "утверж",
+          "глава",
+          "патель",
+          "рассчи",
+          "октябр",
+          "посети"
+        ]
+      },
+      "expiresAt": 1792081276743
     }
   }
 }
