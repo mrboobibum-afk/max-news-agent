@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 655917,
+      "value": 278106,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,35 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791989437326,
+      "value": 1791990636274,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"5f763c7e0ffb1f2b25eac72055cd5489f6ee111256c51caa69516f8c39e00ec9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "5f763c7e0ffb1f2b25eac72055cd5489f6ee111256c51caa69516f8c39e00ec9"
-      ],
-      "value": true,
-      "expiresAt": 1791990128837
-    },
-    "[\"factor\",\"topic\",\"5f763c7e0ffb1f2b25eac72055cd5489f6ee111256c51caa69516f8c39e00ec9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "5f763c7e0ffb1f2b25eac72055cd5489f6ee111256c51caa69516f8c39e00ec9"
-      ],
-      "value": {
-        "title": "▶️ В Энергодаре от ударов артиллерии ВСУ пострадали три человека",
-        "roots": [
-          "энерго",
-          "ударов",
-          "артилл",
-          "постра",
-          "челове"
-        ]
-      },
-      "expiresAt": 1791990128839
     },
     "[\"factor\",\"pub\",\"2e1c4c2397c73132e360088fff381d014a42d966a1d66232c7121d1cbe94109e\"]": {
       "key": [
@@ -2730,6 +2703,36 @@
         ]
       },
       "expiresAt": 1792075875529
+    },
+    "[\"factor\",\"pub\",\"7ef04182f9c77042332dacad4bae09e02405c1dd64299d5e4ea9e23ae58db7c3\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "7ef04182f9c77042332dacad4bae09e02405c1dd64299d5e4ea9e23ae58db7c3"
+      ],
+      "value": true,
+      "expiresAt": 1792077104276
+    },
+    "[\"factor\",\"topic\",\"7ef04182f9c77042332dacad4bae09e02405c1dd64299d5e4ea9e23ae58db7c3\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "7ef04182f9c77042332dacad4bae09e02405c1dd64299d5e4ea9e23ae58db7c3"
+      ],
+      "value": {
+        "title": "Россия выигрывает технологическую гонку вооружений у Украины , пишет газета The Daily Tele",
+        "roots": [
+          "выигры",
+          "технол",
+          "гонку",
+          "вооруж",
+          "украин",
+          "пишет",
+          "газета",
+          "daily"
+        ]
+      },
+      "expiresAt": 1792077104277
     }
   }
 }
