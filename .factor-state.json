@@ -17,36 +17,6 @@
       "value": 1792014035468,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"abca8a95801ab2112d12ede9e2f31d12b52ff90b8611448940ed2c3c43e4041b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "abca8a95801ab2112d12ede9e2f31d12b52ff90b8611448940ed2c3c43e4041b"
-      ],
-      "value": true,
-      "expiresAt": 1792014082959
-    },
-    "[\"factor\",\"topic\",\"abca8a95801ab2112d12ede9e2f31d12b52ff90b8611448940ed2c3c43e4041b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "abca8a95801ab2112d12ede9e2f31d12b52ff90b8611448940ed2c3c43e4041b"
-      ],
-      "value": {
-        "title": "Африканские страны ждут на предстоящем саммите Россия — Африка решений Путина по развитию ",
-        "roots": [
-          "африка",
-          "страны",
-          "предст",
-          "саммит",
-          "африка",
-          "решени",
-          "путина",
-          "развит"
-        ]
-      },
-      "expiresAt": 1792014082960
-    },
     "[\"factor\",\"pub\",\"a8cd23f2b62f09eea1bc7de74447c2713479d45c394f272c50ac11ef85a0817c\"]": {
       "key": [
         "factor",
