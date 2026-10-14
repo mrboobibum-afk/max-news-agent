@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 465970,
+      "value": 421941,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791960032906,
+      "value": 1791960635140,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"04f6b935c96dded5df682c07d05361124c490f56f6993f1b9b738d7f0247071a\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "04f6b935c96dded5df682c07d05361124c490f56f6993f1b9b738d7f0247071a"
-      ],
-      "value": true,
-      "expiresAt": 1791960212043
-    },
-    "[\"factor\",\"topic\",\"04f6b935c96dded5df682c07d05361124c490f56f6993f1b9b738d7f0247071a\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "04f6b935c96dded5df682c07d05361124c490f56f6993f1b9b738d7f0247071a"
-      ],
-      "value": {
-        "title": "❗️ ВС РФ ночью поразили предприятия ВПК, логистические центры, объекты железнодорожной и п",
-        "roots": [
-          "ночью",
-          "порази",
-          "предпр",
-          "логист",
-          "центры",
-          "объект",
-          "железн"
-        ]
-      },
-      "expiresAt": 1791960212044
     },
     "[\"factor\",\"pub\",\"fb7ec8c43a3a1573da32a35b11fedd0af9d2c715879ec3da54459423ea680bd0\"]": {
       "key": [
@@ -2627,6 +2598,36 @@
         ]
       },
       "expiresAt": 1792046453228
+    },
+    "[\"factor\",\"pub\",\"76edb9ee4e29636afa779bb338a2a04b4258b8beae1f9832efffccf88c6d67c9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "76edb9ee4e29636afa779bb338a2a04b4258b8beae1f9832efffccf88c6d67c9"
+      ],
+      "value": true,
+      "expiresAt": 1792047179944
+    },
+    "[\"factor\",\"topic\",\"76edb9ee4e29636afa779bb338a2a04b4258b8beae1f9832efffccf88c6d67c9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "76edb9ee4e29636afa779bb338a2a04b4258b8beae1f9832efffccf88c6d67c9"
+      ],
+      "value": {
+        "title": "Военно-морские силы Великобритании временно остались без единственного ледокольного патрул",
+        "roots": [
+          "военно",
+          "морски",
+          "велико",
+          "времен",
+          "остали",
+          "единст",
+          "ледоко",
+          "патрул"
+        ]
+      },
+      "expiresAt": 1792047179945
     }
   }
 }
