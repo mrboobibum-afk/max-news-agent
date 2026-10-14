@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 492700,
+      "value": 410909,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791975033876,
+      "value": 1791975666760,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"686b92220c285091a1e8f2b67cf529b51b62b894440339ae2349ade9c7fe2824\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "686b92220c285091a1e8f2b67cf529b51b62b894440339ae2349ade9c7fe2824"
-      ],
-      "value": true,
-      "expiresAt": 1791975073920
-    },
-    "[\"factor\",\"topic\",\"686b92220c285091a1e8f2b67cf529b51b62b894440339ae2349ade9c7fe2824\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "686b92220c285091a1e8f2b67cf529b51b62b894440339ae2349ade9c7fe2824"
-      ],
-      "value": {
-        "title": "Самосвал раздавил женщину и ребенка, опрокинувшись на машину, в которой они ехали в подмос",
-        "roots": [
-          "самосв",
-          "раздав",
-          "женщин",
-          "ребенк",
-          "опроки",
-          "машину",
-          "которо",
-          "ехали",
-          "подмос"
-        ]
-      },
-      "expiresAt": 1791975073921
     },
     "[\"factor\",\"pub\",\"f94653d94ce7837c77c50e7b6dbbf867240aa3bba39e0e4f28c317a6ecd882a6\"]": {
       "key": [
@@ -2771,6 +2740,36 @@
         ]
       },
       "expiresAt": 1792061527049
+    },
+    "[\"factor\",\"pub\",\"9ae2a029e0986bb6cadf37cdfda801ee0e87d7b7f56a7dc4f7cfb15f0bd7c1b4\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "9ae2a029e0986bb6cadf37cdfda801ee0e87d7b7f56a7dc4f7cfb15f0bd7c1b4"
+      ],
+      "value": true,
+      "expiresAt": 1792062105715
+    },
+    "[\"factor\",\"topic\",\"9ae2a029e0986bb6cadf37cdfda801ee0e87d7b7f56a7dc4f7cfb15f0bd7c1b4\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "9ae2a029e0986bb6cadf37cdfda801ee0e87d7b7f56a7dc4f7cfb15f0bd7c1b4"
+      ],
+      "value": {
+        "title": "❗️ Приостановить выдачу лицензий частным вузам до уточнения законодательства и \"наведения ",
+        "roots": [
+          "приост",
+          "выдачу",
+          "лиценз",
+          "частны",
+          "вузам",
+          "уточне",
+          "законо",
+          "наведе"
+        ]
+      },
+      "expiresAt": 1792062105716
     }
   }
 }
