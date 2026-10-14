@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 228155,
+      "value": 714241,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791940234748,
+      "value": 1791940834989,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"3f4c36b112700d5309a3fd536ca041c94ca793fda0875d9d9331396931248360\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "3f4c36b112700d5309a3fd536ca041c94ca793fda0875d9d9331396931248360"
-      ],
-      "value": true,
-      "expiresAt": 1791940271390
-    },
-    "[\"factor\",\"topic\",\"3f4c36b112700d5309a3fd536ca041c94ca793fda0875d9d9331396931248360\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "3f4c36b112700d5309a3fd536ca041c94ca793fda0875d9d9331396931248360"
-      ],
-      "value": {
-        "title": "❗️ Продюсер \"Ласкового мая\" Андрей Разин переобъявлен в розыск, следует из базы МВД",
-        "roots": [
-          "продюс",
-          "ласков",
-          "андрей",
-          "разин",
-          "переоб",
-          "розыск",
-          "следуе"
-        ]
-      },
-      "expiresAt": 1791940271391
     },
     "[\"factor\",\"pub\",\"92c5c34281e17fbf64f69316c2655c7f910d833b3897d9e917e3e18de07488b4\"]": {
       "key": [
@@ -2475,6 +2446,36 @@
         ]
       },
       "expiresAt": 1792026769972
+    },
+    "[\"factor\",\"pub\",\"9f3db71e428dc09af7e7d90431d13dc2d23bd314a801263d734a80c2bc5e8d04\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "9f3db71e428dc09af7e7d90431d13dc2d23bd314a801263d734a80c2bc5e8d04"
+      ],
+      "value": true,
+      "expiresAt": 1792027915489
+    },
+    "[\"factor\",\"topic\",\"9f3db71e428dc09af7e7d90431d13dc2d23bd314a801263d734a80c2bc5e8d04\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "9f3db71e428dc09af7e7d90431d13dc2d23bd314a801263d734a80c2bc5e8d04"
+      ],
+      "value": {
+        "title": "Axios узнал, что Трамп и Нетаньяху обсудили новые удары по Ирану",
+        "roots": [
+          "axios",
+          "узнал",
+          "трамп",
+          "нетань",
+          "обсуди",
+          "новые",
+          "удары",
+          "ирану"
+        ]
+      },
+      "expiresAt": 1792027915490
     }
   }
 }
