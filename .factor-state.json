@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 544981,
+      "value": 854483,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791967234165,
+      "value": 1791967834730,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"483b28764c88aab981d4cc45c7951de1ed20ed3dca080d8a0f2c0bcb78dde219\"]": {
@@ -2694,6 +2694,37 @@
         ]
       },
       "expiresAt": 1792053813108
+    },
+    "[\"factor\",\"pub\",\"a32c23247773380f2b24dc111080e1b37c3dc3e758bd203acf6fa3bcbbe33362\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "a32c23247773380f2b24dc111080e1b37c3dc3e758bd203acf6fa3bcbbe33362"
+      ],
+      "value": true,
+      "expiresAt": 1792054313078
+    },
+    "[\"factor\",\"topic\",\"a32c23247773380f2b24dc111080e1b37c3dc3e758bd203acf6fa3bcbbe33362\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "a32c23247773380f2b24dc111080e1b37c3dc3e758bd203acf6fa3bcbbe33362"
+      ],
+      "value": {
+        "title": "Между Зеленским и мэром Киева Кличко растут разногласия на фоне неподготовленности Украины",
+        "roots": [
+          "между",
+          "зеленс",
+          "мэром",
+          "киева",
+          "кличко",
+          "растут",
+          "разног",
+          "неподг",
+          "украин"
+        ]
+      },
+      "expiresAt": 1792054313079
     }
   }
 }
