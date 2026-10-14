@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 413865,
+      "value": 853193,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791947431140,
+      "value": 1791948035466,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"7adf56b0758adf7a903954848bd55351fcb3dc3ee430a97934a267128d042f71\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "7adf56b0758adf7a903954848bd55351fcb3dc3ee430a97934a267128d042f71"
-      ],
-      "value": true,
-      "expiresAt": 1791947559362
-    },
-    "[\"factor\",\"topic\",\"7adf56b0758adf7a903954848bd55351fcb3dc3ee430a97934a267128d042f71\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "7adf56b0758adf7a903954848bd55351fcb3dc3ee430a97934a267128d042f71"
-      ],
-      "value": {
-        "title": "МВФ считает, что баррель нефти будет стоить в среднем $95,74 в 2026 году и $87,39 — в 2027",
-        "roots": [
-          "считае",
-          "баррел",
-          "нефти",
-          "будет",
-          "стоить",
-          "средне"
-        ]
-      },
-      "expiresAt": 1791947559363
     },
     "[\"factor\",\"pub\",\"9ea4ee7161cc2d19660b8467c4441ae897205daf3b0074e4ac132ae8e939c4f9\"]": {
       "key": [
@@ -2510,6 +2482,37 @@
         ]
       },
       "expiresAt": 1792033874044
+    },
+    "[\"factor\",\"pub\",\"e510a445d5e9ea6d5a7cd22218ab58acd6da226fd17308c900d09efeeba7c67a\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e510a445d5e9ea6d5a7cd22218ab58acd6da226fd17308c900d09efeeba7c67a"
+      ],
+      "value": true,
+      "expiresAt": 1792034477085
+    },
+    "[\"factor\",\"topic\",\"e510a445d5e9ea6d5a7cd22218ab58acd6da226fd17308c900d09efeeba7c67a\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e510a445d5e9ea6d5a7cd22218ab58acd6da226fd17308c900d09efeeba7c67a"
+      ],
+      "value": {
+        "title": "Объем торговли между Китаем и Россией в январе — сентябре увеличился на 30,6% в годовом ис",
+        "roots": [
+          "объем",
+          "торгов",
+          "между",
+          "китаем",
+          "россие",
+          "январе",
+          "сентяб",
+          "увелич",
+          "годово"
+        ]
+      },
+      "expiresAt": 1792034477086
     }
   }
 }
