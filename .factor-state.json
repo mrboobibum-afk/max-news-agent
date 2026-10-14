@@ -17,29 +17,6 @@
       "value": 1791961268255,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"fb7ec8c43a3a1573da32a35b11fedd0af9d2c715879ec3da54459423ea680bd0\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "fb7ec8c43a3a1573da32a35b11fedd0af9d2c715879ec3da54459423ea680bd0"
-      ],
-      "value": true,
-      "expiresAt": 1791961365395
-    },
-    "[\"factor\",\"topic\",\"fb7ec8c43a3a1573da32a35b11fedd0af9d2c715879ec3da54459423ea680bd0\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "fb7ec8c43a3a1573da32a35b11fedd0af9d2c715879ec3da54459423ea680bd0"
-      ],
-      "value": {
-        "title": "Рэпера P",
-        "roots": [
-          "рэпера"
-        ]
-      },
-      "expiresAt": 1791961365396
-    },
     "[\"factor\",\"pub\",\"74100de875d16fec3133e2f24357c71d5c4fd0223cbacd17e3762d6eb28e9e6f\"]": {
       "key": [
         "factor",
