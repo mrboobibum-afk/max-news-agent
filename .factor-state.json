@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 463617,
+      "value": 321009,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,33 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791997854836,
+      "value": 1791998433909,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"a9d2bbf1ad8d95979a3bcbbac84fef84ab821ce82867c5e2015ab9105860ab26\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "a9d2bbf1ad8d95979a3bcbbac84fef84ab821ce82867c5e2015ab9105860ab26"
-      ],
-      "value": true,
-      "expiresAt": 1791997890594
-    },
-    "[\"factor\",\"topic\",\"a9d2bbf1ad8d95979a3bcbbac84fef84ab821ce82867c5e2015ab9105860ab26\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "a9d2bbf1ad8d95979a3bcbbac84fef84ab821ce82867c5e2015ab9105860ab26"
-      ],
-      "value": {
-        "title": "Цену на \"Пенталгин нео\" снизили на 5% по предложению ФАС",
-        "roots": [
-          "пентал",
-          "снизил",
-          "предло"
-        ]
-      },
-      "expiresAt": 1791997890595
     },
     "[\"factor\",\"pub\",\"b0093776c3bb2d219f1d2c9688718d5f10e6efcb72662b25b69988333af1d463\"]": {
       "key": [
@@ -2729,6 +2704,32 @@
         ]
       },
       "expiresAt": 1792084643844
+    },
+    "[\"factor\",\"pub\",\"cf6022e7b1c9c0f2c55e69bfdc43ca50bd08f5d481db9388babdff874d34f419\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "cf6022e7b1c9c0f2c55e69bfdc43ca50bd08f5d481db9388babdff874d34f419"
+      ],
+      "value": true,
+      "expiresAt": 1792084855738
+    },
+    "[\"factor\",\"topic\",\"cf6022e7b1c9c0f2c55e69bfdc43ca50bd08f5d481db9388babdff874d34f419\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "cf6022e7b1c9c0f2c55e69bfdc43ca50bd08f5d481db9388babdff874d34f419"
+      ],
+      "value": {
+        "title": "Рэпера Navai задержали в Казахстане",
+        "roots": [
+          "рэпера",
+          "navai",
+          "задерж",
+          "казахс"
+        ]
+      },
+      "expiresAt": 1792084855739
     }
   }
 }
