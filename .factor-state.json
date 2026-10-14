@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 569947,
+      "value": 809741,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791957034700,
+      "value": 1791957666539,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"47ee9ad33957aaee18039bfbc9fbf382525c4873e49006f440df9b0cd51c495c\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "47ee9ad33957aaee18039bfbc9fbf382525c4873e49006f440df9b0cd51c495c"
-      ],
-      "value": true,
-      "expiresAt": 1791957094653
-    },
-    "[\"factor\",\"topic\",\"47ee9ad33957aaee18039bfbc9fbf382525c4873e49006f440df9b0cd51c495c\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "47ee9ad33957aaee18039bfbc9fbf382525c4873e49006f440df9b0cd51c495c"
-      ],
-      "value": {
-        "title": "Глава МЧС РФ встретился в Пхеньяне с председателем кабинета министров КНДР и передал приве",
-        "roots": [
-          "глава",
-          "встрет",
-          "пхенья",
-          "предсе",
-          "кабине",
-          "минист",
-          "переда",
-          "приве"
-        ]
-      },
-      "expiresAt": 1791957094654
     },
     "[\"factor\",\"pub\",\"04f6b935c96dded5df682c07d05361124c490f56f6993f1b9b738d7f0247071a\"]": {
       "key": [
@@ -2567,6 +2537,36 @@
         ]
       },
       "expiresAt": 1792043452347
+    },
+    "[\"factor\",\"pub\",\"5789782c57ee370bf0e88909fd869577bac734d5e743a1fd4c86e8aa25000920\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "5789782c57ee370bf0e88909fd869577bac734d5e743a1fd4c86e8aa25000920"
+      ],
+      "value": true,
+      "expiresAt": 1792044176108
+    },
+    "[\"factor\",\"topic\",\"5789782c57ee370bf0e88909fd869577bac734d5e743a1fd4c86e8aa25000920\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "5789782c57ee370bf0e88909fd869577bac734d5e743a1fd4c86e8aa25000920"
+      ],
+      "value": {
+        "title": "В ночь на 14 октября работу терминалов спутниковой связи Starlink ограничили над Украиной,",
+        "roots": [
+          "октябр",
+          "работу",
+          "термин",
+          "спутни",
+          "связи",
+          "starli",
+          "ограни",
+          "украин"
+        ]
+      },
+      "expiresAt": 1792044176110
     }
   }
 }
