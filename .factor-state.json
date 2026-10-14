@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 336489,
+      "value": 599989,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792013452486,
+      "value": 1792014035468,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"4d7cf676e0e6601aea0d3d704610dd7fb7587ac86d4a04cc297563f81b8fae35\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "4d7cf676e0e6601aea0d3d704610dd7fb7587ac86d4a04cc297563f81b8fae35"
-      ],
-      "value": true,
-      "expiresAt": 1792013513211
-    },
-    "[\"factor\",\"topic\",\"4d7cf676e0e6601aea0d3d704610dd7fb7587ac86d4a04cc297563f81b8fae35\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "4d7cf676e0e6601aea0d3d704610dd7fb7587ac86d4a04cc297563f81b8fae35"
-      ],
-      "value": {
-        "title": "Россия проведет 14 октября неформальную встречу СБ ООН по нарушениям прав человека на Укра",
-        "roots": [
-          "провед",
-          "октябр",
-          "неформ",
-          "встреч",
-          "наруше",
-          "челове"
-        ]
-      },
-      "expiresAt": 1792013513311
     },
     "[\"factor\",\"pub\",\"abca8a95801ab2112d12ede9e2f31d12b52ff90b8611448940ed2c3c43e4041b\"]": {
       "key": [
@@ -2830,6 +2802,32 @@
         ]
       },
       "expiresAt": 1792099925106
+    },
+    "[\"factor\",\"pub\",\"945bc56e182cde76827e8228d3f8ab7663a68b202b9bca28a9f2c292c0a75601\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "945bc56e182cde76827e8228d3f8ab7663a68b202b9bca28a9f2c292c0a75601"
+      ],
+      "value": true,
+      "expiresAt": 1792100463296
+    },
+    "[\"factor\",\"topic\",\"945bc56e182cde76827e8228d3f8ab7663a68b202b9bca28a9f2c292c0a75601\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "945bc56e182cde76827e8228d3f8ab7663a68b202b9bca28a9f2c292c0a75601"
+      ],
+      "value": {
+        "title": "▶️ Обломки судна, затонувшего около 4,7 тыс",
+        "roots": [
+          "обломк",
+          "судна",
+          "затону",
+          "около"
+        ]
+      },
+      "expiresAt": 1792100463297
     }
   }
 }
