@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 826478,
+      "value": 465970,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791958833482,
+      "value": 1791960032906,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"04f6b935c96dded5df682c07d05361124c490f56f6993f1b9b738d7f0247071a\"]": {
@@ -2596,6 +2596,37 @@
         ]
       },
       "expiresAt": 1792045300064
+    },
+    "[\"factor\",\"pub\",\"2036b3905f4bb49121ea80d1f356ade3afa20c0f65f874e76b5936d8a0815452\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "2036b3905f4bb49121ea80d1f356ade3afa20c0f65f874e76b5936d8a0815452"
+      ],
+      "value": true,
+      "expiresAt": 1792046453227
+    },
+    "[\"factor\",\"topic\",\"2036b3905f4bb49121ea80d1f356ade3afa20c0f65f874e76b5936d8a0815452\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "2036b3905f4bb49121ea80d1f356ade3afa20c0f65f874e76b5936d8a0815452"
+      ],
+      "value": {
+        "title": "Российские \"Герани\" поразили завод \"КСМ Протек\" под Киевом и подстанцию в районе Вышгорода",
+        "roots": [
+          "россий",
+          "герани",
+          "порази",
+          "завод",
+          "протек",
+          "киевом",
+          "подста",
+          "районе",
+          "вышгор"
+        ]
+      },
+      "expiresAt": 1792046453228
     }
   }
 }
