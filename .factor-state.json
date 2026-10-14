@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 695224,
+      "value": 863750,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791985844489,
+      "value": 1791987035512,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"b6111a468646901807edfee918a6f394e327c90654034d7aa482310c478da228\"]": {
@@ -2730,6 +2730,35 @@
         ]
       },
       "expiresAt": 1792072271777
+    },
+    "[\"factor\",\"pub\",\"863a58a12fa7f6de61c497134f9fa911d47ef00e8cc5800ee88bf8a88435c110\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "863a58a12fa7f6de61c497134f9fa911d47ef00e8cc5800ee88bf8a88435c110"
+      ],
+      "value": true,
+      "expiresAt": 1792073457253
+    },
+    "[\"factor\",\"topic\",\"863a58a12fa7f6de61c497134f9fa911d47ef00e8cc5800ee88bf8a88435c110\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "863a58a12fa7f6de61c497134f9fa911d47ef00e8cc5800ee88bf8a88435c110"
+      ],
+      "value": {
+        "title": "Дмитриев заявил , что ожидает подписания первых контрактов по дизтопливу с США в ближайшие",
+        "roots": [
+          "дмитри",
+          "ожидае",
+          "подпис",
+          "первых",
+          "контра",
+          "дизтоп",
+          "ближай"
+        ]
+      },
+      "expiresAt": 1792073457253
     }
   }
 }
