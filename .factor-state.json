@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 508726,
+      "value": 748012,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791981056305,
+      "value": 1791981633242,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"95b30a4e14dda91457c34c028e30d30b1019d5991d189f15e1310284f996a468\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "95b30a4e14dda91457c34c028e30d30b1019d5991d189f15e1310284f996a468"
-      ],
-      "value": true,
-      "expiresAt": 1791981108428
-    },
-    "[\"factor\",\"topic\",\"95b30a4e14dda91457c34c028e30d30b1019d5991d189f15e1310284f996a468\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "95b30a4e14dda91457c34c028e30d30b1019d5991d189f15e1310284f996a468"
-      ],
-      "value": {
-        "title": "Папе Римскому Льву XIV должны провести операцию на легком, чтобы удалить небольшой узел",
-        "roots": [
-          "римско",
-          "должны",
-          "провес",
-          "операц",
-          "легком",
-          "чтобы",
-          "удалит",
-          "неболь"
-        ]
-      },
-      "expiresAt": 1791981108430
     },
     "[\"factor\",\"pub\",\"fb378d8b4a8c22518b468f268390bd256b4e60c761e7eacbf8205aca50d3615d\"]": {
       "key": [
@@ -2792,6 +2762,35 @@
         ]
       },
       "expiresAt": 1792067512246
+    },
+    "[\"factor\",\"pub\",\"378c3bf7c2d6ec27ecfa782dd05df5ed6818b1ef17685af37defe022fc1081c3\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "378c3bf7c2d6ec27ecfa782dd05df5ed6818b1ef17685af37defe022fc1081c3"
+      ],
+      "value": true,
+      "expiresAt": 1792068077505
+    },
+    "[\"factor\",\"topic\",\"378c3bf7c2d6ec27ecfa782dd05df5ed6818b1ef17685af37defe022fc1081c3\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "378c3bf7c2d6ec27ecfa782dd05df5ed6818b1ef17685af37defe022fc1081c3"
+      ],
+      "value": {
+        "title": "ЕС ждет очень сложная зима из-за высоких цен на энергию , заявила представитель Еврокомисс",
+        "roots": [
+          "очень",
+          "сложна",
+          "высоки",
+          "энерги",
+          "заявил",
+          "предст",
+          "евроко"
+        ]
+      },
+      "expiresAt": 1792068077506
     }
   }
 }
