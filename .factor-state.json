@@ -17,36 +17,6 @@
       "value": 1791983434107,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"7420452dc4c04c78f9a18cd406ddcf2361fa42c2c6a1b920f1eb81c86b0aec27\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "7420452dc4c04c78f9a18cd406ddcf2361fa42c2c6a1b920f1eb81c86b0aec27"
-      ],
-      "value": true,
-      "expiresAt": 1791983513934
-    },
-    "[\"factor\",\"topic\",\"7420452dc4c04c78f9a18cd406ddcf2361fa42c2c6a1b920f1eb81c86b0aec27\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "7420452dc4c04c78f9a18cd406ddcf2361fa42c2c6a1b920f1eb81c86b0aec27"
-      ],
-      "value": {
-        "title": "Ситуация на внутреннем рынке бензина и дизельного топлива стабилизируется, отметили на сов",
-        "roots": [
-          "ситуац",
-          "внутре",
-          "рынке",
-          "бензин",
-          "дизель",
-          "топлив",
-          "стабил",
-          "отмети"
-        ]
-      },
-      "expiresAt": 1791983513935
-    },
     "[\"factor\",\"pub\",\"610c4e6c2b3977600d38c4f13746c5101f52a1bd1aad0bac5dad57bb6fd73073\"]": {
       "key": [
         "factor",
