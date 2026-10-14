@@ -17,32 +17,6 @@
       "value": 1791955851473,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"4eda04151a5ea7e40b3e00ce63bda9d34bda9ee04de194b3e97712a36b6d6129\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "4eda04151a5ea7e40b3e00ce63bda9d34bda9ee04de194b3e97712a36b6d6129"
-      ],
-      "value": true,
-      "expiresAt": 1791956067013
-    },
-    "[\"factor\",\"topic\",\"4eda04151a5ea7e40b3e00ce63bda9d34bda9ee04de194b3e97712a36b6d6129\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "4eda04151a5ea7e40b3e00ce63bda9d34bda9ee04de194b3e97712a36b6d6129"
-      ],
-      "value": {
-        "title": "Бали столкнулся с острой нехваткой бензина",
-        "roots": [
-          "столкн",
-          "острой",
-          "нехват",
-          "бензин"
-        ]
-      },
-      "expiresAt": 1791956067014
-    },
     "[\"factor\",\"pub\",\"da27f733cc3cb185e8f7044a14852141e77a38f92682eae1909d48b58375619b\"]": {
       "key": [
         "factor",
