@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 428975,
+      "value": 784780,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791954063809,
+      "value": 1791954633185,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"264f5f239eafa27e52c850b25eeb6c2b3a47879d9a8706dd3f5d542fa8558b7d\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "264f5f239eafa27e52c850b25eeb6c2b3a47879d9a8706dd3f5d542fa8558b7d"
-      ],
-      "value": true,
-      "expiresAt": 1791954094851
-    },
-    "[\"factor\",\"topic\",\"264f5f239eafa27e52c850b25eeb6c2b3a47879d9a8706dd3f5d542fa8558b7d\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "264f5f239eafa27e52c850b25eeb6c2b3a47879d9a8706dd3f5d542fa8558b7d"
-      ],
-      "value": {
-        "title": "Нигерия борется с \"нигерийскими принцами\", рассказали в министерстве инноваций, науки и те",
-        "roots": [
-          "нигери",
-          "боретс",
-          "нигери",
-          "принца",
-          "расска",
-          "минист",
-          "иннова",
-          "науки"
-        ]
-      },
-      "expiresAt": 1791954094852
     },
     "[\"factor\",\"pub\",\"4eda04151a5ea7e40b3e00ce63bda9d34bda9ee04de194b3e97712a36b6d6129\"]": {
       "key": [
@@ -2568,6 +2538,32 @@
         ]
       },
       "expiresAt": 1792040516003
+    },
+    "[\"factor\",\"pub\",\"4e6af96f37af868362b73478fe8aad51fc9797e8fc281dd37e701452d315d21b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4e6af96f37af868362b73478fe8aad51fc9797e8fc281dd37e701452d315d21b"
+      ],
+      "value": true,
+      "expiresAt": 1792041054018
+    },
+    "[\"factor\",\"topic\",\"4e6af96f37af868362b73478fe8aad51fc9797e8fc281dd37e701452d315d21b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4e6af96f37af868362b73478fe8aad51fc9797e8fc281dd37e701452d315d21b"
+      ],
+      "value": {
+        "title": "ВЭФ-2027 пройдет с 31 августа по 3 сентября во Владивостоке",
+        "roots": [
+          "пройде",
+          "август",
+          "сентяб",
+          "владив"
+        ]
+      },
+      "expiresAt": 1792041054019
     }
   }
 }
