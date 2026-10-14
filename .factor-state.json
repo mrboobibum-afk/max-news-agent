@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 652277,
+      "value": 414733,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,40 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791976235423,
+      "value": 1791977450080,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"fe4c9385a71b9794337efebf09df7c97dabd34833400291796d4b54164f603f6\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "fe4c9385a71b9794337efebf09df7c97dabd34833400291796d4b54164f603f6"
-      ],
-      "value": true,
-      "expiresAt": 1791976877375
-    },
-    "[\"factor\",\"topic\",\"fe4c9385a71b9794337efebf09df7c97dabd34833400291796d4b54164f603f6\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "fe4c9385a71b9794337efebf09df7c97dabd34833400291796d4b54164f603f6"
-      ],
-      "value": {
-        "title": "Мужчина, направивший по электронным каналам угрозы в адрес Туска и главы Минобороны Косиня",
-        "roots": [
-          "мужчин",
-          "направ",
-          "электр",
-          "канала",
-          "угрозы",
-          "адрес",
-          "туска",
-          "главы",
-          "минобо",
-          "косиня"
-        ]
-      },
-      "expiresAt": 1791976877376
     },
     "[\"factor\",\"pub\",\"636d2ed776f500071ae1f87798fb58bb4c5c1c8b5570eeb76027a04ef9455ab4\"]": {
       "key": [
@@ -2735,6 +2703,33 @@
         ]
       },
       "expiresAt": 1792062663340
+    },
+    "[\"factor\",\"pub\",\"11e4f3cfe5684b5da8a9bc5132c5f0ebb0acdc6bc8200922c2fdb2d34146dba4\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "11e4f3cfe5684b5da8a9bc5132c5f0ebb0acdc6bc8200922c2fdb2d34146dba4"
+      ],
+      "value": true,
+      "expiresAt": 1792063957289
+    },
+    "[\"factor\",\"topic\",\"11e4f3cfe5684b5da8a9bc5132c5f0ebb0acdc6bc8200922c2fdb2d34146dba4\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "11e4f3cfe5684b5da8a9bc5132c5f0ebb0acdc6bc8200922c2fdb2d34146dba4"
+      ],
+      "value": {
+        "title": "Глава РЖД Белозеров провел встречу с Пашиняном",
+        "roots": [
+          "глава",
+          "белозе",
+          "провел",
+          "встреч",
+          "пашиня"
+        ]
+      },
+      "expiresAt": 1792063957290
     }
   }
 }
