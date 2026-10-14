@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 674070,
+      "value": 569947,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,35 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791955851473,
+      "value": 1791957034700,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"da27f733cc3cb185e8f7044a14852141e77a38f92682eae1909d48b58375619b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "da27f733cc3cb185e8f7044a14852141e77a38f92682eae1909d48b58375619b"
-      ],
-      "value": true,
-      "expiresAt": 1791956938357
-    },
-    "[\"factor\",\"topic\",\"da27f733cc3cb185e8f7044a14852141e77a38f92682eae1909d48b58375619b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "da27f733cc3cb185e8f7044a14852141e77a38f92682eae1909d48b58375619b"
-      ],
-      "value": {
-        "title": "Международные резервы Украины сократились на 17,8% с начала года",
-        "roots": [
-          "междун",
-          "резерв",
-          "украин",
-          "сократ",
-          "начала"
-        ]
-      },
-      "expiresAt": 1791956938358
     },
     "[\"factor\",\"pub\",\"47ee9ad33957aaee18039bfbc9fbf382525c4873e49006f440df9b0cd51c495c\"]": {
       "key": [
@@ -2568,6 +2541,32 @@
         ]
       },
       "expiresAt": 1792042339263
+    },
+    "[\"factor\",\"pub\",\"c1bc07104ab0f3e38b79b0d96953ea2aa4e107c072fbb1399751808edf3ea638\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "c1bc07104ab0f3e38b79b0d96953ea2aa4e107c072fbb1399751808edf3ea638"
+      ],
+      "value": true,
+      "expiresAt": 1792043452346
+    },
+    "[\"factor\",\"topic\",\"c1bc07104ab0f3e38b79b0d96953ea2aa4e107c072fbb1399751808edf3ea638\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "c1bc07104ab0f3e38b79b0d96953ea2aa4e107c072fbb1399751808edf3ea638"
+      ],
+      "value": {
+        "title": "Cилы ПВО за ночь сбили 902 украинских беспилотника, сообщили в Минобороны",
+        "roots": [
+          "сбили",
+          "украин",
+          "беспил",
+          "минобо"
+        ]
+      },
+      "expiresAt": 1792043452347
     }
   }
 }
