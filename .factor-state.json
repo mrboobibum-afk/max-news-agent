@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 285422,
+      "value": 377627,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792005636418,
+      "value": 1792006254829,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"d72bed5e249b165b354520e5b96a7c264a268e779c4a7dfdd5e0c0f31b86b442\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "d72bed5e249b165b354520e5b96a7c264a268e779c4a7dfdd5e0c0f31b86b442"
-      ],
-      "value": true,
-      "expiresAt": 1792005675178
-    },
-    "[\"factor\",\"topic\",\"d72bed5e249b165b354520e5b96a7c264a268e779c4a7dfdd5e0c0f31b86b442\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "d72bed5e249b165b354520e5b96a7c264a268e779c4a7dfdd5e0c0f31b86b442"
-      ],
-      "value": {
-        "title": "Танкер \"Афрамакс Рио\" отбуксировали в безопасное место, сообщил Минтранс",
-        "roots": [
-          "танкер",
-          "афрама",
-          "отбукс",
-          "безопа",
-          "место",
-          "минтра"
-        ]
-      },
-      "expiresAt": 1792005675179
     },
     "[\"factor\",\"pub\",\"74268f86dfa81ab3a8da030f6a9ff360ebfd15f1aa2620c410d7b5c1c928e671\"]": {
       "key": [
@@ -2733,6 +2705,36 @@
         ]
       },
       "expiresAt": 1792092154824
+    },
+    "[\"factor\",\"pub\",\"f86246e069a1aa278c7457140c570b07a10b2352dbebe5d264d1e680ef4b2e27\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "f86246e069a1aa278c7457140c570b07a10b2352dbebe5d264d1e680ef4b2e27"
+      ],
+      "value": true,
+      "expiresAt": 1792092684928
+    },
+    "[\"factor\",\"topic\",\"f86246e069a1aa278c7457140c570b07a10b2352dbebe5d264d1e680ef4b2e27\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "f86246e069a1aa278c7457140c570b07a10b2352dbebe5d264d1e680ef4b2e27"
+      ],
+      "value": {
+        "title": "Почти 8000 человек задержали во Франции за время протестов старшеклассников, среди них 85%",
+        "roots": [
+          "почти",
+          "челове",
+          "задерж",
+          "франци",
+          "время",
+          "протес",
+          "старше",
+          "среди"
+        ]
+      },
+      "expiresAt": 1792092684932
     }
   }
 }
