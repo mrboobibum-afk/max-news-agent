@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 241124,
+      "value": 468605,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,34 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791970254119,
+      "value": 1791970831859,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"f14baed936a5648af69de7005c7ff5a72096938d1e2ddfa0ffea02c10d5dacbd\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "f14baed936a5648af69de7005c7ff5a72096938d1e2ddfa0ffea02c10d5dacbd"
-      ],
-      "value": true,
-      "expiresAt": 1791970274491
-    },
-    "[\"factor\",\"topic\",\"f14baed936a5648af69de7005c7ff5a72096938d1e2ddfa0ffea02c10d5dacbd\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "f14baed936a5648af69de7005c7ff5a72096938d1e2ddfa0ffea02c10d5dacbd"
-      ],
-      "value": {
-        "title": "О потерях ВСУ за сутки - в нашей инфографике",
-        "roots": [
-          "потеря",
-          "сутки",
-          "нашей",
-          "инфогр"
-        ]
-      },
-      "expiresAt": 1791970274492
     },
     "[\"factor\",\"pub\",\"246f5c24650899f04eb003400f941d1059e4fbf30d7d1d374ef8a5d87d12567a\"]": {
       "key": [
@@ -2735,6 +2709,35 @@
         ]
       },
       "expiresAt": 1792056865703
+    },
+    "[\"factor\",\"pub\",\"abe048a9e8a7ad110a332e682f3e7316e7e5cae407b53e737559a7f2e1a75d98\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "abe048a9e8a7ad110a332e682f3e7316e7e5cae407b53e737559a7f2e1a75d98"
+      ],
+      "value": true,
+      "expiresAt": 1792057531538
+    },
+    "[\"factor\",\"topic\",\"abe048a9e8a7ad110a332e682f3e7316e7e5cae407b53e737559a7f2e1a75d98\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "abe048a9e8a7ad110a332e682f3e7316e7e5cae407b53e737559a7f2e1a75d98"
+      ],
+      "value": {
+        "title": "Верховный суд признал \"баталхаджинцев\" террористической организацией и запретил ее деятель",
+        "roots": [
+          "верхов",
+          "призна",
+          "баталх",
+          "террор",
+          "органи",
+          "запрет",
+          "деятел"
+        ]
+      },
+      "expiresAt": 1792057531539
     }
   }
 }
