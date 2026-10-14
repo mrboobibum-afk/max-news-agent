@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 801716,
+      "value": 655358,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791944487359,
+      "value": 1791945633570,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"ae4ce475d9d42bd5b1a3734aa6ab59cb8f0c6ba8edeec953adb6fc349379dab9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "ae4ce475d9d42bd5b1a3734aa6ab59cb8f0c6ba8edeec953adb6fc349379dab9"
-      ],
-      "value": true,
-      "expiresAt": 1791945100309
-    },
-    "[\"factor\",\"topic\",\"ae4ce475d9d42bd5b1a3734aa6ab59cb8f0c6ba8edeec953adb6fc349379dab9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "ae4ce475d9d42bd5b1a3734aa6ab59cb8f0c6ba8edeec953adb6fc349379dab9"
-      ],
-      "value": {
-        "title": "МВФ снизил прогнозы роста ВВП РФ в 2026 и 2027 годах на 0,2 процентного пункта, до 0,9%",
-        "roots": [
-          "снизил",
-          "прогно",
-          "роста",
-          "годах",
-          "процен",
-          "пункта"
-        ]
-      },
-      "expiresAt": 1791945100311
     },
     "[\"factor\",\"pub\",\"7adf56b0758adf7a903954848bd55351fcb3dc3ee430a97934a267128d042f71\"]": {
       "key": [
@@ -2452,6 +2424,34 @@
         ]
       },
       "expiresAt": 1792031016911
+    },
+    "[\"factor\",\"pub\",\"4de91cd57d9a505157e3928d0880952757af3850f0615ba82d55aa205a0d1ed2\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4de91cd57d9a505157e3928d0880952757af3850f0615ba82d55aa205a0d1ed2"
+      ],
+      "value": true,
+      "expiresAt": 1792032054604
+    },
+    "[\"factor\",\"topic\",\"4de91cd57d9a505157e3928d0880952757af3850f0615ba82d55aa205a0d1ed2\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4de91cd57d9a505157e3928d0880952757af3850f0615ba82d55aa205a0d1ed2"
+      ],
+      "value": {
+        "title": "8 миллионов россиян с астмой не знают о своем диагнозе, рассказал врач",
+        "roots": [
+          "миллио",
+          "россия",
+          "астмой",
+          "знают",
+          "своем",
+          "диагно"
+        ]
+      },
+      "expiresAt": 1792032054605
     }
   }
 }
