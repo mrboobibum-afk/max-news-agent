@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 212343,
+      "value": 461753,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791979939051,
+      "value": 1791980437083,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"95b30a4e14dda91457c34c028e30d30b1019d5991d189f15e1310284f996a468\"]": {
@@ -2732,6 +2732,34 @@
         ]
       },
       "expiresAt": 1792066391606
+    },
+    "[\"factor\",\"pub\",\"ff6ebeb9d495517053a86f3b2b57b32bceb6671879ed54c869a83dee6a2fac3d\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "ff6ebeb9d495517053a86f3b2b57b32bceb6671879ed54c869a83dee6a2fac3d"
+      ],
+      "value": true,
+      "expiresAt": 1792066858624
+    },
+    "[\"factor\",\"topic\",\"ff6ebeb9d495517053a86f3b2b57b32bceb6671879ed54c869a83dee6a2fac3d\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "ff6ebeb9d495517053a86f3b2b57b32bceb6671879ed54c869a83dee6a2fac3d"
+      ],
+      "value": {
+        "title": "Принятие Украины в ЕС равносильно харакири для блока, заявила Ле Пен",
+        "roots": [
+          "принят",
+          "украин",
+          "равнос",
+          "хараки",
+          "блока",
+          "заявил"
+        ]
+      },
+      "expiresAt": 1792066858626
     }
   }
 }
