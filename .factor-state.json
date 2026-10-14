@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 603449,
+      "value": 557340,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791962435833,
+      "value": 1791963055419,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"74100de875d16fec3133e2f24357c71d5c4fd0223cbacd17e3762d6eb28e9e6f\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "74100de875d16fec3133e2f24357c71d5c4fd0223cbacd17e3762d6eb28e9e6f"
-      ],
-      "value": true,
-      "expiresAt": 1791962458903
-    },
-    "[\"factor\",\"topic\",\"74100de875d16fec3133e2f24357c71d5c4fd0223cbacd17e3762d6eb28e9e6f\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "74100de875d16fec3133e2f24357c71d5c4fd0223cbacd17e3762d6eb28e9e6f"
-      ],
-      "value": {
-        "title": "Более 30 миллионов рублей часами и драгоценностями отдал мошенникам 21-летний москвич",
-        "roots": [
-          "более",
-          "миллио",
-          "рублей",
-          "часами",
-          "драгоц",
-          "отдал",
-          "мошенн",
-          "летний",
-          "москви"
-        ]
-      },
-      "expiresAt": 1791962458904
     },
     "[\"factor\",\"pub\",\"652fe34c5c4c21ec8d3711ec0df2dd19d06c73c47e40b779e77d3a63fc149930\"]": {
       "key": [
@@ -2664,6 +2633,36 @@
         ]
       },
       "expiresAt": 1792048926969
+    },
+    "[\"factor\",\"pub\",\"1b24b8aee6a822207f9bd03b213b481d3007712fb4d44f3cfd4ebda4c5369a65\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "1b24b8aee6a822207f9bd03b213b481d3007712fb4d44f3cfd4ebda4c5369a65"
+      ],
+      "value": true,
+      "expiresAt": 1792049501975
+    },
+    "[\"factor\",\"topic\",\"1b24b8aee6a822207f9bd03b213b481d3007712fb4d44f3cfd4ebda4c5369a65\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "1b24b8aee6a822207f9bd03b213b481d3007712fb4d44f3cfd4ebda4c5369a65"
+      ],
+      "value": {
+        "title": "Казнь военного психиатра Нидала Хасана, устроившего стрельбу на базе Форт-Худ в штате Теха",
+        "roots": [
+          "казнь",
+          "военно",
+          "психиа",
+          "нидала",
+          "хасана",
+          "устрои",
+          "стрель",
+          "штате"
+        ]
+      },
+      "expiresAt": 1792049502092
     }
   }
 }
