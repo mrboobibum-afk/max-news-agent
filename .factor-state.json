@@ -17,32 +17,6 @@
       "value": 1791941536703,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"92c5c34281e17fbf64f69316c2655c7f910d833b3897d9e917e3e18de07488b4\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "92c5c34281e17fbf64f69316c2655c7f910d833b3897d9e917e3e18de07488b4"
-      ],
-      "value": true,
-      "expiresAt": 1791941813888
-    },
-    "[\"factor\",\"topic\",\"92c5c34281e17fbf64f69316c2655c7f910d833b3897d9e917e3e18de07488b4\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "92c5c34281e17fbf64f69316c2655c7f910d833b3897d9e917e3e18de07488b4"
-      ],
-      "value": {
-        "title": "ПВО уничтожили 48 украинских БПЛА на подлете к Москве",
-        "roots": [
-          "уничто",
-          "украин",
-          "подлет",
-          "москве"
-        ]
-      },
-      "expiresAt": 1791941813889
-    },
     "[\"factor\",\"pub\",\"fcabaa3cbfee4997cd3c7fe134861a00b561f61f016b441b4692066c42d8502f\"]": {
       "key": [
         "factor",
