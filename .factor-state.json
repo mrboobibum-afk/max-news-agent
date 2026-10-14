@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 720410,
+      "value": 443915,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791996636338,
+      "value": 1791997781336,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"3de0efec2ed996b4c06f237a33a33c21ef52e9751bf07bcab493663e6423d20f\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "3de0efec2ed996b4c06f237a33a33c21ef52e9751bf07bcab493663e6423d20f"
-      ],
-      "value": true,
-      "expiresAt": 1791997301064
-    },
-    "[\"factor\",\"topic\",\"3de0efec2ed996b4c06f237a33a33c21ef52e9751bf07bcab493663e6423d20f\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "3de0efec2ed996b4c06f237a33a33c21ef52e9751bf07bcab493663e6423d20f"
-      ],
-      "value": {
-        "title": "Гаага отказом во въезде российским гимнасткам вмешалась в формирование состава участников ",
-        "roots": [
-          "гаага",
-          "отказо",
-          "въезде",
-          "россий",
-          "гимнас",
-          "вмешал",
-          "формир",
-          "состав",
-          "участн"
-        ]
-      },
-      "expiresAt": 1791997301065
     },
     "[\"factor\",\"pub\",\"a9d2bbf1ad8d95979a3bcbbac84fef84ab821ce82867c5e2015ab9105860ab26\"]": {
       "key": [
@@ -2731,6 +2700,35 @@
         ]
       },
       "expiresAt": 1792083084279
+    },
+    "[\"factor\",\"pub\",\"240711b144e75ed73c1ced6985c3fdaaf8de4f6c19824895122f34f82f125f1b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "240711b144e75ed73c1ced6985c3fdaaf8de4f6c19824895122f34f82f125f1b"
+      ],
+      "value": true,
+      "expiresAt": 1792084229818
+    },
+    "[\"factor\",\"topic\",\"240711b144e75ed73c1ced6985c3fdaaf8de4f6c19824895122f34f82f125f1b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "240711b144e75ed73c1ced6985c3fdaaf8de4f6c19824895122f34f82f125f1b"
+      ],
+      "value": {
+        "title": "❗️ ВС РФ в Хмельницком поразили транспортно-логистический центр \"Эпицентр\", использовавший",
+        "roots": [
+          "хмельн",
+          "порази",
+          "трансп",
+          "логист",
+          "центр",
+          "эпицен",
+          "исполь"
+        ]
+      },
+      "expiresAt": 1792084229819
     }
   }
 }
