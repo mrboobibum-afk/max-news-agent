@@ -17,32 +17,6 @@
       "value": 1791993670868,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"8b8a7adddd1c092959bdde650af028583df5288e38fc632260c9aa9ac6d414ff\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "8b8a7adddd1c092959bdde650af028583df5288e38fc632260c9aa9ac6d414ff"
-      ],
-      "value": true,
-      "expiresAt": 1791993690848
-    },
-    "[\"factor\",\"topic\",\"8b8a7adddd1c092959bdde650af028583df5288e38fc632260c9aa9ac6d414ff\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "8b8a7adddd1c092959bdde650af028583df5288e38fc632260c9aa9ac6d414ff"
-      ],
-      "value": {
-        "title": "Посла Бельгии вызвали в МИД России",
-        "roots": [
-          "посла",
-          "бельги",
-          "вызвал",
-          "россии"
-        ]
-      },
-      "expiresAt": 1791993690849
-    },
     "[\"factor\",\"pub\",\"99f26ed5234fab1463caef161549495db5628df45324dfca58a17e55fe2b6e9c\"]": {
       "key": [
         "factor",
