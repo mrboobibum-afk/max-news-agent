@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 377627,
+      "value": 683829,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792006254829,
+      "value": 1792006837668,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"74268f86dfa81ab3a8da030f6a9ff360ebfd15f1aa2620c410d7b5c1c928e671\"]": {
@@ -2735,6 +2735,36 @@
         ]
       },
       "expiresAt": 1792092684932
+    },
+    "[\"factor\",\"pub\",\"4a418eb4fad7addcadf582db52120f1e00d77a3d36de8afd665280ac82c0af00\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4a418eb4fad7addcadf582db52120f1e00d77a3d36de8afd665280ac82c0af00"
+      ],
+      "value": true,
+      "expiresAt": 1792093270192
+    },
+    "[\"factor\",\"topic\",\"4a418eb4fad7addcadf582db52120f1e00d77a3d36de8afd665280ac82c0af00\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4a418eb4fad7addcadf582db52120f1e00d77a3d36de8afd665280ac82c0af00"
+      ],
+      "value": {
+        "title": "Факты пыток российских пленных на Украине потребовал изучить Мирошник",
+        "roots": [
+          "факты",
+          "пыток",
+          "россий",
+          "пленны",
+          "украин",
+          "потреб",
+          "изучит",
+          "мирошн"
+        ]
+      },
+      "expiresAt": 1792093270193
     }
   }
 }
