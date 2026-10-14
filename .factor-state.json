@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 775844,
+      "value": 213520,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792019435601,
+      "value": 1792020430424,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"db1e02cb7b09db1cdf98b41ecdcf1759ec4721c647f9b35c20291c6e4cab5846\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "db1e02cb7b09db1cdf98b41ecdcf1759ec4721c647f9b35c20291c6e4cab5846"
-      ],
-      "value": true,
-      "expiresAt": 1792020057391
-    },
-    "[\"factor\",\"topic\",\"db1e02cb7b09db1cdf98b41ecdcf1759ec4721c647f9b35c20291c6e4cab5846\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "db1e02cb7b09db1cdf98b41ecdcf1759ec4721c647f9b35c20291c6e4cab5846"
-      ],
-      "value": {
-        "title": "Роскачество впервые выдало российский Знак качества на чизбургер",
-        "roots": [
-          "роскач",
-          "впервы",
-          "выдало",
-          "россий",
-          "качест",
-          "чизбур"
-        ]
-      },
-      "expiresAt": 1792020057392
     },
     "[\"factor\",\"pub\",\"f31da69c53b35e6fa740fda1ce2b4e357b37f523b0afd7069284aaada0a151d8\"]": {
       "key": [
@@ -2824,6 +2796,35 @@
         ]
       },
       "expiresAt": 1792105868395
+    },
+    "[\"factor\",\"pub\",\"fad28a35f3693967aa9e5d11c9340d42360aa9f3708bb0b055ad848cb287b334\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "fad28a35f3693967aa9e5d11c9340d42360aa9f3708bb0b055ad848cb287b334"
+      ],
+      "value": true,
+      "expiresAt": 1792106950597
+    },
+    "[\"factor\",\"topic\",\"fad28a35f3693967aa9e5d11c9340d42360aa9f3708bb0b055ad848cb287b334\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "fad28a35f3693967aa9e5d11c9340d42360aa9f3708bb0b055ad848cb287b334"
+      ],
+      "value": {
+        "title": "Хуситы заявили о поражении истребителя ВВС Саудовской Аравии над Йеменом",
+        "roots": [
+          "хуситы",
+          "заявил",
+          "пораже",
+          "истреб",
+          "саудов",
+          "аравии",
+          "йемено"
+        ]
+      },
+      "expiresAt": 1792106950599
     }
   }
 }
