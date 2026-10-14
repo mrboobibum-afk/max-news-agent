@@ -17,36 +17,6 @@
       "value": 1791984656864,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"69d5856ac4e36edf3af1f92d939eb1276c8e5f9b1e44c66b3c739214c1e7a98b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "69d5856ac4e36edf3af1f92d939eb1276c8e5f9b1e44c66b3c739214c1e7a98b"
-      ],
-      "value": true,
-      "expiresAt": 1791984699528
-    },
-    "[\"factor\",\"topic\",\"69d5856ac4e36edf3af1f92d939eb1276c8e5f9b1e44c66b3c739214c1e7a98b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "69d5856ac4e36edf3af1f92d939eb1276c8e5f9b1e44c66b3c739214c1e7a98b"
-      ],
-      "value": {
-        "title": "▶️ Шведская активистка Грета Тунберг присоединилась к протесту старшеклассников во Франции",
-        "roots": [
-          "шведск",
-          "активи",
-          "грета",
-          "тунбер",
-          "присое",
-          "протес",
-          "старше",
-          "франци"
-        ]
-      },
-      "expiresAt": 1791984699597
-    },
     "[\"factor\",\"pub\",\"3612a2df4c77593cea5982b4ec103419a75ea5d06aafd79d538b851e389ff1f4\"]": {
       "key": [
         "factor",
