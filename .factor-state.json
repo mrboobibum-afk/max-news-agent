@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 730342,
+      "value": 780065,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792008073445,
+      "value": 1792009232507,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"1b5dc3bf2a4458598f95d7f547659da387556c9d26db0d3951f65525d71314b4\"]": {
@@ -2703,6 +2703,35 @@
         ]
       },
       "expiresAt": 1792094498956
+    },
+    "[\"factor\",\"pub\",\"388c4a65dbeb71d10ef328745d1681c70908d26f164b944d5f60a9ec52c8bd3a\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "388c4a65dbeb71d10ef328745d1681c70908d26f164b944d5f60a9ec52c8bd3a"
+      ],
+      "value": true,
+      "expiresAt": 1792095678922
+    },
+    "[\"factor\",\"topic\",\"388c4a65dbeb71d10ef328745d1681c70908d26f164b944d5f60a9ec52c8bd3a\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "388c4a65dbeb71d10ef328745d1681c70908d26f164b944d5f60a9ec52c8bd3a"
+      ],
+      "value": {
+        "title": "Только с начала этого года от рук ВСУ уже получили ранения 484 ребенка, 72 погибли, заявил",
+        "roots": [
+          "только",
+          "начала",
+          "этого",
+          "получи",
+          "ранени",
+          "ребенк",
+          "погибл"
+        ]
+      },
+      "expiresAt": 1792095678923
     }
   }
 }
