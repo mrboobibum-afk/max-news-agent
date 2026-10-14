@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 341228,
+      "value": 801716,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,65 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791942634532,
+      "value": 1791944487359,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"fcabaa3cbfee4997cd3c7fe134861a00b561f61f016b441b4692066c42d8502f\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "fcabaa3cbfee4997cd3c7fe134861a00b561f61f016b441b4692066c42d8502f"
-      ],
-      "value": true,
-      "expiresAt": 1791942682523
-    },
-    "[\"factor\",\"topic\",\"fcabaa3cbfee4997cd3c7fe134861a00b561f61f016b441b4692066c42d8502f\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "fcabaa3cbfee4997cd3c7fe134861a00b561f61f016b441b4692066c42d8502f"
-      ],
-      "value": {
-        "title": "❗️ \"Яндекс Пэй\" частично восстановил доступ к переводам и платежам",
-        "roots": [
-          "яндекс",
-          "частич",
-          "восста",
-          "доступ",
-          "перево",
-          "платеж"
-        ]
-      },
-      "expiresAt": 1791942682528
-    },
-    "[\"factor\",\"pub\",\"b87c0c1531898c76bec63bd8b3c6a77160aa110ff9a2d9e7f9a4f0087406eb0b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "b87c0c1531898c76bec63bd8b3c6a77160aa110ff9a2d9e7f9a4f0087406eb0b"
-      ],
-      "value": true,
-      "expiresAt": 1791944162019
-    },
-    "[\"factor\",\"topic\",\"b87c0c1531898c76bec63bd8b3c6a77160aa110ff9a2d9e7f9a4f0087406eb0b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "b87c0c1531898c76bec63bd8b3c6a77160aa110ff9a2d9e7f9a4f0087406eb0b"
-      ],
-      "value": {
-        "title": "Сезон гриппа и ОРВИ в России продлится до апреля, рассказала вирусолог",
-        "roots": [
-          "сезон",
-          "гриппа",
-          "россии",
-          "продли",
-          "апреля",
-          "расска",
-          "вирусо"
-        ]
-      },
-      "expiresAt": 1791944162020
     },
     "[\"factor\",\"pub\",\"ae4ce475d9d42bd5b1a3734aa6ab59cb8f0c6ba8edeec953adb6fc349379dab9\"]": {
       "key": [
@@ -2479,6 +2422,36 @@
         ]
       },
       "expiresAt": 1792029801855
+    },
+    "[\"factor\",\"pub\",\"77e072b6466b535d56b28a6df3d163f7d02af9f097a2693807316dd5dc924679\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "77e072b6466b535d56b28a6df3d163f7d02af9f097a2693807316dd5dc924679"
+      ],
+      "value": true,
+      "expiresAt": 1792031016910
+    },
+    "[\"factor\",\"topic\",\"77e072b6466b535d56b28a6df3d163f7d02af9f097a2693807316dd5dc924679\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "77e072b6466b535d56b28a6df3d163f7d02af9f097a2693807316dd5dc924679"
+      ],
+      "value": {
+        "title": "Посольство РФ в Норвегии держит дело о судне \"Профессор Молчанов\" на контроле, заявили ТАС",
+        "roots": [
+          "посоль",
+          "норвег",
+          "держит",
+          "судне",
+          "профес",
+          "молчан",
+          "контро",
+          "заявил"
+        ]
+      },
+      "expiresAt": 1792031016911
     }
   }
 }
