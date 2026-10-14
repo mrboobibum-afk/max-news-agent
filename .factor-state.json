@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 540194,
+      "value": 280614,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791969036230,
+      "value": 1791969639120,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"6757474c8c0156b4071cd4cb568e4c7b767fc93d39f9dd5020048efaf03202d8\"]": {
@@ -2702,6 +2702,38 @@
         ]
       },
       "expiresAt": 1792055459746
+    },
+    "[\"factor\",\"pub\",\"593870bf7e6907fbae1662c47c67b42826b7a1d8abbbfe946c75767259abc311\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "593870bf7e6907fbae1662c47c67b42826b7a1d8abbbfe946c75767259abc311"
+      ],
+      "value": true,
+      "expiresAt": 1792056418073
+    },
+    "[\"factor\",\"topic\",\"593870bf7e6907fbae1662c47c67b42826b7a1d8abbbfe946c75767259abc311\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "593870bf7e6907fbae1662c47c67b42826b7a1d8abbbfe946c75767259abc311"
+      ],
+      "value": {
+        "title": "Японская компания NTT построит центр обработки данных для Anthropic, сообщила газета Nikke",
+        "roots": [
+          "японск",
+          "компан",
+          "постро",
+          "центр",
+          "обрабо",
+          "данных",
+          "anthro",
+          "сообщи",
+          "газета",
+          "nikke"
+        ]
+      },
+      "expiresAt": 1792056418075
     }
   }
 }
