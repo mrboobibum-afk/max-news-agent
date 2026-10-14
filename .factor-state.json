@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 784780,
+      "value": 674070,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791954633185,
+      "value": 1791955851473,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"4eda04151a5ea7e40b3e00ce63bda9d34bda9ee04de194b3e97712a36b6d6129\"]": {
@@ -2564,6 +2564,36 @@
         ]
       },
       "expiresAt": 1792041054019
+    },
+    "[\"factor\",\"pub\",\"d6b38faf1d6cb59fc990f466d0c7d8cec4c0e024cf74e5de61931b8d6e5554c4\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d6b38faf1d6cb59fc990f466d0c7d8cec4c0e024cf74e5de61931b8d6e5554c4"
+      ],
+      "value": true,
+      "expiresAt": 1792042339262
+    },
+    "[\"factor\",\"topic\",\"d6b38faf1d6cb59fc990f466d0c7d8cec4c0e024cf74e5de61931b8d6e5554c4\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d6b38faf1d6cb59fc990f466d0c7d8cec4c0e024cf74e5de61931b8d6e5554c4"
+      ],
+      "value": {
+        "title": "🚨 Двое мужчин погибли в результате нападения медведей в Нижнеилимском районе Иркутской об",
+        "roots": [
+          "мужчин",
+          "погибл",
+          "резуль",
+          "нападе",
+          "медвед",
+          "нижнеи",
+          "районе",
+          "иркутс"
+        ]
+      },
+      "expiresAt": 1792042339263
     }
   }
 }
