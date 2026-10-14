@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 461753,
+      "value": 508726,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791980437083,
+      "value": 1791981056305,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"95b30a4e14dda91457c34c028e30d30b1019d5991d189f15e1310284f996a468\"]": {
@@ -2760,6 +2760,38 @@
         ]
       },
       "expiresAt": 1792066858626
+    },
+    "[\"factor\",\"pub\",\"e97f21025535da5b077bfe1401861cb5717de6f6c7d1cb9a608e0ddf5ffeeee2\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e97f21025535da5b077bfe1401861cb5717de6f6c7d1cb9a608e0ddf5ffeeee2"
+      ],
+      "value": true,
+      "expiresAt": 1792067512245
+    },
+    "[\"factor\",\"topic\",\"e97f21025535da5b077bfe1401861cb5717de6f6c7d1cb9a608e0ddf5ffeeee2\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e97f21025535da5b077bfe1401861cb5717de6f6c7d1cb9a608e0ddf5ffeeee2"
+      ],
+      "value": {
+        "title": "Путин назвал крайне важным и актуальным вопрос повышения цифровой безопасности в России",
+        "roots": [
+          "путин",
+          "назвал",
+          "крайне",
+          "важным",
+          "актуал",
+          "вопрос",
+          "повыше",
+          "цифров",
+          "безопа",
+          "россии"
+        ]
+      },
+      "expiresAt": 1792067512246
     }
   }
 }
