@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 720134,
+      "value": 876849,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792020651792,
+      "value": 1792021834189,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"f31da69c53b35e6fa740fda1ce2b4e357b37f523b0afd7069284aaada0a151d8\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "f31da69c53b35e6fa740fda1ce2b4e357b37f523b0afd7069284aaada0a151d8"
-      ],
-      "value": true,
-      "expiresAt": 1792021500415
-    },
-    "[\"factor\",\"topic\",\"f31da69c53b35e6fa740fda1ce2b4e357b37f523b0afd7069284aaada0a151d8\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "f31da69c53b35e6fa740fda1ce2b4e357b37f523b0afd7069284aaada0a151d8"
-      ],
-      "value": {
-        "title": "✈️ Пулково принял более 20 рейсов, направлявшихся в Москву, сообщили в аэропорту",
-        "roots": [
-          "пулков",
-          "принял",
-          "более",
-          "рейсов",
-          "направ",
-          "москву",
-          "аэропо"
-        ]
-      },
-      "expiresAt": 1792021500415
     },
     "[\"factor\",\"pub\",\"4dfa1dda1d877624cb70c9631135c67a941ee9d60e850d0694a8934eaa9050d0\"]": {
       "key": [
@@ -2855,6 +2826,38 @@
         ]
       },
       "expiresAt": 1792107103007
+    },
+    "[\"factor\",\"pub\",\"7db69c2a1d4ddc5f328cd6ce28d2c592374fadd2afab304a0b451f34e9ccf458\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "7db69c2a1d4ddc5f328cd6ce28d2c592374fadd2afab304a0b451f34e9ccf458"
+      ],
+      "value": true,
+      "expiresAt": 1792108258598
+    },
+    "[\"factor\",\"topic\",\"7db69c2a1d4ddc5f328cd6ce28d2c592374fadd2afab304a0b451f34e9ccf458\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "7db69c2a1d4ddc5f328cd6ce28d2c592374fadd2afab304a0b451f34e9ccf458"
+      ],
+      "value": {
+        "title": "Выплату многодетным отцам в размере не менее 2 миллионов рублей предложили ввести в Общест",
+        "roots": [
+          "выплат",
+          "многод",
+          "отцам",
+          "размер",
+          "менее",
+          "миллио",
+          "рублей",
+          "предло",
+          "ввести",
+          "общест"
+        ]
+      },
+      "expiresAt": 1792108258599
     }
   }
 }
