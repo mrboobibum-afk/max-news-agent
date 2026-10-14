@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 784466,
+      "value": 181962,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791941536703,
+      "value": 1791943427468,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"fcabaa3cbfee4997cd3c7fe134861a00b561f61f016b441b4692066c42d8502f\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "fcabaa3cbfee4997cd3c7fe134861a00b561f61f016b441b4692066c42d8502f"
-      ],
-      "value": true,
-      "expiresAt": 1791942682523
-    },
-    "[\"factor\",\"topic\",\"fcabaa3cbfee4997cd3c7fe134861a00b561f61f016b441b4692066c42d8502f\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "fcabaa3cbfee4997cd3c7fe134861a00b561f61f016b441b4692066c42d8502f"
-      ],
-      "value": {
-        "title": "❗️ \"Яндекс Пэй\" частично восстановил доступ к переводам и платежам",
-        "roots": [
-          "яндекс",
-          "частич",
-          "восста",
-          "доступ",
-          "перево",
-          "платеж"
-        ]
-      },
-      "expiresAt": 1791942682528
     },
     "[\"factor\",\"pub\",\"b87c0c1531898c76bec63bd8b3c6a77160aa110ff9a2d9e7f9a4f0087406eb0b\"]": {
       "key": [
@@ -2450,6 +2422,35 @@
         ]
       },
       "expiresAt": 1792027955653
+    },
+    "[\"factor\",\"pub\",\"4e672bbccbddec4fe38dfe4930df0e710462e3d2a9bfc74d476871b3db715a82\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4e672bbccbddec4fe38dfe4930df0e710462e3d2a9bfc74d476871b3db715a82"
+      ],
+      "value": true,
+      "expiresAt": 1792030865038
+    },
+    "[\"factor\",\"topic\",\"4e672bbccbddec4fe38dfe4930df0e710462e3d2a9bfc74d476871b3db715a82\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4e672bbccbddec4fe38dfe4930df0e710462e3d2a9bfc74d476871b3db715a82"
+      ],
+      "value": {
+        "title": "RMF24: на пляже в Польше нашли неопознанный летающий объект",
+        "roots": [
+          "rmf24",
+          "пляже",
+          "польше",
+          "нашли",
+          "неопоз",
+          "летающ",
+          "объект"
+        ]
+      },
+      "expiresAt": 1792030865040
     }
   }
 }
