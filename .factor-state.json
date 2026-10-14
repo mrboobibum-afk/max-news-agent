@@ -17,36 +17,6 @@
       "value": 1791963635351,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"c70962ff63ac21a5c06f748aa3f9b82af3de9733d69bfb528be8a5e9d561c6eb\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c70962ff63ac21a5c06f748aa3f9b82af3de9733d69bfb528be8a5e9d561c6eb"
-      ],
-      "value": true,
-      "expiresAt": 1791963654961
-    },
-    "[\"factor\",\"topic\",\"c70962ff63ac21a5c06f748aa3f9b82af3de9733d69bfb528be8a5e9d561c6eb\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c70962ff63ac21a5c06f748aa3f9b82af3de9733d69bfb528be8a5e9d561c6eb"
-      ],
-      "value": {
-        "title": "Самолет, летящий из Стокгольма в Цюрих, подал сигнал бедствия в небе над Германией",
-        "roots": [
-          "самоле",
-          "летящи",
-          "стокго",
-          "цюрих",
-          "подал",
-          "сигнал",
-          "бедств",
-          "герман"
-        ]
-      },
-      "expiresAt": 1791963654962
-    },
     "[\"factor\",\"pub\",\"8c9fe6b927412d7b4d153bd08ee8fdadc804f25b4b7cce1bcf01717e592b1db8\"]": {
       "key": [
         "factor",
