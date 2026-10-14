@@ -17,37 +17,6 @@
       "value": 1791972633618,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"4e86dc14c66fbe93fcf0b52c23b3391f2ef6de7e286dbf7d03ec804464f8ed44\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "4e86dc14c66fbe93fcf0b52c23b3391f2ef6de7e286dbf7d03ec804464f8ed44"
-      ],
-      "value": true,
-      "expiresAt": 1791972658522
-    },
-    "[\"factor\",\"topic\",\"4e86dc14c66fbe93fcf0b52c23b3391f2ef6de7e286dbf7d03ec804464f8ed44\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "4e86dc14c66fbe93fcf0b52c23b3391f2ef6de7e286dbf7d03ec804464f8ed44"
-      ],
-      "value": {
-        "title": "Концерт Канье Уэста в Петербурге в заявленные ранее даты не состоится, заявили организатор",
-        "roots": [
-          "концер",
-          "канье",
-          "уэста",
-          "петерб",
-          "заявле",
-          "ранее",
-          "состои",
-          "заявил",
-          "органи"
-        ]
-      },
-      "expiresAt": 1791972658523
-    },
     "[\"factor\",\"pub\",\"b43f2cbfd24dcbeeef86bd7324d8b67a620a6bc68ed7be6d20fd6ee75cb72f96\"]": {
       "key": [
         "factor",
