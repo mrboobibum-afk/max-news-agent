@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 541801,
+      "value": 212343,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,35 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791979269012,
+      "value": 1791979939051,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"620163f450d1c6bf7eab23fa8c790826a4d7550daf2e4dc7da037a107dc18d73\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "620163f450d1c6bf7eab23fa8c790826a4d7550daf2e4dc7da037a107dc18d73"
-      ],
-      "value": true,
-      "expiresAt": 1791979874807
-    },
-    "[\"factor\",\"topic\",\"620163f450d1c6bf7eab23fa8c790826a4d7550daf2e4dc7da037a107dc18d73\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "620163f450d1c6bf7eab23fa8c790826a4d7550daf2e4dc7da037a107dc18d73"
-      ],
-      "value": {
-        "title": "📹 Мужчина в Красноярске напал на девятилетнюю девочку",
-        "roots": [
-          "мужчин",
-          "красно",
-          "напал",
-          "девяти",
-          "девочк"
-        ]
-      },
-      "expiresAt": 1791979874807
     },
     "[\"factor\",\"pub\",\"95b30a4e14dda91457c34c028e30d30b1019d5991d189f15e1310284f996a468\"]": {
       "key": [
@@ -2728,6 +2701,37 @@
         ]
       },
       "expiresAt": 1792065709147
+    },
+    "[\"factor\",\"pub\",\"932c1f263f0e98118fa177bb446e8f505d53ffab4b43979f104a95d208fc824c\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "932c1f263f0e98118fa177bb446e8f505d53ffab4b43979f104a95d208fc824c"
+      ],
+      "value": true,
+      "expiresAt": 1792066391605
+    },
+    "[\"factor\",\"topic\",\"932c1f263f0e98118fa177bb446e8f505d53ffab4b43979f104a95d208fc824c\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "932c1f263f0e98118fa177bb446e8f505d53ffab4b43979f104a95d208fc824c"
+      ],
+      "value": {
+        "title": "▶️ Штаб-квартира нефтяной компании Saudi Aramco сильно пострадала из-за удара хуситов 13 о",
+        "roots": [
+          "кварти",
+          "нефтян",
+          "компан",
+          "saudi",
+          "aramco",
+          "сильно",
+          "постра",
+          "удара",
+          "хусито"
+        ]
+      },
+      "expiresAt": 1792066391606
     }
   }
 }
