@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 322619,
+      "value": 285422,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792005041007,
+      "value": 1792005636418,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"d72bed5e249b165b354520e5b96a7c264a268e779c4a7dfdd5e0c0f31b86b442\"]": {
@@ -2702,6 +2702,37 @@
         ]
       },
       "expiresAt": 1792091667969
+    },
+    "[\"factor\",\"pub\",\"dc28dd09aaf568028c9e9466b39c311c8df3c3daaeac3a1f56a75ccc5bc3f47e\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "dc28dd09aaf568028c9e9466b39c311c8df3c3daaeac3a1f56a75ccc5bc3f47e"
+      ],
+      "value": true,
+      "expiresAt": 1792092154823
+    },
+    "[\"factor\",\"topic\",\"dc28dd09aaf568028c9e9466b39c311c8df3c3daaeac3a1f56a75ccc5bc3f47e\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "dc28dd09aaf568028c9e9466b39c311c8df3c3daaeac3a1f56a75ccc5bc3f47e"
+      ],
+      "value": {
+        "title": "↗️ Новые решения на основе боевого опыта: замминистра обороны РФ Анна Цивилева проверила п",
+        "roots": [
+          "новые",
+          "решени",
+          "основе",
+          "боевог",
+          "опыта",
+          "заммин",
+          "оборон",
+          "цивиле",
+          "провер"
+        ]
+      },
+      "expiresAt": 1792092154824
     }
   }
 }
