@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 876697,
+      "value": 456076,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792015261921,
+      "value": 1792016435775,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"fd0d12a90fd09e5337b99ce5849bbc8a8bfeb1643f3ff33dbcd3b0cf42b84823\"]": {
@@ -2793,6 +2793,35 @@
         ]
       },
       "expiresAt": 1792101684145
+    },
+    "[\"factor\",\"pub\",\"6d79f9ec714b50028e1f3278b9a34fa9ad0ba9f204a8cc799142d7b5fb106f61\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "6d79f9ec714b50028e1f3278b9a34fa9ad0ba9f204a8cc799142d7b5fb106f61"
+      ],
+      "value": true,
+      "expiresAt": 1792102864342
+    },
+    "[\"factor\",\"topic\",\"6d79f9ec714b50028e1f3278b9a34fa9ad0ba9f204a8cc799142d7b5fb106f61\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "6d79f9ec714b50028e1f3278b9a34fa9ad0ba9f204a8cc799142d7b5fb106f61"
+      ],
+      "value": {
+        "title": "Трамп призвал расстреливать тех, кто допускает утечки секретной информации",
+        "roots": [
+          "трамп",
+          "призва",
+          "расстр",
+          "допуск",
+          "утечки",
+          "секрет",
+          "информ"
+        ]
+      },
+      "expiresAt": 1792102864347
     }
   }
 }
