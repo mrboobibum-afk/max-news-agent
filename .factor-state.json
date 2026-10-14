@@ -17,37 +17,6 @@
       "value": 1791995458817,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"04cb3d358274c234fd1228226a700f2fd481de8aeaf0a4b5792b1dd66f8909b0\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "04cb3d358274c234fd1228226a700f2fd481de8aeaf0a4b5792b1dd66f8909b0"
-      ],
-      "value": true,
-      "expiresAt": 1791995491078
-    },
-    "[\"factor\",\"topic\",\"04cb3d358274c234fd1228226a700f2fd481de8aeaf0a4b5792b1dd66f8909b0\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "04cb3d358274c234fd1228226a700f2fd481de8aeaf0a4b5792b1dd66f8909b0"
-      ],
-      "value": {
-        "title": "❗️ Сотрудник Hokkaido Shimbun собирал сведения о количестве участников СВО из числа жителе",
-        "roots": [
-          "сотруд",
-          "hokkai",
-          "shimbu",
-          "собира",
-          "сведен",
-          "количе",
-          "участн",
-          "числа",
-          "жителе"
-        ]
-      },
-      "expiresAt": 1791995491079
-    },
     "[\"factor\",\"pub\",\"f16dfa04e01b2d20cbe394cdbe6a0b1aa41e47040f98ea67ca17c2a9ca330f5c\"]": {
       "key": [
         "factor",
