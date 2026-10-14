@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 754143,
+      "value": 655917,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791988254994,
+      "value": 1791989437326,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"f6350827e13de5103eeff074502c54e95315562a182cdbf16e711c637aa1a136\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "f6350827e13de5103eeff074502c54e95315562a182cdbf16e711c637aa1a136"
-      ],
-      "value": true,
-      "expiresAt": 1791988871566
-    },
-    "[\"factor\",\"topic\",\"f6350827e13de5103eeff074502c54e95315562a182cdbf16e711c637aa1a136\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "f6350827e13de5103eeff074502c54e95315562a182cdbf16e711c637aa1a136"
-      ],
-      "value": {
-        "title": "Конкретной договоренности по трехсторонней встрече по Украине нет, заявил Рябков",
-        "roots": [
-          "конкре",
-          "догово",
-          "трехст",
-          "встреч",
-          "украин",
-          "рябков"
-        ]
-      },
-      "expiresAt": 1791988871567
     },
     "[\"factor\",\"pub\",\"5f763c7e0ffb1f2b25eac72055cd5489f6ee111256c51caa69516f8c39e00ec9\"]": {
       "key": [
@@ -2729,6 +2701,35 @@
         ]
       },
       "expiresAt": 1792074683809
+    },
+    "[\"factor\",\"pub\",\"00b57be75ab4efeb72ff33233f8d08b17f7a30928b25f2b2462bbab6fd8b6f75\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "00b57be75ab4efeb72ff33233f8d08b17f7a30928b25f2b2462bbab6fd8b6f75"
+      ],
+      "value": true,
+      "expiresAt": 1792075875528
+    },
+    "[\"factor\",\"topic\",\"00b57be75ab4efeb72ff33233f8d08b17f7a30928b25f2b2462bbab6fd8b6f75\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "00b57be75ab4efeb72ff33233f8d08b17f7a30928b25f2b2462bbab6fd8b6f75"
+      ],
+      "value": {
+        "title": "Папе Римскому после удаления части легкого пока не предписана химио- или радиотерапия для ",
+        "roots": [
+          "римско",
+          "удален",
+          "части",
+          "легког",
+          "предпи",
+          "химио",
+          "радиот"
+        ]
+      },
+      "expiresAt": 1792075875529
     }
   }
 }
