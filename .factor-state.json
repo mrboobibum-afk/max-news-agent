@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 468605,
+      "value": 350944,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791970831859,
+      "value": 1791971438485,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"246f5c24650899f04eb003400f941d1059e4fbf30d7d1d374ef8a5d87d12567a\"]": {
@@ -2738,6 +2738,37 @@
         ]
       },
       "expiresAt": 1792057531539
+    },
+    "[\"factor\",\"pub\",\"371be831f59a4b8cf451b664e52a6d1e098f7396fc67367f666fe4ad5717e9ad\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "371be831f59a4b8cf451b664e52a6d1e098f7396fc67367f666fe4ad5717e9ad"
+      ],
+      "value": true,
+      "expiresAt": 1792057893819
+    },
+    "[\"factor\",\"topic\",\"371be831f59a4b8cf451b664e52a6d1e098f7396fc67367f666fe4ad5717e9ad\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "371be831f59a4b8cf451b664e52a6d1e098f7396fc67367f666fe4ad5717e9ad"
+      ],
+      "value": {
+        "title": "Уезжать за город и запасаться дровами, чтобы пережить предстоящую зиму, призвал украинцев ",
+        "roots": [
+          "уезжат",
+          "город",
+          "запаса",
+          "дровам",
+          "чтобы",
+          "пережи",
+          "предст",
+          "призва",
+          "украин"
+        ]
+      },
+      "expiresAt": 1792057893820
     }
   }
 }
