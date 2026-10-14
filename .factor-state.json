@@ -17,35 +17,6 @@
       "value": 1791939040869,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"fe04b7166edfede40a8e4bc347c053090514f397c4f2eefdb25594d05bec9f1a\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "fe04b7166edfede40a8e4bc347c053090514f397c4f2eefdb25594d05bec9f1a"
-      ],
-      "value": true,
-      "expiresAt": 1791939078985
-    },
-    "[\"factor\",\"topic\",\"fe04b7166edfede40a8e4bc347c053090514f397c4f2eefdb25594d05bec9f1a\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "fe04b7166edfede40a8e4bc347c053090514f397c4f2eefdb25594d05bec9f1a"
-      ],
-      "value": {
-        "title": "Кения рассматривает возможности сотрудничества с БРИКС, сообщил в интервью ТАСС посол стра",
-        "roots": [
-          "кения",
-          "рассма",
-          "возмож",
-          "сотруд",
-          "брикс",
-          "интерв",
-          "посол"
-        ]
-      },
-      "expiresAt": 1791939078986
-    },
     "[\"factor\",\"pub\",\"c3927e107d1864803b3815eb87c5bd09cbbffb49fd5dbd65ad74d5239479348d\"]": {
       "key": [
         "factor",
