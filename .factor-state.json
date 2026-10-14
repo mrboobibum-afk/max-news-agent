@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 326032,
+      "value": 301500,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,67 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791951634881,
+      "value": 1791953198170,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"4c9ad32c8f75fcf7c58275b233108dc96a5b98d072921b35241afc4c046e8321\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "4c9ad32c8f75fcf7c58275b233108dc96a5b98d072921b35241afc4c046e8321"
-      ],
-      "value": true,
-      "expiresAt": 1791951865809
-    },
-    "[\"factor\",\"topic\",\"4c9ad32c8f75fcf7c58275b233108dc96a5b98d072921b35241afc4c046e8321\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "4c9ad32c8f75fcf7c58275b233108dc96a5b98d072921b35241afc4c046e8321"
-      ],
-      "value": {
-        "title": "Тимур Иванов вновь отверг обвинение в коррупции, в том числе во взяточничестве на сумму св",
-        "roots": [
-          "тимур",
-          "иванов",
-          "вновь",
-          "отверг",
-          "обвине",
-          "корруп",
-          "числе",
-          "взяточ",
-          "сумму"
-        ]
-      },
-      "expiresAt": 1791951865811
-    },
-    "[\"factor\",\"pub\",\"55c72e72225dcfca47e78a96df373b1cf43816b5431b549a4f462b1aaed7fde9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "55c72e72225dcfca47e78a96df373b1cf43816b5431b549a4f462b1aaed7fde9"
-      ],
-      "value": true,
-      "expiresAt": 1791953058058
-    },
-    "[\"factor\",\"topic\",\"55c72e72225dcfca47e78a96df373b1cf43816b5431b549a4f462b1aaed7fde9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "55c72e72225dcfca47e78a96df373b1cf43816b5431b549a4f462b1aaed7fde9"
-      ],
-      "value": {
-        "title": "\"Американцы разорвали цепь санкций\": как мир реагирует на дизельную сделку РФ и США",
-        "roots": [
-          "америк",
-          "разорв",
-          "санкци",
-          "реагир",
-          "дизель",
-          "сделку"
-        ]
-      },
-      "expiresAt": 1791953058059
     },
     "[\"factor\",\"pub\",\"aa7665348624b84c2208ce1015fb7a10e130a1136ccd26f6509109a501599e5f\"]": {
       "key": [
@@ -2598,6 +2539,35 @@
         ]
       },
       "expiresAt": 1792038054228
+    },
+    "[\"factor\",\"pub\",\"19c0d730d4fc39219c1afa0aed0dbe008b01ef7affbddca45b1e8350bad7cc38\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "19c0d730d4fc39219c1afa0aed0dbe008b01ef7affbddca45b1e8350bad7cc38"
+      ],
+      "value": true,
+      "expiresAt": 1792039650501
+    },
+    "[\"factor\",\"topic\",\"19c0d730d4fc39219c1afa0aed0dbe008b01ef7affbddca45b1e8350bad7cc38\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "19c0d730d4fc39219c1afa0aed0dbe008b01ef7affbddca45b1e8350bad7cc38"
+      ],
+      "value": {
+        "title": "▶️ Уехавших с началом СВО россиян можно простить, если они осознали ошибку",
+        "roots": [
+          "уехавш",
+          "начало",
+          "россия",
+          "можно",
+          "прости",
+          "осозна",
+          "ошибку"
+        ]
+      },
+      "expiresAt": 1792039650502
     }
   }
 }
