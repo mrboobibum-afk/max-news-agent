@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 324238,
+      "value": 351319,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792018234721,
+      "value": 1792018865456,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"415c2ba6ba8891294eac68913079ad442fce369605e27cad0e44d90171239cea\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "415c2ba6ba8891294eac68913079ad442fce369605e27cad0e44d90171239cea"
-      ],
-      "value": true,
-      "expiresAt": 1792018252247
-    },
-    "[\"factor\",\"topic\",\"415c2ba6ba8891294eac68913079ad442fce369605e27cad0e44d90171239cea\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "415c2ba6ba8891294eac68913079ad442fce369605e27cad0e44d90171239cea"
-      ],
-      "value": {
-        "title": "ФБР задержало сотрудника OpenAI, который установил в офисе компании прослушивающее устройс",
-        "roots": [
-          "задерж",
-          "сотруд",
-          "openai",
-          "которы",
-          "устано",
-          "офисе",
-          "компан",
-          "прослу",
-          "устрой"
-        ]
-      },
-      "expiresAt": 1792018252248
     },
     "[\"factor\",\"pub\",\"2fcd1bf8e5c2586a4e0b24711faec7a9435cca11800fb2e99c631d9232fdaabf\"]": {
       "key": [
@@ -2827,6 +2796,33 @@
         ]
       },
       "expiresAt": 1792104851446
+    },
+    "[\"factor\",\"pub\",\"31e5f591fbc6bbf6f532df99667cd2ecd11de192a590ea8728579590da90a7e6\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "31e5f591fbc6bbf6f532df99667cd2ecd11de192a590ea8728579590da90a7e6"
+      ],
+      "value": true,
+      "expiresAt": 1792105476432
+    },
+    "[\"factor\",\"topic\",\"31e5f591fbc6bbf6f532df99667cd2ecd11de192a590ea8728579590da90a7e6\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "31e5f591fbc6bbf6f532df99667cd2ecd11de192a590ea8728579590da90a7e6"
+      ],
+      "value": {
+        "title": "В МИД РФ оценили кредитную политику ЕС в отношении Молдавии",
+        "roots": [
+          "оценил",
+          "кредит",
+          "полити",
+          "отноше",
+          "молдав"
+        ]
+      },
+      "expiresAt": 1792105476433
     }
   }
 }
