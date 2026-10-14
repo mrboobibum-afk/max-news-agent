@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 557340,
+      "value": 672308,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791963055419,
+      "value": 1791963635351,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"652fe34c5c4c21ec8d3711ec0df2dd19d06c73c47e40b779e77d3a63fc149930\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "652fe34c5c4c21ec8d3711ec0df2dd19d06c73c47e40b779e77d3a63fc149930"
-      ],
-      "value": true,
-      "expiresAt": 1791963075681
-    },
-    "[\"factor\",\"topic\",\"652fe34c5c4c21ec8d3711ec0df2dd19d06c73c47e40b779e77d3a63fc149930\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "652fe34c5c4c21ec8d3711ec0df2dd19d06c73c47e40b779e77d3a63fc149930"
-      ],
-      "value": {
-        "title": "✈️ Зарегистрированный в США самолет-разведчик НАТО вновь замечен над нейтральными водами Ч",
-        "roots": [
-          "зареги",
-          "самоле",
-          "развед",
-          "вновь",
-          "замече",
-          "нейтра",
-          "водами"
-        ]
-      },
-      "expiresAt": 1791963075683
     },
     "[\"factor\",\"pub\",\"c70962ff63ac21a5c06f748aa3f9b82af3de9733d69bfb528be8a5e9d561c6eb\"]": {
       "key": [
@@ -2663,6 +2634,37 @@
         ]
       },
       "expiresAt": 1792049502092
+    },
+    "[\"factor\",\"pub\",\"c1ea4b683e51bca88909252ea5b4725ea0f2811f67eed2e160d5f18a2aaebca8\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "c1ea4b683e51bca88909252ea5b4725ea0f2811f67eed2e160d5f18a2aaebca8"
+      ],
+      "value": true,
+      "expiresAt": 1792050061694
+    },
+    "[\"factor\",\"topic\",\"c1ea4b683e51bca88909252ea5b4725ea0f2811f67eed2e160d5f18a2aaebca8\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "c1ea4b683e51bca88909252ea5b4725ea0f2811f67eed2e160d5f18a2aaebca8"
+      ],
+      "value": {
+        "title": "Народную артистку РСФСР Лидию Федосееву-Шукшину доставили в реанимацию из-за проблем с сер",
+        "roots": [
+          "народн",
+          "артист",
+          "рсфср",
+          "лидию",
+          "федосе",
+          "шукшин",
+          "достав",
+          "реаним",
+          "пробле"
+        ]
+      },
+      "expiresAt": 1792050061695
     }
   }
 }
