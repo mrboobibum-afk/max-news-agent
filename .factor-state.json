@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 456076,
+      "value": 846495,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792016435775,
+      "value": 1792017051966,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"fd0d12a90fd09e5337b99ce5849bbc8a8bfeb1643f3ff33dbcd3b0cf42b84823\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "fd0d12a90fd09e5337b99ce5849bbc8a8bfeb1643f3ff33dbcd3b0cf42b84823"
-      ],
-      "value": true,
-      "expiresAt": 1792016566342
-    },
-    "[\"factor\",\"topic\",\"fd0d12a90fd09e5337b99ce5849bbc8a8bfeb1643f3ff33dbcd3b0cf42b84823\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "fd0d12a90fd09e5337b99ce5849bbc8a8bfeb1643f3ff33dbcd3b0cf42b84823"
-      ],
-      "value": {
-        "title": "Суд ФРГ допустил до рассмотрения дело подозреваемого в подрыве \"Северных потоков\", процесс",
-        "roots": [
-          "допуст",
-          "рассмо",
-          "подозр",
-          "подрыв",
-          "северн",
-          "потоко",
-          "процес"
-        ]
-      },
-      "expiresAt": 1792016566343
     },
     "[\"factor\",\"pub\",\"dd44408dd71c41697cd5fc21369cab3d8a47310d36047b60e25fbb14718377a4\"]": {
       "key": [
@@ -2822,6 +2793,37 @@
         ]
       },
       "expiresAt": 1792102864347
+    },
+    "[\"factor\",\"pub\",\"98dc7384428c600a8427b96cd2b11a68fae58d680a646dd2c3f161599c4177ef\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "98dc7384428c600a8427b96cd2b11a68fae58d680a646dd2c3f161599c4177ef"
+      ],
+      "value": true,
+      "expiresAt": 1792103495641
+    },
+    "[\"factor\",\"topic\",\"98dc7384428c600a8427b96cd2b11a68fae58d680a646dd2c3f161599c4177ef\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "98dc7384428c600a8427b96cd2b11a68fae58d680a646dd2c3f161599c4177ef"
+      ],
+      "value": {
+        "title": "Действия Запада возле российских границ разрушили стабильность в Европе , заявил председат",
+        "roots": [
+          "действ",
+          "запада",
+          "возле",
+          "россий",
+          "границ",
+          "разруш",
+          "стабил",
+          "европе",
+          "предсе"
+        ]
+      },
+      "expiresAt": 1792103495642
     }
   }
 }
