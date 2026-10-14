@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 481865,
+      "value": 413865,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791946860534,
+      "value": 1791947431140,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"7adf56b0758adf7a903954848bd55351fcb3dc3ee430a97934a267128d042f71\"]": {
@@ -2480,6 +2480,36 @@
         ]
       },
       "expiresAt": 1792033336717
+    },
+    "[\"factor\",\"pub\",\"ea7c0af2142c66fff1337897a5a38dd77996226d81d3854c1023457cb4e8880f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "ea7c0af2142c66fff1337897a5a38dd77996226d81d3854c1023457cb4e8880f"
+      ],
+      "value": true,
+      "expiresAt": 1792033874043
+    },
+    "[\"factor\",\"topic\",\"ea7c0af2142c66fff1337897a5a38dd77996226d81d3854c1023457cb4e8880f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "ea7c0af2142c66fff1337897a5a38dd77996226d81d3854c1023457cb4e8880f"
+      ],
+      "value": {
+        "title": "Частичная договоренность по Ирану не подойдет для Ближнего Востока, поскольку напряженност",
+        "roots": [
+          "частич",
+          "догово",
+          "ирану",
+          "подойд",
+          "ближне",
+          "восток",
+          "поскол",
+          "напряж"
+        ]
+      },
+      "expiresAt": 1792033874044
     }
   }
 }
