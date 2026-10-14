@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 630423,
+      "value": 603449,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791961268255,
+      "value": 1791962435833,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"74100de875d16fec3133e2f24357c71d5c4fd0223cbacd17e3762d6eb28e9e6f\"]": {
@@ -2634,6 +2634,36 @@
         ]
       },
       "expiresAt": 1792047704077
+    },
+    "[\"factor\",\"pub\",\"1afee43db558ff3a18edcfd804be3aa41e4e7ae40c0bf043a6652149bae248c2\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "1afee43db558ff3a18edcfd804be3aa41e4e7ae40c0bf043a6652149bae248c2"
+      ],
+      "value": true,
+      "expiresAt": 1792048926968
+    },
+    "[\"factor\",\"topic\",\"1afee43db558ff3a18edcfd804be3aa41e4e7ae40c0bf043a6652149bae248c2\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "1afee43db558ff3a18edcfd804be3aa41e4e7ae40c0bf043a6652149bae248c2"
+      ],
+      "value": {
+        "title": "🧱 🧱 🧱 🧱 Московский завод плавленых сыров «Карат» купил нижегородского производителя йо",
+        "roots": [
+          "москов",
+          "завод",
+          "плавле",
+          "сыров",
+          "карат",
+          "купил",
+          "нижего",
+          "произв"
+        ]
+      },
+      "expiresAt": 1792048926969
     }
   }
 }
