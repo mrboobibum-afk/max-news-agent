@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 410909,
+      "value": 652277,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791975666760,
+      "value": 1791976235423,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"f94653d94ce7837c77c50e7b6dbbf867240aa3bba39e0e4f28c317a6ecd882a6\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "f94653d94ce7837c77c50e7b6dbbf867240aa3bba39e0e4f28c317a6ecd882a6"
-      ],
-      "value": true,
-      "expiresAt": 1791975690145
-    },
-    "[\"factor\",\"topic\",\"f94653d94ce7837c77c50e7b6dbbf867240aa3bba39e0e4f28c317a6ecd882a6\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "f94653d94ce7837c77c50e7b6dbbf867240aa3bba39e0e4f28c317a6ecd882a6"
-      ],
-      "value": {
-        "title": "\"Чтобы за детей не нужно было дополнительно платить\" Законопроект о детских тарифах в такс",
-        "roots": [
-          "чтобы",
-          "детей",
-          "нужно",
-          "дополн",
-          "платит",
-          "законо",
-          "детски",
-          "тарифа"
-        ]
-      },
-      "expiresAt": 1791975690146
     },
     "[\"factor\",\"pub\",\"579fa77a1063c3be8f54d6dbd66c3bdc0f08cc9fcc8e817fefb6b82d3b9ff79e\"]": {
       "key": [
@@ -2770,6 +2740,33 @@
         ]
       },
       "expiresAt": 1792062105716
+    },
+    "[\"factor\",\"pub\",\"db784b0024778ac8fde9da39c6849775bb4ab66e33d40efaab158f04964e6576\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "db784b0024778ac8fde9da39c6849775bb4ab66e33d40efaab158f04964e6576"
+      ],
+      "value": true,
+      "expiresAt": 1792062663339
+    },
+    "[\"factor\",\"topic\",\"db784b0024778ac8fde9da39c6849775bb4ab66e33d40efaab158f04964e6576\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "db784b0024778ac8fde9da39c6849775bb4ab66e33d40efaab158f04964e6576"
+      ],
+      "value": {
+        "title": "ПВО за сутки сбила 1425 дронов ВСУ, сообщило Минобороны",
+        "roots": [
+          "сутки",
+          "сбила",
+          "дронов",
+          "сообщи",
+          "минобо"
+        ]
+      },
+      "expiresAt": 1792062663340
     }
   }
 }
