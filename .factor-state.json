@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 654862,
+      "value": 672632,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792000232718,
+      "value": 1792001436305,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"4c77bc0787b49c7f1560bddabd2a2864611a380bbacc4052c4d3ed0983bd8002\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "4c77bc0787b49c7f1560bddabd2a2864611a380bbacc4052c4d3ed0983bd8002"
-      ],
-      "value": true,
-      "expiresAt": 1792000896660
-    },
-    "[\"factor\",\"topic\",\"4c77bc0787b49c7f1560bddabd2a2864611a380bbacc4052c4d3ed0983bd8002\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "4c77bc0787b49c7f1560bddabd2a2864611a380bbacc4052c4d3ed0983bd8002"
-      ],
-      "value": {
-        "title": "Стычки с полицией снова начались на демонстрациях в Париже",
-        "roots": [
-          "стычки",
-          "полици",
-          "снова",
-          "начали",
-          "демонс",
-          "париже"
-        ]
-      },
-      "expiresAt": 1792000896661
     },
     "[\"factor\",\"pub\",\"593da314fc22e00b16b0b0ba300942d93ba1b37c8de3dc0465a5f2574f3c5a50\"]": {
       "key": [
@@ -2757,6 +2729,33 @@
         ]
       },
       "expiresAt": 1792086693845
+    },
+    "[\"factor\",\"pub\",\"56076c8dd708dc36cefe273138a34df99c48b220ead0fc01d107026ee79c02a3\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "56076c8dd708dc36cefe273138a34df99c48b220ead0fc01d107026ee79c02a3"
+      ],
+      "value": true,
+      "expiresAt": 1792087921772
+    },
+    "[\"factor\",\"topic\",\"56076c8dd708dc36cefe273138a34df99c48b220ead0fc01d107026ee79c02a3\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "56076c8dd708dc36cefe273138a34df99c48b220ead0fc01d107026ee79c02a3"
+      ],
+      "value": {
+        "title": "▫️ На суше, в небе и море: стартовало учение «Индра-2026» ➡️ В Челябинской области и на Да",
+        "roots": [
+          "старто",
+          "учение",
+          "индра",
+          "челяби",
+          "област"
+        ]
+      },
+      "expiresAt": 1792087921773
     }
   }
 }
