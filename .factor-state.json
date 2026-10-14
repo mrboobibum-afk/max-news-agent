@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 853860,
+      "value": 824679,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791983434107,
+      "value": 1791984656864,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"610c4e6c2b3977600d38c4f13746c5101f52a1bd1aad0bac5dad57bb6fd73073\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "610c4e6c2b3977600d38c4f13746c5101f52a1bd1aad0bac5dad57bb6fd73073"
-      ],
-      "value": true,
-      "expiresAt": 1791984076601
-    },
-    "[\"factor\",\"topic\",\"610c4e6c2b3977600d38c4f13746c5101f52a1bd1aad0bac5dad57bb6fd73073\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "610c4e6c2b3977600d38c4f13746c5101f52a1bd1aad0bac5dad57bb6fd73073"
-      ],
-      "value": {
-        "title": "США и Европа готовят предложение урегулирования конфликта на Украине из 4 пунктов, сообщил",
-        "roots": [
-          "европа",
-          "готовя",
-          "предло",
-          "урегул",
-          "конфли",
-          "украин",
-          "пункто"
-        ]
-      },
-      "expiresAt": 1791984076602
     },
     "[\"factor\",\"pub\",\"69d5856ac4e36edf3af1f92d939eb1276c8e5f9b1e44c66b3c739214c1e7a98b\"]": {
       "key": [
@@ -2760,6 +2731,35 @@
         ]
       },
       "expiresAt": 1792069872878
+    },
+    "[\"factor\",\"pub\",\"078e88c8a4649b9ef28a2b420e65e7c9efd52d0639c761f27c8808c864c7e2c1\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "078e88c8a4649b9ef28a2b420e65e7c9efd52d0639c761f27c8808c864c7e2c1"
+      ],
+      "value": true,
+      "expiresAt": 1792071136029
+    },
+    "[\"factor\",\"topic\",\"078e88c8a4649b9ef28a2b420e65e7c9efd52d0639c761f27c8808c864c7e2c1\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "078e88c8a4649b9ef28a2b420e65e7c9efd52d0639c761f27c8808c864c7e2c1"
+      ],
+      "value": {
+        "title": "▶️ В Ливии из-за наводнения погибли два человека, сообщило информационное агентство LANA",
+        "roots": [
+          "ливии",
+          "наводн",
+          "погибл",
+          "челове",
+          "сообщи",
+          "информ",
+          "агентс"
+        ]
+      },
+      "expiresAt": 1792071136030
     }
   }
 }
