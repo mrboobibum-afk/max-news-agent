@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 334491,
+      "value": 360684,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791949234951,
+      "value": 1791949830478,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"9ea4ee7161cc2d19660b8467c4441ae897205daf3b0074e4ac132ae8e939c4f9\"]": {
@@ -2543,6 +2543,31 @@
         ]
       },
       "expiresAt": 1792035695659
+    },
+    "[\"factor\",\"pub\",\"9009481869938de0c4339b1c78afdba9a6070c5e8e9b8a91af73a6608206ca06\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "9009481869938de0c4339b1c78afdba9a6070c5e8e9b8a91af73a6608206ca06"
+      ],
+      "value": true,
+      "expiresAt": 1792036255732
+    },
+    "[\"factor\",\"topic\",\"9009481869938de0c4339b1c78afdba9a6070c5e8e9b8a91af73a6608206ca06\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "9009481869938de0c4339b1c78afdba9a6070c5e8e9b8a91af73a6608206ca06"
+      ],
+      "value": {
+        "title": "Взрывы гремят в Киеве",
+        "roots": [
+          "взрывы",
+          "гремят",
+          "киеве"
+        ]
+      },
+      "expiresAt": 1792036255733
     }
   }
 }
