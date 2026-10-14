@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 380109,
+      "value": 615457,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791994835133,
+      "value": 1791995458817,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"04cb3d358274c234fd1228226a700f2fd481de8aeaf0a4b5792b1dd66f8909b0\"]": {
@@ -2731,6 +2731,35 @@
         ]
       },
       "expiresAt": 1792081276743
+    },
+    "[\"factor\",\"pub\",\"23bf58b96020d375f00018e8e5ffdc5e3ac6d3b00c0b4d9bcd5101d9acd03ff4\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "23bf58b96020d375f00018e8e5ffdc5e3ac6d3b00c0b4d9bcd5101d9acd03ff4"
+      ],
+      "value": true,
+      "expiresAt": 1792081970477
+    },
+    "[\"factor\",\"topic\",\"23bf58b96020d375f00018e8e5ffdc5e3ac6d3b00c0b4d9bcd5101d9acd03ff4\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "23bf58b96020d375f00018e8e5ffdc5e3ac6d3b00c0b4d9bcd5101d9acd03ff4"
+      ],
+      "value": {
+        "title": "❗️ В ДТП с пассажирским микроавтобусом в районе Коркутели (провинция Анталья) пострадали д",
+        "roots": [
+          "пассаж",
+          "микроа",
+          "районе",
+          "коркут",
+          "провин",
+          "анталь",
+          "постра"
+        ]
+      },
+      "expiresAt": 1792081970478
     }
   }
 }
