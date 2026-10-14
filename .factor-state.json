@@ -17,34 +17,6 @@
       "value": 1791996636338,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"f16dfa04e01b2d20cbe394cdbe6a0b1aa41e47040f98ea67ca17c2a9ca330f5c\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "f16dfa04e01b2d20cbe394cdbe6a0b1aa41e47040f98ea67ca17c2a9ca330f5c"
-      ],
-      "value": true,
-      "expiresAt": 1791996691121
-    },
-    "[\"factor\",\"topic\",\"f16dfa04e01b2d20cbe394cdbe6a0b1aa41e47040f98ea67ca17c2a9ca330f5c\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "f16dfa04e01b2d20cbe394cdbe6a0b1aa41e47040f98ea67ca17c2a9ca330f5c"
-      ],
-      "value": {
-        "title": "👔 Санкционные пакеты ЕС против РФ \"сами себя отрицают\", там уже не знают, что придумать н",
-        "roots": [
-          "санкци",
-          "пакеты",
-          "против",
-          "отрица",
-          "знают",
-          "придум"
-        ]
-      },
-      "expiresAt": 1791996691122
-    },
     "[\"factor\",\"pub\",\"3de0efec2ed996b4c06f237a33a33c21ef52e9751bf07bcab493663e6423d20f\"]": {
       "key": [
         "factor",
