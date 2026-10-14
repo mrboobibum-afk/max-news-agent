@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 683829,
+      "value": 730342,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,40 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792006837668,
+      "value": 1792008073445,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"ed422592dedacda8b433f41608a7aea3be7c88fdc8e8343f5b2e0be07c3bb9af\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "ed422592dedacda8b433f41608a7aea3be7c88fdc8e8343f5b2e0be07c3bb9af"
-      ],
-      "value": true,
-      "expiresAt": 1792007608548
-    },
-    "[\"factor\",\"topic\",\"ed422592dedacda8b433f41608a7aea3be7c88fdc8e8343f5b2e0be07c3bb9af\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "ed422592dedacda8b433f41608a7aea3be7c88fdc8e8343f5b2e0be07c3bb9af"
-      ],
-      "value": {
-        "title": "Высокие ставки помогли сбить инфляцию и охладить экономику — сейчас уже не говорят о перег",
-        "roots": [
-          "высоки",
-          "ставки",
-          "помогл",
-          "сбить",
-          "инфляц",
-          "охлади",
-          "эконом",
-          "сейчас",
-          "говоря",
-          "перег"
-        ]
-      },
-      "expiresAt": 1792007608549
     },
     "[\"factor\",\"pub\",\"5529bba88059a7421be4544602a5daa67d300d79ef334c22c1efdfa963a0ca0d\"]": {
       "key": [
@@ -2736,6 +2704,36 @@
         ]
       },
       "expiresAt": 1792093270193
+    },
+    "[\"factor\",\"pub\",\"6cb4ec79837864b7cf00d66addf36dd02631b76e164cea2f7fb2f1c76e35e166\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "6cb4ec79837864b7cf00d66addf36dd02631b76e164cea2f7fb2f1c76e35e166"
+      ],
+      "value": true,
+      "expiresAt": 1792094498955
+    },
+    "[\"factor\",\"topic\",\"6cb4ec79837864b7cf00d66addf36dd02631b76e164cea2f7fb2f1c76e35e166\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "6cb4ec79837864b7cf00d66addf36dd02631b76e164cea2f7fb2f1c76e35e166"
+      ],
+      "value": {
+        "title": "Отмена отсрочек, призыв женщин, слом схем для уклонистов - на Украине готовятся к ужесточе",
+        "roots": [
+          "отмена",
+          "отсроч",
+          "призыв",
+          "женщин",
+          "уклони",
+          "украин",
+          "готовя",
+          "ужесто"
+        ]
+      },
+      "expiresAt": 1792094498956
     }
   }
 }
