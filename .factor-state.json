@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 842764,
+      "value": 439681,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791972633618,
+      "value": 1791973852755,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"b43f2cbfd24dcbeeef86bd7324d8b67a620a6bc68ed7be6d20fd6ee75cb72f96\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "b43f2cbfd24dcbeeef86bd7324d8b67a620a6bc68ed7be6d20fd6ee75cb72f96"
-      ],
-      "value": true,
-      "expiresAt": 1791973260016
-    },
-    "[\"factor\",\"topic\",\"b43f2cbfd24dcbeeef86bd7324d8b67a620a6bc68ed7be6d20fd6ee75cb72f96\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "b43f2cbfd24dcbeeef86bd7324d8b67a620a6bc68ed7be6d20fd6ee75cb72f96"
-      ],
-      "value": {
-        "title": "❕ РФ продает свой конкурентоспособный товар — энергоресурсы — на мировых рынках и будет эт",
-        "roots": [
-          "продае",
-          "конкур",
-          "товар",
-          "энерго",
-          "мировы",
-          "рынках",
-          "будет"
-        ]
-      },
-      "expiresAt": 1791973260017
     },
     "[\"factor\",\"pub\",\"e5910665adfe471766819bf5cb6034a4cbf0307057de6872b777214cbe481d2d\"]": {
       "key": [
@@ -2741,6 +2712,36 @@
         ]
       },
       "expiresAt": 1792059144114
+    },
+    "[\"factor\",\"pub\",\"a716c8609d00a1c19e5ba0b193a2a25cf1ca73713e38477e45ec9619e61f4f9c\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "a716c8609d00a1c19e5ba0b193a2a25cf1ca73713e38477e45ec9619e61f4f9c"
+      ],
+      "value": true,
+      "expiresAt": 1792060309604
+    },
+    "[\"factor\",\"topic\",\"a716c8609d00a1c19e5ba0b193a2a25cf1ca73713e38477e45ec9619e61f4f9c\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "a716c8609d00a1c19e5ba0b193a2a25cf1ca73713e38477e45ec9619e61f4f9c"
+      ],
+      "value": {
+        "title": "Не блокировать до ноября немаркированные звонки от банков попросило Минцифры операторов св",
+        "roots": [
+          "блокир",
+          "ноября",
+          "немарк",
+          "звонки",
+          "банков",
+          "попрос",
+          "минциф",
+          "операт"
+        ]
+      },
+      "expiresAt": 1792060309606
     }
   }
 }
