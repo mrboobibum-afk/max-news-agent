@@ -17,36 +17,6 @@
       "value": 1792000232718,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"43444df4270de3477e2b71f32e6ce3e5af76fd7664be8bfbf415c73e8110f395\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "43444df4270de3477e2b71f32e6ce3e5af76fd7664be8bfbf415c73e8110f395"
-      ],
-      "value": true,
-      "expiresAt": 1792000301228
-    },
-    "[\"factor\",\"topic\",\"43444df4270de3477e2b71f32e6ce3e5af76fd7664be8bfbf415c73e8110f395\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "43444df4270de3477e2b71f32e6ce3e5af76fd7664be8bfbf415c73e8110f395"
-      ],
-      "value": {
-        "title": "Обвиняемая в убийстве экс-мэра Самары и его супруги перевела 33 млн рублей гадалке и други",
-        "roots": [
-          "обвиня",
-          "убийст",
-          "самары",
-          "супруг",
-          "переве",
-          "рублей",
-          "гадалк",
-          "други"
-        ]
-      },
-      "expiresAt": 1792000301229
-    },
     "[\"factor\",\"pub\",\"4c77bc0787b49c7f1560bddabd2a2864611a380bbacc4052c4d3ed0983bd8002\"]": {
       "key": [
         "factor",
