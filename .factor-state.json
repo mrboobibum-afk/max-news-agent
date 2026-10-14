@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 246247,
+      "value": 185530,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792012231375,
+      "value": 1792012837093,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"4d7cf676e0e6601aea0d3d704610dd7fb7587ac86d4a04cc297563f81b8fae35\"]": {
@@ -2770,6 +2770,37 @@
         ]
       },
       "expiresAt": 1792098688278
+    },
+    "[\"factor\",\"pub\",\"320e333f6657f712df9ab8bbee3396f31fc2087db947f6390c9e1519f92d73e4\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "320e333f6657f712df9ab8bbee3396f31fc2087db947f6390c9e1519f92d73e4"
+      ],
+      "value": true,
+      "expiresAt": 1792099278141
+    },
+    "[\"factor\",\"topic\",\"320e333f6657f712df9ab8bbee3396f31fc2087db947f6390c9e1519f92d73e4\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "320e333f6657f712df9ab8bbee3396f31fc2087db947f6390c9e1519f92d73e4"
+      ],
+      "value": {
+        "title": "На заседании Евросовета будет поднят вопрос о новом многомиллиардном кредите для Украины, ",
+        "roots": [
+          "заседа",
+          "евросо",
+          "будет",
+          "поднят",
+          "вопрос",
+          "новом",
+          "многом",
+          "кредит",
+          "украин"
+        ]
+      },
+      "expiresAt": 1792099278142
     }
   }
 }
