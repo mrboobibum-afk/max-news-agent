@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 672308,
+      "value": 267657,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791963635351,
+      "value": 1791964866415,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"8c9fe6b927412d7b4d153bd08ee8fdadc804f25b4b7cce1bcf01717e592b1db8\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "8c9fe6b927412d7b4d153bd08ee8fdadc804f25b4b7cce1bcf01717e592b1db8"
-      ],
-      "value": true,
-      "expiresAt": 1791964255813
-    },
-    "[\"factor\",\"topic\",\"8c9fe6b927412d7b4d153bd08ee8fdadc804f25b4b7cce1bcf01717e592b1db8\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "8c9fe6b927412d7b4d153bd08ee8fdadc804f25b4b7cce1bcf01717e592b1db8"
-      ],
-      "value": {
-        "title": "❗️ Разрушить дронами военный аэродром \"Балтимор\" в Воронеже, уничтожив самолеты и личный с",
-        "roots": [
-          "разруш",
-          "дронам",
-          "военны",
-          "аэродр",
-          "балтим",
-          "вороне",
-          "уничто",
-          "самоле",
-          "личный"
-        ]
-      },
-      "expiresAt": 1791964255814
     },
     "[\"factor\",\"pub\",\"0526d106479278be4c110638c47cd799cc68aaac8b019f30d680d0666b156a81\"]": {
       "key": [
@@ -2635,6 +2604,34 @@
         ]
       },
       "expiresAt": 1792050061695
+    },
+    "[\"factor\",\"pub\",\"dd4c4de65c701bf2b40b35906bb549ae30a7b08f97589b1b2aa357fc4c8d16db\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "dd4c4de65c701bf2b40b35906bb549ae30a7b08f97589b1b2aa357fc4c8d16db"
+      ],
+      "value": true,
+      "expiresAt": 1792051302705
+    },
+    "[\"factor\",\"topic\",\"dd4c4de65c701bf2b40b35906bb549ae30a7b08f97589b1b2aa357fc4c8d16db\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "dd4c4de65c701bf2b40b35906bb549ae30a7b08f97589b1b2aa357fc4c8d16db"
+      ],
+      "value": {
+        "title": "🚨 Атака БПЛА ВСУ в ночь на 14 октября стала одной из самых массированных за год",
+        "roots": [
+          "атака",
+          "октябр",
+          "стала",
+          "одной",
+          "самых",
+          "массир"
+        ]
+      },
+      "expiresAt": 1792051302706
     }
   }
 }
