@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 267657,
+      "value": 590124,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791964866415,
+      "value": 1791965435260,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"0526d106479278be4c110638c47cd799cc68aaac8b019f30d680d0666b156a81\"]": {
@@ -2632,6 +2632,36 @@
         ]
       },
       "expiresAt": 1792051302706
+    },
+    "[\"factor\",\"pub\",\"0f784fcab35d35f7f1b9f8d89a3ec64a85d6640e2bcdf6f3f5e46e05677a639d\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "0f784fcab35d35f7f1b9f8d89a3ec64a85d6640e2bcdf6f3f5e46e05677a639d"
+      ],
+      "value": true,
+      "expiresAt": 1792051859572
+    },
+    "[\"factor\",\"topic\",\"0f784fcab35d35f7f1b9f8d89a3ec64a85d6640e2bcdf6f3f5e46e05677a639d\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "0f784fcab35d35f7f1b9f8d89a3ec64a85d6640e2bcdf6f3f5e46e05677a639d"
+      ],
+      "value": {
+        "title": "Правоохранители Парагвая задержали гражданина России по обвинению в использовании поддельн",
+        "roots": [
+          "правоо",
+          "парагв",
+          "задерж",
+          "гражда",
+          "россии",
+          "обвине",
+          "исполь",
+          "поддел"
+        ]
+      },
+      "expiresAt": 1792051859573
     }
   }
 }
