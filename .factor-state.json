@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 512440,
+      "value": 654862,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791999642510,
+      "value": 1792000232718,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"43444df4270de3477e2b71f32e6ce3e5af76fd7664be8bfbf415c73e8110f395\"]": {
@@ -2758,6 +2758,35 @@
         ]
       },
       "expiresAt": 1792086132512
+    },
+    "[\"factor\",\"pub\",\"240711b144e75ed73c1ced6985c3fdaaf8de4f6c19824895122f34f82f125f1b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "240711b144e75ed73c1ced6985c3fdaaf8de4f6c19824895122f34f82f125f1b"
+      ],
+      "value": true,
+      "expiresAt": 1792086693844
+    },
+    "[\"factor\",\"topic\",\"240711b144e75ed73c1ced6985c3fdaaf8de4f6c19824895122f34f82f125f1b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "240711b144e75ed73c1ced6985c3fdaaf8de4f6c19824895122f34f82f125f1b"
+      ],
+      "value": {
+        "title": "❗️ ВС РФ в Хмельницком поразили транспортно-логистический центр \"Эпицентр\", использовавший",
+        "roots": [
+          "хмельн",
+          "порази",
+          "трансп",
+          "логист",
+          "центр",
+          "эпицен",
+          "исполь"
+        ]
+      },
+      "expiresAt": 1792086693845
     }
   }
 }
