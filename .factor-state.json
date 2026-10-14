@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 255501,
+      "value": 246247,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792011669731,
+      "value": 1792012231375,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"8ca7aa40aecfae70dea3be6f9f6117e1dde397a83c18da102bd1801142059a36\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "8ca7aa40aecfae70dea3be6f9f6117e1dde397a83c18da102bd1801142059a36"
-      ],
-      "value": true,
-      "expiresAt": 1792011835721
-    },
-    "[\"factor\",\"topic\",\"8ca7aa40aecfae70dea3be6f9f6117e1dde397a83c18da102bd1801142059a36\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "8ca7aa40aecfae70dea3be6f9f6117e1dde397a83c18da102bd1801142059a36"
-      ],
-      "value": {
-        "title": "Союз переработчиков пластмасс (СПП) попросил правительство не повышать в 2027 году коэффиц",
-        "roots": [
-          "перера",
-          "пластм",
-          "попрос",
-          "правит",
-          "повыша",
-          "коэффи"
-        ]
-      },
-      "expiresAt": 1792011835722
     },
     "[\"factor\",\"pub\",\"4d7cf676e0e6601aea0d3d704610dd7fb7587ac86d4a04cc297563f81b8fae35\"]": {
       "key": [
@@ -2767,6 +2739,37 @@
         ]
       },
       "expiresAt": 1792098108987
+    },
+    "[\"factor\",\"pub\",\"e2f94de14ee6a8f9ad5f0d3bf435294be2c921bb7935e3b9ba812e086446222e\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e2f94de14ee6a8f9ad5f0d3bf435294be2c921bb7935e3b9ba812e086446222e"
+      ],
+      "value": true,
+      "expiresAt": 1792098688277
+    },
+    "[\"factor\",\"topic\",\"e2f94de14ee6a8f9ad5f0d3bf435294be2c921bb7935e3b9ba812e086446222e\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e2f94de14ee6a8f9ad5f0d3bf435294be2c921bb7935e3b9ba812e086446222e"
+      ],
+      "value": {
+        "title": "Картина Василия Кандинского «Красочная жизнь» (Das bunte Leben, 1907) продана на торгах Ch",
+        "roots": [
+          "картин",
+          "васили",
+          "кандин",
+          "красоч",
+          "жизнь",
+          "bunte",
+          "leben",
+          "продан",
+          "торгах"
+        ]
+      },
+      "expiresAt": 1792098688278
     }
   }
 }
