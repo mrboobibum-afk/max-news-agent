@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 615457,
+      "value": 720410,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1791995458817,
+      "value": 1791996636338,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"f16dfa04e01b2d20cbe394cdbe6a0b1aa41e47040f98ea67ca17c2a9ca330f5c\"]": {
@@ -2729,6 +2729,36 @@
         ]
       },
       "expiresAt": 1792081970478
+    },
+    "[\"factor\",\"pub\",\"aab46ff226f33f983ab3bdc408df7da56331fd1691f64345c2da8b9e0d759161\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "aab46ff226f33f983ab3bdc408df7da56331fd1691f64345c2da8b9e0d759161"
+      ],
+      "value": true,
+      "expiresAt": 1792083084278
+    },
+    "[\"factor\",\"topic\",\"aab46ff226f33f983ab3bdc408df7da56331fd1691f64345c2da8b9e0d759161\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "aab46ff226f33f983ab3bdc408df7da56331fd1691f64345c2da8b9e0d759161"
+      ],
+      "value": {
+        "title": "Лавров и Ван И обсудили отношения с США, ситуацию вокруг украинского и иранского кризисов,",
+        "roots": [
+          "лавров",
+          "обсуди",
+          "отноше",
+          "ситуац",
+          "вокруг",
+          "украин",
+          "иранск",
+          "кризис"
+        ]
+      },
+      "expiresAt": 1792083084279
     }
   }
 }
