@@ -17,30 +17,6 @@
       "value": 1791967834730,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"483b28764c88aab981d4cc45c7951de1ed20ed3dca080d8a0f2c0bcb78dde219\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "483b28764c88aab981d4cc45c7951de1ed20ed3dca080d8a0f2c0bcb78dde219"
-      ],
-      "value": true,
-      "expiresAt": 1791967851615
-    },
-    "[\"factor\",\"topic\",\"483b28764c88aab981d4cc45c7951de1ed20ed3dca080d8a0f2c0bcb78dde219\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "483b28764c88aab981d4cc45c7951de1ed20ed3dca080d8a0f2c0bcb78dde219"
-      ],
-      "value": {
-        "title": "ЧС объявили в энергосистеме США",
-        "roots": [
-          "объяви",
-          "энерго"
-        ]
-      },
-      "expiresAt": 1791967851617
-    },
     "[\"factor\",\"pub\",\"49bd87e4b54369c972783e733c70c3ed3d72e1441759fd8637e13f1161e9e5ea\"]": {
       "key": [
         "factor",
