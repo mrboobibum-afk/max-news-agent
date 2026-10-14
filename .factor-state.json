@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 500883,
+      "value": 255501,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,34 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792011036362,
+      "value": 1792011669731,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"d67757e6832f774a75a4f3d0fe0639f7fb0c136f8b1368d8ad8eed16dfb001e4\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "d67757e6832f774a75a4f3d0fe0639f7fb0c136f8b1368d8ad8eed16dfb001e4"
-      ],
-      "value": true,
-      "expiresAt": 1792011097967
-    },
-    "[\"factor\",\"topic\",\"d67757e6832f774a75a4f3d0fe0639f7fb0c136f8b1368d8ad8eed16dfb001e4\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "d67757e6832f774a75a4f3d0fe0639f7fb0c136f8b1368d8ad8eed16dfb001e4"
-      ],
-      "value": {
-        "title": "🚨 Уничтожены 20 летевших на Москву БПЛА, сообщил Собянин",
-        "roots": [
-          "уничто",
-          "летевш",
-          "москву",
-          "собяни"
-        ]
-      },
-      "expiresAt": 1792011097968
     },
     "[\"factor\",\"pub\",\"8ca7aa40aecfae70dea3be6f9f6117e1dde397a83c18da102bd1801142059a36\"]": {
       "key": [
@@ -2762,6 +2736,37 @@
         ]
       },
       "expiresAt": 1792097472392
+    },
+    "[\"factor\",\"pub\",\"531aaa7f5d856eb3ed1041296ba6f63308831555717ce1e9d1656392b09f06bc\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "531aaa7f5d856eb3ed1041296ba6f63308831555717ce1e9d1656392b09f06bc"
+      ],
+      "value": true,
+      "expiresAt": 1792098108985
+    },
+    "[\"factor\",\"topic\",\"531aaa7f5d856eb3ed1041296ba6f63308831555717ce1e9d1656392b09f06bc\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "531aaa7f5d856eb3ed1041296ba6f63308831555717ce1e9d1656392b09f06bc"
+      ],
+      "value": {
+        "title": "ФСБ задержала ректора Всероссийской академии внешней торговли Сергея Синельникова-Мурылева",
+        "roots": [
+          "задерж",
+          "ректор",
+          "всерос",
+          "академ",
+          "внешне",
+          "торгов",
+          "сергея",
+          "синель",
+          "мурыле"
+        ]
+      },
+      "expiresAt": 1792098108987
     }
   }
 }
