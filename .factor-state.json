@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 350571,
+      "value": 238086,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,40 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792055436299,
+      "value": 1792056036151,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"fee7d84e5c64d3cf23b19c4e591615ec5ea935f50d23eb2bb38206d57d3c4fc7\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "fee7d84e5c64d3cf23b19c4e591615ec5ea935f50d23eb2bb38206d57d3c4fc7"
-      ],
-      "value": true,
-      "expiresAt": 1792055459745
-    },
-    "[\"factor\",\"topic\",\"fee7d84e5c64d3cf23b19c4e591615ec5ea935f50d23eb2bb38206d57d3c4fc7\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "fee7d84e5c64d3cf23b19c4e591615ec5ea935f50d23eb2bb38206d57d3c4fc7"
-      ],
-      "value": {
-        "title": "Актрису клипа \"Девочка-война\" Ксению Добромилову насмерть сбил мотоцикл в Москве во время ",
-        "roots": [
-          "актрис",
-          "клипа",
-          "девочк",
-          "война",
-          "ксению",
-          "добром",
-          "насмер",
-          "мотоци",
-          "москве",
-          "время"
-        ]
-      },
-      "expiresAt": 1792055459746
     },
     "[\"factor\",\"pub\",\"593870bf7e6907fbae1662c47c67b42826b7a1d8abbbfe946c75767259abc311\"]": {
       "key": [
@@ -2993,6 +2961,37 @@
         ]
       },
       "expiresAt": 1792141867688
+    },
+    "[\"factor\",\"pub\",\"c7a2083c9687c893a2801b095214e9d946d58915aae8ce879a3fbf82ed8aace7\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "c7a2083c9687c893a2801b095214e9d946d58915aae8ce879a3fbf82ed8aace7"
+      ],
+      "value": true,
+      "expiresAt": 1792142485691
+    },
+    "[\"factor\",\"topic\",\"c7a2083c9687c893a2801b095214e9d946d58915aae8ce879a3fbf82ed8aace7\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "c7a2083c9687c893a2801b095214e9d946d58915aae8ce879a3fbf82ed8aace7"
+      ],
+      "value": {
+        "title": "Власти обсуждают возможность запрета экспорта сжиженных углеводородных газов непроизводите",
+        "roots": [
+          "власти",
+          "обсужд",
+          "возмож",
+          "запрет",
+          "экспор",
+          "сжижен",
+          "углево",
+          "газов",
+          "непрои"
+        ]
+      },
+      "expiresAt": 1792142485693
     }
   }
 }
