@@ -17,45 +17,6 @@
       "value": 1792030831809,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"4e672bbccbddec4fe38dfe4930df0e710462e3d2a9bfc74d476871b3db715a82\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "4e672bbccbddec4fe38dfe4930df0e710462e3d2a9bfc74d476871b3db715a82"
-      ],
-      "value": true,
-      "expiresAt": 1792030865038
-    },
-    "[\"factor\",\"pub\",\"77e072b6466b535d56b28a6df3d163f7d02af9f097a2693807316dd5dc924679\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "77e072b6466b535d56b28a6df3d163f7d02af9f097a2693807316dd5dc924679"
-      ],
-      "value": true,
-      "expiresAt": 1792031016910
-    },
-    "[\"factor\",\"topic\",\"77e072b6466b535d56b28a6df3d163f7d02af9f097a2693807316dd5dc924679\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "77e072b6466b535d56b28a6df3d163f7d02af9f097a2693807316dd5dc924679"
-      ],
-      "value": {
-        "title": "Посольство РФ в Норвегии держит дело о судне \"Профессор Молчанов\" на контроле, заявили ТАС",
-        "roots": [
-          "посоль",
-          "норвег",
-          "держит",
-          "судне",
-          "профес",
-          "молчан",
-          "контро",
-          "заявил"
-        ]
-      },
-      "expiresAt": 1792031016911
-    },
     "[\"factor\",\"pub\",\"4de91cd57d9a505157e3928d0880952757af3850f0615ba82d55aa205a0d1ed2\"]": {
       "key": [
         "factor",
