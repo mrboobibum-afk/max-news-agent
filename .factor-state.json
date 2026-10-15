@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 510249,
+      "value": 545695,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792073437126,
+      "value": 1792074039570,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"863a58a12fa7f6de61c497134f9fa911d47ef00e8cc5800ee88bf8a88435c110\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "863a58a12fa7f6de61c497134f9fa911d47ef00e8cc5800ee88bf8a88435c110"
-      ],
-      "value": true,
-      "expiresAt": 1792073457253
-    },
-    "[\"factor\",\"topic\",\"863a58a12fa7f6de61c497134f9fa911d47ef00e8cc5800ee88bf8a88435c110\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "863a58a12fa7f6de61c497134f9fa911d47ef00e8cc5800ee88bf8a88435c110"
-      ],
-      "value": {
-        "title": "Дмитриев заявил , что ожидает подписания первых контрактов по дизтопливу с США в ближайшие",
-        "roots": [
-          "дмитри",
-          "ожидае",
-          "подпис",
-          "первых",
-          "контра",
-          "дизтоп",
-          "ближай"
-        ]
-      },
-      "expiresAt": 1792073457253
     },
     "[\"factor\",\"pub\",\"d66232c40334c0f1616eab27d26f4fde9301967206e88944334b7d889e5a575b\"]": {
       "key": [
@@ -2932,6 +2903,35 @@
         ]
       },
       "expiresAt": 1792159873941
+    },
+    "[\"factor\",\"pub\",\"4e57c4d91c9641c4573d50c28da4f2f03611359ecccaf5cc23caa82dc8167306\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4e57c4d91c9641c4573d50c28da4f2f03611359ecccaf5cc23caa82dc8167306"
+      ],
+      "value": true,
+      "expiresAt": 1792160461116
+    },
+    "[\"factor\",\"topic\",\"4e57c4d91c9641c4573d50c28da4f2f03611359ecccaf5cc23caa82dc8167306\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4e57c4d91c9641c4573d50c28da4f2f03611359ecccaf5cc23caa82dc8167306"
+      ],
+      "value": {
+        "title": "Первая с 1945-го казнь расстрелом в армии США будет публичной, сообщили в Пентагоне",
+        "roots": [
+          "первая",
+          "казнь",
+          "расстр",
+          "армии",
+          "будет",
+          "публич",
+          "пентаг"
+        ]
+      },
+      "expiresAt": 1792160461117
     }
   }
 }
