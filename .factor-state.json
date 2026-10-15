@@ -17,35 +17,6 @@
       "value": 1792099851411,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"4c166e78f880a3147deb04cf8b516ecd2d6bebc1637b2643238622a03be03bc5\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "4c166e78f880a3147deb04cf8b516ecd2d6bebc1637b2643238622a03be03bc5"
-      ],
-      "value": true,
-      "expiresAt": 1792099925104
-    },
-    "[\"factor\",\"topic\",\"4c166e78f880a3147deb04cf8b516ecd2d6bebc1637b2643238622a03be03bc5\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "4c166e78f880a3147deb04cf8b516ecd2d6bebc1637b2643238622a03be03bc5"
-      ],
-      "value": {
-        "title": "Крупный пожар вспыхнул на Украине в Кропивницком после массированной атаки ВС РФ — под уда",
-        "roots": [
-          "крупны",
-          "пожар",
-          "вспыхн",
-          "украин",
-          "кропив",
-          "массир",
-          "атаки"
-        ]
-      },
-      "expiresAt": 1792099925106
-    },
     "[\"factor\",\"pub\",\"945bc56e182cde76827e8228d3f8ab7663a68b202b9bca28a9f2c292c0a75601\"]": {
       "key": [
         "factor",
