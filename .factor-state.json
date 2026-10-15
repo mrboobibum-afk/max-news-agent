@@ -26,26 +26,6 @@
       "value": true,
       "expiresAt": 1792030865038
     },
-    "[\"factor\",\"topic\",\"4e672bbccbddec4fe38dfe4930df0e710462e3d2a9bfc74d476871b3db715a82\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "4e672bbccbddec4fe38dfe4930df0e710462e3d2a9bfc74d476871b3db715a82"
-      ],
-      "value": {
-        "title": "RMF24: на пляже в Польше нашли неопознанный летающий объект",
-        "roots": [
-          "rmf24",
-          "пляже",
-          "польше",
-          "нашли",
-          "неопоз",
-          "летающ",
-          "объект"
-        ]
-      },
-      "expiresAt": 1792029801855
-    },
     "[\"factor\",\"pub\",\"77e072b6466b535d56b28a6df3d163f7d02af9f097a2693807316dd5dc924679\"]": {
       "key": [
         "factor",
