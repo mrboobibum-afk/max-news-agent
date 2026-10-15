@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 689160,
+      "value": 322710,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792102236047,
+      "value": 1792103451694,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"6d79f9ec714b50028e1f3278b9a34fa9ad0ba9f204a8cc799142d7b5fb106f61\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "6d79f9ec714b50028e1f3278b9a34fa9ad0ba9f204a8cc799142d7b5fb106f61"
-      ],
-      "value": true,
-      "expiresAt": 1792102864342
-    },
-    "[\"factor\",\"topic\",\"6d79f9ec714b50028e1f3278b9a34fa9ad0ba9f204a8cc799142d7b5fb106f61\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "6d79f9ec714b50028e1f3278b9a34fa9ad0ba9f204a8cc799142d7b5fb106f61"
-      ],
-      "value": {
-        "title": "Трамп призвал расстреливать тех, кто допускает утечки секретной информации",
-        "roots": [
-          "трамп",
-          "призва",
-          "расстр",
-          "допуск",
-          "утечки",
-          "секрет",
-          "информ"
-        ]
-      },
-      "expiresAt": 1792102864347
     },
     "[\"factor\",\"pub\",\"98dc7384428c600a8427b96cd2b11a68fae58d680a646dd2c3f161599c4177ef\"]": {
       "key": [
@@ -2972,6 +2943,38 @@
         ]
       },
       "expiresAt": 1792188682574
+    },
+    "[\"factor\",\"pub\",\"9922547a81da1fe726ee85f8b38495b206cc2b3d3ca80bac35500d5a63ad37d9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "9922547a81da1fe726ee85f8b38495b206cc2b3d3ca80bac35500d5a63ad37d9"
+      ],
+      "value": true,
+      "expiresAt": 1792189872651
+    },
+    "[\"factor\",\"topic\",\"9922547a81da1fe726ee85f8b38495b206cc2b3d3ca80bac35500d5a63ad37d9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "9922547a81da1fe726ee85f8b38495b206cc2b3d3ca80bac35500d5a63ad37d9"
+      ],
+      "value": {
+        "title": "Несколько человек, включая детей, ранены во время стрельбы в начальной школе в США, напада",
+        "roots": [
+          "нескол",
+          "челове",
+          "включа",
+          "детей",
+          "ранены",
+          "время",
+          "стрель",
+          "началь",
+          "школе",
+          "напада"
+        ]
+      },
+      "expiresAt": 1792189872652
     }
   }
 }
