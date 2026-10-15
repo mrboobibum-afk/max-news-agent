@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 792270,
+      "value": 594234,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792049452664,
+      "value": 1792050633844,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"c1ea4b683e51bca88909252ea5b4725ea0f2811f67eed2e160d5f18a2aaebca8\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c1ea4b683e51bca88909252ea5b4725ea0f2811f67eed2e160d5f18a2aaebca8"
-      ],
-      "value": true,
-      "expiresAt": 1792050061694
-    },
-    "[\"factor\",\"topic\",\"c1ea4b683e51bca88909252ea5b4725ea0f2811f67eed2e160d5f18a2aaebca8\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c1ea4b683e51bca88909252ea5b4725ea0f2811f67eed2e160d5f18a2aaebca8"
-      ],
-      "value": {
-        "title": "Народную артистку РСФСР Лидию Федосееву-Шукшину доставили в реанимацию из-за проблем с сер",
-        "roots": [
-          "народн",
-          "артист",
-          "рсфср",
-          "лидию",
-          "федосе",
-          "шукшин",
-          "достав",
-          "реаним",
-          "пробле"
-        ]
-      },
-      "expiresAt": 1792050061695
     },
     "[\"factor\",\"pub\",\"dd4c4de65c701bf2b40b35906bb549ae30a7b08f97589b1b2aa357fc4c8d16db\"]": {
       "key": [
@@ -3029,6 +2998,36 @@
         ]
       },
       "expiresAt": 1792135896003
+    },
+    "[\"factor\",\"pub\",\"129304b906f85bb2d6efaf15242708bf121fb27819f9816076487490b3c4bae9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "129304b906f85bb2d6efaf15242708bf121fb27819f9816076487490b3c4bae9"
+      ],
+      "value": true,
+      "expiresAt": 1792137063865
+    },
+    "[\"factor\",\"topic\",\"129304b906f85bb2d6efaf15242708bf121fb27819f9816076487490b3c4bae9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "129304b906f85bb2d6efaf15242708bf121fb27819f9816076487490b3c4bae9"
+      ],
+      "value": {
+        "title": "▶️ Российские туристы провели ночь в аэропорту Стамбула в ожидании вылета в Москву",
+        "roots": [
+          "россий",
+          "турист",
+          "провел",
+          "аэропо",
+          "стамбу",
+          "ожидан",
+          "вылета",
+          "москву"
+        ]
+      },
+      "expiresAt": 1792137063869
     }
   }
 }
