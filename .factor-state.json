@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 783138,
+      "value": 198886,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792064438841,
+      "value": 1792065309213,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"05f7299e6d3044879cf75bf48414f915a956114d380d742f16e1687a60f69cb3\"]": {
@@ -2901,6 +2901,38 @@
         ]
       },
       "expiresAt": 1792150874047
+    },
+    "[\"factor\",\"pub\",\"47e6bc2423d5527bfabcf7233a0e266ab0e5406424e2bf7f53e635e26c669724\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "47e6bc2423d5527bfabcf7233a0e266ab0e5406424e2bf7f53e635e26c669724"
+      ],
+      "value": true,
+      "expiresAt": 1792151764002
+    },
+    "[\"factor\",\"topic\",\"47e6bc2423d5527bfabcf7233a0e266ab0e5406424e2bf7f53e635e26c669724\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "47e6bc2423d5527bfabcf7233a0e266ab0e5406424e2bf7f53e635e26c669724"
+      ],
+      "value": {
+        "title": "Новые учебники по литературе и русскому языку для начальной школы начнут вводить в учебные",
+        "roots": [
+          "новые",
+          "учебни",
+          "литера",
+          "русско",
+          "языку",
+          "началь",
+          "школы",
+          "начнут",
+          "вводит",
+          "учебны"
+        ]
+      },
+      "expiresAt": 1792151764004
     }
   }
 }
