@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 745614,
+      "value": 784938,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792071055507,
+      "value": 1792072236970,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"8958773837b094b4093907fdb5671064546fdd8c6622b9e4a698e3aab4f93137\"]": {
@@ -2904,6 +2904,35 @@
         ]
       },
       "expiresAt": 1792157495747
+    },
+    "[\"factor\",\"pub\",\"a0fb03c116a13ab19c4c42dd5a20af6c8b3aa18ca7619e184c66f5c52b0b30e1\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "a0fb03c116a13ab19c4c42dd5a20af6c8b3aa18ca7619e184c66f5c52b0b30e1"
+      ],
+      "value": true,
+      "expiresAt": 1792158658636
+    },
+    "[\"factor\",\"topic\",\"a0fb03c116a13ab19c4c42dd5a20af6c8b3aa18ca7619e184c66f5c52b0b30e1\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "a0fb03c116a13ab19c4c42dd5a20af6c8b3aa18ca7619e184c66f5c52b0b30e1"
+      ],
+      "value": {
+        "title": "Александра Невзорова* внесли в перечень террористов и экстремистов Росфинмониторинга",
+        "roots": [
+          "алекса",
+          "невзор",
+          "внесли",
+          "перече",
+          "террор",
+          "экстре",
+          "росфин"
+        ]
+      },
+      "expiresAt": 1792158658637
     }
   }
 }
