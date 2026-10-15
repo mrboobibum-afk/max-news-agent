@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 530302,
+      "value": 591632,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792047667000,
+      "value": 1792048235950,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"f37801fed9868437d9cee5000acd9246f126db37d27a00eb7f0305885318931a\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "f37801fed9868437d9cee5000acd9246f126db37d27a00eb7f0305885318931a"
-      ],
-      "value": true,
-      "expiresAt": 1792047704076
-    },
-    "[\"factor\",\"topic\",\"f37801fed9868437d9cee5000acd9246f126db37d27a00eb7f0305885318931a\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "f37801fed9868437d9cee5000acd9246f126db37d27a00eb7f0305885318931a"
-      ],
-      "value": {
-        "title": "❗️ Сбербанк подтвердил атаки на ЦОД, все сервисы работают штатно, сообщил Ведяхин",
-        "roots": [
-          "сберба",
-          "подтве",
-          "атаки",
-          "сервис",
-          "работа",
-          "штатно",
-          "ведяхи"
-        ]
-      },
-      "expiresAt": 1792047704077
     },
     "[\"factor\",\"pub\",\"1afee43db558ff3a18edcfd804be3aa41e4e7ae40c0bf043a6652149bae248c2\"]": {
       "key": [
@@ -3029,6 +3000,36 @@
         ]
       },
       "expiresAt": 1792134115073
+    },
+    "[\"factor\",\"pub\",\"ffe068f67130563ead168f5686bff2beadf40d3cee82d59d6b0984050047733f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "ffe068f67130563ead168f5686bff2beadf40d3cee82d59d6b0984050047733f"
+      ],
+      "value": true,
+      "expiresAt": 1792134685873
+    },
+    "[\"factor\",\"topic\",\"ffe068f67130563ead168f5686bff2beadf40d3cee82d59d6b0984050047733f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "ffe068f67130563ead168f5686bff2beadf40d3cee82d59d6b0984050047733f"
+      ],
+      "value": {
+        "title": "Netflix планирует сократить рекордные 6% сотрудников , сообщил журнал Variety со ссылкой н",
+        "roots": [
+          "netfli",
+          "планир",
+          "сократ",
+          "рекорд",
+          "сотруд",
+          "журнал",
+          "variet",
+          "ссылко"
+        ]
+      },
+      "expiresAt": 1792134685875
     }
   }
 }
