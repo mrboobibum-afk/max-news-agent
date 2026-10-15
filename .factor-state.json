@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 322710,
+      "value": 198621,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792103451694,
+      "value": 1792104035587,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"98dc7384428c600a8427b96cd2b11a68fae58d680a646dd2c3f161599c4177ef\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "98dc7384428c600a8427b96cd2b11a68fae58d680a646dd2c3f161599c4177ef"
-      ],
-      "value": true,
-      "expiresAt": 1792103495641
-    },
-    "[\"factor\",\"topic\",\"98dc7384428c600a8427b96cd2b11a68fae58d680a646dd2c3f161599c4177ef\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "98dc7384428c600a8427b96cd2b11a68fae58d680a646dd2c3f161599c4177ef"
-      ],
-      "value": {
-        "title": "Действия Запада возле российских границ разрушили стабильность в Европе , заявил председат",
-        "roots": [
-          "действ",
-          "запада",
-          "возле",
-          "россий",
-          "границ",
-          "разруш",
-          "стабил",
-          "европе",
-          "предсе"
-        ]
-      },
-      "expiresAt": 1792103495642
     },
     "[\"factor\",\"pub\",\"51779d36eff0dd91e59e02e163981e1526f3647fde8c128e3e68d6ca2a47437d\"]": {
       "key": [
@@ -2975,6 +2944,38 @@
         ]
       },
       "expiresAt": 1792189872652
+    },
+    "[\"factor\",\"pub\",\"cf98dfd0a85d7f10734305b8ee820e5e347a5a7f009beef4071f001de042aa83\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "cf98dfd0a85d7f10734305b8ee820e5e347a5a7f009beef4071f001de042aa83"
+      ],
+      "value": true,
+      "expiresAt": 1792190497858
+    },
+    "[\"factor\",\"topic\",\"cf98dfd0a85d7f10734305b8ee820e5e347a5a7f009beef4071f001de042aa83\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "cf98dfd0a85d7f10734305b8ee820e5e347a5a7f009beef4071f001de042aa83"
+      ],
+      "value": {
+        "title": "Владимир Путин передал российские активы производителя напольных покрытий Tarkett во време",
+        "roots": [
+          "владим",
+          "путин",
+          "переда",
+          "россий",
+          "активы",
+          "произв",
+          "наполь",
+          "покрыт",
+          "tarket",
+          "време"
+        ]
+      },
+      "expiresAt": 1792190497860
     }
   }
 }
