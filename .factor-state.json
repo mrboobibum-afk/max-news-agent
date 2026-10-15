@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 483037,
+      "value": 707590,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792059634692,
+      "value": 1792060253119,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"a716c8609d00a1c19e5ba0b193a2a25cf1ca73713e38477e45ec9619e61f4f9c\"]": {
@@ -2929,6 +2929,37 @@
         ]
       },
       "expiresAt": 1792146072517
+    },
+    "[\"factor\",\"pub\",\"c5b30a8c86741d05cae168c9452a54bece33f8e9792967d314fa611e51e930a5\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "c5b30a8c86741d05cae168c9452a54bece33f8e9792967d314fa611e51e930a5"
+      ],
+      "value": true,
+      "expiresAt": 1792146689395
+    },
+    "[\"factor\",\"topic\",\"c5b30a8c86741d05cae168c9452a54bece33f8e9792967d314fa611e51e930a5\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "c5b30a8c86741d05cae168c9452a54bece33f8e9792967d314fa611e51e930a5"
+      ],
+      "value": {
+        "title": "Премьер Латвии Кулбергс призвал европейцев пить меньше пива ради помощи Украине: \"Поддержк",
+        "roots": [
+          "премье",
+          "латвии",
+          "кулбер",
+          "призва",
+          "европе",
+          "меньше",
+          "помощи",
+          "украин",
+          "поддер"
+        ]
+      },
+      "expiresAt": 1792146689397
     }
   }
 }
