@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 230450,
+      "value": 377914,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792028467662,
+      "value": 1792029042857,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"4e672bbccbddec4fe38dfe4930df0e710462e3d2a9bfc74d476871b3db715a82\"]": {
@@ -2922,6 +2922,33 @@
         ]
       },
       "expiresAt": 1792114885863
+    },
+    "[\"factor\",\"pub\",\"7feb1777d3f3eaec810391be21c32e7eb9368d6d5c2a79c6a43261f2e443432b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "7feb1777d3f3eaec810391be21c32e7eb9368d6d5c2a79c6a43261f2e443432b"
+      ],
+      "value": true,
+      "expiresAt": 1792115602315
+    },
+    "[\"factor\",\"topic\",\"7feb1777d3f3eaec810391be21c32e7eb9368d6d5c2a79c6a43261f2e443432b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "7feb1777d3f3eaec810391be21c32e7eb9368d6d5c2a79c6a43261f2e443432b"
+      ],
+      "value": {
+        "title": "NY Post: США ждут поступления российского дизеля к концу октября",
+        "roots": [
+          "поступ",
+          "россий",
+          "дизеля",
+          "концу",
+          "октябр"
+        ]
+      },
+      "expiresAt": 1792115602316
     }
   }
 }
