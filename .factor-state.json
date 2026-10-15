@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 461496,
+      "value": 294672,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792041635332,
+      "value": 1792042251358,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"d6b38faf1d6cb59fc990f466d0c7d8cec4c0e024cf74e5de61931b8d6e5554c4\"]": {
@@ -3009,6 +3009,35 @@
         ]
       },
       "expiresAt": 1792128059039
+    },
+    "[\"factor\",\"pub\",\"d214582fdeb8ac999ba561beadc9f7ddc374ceab1510ec4fd8ccab496896c03a\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d214582fdeb8ac999ba561beadc9f7ddc374ceab1510ec4fd8ccab496896c03a"
+      ],
+      "value": true,
+      "expiresAt": 1792128701520
+    },
+    "[\"factor\",\"topic\",\"d214582fdeb8ac999ba561beadc9f7ddc374ceab1510ec4fd8ccab496896c03a\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d214582fdeb8ac999ba561beadc9f7ddc374ceab1510ec4fd8ccab496896c03a"
+      ],
+      "value": {
+        "title": "Плата за съем жилья не может расти чаще раза в год , если в договоре найма изначально не у",
+        "roots": [
+          "плата",
+          "жилья",
+          "может",
+          "расти",
+          "догово",
+          "найма",
+          "изнача"
+        ]
+      },
+      "expiresAt": 1792128701522
     }
   }
 }
