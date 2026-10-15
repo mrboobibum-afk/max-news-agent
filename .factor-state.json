@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 629380,
+      "value": 487532,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792087837010,
+      "value": 1792089056410,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"441d94268ce9bb1be26460f0fc571b9eb2dff7cbd58b537a4fb38b202d546701\"]": {
@@ -2942,6 +2942,36 @@
         ]
       },
       "expiresAt": 1792174446740
+    },
+    "[\"factor\",\"pub\",\"b7fa979d5efe1904907014f6b150fb173b0c4e6e72fdb1fcb595a7cb3dbd0c42\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "b7fa979d5efe1904907014f6b150fb173b0c4e6e72fdb1fcb595a7cb3dbd0c42"
+      ],
+      "value": true,
+      "expiresAt": 1792175654555
+    },
+    "[\"factor\",\"topic\",\"b7fa979d5efe1904907014f6b150fb173b0c4e6e72fdb1fcb595a7cb3dbd0c42\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "b7fa979d5efe1904907014f6b150fb173b0c4e6e72fdb1fcb595a7cb3dbd0c42"
+      ],
+      "value": {
+        "title": "Високосную секунду хотят заменить на високосный час Високосная секунда, которую с 1972 год",
+        "roots": [
+          "високо",
+          "секунд",
+          "хотят",
+          "замени",
+          "високо",
+          "високо",
+          "секунд",
+          "котору"
+        ]
+      },
+      "expiresAt": 1792175654557
     }
   }
 }
