@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 462441,
+      "value": 385111,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792086033956,
+      "value": 1792086636646,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"39594426550e490c4bed1911d9fbb48a4924cd73239761eab236487add6d7b2b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "39594426550e490c4bed1911d9fbb48a4924cd73239761eab236487add6d7b2b"
-      ],
-      "value": true,
-      "expiresAt": 1792086132511
-    },
-    "[\"factor\",\"topic\",\"39594426550e490c4bed1911d9fbb48a4924cd73239761eab236487add6d7b2b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "39594426550e490c4bed1911d9fbb48a4924cd73239761eab236487add6d7b2b"
-      ],
-      "value": {
-        "title": "💥 Дроноводы «Рубикона» перещелкали цели по списку: ▫️ бронетехника, ▫️ автомобильная техн",
-        "roots": [
-          "дронов",
-          "рубико",
-          "переще",
-          "списку",
-          "бронет",
-          "автомо"
-        ]
-      },
-      "expiresAt": 1792086132512
     },
     "[\"factor\",\"pub\",\"240711b144e75ed73c1ced6985c3fdaaf8de4f6c19824895122f34f82f125f1b\"]": {
       "key": [
@@ -2937,6 +2909,35 @@
         ]
       },
       "expiresAt": 1792172501032
+    },
+    "[\"factor\",\"pub\",\"9c4b07d31c4a5874ef0d42b2f92bae37eee5eb6b057d2934fe159107ef81be2d\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "9c4b07d31c4a5874ef0d42b2f92bae37eee5eb6b057d2934fe159107ef81be2d"
+      ],
+      "value": true,
+      "expiresAt": 1792173112211
+    },
+    "[\"factor\",\"topic\",\"9c4b07d31c4a5874ef0d42b2f92bae37eee5eb6b057d2934fe159107ef81be2d\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "9c4b07d31c4a5874ef0d42b2f92bae37eee5eb6b057d2934fe159107ef81be2d"
+      ],
+      "value": {
+        "title": "❗️ Молдавии для возобновления диалога с Москвой надо отказаться от линии, основанной на ру",
+        "roots": [
+          "молдав",
+          "возобн",
+          "диалог",
+          "москво",
+          "отказа",
+          "линии",
+          "основа"
+        ]
+      },
+      "expiresAt": 1792173112213
     }
   }
 }
