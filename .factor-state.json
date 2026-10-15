@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 487532,
+      "value": 278184,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792089056410,
+      "value": 1792089633641,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"441d94268ce9bb1be26460f0fc571b9eb2dff7cbd58b537a4fb38b202d546701\"]": {
@@ -2972,6 +2972,36 @@
         ]
       },
       "expiresAt": 1792175654557
+    },
+    "[\"factor\",\"pub\",\"874e9c5699884f346d0d6815d30e615b0ae02feb1ee4b249ac8c28c9404045a6\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "874e9c5699884f346d0d6815d30e615b0ae02feb1ee4b249ac8c28c9404045a6"
+      ],
+      "value": true,
+      "expiresAt": 1792176073490
+    },
+    "[\"factor\",\"topic\",\"874e9c5699884f346d0d6815d30e615b0ae02feb1ee4b249ac8c28c9404045a6\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "874e9c5699884f346d0d6815d30e615b0ae02feb1ee4b249ac8c28c9404045a6"
+      ],
+      "value": {
+        "title": "🚗 Volkswagen отзовет несколько тысяч электромобилей из-за риска возгорания батарей , пише",
+        "roots": [
+          "volksw",
+          "отзове",
+          "нескол",
+          "тысяч",
+          "электр",
+          "риска",
+          "возгор",
+          "батаре"
+        ]
+      },
+      "expiresAt": 1792176073491
     }
   }
 }
