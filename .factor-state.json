@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 643866,
+      "value": 689160,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,31 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792101034408,
+      "value": 1792102236047,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"fb7ec8c43a3a1573da32a35b11fedd0af9d2c715879ec3da54459423ea680bd0\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "fb7ec8c43a3a1573da32a35b11fedd0af9d2c715879ec3da54459423ea680bd0"
-      ],
-      "value": true,
-      "expiresAt": 1792101684144
-    },
-    "[\"factor\",\"topic\",\"fb7ec8c43a3a1573da32a35b11fedd0af9d2c715879ec3da54459423ea680bd0\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "fb7ec8c43a3a1573da32a35b11fedd0af9d2c715879ec3da54459423ea680bd0"
-      ],
-      "value": {
-        "title": "Рэпера P",
-        "roots": [
-          "рэпера"
-        ]
-      },
-      "expiresAt": 1792101684145
     },
     "[\"factor\",\"pub\",\"6d79f9ec714b50028e1f3278b9a34fa9ad0ba9f204a8cc799142d7b5fb106f61\"]": {
       "key": [
@@ -2964,6 +2941,37 @@
         ]
       },
       "expiresAt": 1792187459105
+    },
+    "[\"factor\",\"pub\",\"c0eb5d112d5cc9851a2cf1bfbce62c42e07c474caaa8aef868d419a69526b81a\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "c0eb5d112d5cc9851a2cf1bfbce62c42e07c474caaa8aef868d419a69526b81a"
+      ],
+      "value": true,
+      "expiresAt": 1792188682573
+    },
+    "[\"factor\",\"topic\",\"c0eb5d112d5cc9851a2cf1bfbce62c42e07c474caaa8aef868d419a69526b81a\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "c0eb5d112d5cc9851a2cf1bfbce62c42e07c474caaa8aef868d419a69526b81a"
+      ],
+      "value": {
+        "title": "Американские военные подготовили новый план ударов по Ирану, который предусматривает приме",
+        "roots": [
+          "америк",
+          "военны",
+          "подгот",
+          "новый",
+          "ударов",
+          "ирану",
+          "которы",
+          "предус",
+          "приме"
+        ]
+      },
+      "expiresAt": 1792188682574
     }
   }
 }
