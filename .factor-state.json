@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 238360,
+      "value": 230450,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792027851092,
+      "value": 1792028467662,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"06133431160a21727c54bff655d72ab9fc605823ae8af05ca892fb8a02666830\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "06133431160a21727c54bff655d72ab9fc605823ae8af05ca892fb8a02666830"
-      ],
-      "value": true,
-      "expiresAt": 1792027955652
-    },
-    "[\"factor\",\"topic\",\"06133431160a21727c54bff655d72ab9fc605823ae8af05ca892fb8a02666830\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "06133431160a21727c54bff655d72ab9fc605823ae8af05ca892fb8a02666830"
-      ],
-      "value": {
-        "title": "Один человек погиб при атаке БПЛА на Балаково в Саратовской области, повреждены несколько ",
-        "roots": [
-          "челове",
-          "погиб",
-          "атаке",
-          "балако",
-          "сарато",
-          "област",
-          "повреж",
-          "нескол"
-        ]
-      },
-      "expiresAt": 1792027955653
     },
     "[\"factor\",\"pub\",\"4e672bbccbddec4fe38dfe4930df0e710462e3d2a9bfc74d476871b3db715a82\"]": {
       "key": [
@@ -2921,6 +2891,37 @@
         ]
       },
       "expiresAt": 1792114404057
+    },
+    "[\"factor\",\"pub\",\"d7309bc22c0fdeb6fa968934102ad86bc976ef1036bda3f7a741778e6ece39fe\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d7309bc22c0fdeb6fa968934102ad86bc976ef1036bda3f7a741778e6ece39fe"
+      ],
+      "value": true,
+      "expiresAt": 1792114885862
+    },
+    "[\"factor\",\"topic\",\"d7309bc22c0fdeb6fa968934102ad86bc976ef1036bda3f7a741778e6ece39fe\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d7309bc22c0fdeb6fa968934102ad86bc976ef1036bda3f7a741778e6ece39fe"
+      ],
+      "value": {
+        "title": "Самые высокие зарплаты за вахту в России предлагают бурильщикам - в среднем 250 тысяч рубл",
+        "roots": [
+          "самые",
+          "высоки",
+          "зарпла",
+          "вахту",
+          "россии",
+          "предла",
+          "буриль",
+          "средне",
+          "тысяч"
+        ]
+      },
+      "expiresAt": 1792114885863
     }
   }
 }
