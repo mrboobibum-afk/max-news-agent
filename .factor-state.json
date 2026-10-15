@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 654303,
+      "value": 796768,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792068637202,
+      "value": 1792069836963,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"68ca15e6759efae86db6254c5107b35f888d62ecc8a79520b9a4325bb88803fd\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "68ca15e6759efae86db6254c5107b35f888d62ecc8a79520b9a4325bb88803fd"
-      ],
-      "value": true,
-      "expiresAt": 1792069323070
-    },
-    "[\"factor\",\"topic\",\"68ca15e6759efae86db6254c5107b35f888d62ecc8a79520b9a4325bb88803fd\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "68ca15e6759efae86db6254c5107b35f888d62ecc8a79520b9a4325bb88803fd"
-      ],
-      "value": {
-        "title": "Минцифры и Минобороны РФ решают вопрос защиты дата-центров на фоне атак БПЛА на объекты \"Я",
-        "roots": [
-          "минциф",
-          "минобо",
-          "решают",
-          "вопрос",
-          "защиты",
-          "центро",
-          "объект"
-        ]
-      },
-      "expiresAt": 1792069323072
     },
     "[\"factor\",\"pub\",\"e5166de59babc53a6d15b7d84cc97c615ac08f424541b82fa9ec36d354ec7af2\"]": {
       "key": [
@@ -2934,6 +2905,35 @@
         ]
       },
       "expiresAt": 1792155069231
+    },
+    "[\"factor\",\"pub\",\"a73dd0954b237e0c96a50441af2a3a5118673fb6e7ceae5c1a2781f5ea10221f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "a73dd0954b237e0c96a50441af2a3a5118673fb6e7ceae5c1a2781f5ea10221f"
+      ],
+      "value": true,
+      "expiresAt": 1792156268088
+    },
+    "[\"factor\",\"topic\",\"a73dd0954b237e0c96a50441af2a3a5118673fb6e7ceae5c1a2781f5ea10221f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "a73dd0954b237e0c96a50441af2a3a5118673fb6e7ceae5c1a2781f5ea10221f"
+      ],
+      "value": {
+        "title": "Папа Римский Лев XIV начал восстановление после операции по удалению ракового узла в легко",
+        "roots": [
+          "римски",
+          "начал",
+          "восста",
+          "операц",
+          "удален",
+          "раково",
+          "легко"
+        ]
+      },
+      "expiresAt": 1792156268089
     }
   }
 }
