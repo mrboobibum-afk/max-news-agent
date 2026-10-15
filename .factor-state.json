@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 588251,
+      "value": 206844,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792092654780,
+      "value": 1792093834677,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"4a418eb4fad7addcadf582db52120f1e00d77a3d36de8afd665280ac82c0af00\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "4a418eb4fad7addcadf582db52120f1e00d77a3d36de8afd665280ac82c0af00"
-      ],
-      "value": true,
-      "expiresAt": 1792093270192
-    },
-    "[\"factor\",\"topic\",\"4a418eb4fad7addcadf582db52120f1e00d77a3d36de8afd665280ac82c0af00\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "4a418eb4fad7addcadf582db52120f1e00d77a3d36de8afd665280ac82c0af00"
-      ],
-      "value": {
-        "title": "Факты пыток российских пленных на Украине потребовал изучить Мирошник",
-        "roots": [
-          "факты",
-          "пыток",
-          "россий",
-          "пленны",
-          "украин",
-          "потреб",
-          "изучит",
-          "мирошн"
-        ]
-      },
-      "expiresAt": 1792093270193
     },
     "[\"factor\",\"pub\",\"6cb4ec79837864b7cf00d66addf36dd02631b76e164cea2f7fb2f1c76e35e166\"]": {
       "key": [
@@ -3001,6 +2971,36 @@
         ]
       },
       "expiresAt": 1792179081378
+    },
+    "[\"factor\",\"pub\",\"913e9704aa34ca0323ea35fbe4a366d783ae4716c0021562fff43422aee3d11c\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "913e9704aa34ca0323ea35fbe4a366d783ae4716c0021562fff43422aee3d11c"
+      ],
+      "value": true,
+      "expiresAt": 1792180303578
+    },
+    "[\"factor\",\"topic\",\"913e9704aa34ca0323ea35fbe4a366d783ae4716c0021562fff43422aee3d11c\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "913e9704aa34ca0323ea35fbe4a366d783ae4716c0021562fff43422aee3d11c"
+      ],
+      "value": {
+        "title": "Евросоюз стремится в кратчайшие сроки получить антимонопольное одобрение для спутникового ",
+        "roots": [
+          "евросо",
+          "стреми",
+          "кратча",
+          "сроки",
+          "получи",
+          "антимо",
+          "одобре",
+          "спутни"
+        ]
+      },
+      "expiresAt": 1792180303579
     }
   }
 }
