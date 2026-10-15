@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 317897,
+      "value": 862087,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792038032421,
+      "value": 1792038647718,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"689b0cc3be4f3930d5e749c4dd584fba8ba6e447a6f9abe040f4ed31b78d09ad\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "689b0cc3be4f3930d5e749c4dd584fba8ba6e447a6f9abe040f4ed31b78d09ad"
-      ],
-      "value": true,
-      "expiresAt": 1792038054227
-    },
-    "[\"factor\",\"topic\",\"689b0cc3be4f3930d5e749c4dd584fba8ba6e447a6f9abe040f4ed31b78d09ad\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "689b0cc3be4f3930d5e749c4dd584fba8ba6e447a6f9abe040f4ed31b78d09ad"
-      ],
-      "value": {
-        "title": "✈️ Изменения расписания возможны в аэропорту Шереметьево из-за ограничений",
-        "roots": [
-          "измене",
-          "распис",
-          "возмож",
-          "аэропо",
-          "шереме",
-          "ограни"
-        ]
-      },
-      "expiresAt": 1792038054228
     },
     "[\"factor\",\"pub\",\"19c0d730d4fc39219c1afa0aed0dbe008b01ef7affbddca45b1e8350bad7cc38\"]": {
       "key": [
@@ -2970,6 +2942,37 @@
         ]
       },
       "expiresAt": 1792124468443
+    },
+    "[\"factor\",\"pub\",\"a69076680a529ababa5e442414aad97435b8825464ad6506870b05088d3dbcce\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "a69076680a529ababa5e442414aad97435b8825464ad6506870b05088d3dbcce"
+      ],
+      "value": true,
+      "expiresAt": 1792125074487
+    },
+    "[\"factor\",\"topic\",\"a69076680a529ababa5e442414aad97435b8825464ad6506870b05088d3dbcce\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "a69076680a529ababa5e442414aad97435b8825464ad6506870b05088d3dbcce"
+      ],
+      "value": {
+        "title": "▶️ Банк России не станет снижать ключевую ставку на ближайшем заседании 23 октября и возьм",
+        "roots": [
+          "россии",
+          "станет",
+          "снижат",
+          "ключев",
+          "ставку",
+          "ближай",
+          "заседа",
+          "октябр",
+          "возьм"
+        ]
+      },
+      "expiresAt": 1792125074487
     }
   }
 }
