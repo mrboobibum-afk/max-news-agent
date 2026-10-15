@@ -17,32 +17,6 @@
       "value": 1792084835491,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"cf6022e7b1c9c0f2c55e69bfdc43ca50bd08f5d481db9388babdff874d34f419\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "cf6022e7b1c9c0f2c55e69bfdc43ca50bd08f5d481db9388babdff874d34f419"
-      ],
-      "value": true,
-      "expiresAt": 1792084855738
-    },
-    "[\"factor\",\"topic\",\"cf6022e7b1c9c0f2c55e69bfdc43ca50bd08f5d481db9388babdff874d34f419\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "cf6022e7b1c9c0f2c55e69bfdc43ca50bd08f5d481db9388babdff874d34f419"
-      ],
-      "value": {
-        "title": "Рэпера Navai задержали в Казахстане",
-        "roots": [
-          "рэпера",
-          "navai",
-          "задерж",
-          "казахс"
-        ]
-      },
-      "expiresAt": 1792084855739
-    },
     "[\"factor\",\"pub\",\"079b1cf0774a60720e013b1f7b353130eca96a93b6d2972eca62c7c848411247\"]": {
       "key": [
         "factor",
