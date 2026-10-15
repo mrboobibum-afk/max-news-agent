@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 411089,
+      "value": 747622,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,35 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792062636289,
+      "value": 1792063235150,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"db784b0024778ac8fde9da39c6849775bb4ab66e33d40efaab158f04964e6576\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "db784b0024778ac8fde9da39c6849775bb4ab66e33d40efaab158f04964e6576"
-      ],
-      "value": true,
-      "expiresAt": 1792062663339
-    },
-    "[\"factor\",\"topic\",\"db784b0024778ac8fde9da39c6849775bb4ab66e33d40efaab158f04964e6576\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "db784b0024778ac8fde9da39c6849775bb4ab66e33d40efaab158f04964e6576"
-      ],
-      "value": {
-        "title": "ПВО за сутки сбила 1425 дронов ВСУ, сообщило Минобороны",
-        "roots": [
-          "сутки",
-          "сбила",
-          "дронов",
-          "сообщи",
-          "минобо"
-        ]
-      },
-      "expiresAt": 1792062663340
     },
     "[\"factor\",\"pub\",\"11e4f3cfe5684b5da8a9bc5132c5f0ebb0acdc6bc8200922c2fdb2d34146dba4\"]": {
       "key": [
@@ -2932,6 +2905,34 @@
         ]
       },
       "expiresAt": 1792149094946
+    },
+    "[\"factor\",\"pub\",\"67fa7b8ad9c11b3284ea9de2263c4a2af612ae287b16c5927040123f8dc4f4b8\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "67fa7b8ad9c11b3284ea9de2263c4a2af612ae287b16c5927040123f8dc4f4b8"
+      ],
+      "value": true,
+      "expiresAt": 1792149660833
+    },
+    "[\"factor\",\"topic\",\"67fa7b8ad9c11b3284ea9de2263c4a2af612ae287b16c5927040123f8dc4f4b8\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "67fa7b8ad9c11b3284ea9de2263c4a2af612ae287b16c5927040123f8dc4f4b8"
+      ],
+      "value": {
+        "title": "Пиар-директора журнала \"Москвичка\" Чаковскую сбил грузовик, она в реанимации",
+        "roots": [
+          "директ",
+          "журнал",
+          "москви",
+          "чаковс",
+          "грузов",
+          "реаним"
+        ]
+      },
+      "expiresAt": 1792149660834
     }
   }
 }
