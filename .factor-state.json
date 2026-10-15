@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 876849,
+      "value": 724902,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792021834189,
+      "value": 1792023035157,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"b3446fe69d46c7c0792153681ee0a50685cbb8e822689d9deb46ce80aa054ef8\"]": {
@@ -2831,6 +2831,37 @@
         ]
       },
       "expiresAt": 1792108258599
+    },
+    "[\"factor\",\"pub\",\"203805dd32e4f3055cbaaae43bea4d1b88bcfa281512c7d1f01f364a0dd6dacf\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "203805dd32e4f3055cbaaae43bea4d1b88bcfa281512c7d1f01f364a0dd6dacf"
+      ],
+      "value": true,
+      "expiresAt": 1792109453574
+    },
+    "[\"factor\",\"topic\",\"203805dd32e4f3055cbaaae43bea4d1b88bcfa281512c7d1f01f364a0dd6dacf\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "203805dd32e4f3055cbaaae43bea4d1b88bcfa281512c7d1f01f364a0dd6dacf"
+      ],
+      "value": {
+        "title": "Сотрудники ТЦК на Украине получают премию за поимку людей и отправку их на линию фронта, р",
+        "roots": [
+          "сотруд",
+          "украин",
+          "получа",
+          "премию",
+          "поимку",
+          "людей",
+          "отправ",
+          "линию",
+          "фронта"
+        ]
+      },
+      "expiresAt": 1792109453575
     }
   }
 }
