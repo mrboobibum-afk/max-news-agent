@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 555413,
+      "value": 394918,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792026635140,
+      "value": 1792027235945,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"a5812ef97c28992d086f5ed68ae50f6adf90fe2e8e3c6ed96137ba34ceaf3852\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "a5812ef97c28992d086f5ed68ae50f6adf90fe2e8e3c6ed96137ba34ceaf3852"
-      ],
-      "value": true,
-      "expiresAt": 1792026769970
-    },
-    "[\"factor\",\"topic\",\"a5812ef97c28992d086f5ed68ae50f6adf90fe2e8e3c6ed96137ba34ceaf3852\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "a5812ef97c28992d086f5ed68ae50f6adf90fe2e8e3c6ed96137ba34ceaf3852"
-      ],
-      "value": {
-        "title": "Axios сообщил о возможности новой операции США и Израиля против Ирана",
-        "roots": [
-          "axios",
-          "возмож",
-          "новой",
-          "операц",
-          "израил",
-          "против",
-          "ирана"
-        ]
-      },
-      "expiresAt": 1792026769972
     },
     "[\"factor\",\"pub\",\"06133431160a21727c54bff655d72ab9fc605823ae8af05ca892fb8a02666830\"]": {
       "key": [
@@ -2894,6 +2865,35 @@
         ]
       },
       "expiresAt": 1792113058831
+    },
+    "[\"factor\",\"pub\",\"1a98f03026d3b21d1ef059a49584716bbb3f1c17998fbc73770a80e53fc87636\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "1a98f03026d3b21d1ef059a49584716bbb3f1c17998fbc73770a80e53fc87636"
+      ],
+      "value": true,
+      "expiresAt": 1792113673846
+    },
+    "[\"factor\",\"topic\",\"1a98f03026d3b21d1ef059a49584716bbb3f1c17998fbc73770a80e53fc87636\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "1a98f03026d3b21d1ef059a49584716bbb3f1c17998fbc73770a80e53fc87636"
+      ],
+      "value": {
+        "title": "Трамп заявил, что Иран заставил его пообещать больше не убивать его лидеров: \"Их лидеры ме",
+        "roots": [
+          "трамп",
+          "застав",
+          "пообещ",
+          "больше",
+          "убиват",
+          "лидеро",
+          "лидеры"
+        ]
+      },
+      "expiresAt": 1792113673847
     }
   }
 }
