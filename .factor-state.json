@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 655456,
+      "value": 376601,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792030831809,
+      "value": 1792032030960,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"4de91cd57d9a505157e3928d0880952757af3850f0615ba82d55aa205a0d1ed2\"]": {
@@ -2950,6 +2950,36 @@
         ]
       },
       "expiresAt": 1792117261410
+    },
+    "[\"factor\",\"pub\",\"4076d709b759cca1883fe84be6cea35d4db107d59534fd9235c40545428be048\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4076d709b759cca1883fe84be6cea35d4db107d59534fd9235c40545428be048"
+      ],
+      "value": true,
+      "expiresAt": 1792118490589
+    },
+    "[\"factor\",\"topic\",\"4076d709b759cca1883fe84be6cea35d4db107d59534fd9235c40545428be048\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4076d709b759cca1883fe84be6cea35d4db107d59534fd9235c40545428be048"
+      ],
+      "value": {
+        "title": "▶️ Атомоход Тихоокеанского флота \"Новосибирск\" выполнил на учениях стрельбы из подводного ",
+        "roots": [
+          "атомох",
+          "тихоок",
+          "флота",
+          "новоси",
+          "выполн",
+          "учения",
+          "стрель",
+          "подвод"
+        ]
+      },
+      "expiresAt": 1792118490589
     }
   }
 }
