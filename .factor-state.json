@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 339427,
+      "value": 646523,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792074660078,
+      "value": 1792075236233,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"d66232c40334c0f1616eab27d26f4fde9301967206e88944334b7d889e5a575b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "d66232c40334c0f1616eab27d26f4fde9301967206e88944334b7d889e5a575b"
-      ],
-      "value": true,
-      "expiresAt": 1792074683808
-    },
-    "[\"factor\",\"topic\",\"d66232c40334c0f1616eab27d26f4fde9301967206e88944334b7d889e5a575b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "d66232c40334c0f1616eab27d26f4fde9301967206e88944334b7d889e5a575b"
-      ],
-      "value": {
-        "title": "\"Пришло время Украине найти нового лидера\"",
-        "roots": [
-          "пришло",
-          "время",
-          "украин",
-          "найти",
-          "нового",
-          "лидера"
-        ]
-      },
-      "expiresAt": 1792074683809
     },
     "[\"factor\",\"pub\",\"00b57be75ab4efeb72ff33233f8d08b17f7a30928b25f2b2462bbab6fd8b6f75\"]": {
       "key": [
@@ -2958,6 +2930,37 @@
         ]
       },
       "expiresAt": 1792161090799
+    },
+    "[\"factor\",\"pub\",\"38f2aa97671c78a1884f4a1d4c868f2a9c2c020c007f7b636e542773bd8d3c3f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "38f2aa97671c78a1884f4a1d4c868f2a9c2c020c007f7b636e542773bd8d3c3f"
+      ],
+      "value": true,
+      "expiresAt": 1792161681791
+    },
+    "[\"factor\",\"topic\",\"38f2aa97671c78a1884f4a1d4c868f2a9c2c020c007f7b636e542773bd8d3c3f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "38f2aa97671c78a1884f4a1d4c868f2a9c2c020c007f7b636e542773bd8d3c3f"
+      ],
+      "value": {
+        "title": "▶️ Перед Россией стоит задача запустить новый инвестиционный цикл, отметил Путин",
+        "roots": [
+          "перед",
+          "россие",
+          "стоит",
+          "задача",
+          "запуст",
+          "новый",
+          "инвест",
+          "отмети",
+          "путин"
+        ]
+      },
+      "expiresAt": 1792161681792
     }
   }
 }
