@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 805902,
+      "value": 473152,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792082434678,
+      "value": 1792083665802,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"aab46ff226f33f983ab3bdc408df7da56331fd1691f64345c2da8b9e0d759161\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "aab46ff226f33f983ab3bdc408df7da56331fd1691f64345c2da8b9e0d759161"
-      ],
-      "value": true,
-      "expiresAt": 1792083084278
-    },
-    "[\"factor\",\"topic\",\"aab46ff226f33f983ab3bdc408df7da56331fd1691f64345c2da8b9e0d759161\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "aab46ff226f33f983ab3bdc408df7da56331fd1691f64345c2da8b9e0d759161"
-      ],
-      "value": {
-        "title": "Лавров и Ван И обсудили отношения с США, ситуацию вокруг украинского и иранского кризисов,",
-        "roots": [
-          "лавров",
-          "обсуди",
-          "отноше",
-          "ситуац",
-          "вокруг",
-          "украин",
-          "иранск",
-          "кризис"
-        ]
-      },
-      "expiresAt": 1792083084279
     },
     "[\"factor\",\"pub\",\"f44d9d27784aef5b682ad570da2325c08d3ffb1d170ab2a1635f50dc52b7f8fb\"]": {
       "key": [
@@ -2932,6 +2902,37 @@
         ]
       },
       "expiresAt": 1792168901215
+    },
+    "[\"factor\",\"pub\",\"75733bfad930e9caad0f64b93a704acf2f0bd3ee0e9a0d12478a81a6254dcc36\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "75733bfad930e9caad0f64b93a704acf2f0bd3ee0e9a0d12478a81a6254dcc36"
+      ],
+      "value": true,
+      "expiresAt": 1792170147897
+    },
+    "[\"factor\",\"topic\",\"75733bfad930e9caad0f64b93a704acf2f0bd3ee0e9a0d12478a81a6254dcc36\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "75733bfad930e9caad0f64b93a704acf2f0bd3ee0e9a0d12478a81a6254dcc36"
+      ],
+      "value": {
+        "title": "Армения создает рабочую группу для обсуждения с российской стороной вопросов концессионног",
+        "roots": [
+          "армени",
+          "создае",
+          "рабочу",
+          "группу",
+          "обсужд",
+          "россий",
+          "сторон",
+          "вопрос",
+          "концес"
+        ]
+      },
+      "expiresAt": 1792170147898
     }
   }
 }
