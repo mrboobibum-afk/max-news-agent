@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 294672,
+      "value": 379065,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792042251358,
+      "value": 1792042835444,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"d6b38faf1d6cb59fc990f466d0c7d8cec4c0e024cf74e5de61931b8d6e5554c4\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "d6b38faf1d6cb59fc990f466d0c7d8cec4c0e024cf74e5de61931b8d6e5554c4"
-      ],
-      "value": true,
-      "expiresAt": 1792042339262
-    },
-    "[\"factor\",\"topic\",\"d6b38faf1d6cb59fc990f466d0c7d8cec4c0e024cf74e5de61931b8d6e5554c4\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "d6b38faf1d6cb59fc990f466d0c7d8cec4c0e024cf74e5de61931b8d6e5554c4"
-      ],
-      "value": {
-        "title": "🚨 Двое мужчин погибли в результате нападения медведей в Нижнеилимском районе Иркутской об",
-        "roots": [
-          "мужчин",
-          "погибл",
-          "резуль",
-          "нападе",
-          "медвед",
-          "нижнеи",
-          "районе",
-          "иркутс"
-        ]
-      },
-      "expiresAt": 1792042339263
     },
     "[\"factor\",\"pub\",\"c1bc07104ab0f3e38b79b0d96953ea2aa4e107c072fbb1399751808edf3ea638\"]": {
       "key": [
@@ -3038,6 +3008,35 @@
         ]
       },
       "expiresAt": 1792128701522
+    },
+    "[\"factor\",\"pub\",\"c5009f3f26f6886f667e0cb081862215f5d15bac075e17ab3b7442aee7d0a460\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "c5009f3f26f6886f667e0cb081862215f5d15bac075e17ab3b7442aee7d0a460"
+      ],
+      "value": true,
+      "expiresAt": 1792129300792
+    },
+    "[\"factor\",\"topic\",\"c5009f3f26f6886f667e0cb081862215f5d15bac075e17ab3b7442aee7d0a460\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "c5009f3f26f6886f667e0cb081862215f5d15bac075e17ab3b7442aee7d0a460"
+      ],
+      "value": {
+        "title": "🧱 🧱 🧱 🧱 Минцифры планирует обязать все смартфоны с 5G поддерживать российский криптогр",
+        "roots": [
+          "минциф",
+          "планир",
+          "обязат",
+          "смартф",
+          "поддер",
+          "россий",
+          "крипто"
+        ]
+      },
+      "expiresAt": 1792129300793
     }
   }
 }
