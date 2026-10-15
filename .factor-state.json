@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 680174,
+      "value": 487775,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792090233089,
+      "value": 1792091435643,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"427f9512ce2b8ccf7bba7bb22161e63ce0da783ab35981167c126c55fdd255bf\"]": {
@@ -3000,6 +3000,37 @@
         ]
       },
       "expiresAt": 1792176663575
+    },
+    "[\"factor\",\"pub\",\"d1ceb1f1faa09654d691dcca0b1df3f4da9a71caafbdb8060fe99599ca75b11f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d1ceb1f1faa09654d691dcca0b1df3f4da9a71caafbdb8060fe99599ca75b11f"
+      ],
+      "value": true,
+      "expiresAt": 1792178073499
+    },
+    "[\"factor\",\"topic\",\"d1ceb1f1faa09654d691dcca0b1df3f4da9a71caafbdb8060fe99599ca75b11f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d1ceb1f1faa09654d691dcca0b1df3f4da9a71caafbdb8060fe99599ca75b11f"
+      ],
+      "value": {
+        "title": "❗️ Черногория вслед за Евросоюзом ужесточила правила предоставления временной защиты военн",
+        "roots": [
+          "черног",
+          "вслед",
+          "евросо",
+          "ужесто",
+          "правил",
+          "предос",
+          "времен",
+          "защиты",
+          "военн"
+        ]
+      },
+      "expiresAt": 1792178073500
     }
   }
 }
