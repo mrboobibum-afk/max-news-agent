@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 693995,
+      "value": 643866,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,34 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792099851411,
+      "value": 1792101034408,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"945bc56e182cde76827e8228d3f8ab7663a68b202b9bca28a9f2c292c0a75601\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "945bc56e182cde76827e8228d3f8ab7663a68b202b9bca28a9f2c292c0a75601"
-      ],
-      "value": true,
-      "expiresAt": 1792100463296
-    },
-    "[\"factor\",\"topic\",\"945bc56e182cde76827e8228d3f8ab7663a68b202b9bca28a9f2c292c0a75601\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "945bc56e182cde76827e8228d3f8ab7663a68b202b9bca28a9f2c292c0a75601"
-      ],
-      "value": {
-        "title": "▶️ Обломки судна, затонувшего около 4,7 тыс",
-        "roots": [
-          "обломк",
-          "судна",
-          "затону",
-          "около"
-        ]
-      },
-      "expiresAt": 1792100463297
     },
     "[\"factor\",\"pub\",\"fb7ec8c43a3a1573da32a35b11fedd0af9d2c715879ec3da54459423ea680bd0\"]": {
       "key": [
@@ -2961,6 +2935,35 @@
         ]
       },
       "expiresAt": 1792186273905
+    },
+    "[\"factor\",\"pub\",\"49432373c27d45f6ebdf41f6575838e549038ee9d67802179a11c3f2a5929fe7\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "49432373c27d45f6ebdf41f6575838e549038ee9d67802179a11c3f2a5929fe7"
+      ],
+      "value": true,
+      "expiresAt": 1792187459103
+    },
+    "[\"factor\",\"topic\",\"49432373c27d45f6ebdf41f6575838e549038ee9d67802179a11c3f2a5929fe7\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "49432373c27d45f6ebdf41f6575838e549038ee9d67802179a11c3f2a5929fe7"
+      ],
+      "value": {
+        "title": "Основатель \"Рыбаря\" Звинчук вернулся в Россию вместе с супругой",
+        "roots": [
+          "основа",
+          "рыбаря",
+          "звинчу",
+          "вернул",
+          "россию",
+          "вместе",
+          "супруг"
+        ]
+      },
+      "expiresAt": 1792187459105
     }
   }
 }
