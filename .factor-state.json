@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 826461,
+      "value": 462441,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792084835491,
+      "value": 1792086033956,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"079b1cf0774a60720e013b1f7b353130eca96a93b6d2972eca62c7c848411247\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "079b1cf0774a60720e013b1f7b353130eca96a93b6d2972eca62c7c848411247"
-      ],
-      "value": true,
-      "expiresAt": 1792085517891
-    },
-    "[\"factor\",\"topic\",\"079b1cf0774a60720e013b1f7b353130eca96a93b6d2972eca62c7c848411247\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "079b1cf0774a60720e013b1f7b353130eca96a93b6d2972eca62c7c848411247"
-      ],
-      "value": {
-        "title": "Генсек НАТО Рютте заявил об отсутствии непосредственной угрозы со стороны России",
-        "roots": [
-          "генсек",
-          "рютте",
-          "отсутс",
-          "непоср",
-          "угрозы",
-          "сторон",
-          "россии"
-        ]
-      },
-      "expiresAt": 1792085517893
     },
     "[\"factor\",\"pub\",\"39594426550e490c4bed1911d9fbb48a4924cd73239761eab236487add6d7b2b\"]": {
       "key": [
@@ -2935,6 +2906,37 @@
         ]
       },
       "expiresAt": 1792171283858
+    },
+    "[\"factor\",\"pub\",\"80db96d6cdd54c20a8bf239c1d9b5249dc36409359d11098848d19d2ddcd69d2\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "80db96d6cdd54c20a8bf239c1d9b5249dc36409359d11098848d19d2ddcd69d2"
+      ],
+      "value": true,
+      "expiresAt": 1792172501031
+    },
+    "[\"factor\",\"topic\",\"80db96d6cdd54c20a8bf239c1d9b5249dc36409359d11098848d19d2ddcd69d2\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "80db96d6cdd54c20a8bf239c1d9b5249dc36409359d11098848d19d2ddcd69d2"
+      ],
+      "value": {
+        "title": "◻️ ◻️ ◻️ Компания Rockstar Games выпустила полутораминутный лаунч-трейлер Grand Theft Auto",
+        "roots": [
+          "компан",
+          "rockst",
+          "games",
+          "выпуст",
+          "полуто",
+          "лаунч",
+          "трейле",
+          "grand",
+          "theft"
+        ]
+      },
+      "expiresAt": 1792172501032
     }
   }
 }
