@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 278184,
+      "value": 680174,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792089633641,
+      "value": 1792090233089,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"441d94268ce9bb1be26460f0fc571b9eb2dff7cbd58b537a4fb38b202d546701\"]": {
@@ -3002,6 +3002,33 @@
         ]
       },
       "expiresAt": 1792176073491
+    },
+    "[\"factor\",\"pub\",\"b14da1053f23c539bca520b33ead27753e28e8ed82c41f07328776b8b6bb7581\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "b14da1053f23c539bca520b33ead27753e28e8ed82c41f07328776b8b6bb7581"
+      ],
+      "value": true,
+      "expiresAt": 1792176663574
+    },
+    "[\"factor\",\"topic\",\"b14da1053f23c539bca520b33ead27753e28e8ed82c41f07328776b8b6bb7581\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "b14da1053f23c539bca520b33ead27753e28e8ed82c41f07328776b8b6bb7581"
+      ],
+      "value": {
+        "title": "Медосмотр Трампа не выявил у него проблем со здоровьем",
+        "roots": [
+          "медосм",
+          "трампа",
+          "выявил",
+          "пробле",
+          "здоров"
+        ]
+      },
+      "expiresAt": 1792176663575
     }
   }
 }
