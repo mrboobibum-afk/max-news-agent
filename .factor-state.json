@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 359706,
+      "value": 792270,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792048836238,
+      "value": 1792049452664,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"1afee43db558ff3a18edcfd804be3aa41e4e7ae40c0bf043a6652149bae248c2\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "1afee43db558ff3a18edcfd804be3aa41e4e7ae40c0bf043a6652149bae248c2"
-      ],
-      "value": true,
-      "expiresAt": 1792048926968
-    },
-    "[\"factor\",\"topic\",\"1afee43db558ff3a18edcfd804be3aa41e4e7ae40c0bf043a6652149bae248c2\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "1afee43db558ff3a18edcfd804be3aa41e4e7ae40c0bf043a6652149bae248c2"
-      ],
-      "value": {
-        "title": "🧱 🧱 🧱 🧱 Московский завод плавленых сыров «Карат» купил нижегородского производителя йо",
-        "roots": [
-          "москов",
-          "завод",
-          "плавле",
-          "сыров",
-          "карат",
-          "купил",
-          "нижего",
-          "произв"
-        ]
-      },
-      "expiresAt": 1792048926969
     },
     "[\"factor\",\"pub\",\"1b24b8aee6a822207f9bd03b213b481d3007712fb4d44f3cfd4ebda4c5369a65\"]": {
       "key": [
@@ -3060,6 +3030,35 @@
         ]
       },
       "expiresAt": 1792135259659
+    },
+    "[\"factor\",\"pub\",\"f9d10548d5d4ca2a21749d416f8ac6ab3b3103ed2ba4f8fa4576d59e03b154f8\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "f9d10548d5d4ca2a21749d416f8ac6ab3b3103ed2ba4f8fa4576d59e03b154f8"
+      ],
+      "value": true,
+      "expiresAt": 1792135896001
+    },
+    "[\"factor\",\"topic\",\"f9d10548d5d4ca2a21749d416f8ac6ab3b3103ed2ba4f8fa4576d59e03b154f8\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "f9d10548d5d4ca2a21749d416f8ac6ab3b3103ed2ba4f8fa4576d59e03b154f8"
+      ],
+      "value": {
+        "title": "▶️ Авиация РФ уничтожила пункты временной дислокации и управления БПЛА ВСУ в Белозерском и",
+        "roots": [
+          "авиаци",
+          "уничто",
+          "пункты",
+          "времен",
+          "дислок",
+          "управл",
+          "белозе"
+        ]
+      },
+      "expiresAt": 1792135896003
     }
   }
 }
