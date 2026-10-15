@@ -17,35 +17,6 @@
       "value": 1792090233089,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"441d94268ce9bb1be26460f0fc571b9eb2dff7cbd58b537a4fb38b202d546701\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "441d94268ce9bb1be26460f0fc571b9eb2dff7cbd58b537a4fb38b202d546701"
-      ],
-      "value": true,
-      "expiresAt": 1792090336800
-    },
-    "[\"factor\",\"topic\",\"441d94268ce9bb1be26460f0fc571b9eb2dff7cbd58b537a4fb38b202d546701\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "441d94268ce9bb1be26460f0fc571b9eb2dff7cbd58b537a4fb38b202d546701"
-      ],
-      "value": {
-        "title": "Франция более не в состоянии оказывать финансовую помощь Украине",
-        "roots": [
-          "франци",
-          "более",
-          "состоя",
-          "оказыв",
-          "финанс",
-          "помощь",
-          "украин"
-        ]
-      },
-      "expiresAt": 1792090336815
-    },
     "[\"factor\",\"pub\",\"427f9512ce2b8ccf7bba7bb22161e63ce0da783ab35981167c126c55fdd255bf\"]": {
       "key": [
         "factor",
