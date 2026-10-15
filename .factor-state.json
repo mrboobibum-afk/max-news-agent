@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 549996,
+      "value": 635329,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792078836088,
+      "value": 1792079439110,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"5b184b064ceb69a1d1727636c4046aa1330a510de76ec37ee69d2d92cd1f909e\"]": {
@@ -2934,6 +2934,34 @@
         ]
       },
       "expiresAt": 1792165297088
+    },
+    "[\"factor\",\"pub\",\"7f72ebee9eaee521e1a4f69d0a7b35ef1ada5f10a9b0827302de7cc920ee274b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "7f72ebee9eaee521e1a4f69d0a7b35ef1ada5f10a9b0827302de7cc920ee274b"
+      ],
+      "value": true,
+      "expiresAt": 1792165866508
+    },
+    "[\"factor\",\"topic\",\"7f72ebee9eaee521e1a4f69d0a7b35ef1ada5f10a9b0827302de7cc920ee274b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "7f72ebee9eaee521e1a4f69d0a7b35ef1ada5f10a9b0827302de7cc920ee274b"
+      ],
+      "value": {
+        "title": "\"Не надо было начинать\" Россия будет отвечать на удары по НПЗ и логистическим и энергообъе",
+        "roots": [
+          "начина",
+          "будет",
+          "отвеча",
+          "удары",
+          "логист",
+          "энерго"
+        ]
+      },
+      "expiresAt": 1792165866509
     }
   }
 }
