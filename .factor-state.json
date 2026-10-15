@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 279084,
+      "value": 461496,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,34 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792041035574,
+      "value": 1792041635332,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"4e6af96f37af868362b73478fe8aad51fc9797e8fc281dd37e701452d315d21b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "4e6af96f37af868362b73478fe8aad51fc9797e8fc281dd37e701452d315d21b"
-      ],
-      "value": true,
-      "expiresAt": 1792041054018
-    },
-    "[\"factor\",\"topic\",\"4e6af96f37af868362b73478fe8aad51fc9797e8fc281dd37e701452d315d21b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "4e6af96f37af868362b73478fe8aad51fc9797e8fc281dd37e701452d315d21b"
-      ],
-      "value": {
-        "title": "ВЭФ-2027 пройдет с 31 августа по 3 сентября во Владивостоке",
-        "roots": [
-          "пройде",
-          "август",
-          "сентяб",
-          "владив"
-        ]
-      },
-      "expiresAt": 1792041054019
     },
     "[\"factor\",\"pub\",\"d6b38faf1d6cb59fc990f466d0c7d8cec4c0e024cf74e5de61931b8d6e5554c4\"]": {
       "key": [
@@ -3004,6 +2978,37 @@
         ]
       },
       "expiresAt": 1792127456822
+    },
+    "[\"factor\",\"pub\",\"5ee92f9e60b7ec71a0f3277dacaac63ae9175b3010fee57205344211a7f0ba49\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "5ee92f9e60b7ec71a0f3277dacaac63ae9175b3010fee57205344211a7f0ba49"
+      ],
+      "value": true,
+      "expiresAt": 1792128059037
+    },
+    "[\"factor\",\"topic\",\"5ee92f9e60b7ec71a0f3277dacaac63ae9175b3010fee57205344211a7f0ba49\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "5ee92f9e60b7ec71a0f3277dacaac63ae9175b3010fee57205344211a7f0ba49"
+      ],
+      "value": {
+        "title": "Минобрнауки РФ планирует ввести оплату за первый семестр в вузе до начала обучения, следуе",
+        "roots": [
+          "минобр",
+          "планир",
+          "ввести",
+          "оплату",
+          "первый",
+          "семест",
+          "начала",
+          "обучен",
+          "следуе"
+        ]
+      },
+      "expiresAt": 1792128059039
     }
   }
 }
