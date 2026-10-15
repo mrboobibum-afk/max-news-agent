@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 394918,
+      "value": 238360,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792027235945,
+      "value": 1792027851092,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"06133431160a21727c54bff655d72ab9fc605823ae8af05ca892fb8a02666830\"]": {
@@ -2894,6 +2894,33 @@
         ]
       },
       "expiresAt": 1792113673847
+    },
+    "[\"factor\",\"pub\",\"85f856c79a8ec0ad54fdc5d535ba7a03073d553a806d6a6a3e8ca6a735c463a4\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "85f856c79a8ec0ad54fdc5d535ba7a03073d553a806d6a6a3e8ca6a735c463a4"
+      ],
+      "value": true,
+      "expiresAt": 1792114404056
+    },
+    "[\"factor\",\"topic\",\"85f856c79a8ec0ad54fdc5d535ba7a03073d553a806d6a6a3e8ca6a735c463a4\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "85f856c79a8ec0ad54fdc5d535ba7a03073d553a806d6a6a3e8ca6a735c463a4"
+      ],
+      "value": {
+        "title": "Деятельность Росгвардии дает ярко выраженный экономический эффект",
+        "roots": [
+          "деятел",
+          "росгва",
+          "выраже",
+          "эконом",
+          "эффект"
+        ]
+      },
+      "expiresAt": 1792114404057
     }
   }
 }
