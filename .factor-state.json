@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 862087,
+      "value": 281735,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792038647718,
+      "value": 1792039832769,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"19c0d730d4fc39219c1afa0aed0dbe008b01ef7affbddca45b1e8350bad7cc38\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "19c0d730d4fc39219c1afa0aed0dbe008b01ef7affbddca45b1e8350bad7cc38"
-      ],
-      "value": true,
-      "expiresAt": 1792039650501
-    },
-    "[\"factor\",\"topic\",\"19c0d730d4fc39219c1afa0aed0dbe008b01ef7affbddca45b1e8350bad7cc38\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "19c0d730d4fc39219c1afa0aed0dbe008b01ef7affbddca45b1e8350bad7cc38"
-      ],
-      "value": {
-        "title": "▶️ Уехавших с началом СВО россиян можно простить, если они осознали ошибку",
-        "roots": [
-          "уехавш",
-          "начало",
-          "россия",
-          "можно",
-          "прости",
-          "осозна",
-          "ошибку"
-        ]
-      },
-      "expiresAt": 1792039650502
     },
     "[\"factor\",\"pub\",\"46b79a4540480f581b6aed6db067792ee923064289084d0bc2c0d163d926f527\"]": {
       "key": [
@@ -2973,6 +2944,36 @@
         ]
       },
       "expiresAt": 1792125074487
+    },
+    "[\"factor\",\"pub\",\"04fc21ad8360383cb03886dc036d081c0d33928044504e744a78a83495e76cec\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "04fc21ad8360383cb03886dc036d081c0d33928044504e744a78a83495e76cec"
+      ],
+      "value": true,
+      "expiresAt": 1792126255394
+    },
+    "[\"factor\",\"topic\",\"04fc21ad8360383cb03886dc036d081c0d33928044504e744a78a83495e76cec\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "04fc21ad8360383cb03886dc036d081c0d33928044504e744a78a83495e76cec"
+      ],
+      "value": {
+        "title": "❗️ ВС РФ ночью поразили в море два сухогруза, которые доставляли в порт Одесса грузы военн",
+        "roots": [
+          "ночью",
+          "порази",
+          "сухогр",
+          "которы",
+          "достав",
+          "одесса",
+          "грузы",
+          "военн"
+        ]
+      },
+      "expiresAt": 1792126255395
     }
   }
 }
