@@ -17,33 +17,6 @@
       "value": 1792087837010,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"56076c8dd708dc36cefe273138a34df99c48b220ead0fc01d107026ee79c02a3\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "56076c8dd708dc36cefe273138a34df99c48b220ead0fc01d107026ee79c02a3"
-      ],
-      "value": true,
-      "expiresAt": 1792087921772
-    },
-    "[\"factor\",\"topic\",\"56076c8dd708dc36cefe273138a34df99c48b220ead0fc01d107026ee79c02a3\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "56076c8dd708dc36cefe273138a34df99c48b220ead0fc01d107026ee79c02a3"
-      ],
-      "value": {
-        "title": "▫️ На суше, в небе и море: стартовало учение «Индра-2026» ➡️ В Челябинской области и на Да",
-        "roots": [
-          "старто",
-          "учение",
-          "индра",
-          "челяби",
-          "област"
-        ]
-      },
-      "expiresAt": 1792087921773
-    },
     "[\"factor\",\"pub\",\"441d94268ce9bb1be26460f0fc571b9eb2dff7cbd58b537a4fb38b202d546701\"]": {
       "key": [
         "factor",
