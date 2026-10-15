@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 385111,
+      "value": 436943,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792086636646,
+      "value": 1792087268974,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"240711b144e75ed73c1ced6985c3fdaaf8de4f6c19824895122f34f82f125f1b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "240711b144e75ed73c1ced6985c3fdaaf8de4f6c19824895122f34f82f125f1b"
-      ],
-      "value": true,
-      "expiresAt": 1792086693844
-    },
-    "[\"factor\",\"topic\",\"240711b144e75ed73c1ced6985c3fdaaf8de4f6c19824895122f34f82f125f1b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "240711b144e75ed73c1ced6985c3fdaaf8de4f6c19824895122f34f82f125f1b"
-      ],
-      "value": {
-        "title": "❗️ ВС РФ в Хмельницком поразили транспортно-логистический центр \"Эпицентр\", использовавший",
-        "roots": [
-          "хмельн",
-          "порази",
-          "трансп",
-          "логист",
-          "центр",
-          "эпицен",
-          "исполь"
-        ]
-      },
-      "expiresAt": 1792086693845
     },
     "[\"factor\",\"pub\",\"56076c8dd708dc36cefe273138a34df99c48b220ead0fc01d107026ee79c02a3\"]": {
       "key": [
@@ -2938,6 +2909,36 @@
         ]
       },
       "expiresAt": 1792173112213
+    },
+    "[\"factor\",\"pub\",\"76075058a2691deee05e5f6c8bc828fcd751811424fec45fdea6f962fa5b4c81\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "76075058a2691deee05e5f6c8bc828fcd751811424fec45fdea6f962fa5b4c81"
+      ],
+      "value": true,
+      "expiresAt": 1792173706610
+    },
+    "[\"factor\",\"topic\",\"76075058a2691deee05e5f6c8bc828fcd751811424fec45fdea6f962fa5b4c81\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "76075058a2691deee05e5f6c8bc828fcd751811424fec45fdea6f962fa5b4c81"
+      ],
+      "value": {
+        "title": "▶️ Мотострелки Центрального военного округа отработали прикрытие техники от удара БПЛА на ",
+        "roots": [
+          "мотост",
+          "центра",
+          "военно",
+          "округа",
+          "отрабо",
+          "прикры",
+          "техник",
+          "удара"
+        ]
+      },
+      "expiresAt": 1792173706614
     }
   }
 }
