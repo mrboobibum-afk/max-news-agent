@@ -17,34 +17,6 @@
       "value": 1792051264498,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"dd4c4de65c701bf2b40b35906bb549ae30a7b08f97589b1b2aa357fc4c8d16db\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "dd4c4de65c701bf2b40b35906bb549ae30a7b08f97589b1b2aa357fc4c8d16db"
-      ],
-      "value": true,
-      "expiresAt": 1792051302705
-    },
-    "[\"factor\",\"topic\",\"dd4c4de65c701bf2b40b35906bb549ae30a7b08f97589b1b2aa357fc4c8d16db\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "dd4c4de65c701bf2b40b35906bb549ae30a7b08f97589b1b2aa357fc4c8d16db"
-      ],
-      "value": {
-        "title": "🚨 Атака БПЛА ВСУ в ночь на 14 октября стала одной из самых массированных за год",
-        "roots": [
-          "атака",
-          "октябр",
-          "стала",
-          "одной",
-          "самых",
-          "массир"
-        ]
-      },
-      "expiresAt": 1792051302706
-    },
     "[\"factor\",\"pub\",\"0f784fcab35d35f7f1b9f8d89a3ec64a85d6640e2bcdf6f3f5e46e05677a639d\"]": {
       "key": [
         "factor",
