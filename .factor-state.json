@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 379065,
+      "value": 332143,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792042835444,
+      "value": 1792043435945,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"c1bc07104ab0f3e38b79b0d96953ea2aa4e107c072fbb1399751808edf3ea638\"]": {
@@ -3037,6 +3037,32 @@
         ]
       },
       "expiresAt": 1792129300793
+    },
+    "[\"factor\",\"pub\",\"fa4bad886643d061d512ad60aa623da2fa21ae0485de078d27997f30f346d366\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "fa4bad886643d061d512ad60aa623da2fa21ae0485de078d27997f30f346d366"
+      ],
+      "value": true,
+      "expiresAt": 1792130084900
+    },
+    "[\"factor\",\"topic\",\"fa4bad886643d061d512ad60aa623da2fa21ae0485de078d27997f30f346d366\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "fa4bad886643d061d512ad60aa623da2fa21ae0485de078d27997f30f346d366"
+      ],
+      "value": {
+        "title": "Российский мотоциклист погиб в ДТП в Таиланде",
+        "roots": [
+          "россий",
+          "мотоци",
+          "погиб",
+          "таилан"
+        ]
+      },
+      "expiresAt": 1792130084901
     }
   }
 }
