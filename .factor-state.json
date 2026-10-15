@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 377914,
+      "value": 582992,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792029042857,
+      "value": 1792029668932,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"4e672bbccbddec4fe38dfe4930df0e710462e3d2a9bfc74d476871b3db715a82\"]": {
@@ -2949,6 +2949,36 @@
         ]
       },
       "expiresAt": 1792115602316
+    },
+    "[\"factor\",\"pub\",\"b8fc3261b8b70b67d0c2f9ad29363035647bc1701999952821d77df0ee1693d0\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "b8fc3261b8b70b67d0c2f9ad29363035647bc1701999952821d77df0ee1693d0"
+      ],
+      "value": true,
+      "expiresAt": 1792116306493
+    },
+    "[\"factor\",\"topic\",\"b8fc3261b8b70b67d0c2f9ad29363035647bc1701999952821d77df0ee1693d0\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "b8fc3261b8b70b67d0c2f9ad29363035647bc1701999952821d77df0ee1693d0"
+      ],
+      "value": {
+        "title": "Судно с 25 дайверами затонуло у берегов Индонезии, один человек пропал без вести",
+        "roots": [
+          "судно",
+          "дайвер",
+          "затону",
+          "берего",
+          "индоне",
+          "челове",
+          "пропал",
+          "вести"
+        ]
+      },
+      "expiresAt": 1792116306495
     }
   }
 }
