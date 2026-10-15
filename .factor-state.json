@@ -17,36 +17,6 @@
       "value": 1792081236492,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"cfbef0b3481755f538f8fc158127d76e2f577a6ce04c3747a9383f1634ffede9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "cfbef0b3481755f538f8fc158127d76e2f577a6ce04c3747a9383f1634ffede9"
-      ],
-      "value": true,
-      "expiresAt": 1792081276742
-    },
-    "[\"factor\",\"topic\",\"cfbef0b3481755f538f8fc158127d76e2f577a6ce04c3747a9383f1634ffede9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "cfbef0b3481755f538f8fc158127d76e2f577a6ce04c3747a9383f1634ffede9"
-      ],
-      "value": {
-        "title": "❗️ Газета Politico утверждает, что глава ФБР Кэш Патель рассчитывает в октябре посетить Ро",
-        "roots": [
-          "газета",
-          "politi",
-          "утверж",
-          "глава",
-          "патель",
-          "рассчи",
-          "октябр",
-          "посети"
-        ]
-      },
-      "expiresAt": 1792081276743
-    },
     "[\"factor\",\"pub\",\"23bf58b96020d375f00018e8e5ffdc5e3ac6d3b00c0b4d9bcd5101d9acd03ff4\"]": {
       "key": [
         "factor",
