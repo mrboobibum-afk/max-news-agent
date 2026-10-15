@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 594234,
+      "value": 606652,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792050633844,
+      "value": 1792051264498,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"dd4c4de65c701bf2b40b35906bb549ae30a7b08f97589b1b2aa357fc4c8d16db\"]": {
@@ -3028,6 +3028,35 @@
         ]
       },
       "expiresAt": 1792137063869
+    },
+    "[\"factor\",\"pub\",\"44e1bf4ba875c142d8a457b81e2993aa30b3e1a5f2b6b06c91d663698a79c5a0\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "44e1bf4ba875c142d8a457b81e2993aa30b3e1a5f2b6b06c91d663698a79c5a0"
+      ],
+      "value": true,
+      "expiresAt": 1792137727472
+    },
+    "[\"factor\",\"topic\",\"44e1bf4ba875c142d8a457b81e2993aa30b3e1a5f2b6b06c91d663698a79c5a0\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "44e1bf4ba875c142d8a457b81e2993aa30b3e1a5f2b6b06c91d663698a79c5a0"
+      ],
+      "value": {
+        "title": "США могут применить против Ирана \"мать всех бомб\", сообщает CNN со ссылкой на источники",
+        "roots": [
+          "могут",
+          "примен",
+          "против",
+          "ирана",
+          "сообща",
+          "ссылко",
+          "источн"
+        ]
+      },
+      "expiresAt": 1792137727473
     }
   }
 }
