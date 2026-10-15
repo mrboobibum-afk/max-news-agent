@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 238360,
+      "value": 286757,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792027851092,
+      "value": 1792028416593,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"06133431160a21727c54bff655d72ab9fc605823ae8af05ca892fb8a02666830\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "06133431160a21727c54bff655d72ab9fc605823ae8af05ca892fb8a02666830"
-      ],
-      "value": true,
-      "expiresAt": 1792027955652
-    },
-    "[\"factor\",\"topic\",\"06133431160a21727c54bff655d72ab9fc605823ae8af05ca892fb8a02666830\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "06133431160a21727c54bff655d72ab9fc605823ae8af05ca892fb8a02666830"
-      ],
-      "value": {
-        "title": "Один человек погиб при атаке БПЛА на Балаково в Саратовской области, повреждены несколько ",
-        "roots": [
-          "челове",
-          "погиб",
-          "атаке",
-          "балако",
-          "сарато",
-          "област",
-          "повреж",
-          "нескол"
-        ]
-      },
-      "expiresAt": 1792027955653
     },
     "[\"factor\",\"pub\",\"4e672bbccbddec4fe38dfe4930df0e710462e3d2a9bfc74d476871b3db715a82\"]": {
       "key": [
@@ -2921,6 +2891,36 @@
         ]
       },
       "expiresAt": 1792114404057
+    },
+    "[\"factor\",\"pub\",\"345df068fbcf378758d55fec04cf3304e6ada4ad10e0b6ea7e3b30eccf11f313\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "345df068fbcf378758d55fec04cf3304e6ada4ad10e0b6ea7e3b30eccf11f313"
+      ],
+      "value": true,
+      "expiresAt": 1792114846216
+    },
+    "[\"factor\",\"topic\",\"345df068fbcf378758d55fec04cf3304e6ada4ad10e0b6ea7e3b30eccf11f313\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "345df068fbcf378758d55fec04cf3304e6ada4ad10e0b6ea7e3b30eccf11f313"
+      ],
+      "value": {
+        "title": "📹 Несколько человек вышли из Алешек, эвакуация проводится для желающих, Видео: Виктор Ант",
+        "roots": [
+          "нескол",
+          "челове",
+          "вышли",
+          "алешек",
+          "эвакуа",
+          "провод",
+          "желающ",
+          "виктор"
+        ]
+      },
+      "expiresAt": 1792114846217
     }
   }
 }
