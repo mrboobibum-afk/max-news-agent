@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 420035,
+      "value": 474295,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,40 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792067455757,
+      "value": 1792068045574,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"e97f21025535da5b077bfe1401861cb5717de6f6c7d1cb9a608e0ddf5ffeeee2\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "e97f21025535da5b077bfe1401861cb5717de6f6c7d1cb9a608e0ddf5ffeeee2"
-      ],
-      "value": true,
-      "expiresAt": 1792067512245
-    },
-    "[\"factor\",\"topic\",\"e97f21025535da5b077bfe1401861cb5717de6f6c7d1cb9a608e0ddf5ffeeee2\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "e97f21025535da5b077bfe1401861cb5717de6f6c7d1cb9a608e0ddf5ffeeee2"
-      ],
-      "value": {
-        "title": "Путин назвал крайне важным и актуальным вопрос повышения цифровой безопасности в России",
-        "roots": [
-          "путин",
-          "назвал",
-          "крайне",
-          "важным",
-          "актуал",
-          "вопрос",
-          "повыше",
-          "цифров",
-          "безопа",
-          "россии"
-        ]
-      },
-      "expiresAt": 1792067512246
     },
     "[\"factor\",\"pub\",\"378c3bf7c2d6ec27ecfa782dd05df5ed6818b1ef17685af37defe022fc1081c3\"]": {
       "key": [
@@ -2937,6 +2905,35 @@
         ]
       },
       "expiresAt": 1792153878984
+    },
+    "[\"factor\",\"pub\",\"d6e659baf34f42d6ef0eb1f60f7dd5988db17b9e6629f786818da1d048a34222\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d6e659baf34f42d6ef0eb1f60f7dd5988db17b9e6629f786818da1d048a34222"
+      ],
+      "value": true,
+      "expiresAt": 1792154465014
+    },
+    "[\"factor\",\"topic\",\"d6e659baf34f42d6ef0eb1f60f7dd5988db17b9e6629f786818da1d048a34222\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d6e659baf34f42d6ef0eb1f60f7dd5988db17b9e6629f786818da1d048a34222"
+      ],
+      "value": {
+        "title": "Спецпосланник Трампа высказался в интервью ТАСС за организацию матча сборных РФ и США по ф",
+        "roots": [
+          "спецпо",
+          "трампа",
+          "высказ",
+          "интерв",
+          "органи",
+          "матча",
+          "сборны"
+        ]
+      },
+      "expiresAt": 1792154465015
     }
   }
 }
