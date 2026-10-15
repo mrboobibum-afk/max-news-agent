@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 591632,
+      "value": 359706,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792048235950,
+      "value": 1792048836238,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"1afee43db558ff3a18edcfd804be3aa41e4e7ae40c0bf043a6652149bae248c2\"]": {
@@ -3030,6 +3030,36 @@
         ]
       },
       "expiresAt": 1792134685875
+    },
+    "[\"factor\",\"pub\",\"3ed99474ca4336ed5fb6cdde4a1546980bf37fb320501746e01d1fda271aa662\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "3ed99474ca4336ed5fb6cdde4a1546980bf37fb320501746e01d1fda271aa662"
+      ],
+      "value": true,
+      "expiresAt": 1792135259658
+    },
+    "[\"factor\",\"topic\",\"3ed99474ca4336ed5fb6cdde4a1546980bf37fb320501746e01d1fda271aa662\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "3ed99474ca4336ed5fb6cdde4a1546980bf37fb320501746e01d1fda271aa662"
+      ],
+      "value": {
+        "title": "Документы о займе от микрофинансовых организаций исключены из списка бумаг, на основании к",
+        "roots": [
+          "докуме",
+          "займе",
+          "микроф",
+          "органи",
+          "исключ",
+          "списка",
+          "бумаг",
+          "основа"
+        ]
+      },
+      "expiresAt": 1792135259659
     }
   }
 }
