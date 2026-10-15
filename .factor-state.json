@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 545695,
+      "value": 339427,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792074039570,
+      "value": 1792074660078,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"d66232c40334c0f1616eab27d26f4fde9301967206e88944334b7d889e5a575b\"]": {
@@ -2932,6 +2932,32 @@
         ]
       },
       "expiresAt": 1792160461117
+    },
+    "[\"factor\",\"pub\",\"34ef4651e5524ee85a7215fed25403552a95ce42e49629b191f663227da41330\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "34ef4651e5524ee85a7215fed25403552a95ce42e49629b191f663227da41330"
+      ],
+      "value": true,
+      "expiresAt": 1792161090798
+    },
+    "[\"factor\",\"topic\",\"34ef4651e5524ee85a7215fed25403552a95ce42e49629b191f663227da41330\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "34ef4651e5524ee85a7215fed25403552a95ce42e49629b191f663227da41330"
+      ],
+      "value": {
+        "title": "Расчлененное тело нашли в сумках в Петербурге",
+        "roots": [
+          "расчле",
+          "нашли",
+          "сумках",
+          "петерб"
+        ]
+      },
+      "expiresAt": 1792161090799
     }
   }
 }
