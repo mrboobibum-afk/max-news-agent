@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 394188,
+      "value": 638178,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792096255338,
+      "value": 1792096833384,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"a25f99f8db27dc69b51e6d235beff8327357f58f5a992279e52996a76374370a\"]": {
@@ -3001,6 +3001,33 @@
         ]
       },
       "expiresAt": 1792183207029
+    },
+    "[\"factor\",\"pub\",\"c5a5125d088b02e5f44631d3789c6c1b7675366d1be04a9bf0887e398298b84a\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "c5a5125d088b02e5f44631d3789c6c1b7675366d1be04a9bf0887e398298b84a"
+      ],
+      "value": true,
+      "expiresAt": 1792183287009
+    },
+    "[\"factor\",\"topic\",\"c5a5125d088b02e5f44631d3789c6c1b7675366d1be04a9bf0887e398298b84a\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "c5a5125d088b02e5f44631d3789c6c1b7675366d1be04a9bf0887e398298b84a"
+      ],
+      "value": {
+        "title": "Силы ПВО сбили десять летевших на Москву БПЛА, сообщил Собянин",
+        "roots": [
+          "сбили",
+          "десять",
+          "летевш",
+          "москву",
+          "собяни"
+        ]
+      },
+      "expiresAt": 1792183287010
     }
   }
 }
