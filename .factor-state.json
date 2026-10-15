@@ -17,37 +17,6 @@
       "value": 1792069836963,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"e5166de59babc53a6d15b7d84cc97c615ac08f424541b82fa9ec36d354ec7af2\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "e5166de59babc53a6d15b7d84cc97c615ac08f424541b82fa9ec36d354ec7af2"
-      ],
-      "value": true,
-      "expiresAt": 1792069872877
-    },
-    "[\"factor\",\"topic\",\"e5166de59babc53a6d15b7d84cc97c615ac08f424541b82fa9ec36d354ec7af2\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "e5166de59babc53a6d15b7d84cc97c615ac08f424541b82fa9ec36d354ec7af2"
-      ],
-      "value": {
-        "title": "Зампред \"Ростелекома\" Валерий Ермаков указал на необходимость создания дата-центров \"судно",
-        "roots": [
-          "зампре",
-          "ростел",
-          "валери",
-          "ермако",
-          "указал",
-          "необхо",
-          "создан",
-          "центро",
-          "судно"
-        ]
-      },
-      "expiresAt": 1792069872878
-    },
     "[\"factor\",\"pub\",\"078e88c8a4649b9ef28a2b420e65e7c9efd52d0639c761f27c8808c864c7e2c1\"]": {
       "key": [
         "factor",
