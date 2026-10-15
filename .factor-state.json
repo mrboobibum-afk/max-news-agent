@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 606652,
+      "value": 723817,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792051264498,
+      "value": 1792052432299,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"0f784fcab35d35f7f1b9f8d89a3ec64a85d6640e2bcdf6f3f5e46e05677a639d\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "0f784fcab35d35f7f1b9f8d89a3ec64a85d6640e2bcdf6f3f5e46e05677a639d"
-      ],
-      "value": true,
-      "expiresAt": 1792051859572
-    },
-    "[\"factor\",\"topic\",\"0f784fcab35d35f7f1b9f8d89a3ec64a85d6640e2bcdf6f3f5e46e05677a639d\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "0f784fcab35d35f7f1b9f8d89a3ec64a85d6640e2bcdf6f3f5e46e05677a639d"
-      ],
-      "value": {
-        "title": "Правоохранители Парагвая задержали гражданина России по обвинению в использовании поддельн",
-        "roots": [
-          "правоо",
-          "парагв",
-          "задерж",
-          "гражда",
-          "россии",
-          "обвине",
-          "исполь",
-          "поддел"
-        ]
-      },
-      "expiresAt": 1792051859573
     },
     "[\"factor\",\"pub\",\"d0013d207574fd11e8f7b747c1e24f36edda0318a10f619ffea425b4c362608c\"]": {
       "key": [
@@ -3029,6 +2999,37 @@
         ]
       },
       "expiresAt": 1792137727473
+    },
+    "[\"factor\",\"pub\",\"2636c082c2042ed6265e03061b56a7e1e6683f21b8bbcf383ca5d67bb36505cd\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "2636c082c2042ed6265e03061b56a7e1e6683f21b8bbcf383ca5d67bb36505cd"
+      ],
+      "value": true,
+      "expiresAt": 1792138860139
+    },
+    "[\"factor\",\"topic\",\"2636c082c2042ed6265e03061b56a7e1e6683f21b8bbcf383ca5d67bb36505cd\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "2636c082c2042ed6265e03061b56a7e1e6683f21b8bbcf383ca5d67bb36505cd"
+      ],
+      "value": {
+        "title": "⚖️ Суд Москвы отправил под домашний арест гендиректора производителя косметики Mixit Олега",
+        "roots": [
+          "москвы",
+          "отправ",
+          "домашн",
+          "арест",
+          "гендир",
+          "произв",
+          "космет",
+          "mixit",
+          "олега"
+        ]
+      },
+      "expiresAt": 1792138860140
     }
   }
 }
