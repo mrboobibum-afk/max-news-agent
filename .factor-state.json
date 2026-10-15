@@ -17,37 +17,6 @@
       "value": 1792054232437,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"a32c23247773380f2b24dc111080e1b37c3dc3e758bd203acf6fa3bcbbe33362\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "a32c23247773380f2b24dc111080e1b37c3dc3e758bd203acf6fa3bcbbe33362"
-      ],
-      "value": true,
-      "expiresAt": 1792054313078
-    },
-    "[\"factor\",\"topic\",\"a32c23247773380f2b24dc111080e1b37c3dc3e758bd203acf6fa3bcbbe33362\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "a32c23247773380f2b24dc111080e1b37c3dc3e758bd203acf6fa3bcbbe33362"
-      ],
-      "value": {
-        "title": "Между Зеленским и мэром Киева Кличко растут разногласия на фоне неподготовленности Украины",
-        "roots": [
-          "между",
-          "зеленс",
-          "мэром",
-          "киева",
-          "кличко",
-          "растут",
-          "разног",
-          "неподг",
-          "украин"
-        ]
-      },
-      "expiresAt": 1792054313079
-    },
     "[\"factor\",\"pub\",\"fee7d84e5c64d3cf23b19c4e591615ec5ea935f50d23eb2bb38206d57d3c4fc7\"]": {
       "key": [
         "factor",
