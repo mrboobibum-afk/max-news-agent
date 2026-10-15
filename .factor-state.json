@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 238086,
+      "value": 605442,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,40 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792056036151,
+      "value": 1792056651884,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"593870bf7e6907fbae1662c47c67b42826b7a1d8abbbfe946c75767259abc311\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "593870bf7e6907fbae1662c47c67b42826b7a1d8abbbfe946c75767259abc311"
-      ],
-      "value": true,
-      "expiresAt": 1792056418073
-    },
-    "[\"factor\",\"topic\",\"593870bf7e6907fbae1662c47c67b42826b7a1d8abbbfe946c75767259abc311\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "593870bf7e6907fbae1662c47c67b42826b7a1d8abbbfe946c75767259abc311"
-      ],
-      "value": {
-        "title": "Японская компания NTT построит центр обработки данных для Anthropic, сообщила газета Nikke",
-        "roots": [
-          "японск",
-          "компан",
-          "постро",
-          "центр",
-          "обрабо",
-          "данных",
-          "anthro",
-          "сообщи",
-          "газета",
-          "nikke"
-        ]
-      },
-      "expiresAt": 1792056418075
     },
     "[\"factor\",\"pub\",\"36c883fd9491f6537901fb70ada4738d9f61a2e97860434817375420102eab4d\"]": {
       "key": [
@@ -2992,6 +2960,35 @@
         ]
       },
       "expiresAt": 1792142485693
+    },
+    "[\"factor\",\"pub\",\"ac20c7eb29415318956a26963cb249886cc79974d4a6fbb78498f3d926c7ddf6\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "ac20c7eb29415318956a26963cb249886cc79974d4a6fbb78498f3d926c7ddf6"
+      ],
+      "value": true,
+      "expiresAt": 1792143130319
+    },
+    "[\"factor\",\"topic\",\"ac20c7eb29415318956a26963cb249886cc79974d4a6fbb78498f3d926c7ddf6\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "ac20c7eb29415318956a26963cb249886cc79974d4a6fbb78498f3d926c7ddf6"
+      ],
+      "value": {
+        "title": "На территории НПЗ в Рязанской области началось возгорание в результате атаки БПЛА",
+        "roots": [
+          "террит",
+          "рязанс",
+          "област",
+          "начало",
+          "возгор",
+          "резуль",
+          "атаки"
+        ]
+      },
+      "expiresAt": 1792143130320
     }
   }
 }
