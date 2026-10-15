@@ -17,37 +17,6 @@
       "value": 1792036863217,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"99a298b31f3707181d68fd4a347ebf5a6a4a87cc92dbc9ea86f53c3ed6b2b515\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "99a298b31f3707181d68fd4a347ebf5a6a4a87cc92dbc9ea86f53c3ed6b2b515"
-      ],
-      "value": true,
-      "expiresAt": 1792036942194
-    },
-    "[\"factor\",\"topic\",\"99a298b31f3707181d68fd4a347ebf5a6a4a87cc92dbc9ea86f53c3ed6b2b515\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "99a298b31f3707181d68fd4a347ebf5a6a4a87cc92dbc9ea86f53c3ed6b2b515"
-      ],
-      "value": {
-        "title": "🚨 Число сбитых на подлете к Москве БПЛА достигло 75 с начала суток, следует из подсчетов ",
-        "roots": [
-          "число",
-          "сбитых",
-          "подлет",
-          "москве",
-          "достиг",
-          "начала",
-          "суток",
-          "следуе",
-          "подсче"
-        ]
-      },
-      "expiresAt": 1792036942195
-    },
     "[\"factor\",\"pub\",\"689b0cc3be4f3930d5e749c4dd584fba8ba6e447a6f9abe040f4ed31b78d09ad\"]": {
       "key": [
         "factor",
