@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 660503,
+      "value": 899489,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792093927336,
+      "value": 1792095035236,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"6cb4ec79837864b7cf00d66addf36dd02631b76e164cea2f7fb2f1c76e35e166\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "6cb4ec79837864b7cf00d66addf36dd02631b76e164cea2f7fb2f1c76e35e166"
-      ],
-      "value": true,
-      "expiresAt": 1792094498955
-    },
-    "[\"factor\",\"topic\",\"6cb4ec79837864b7cf00d66addf36dd02631b76e164cea2f7fb2f1c76e35e166\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "6cb4ec79837864b7cf00d66addf36dd02631b76e164cea2f7fb2f1c76e35e166"
-      ],
-      "value": {
-        "title": "Отмена отсрочек, призыв женщин, слом схем для уклонистов - на Украине готовятся к ужесточе",
-        "roots": [
-          "отмена",
-          "отсроч",
-          "призыв",
-          "женщин",
-          "уклони",
-          "украин",
-          "готовя",
-          "ужесто"
-        ]
-      },
-      "expiresAt": 1792094498956
     },
     "[\"factor\",\"pub\",\"388c4a65dbeb71d10ef328745d1681c70908d26f164b944d5f60a9ec52c8bd3a\"]": {
       "key": [
@@ -3001,6 +2971,35 @@
         ]
       },
       "expiresAt": 1792180391923
+    },
+    "[\"factor\",\"pub\",\"22c9d372dbde9018ade728bb4d2321e19b8815661277118291298cfab89ad598\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "22c9d372dbde9018ade728bb4d2321e19b8815661277118291298cfab89ad598"
+      ],
+      "value": true,
+      "expiresAt": 1792181473085
+    },
+    "[\"factor\",\"topic\",\"22c9d372dbde9018ade728bb4d2321e19b8815661277118291298cfab89ad598\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "22c9d372dbde9018ade728bb4d2321e19b8815661277118291298cfab89ad598"
+      ],
+      "value": {
+        "title": "Россия должна создать первую АЭС на Луне к середине следующего десятилетия, заявил Лихачев",
+        "roots": [
+          "должна",
+          "создат",
+          "первую",
+          "середи",
+          "следую",
+          "десяти",
+          "лихаче"
+        ]
+      },
+      "expiresAt": 1792181473086
     }
   }
 }
