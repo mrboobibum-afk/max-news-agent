@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 198621,
+      "value": 896411,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792104035587,
+      "value": 1792104633622,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"51779d36eff0dd91e59e02e163981e1526f3647fde8c128e3e68d6ca2a47437d\"]": {
@@ -2976,6 +2976,34 @@
         ]
       },
       "expiresAt": 1792190497860
+    },
+    "[\"factor\",\"pub\",\"4a2edb7b2779fd105d62d059d1e9a7e0ebe679a221b2d5e6e87533f09ff942a5\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4a2edb7b2779fd105d62d059d1e9a7e0ebe679a221b2d5e6e87533f09ff942a5"
+      ],
+      "value": true,
+      "expiresAt": 1792191070764
+    },
+    "[\"factor\",\"topic\",\"4a2edb7b2779fd105d62d059d1e9a7e0ebe679a221b2d5e6e87533f09ff942a5\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4a2edb7b2779fd105d62d059d1e9a7e0ebe679a221b2d5e6e87533f09ff942a5"
+      ],
+      "value": {
+        "title": "«Россети» подключили 195 вычислительных центров заявленной мощностью 2,4 ГВт, при этом еще",
+        "roots": [
+          "россет",
+          "подклю",
+          "вычисл",
+          "центро",
+          "заявле",
+          "мощнос"
+        ]
+      },
+      "expiresAt": 1792191070766
     }
   }
 }
