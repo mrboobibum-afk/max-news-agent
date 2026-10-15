@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 282798,
+      "value": 826461,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792084236568,
+      "value": 1792084835491,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"f44d9d27784aef5b682ad570da2325c08d3ffb1d170ab2a1635f50dc52b7f8fb\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "f44d9d27784aef5b682ad570da2325c08d3ffb1d170ab2a1635f50dc52b7f8fb"
-      ],
-      "value": true,
-      "expiresAt": 1792084643843
-    },
-    "[\"factor\",\"topic\",\"f44d9d27784aef5b682ad570da2325c08d3ffb1d170ab2a1635f50dc52b7f8fb\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "f44d9d27784aef5b682ad570da2325c08d3ffb1d170ab2a1635f50dc52b7f8fb"
-      ],
-      "value": {
-        "title": "❗️ Зеленский чувствует себя преданным после решения Трампа по дизельному соглашению с Росс",
-        "roots": [
-          "зеленс",
-          "чувств",
-          "предан",
-          "решени",
-          "трампа",
-          "дизель",
-          "соглаш"
-        ]
-      },
-      "expiresAt": 1792084643844
     },
     "[\"factor\",\"pub\",\"cf6022e7b1c9c0f2c55e69bfdc43ca50bd08f5d481db9388babdff874d34f419\"]": {
       "key": [
@@ -2962,6 +2933,34 @@
         ]
       },
       "expiresAt": 1792170691223
+    },
+    "[\"factor\",\"pub\",\"03ba04c57b6544f68bede38ef4512bcf69a170789cc7e67fc1ba5bbfb41b3f56\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "03ba04c57b6544f68bede38ef4512bcf69a170789cc7e67fc1ba5bbfb41b3f56"
+      ],
+      "value": true,
+      "expiresAt": 1792171283857
+    },
+    "[\"factor\",\"topic\",\"03ba04c57b6544f68bede38ef4512bcf69a170789cc7e67fc1ba5bbfb41b3f56\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "03ba04c57b6544f68bede38ef4512bcf69a170789cc7e67fc1ba5bbfb41b3f56"
+      ],
+      "value": {
+        "title": "Над регионами РФ в течение дня сбиты 80 украинских БПЛА, сообщает Минобороны",
+        "roots": [
+          "регион",
+          "течени",
+          "сбиты",
+          "украин",
+          "сообща",
+          "минобо"
+        ]
+      },
+      "expiresAt": 1792171283858
     }
   }
 }
