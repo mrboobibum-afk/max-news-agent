@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 446052,
+      "value": 411089,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792062069472,
+      "value": 1792062636289,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"9ae2a029e0986bb6cadf37cdfda801ee0e87d7b7f56a7dc4f7cfb15f0bd7c1b4\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "9ae2a029e0986bb6cadf37cdfda801ee0e87d7b7f56a7dc4f7cfb15f0bd7c1b4"
-      ],
-      "value": true,
-      "expiresAt": 1792062105715
-    },
-    "[\"factor\",\"topic\",\"9ae2a029e0986bb6cadf37cdfda801ee0e87d7b7f56a7dc4f7cfb15f0bd7c1b4\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "9ae2a029e0986bb6cadf37cdfda801ee0e87d7b7f56a7dc4f7cfb15f0bd7c1b4"
-      ],
-      "value": {
-        "title": "❗️ Приостановить выдачу лицензий частным вузам до уточнения законодательства и \"наведения ",
-        "roots": [
-          "приост",
-          "выдачу",
-          "лиценз",
-          "частны",
-          "вузам",
-          "уточне",
-          "законо",
-          "наведе"
-        ]
-      },
-      "expiresAt": 1792062105716
     },
     "[\"factor\",\"pub\",\"db784b0024778ac8fde9da39c6849775bb4ab66e33d40efaab158f04964e6576\"]": {
       "key": [
@@ -2933,6 +2903,35 @@
         ]
       },
       "expiresAt": 1792148498150
+    },
+    "[\"factor\",\"pub\",\"59aba211f9c73567b2dd4bf669054cdac4afa178471396794d34249c15e68ff3\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "59aba211f9c73567b2dd4bf669054cdac4afa178471396794d34249c15e68ff3"
+      ],
+      "value": true,
+      "expiresAt": 1792149094944
+    },
+    "[\"factor\",\"topic\",\"59aba211f9c73567b2dd4bf669054cdac4afa178471396794d34249c15e68ff3\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "59aba211f9c73567b2dd4bf669054cdac4afa178471396794d34249c15e68ff3"
+      ],
+      "value": {
+        "title": "▶️ РФ никаких официальных предложений не получала, заявил Лавров, комментируя информацию в",
+        "roots": [
+          "никаки",
+          "официа",
+          "предло",
+          "получа",
+          "лавров",
+          "коммен",
+          "информ"
+        ]
+      },
+      "expiresAt": 1792149094946
     }
   }
 }
