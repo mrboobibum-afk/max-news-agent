@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 472493,
+      "value": 337298,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792098065534,
+      "value": 1792098635686,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"531aaa7f5d856eb3ed1041296ba6f63308831555717ce1e9d1656392b09f06bc\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "531aaa7f5d856eb3ed1041296ba6f63308831555717ce1e9d1656392b09f06bc"
-      ],
-      "value": true,
-      "expiresAt": 1792098108985
-    },
-    "[\"factor\",\"topic\",\"531aaa7f5d856eb3ed1041296ba6f63308831555717ce1e9d1656392b09f06bc\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "531aaa7f5d856eb3ed1041296ba6f63308831555717ce1e9d1656392b09f06bc"
-      ],
-      "value": {
-        "title": "ФСБ задержала ректора Всероссийской академии внешней торговли Сергея Синельникова-Мурылева",
-        "roots": [
-          "задерж",
-          "ректор",
-          "всерос",
-          "академ",
-          "внешне",
-          "торгов",
-          "сергея",
-          "синель",
-          "мурыле"
-        ]
-      },
-      "expiresAt": 1792098108987
     },
     "[\"factor\",\"pub\",\"e2f94de14ee6a8f9ad5f0d3bf435294be2c921bb7935e3b9ba812e086446222e\"]": {
       "key": [
@@ -2996,6 +2965,35 @@
         ]
       },
       "expiresAt": 1792184494677
+    },
+    "[\"factor\",\"pub\",\"fd704a65525f731af5f0ce7011d2b127c6e3aeb6cb91ac39b0e8579ca444b8cb\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "fd704a65525f731af5f0ce7011d2b127c6e3aeb6cb91ac39b0e8579ca444b8cb"
+      ],
+      "value": true,
+      "expiresAt": 1792185458915
+    },
+    "[\"factor\",\"topic\",\"fd704a65525f731af5f0ce7011d2b127c6e3aeb6cb91ac39b0e8579ca444b8cb\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "fd704a65525f731af5f0ce7011d2b127c6e3aeb6cb91ac39b0e8579ca444b8cb"
+      ],
+      "value": {
+        "title": "Российская «дочка» коллектора EOS заявила о незаконной смене руководства",
+        "roots": [
+          "россий",
+          "дочка",
+          "коллек",
+          "заявил",
+          "незако",
+          "смене",
+          "руково"
+        ]
+      },
+      "expiresAt": 1792185458916
     }
   }
 }
