@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 628145,
+      "value": 764838,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792044065700,
+      "value": 1792045234103,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"357385c5fe2a60457a56bf20febc72232fff22c4632f2578d0c76eb59bf2384a\"]": {
@@ -3031,6 +3031,35 @@
         ]
       },
       "expiresAt": 1792130490365
+    },
+    "[\"factor\",\"pub\",\"e7184da954dcf61a06e2d4eb32e9f7d087bf252c2bf35992feab927899c22b07\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e7184da954dcf61a06e2d4eb32e9f7d087bf252c2bf35992feab927899c22b07"
+      ],
+      "value": true,
+      "expiresAt": 1792131655073
+    },
+    "[\"factor\",\"topic\",\"e7184da954dcf61a06e2d4eb32e9f7d087bf252c2bf35992feab927899c22b07\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e7184da954dcf61a06e2d4eb32e9f7d087bf252c2bf35992feab927899c22b07"
+      ],
+      "value": {
+        "title": "17 детей погибли в Пакистане – там обрушилась крыша школы, пишут СМИ",
+        "roots": [
+          "детей",
+          "погибл",
+          "пакист",
+          "обруши",
+          "крыша",
+          "школы",
+          "пишут"
+        ]
+      },
+      "expiresAt": 1792131655074
     }
   }
 }
