@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 870603,
+      "value": 350571,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792054232437,
+      "value": 1792055436299,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"fee7d84e5c64d3cf23b19c4e591615ec5ea935f50d23eb2bb38206d57d3c4fc7\"]": {
@@ -2964,6 +2964,35 @@
         ]
       },
       "expiresAt": 1792140661489
+    },
+    "[\"factor\",\"pub\",\"0565e8dde81ac2f50ca78dd9ae0e1f31a3cf9769d2afe2df72cda577886fa794\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "0565e8dde81ac2f50ca78dd9ae0e1f31a3cf9769d2afe2df72cda577886fa794"
+      ],
+      "value": true,
+      "expiresAt": 1792141867686
+    },
+    "[\"factor\",\"topic\",\"0565e8dde81ac2f50ca78dd9ae0e1f31a3cf9769d2afe2df72cda577886fa794\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "0565e8dde81ac2f50ca78dd9ae0e1f31a3cf9769d2afe2df72cda577886fa794"
+      ],
+      "value": {
+        "title": "❗️ ВС РФ установили контроль в Нефедовке и Черном Харьковской области, сообщает МО",
+        "roots": [
+          "устано",
+          "контро",
+          "нефедо",
+          "черном",
+          "харько",
+          "област",
+          "сообща"
+        ]
+      },
+      "expiresAt": 1792141867688
     }
   }
 }
