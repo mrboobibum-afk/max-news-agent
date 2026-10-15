@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 231005,
+      "value": 588251,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792092041314,
+      "value": 1792092654780,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"dc28dd09aaf568028c9e9466b39c311c8df3c3daaeac3a1f56a75ccc5bc3f47e\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "dc28dd09aaf568028c9e9466b39c311c8df3c3daaeac3a1f56a75ccc5bc3f47e"
-      ],
-      "value": true,
-      "expiresAt": 1792092154823
-    },
-    "[\"factor\",\"topic\",\"dc28dd09aaf568028c9e9466b39c311c8df3c3daaeac3a1f56a75ccc5bc3f47e\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "dc28dd09aaf568028c9e9466b39c311c8df3c3daaeac3a1f56a75ccc5bc3f47e"
-      ],
-      "value": {
-        "title": "↗️ Новые решения на основе боевого опыта: замминистра обороны РФ Анна Цивилева проверила п",
-        "roots": [
-          "новые",
-          "решени",
-          "основе",
-          "боевог",
-          "опыта",
-          "заммин",
-          "оборон",
-          "цивиле",
-          "провер"
-        ]
-      },
-      "expiresAt": 1792092154824
     },
     "[\"factor\",\"pub\",\"f86246e069a1aa278c7457140c570b07a10b2352dbebe5d264d1e680ef4b2e27\"]": {
       "key": [
@@ -3032,6 +3001,36 @@
         ]
       },
       "expiresAt": 1792178653863
+    },
+    "[\"factor\",\"pub\",\"19782e4d59d08144643e08935e566f4496d01bcba2f53dae1143967accf87474\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "19782e4d59d08144643e08935e566f4496d01bcba2f53dae1143967accf87474"
+      ],
+      "value": true,
+      "expiresAt": 1792179081377
+    },
+    "[\"factor\",\"topic\",\"19782e4d59d08144643e08935e566f4496d01bcba2f53dae1143967accf87474\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "19782e4d59d08144643e08935e566f4496d01bcba2f53dae1143967accf87474"
+      ],
+      "value": {
+        "title": "\"Мой девиз: невозможное возможно \" Общественница из Донецка Ольга Волкова уже почти 30 лет",
+        "roots": [
+          "девиз",
+          "невозм",
+          "возмож",
+          "общест",
+          "донецк",
+          "ольга",
+          "волков",
+          "почти"
+        ]
+      },
+      "expiresAt": 1792179081378
     }
   }
 }
