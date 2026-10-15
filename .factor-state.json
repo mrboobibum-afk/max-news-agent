@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 811298,
+      "value": 712358,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,33 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792035630072,
+      "value": 1792036863217,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"9009481869938de0c4339b1c78afdba9a6070c5e8e9b8a91af73a6608206ca06\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "9009481869938de0c4339b1c78afdba9a6070c5e8e9b8a91af73a6608206ca06"
-      ],
-      "value": true,
-      "expiresAt": 1792036255732
-    },
-    "[\"factor\",\"topic\",\"9009481869938de0c4339b1c78afdba9a6070c5e8e9b8a91af73a6608206ca06\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "9009481869938de0c4339b1c78afdba9a6070c5e8e9b8a91af73a6608206ca06"
-      ],
-      "value": {
-        "title": "Взрывы гремят в Киеве",
-        "roots": [
-          "взрывы",
-          "гремят",
-          "киеве"
-        ]
-      },
-      "expiresAt": 1792036255733
     },
     "[\"factor\",\"pub\",\"99a298b31f3707181d68fd4a347ebf5a6a4a87cc92dbc9ea86f53c3ed6b2b515\"]": {
       "key": [
@@ -2974,6 +2949,30 @@
         ]
       },
       "expiresAt": 1792122084644
+    },
+    "[\"factor\",\"pub\",\"7f84f7f5d8fc453b2d2fe6993e8626cf964529d3b9fe7a8cb0e4782aebfd6516\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "7f84f7f5d8fc453b2d2fe6993e8626cf964529d3b9fe7a8cb0e4782aebfd6516"
+      ],
+      "value": true,
+      "expiresAt": 1792123298874
+    },
+    "[\"factor\",\"topic\",\"7f84f7f5d8fc453b2d2fe6993e8626cf964529d3b9fe7a8cb0e4782aebfd6516\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "7f84f7f5d8fc453b2d2fe6993e8626cf964529d3b9fe7a8cb0e4782aebfd6516"
+      ],
+      "value": {
+        "title": "\"И так бойня продолжится",
+        "roots": [
+          "бойня",
+          "продол"
+        ]
+      },
+      "expiresAt": 1792123298875
     }
   }
 }
