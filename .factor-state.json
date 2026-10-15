@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 591069,
+      "value": 272903,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792034434143,
+      "value": 1792035051535,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"e510a445d5e9ea6d5a7cd22218ab58acd6da226fd17308c900d09efeeba7c67a\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "e510a445d5e9ea6d5a7cd22218ab58acd6da226fd17308c900d09efeeba7c67a"
-      ],
-      "value": true,
-      "expiresAt": 1792034477085
-    },
-    "[\"factor\",\"topic\",\"e510a445d5e9ea6d5a7cd22218ab58acd6da226fd17308c900d09efeeba7c67a\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "e510a445d5e9ea6d5a7cd22218ab58acd6da226fd17308c900d09efeeba7c67a"
-      ],
-      "value": {
-        "title": "Объем торговли между Китаем и Россией в январе — сентябре увеличился на 30,6% в годовом ис",
-        "roots": [
-          "объем",
-          "торгов",
-          "между",
-          "китаем",
-          "россие",
-          "январе",
-          "сентяб",
-          "увелич",
-          "годово"
-        ]
-      },
-      "expiresAt": 1792034477086
     },
     "[\"factor\",\"pub\",\"e9897d0956da668d35179e3e10a76de77f89f35915b9d7816453e88ba1d69595\"]": {
       "key": [
@@ -2979,6 +2948,34 @@
         ]
       },
       "expiresAt": 1792120873857
+    },
+    "[\"factor\",\"pub\",\"02f94ad899c3648ebfe82a8c9ea1ae4f198a3978e3a1565725525aedb9f48729\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "02f94ad899c3648ebfe82a8c9ea1ae4f198a3978e3a1565725525aedb9f48729"
+      ],
+      "value": true,
+      "expiresAt": 1792121467781
+    },
+    "[\"factor\",\"topic\",\"02f94ad899c3648ebfe82a8c9ea1ae4f198a3978e3a1565725525aedb9f48729\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "02f94ad899c3648ebfe82a8c9ea1ae4f198a3978e3a1565725525aedb9f48729"
+      ],
+      "value": {
+        "title": "Прививки, которые нужно делать взрослым, назвала врач",
+        "roots": [
+          "привив",
+          "которы",
+          "нужно",
+          "делать",
+          "взросл",
+          "назвал"
+        ]
+      },
+      "expiresAt": 1792121467783
     }
   }
 }
