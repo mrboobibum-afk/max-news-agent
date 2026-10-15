@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 436943,
+      "value": 629380,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792087268974,
+      "value": 1792087837010,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"56076c8dd708dc36cefe273138a34df99c48b220ead0fc01d107026ee79c02a3\"]": {
@@ -2939,6 +2939,36 @@
         ]
       },
       "expiresAt": 1792173706614
+    },
+    "[\"factor\",\"pub\",\"dd2f8d0dd63ac6ed396abcbe8fcbd8a21c811b1ebc16655a31933b7b8cf235db\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "dd2f8d0dd63ac6ed396abcbe8fcbd8a21c811b1ebc16655a31933b7b8cf235db"
+      ],
+      "value": true,
+      "expiresAt": 1792174446738
+    },
+    "[\"factor\",\"topic\",\"dd2f8d0dd63ac6ed396abcbe8fcbd8a21c811b1ebc16655a31933b7b8cf235db\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "dd2f8d0dd63ac6ed396abcbe8fcbd8a21c811b1ebc16655a31933b7b8cf235db"
+      ],
+      "value": {
+        "title": "Радужный путь в Европу: Зеленский включил защиту прав ЛГБТ* в стратегию вступления Украины",
+        "roots": [
+          "радужн",
+          "европу",
+          "зеленс",
+          "включи",
+          "защиту",
+          "страте",
+          "вступл",
+          "украин"
+        ]
+      },
+      "expiresAt": 1792174446740
     }
   }
 }
