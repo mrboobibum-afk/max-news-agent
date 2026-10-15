@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 566825,
+      "value": 692166,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792105832705,
+      "value": 1792106434917,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"a8b23d559a3717a75d9e97afdc4553bff46e7f0ee4b388920b3b98bb4f6cb797\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "a8b23d559a3717a75d9e97afdc4553bff46e7f0ee4b388920b3b98bb4f6cb797"
-      ],
-      "value": true,
-      "expiresAt": 1792105868394
-    },
-    "[\"factor\",\"topic\",\"a8b23d559a3717a75d9e97afdc4553bff46e7f0ee4b388920b3b98bb4f6cb797\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "a8b23d559a3717a75d9e97afdc4553bff46e7f0ee4b388920b3b98bb4f6cb797"
-      ],
-      "value": {
-        "title": "▶️ Маткапитал необходимо позволить использовать на покупку семейных авто отечественного пр",
-        "roots": [
-          "маткап",
-          "необхо",
-          "позвол",
-          "исполь",
-          "покупк",
-          "семейн",
-          "отечес"
-        ]
-      },
-      "expiresAt": 1792105868395
     },
     "[\"factor\",\"pub\",\"fad28a35f3693967aa9e5d11c9340d42360aa9f3708bb0b055ad848cb287b334\"]": {
       "key": [
@@ -2975,6 +2946,33 @@
         ]
       },
       "expiresAt": 1792192275240
+    },
+    "[\"factor\",\"pub\",\"f003984526d0e58db74e107c9cc8c2bb568c61f12745a710639dd0ee5c678c37\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "f003984526d0e58db74e107c9cc8c2bb568c61f12745a710639dd0ee5c678c37"
+      ],
+      "value": true,
+      "expiresAt": 1792193081796
+    },
+    "[\"factor\",\"topic\",\"f003984526d0e58db74e107c9cc8c2bb568c61f12745a710639dd0ee5c678c37\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "f003984526d0e58db74e107c9cc8c2bb568c61f12745a710639dd0ee5c678c37"
+      ],
+      "value": {
+        "title": "Cтрельба в школе: Убиты три ребенка и взрослый",
+        "roots": [
+          "cтрель",
+          "школе",
+          "убиты",
+          "ребенк",
+          "взросл"
+        ]
+      },
+      "expiresAt": 1792193081797
     }
   }
 }
