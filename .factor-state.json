@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 272903,
+      "value": 811298,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792035051535,
+      "value": 1792035630072,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"e9897d0956da668d35179e3e10a76de77f89f35915b9d7816453e88ba1d69595\"]": {
@@ -2976,6 +2976,34 @@
         ]
       },
       "expiresAt": 1792121467783
+    },
+    "[\"factor\",\"pub\",\"2b4b0c70b2305f73d180f9051e91a869a40b20ff327b9c1f0a5acee8ee1db4bf\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "2b4b0c70b2305f73d180f9051e91a869a40b20ff327b9c1f0a5acee8ee1db4bf"
+      ],
+      "value": true,
+      "expiresAt": 1792122084642
+    },
+    "[\"factor\",\"topic\",\"2b4b0c70b2305f73d180f9051e91a869a40b20ff327b9c1f0a5acee8ee1db4bf\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "2b4b0c70b2305f73d180f9051e91a869a40b20ff327b9c1f0a5acee8ee1db4bf"
+      ],
+      "value": {
+        "title": "Киев с 1 января принудительно вывез с подконтрольной территории ДНР более 13,5 тыс",
+        "roots": [
+          "января",
+          "принуд",
+          "вывез",
+          "подкон",
+          "террит",
+          "более"
+        ]
+      },
+      "expiresAt": 1792122084644
     }
   }
 }
