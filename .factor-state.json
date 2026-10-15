@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 740877,
+      "value": 792876,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792076471614,
+      "value": 1792077637205,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"7ef04182f9c77042332dacad4bae09e02405c1dd64299d5e4ea9e23ae58db7c3\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "7ef04182f9c77042332dacad4bae09e02405c1dd64299d5e4ea9e23ae58db7c3"
-      ],
-      "value": true,
-      "expiresAt": 1792077104276
-    },
-    "[\"factor\",\"topic\",\"7ef04182f9c77042332dacad4bae09e02405c1dd64299d5e4ea9e23ae58db7c3\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "7ef04182f9c77042332dacad4bae09e02405c1dd64299d5e4ea9e23ae58db7c3"
-      ],
-      "value": {
-        "title": "Россия выигрывает технологическую гонку вооружений у Украины , пишет газета The Daily Tele",
-        "roots": [
-          "выигры",
-          "технол",
-          "гонку",
-          "вооруж",
-          "украин",
-          "пишет",
-          "газета",
-          "daily"
-        ]
-      },
-      "expiresAt": 1792077104277
     },
     "[\"factor\",\"pub\",\"2e874d055f13fe845a12183f1a85378a28a2a09856821b4a4f9786c25a007d5a\"]": {
       "key": [
@@ -2960,6 +2930,35 @@
         ]
       },
       "expiresAt": 1792162892229
+    },
+    "[\"factor\",\"pub\",\"442a60b455a7e89d3f4f1d018cca5822a015f56d502bb2979d93002693c7f2d3\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "442a60b455a7e89d3f4f1d018cca5822a015f56d502bb2979d93002693c7f2d3"
+      ],
+      "value": true,
+      "expiresAt": 1792164083833
+    },
+    "[\"factor\",\"topic\",\"442a60b455a7e89d3f4f1d018cca5822a015f56d502bb2979d93002693c7f2d3\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "442a60b455a7e89d3f4f1d018cca5822a015f56d502bb2979d93002693c7f2d3"
+      ],
+      "value": {
+        "title": "Мадуро и его супруге предъявлены обвинения в сговоре с целью пыток",
+        "roots": [
+          "мадуро",
+          "супруг",
+          "предъя",
+          "обвине",
+          "сговор",
+          "целью",
+          "пыток"
+        ]
+      },
+      "expiresAt": 1792164083834
     }
   }
 }
