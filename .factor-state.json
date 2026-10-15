@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 796768,
+      "value": 745614,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792069836963,
+      "value": 1792071055507,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"078e88c8a4649b9ef28a2b420e65e7c9efd52d0639c761f27c8808c864c7e2c1\"]": {
@@ -2903,6 +2903,36 @@
         ]
       },
       "expiresAt": 1792156268089
+    },
+    "[\"factor\",\"pub\",\"9384eedf6935bf1bd05dcc09ea8faffd0131fc55bed29fe78d0ecd511e08e61c\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "9384eedf6935bf1bd05dcc09ea8faffd0131fc55bed29fe78d0ecd511e08e61c"
+      ],
+      "value": true,
+      "expiresAt": 1792157495746
+    },
+    "[\"factor\",\"topic\",\"9384eedf6935bf1bd05dcc09ea8faffd0131fc55bed29fe78d0ecd511e08e61c\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "9384eedf6935bf1bd05dcc09ea8faffd0131fc55bed29fe78d0ecd511e08e61c"
+      ],
+      "value": {
+        "title": "Россия и Соединенные Штаты могли бы создать канал взаимодействия по спортивным вопросам, з",
+        "roots": [
+          "соедин",
+          "штаты",
+          "могли",
+          "создат",
+          "канал",
+          "взаимо",
+          "спорти",
+          "вопрос"
+        ]
+      },
+      "expiresAt": 1792157495747
     }
   }
 }
