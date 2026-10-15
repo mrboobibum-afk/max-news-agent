@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 337298,
+      "value": 561957,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792098635686,
+      "value": 1792099233323,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"e2f94de14ee6a8f9ad5f0d3bf435294be2c921bb7935e3b9ba812e086446222e\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "e2f94de14ee6a8f9ad5f0d3bf435294be2c921bb7935e3b9ba812e086446222e"
-      ],
-      "value": true,
-      "expiresAt": 1792098688277
-    },
-    "[\"factor\",\"topic\",\"e2f94de14ee6a8f9ad5f0d3bf435294be2c921bb7935e3b9ba812e086446222e\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "e2f94de14ee6a8f9ad5f0d3bf435294be2c921bb7935e3b9ba812e086446222e"
-      ],
-      "value": {
-        "title": "Картина Василия Кандинского «Красочная жизнь» (Das bunte Leben, 1907) продана на торгах Ch",
-        "roots": [
-          "картин",
-          "васили",
-          "кандин",
-          "красоч",
-          "жизнь",
-          "bunte",
-          "leben",
-          "продан",
-          "торгах"
-        ]
-      },
-      "expiresAt": 1792098688278
     },
     "[\"factor\",\"pub\",\"320e333f6657f712df9ab8bbee3396f31fc2087db947f6390c9e1519f92d73e4\"]": {
       "key": [
@@ -2994,6 +2963,36 @@
         ]
       },
       "expiresAt": 1792185458916
+    },
+    "[\"factor\",\"pub\",\"2872d4707862ed2304ec96b03fea899418adfecaf59e731427afa6cdee0513c7\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "2872d4707862ed2304ec96b03fea899418adfecaf59e731427afa6cdee0513c7"
+      ],
+      "value": true,
+      "expiresAt": 1792185757376
+    },
+    "[\"factor\",\"topic\",\"2872d4707862ed2304ec96b03fea899418adfecaf59e731427afa6cdee0513c7\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "2872d4707862ed2304ec96b03fea899418adfecaf59e731427afa6cdee0513c7"
+      ],
+      "value": {
+        "title": "❗️ Свыше 50% россиян оценивают состояние дорог как хорошее, сообщил министр транспорта Анд",
+        "roots": [
+          "свыше",
+          "россия",
+          "оценив",
+          "состоя",
+          "дорог",
+          "хороше",
+          "минист",
+          "трансп"
+        ]
+      },
+      "expiresAt": 1792185757377
     }
   }
 }
