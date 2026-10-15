@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 582992,
+      "value": 655456,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792029668932,
+      "value": 1792030831809,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"4e672bbccbddec4fe38dfe4930df0e710462e3d2a9bfc74d476871b3db715a82\"]": {
@@ -2959,6 +2959,36 @@
         ]
       },
       "expiresAt": 1792116306495
+    },
+    "[\"factor\",\"pub\",\"12c6a7ffe1529686bb5dde7b4e8df02294dced45d8f4451f5f8be29c2a5b7bf4\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "12c6a7ffe1529686bb5dde7b4e8df02294dced45d8f4451f5f8be29c2a5b7bf4"
+      ],
+      "value": true,
+      "expiresAt": 1792117261409
+    },
+    "[\"factor\",\"topic\",\"12c6a7ffe1529686bb5dde7b4e8df02294dced45d8f4451f5f8be29c2a5b7bf4\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "12c6a7ffe1529686bb5dde7b4e8df02294dced45d8f4451f5f8be29c2a5b7bf4"
+      ],
+      "value": {
+        "title": "Личности всех 14 погибших в Кубринске Ярославской области, где накануне произошел пожар, у",
+        "roots": [
+          "личнос",
+          "погибш",
+          "кубрин",
+          "яросла",
+          "област",
+          "накану",
+          "произо",
+          "пожар"
+        ]
+      },
+      "expiresAt": 1792117261410
     }
   }
 }
