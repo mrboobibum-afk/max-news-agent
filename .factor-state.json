@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 494262,
+      "value": 420035,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792066835632,
+      "value": 1792067455757,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"ff6ebeb9d495517053a86f3b2b57b32bceb6671879ed54c869a83dee6a2fac3d\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "ff6ebeb9d495517053a86f3b2b57b32bceb6671879ed54c869a83dee6a2fac3d"
-      ],
-      "value": true,
-      "expiresAt": 1792066858624
-    },
-    "[\"factor\",\"topic\",\"ff6ebeb9d495517053a86f3b2b57b32bceb6671879ed54c869a83dee6a2fac3d\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "ff6ebeb9d495517053a86f3b2b57b32bceb6671879ed54c869a83dee6a2fac3d"
-      ],
-      "value": {
-        "title": "Принятие Украины в ЕС равносильно харакири для блока, заявила Ле Пен",
-        "roots": [
-          "принят",
-          "украин",
-          "равнос",
-          "хараки",
-          "блока",
-          "заявил"
-        ]
-      },
-      "expiresAt": 1792066858626
     },
     "[\"factor\",\"pub\",\"e97f21025535da5b077bfe1401861cb5717de6f6c7d1cb9a608e0ddf5ffeeee2\"]": {
       "key": [
@@ -2934,6 +2906,37 @@
         ]
       },
       "expiresAt": 1792153285819
+    },
+    "[\"factor\",\"pub\",\"2bb73c25bfd9ffe1fc9b5fa40945fdd3e87d1d6890f20d34e50fbbe78739c94b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "2bb73c25bfd9ffe1fc9b5fa40945fdd3e87d1d6890f20d34e50fbbe78739c94b"
+      ],
+      "value": true,
+      "expiresAt": 1792153878983
+    },
+    "[\"factor\",\"topic\",\"2bb73c25bfd9ffe1fc9b5fa40945fdd3e87d1d6890f20d34e50fbbe78739c94b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "2bb73c25bfd9ffe1fc9b5fa40945fdd3e87d1d6890f20d34e50fbbe78739c94b"
+      ],
+      "value": {
+        "title": "Ошибки в разговорной речи не должны становиться нормой русского языка, заявила Ямпольская",
+        "roots": [
+          "ошибки",
+          "разгов",
+          "должны",
+          "станов",
+          "нормой",
+          "русско",
+          "языка",
+          "заявил",
+          "ямполь"
+        ]
+      },
+      "expiresAt": 1792153878984
     }
   }
 }
