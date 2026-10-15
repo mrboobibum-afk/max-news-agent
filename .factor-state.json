@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 646523,
+      "value": 740877,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792075236233,
+      "value": 1792076471614,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"00b57be75ab4efeb72ff33233f8d08b17f7a30928b25f2b2462bbab6fd8b6f75\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "00b57be75ab4efeb72ff33233f8d08b17f7a30928b25f2b2462bbab6fd8b6f75"
-      ],
-      "value": true,
-      "expiresAt": 1792075875528
-    },
-    "[\"factor\",\"topic\",\"00b57be75ab4efeb72ff33233f8d08b17f7a30928b25f2b2462bbab6fd8b6f75\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "00b57be75ab4efeb72ff33233f8d08b17f7a30928b25f2b2462bbab6fd8b6f75"
-      ],
-      "value": {
-        "title": "Папе Римскому после удаления части легкого пока не предписана химио- или радиотерапия для ",
-        "roots": [
-          "римско",
-          "удален",
-          "части",
-          "легког",
-          "предпи",
-          "химио",
-          "радиот"
-        ]
-      },
-      "expiresAt": 1792075875529
     },
     "[\"factor\",\"pub\",\"7ef04182f9c77042332dacad4bae09e02405c1dd64299d5e4ea9e23ae58db7c3\"]": {
       "key": [
@@ -2961,6 +2932,34 @@
         ]
       },
       "expiresAt": 1792161681792
+    },
+    "[\"factor\",\"pub\",\"8111467ed6cb39f87bc1a5148fbc654d9e063d1f22993e75ef42ae05156338b1\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "8111467ed6cb39f87bc1a5148fbc654d9e063d1f22993e75ef42ae05156338b1"
+      ],
+      "value": true,
+      "expiresAt": 1792162892228
+    },
+    "[\"factor\",\"topic\",\"8111467ed6cb39f87bc1a5148fbc654d9e063d1f22993e75ef42ae05156338b1\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "8111467ed6cb39f87bc1a5148fbc654d9e063d1f22993e75ef42ae05156338b1"
+      ],
+      "value": {
+        "title": "У Украины закончились ракеты для систем ПВО Patriot, утверждает CNN",
+        "roots": [
+          "украин",
+          "законч",
+          "ракеты",
+          "систем",
+          "patrio",
+          "утверж"
+        ]
+      },
+      "expiresAt": 1792162892229
     }
   }
 }
