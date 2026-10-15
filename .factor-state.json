@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 376601,
+      "value": 225534,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792032030960,
+      "value": 1792032636350,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"4de91cd57d9a505157e3928d0880952757af3850f0615ba82d55aa205a0d1ed2\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "4de91cd57d9a505157e3928d0880952757af3850f0615ba82d55aa205a0d1ed2"
-      ],
-      "value": true,
-      "expiresAt": 1792032054604
-    },
-    "[\"factor\",\"topic\",\"4de91cd57d9a505157e3928d0880952757af3850f0615ba82d55aa205a0d1ed2\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "4de91cd57d9a505157e3928d0880952757af3850f0615ba82d55aa205a0d1ed2"
-      ],
-      "value": {
-        "title": "8 миллионов россиян с астмой не знают о своем диагнозе, рассказал врач",
-        "roots": [
-          "миллио",
-          "россия",
-          "астмой",
-          "знают",
-          "своем",
-          "диагно"
-        ]
-      },
-      "expiresAt": 1792032054605
     },
     "[\"factor\",\"pub\",\"641407a9d3a9b6a43230339502a65958a39bf7b3b4e80a55c6aeafb424a67fb7\"]": {
       "key": [
@@ -2980,6 +2952,35 @@
         ]
       },
       "expiresAt": 1792118490589
+    },
+    "[\"factor\",\"pub\",\"952dd2c63ca2efb3953b63cb7c401690978abfbc03b1f3ba6f3c08e960217c14\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "952dd2c63ca2efb3953b63cb7c401690978abfbc03b1f3ba6f3c08e960217c14"
+      ],
+      "value": true,
+      "expiresAt": 1792119080477
+    },
+    "[\"factor\",\"topic\",\"952dd2c63ca2efb3953b63cb7c401690978abfbc03b1f3ba6f3c08e960217c14\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "952dd2c63ca2efb3953b63cb7c401690978abfbc03b1f3ba6f3c08e960217c14"
+      ],
+      "value": {
+        "title": "📹 В МО РФ рассказали о работе военной комендатуры по эвакуации жителей Красноармейска и д",
+        "roots": [
+          "расска",
+          "работе",
+          "военно",
+          "коменд",
+          "эвакуа",
+          "жителе",
+          "красно"
+        ]
+      },
+      "expiresAt": 1792119080478
     }
   }
 }
