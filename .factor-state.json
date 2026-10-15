@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 712358,
+      "value": 317897,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792036863217,
+      "value": 1792038032421,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"689b0cc3be4f3930d5e749c4dd584fba8ba6e447a6f9abe040f4ed31b78d09ad\"]": {
@@ -2942,6 +2942,34 @@
         ]
       },
       "expiresAt": 1792123298875
+    },
+    "[\"factor\",\"pub\",\"2a7a782a5acccd18d483225b35fa531191436f2e1b7e5ae0554b95c245e63c26\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "2a7a782a5acccd18d483225b35fa531191436f2e1b7e5ae0554b95c245e63c26"
+      ],
+      "value": true,
+      "expiresAt": 1792124468441
+    },
+    "[\"factor\",\"topic\",\"2a7a782a5acccd18d483225b35fa531191436f2e1b7e5ae0554b95c245e63c26\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "2a7a782a5acccd18d483225b35fa531191436f2e1b7e5ae0554b95c245e63c26"
+      ],
+      "value": {
+        "title": "Москва ранее уже заявляла Токио о недопустимости разведдеятельности под журналистским прик",
+        "roots": [
+          "ранее",
+          "заявля",
+          "токио",
+          "недопу",
+          "развед",
+          "журнал"
+        ]
+      },
+      "expiresAt": 1792124468443
     }
   }
 }
