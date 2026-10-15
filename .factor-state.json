@@ -17,33 +17,6 @@
       "value": 1792021834189,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"4dfa1dda1d877624cb70c9631135c67a941ee9d60e850d0694a8934eaa9050d0\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "4dfa1dda1d877624cb70c9631135c67a941ee9d60e850d0694a8934eaa9050d0"
-      ],
-      "value": true,
-      "expiresAt": 1792021897568
-    },
-    "[\"factor\",\"topic\",\"4dfa1dda1d877624cb70c9631135c67a941ee9d60e850d0694a8934eaa9050d0\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "4dfa1dda1d877624cb70c9631135c67a941ee9d60e850d0694a8934eaa9050d0"
-      ],
-      "value": {
-        "title": "⚡️ ВС РФ освободили Никольское в Запорожской области, сообщает МО",
-        "roots": [
-          "освобо",
-          "николь",
-          "запоро",
-          "област",
-          "сообща"
-        ]
-      },
-      "expiresAt": 1792021897569
-    },
     "[\"factor\",\"pub\",\"b3446fe69d46c7c0792153681ee0a50685cbb8e822689d9deb46ce80aa054ef8\"]": {
       "key": [
         "factor",
