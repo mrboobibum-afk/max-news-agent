@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 896411,
+      "value": 566825,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,35 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792104633622,
+      "value": 1792105832705,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"31e5f591fbc6bbf6f532df99667cd2ecd11de192a590ea8728579590da90a7e6\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "31e5f591fbc6bbf6f532df99667cd2ecd11de192a590ea8728579590da90a7e6"
-      ],
-      "value": true,
-      "expiresAt": 1792105476432
-    },
-    "[\"factor\",\"topic\",\"31e5f591fbc6bbf6f532df99667cd2ecd11de192a590ea8728579590da90a7e6\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "31e5f591fbc6bbf6f532df99667cd2ecd11de192a590ea8728579590da90a7e6"
-      ],
-      "value": {
-        "title": "В МИД РФ оценили кредитную политику ЕС в отношении Молдавии",
-        "roots": [
-          "оценил",
-          "кредит",
-          "полити",
-          "отноше",
-          "молдав"
-        ]
-      },
-      "expiresAt": 1792105476433
     },
     "[\"factor\",\"pub\",\"a8b23d559a3717a75d9e97afdc4553bff46e7f0ee4b388920b3b98bb4f6cb797\"]": {
       "key": [
@@ -2973,6 +2946,35 @@
         ]
       },
       "expiresAt": 1792191070766
+    },
+    "[\"factor\",\"pub\",\"12e36e143fc6d0346e6eef2ccc0b156be08cccc1d8ae94125a836ee95fb07648\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "12e36e143fc6d0346e6eef2ccc0b156be08cccc1d8ae94125a836ee95fb07648"
+      ],
+      "value": true,
+      "expiresAt": 1792192275239
+    },
+    "[\"factor\",\"topic\",\"12e36e143fc6d0346e6eef2ccc0b156be08cccc1d8ae94125a836ee95fb07648\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "12e36e143fc6d0346e6eef2ccc0b156be08cccc1d8ae94125a836ee95fb07648"
+      ],
+      "value": {
+        "title": "Россия и США пока не ведут переговоров о продлении лицензии на поставку дизеля на сроки по",
+        "roots": [
+          "ведут",
+          "перего",
+          "продле",
+          "лиценз",
+          "постав",
+          "дизеля",
+          "сроки"
+        ]
+      },
+      "expiresAt": 1792192275240
     }
   }
 }
