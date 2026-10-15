@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 839724,
+      "value": 287101,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792057834117,
+      "value": 1792059033425,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"1e82f4bc403494656fee75c0b2651b48abcbd26b00c8ae299db035404621779e\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "1e82f4bc403494656fee75c0b2651b48abcbd26b00c8ae299db035404621779e"
-      ],
-      "value": true,
-      "expiresAt": 1792058487399
-    },
-    "[\"factor\",\"topic\",\"1e82f4bc403494656fee75c0b2651b48abcbd26b00c8ae299db035404621779e\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "1e82f4bc403494656fee75c0b2651b48abcbd26b00c8ae299db035404621779e"
-      ],
-      "value": {
-        "title": "Метро полностью остановилось в Киеве – не работает ни одна ветка, пишут местные СМИ",
-        "roots": [
-          "метро",
-          "полнос",
-          "остано",
-          "киеве",
-          "работа",
-          "ветка",
-          "пишут",
-          "местны"
-        ]
-      },
-      "expiresAt": 1792058487400
     },
     "[\"factor\",\"pub\",\"ad971e7516c74181a6003d5d11dba46e1d274d0de1595ec0143e9b5e2defbc23\"]": {
       "key": [
@@ -2927,6 +2897,37 @@
         ]
       },
       "expiresAt": 1792144290517
+    },
+    "[\"factor\",\"pub\",\"ac55eec1a8c5d51d978f93e2e8374acf083a7451f4d453aa154284f995b2c4ee\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "ac55eec1a8c5d51d978f93e2e8374acf083a7451f4d453aa154284f995b2c4ee"
+      ],
+      "value": true,
+      "expiresAt": 1792145510719
+    },
+    "[\"factor\",\"topic\",\"ac55eec1a8c5d51d978f93e2e8374acf083a7451f4d453aa154284f995b2c4ee\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "ac55eec1a8c5d51d978f93e2e8374acf083a7451f4d453aa154284f995b2c4ee"
+      ],
+      "value": {
+        "title": "Песков не стал раскрывать страны, которые изъявляли желание вслед за США купить российское",
+        "roots": [
+          "песков",
+          "раскры",
+          "страны",
+          "которы",
+          "изъявл",
+          "желани",
+          "вслед",
+          "купить",
+          "россий"
+        ]
+      },
+      "expiresAt": 1792145510720
     }
   }
 }
