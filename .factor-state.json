@@ -17,35 +17,6 @@
       "value": 1792025435229,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"cc2ce21f9ea914e19245c557c1fa337bf45e15a94499c3f0f348510ab9544d9e\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "cc2ce21f9ea914e19245c557c1fa337bf45e15a94499c3f0f348510ab9544d9e"
-      ],
-      "value": true,
-      "expiresAt": 1792025494235
-    },
-    "[\"factor\",\"topic\",\"cc2ce21f9ea914e19245c557c1fa337bf45e15a94499c3f0f348510ab9544d9e\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "cc2ce21f9ea914e19245c557c1fa337bf45e15a94499c3f0f348510ab9544d9e"
-      ],
-      "value": {
-        "title": "Украинский закон об образовательных правах нацменьшинств — ничто иное, как акт избирательн",
-        "roots": [
-          "украин",
-          "закон",
-          "образо",
-          "правах",
-          "нацмен",
-          "ничто",
-          "избира"
-        ]
-      },
-      "expiresAt": 1792025494237
-    },
     "[\"factor\",\"pub\",\"a5812ef97c28992d086f5ed68ae50f6adf90fe2e8e3c6ed96137ba34ceaf3852\"]": {
       "key": [
         "factor",
