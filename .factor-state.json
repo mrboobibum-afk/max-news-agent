@@ -17,36 +17,6 @@
       "value": 1792064438841,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"4afcf3ee6455fe6b49ece52a4e7b136beee5c106da86d1830611c84de79cbd48\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "4afcf3ee6455fe6b49ece52a4e7b136beee5c106da86d1830611c84de79cbd48"
-      ],
-      "value": true,
-      "expiresAt": 1792064456957
-    },
-    "[\"factor\",\"topic\",\"4afcf3ee6455fe6b49ece52a4e7b136beee5c106da86d1830611c84de79cbd48\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "4afcf3ee6455fe6b49ece52a4e7b136beee5c106da86d1830611c84de79cbd48"
-      ],
-      "value": {
-        "title": "\"Зеленая вошь возмущена\" Без разведданных США Зеленский слепнет, мечется и паникует, заяви",
-        "roots": [
-          "зелена",
-          "возмущ",
-          "развед",
-          "зеленс",
-          "слепне",
-          "мечетс",
-          "панику",
-          "заяви"
-        ]
-      },
-      "expiresAt": 1792064456958
-    },
     "[\"factor\",\"pub\",\"05f7299e6d3044879cf75bf48414f915a956114d380d742f16e1687a60f69cb3\"]": {
       "key": [
         "factor",
