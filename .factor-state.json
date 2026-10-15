@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 899489,
+      "value": 394188,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792095035236,
+      "value": 1792096255338,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"388c4a65dbeb71d10ef328745d1681c70908d26f164b944d5f60a9ec52c8bd3a\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "388c4a65dbeb71d10ef328745d1681c70908d26f164b944d5f60a9ec52c8bd3a"
-      ],
-      "value": true,
-      "expiresAt": 1792095678922
-    },
-    "[\"factor\",\"topic\",\"388c4a65dbeb71d10ef328745d1681c70908d26f164b944d5f60a9ec52c8bd3a\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "388c4a65dbeb71d10ef328745d1681c70908d26f164b944d5f60a9ec52c8bd3a"
-      ],
-      "value": {
-        "title": "Только с начала этого года от рук ВСУ уже получили ранения 484 ребенка, 72 погибли, заявил",
-        "roots": [
-          "только",
-          "начала",
-          "этого",
-          "получи",
-          "ранени",
-          "ребенк",
-          "погибл"
-        ]
-      },
-      "expiresAt": 1792095678923
     },
     "[\"factor\",\"pub\",\"a25f99f8db27dc69b51e6d235beff8327357f58f5a992279e52996a76374370a\"]": {
       "key": [
@@ -3000,6 +2971,36 @@
         ]
       },
       "expiresAt": 1792181473086
+    },
+    "[\"factor\",\"pub\",\"9c6a5a195674e5c8a6df49602c641ebbee37d360dee3b165190f903d8fc307b8\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "9c6a5a195674e5c8a6df49602c641ebbee37d360dee3b165190f903d8fc307b8"
+      ],
+      "value": true,
+      "expiresAt": 1792183207027
+    },
+    "[\"factor\",\"topic\",\"9c6a5a195674e5c8a6df49602c641ebbee37d360dee3b165190f903d8fc307b8\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "9c6a5a195674e5c8a6df49602c641ebbee37d360dee3b165190f903d8fc307b8"
+      ],
+      "value": {
+        "title": "Трамп озадачил публику словами о своих \"очень серьезных проблемах",
+        "roots": [
+          "трамп",
+          "озадач",
+          "публик",
+          "словам",
+          "своих",
+          "очень",
+          "серьез",
+          "пробле"
+        ]
+      },
+      "expiresAt": 1792183207029
     }
   }
 }
