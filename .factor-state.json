@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 764838,
+      "value": 869221,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792045234103,
+      "value": 1792046435309,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"2036b3905f4bb49121ea80d1f356ade3afa20c0f65f874e76b5936d8a0815452\"]": {
@@ -3031,6 +3031,37 @@
         ]
       },
       "expiresAt": 1792131655074
+    },
+    "[\"factor\",\"pub\",\"0a9d6e7f40a0be4da617828cfefdf6f45568023d866ead19e4bbba96cc6027c8\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "0a9d6e7f40a0be4da617828cfefdf6f45568023d866ead19e4bbba96cc6027c8"
+      ],
+      "value": true,
+      "expiresAt": 1792132853090
+    },
+    "[\"factor\",\"topic\",\"0a9d6e7f40a0be4da617828cfefdf6f45568023d866ead19e4bbba96cc6027c8\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "0a9d6e7f40a0be4da617828cfefdf6f45568023d866ead19e4bbba96cc6027c8"
+      ],
+      "value": {
+        "title": "▶️ Сделка по дизелю может защитить российские танкеры от нападений в Черном и Балтийском м",
+        "roots": [
+          "сделка",
+          "дизелю",
+          "может",
+          "защити",
+          "россий",
+          "танкер",
+          "нападе",
+          "черном",
+          "балтий"
+        ]
+      },
+      "expiresAt": 1792132853091
     }
   }
 }
