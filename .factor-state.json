@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 281735,
+      "value": 263262,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792039832769,
+      "value": 1792040465240,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"46b79a4540480f581b6aed6db067792ee923064289084d0bc2c0d163d926f527\"]": {
@@ -2974,6 +2974,38 @@
         ]
       },
       "expiresAt": 1792126255395
+    },
+    "[\"factor\",\"pub\",\"30cae125e86a6d29abf9e52e646951f2712748364e60a3dc1b42015d3ce3b81b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "30cae125e86a6d29abf9e52e646951f2712748364e60a3dc1b42015d3ce3b81b"
+      ],
+      "value": true,
+      "expiresAt": 1792126925216
+    },
+    "[\"factor\",\"topic\",\"30cae125e86a6d29abf9e52e646951f2712748364e60a3dc1b42015d3ce3b81b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "30cae125e86a6d29abf9e52e646951f2712748364e60a3dc1b42015d3ce3b81b"
+      ],
+      "value": {
+        "title": "Проводить сделки по покупке и продаже криптовалют в России между физлицами можно будет тол",
+        "roots": [
+          "провод",
+          "сделки",
+          "покупк",
+          "продаж",
+          "крипто",
+          "россии",
+          "между",
+          "физлиц",
+          "можно",
+          "будет"
+        ]
+      },
+      "expiresAt": 1792126925217
     }
   }
 }
