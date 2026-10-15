@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 638178,
+      "value": 472493,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792096833384,
+      "value": 1792098065534,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"caf23b76a2ba904c8cbbf5a92e418764a7b75588f80f5c629211eb6f151be543\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "caf23b76a2ba904c8cbbf5a92e418764a7b75588f80f5c629211eb6f151be543"
-      ],
-      "value": true,
-      "expiresAt": 1792097472390
-    },
-    "[\"factor\",\"topic\",\"caf23b76a2ba904c8cbbf5a92e418764a7b75588f80f5c629211eb6f151be543\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "caf23b76a2ba904c8cbbf5a92e418764a7b75588f80f5c629211eb6f151be543"
-      ],
-      "value": {
-        "title": "Компании РФ и США уже ведут переговоры о заключении контрактов на поставку дизеля в США, з",
-        "roots": [
-          "компан",
-          "ведут",
-          "перего",
-          "заключ",
-          "контра",
-          "постав",
-          "дизеля"
-        ]
-      },
-      "expiresAt": 1792097472392
     },
     "[\"factor\",\"pub\",\"531aaa7f5d856eb3ed1041296ba6f63308831555717ce1e9d1656392b09f06bc\"]": {
       "key": [
@@ -2999,6 +2970,32 @@
         ]
       },
       "expiresAt": 1792183287010
+    },
+    "[\"factor\",\"pub\",\"ba453e3c3685fbb0d7a35681b374bb25e985bb89f293494eacf845525cc48aa9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "ba453e3c3685fbb0d7a35681b374bb25e985bb89f293494eacf845525cc48aa9"
+      ],
+      "value": true,
+      "expiresAt": 1792184494675
+    },
+    "[\"factor\",\"topic\",\"ba453e3c3685fbb0d7a35681b374bb25e985bb89f293494eacf845525cc48aa9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "ba453e3c3685fbb0d7a35681b374bb25e985bb89f293494eacf845525cc48aa9"
+      ],
+      "value": {
+        "title": "Саммит ЕС не смог договориться о бюджете на 2028-2034 годы на €1,76 трлн с расширенными во",
+        "roots": [
+          "саммит",
+          "догово",
+          "бюджет",
+          "расшир"
+        ]
+      },
+      "expiresAt": 1792184494677
     }
   }
 }
