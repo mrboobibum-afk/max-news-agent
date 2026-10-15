@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 203010,
+      "value": 434268,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792107633199,
+      "value": 1792108232154,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"7db69c2a1d4ddc5f328cd6ce28d2c592374fadd2afab304a0b451f34e9ccf458\"]": {
@@ -2943,6 +2943,37 @@
         ]
       },
       "expiresAt": 1792194058672
+    },
+    "[\"factor\",\"pub\",\"1da18e8b1450477991f6d01b3804e271db71a4a44250e40f3d58a5dd471177c3\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "1da18e8b1450477991f6d01b3804e271db71a4a44250e40f3d58a5dd471177c3"
+      ],
+      "value": true,
+      "expiresAt": 1792194936228
+    },
+    "[\"factor\",\"topic\",\"1da18e8b1450477991f6d01b3804e271db71a4a44250e40f3d58a5dd471177c3\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "1da18e8b1450477991f6d01b3804e271db71a4a44250e40f3d58a5dd471177c3"
+      ],
+      "value": {
+        "title": "Пентагон зависит от Пекина на 98% по ключевым металлам: Запад установил жёсткий дедлайн",
+        "roots": [
+          "пентаг",
+          "зависи",
+          "пекина",
+          "ключев",
+          "металл",
+          "запад",
+          "устано",
+          "сткий",
+          "дедлай"
+        ]
+      },
+      "expiresAt": 1792194936229
     }
   }
 }
