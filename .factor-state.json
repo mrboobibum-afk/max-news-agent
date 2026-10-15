@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 747622,
+      "value": 783138,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,35 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792063235150,
+      "value": 1792064438841,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"11e4f3cfe5684b5da8a9bc5132c5f0ebb0acdc6bc8200922c2fdb2d34146dba4\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "11e4f3cfe5684b5da8a9bc5132c5f0ebb0acdc6bc8200922c2fdb2d34146dba4"
-      ],
-      "value": true,
-      "expiresAt": 1792063957289
-    },
-    "[\"factor\",\"topic\",\"11e4f3cfe5684b5da8a9bc5132c5f0ebb0acdc6bc8200922c2fdb2d34146dba4\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "11e4f3cfe5684b5da8a9bc5132c5f0ebb0acdc6bc8200922c2fdb2d34146dba4"
-      ],
-      "value": {
-        "title": "Глава РЖД Белозеров провел встречу с Пашиняном",
-        "roots": [
-          "глава",
-          "белозе",
-          "провел",
-          "встреч",
-          "пашиня"
-        ]
-      },
-      "expiresAt": 1792063957290
     },
     "[\"factor\",\"pub\",\"4afcf3ee6455fe6b49ece52a4e7b136beee5c106da86d1830611c84de79cbd48\"]": {
       "key": [
@@ -2933,6 +2906,31 @@
         ]
       },
       "expiresAt": 1792149660834
+    },
+    "[\"factor\",\"pub\",\"8f78c6ac0651e5b5a1c3b64ca55bcd93ef517fa8633d16c8ec3a415da9ef403d\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "8f78c6ac0651e5b5a1c3b64ca55bcd93ef517fa8633d16c8ec3a415da9ef403d"
+      ],
+      "value": true,
+      "expiresAt": 1792150874046
+    },
+    "[\"factor\",\"topic\",\"8f78c6ac0651e5b5a1c3b64ca55bcd93ef517fa8633d16c8ec3a415da9ef403d\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "8f78c6ac0651e5b5a1c3b64ca55bcd93ef517fa8633d16c8ec3a415da9ef403d"
+      ],
+      "value": {
+        "title": "\"Ни о каком усложнении ЕГЭ не может идти речи\" ",
+        "roots": [
+          "каком",
+          "усложн",
+          "может"
+        ]
+      },
+      "expiresAt": 1792150874047
     }
   }
 }
