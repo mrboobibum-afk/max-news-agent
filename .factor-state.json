@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 869221,
+      "value": 530302,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792046435309,
+      "value": 1792047667000,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"76edb9ee4e29636afa779bb338a2a04b4258b8beae1f9832efffccf88c6d67c9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "76edb9ee4e29636afa779bb338a2a04b4258b8beae1f9832efffccf88c6d67c9"
-      ],
-      "value": true,
-      "expiresAt": 1792047179944
-    },
-    "[\"factor\",\"topic\",\"76edb9ee4e29636afa779bb338a2a04b4258b8beae1f9832efffccf88c6d67c9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "76edb9ee4e29636afa779bb338a2a04b4258b8beae1f9832efffccf88c6d67c9"
-      ],
-      "value": {
-        "title": "Военно-морские силы Великобритании временно остались без единственного ледокольного патрул",
-        "roots": [
-          "военно",
-          "морски",
-          "велико",
-          "времен",
-          "остали",
-          "единст",
-          "ледоко",
-          "патрул"
-        ]
-      },
-      "expiresAt": 1792047179945
     },
     "[\"factor\",\"pub\",\"f37801fed9868437d9cee5000acd9246f126db37d27a00eb7f0305885318931a\"]": {
       "key": [
@@ -3031,6 +3001,34 @@
         ]
       },
       "expiresAt": 1792132853091
+    },
+    "[\"factor\",\"pub\",\"8274a6bcb536ed91d019c7d5197a6caa8e566ca309d95b199d63e26f423889f9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "8274a6bcb536ed91d019c7d5197a6caa8e566ca309d95b199d63e26f423889f9"
+      ],
+      "value": true,
+      "expiresAt": 1792134115072
+    },
+    "[\"factor\",\"topic\",\"8274a6bcb536ed91d019c7d5197a6caa8e566ca309d95b199d63e26f423889f9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "8274a6bcb536ed91d019c7d5197a6caa8e566ca309d95b199d63e26f423889f9"
+      ],
+      "value": {
+        "title": "🚨 ФСБ задержала подданного Швеции за незаконное пересечение границы РФ",
+        "roots": [
+          "задерж",
+          "поддан",
+          "швеции",
+          "незако",
+          "пересе",
+          "границ"
+        ]
+      },
+      "expiresAt": 1792134115073
     }
   }
 }
