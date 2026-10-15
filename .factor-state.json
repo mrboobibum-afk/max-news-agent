@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 792876,
+      "value": 549996,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792077637205,
+      "value": 1792078836088,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"61951b6a30d7145e1e29def3cac51eaca0f9ac4a7ba0013fc86a64bc743b95eb\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "61951b6a30d7145e1e29def3cac51eaca0f9ac4a7ba0013fc86a64bc743b95eb"
-      ],
-      "value": true,
-      "expiresAt": 1792078285695
-    },
-    "[\"factor\",\"topic\",\"61951b6a30d7145e1e29def3cac51eaca0f9ac4a7ba0013fc86a64bc743b95eb\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "61951b6a30d7145e1e29def3cac51eaca0f9ac4a7ba0013fc86a64bc743b95eb"
-      ],
-      "value": {
-        "title": "⚖️ Суд заочно арестовал режиссера-документалиста Андрея Лошака* по делу об оправдании терр",
-        "roots": [
-          "заочно",
-          "аресто",
-          "режисс",
-          "докуме",
-          "андрея",
-          "лошака",
-          "оправд"
-        ]
-      },
-      "expiresAt": 1792078285696
     },
     "[\"factor\",\"pub\",\"5b184b064ceb69a1d1727636c4046aa1330a510de76ec37ee69d2d92cd1f909e\"]": {
       "key": [
@@ -2933,6 +2904,36 @@
         ]
       },
       "expiresAt": 1792164083834
+    },
+    "[\"factor\",\"pub\",\"2707d3ee7c3fd32183c9cd97e467d9fc81be7ce6c6e225d1acfc0eb60cdb99f2\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "2707d3ee7c3fd32183c9cd97e467d9fc81be7ce6c6e225d1acfc0eb60cdb99f2"
+      ],
+      "value": true,
+      "expiresAt": 1792165297087
+    },
+    "[\"factor\",\"topic\",\"2707d3ee7c3fd32183c9cd97e467d9fc81be7ce6c6e225d1acfc0eb60cdb99f2\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "2707d3ee7c3fd32183c9cd97e467d9fc81be7ce6c6e225d1acfc0eb60cdb99f2"
+      ],
+      "value": {
+        "title": "Главреда \"Новой газеты\"* Соколова после обыска в его квартире привезли на допрос в СК по д",
+        "roots": [
+          "главре",
+          "новой",
+          "газеты",
+          "соколо",
+          "обыска",
+          "кварти",
+          "привез",
+          "допрос"
+        ]
+      },
+      "expiresAt": 1792165297088
     }
   }
 }
