@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 473152,
+      "value": 282798,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792083665802,
+      "value": 1792084236568,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"f44d9d27784aef5b682ad570da2325c08d3ffb1d170ab2a1635f50dc52b7f8fb\"]": {
@@ -2933,6 +2933,35 @@
         ]
       },
       "expiresAt": 1792170147898
+    },
+    "[\"factor\",\"pub\",\"0d79ac1257adcfcd93f79907852acd5c475d310b734ca9de3c9730e72d46bdbd\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "0d79ac1257adcfcd93f79907852acd5c475d310b734ca9de3c9730e72d46bdbd"
+      ],
+      "value": true,
+      "expiresAt": 1792170691222
+    },
+    "[\"factor\",\"topic\",\"0d79ac1257adcfcd93f79907852acd5c475d310b734ca9de3c9730e72d46bdbd\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "0d79ac1257adcfcd93f79907852acd5c475d310b734ca9de3c9730e72d46bdbd"
+      ],
+      "value": {
+        "title": "Дмитрий Медведев призвал отказаться от термина «партия власти»",
+        "roots": [
+          "дмитри",
+          "медвед",
+          "призва",
+          "отказа",
+          "термин",
+          "партия",
+          "власти"
+        ]
+      },
+      "expiresAt": 1792170691223
     }
   }
 }
