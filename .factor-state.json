@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 868271,
+      "value": 494262,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792065671683,
+      "value": 1792066835632,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"932c1f263f0e98118fa177bb446e8f505d53ffab4b43979f104a95d208fc824c\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "932c1f263f0e98118fa177bb446e8f505d53ffab4b43979f104a95d208fc824c"
-      ],
-      "value": true,
-      "expiresAt": 1792066391605
-    },
-    "[\"factor\",\"topic\",\"932c1f263f0e98118fa177bb446e8f505d53ffab4b43979f104a95d208fc824c\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "932c1f263f0e98118fa177bb446e8f505d53ffab4b43979f104a95d208fc824c"
-      ],
-      "value": {
-        "title": "▶️ Штаб-квартира нефтяной компании Saudi Aramco сильно пострадала из-за удара хуситов 13 о",
-        "roots": [
-          "кварти",
-          "нефтян",
-          "компан",
-          "saudi",
-          "aramco",
-          "сильно",
-          "постра",
-          "удара",
-          "хусито"
-        ]
-      },
-      "expiresAt": 1792066391606
     },
     "[\"factor\",\"pub\",\"ff6ebeb9d495517053a86f3b2b57b32bceb6671879ed54c869a83dee6a2fac3d\"]": {
       "key": [
@@ -2935,6 +2904,36 @@
         ]
       },
       "expiresAt": 1792152157543
+    },
+    "[\"factor\",\"pub\",\"8567b84f21f6e449c25b4cbd460f78c4882280112f3d59df5553f5dbf12724ed\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "8567b84f21f6e449c25b4cbd460f78c4882280112f3d59df5553f5dbf12724ed"
+      ],
+      "value": true,
+      "expiresAt": 1792153285818
+    },
+    "[\"factor\",\"topic\",\"8567b84f21f6e449c25b4cbd460f78c4882280112f3d59df5553f5dbf12724ed\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "8567b84f21f6e449c25b4cbd460f78c4882280112f3d59df5553f5dbf12724ed"
+      ],
+      "value": {
+        "title": "В Австралии мужчина провел 945 дней в центре для мигрантов из-за ошибки властей при толков",
+        "roots": [
+          "австра",
+          "мужчин",
+          "провел",
+          "центре",
+          "мигран",
+          "ошибки",
+          "власте",
+          "толков"
+        ]
+      },
+      "expiresAt": 1792153285819
     }
   }
 }
