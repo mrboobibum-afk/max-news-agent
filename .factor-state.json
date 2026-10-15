@@ -17,36 +17,6 @@
       "value": 1792049452664,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"1b24b8aee6a822207f9bd03b213b481d3007712fb4d44f3cfd4ebda4c5369a65\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "1b24b8aee6a822207f9bd03b213b481d3007712fb4d44f3cfd4ebda4c5369a65"
-      ],
-      "value": true,
-      "expiresAt": 1792049501975
-    },
-    "[\"factor\",\"topic\",\"1b24b8aee6a822207f9bd03b213b481d3007712fb4d44f3cfd4ebda4c5369a65\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "1b24b8aee6a822207f9bd03b213b481d3007712fb4d44f3cfd4ebda4c5369a65"
-      ],
-      "value": {
-        "title": "Казнь военного психиатра Нидала Хасана, устроившего стрельбу на базе Форт-Худ в штате Теха",
-        "roots": [
-          "казнь",
-          "военно",
-          "психиа",
-          "нидала",
-          "хасана",
-          "устрои",
-          "стрель",
-          "штате"
-        ]
-      },
-      "expiresAt": 1792049502092
-    },
     "[\"factor\",\"pub\",\"c1ea4b683e51bca88909252ea5b4725ea0f2811f67eed2e160d5f18a2aaebca8\"]": {
       "key": [
         "factor",
