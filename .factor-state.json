@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 332143,
+      "value": 628145,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,34 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792043435945,
+      "value": 1792044065700,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"c1bc07104ab0f3e38b79b0d96953ea2aa4e107c072fbb1399751808edf3ea638\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c1bc07104ab0f3e38b79b0d96953ea2aa4e107c072fbb1399751808edf3ea638"
-      ],
-      "value": true,
-      "expiresAt": 1792043452346
-    },
-    "[\"factor\",\"topic\",\"c1bc07104ab0f3e38b79b0d96953ea2aa4e107c072fbb1399751808edf3ea638\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c1bc07104ab0f3e38b79b0d96953ea2aa4e107c072fbb1399751808edf3ea638"
-      ],
-      "value": {
-        "title": "Cилы ПВО за ночь сбили 902 украинских беспилотника, сообщили в Минобороны",
-        "roots": [
-          "сбили",
-          "украин",
-          "беспил",
-          "минобо"
-        ]
-      },
-      "expiresAt": 1792043452347
     },
     "[\"factor\",\"pub\",\"5789782c57ee370bf0e88909fd869577bac734d5e743a1fd4c86e8aa25000920\"]": {
       "key": [
@@ -3063,6 +3037,30 @@
         ]
       },
       "expiresAt": 1792130084901
+    },
+    "[\"factor\",\"pub\",\"6c38524951fe64b0097d60757c9d2a693a9fe1c0b9b0e94c5cd3981943860141\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "6c38524951fe64b0097d60757c9d2a693a9fe1c0b9b0e94c5cd3981943860141"
+      ],
+      "value": true,
+      "expiresAt": 1792130490364
+    },
+    "[\"factor\",\"topic\",\"6c38524951fe64b0097d60757c9d2a693a9fe1c0b9b0e94c5cd3981943860141\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "6c38524951fe64b0097d60757c9d2a693a9fe1c0b9b0e94c5cd3981943860141"
+      ],
+      "value": {
+        "title": "США могут сбросить \"мать всех бомб\" на Иран",
+        "roots": [
+          "могут",
+          "сброси"
+        ]
+      },
+      "expiresAt": 1792130490365
     }
   }
 }
