@@ -17,34 +17,6 @@
       "value": 1792134065053,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"8274a6bcb536ed91d019c7d5197a6caa8e566ca309d95b199d63e26f423889f9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "8274a6bcb536ed91d019c7d5197a6caa8e566ca309d95b199d63e26f423889f9"
-      ],
-      "value": true,
-      "expiresAt": 1792134115072
-    },
-    "[\"factor\",\"topic\",\"8274a6bcb536ed91d019c7d5197a6caa8e566ca309d95b199d63e26f423889f9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "8274a6bcb536ed91d019c7d5197a6caa8e566ca309d95b199d63e26f423889f9"
-      ],
-      "value": {
-        "title": "🚨 ФСБ задержала подданного Швеции за незаконное пересечение границы РФ",
-        "roots": [
-          "задерж",
-          "поддан",
-          "швеции",
-          "незако",
-          "пересе",
-          "границ"
-        ]
-      },
-      "expiresAt": 1792134115073
-    },
     "[\"factor\",\"pub\",\"ffe068f67130563ead168f5686bff2beadf40d3cee82d59d6b0984050047733f\"]": {
       "key": [
         "factor",
