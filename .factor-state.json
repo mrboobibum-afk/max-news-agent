@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 200479,
+      "value": 406992,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792142432944,
+      "value": 1792143054056,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"c7a2083c9687c893a2801b095214e9d946d58915aae8ce879a3fbf82ed8aace7\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c7a2083c9687c893a2801b095214e9d946d58915aae8ce879a3fbf82ed8aace7"
-      ],
-      "value": true,
-      "expiresAt": 1792142485691
-    },
-    "[\"factor\",\"topic\",\"c7a2083c9687c893a2801b095214e9d946d58915aae8ce879a3fbf82ed8aace7\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c7a2083c9687c893a2801b095214e9d946d58915aae8ce879a3fbf82ed8aace7"
-      ],
-      "value": {
-        "title": "Власти обсуждают возможность запрета экспорта сжиженных углеводородных газов непроизводите",
-        "roots": [
-          "власти",
-          "обсужд",
-          "возмож",
-          "запрет",
-          "экспор",
-          "сжижен",
-          "углево",
-          "газов",
-          "непрои"
-        ]
-      },
-      "expiresAt": 1792142485693
     },
     "[\"factor\",\"pub\",\"ac20c7eb29415318956a26963cb249886cc79974d4a6fbb78498f3d926c7ddf6\"]": {
       "key": [
@@ -2892,6 +2861,35 @@
         ]
       },
       "expiresAt": 1792228857255
+    },
+    "[\"factor\",\"pub\",\"3cf2dec54fbec1a241f93b228c0e273607a0c59f6e4fefd89bfaf13f73a5c257\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "3cf2dec54fbec1a241f93b228c0e273607a0c59f6e4fefd89bfaf13f73a5c257"
+      ],
+      "value": true,
+      "expiresAt": 1792229487276
+    },
+    "[\"factor\",\"topic\",\"3cf2dec54fbec1a241f93b228c0e273607a0c59f6e4fefd89bfaf13f73a5c257\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "3cf2dec54fbec1a241f93b228c0e273607a0c59f6e4fefd89bfaf13f73a5c257"
+      ],
+      "value": {
+        "title": "Директор ФБР Кэш Пател после ложной информации телеканала MS Now о его поездке в РФ написа",
+        "roots": [
+          "директ",
+          "пател",
+          "ложной",
+          "информ",
+          "телека",
+          "поездк",
+          "написа"
+        ]
+      },
+      "expiresAt": 1792229487277
     }
   }
 }
