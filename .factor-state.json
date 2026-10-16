@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 696369,
+      "value": 596256,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792161636537,
+      "value": 1792162871725,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"8111467ed6cb39f87bc1a5148fbc654d9e063d1f22993e75ef42ae05156338b1\"]": {
@@ -2888,6 +2888,32 @@
         ]
       },
       "expiresAt": 1792248060928
+    },
+    "[\"factor\",\"pub\",\"726ef84c7d4f5c6bc490c977619a9c0f045374f538ff6a6025d462ccc08386d9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "726ef84c7d4f5c6bc490c977619a9c0f045374f538ff6a6025d462ccc08386d9"
+      ],
+      "value": true,
+      "expiresAt": 1792249331775
+    },
+    "[\"factor\",\"topic\",\"726ef84c7d4f5c6bc490c977619a9c0f045374f538ff6a6025d462ccc08386d9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "726ef84c7d4f5c6bc490c977619a9c0f045374f538ff6a6025d462ccc08386d9"
+      ],
+      "value": {
+        "title": "✈️ 106 рейсов задерживаются в столичных аэропортах ",
+        "roots": [
+          "рейсов",
+          "задерж",
+          "столич",
+          "аэропо"
+        ]
+      },
+      "expiresAt": 1792249331776
     }
   }
 }
