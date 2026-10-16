@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 766261,
+      "value": 199815,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792152066611,
+      "value": 1792153236793,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"8567b84f21f6e449c25b4cbd460f78c4882280112f3d59df5553f5dbf12724ed\"]": {
@@ -2799,6 +2799,36 @@
         ]
       },
       "expiresAt": 1792238616196
+    },
+    "[\"factor\",\"pub\",\"45ce79e15ea656240e5b10b159cc8b31d0e049a4714025a3d90dd90e28e9408d\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "45ce79e15ea656240e5b10b159cc8b31d0e049a4714025a3d90dd90e28e9408d"
+      ],
+      "value": true,
+      "expiresAt": 1792239716032
+    },
+    "[\"factor\",\"topic\",\"45ce79e15ea656240e5b10b159cc8b31d0e049a4714025a3d90dd90e28e9408d\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "45ce79e15ea656240e5b10b159cc8b31d0e049a4714025a3d90dd90e28e9408d"
+      ],
+      "value": {
+        "title": "Предоставление связи ВСУ ранее было ограничено по указанию Белого дома, утверждает Reuters",
+        "roots": [
+          "предос",
+          "связи",
+          "ранее",
+          "ограни",
+          "указан",
+          "белого",
+          "утверж",
+          "reuter"
+        ]
+      },
+      "expiresAt": 1792239716033
     }
   }
 }
