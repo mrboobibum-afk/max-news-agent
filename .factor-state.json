@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 509301,
+      "value": 446071,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792136435377,
+      "value": 1792137032284,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"129304b906f85bb2d6efaf15242708bf121fb27819f9816076487490b3c4bae9\"]": {
@@ -2868,6 +2868,35 @@
         ]
       },
       "expiresAt": 1792222851546
+    },
+    "[\"factor\",\"pub\",\"bd59a29003ceb2eab6730dfb94ad37d254f46ff3461f65f7c05981ba022b8642\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "bd59a29003ceb2eab6730dfb94ad37d254f46ff3461f65f7c05981ba022b8642"
+      ],
+      "value": true,
+      "expiresAt": 1792223468178
+    },
+    "[\"factor\",\"topic\",\"bd59a29003ceb2eab6730dfb94ad37d254f46ff3461f65f7c05981ba022b8642\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "bd59a29003ceb2eab6730dfb94ad37d254f46ff3461f65f7c05981ba022b8642"
+      ],
+      "value": {
+        "title": "💬 «Для нас нет тяжелых целей» Военнослужащие ПВО ежедневно выполняют задачи по защите неб",
+        "roots": [
+          "тяжелы",
+          "целей",
+          "военно",
+          "ежедне",
+          "выполн",
+          "задачи",
+          "защите"
+        ]
+      },
+      "expiresAt": 1792223468179
     }
   }
 }
