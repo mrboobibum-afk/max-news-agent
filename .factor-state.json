@@ -17,35 +17,6 @@
       "value": 1792131636387,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"e7184da954dcf61a06e2d4eb32e9f7d087bf252c2bf35992feab927899c22b07\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "e7184da954dcf61a06e2d4eb32e9f7d087bf252c2bf35992feab927899c22b07"
-      ],
-      "value": true,
-      "expiresAt": 1792131655073
-    },
-    "[\"factor\",\"topic\",\"e7184da954dcf61a06e2d4eb32e9f7d087bf252c2bf35992feab927899c22b07\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "e7184da954dcf61a06e2d4eb32e9f7d087bf252c2bf35992feab927899c22b07"
-      ],
-      "value": {
-        "title": "17 детей погибли в Пакистане – там обрушилась крыша школы, пишут СМИ",
-        "roots": [
-          "детей",
-          "погибл",
-          "пакист",
-          "обруши",
-          "крыша",
-          "школы",
-          "пишут"
-        ]
-      },
-      "expiresAt": 1792131655074
-    },
     "[\"factor\",\"pub\",\"0a9d6e7f40a0be4da617828cfefdf6f45568023d866ead19e4bbba96cc6027c8\"]": {
       "key": [
         "factor",
