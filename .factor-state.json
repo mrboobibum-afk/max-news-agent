@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 499787,
+      "value": 760699,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792159837073,
+      "value": 1792160371296,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"e125e26c31b91bae98a82ec8b22a439d2ec752ddd6b34949268f9e5a22c7eba2\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "e125e26c31b91bae98a82ec8b22a439d2ec752ddd6b34949268f9e5a22c7eba2"
-      ],
-      "value": true,
-      "expiresAt": 1792159873939
-    },
-    "[\"factor\",\"topic\",\"e125e26c31b91bae98a82ec8b22a439d2ec752ddd6b34949268f9e5a22c7eba2\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "e125e26c31b91bae98a82ec8b22a439d2ec752ddd6b34949268f9e5a22c7eba2"
-      ],
-      "value": {
-        "title": "Экс-начальника управления лесного хозяйства МО РФ Сергея Закаморного арестовали",
-        "roots": [
-          "началь",
-          "управл",
-          "лесног",
-          "хозяйс",
-          "сергея",
-          "закамо",
-          "аресто"
-        ]
-      },
-      "expiresAt": 1792159873941
     },
     "[\"factor\",\"pub\",\"4e57c4d91c9641c4573d50c28da4f2f03611359ecccaf5cc23caa82dc8167306\"]": {
       "key": [
@@ -2919,6 +2890,35 @@
         ]
       },
       "expiresAt": 1792246271043
+    },
+    "[\"factor\",\"pub\",\"11588cbb67fd0c0accdc4b7c219f9cd727feb173133c4b2a4159d44fffb5621b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "11588cbb67fd0c0accdc4b7c219f9cd727feb173133c4b2a4159d44fffb5621b"
+      ],
+      "value": true,
+      "expiresAt": 1792247096755
+    },
+    "[\"factor\",\"topic\",\"11588cbb67fd0c0accdc4b7c219f9cd727feb173133c4b2a4159d44fffb5621b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "11588cbb67fd0c0accdc4b7c219f9cd727feb173133c4b2a4159d44fffb5621b"
+      ],
+      "value": {
+        "title": "❗️ Россия готова увеличить поставки энергоресурсов в Европу, сообщил Александр Новак",
+        "roots": [
+          "готова",
+          "увелич",
+          "постав",
+          "энерго",
+          "европу",
+          "алекса",
+          "новак"
+        ]
+      },
+      "expiresAt": 1792247096757
     }
   }
 }
