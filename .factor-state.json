@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 629537,
+      "value": 359960,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792128652281,
+      "value": 1792129834524,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"c5009f3f26f6886f667e0cb081862215f5d15bac075e17ab3b7442aee7d0a460\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c5009f3f26f6886f667e0cb081862215f5d15bac075e17ab3b7442aee7d0a460"
-      ],
-      "value": true,
-      "expiresAt": 1792129300792
-    },
-    "[\"factor\",\"topic\",\"c5009f3f26f6886f667e0cb081862215f5d15bac075e17ab3b7442aee7d0a460\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c5009f3f26f6886f667e0cb081862215f5d15bac075e17ab3b7442aee7d0a460"
-      ],
-      "value": {
-        "title": "🧱 🧱 🧱 🧱 Минцифры планирует обязать все смартфоны с 5G поддерживать российский криптогр",
-        "roots": [
-          "минциф",
-          "планир",
-          "обязат",
-          "смартф",
-          "поддер",
-          "россий",
-          "крипто"
-        ]
-      },
-      "expiresAt": 1792129300793
     },
     "[\"factor\",\"pub\",\"fa4bad886643d061d512ad60aa623da2fa21ae0485de078d27997f30f346d366\"]": {
       "key": [
@@ -2889,6 +2860,35 @@
         ]
       },
       "expiresAt": 1792215076277
+    },
+    "[\"factor\",\"pub\",\"0da12309094d5ed8b844ddad2d0a1394986385a843efb733dece9efeef29e472\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "0da12309094d5ed8b844ddad2d0a1394986385a843efb733dece9efeef29e472"
+      ],
+      "value": true,
+      "expiresAt": 1792216280148
+    },
+    "[\"factor\",\"topic\",\"0da12309094d5ed8b844ddad2d0a1394986385a843efb733dece9efeef29e472\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "0da12309094d5ed8b844ddad2d0a1394986385a843efb733dece9efeef29e472"
+      ],
+      "value": {
+        "title": "Самонадеянность Зеленского, игнорирующего призывы прекратить удары по российским НПЗ, выво",
+        "roots": [
+          "самона",
+          "зеленс",
+          "игнори",
+          "призыв",
+          "прекра",
+          "удары",
+          "россий"
+        ]
+      },
+      "expiresAt": 1792216280149
     }
   }
 }
