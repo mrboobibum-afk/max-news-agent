@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 564218,
+      "value": 399088,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792171235642,
+      "value": 1792171856057,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"03ba04c57b6544f68bede38ef4512bcf69a170789cc7e67fc1ba5bbfb41b3f56\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "03ba04c57b6544f68bede38ef4512bcf69a170789cc7e67fc1ba5bbfb41b3f56"
-      ],
-      "value": true,
-      "expiresAt": 1792171283857
-    },
-    "[\"factor\",\"topic\",\"03ba04c57b6544f68bede38ef4512bcf69a170789cc7e67fc1ba5bbfb41b3f56\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "03ba04c57b6544f68bede38ef4512bcf69a170789cc7e67fc1ba5bbfb41b3f56"
-      ],
-      "value": {
-        "title": "Над регионами РФ в течение дня сбиты 80 украинских БПЛА, сообщает Минобороны",
-        "roots": [
-          "регион",
-          "течени",
-          "сбиты",
-          "украин",
-          "сообща",
-          "минобо"
-        ]
-      },
-      "expiresAt": 1792171283858
     },
     "[\"factor\",\"pub\",\"80db96d6cdd54c20a8bf239c1d9b5249dc36409359d11098848d19d2ddcd69d2\"]": {
       "key": [
@@ -2956,6 +2928,34 @@
         ]
       },
       "expiresAt": 1792257664272
+    },
+    "[\"factor\",\"pub\",\"2979755ee132b33317383d41de556178abb7801f88723c6cbc0446c3e8d57bc5\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "2979755ee132b33317383d41de556178abb7801f88723c6cbc0446c3e8d57bc5"
+      ],
+      "value": true,
+      "expiresAt": 1792258272160
+    },
+    "[\"factor\",\"topic\",\"2979755ee132b33317383d41de556178abb7801f88723c6cbc0446c3e8d57bc5\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "2979755ee132b33317383d41de556178abb7801f88723c6cbc0446c3e8d57bc5"
+      ],
+      "value": {
+        "title": "Средства ПВО за день сбили 47 украинских БПЛА над регионами РФ, сообщает Минобороны",
+        "roots": [
+          "средст",
+          "сбили",
+          "украин",
+          "регион",
+          "сообща",
+          "минобо"
+        ]
+      },
+      "expiresAt": 1792258272161
     }
   }
 }
