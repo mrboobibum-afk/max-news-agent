@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 684527,
+      "value": 549517,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792184733217,
+      "value": 1792185633727,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"fd704a65525f731af5f0ce7011d2b127c6e3aeb6cb91ac39b0e8579ca444b8cb\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "fd704a65525f731af5f0ce7011d2b127c6e3aeb6cb91ac39b0e8579ca444b8cb"
-      ],
-      "value": true,
-      "expiresAt": 1792185458915
-    },
-    "[\"factor\",\"topic\",\"fd704a65525f731af5f0ce7011d2b127c6e3aeb6cb91ac39b0e8579ca444b8cb\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "fd704a65525f731af5f0ce7011d2b127c6e3aeb6cb91ac39b0e8579ca444b8cb"
-      ],
-      "value": {
-        "title": "Российская «дочка» коллектора EOS заявила о незаконной смене руководства",
-        "roots": [
-          "россий",
-          "дочка",
-          "коллек",
-          "заявил",
-          "незако",
-          "смене",
-          "руково"
-        ]
-      },
-      "expiresAt": 1792185458916
     },
     "[\"factor\",\"pub\",\"2872d4707862ed2304ec96b03fea899418adfecaf59e731427afa6cdee0513c7\"]": {
       "key": [
@@ -2922,6 +2893,36 @@
         ]
       },
       "expiresAt": 1792271338986
+    },
+    "[\"factor\",\"pub\",\"c52c9550f5026a2edc80158d485b7209ced792ede08e3e0f8c71602e70d9d1e7\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "c52c9550f5026a2edc80158d485b7209ced792ede08e3e0f8c71602e70d9d1e7"
+      ],
+      "value": true,
+      "expiresAt": 1792272179114
+    },
+    "[\"factor\",\"topic\",\"c52c9550f5026a2edc80158d485b7209ced792ede08e3e0f8c71602e70d9d1e7\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "c52c9550f5026a2edc80158d485b7209ced792ede08e3e0f8c71602e70d9d1e7"
+      ],
+      "value": {
+        "title": "▶️ В итальянской Болонье произошли столкновения между полицией и протестующими студентами ",
+        "roots": [
+          "италья",
+          "болонь",
+          "произо",
+          "столкн",
+          "между",
+          "полици",
+          "протес",
+          "студен"
+        ]
+      },
+      "expiresAt": 1792272179115
     }
   }
 }
