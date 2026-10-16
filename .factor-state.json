@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 499787,
+      "value": 240083,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,66 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792159837073,
+      "value": 1792160720944,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"e125e26c31b91bae98a82ec8b22a439d2ec752ddd6b34949268f9e5a22c7eba2\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "e125e26c31b91bae98a82ec8b22a439d2ec752ddd6b34949268f9e5a22c7eba2"
-      ],
-      "value": true,
-      "expiresAt": 1792159873939
-    },
-    "[\"factor\",\"topic\",\"e125e26c31b91bae98a82ec8b22a439d2ec752ddd6b34949268f9e5a22c7eba2\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "e125e26c31b91bae98a82ec8b22a439d2ec752ddd6b34949268f9e5a22c7eba2"
-      ],
-      "value": {
-        "title": "Экс-начальника управления лесного хозяйства МО РФ Сергея Закаморного арестовали",
-        "roots": [
-          "началь",
-          "управл",
-          "лесног",
-          "хозяйс",
-          "сергея",
-          "закамо",
-          "аресто"
-        ]
-      },
-      "expiresAt": 1792159873941
-    },
-    "[\"factor\",\"pub\",\"4e57c4d91c9641c4573d50c28da4f2f03611359ecccaf5cc23caa82dc8167306\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "4e57c4d91c9641c4573d50c28da4f2f03611359ecccaf5cc23caa82dc8167306"
-      ],
-      "value": true,
-      "expiresAt": 1792160461116
-    },
-    "[\"factor\",\"topic\",\"4e57c4d91c9641c4573d50c28da4f2f03611359ecccaf5cc23caa82dc8167306\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "4e57c4d91c9641c4573d50c28da4f2f03611359ecccaf5cc23caa82dc8167306"
-      ],
-      "value": {
-        "title": "Первая с 1945-го казнь расстрелом в армии США будет публичной, сообщили в Пентагоне",
-        "roots": [
-          "первая",
-          "казнь",
-          "расстр",
-          "армии",
-          "будет",
-          "публич",
-          "пентаг"
-        ]
-      },
-      "expiresAt": 1792160461117
     },
     "[\"factor\",\"pub\",\"34ef4651e5524ee85a7215fed25403552a95ce42e49629b191f663227da41330\"]": {
       "key": [
@@ -2919,6 +2861,34 @@
         ]
       },
       "expiresAt": 1792246271043
+    },
+    "[\"factor\",\"pub\",\"413bb6592500f507445eaba93d46e22210ae09b17f0830c48b86dd74f6478ebe\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "413bb6592500f507445eaba93d46e22210ae09b17f0830c48b86dd74f6478ebe"
+      ],
+      "value": true,
+      "expiresAt": 1792247151905
+    },
+    "[\"factor\",\"topic\",\"413bb6592500f507445eaba93d46e22210ae09b17f0830c48b86dd74f6478ebe\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "413bb6592500f507445eaba93d46e22210ae09b17f0830c48b86dd74f6478ebe"
+      ],
+      "value": {
+        "title": "Россия готова участвовать в балансировке энергетических рынков, заявил Новак",
+        "roots": [
+          "готова",
+          "участв",
+          "баланс",
+          "энерге",
+          "рынков",
+          "новак"
+        ]
+      },
+      "expiresAt": 1792247151907
     }
   }
 }
