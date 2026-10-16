@@ -17,37 +17,6 @@
       "value": 1792114834076,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"d7309bc22c0fdeb6fa968934102ad86bc976ef1036bda3f7a741778e6ece39fe\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "d7309bc22c0fdeb6fa968934102ad86bc976ef1036bda3f7a741778e6ece39fe"
-      ],
-      "value": true,
-      "expiresAt": 1792114885862
-    },
-    "[\"factor\",\"topic\",\"d7309bc22c0fdeb6fa968934102ad86bc976ef1036bda3f7a741778e6ece39fe\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "d7309bc22c0fdeb6fa968934102ad86bc976ef1036bda3f7a741778e6ece39fe"
-      ],
-      "value": {
-        "title": "Самые высокие зарплаты за вахту в России предлагают бурильщикам - в среднем 250 тысяч рубл",
-        "roots": [
-          "самые",
-          "высоки",
-          "зарпла",
-          "вахту",
-          "россии",
-          "предла",
-          "буриль",
-          "средне",
-          "тысяч"
-        ]
-      },
-      "expiresAt": 1792114885863
-    },
     "[\"factor\",\"pub\",\"7feb1777d3f3eaec810391be21c32e7eb9368d6d5c2a79c6a43261f2e443432b\"]": {
       "key": [
         "factor",
