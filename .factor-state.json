@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 333805,
+      "value": 286327,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792155680793,
+      "value": 1792156234744,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"a73dd0954b237e0c96a50441af2a3a5118673fb6e7ceae5c1a2781f5ea10221f\"]": {
@@ -2828,6 +2828,35 @@
         ]
       },
       "expiresAt": 1792242164744
+    },
+    "[\"factor\",\"pub\",\"0bd576bc1437a06dd91aa3b213830c3ca3b4f500505d722d7b6cb61a0105fa86\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "0bd576bc1437a06dd91aa3b213830c3ca3b4f500505d722d7b6cb61a0105fa86"
+      ],
+      "value": true,
+      "expiresAt": 1792242659954
+    },
+    "[\"factor\",\"topic\",\"0bd576bc1437a06dd91aa3b213830c3ca3b4f500505d722d7b6cb61a0105fa86\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "0bd576bc1437a06dd91aa3b213830c3ca3b4f500505d722d7b6cb61a0105fa86"
+      ],
+      "value": {
+        "title": "Тело убитой женщины восемь месяцев пролежало в сундуке под Брянском",
+        "roots": [
+          "убитой",
+          "женщин",
+          "восемь",
+          "месяце",
+          "пролеж",
+          "сундук",
+          "брянск"
+        ]
+      },
+      "expiresAt": 1792242659955
     }
   }
 }
