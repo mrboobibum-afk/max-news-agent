@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 313273,
+      "value": 883618,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792191100460,
+      "value": 1792191663430,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"12e36e143fc6d0346e6eef2ccc0b156be08cccc1d8ae94125a836ee95fb07648\"]": {
@@ -2859,6 +2859,36 @@
         ]
       },
       "expiresAt": 1792277598595
+    },
+    "[\"factor\",\"pub\",\"070a6459c0f37cc877f68ffa240f3bcbd02101a5560e80e8170cb9fbb3075bb3\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "070a6459c0f37cc877f68ffa240f3bcbd02101a5560e80e8170cb9fbb3075bb3"
+      ],
+      "value": true,
+      "expiresAt": 1792278146924
+    },
+    "[\"factor\",\"topic\",\"070a6459c0f37cc877f68ffa240f3bcbd02101a5560e80e8170cb9fbb3075bb3\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "070a6459c0f37cc877f68ffa240f3bcbd02101a5560e80e8170cb9fbb3075bb3"
+      ],
+      "value": {
+        "title": "▶️ Детский прожиточный минимум необходимо увеличить, сейчас его размер недостаточный для у",
+        "roots": [
+          "детски",
+          "прожит",
+          "миниму",
+          "необхо",
+          "увелич",
+          "сейчас",
+          "размер",
+          "недост"
+        ]
+      },
+      "expiresAt": 1792278146925
     }
   }
 }
