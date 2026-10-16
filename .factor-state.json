@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 286327,
+      "value": 215529,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792156234744,
+      "value": 1792156836314,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"a73dd0954b237e0c96a50441af2a3a5118673fb6e7ceae5c1a2781f5ea10221f\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "a73dd0954b237e0c96a50441af2a3a5118673fb6e7ceae5c1a2781f5ea10221f"
-      ],
-      "value": true,
-      "expiresAt": 1792156268088
-    },
-    "[\"factor\",\"topic\",\"a73dd0954b237e0c96a50441af2a3a5118673fb6e7ceae5c1a2781f5ea10221f\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "a73dd0954b237e0c96a50441af2a3a5118673fb6e7ceae5c1a2781f5ea10221f"
-      ],
-      "value": {
-        "title": "Папа Римский Лев XIV начал восстановление после операции по удалению ракового узла в легко",
-        "roots": [
-          "римски",
-          "начал",
-          "восста",
-          "операц",
-          "удален",
-          "раково",
-          "легко"
-        ]
-      },
-      "expiresAt": 1792156268089
     },
     "[\"factor\",\"pub\",\"9384eedf6935bf1bd05dcc09ea8faffd0131fc55bed29fe78d0ecd511e08e61c\"]": {
       "key": [
@@ -2857,6 +2828,35 @@
         ]
       },
       "expiresAt": 1792242659955
+    },
+    "[\"factor\",\"pub\",\"90d6614887a1de6fa0f92f99d61dc9bb46bbec923aa415f010fc96b53fdb9ca6\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "90d6614887a1de6fa0f92f99d61dc9bb46bbec923aa415f010fc96b53fdb9ca6"
+      ],
+      "value": true,
+      "expiresAt": 1792243308994
+    },
+    "[\"factor\",\"topic\",\"90d6614887a1de6fa0f92f99d61dc9bb46bbec923aa415f010fc96b53fdb9ca6\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "90d6614887a1de6fa0f92f99d61dc9bb46bbec923aa415f010fc96b53fdb9ca6"
+      ],
+      "value": {
+        "title": "ЕС ждет очень сложная зима из-за высоких цен на энергию, заявила представитель Еврокомисси",
+        "roots": [
+          "очень",
+          "сложна",
+          "высоки",
+          "энерги",
+          "заявил",
+          "предст",
+          "евроко"
+        ]
+      },
+      "expiresAt": 1792243308996
     }
   }
 }
