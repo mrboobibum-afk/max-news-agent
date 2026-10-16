@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 770109,
+      "value": 700680,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792118435217,
+      "value": 1792119665920,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"952dd2c63ca2efb3953b63cb7c401690978abfbc03b1f3ba6f3c08e960217c14\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "952dd2c63ca2efb3953b63cb7c401690978abfbc03b1f3ba6f3c08e960217c14"
-      ],
-      "value": true,
-      "expiresAt": 1792119080477
-    },
-    "[\"factor\",\"topic\",\"952dd2c63ca2efb3953b63cb7c401690978abfbc03b1f3ba6f3c08e960217c14\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "952dd2c63ca2efb3953b63cb7c401690978abfbc03b1f3ba6f3c08e960217c14"
-      ],
-      "value": {
-        "title": "📹 В МО РФ рассказали о работе военной комендатуры по эвакуации жителей Красноармейска и д",
-        "roots": [
-          "расска",
-          "работе",
-          "военно",
-          "коменд",
-          "эвакуа",
-          "жителе",
-          "красно"
-        ]
-      },
-      "expiresAt": 1792119080478
     },
     "[\"factor\",\"pub\",\"3c894aac995915143a2eaa91dc0de4990ac7dc31d0028e6e7fd717d867ccea59\"]": {
       "key": [
@@ -2942,6 +2913,37 @@
         ]
       },
       "expiresAt": 1792205118875
+    },
+    "[\"factor\",\"pub\",\"c2130cdc5345d9347dbac9724492c0ec35a28deb8cc3a005b57d517f9dd2d6c3\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "c2130cdc5345d9347dbac9724492c0ec35a28deb8cc3a005b57d517f9dd2d6c3"
+      ],
+      "value": true,
+      "expiresAt": 1792206098317
+    },
+    "[\"factor\",\"topic\",\"c2130cdc5345d9347dbac9724492c0ec35a28deb8cc3a005b57d517f9dd2d6c3\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "c2130cdc5345d9347dbac9724492c0ec35a28deb8cc3a005b57d517f9dd2d6c3"
+      ],
+      "value": {
+        "title": "Итальянский журналист Винченцо Лоруссо, основатель Telegram-канала \"Донбасс Италия\" , полу",
+        "roots": [
+          "италья",
+          "журнал",
+          "винчен",
+          "лорусс",
+          "основа",
+          "telegr",
+          "канала",
+          "донбас",
+          "италия"
+        ]
+      },
+      "expiresAt": 1792206098319
     }
   }
 }
