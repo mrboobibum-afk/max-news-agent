@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 422923,
+      "value": 790930,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792140633542,
+      "value": 1792141263700,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"98755d15afcde0f75e888539b3a33fe3cadc9f4e8452a33f575ee02e54eba65a\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "98755d15afcde0f75e888539b3a33fe3cadc9f4e8452a33f575ee02e54eba65a"
-      ],
-      "value": true,
-      "expiresAt": 1792140661488
-    },
-    "[\"factor\",\"topic\",\"98755d15afcde0f75e888539b3a33fe3cadc9f4e8452a33f575ee02e54eba65a\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "98755d15afcde0f75e888539b3a33fe3cadc9f4e8452a33f575ee02e54eba65a"
-      ],
-      "value": {
-        "title": "✈️ Авиакомпаниям РФ может потребоваться поддержка для перехода на низкоуглеродное топливо ",
-        "roots": [
-          "авиако",
-          "может",
-          "потреб",
-          "поддер",
-          "перехо",
-          "низкоу",
-          "топлив"
-        ]
-      },
-      "expiresAt": 1792140661489
     },
     "[\"factor\",\"pub\",\"0565e8dde81ac2f50ca78dd9ae0e1f31a3cf9769d2afe2df72cda577886fa794\"]": {
       "key": [
@@ -2893,6 +2864,33 @@
         ]
       },
       "expiresAt": 1792227052749
+    },
+    "[\"factor\",\"pub\",\"1c69a44310e0fe83df04ee7223c9a140540dfc0d7180fcd143ccab21f481da3a\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "1c69a44310e0fe83df04ee7223c9a140540dfc0d7180fcd143ccab21f481da3a"
+      ],
+      "value": true,
+      "expiresAt": 1792227699310
+    },
+    "[\"factor\",\"topic\",\"1c69a44310e0fe83df04ee7223c9a140540dfc0d7180fcd143ccab21f481da3a\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "1c69a44310e0fe83df04ee7223c9a140540dfc0d7180fcd143ccab21f481da3a"
+      ],
+      "value": {
+        "title": "⚡️ ВС РФ за неделю освободили 12 населенных пунктов, сообщает МО",
+        "roots": [
+          "неделю",
+          "освобо",
+          "населе",
+          "пункто",
+          "сообща"
+        ]
+      },
+      "expiresAt": 1792227699311
     }
   }
 }
