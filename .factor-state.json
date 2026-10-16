@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 319877,
+      "value": 841542,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,35 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792192831628,
+      "value": 1792193594388,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"f003984526d0e58db74e107c9cc8c2bb568c61f12745a710639dd0ee5c678c37\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "f003984526d0e58db74e107c9cc8c2bb568c61f12745a710639dd0ee5c678c37"
-      ],
-      "value": true,
-      "expiresAt": 1792193081796
-    },
-    "[\"factor\",\"topic\",\"f003984526d0e58db74e107c9cc8c2bb568c61f12745a710639dd0ee5c678c37\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "f003984526d0e58db74e107c9cc8c2bb568c61f12745a710639dd0ee5c678c37"
-      ],
-      "value": {
-        "title": "Cтрельба в школе: Убиты три ребенка и взрослый",
-        "roots": [
-          "cтрель",
-          "школе",
-          "убиты",
-          "ребенк",
-          "взросл"
-        ]
-      },
-      "expiresAt": 1792193081797
     },
     "[\"factor\",\"pub\",\"3c8567228bf0bc6fea3734b7efee92146a93811ce6a618de0648f32df56e3a9b\"]": {
       "key": [
@@ -2883,6 +2856,34 @@
         ]
       },
       "expiresAt": 1792279339628
+    },
+    "[\"factor\",\"pub\",\"9f96b74639a604825c04a68f276666408f1ee9cce5a651bc0643849d97e8922a\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "9f96b74639a604825c04a68f276666408f1ee9cce5a651bc0643849d97e8922a"
+      ],
+      "value": true,
+      "expiresAt": 1792280118601
+    },
+    "[\"factor\",\"topic\",\"9f96b74639a604825c04a68f276666408f1ee9cce5a651bc0643849d97e8922a\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "9f96b74639a604825c04a68f276666408f1ee9cce5a651bc0643849d97e8922a"
+      ],
+      "value": {
+        "title": "▶️ Индийские СМИ не ориентируются на западные при освещении конфликта на Украине",
+        "roots": [
+          "индийс",
+          "ориент",
+          "западн",
+          "освеще",
+          "конфли",
+          "украин"
+        ]
+      },
+      "expiresAt": 1792280118602
     }
   }
 }
