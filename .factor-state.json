@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 513585,
+      "value": 622733,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792157454731,
+      "value": 1792158036060,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"9384eedf6935bf1bd05dcc09ea8faffd0131fc55bed29fe78d0ecd511e08e61c\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "9384eedf6935bf1bd05dcc09ea8faffd0131fc55bed29fe78d0ecd511e08e61c"
-      ],
-      "value": true,
-      "expiresAt": 1792157495746
-    },
-    "[\"factor\",\"topic\",\"9384eedf6935bf1bd05dcc09ea8faffd0131fc55bed29fe78d0ecd511e08e61c\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "9384eedf6935bf1bd05dcc09ea8faffd0131fc55bed29fe78d0ecd511e08e61c"
-      ],
-      "value": {
-        "title": "Россия и Соединенные Штаты могли бы создать канал взаимодействия по спортивным вопросам, з",
-        "roots": [
-          "соедин",
-          "штаты",
-          "могли",
-          "создат",
-          "канал",
-          "взаимо",
-          "спорти",
-          "вопрос"
-        ]
-      },
-      "expiresAt": 1792157495747
     },
     "[\"factor\",\"pub\",\"a0fb03c116a13ab19c4c42dd5a20af6c8b3aa18ca7619e184c66f5c52b0b30e1\"]": {
       "key": [
@@ -2888,6 +2858,37 @@
         ]
       },
       "expiresAt": 1792243913609
+    },
+    "[\"factor\",\"pub\",\"9ca5f9a72e50582a11808062d56f35929514f68019acf581adf42cc9d6079aeb\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "9ca5f9a72e50582a11808062d56f35929514f68019acf581adf42cc9d6079aeb"
+      ],
+      "value": true,
+      "expiresAt": 1792244485349
+    },
+    "[\"factor\",\"topic\",\"9ca5f9a72e50582a11808062d56f35929514f68019acf581adf42cc9d6079aeb\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "9ca5f9a72e50582a11808062d56f35929514f68019acf581adf42cc9d6079aeb"
+      ],
+      "value": {
+        "title": "Макрон теряет влияние на мировой арене , пишет Agence France-Presse",
+        "roots": [
+          "макрон",
+          "теряет",
+          "влияни",
+          "мирово",
+          "арене",
+          "пишет",
+          "agence",
+          "france",
+          "presse"
+        ]
+      },
+      "expiresAt": 1792244485350
     }
   }
 }
