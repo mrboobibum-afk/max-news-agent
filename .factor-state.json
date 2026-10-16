@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 750850,
+      "value": 882019,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792137664403,
+      "value": 1792138837509,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"2636c082c2042ed6265e03061b56a7e1e6683f21b8bbcf383ca5d67bb36505cd\"]": {
@@ -2869,6 +2869,33 @@
         ]
       },
       "expiresAt": 1792224103117
+    },
+    "[\"factor\",\"pub\",\"ef0ba0cb364766a911e51c396f8351de2d9b5756a6c5d679f08c54aeba1648e0\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "ef0ba0cb364766a911e51c396f8351de2d9b5756a6c5d679f08c54aeba1648e0"
+      ],
+      "value": true,
+      "expiresAt": 1792225263306
+    },
+    "[\"factor\",\"topic\",\"ef0ba0cb364766a911e51c396f8351de2d9b5756a6c5d679f08c54aeba1648e0\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "ef0ba0cb364766a911e51c396f8351de2d9b5756a6c5d679f08c54aeba1648e0"
+      ],
+      "value": {
+        "title": "Азербайджан хочет вновь закупать газ у \"Газпрома\"",
+        "roots": [
+          "азерба",
+          "хочет",
+          "вновь",
+          "закупа",
+          "газпро"
+        ]
+      },
+      "expiresAt": 1792225263307
     }
   }
 }
