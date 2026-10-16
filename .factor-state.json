@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 605607,
+      "value": 537881,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792144867149,
+      "value": 1792146035857,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"ac55eec1a8c5d51d978f93e2e8374acf083a7451f4d453aa154284f995b2c4ee\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "ac55eec1a8c5d51d978f93e2e8374acf083a7451f4d453aa154284f995b2c4ee"
-      ],
-      "value": true,
-      "expiresAt": 1792145510719
-    },
-    "[\"factor\",\"topic\",\"ac55eec1a8c5d51d978f93e2e8374acf083a7451f4d453aa154284f995b2c4ee\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "ac55eec1a8c5d51d978f93e2e8374acf083a7451f4d453aa154284f995b2c4ee"
-      ],
-      "value": {
-        "title": "Песков не стал раскрывать страны, которые изъявляли желание вслед за США купить российское",
-        "roots": [
-          "песков",
-          "раскры",
-          "страны",
-          "которы",
-          "изъявл",
-          "желани",
-          "вслед",
-          "купить",
-          "россий"
-        ]
-      },
-      "expiresAt": 1792145510720
     },
     "[\"factor\",\"pub\",\"5eb252367dfa71fc5862369c3553a5f6f3017517f0427bc12ea2c1a2aeb5b46f\"]": {
       "key": [
@@ -2893,6 +2862,36 @@
         ]
       },
       "expiresAt": 1792231347253
+    },
+    "[\"factor\",\"pub\",\"0d7a2fb1f4d6140bd28981a64b088d3423b85f608a36b2dab8a897f9aa9d1515\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "0d7a2fb1f4d6140bd28981a64b088d3423b85f608a36b2dab8a897f9aa9d1515"
+      ],
+      "value": true,
+      "expiresAt": 1792232502386
+    },
+    "[\"factor\",\"topic\",\"0d7a2fb1f4d6140bd28981a64b088d3423b85f608a36b2dab8a897f9aa9d1515\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "0d7a2fb1f4d6140bd28981a64b088d3423b85f608a36b2dab8a897f9aa9d1515"
+      ],
+      "value": {
+        "title": "Трамп назвал Крым самым красивым участком суши , от которого отказалась Украина",
+        "roots": [
+          "трамп",
+          "назвал",
+          "самым",
+          "красив",
+          "участк",
+          "которо",
+          "отказа",
+          "украин"
+        ]
+      },
+      "expiresAt": 1792232502387
     }
   }
 }
