@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 409350,
+      "value": 423241,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792168253597,
+      "value": 1792168837602,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"080a7469ecd18015bb36386c744947556267112934d04b5620f5720d23481447\"]": {
@@ -2937,6 +2937,32 @@
         ]
       },
       "expiresAt": 1792254701998
+    },
+    "[\"factor\",\"pub\",\"45ae2045472024123f870fcfe17b2fc7b6badf9a87ae100e75034d9e774e1492\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "45ae2045472024123f870fcfe17b2fc7b6badf9a87ae100e75034d9e774e1492"
+      ],
+      "value": true,
+      "expiresAt": 1792255312646
+    },
+    "[\"factor\",\"topic\",\"45ae2045472024123f870fcfe17b2fc7b6badf9a87ae100e75034d9e774e1492\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "45ae2045472024123f870fcfe17b2fc7b6badf9a87ae100e75034d9e774e1492"
+      ],
+      "value": {
+        "title": "❗️ Освобождена Алексеево-Дружковка в ДНР, сообщил Герасимов",
+        "roots": [
+          "освобо",
+          "алексе",
+          "дружко",
+          "гераси"
+        ]
+      },
+      "expiresAt": 1792255312646
     }
   }
 }
