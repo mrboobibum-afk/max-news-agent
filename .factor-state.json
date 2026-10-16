@@ -17,35 +17,6 @@
       "value": 1792137664403,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"44e1bf4ba875c142d8a457b81e2993aa30b3e1a5f2b6b06c91d663698a79c5a0\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "44e1bf4ba875c142d8a457b81e2993aa30b3e1a5f2b6b06c91d663698a79c5a0"
-      ],
-      "value": true,
-      "expiresAt": 1792137727472
-    },
-    "[\"factor\",\"topic\",\"44e1bf4ba875c142d8a457b81e2993aa30b3e1a5f2b6b06c91d663698a79c5a0\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "44e1bf4ba875c142d8a457b81e2993aa30b3e1a5f2b6b06c91d663698a79c5a0"
-      ],
-      "value": {
-        "title": "США могут применить против Ирана \"мать всех бомб\", сообщает CNN со ссылкой на источники",
-        "roots": [
-          "могут",
-          "примен",
-          "против",
-          "ирана",
-          "сообща",
-          "ссылко",
-          "источн"
-        ]
-      },
-      "expiresAt": 1792137727473
-    },
     "[\"factor\",\"pub\",\"2636c082c2042ed6265e03061b56a7e1e6683f21b8bbcf383ca5d67bb36505cd\"]": {
       "key": [
         "factor",
