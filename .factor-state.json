@@ -17,34 +17,6 @@
       "value": 1792162871725,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"8111467ed6cb39f87bc1a5148fbc654d9e063d1f22993e75ef42ae05156338b1\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "8111467ed6cb39f87bc1a5148fbc654d9e063d1f22993e75ef42ae05156338b1"
-      ],
-      "value": true,
-      "expiresAt": 1792162892228
-    },
-    "[\"factor\",\"topic\",\"8111467ed6cb39f87bc1a5148fbc654d9e063d1f22993e75ef42ae05156338b1\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "8111467ed6cb39f87bc1a5148fbc654d9e063d1f22993e75ef42ae05156338b1"
-      ],
-      "value": {
-        "title": "У Украины закончились ракеты для систем ПВО Patriot, утверждает CNN",
-        "roots": [
-          "украин",
-          "законч",
-          "ракеты",
-          "систем",
-          "patrio",
-          "утверж"
-        ]
-      },
-      "expiresAt": 1792162892229
-    },
     "[\"factor\",\"pub\",\"442a60b455a7e89d3f4f1d018cca5822a015f56d502bb2979d93002693c7f2d3\"]": {
       "key": [
         "factor",
