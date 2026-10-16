@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 810151,
+      "value": 831594,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792179055493,
+      "value": 1792180234984,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"913e9704aa34ca0323ea35fbe4a366d783ae4716c0021562fff43422aee3d11c\"]": {
@@ -2891,6 +2891,35 @@
         ]
       },
       "expiresAt": 1792265704411
+    },
+    "[\"factor\",\"pub\",\"0e23fa5c9bbe2ae6b8932e0a6eaa7f374f6879c1894b77b3d7ec86b15b7d2dd0\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "0e23fa5c9bbe2ae6b8932e0a6eaa7f374f6879c1894b77b3d7ec86b15b7d2dd0"
+      ],
+      "value": true,
+      "expiresAt": 1792266705829
+    },
+    "[\"factor\",\"topic\",\"0e23fa5c9bbe2ae6b8932e0a6eaa7f374f6879c1894b77b3d7ec86b15b7d2dd0\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "0e23fa5c9bbe2ae6b8932e0a6eaa7f374f6879c1894b77b3d7ec86b15b7d2dd0"
+      ],
+      "value": {
+        "title": "🚨 В египетском Шарм-эш-Шейхе погиб несовершеннолетний россиянин, сообщает посольство РФ в",
+        "roots": [
+          "египет",
+          "шейхе",
+          "погиб",
+          "несове",
+          "россия",
+          "сообща",
+          "посоль"
+        ]
+      },
+      "expiresAt": 1792266705830
     }
   }
 }
