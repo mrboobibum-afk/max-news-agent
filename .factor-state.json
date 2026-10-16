@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 385204,
+      "value": 499787,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792159267295,
+      "value": 1792159837073,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"e125e26c31b91bae98a82ec8b22a439d2ec752ddd6b34949268f9e5a22c7eba2\"]": {
@@ -2891,6 +2891,34 @@
         ]
       },
       "expiresAt": 1792245825127
+    },
+    "[\"factor\",\"pub\",\"3856fffd72f4441aaae2b42e1dae2b686a5cc2a5fbc550695b42cae48cbf0ec5\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "3856fffd72f4441aaae2b42e1dae2b686a5cc2a5fbc550695b42cae48cbf0ec5"
+      ],
+      "value": true,
+      "expiresAt": 1792246271042
+    },
+    "[\"factor\",\"topic\",\"3856fffd72f4441aaae2b42e1dae2b686a5cc2a5fbc550695b42cae48cbf0ec5\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "3856fffd72f4441aaae2b42e1dae2b686a5cc2a5fbc550695b42cae48cbf0ec5"
+      ],
+      "value": {
+        "title": "Певицу Наоко (Диану Логинову) признали иноагентом",
+        "roots": [
+          "певицу",
+          "наоко",
+          "диану",
+          "логино",
+          "призна",
+          "иноаге"
+        ]
+      },
+      "expiresAt": 1792246271043
     }
   }
 }
