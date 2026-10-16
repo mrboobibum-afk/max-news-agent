@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 489856,
+      "value": 871079,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792177266068,
+      "value": 1792177832778,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"d1ceb1f1faa09654d691dcca0b1df3f4da9a71caafbdb8060fe99599ca75b11f\"]": {
@@ -2928,6 +2928,30 @@
         ]
       },
       "expiresAt": 1792263685504
+    },
+    "[\"factor\",\"pub\",\"4ce8fb4b6bca66a9f2f1eb4a5b19dfeb5aa31655fa92e0770e020f3b7a6d2dee\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4ce8fb4b6bca66a9f2f1eb4a5b19dfeb5aa31655fa92e0770e020f3b7a6d2dee"
+      ],
+      "value": true,
+      "expiresAt": 1792264267708
+    },
+    "[\"factor\",\"topic\",\"4ce8fb4b6bca66a9f2f1eb4a5b19dfeb5aa31655fa92e0770e020f3b7a6d2dee\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4ce8fb4b6bca66a9f2f1eb4a5b19dfeb5aa31655fa92e0770e020f3b7a6d2dee"
+      ],
+      "value": {
+        "title": "О чем пишут иностранные СМИ",
+        "roots": [
+          "пишут",
+          "иностр"
+        ]
+      },
+      "expiresAt": 1792264267709
     }
   }
 }
