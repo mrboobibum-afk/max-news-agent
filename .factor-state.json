@@ -17,37 +17,6 @@
       "value": 1792132833452,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"0a9d6e7f40a0be4da617828cfefdf6f45568023d866ead19e4bbba96cc6027c8\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "0a9d6e7f40a0be4da617828cfefdf6f45568023d866ead19e4bbba96cc6027c8"
-      ],
-      "value": true,
-      "expiresAt": 1792132853090
-    },
-    "[\"factor\",\"topic\",\"0a9d6e7f40a0be4da617828cfefdf6f45568023d866ead19e4bbba96cc6027c8\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "0a9d6e7f40a0be4da617828cfefdf6f45568023d866ead19e4bbba96cc6027c8"
-      ],
-      "value": {
-        "title": "▶️ Сделка по дизелю может защитить российские танкеры от нападений в Черном и Балтийском м",
-        "roots": [
-          "сделка",
-          "дизелю",
-          "может",
-          "защити",
-          "россий",
-          "танкер",
-          "нападе",
-          "черном",
-          "балтий"
-        ]
-      },
-      "expiresAt": 1792132853091
-    },
     "[\"factor\",\"pub\",\"8274a6bcb536ed91d019c7d5197a6caa8e566ca309d95b199d63e26f423889f9\"]": {
       "key": [
         "factor",
