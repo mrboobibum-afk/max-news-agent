@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 859615,
+      "value": 755985,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792132833452,
+      "value": 1792134065053,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"8274a6bcb536ed91d019c7d5197a6caa8e566ca309d95b199d63e26f423889f9\"]": {
@@ -2865,6 +2865,35 @@
         ]
       },
       "expiresAt": 1792219264485
+    },
+    "[\"factor\",\"pub\",\"8023d84f4851df4f31f88f6a2a8823f9d23251050eba3026f9cebc7efe07f5dc\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "8023d84f4851df4f31f88f6a2a8823f9d23251050eba3026f9cebc7efe07f5dc"
+      ],
+      "value": true,
+      "expiresAt": 1792220486172
+    },
+    "[\"factor\",\"topic\",\"8023d84f4851df4f31f88f6a2a8823f9d23251050eba3026f9cebc7efe07f5dc\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "8023d84f4851df4f31f88f6a2a8823f9d23251050eba3026f9cebc7efe07f5dc"
+      ],
+      "value": {
+        "title": "▪️ Новым владельцем разработчика игр «Леста» стал консорциум АО «Промышленные сооружения»",
+        "roots": [
+          "новым",
+          "владел",
+          "разраб",
+          "леста",
+          "консор",
+          "промыш",
+          "сооруж"
+        ]
+      },
+      "expiresAt": 1792220486175
     }
   }
 }
