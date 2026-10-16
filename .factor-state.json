@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 265626,
+      "value": 518792,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792180329235,
+      "value": 1792180737735,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"913e9704aa34ca0323ea35fbe4a366d783ae4716c0021562fff43422aee3d11c\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "913e9704aa34ca0323ea35fbe4a366d783ae4716c0021562fff43422aee3d11c"
-      ],
-      "value": true,
-      "expiresAt": 1792180391922
-    },
-    "[\"factor\",\"topic\",\"913e9704aa34ca0323ea35fbe4a366d783ae4716c0021562fff43422aee3d11c\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "913e9704aa34ca0323ea35fbe4a366d783ae4716c0021562fff43422aee3d11c"
-      ],
-      "value": {
-        "title": "Евросоюз стремится в кратчайшие сроки получить антимонопольное одобрение для спутникового ",
-        "roots": [
-          "евросо",
-          "стреми",
-          "кратча",
-          "сроки",
-          "получи",
-          "антимо",
-          "одобре",
-          "спутни"
-        ]
-      },
-      "expiresAt": 1792180391923
     },
     "[\"factor\",\"pub\",\"22c9d372dbde9018ade728bb4d2321e19b8815661277118291298cfab89ad598\"]": {
       "key": [
@@ -2921,6 +2891,34 @@
         ]
       },
       "expiresAt": 1792266801397
+    },
+    "[\"factor\",\"pub\",\"b6b4728d9433362cfc0f2caa3bd25d8192cf6492766fee74f85e18ac62d84fdf\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "b6b4728d9433362cfc0f2caa3bd25d8192cf6492766fee74f85e18ac62d84fdf"
+      ],
+      "value": true,
+      "expiresAt": 1792267215463
+    },
+    "[\"factor\",\"topic\",\"b6b4728d9433362cfc0f2caa3bd25d8192cf6492766fee74f85e18ac62d84fdf\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "b6b4728d9433362cfc0f2caa3bd25d8192cf6492766fee74f85e18ac62d84fdf"
+      ],
+      "value": {
+        "title": "🚨 Пять человек госпитализированы с подозрением на оспу обезьян в Петербурге, сообщает Рос",
+        "roots": [
+          "челове",
+          "госпит",
+          "подозр",
+          "обезья",
+          "петерб",
+          "сообща"
+        ]
+      },
+      "expiresAt": 1792267215464
     }
   }
 }
