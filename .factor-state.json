@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 199815,
+      "value": 414707,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792153236793,
+      "value": 1792153856468,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"8567b84f21f6e449c25b4cbd460f78c4882280112f3d59df5553f5dbf12724ed\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "8567b84f21f6e449c25b4cbd460f78c4882280112f3d59df5553f5dbf12724ed"
-      ],
-      "value": true,
-      "expiresAt": 1792153285818
-    },
-    "[\"factor\",\"topic\",\"8567b84f21f6e449c25b4cbd460f78c4882280112f3d59df5553f5dbf12724ed\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "8567b84f21f6e449c25b4cbd460f78c4882280112f3d59df5553f5dbf12724ed"
-      ],
-      "value": {
-        "title": "В Австралии мужчина провел 945 дней в центре для мигрантов из-за ошибки властей при толков",
-        "roots": [
-          "австра",
-          "мужчин",
-          "провел",
-          "центре",
-          "мигран",
-          "ошибки",
-          "власте",
-          "толков"
-        ]
-      },
-      "expiresAt": 1792153285819
     },
     "[\"factor\",\"pub\",\"2bb73c25bfd9ffe1fc9b5fa40945fdd3e87d1d6890f20d34e50fbbe78739c94b\"]": {
       "key": [
@@ -2829,6 +2799,36 @@
         ]
       },
       "expiresAt": 1792239716033
+    },
+    "[\"factor\",\"pub\",\"60dab0b22099a82e5378b72ed3ac1d53c7c978ed2621561860c1c6ba0d63ef4e\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "60dab0b22099a82e5378b72ed3ac1d53c7c978ed2621561860c1c6ba0d63ef4e"
+      ],
+      "value": true,
+      "expiresAt": 1792240406603
+    },
+    "[\"factor\",\"topic\",\"60dab0b22099a82e5378b72ed3ac1d53c7c978ed2621561860c1c6ba0d63ef4e\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "60dab0b22099a82e5378b72ed3ac1d53c7c978ed2621561860c1c6ba0d63ef4e"
+      ],
+      "value": {
+        "title": "▶️ Один человек погиб, четверо пострадали в массовом ДТП в Тюмени, где столкнулись четыре ",
+        "roots": [
+          "челове",
+          "погиб",
+          "четвер",
+          "постра",
+          "массов",
+          "тюмени",
+          "столкн",
+          "четыре"
+        ]
+      },
+      "expiresAt": 1792240406604
     }
   }
 }
