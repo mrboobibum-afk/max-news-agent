@@ -17,36 +17,6 @@
       "value": 1792113033756,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"9aa187b6c43758c9e4740ba44a9c7d65a97ab415118b0bf2bc10e58c510eb7ee\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "9aa187b6c43758c9e4740ba44a9c7d65a97ab415118b0bf2bc10e58c510eb7ee"
-      ],
-      "value": true,
-      "expiresAt": 1792113058830
-    },
-    "[\"factor\",\"topic\",\"9aa187b6c43758c9e4740ba44a9c7d65a97ab415118b0bf2bc10e58c510eb7ee\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "9aa187b6c43758c9e4740ba44a9c7d65a97ab415118b0bf2bc10e58c510eb7ee"
-      ],
-      "value": {
-        "title": "Новый государственный образовательный стандарт для старшей школы вступит в силу с 1 сентяб",
-        "roots": [
-          "новый",
-          "госуда",
-          "образо",
-          "станда",
-          "старше",
-          "школы",
-          "вступи",
-          "сентяб"
-        ]
-      },
-      "expiresAt": 1792113058831
-    },
     "[\"factor\",\"pub\",\"1a98f03026d3b21d1ef059a49584716bbb3f1c17998fbc73770a80e53fc87636\"]": {
       "key": [
         "factor",
