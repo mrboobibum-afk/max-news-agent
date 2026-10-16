@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 583820,
+      "value": 684126,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,35 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792182654510,
+      "value": 1792183834521,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"c5a5125d088b02e5f44631d3789c6c1b7675366d1be04a9bf0887e398298b84a\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c5a5125d088b02e5f44631d3789c6c1b7675366d1be04a9bf0887e398298b84a"
-      ],
-      "value": true,
-      "expiresAt": 1792183287009
-    },
-    "[\"factor\",\"topic\",\"c5a5125d088b02e5f44631d3789c6c1b7675366d1be04a9bf0887e398298b84a\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c5a5125d088b02e5f44631d3789c6c1b7675366d1be04a9bf0887e398298b84a"
-      ],
-      "value": {
-        "title": "Силы ПВО сбили десять летевших на Москву БПЛА, сообщил Собянин",
-        "roots": [
-          "сбили",
-          "десять",
-          "летевш",
-          "москву",
-          "собяни"
-        ]
-      },
-      "expiresAt": 1792183287010
     },
     "[\"factor\",\"pub\",\"ba453e3c3685fbb0d7a35681b374bb25e985bb89f293494eacf845525cc48aa9\"]": {
       "key": [
@@ -2917,6 +2890,34 @@
         ]
       },
       "expiresAt": 1792269109357
+    },
+    "[\"factor\",\"pub\",\"ab92e907b2bcbf63b0edeb90c5d795fa1b30f8c8fd31e06e0681a4f59c72684a\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "ab92e907b2bcbf63b0edeb90c5d795fa1b30f8c8fd31e06e0681a4f59c72684a"
+      ],
+      "value": true,
+      "expiresAt": 1792270386900
+    },
+    "[\"factor\",\"topic\",\"ab92e907b2bcbf63b0edeb90c5d795fa1b30f8c8fd31e06e0681a4f59c72684a\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "ab92e907b2bcbf63b0edeb90c5d795fa1b30f8c8fd31e06e0681a4f59c72684a"
+      ],
+      "value": {
+        "title": "Речи о массовом нашествии волков в Подмосковье нет и не было, заявил ТАСС начальник управл",
+        "roots": [
+          "массов",
+          "нашест",
+          "волков",
+          "подмос",
+          "началь",
+          "управл"
+        ]
+      },
+      "expiresAt": 1792270386901
     }
   }
 }
