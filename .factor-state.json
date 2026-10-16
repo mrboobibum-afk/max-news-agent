@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 878113,
+      "value": 224629,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792149036293,
+      "value": 1792150252769,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"67fa7b8ad9c11b3284ea9de2263c4a2af612ae287b16c5927040123f8dc4f4b8\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "67fa7b8ad9c11b3284ea9de2263c4a2af612ae287b16c5927040123f8dc4f4b8"
-      ],
-      "value": true,
-      "expiresAt": 1792149660833
-    },
-    "[\"factor\",\"topic\",\"67fa7b8ad9c11b3284ea9de2263c4a2af612ae287b16c5927040123f8dc4f4b8\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "67fa7b8ad9c11b3284ea9de2263c4a2af612ae287b16c5927040123f8dc4f4b8"
-      ],
-      "value": {
-        "title": "Пиар-директора журнала \"Москвичка\" Чаковскую сбил грузовик, она в реанимации",
-        "roots": [
-          "директ",
-          "журнал",
-          "москви",
-          "чаковс",
-          "грузов",
-          "реаним"
-        ]
-      },
-      "expiresAt": 1792149660834
     },
     "[\"factor\",\"pub\",\"8f78c6ac0651e5b5a1c3b64ca55bcd93ef517fa8633d16c8ec3a415da9ef403d\"]": {
       "key": [
@@ -2826,6 +2798,36 @@
         ]
       },
       "expiresAt": 1792235529392
+    },
+    "[\"factor\",\"pub\",\"cdf0c9acbc513f5ae453092cd6da0a7e08bac3daa2d768fb2914299965a508af\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "cdf0c9acbc513f5ae453092cd6da0a7e08bac3daa2d768fb2914299965a508af"
+      ],
+      "value": true,
+      "expiresAt": 1792236707566
+    },
+    "[\"factor\",\"topic\",\"cdf0c9acbc513f5ae453092cd6da0a7e08bac3daa2d768fb2914299965a508af\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "cdf0c9acbc513f5ae453092cd6da0a7e08bac3daa2d768fb2914299965a508af"
+      ],
+      "value": {
+        "title": "Минимальный размер пенсии в Москве с 2027 года с учетом городской доплаты составит 28 580 ",
+        "roots": [
+          "минима",
+          "размер",
+          "пенсии",
+          "москве",
+          "учетом",
+          "городс",
+          "доплат",
+          "состав"
+        ]
+      },
+      "expiresAt": 1792236707568
     }
   }
 }
