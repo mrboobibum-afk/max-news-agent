@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 264443,
+      "value": 509301,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792135854622,
+      "value": 1792136435377,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"f9d10548d5d4ca2a21749d416f8ac6ab3b3103ed2ba4f8fa4576d59e03b154f8\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "f9d10548d5d4ca2a21749d416f8ac6ab3b3103ed2ba4f8fa4576d59e03b154f8"
-      ],
-      "value": true,
-      "expiresAt": 1792135896001
-    },
-    "[\"factor\",\"topic\",\"f9d10548d5d4ca2a21749d416f8ac6ab3b3103ed2ba4f8fa4576d59e03b154f8\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "f9d10548d5d4ca2a21749d416f8ac6ab3b3103ed2ba4f8fa4576d59e03b154f8"
-      ],
-      "value": {
-        "title": "▶️ Авиация РФ уничтожила пункты временной дислокации и управления БПЛА ВСУ в Белозерском и",
-        "roots": [
-          "авиаци",
-          "уничто",
-          "пункты",
-          "времен",
-          "дислок",
-          "управл",
-          "белозе"
-        ]
-      },
-      "expiresAt": 1792135896003
     },
     "[\"factor\",\"pub\",\"129304b906f85bb2d6efaf15242708bf121fb27819f9816076487490b3c4bae9\"]": {
       "key": [
@@ -2866,6 +2837,37 @@
         ]
       },
       "expiresAt": 1792222275769
+    },
+    "[\"factor\",\"pub\",\"04aeb9659aeb40ab0d3d3abb9ceae23e24f98aea5d489477c9ac9d08cfad6083\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "04aeb9659aeb40ab0d3d3abb9ceae23e24f98aea5d489477c9ac9d08cfad6083"
+      ],
+      "value": true,
+      "expiresAt": 1792222851545
+    },
+    "[\"factor\",\"topic\",\"04aeb9659aeb40ab0d3d3abb9ceae23e24f98aea5d489477c9ac9d08cfad6083\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "04aeb9659aeb40ab0d3d3abb9ceae23e24f98aea5d489477c9ac9d08cfad6083"
+      ],
+      "value": {
+        "title": "Крупнейшие алкогольные ретейлеры России начали сокращать число магазинов после активного р",
+        "roots": [
+          "крупне",
+          "алкого",
+          "ретейл",
+          "россии",
+          "начали",
+          "сокращ",
+          "число",
+          "магази",
+          "активн"
+        ]
+      },
+      "expiresAt": 1792222851546
     }
   }
 }
