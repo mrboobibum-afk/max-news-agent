@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 886506,
+      "value": 859615,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792131636387,
+      "value": 1792132833452,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"0a9d6e7f40a0be4da617828cfefdf6f45568023d866ead19e4bbba96cc6027c8\"]": {
@@ -2869,6 +2869,33 @@
         ]
       },
       "expiresAt": 1792218053912
+    },
+    "[\"factor\",\"pub\",\"1949b64d49cda68d5c66ac45f72e70d8fd67078ca32703d4c1bc5506e4fb7f67\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "1949b64d49cda68d5c66ac45f72e70d8fd67078ca32703d4c1bc5506e4fb7f67"
+      ],
+      "value": true,
+      "expiresAt": 1792219264214
+    },
+    "[\"factor\",\"topic\",\"1949b64d49cda68d5c66ac45f72e70d8fd67078ca32703d4c1bc5506e4fb7f67\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "1949b64d49cda68d5c66ac45f72e70d8fd67078ca32703d4c1bc5506e4fb7f67"
+      ],
+      "value": {
+        "title": "◻️ ◻️ ◻️ Главные новости — в утреннем выпуске на телеканале РБК: ▪️ 00:00-00:46 — Смертель",
+        "roots": [
+          "главны",
+          "утренн",
+          "выпуск",
+          "телека",
+          "смерте"
+        ]
+      },
+      "expiresAt": 1792219264485
     }
   }
 }
