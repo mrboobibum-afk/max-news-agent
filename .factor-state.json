@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 331773,
+      "value": 696369,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,34 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792161057205,
+      "value": 1792161636537,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"34ef4651e5524ee85a7215fed25403552a95ce42e49629b191f663227da41330\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "34ef4651e5524ee85a7215fed25403552a95ce42e49629b191f663227da41330"
-      ],
-      "value": true,
-      "expiresAt": 1792161090798
-    },
-    "[\"factor\",\"topic\",\"34ef4651e5524ee85a7215fed25403552a95ce42e49629b191f663227da41330\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "34ef4651e5524ee85a7215fed25403552a95ce42e49629b191f663227da41330"
-      ],
-      "value": {
-        "title": "Расчлененное тело нашли в сумках в Петербурге",
-        "roots": [
-          "расчле",
-          "нашли",
-          "сумках",
-          "петерб"
-        ]
-      },
-      "expiresAt": 1792161090799
     },
     "[\"factor\",\"pub\",\"38f2aa97671c78a1884f4a1d4c868f2a9c2c020c007f7b636e542773bd8d3c3f\"]": {
       "key": [
@@ -2918,6 +2892,33 @@
         ]
       },
       "expiresAt": 1792247483867
+    },
+    "[\"factor\",\"pub\",\"93526effd9653520088dba5803ad372bebc4fd21afe559d32216fae710a199c9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "93526effd9653520088dba5803ad372bebc4fd21afe559d32216fae710a199c9"
+      ],
+      "value": true,
+      "expiresAt": 1792248060926
+    },
+    "[\"factor\",\"topic\",\"93526effd9653520088dba5803ad372bebc4fd21afe559d32216fae710a199c9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "93526effd9653520088dba5803ad372bebc4fd21afe559d32216fae710a199c9"
+      ],
+      "value": {
+        "title": "Россия и США обсуждают сотрудничество в сфере дата-центров, заявил Дмитриев",
+        "roots": [
+          "обсужд",
+          "сотруд",
+          "сфере",
+          "центро",
+          "дмитри"
+        ]
+      },
+      "expiresAt": 1792248060928
     }
   }
 }
