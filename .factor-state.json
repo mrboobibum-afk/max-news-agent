@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 525882,
+      "value": 266976,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792154439182,
+      "value": 1792155042523,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"d6e659baf34f42d6ef0eb1f60f7dd5988db17b9e6629f786818da1d048a34222\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "d6e659baf34f42d6ef0eb1f60f7dd5988db17b9e6629f786818da1d048a34222"
-      ],
-      "value": true,
-      "expiresAt": 1792154465014
-    },
-    "[\"factor\",\"topic\",\"d6e659baf34f42d6ef0eb1f60f7dd5988db17b9e6629f786818da1d048a34222\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "d6e659baf34f42d6ef0eb1f60f7dd5988db17b9e6629f786818da1d048a34222"
-      ],
-      "value": {
-        "title": "Спецпосланник Трампа высказался в интервью ТАСС за организацию матча сборных РФ и США по ф",
-        "roots": [
-          "спецпо",
-          "трампа",
-          "высказ",
-          "интерв",
-          "органи",
-          "матча",
-          "сборны"
-        ]
-      },
-      "expiresAt": 1792154465015
     },
     "[\"factor\",\"pub\",\"3ac7aa272fe02151e76e0209a9cee1eef62f258d59b0ed922f4894bef15d6087\"]": {
       "key": [
@@ -2827,6 +2798,36 @@
         ]
       },
       "expiresAt": 1792240886755
+    },
+    "[\"factor\",\"pub\",\"a9729a6bc982e22978ac4110364363de8b79a1069e25d3c5539bf03b2c3c1a3b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "a9729a6bc982e22978ac4110364363de8b79a1069e25d3c5539bf03b2c3c1a3b"
+      ],
+      "value": true,
+      "expiresAt": 1792241467800
+    },
+    "[\"factor\",\"topic\",\"a9729a6bc982e22978ac4110364363de8b79a1069e25d3c5539bf03b2c3c1a3b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "a9729a6bc982e22978ac4110364363de8b79a1069e25d3c5539bf03b2c3c1a3b"
+      ],
+      "value": {
+        "title": "Пожар вспыхнул из-за атаки дронов на промышленный объект в Сургутском районе ХМАО",
+        "roots": [
+          "пожар",
+          "вспыхн",
+          "атаки",
+          "дронов",
+          "промыш",
+          "объект",
+          "сургут",
+          "районе"
+        ]
+      },
+      "expiresAt": 1792241467801
     }
   }
 }
