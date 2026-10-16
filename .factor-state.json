@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 699412,
+      "value": 605607,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792143633842,
+      "value": 1792144867149,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"b2ce0fe108404bc1dc334593f697e34058eb452fc7bba8b9fb9778a3767d20c6\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "b2ce0fe108404bc1dc334593f697e34058eb452fc7bba8b9fb9778a3767d20c6"
-      ],
-      "value": true,
-      "expiresAt": 1792144290515
-    },
-    "[\"factor\",\"topic\",\"b2ce0fe108404bc1dc334593f697e34058eb452fc7bba8b9fb9778a3767d20c6\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "b2ce0fe108404bc1dc334593f697e34058eb452fc7bba8b9fb9778a3767d20c6"
-      ],
-      "value": {
-        "title": "Обвиняемая в убийстве экс-мэра Самары Тархова и его жены попросила направить ее на СВО, чт",
-        "roots": [
-          "обвиня",
-          "убийст",
-          "самары",
-          "тархов",
-          "попрос",
-          "направ"
-        ]
-      },
-      "expiresAt": 1792144290517
     },
     "[\"factor\",\"pub\",\"ac55eec1a8c5d51d978f93e2e8374acf083a7451f4d453aa154284f995b2c4ee\"]": {
       "key": [
@@ -2892,6 +2864,35 @@
         ]
       },
       "expiresAt": 1792230055117
+    },
+    "[\"factor\",\"pub\",\"e63f886081b848b85b7b0aaf6eca7dcbf9423b21dc390e485d53fd7e2e7b2eae\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e63f886081b848b85b7b0aaf6eca7dcbf9423b21dc390e485d53fd7e2e7b2eae"
+      ],
+      "value": true,
+      "expiresAt": 1792231347252
+    },
+    "[\"factor\",\"topic\",\"e63f886081b848b85b7b0aaf6eca7dcbf9423b21dc390e485d53fd7e2e7b2eae\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e63f886081b848b85b7b0aaf6eca7dcbf9423b21dc390e485d53fd7e2e7b2eae"
+      ],
+      "value": {
+        "title": "У Путина вечером состоится международный телефонный разговор, заявил Песков",
+        "roots": [
+          "путина",
+          "вечеро",
+          "состои",
+          "междун",
+          "телефо",
+          "разгов",
+          "песков"
+        ]
+      },
+      "expiresAt": 1792231347253
     }
   }
 }
