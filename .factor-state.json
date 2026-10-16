@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 883618,
+      "value": 319877,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792191663430,
+      "value": 1792192831628,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"12e36e143fc6d0346e6eef2ccc0b156be08cccc1d8ae94125a836ee95fb07648\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "12e36e143fc6d0346e6eef2ccc0b156be08cccc1d8ae94125a836ee95fb07648"
-      ],
-      "value": true,
-      "expiresAt": 1792192275239
-    },
-    "[\"factor\",\"topic\",\"12e36e143fc6d0346e6eef2ccc0b156be08cccc1d8ae94125a836ee95fb07648\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "12e36e143fc6d0346e6eef2ccc0b156be08cccc1d8ae94125a836ee95fb07648"
-      ],
-      "value": {
-        "title": "Россия и США пока не ведут переговоров о продлении лицензии на поставку дизеля на сроки по",
-        "roots": [
-          "ведут",
-          "перего",
-          "продле",
-          "лиценз",
-          "постав",
-          "дизеля",
-          "сроки"
-        ]
-      },
-      "expiresAt": 1792192275240
     },
     "[\"factor\",\"pub\",\"f003984526d0e58db74e107c9cc8c2bb568c61f12745a710639dd0ee5c678c37\"]": {
       "key": [
@@ -2889,6 +2860,29 @@
         ]
       },
       "expiresAt": 1792278146925
+    },
+    "[\"factor\",\"pub\",\"cf1a201f8dd98647cf89d94bc444c869abe02c18b8f4703dd4a7f48af8b79d4d\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "cf1a201f8dd98647cf89d94bc444c869abe02c18b8f4703dd4a7f48af8b79d4d"
+      ],
+      "value": true,
+      "expiresAt": 1792279339627
+    },
+    "[\"factor\",\"topic\",\"cf1a201f8dd98647cf89d94bc444c869abe02c18b8f4703dd4a7f48af8b79d4d\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "cf1a201f8dd98647cf89d94bc444c869abe02c18b8f4703dd4a7f48af8b79d4d"
+      ],
+      "value": {
+        "title": "Около 1,5 тыс",
+        "roots": [
+          "около"
+        ]
+      },
+      "expiresAt": 1792279339628
     }
   }
 }
