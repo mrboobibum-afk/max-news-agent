@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 700680,
+      "value": 810376,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792119665920,
+      "value": 1792120838724,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"40ac18aef58a882304af7dab5aa703b752821216789bd7703b8e7d49595cd208\"]": {
@@ -2918,6 +2918,35 @@
         ]
       },
       "expiresAt": 1792206098319
+    },
+    "[\"factor\",\"pub\",\"f38120b3888596d581e3f9e6836c8bcab5748acf89bd36c88ff674595873edb0\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "f38120b3888596d581e3f9e6836c8bcab5748acf89bd36c88ff674595873edb0"
+      ],
+      "value": true,
+      "expiresAt": 1792207299597
+    },
+    "[\"factor\",\"topic\",\"f38120b3888596d581e3f9e6836c8bcab5748acf89bd36c88ff674595873edb0\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "f38120b3888596d581e3f9e6836c8bcab5748acf89bd36c88ff674595873edb0"
+      ],
+      "value": {
+        "title": "📹 Tesla показала новый Roadster, способный отрываться от земли",
+        "roots": [
+          "tesla",
+          "показа",
+          "новый",
+          "roadst",
+          "способ",
+          "отрыва",
+          "земли"
+        ]
+      },
+      "expiresAt": 1792207299598
     }
   }
 }
