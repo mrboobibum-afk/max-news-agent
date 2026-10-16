@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 810151,
+      "value": 265626,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792179055493,
+      "value": 1792180329235,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"913e9704aa34ca0323ea35fbe4a366d783ae4716c0021562fff43422aee3d11c\"]": {
@@ -2891,6 +2891,36 @@
         ]
       },
       "expiresAt": 1792265704411
+    },
+    "[\"factor\",\"pub\",\"82f2f79a6dbda9e9da05e68877c9e4a7704986838efdba75c4ca3165f52f09dd\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "82f2f79a6dbda9e9da05e68877c9e4a7704986838efdba75c4ca3165f52f09dd"
+      ],
+      "value": true,
+      "expiresAt": 1792266801395
+    },
+    "[\"factor\",\"topic\",\"82f2f79a6dbda9e9da05e68877c9e4a7704986838efdba75c4ca3165f52f09dd\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "82f2f79a6dbda9e9da05e68877c9e4a7704986838efdba75c4ca3165f52f09dd"
+      ],
+      "value": {
+        "title": "Вышедшие из-под контроля ИИ-агенты взломали ряд индийских организаций, сообщает Reuters со",
+        "roots": [
+          "вышедш",
+          "контро",
+          "агенты",
+          "взлома",
+          "индийс",
+          "органи",
+          "сообща",
+          "reuter"
+        ]
+      },
+      "expiresAt": 1792266801397
     }
   }
 }
