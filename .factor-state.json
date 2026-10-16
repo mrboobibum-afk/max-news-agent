@@ -17,30 +17,6 @@
       "value": 1792130467847,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"6c38524951fe64b0097d60757c9d2a693a9fe1c0b9b0e94c5cd3981943860141\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "6c38524951fe64b0097d60757c9d2a693a9fe1c0b9b0e94c5cd3981943860141"
-      ],
-      "value": true,
-      "expiresAt": 1792130490364
-    },
-    "[\"factor\",\"topic\",\"6c38524951fe64b0097d60757c9d2a693a9fe1c0b9b0e94c5cd3981943860141\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "6c38524951fe64b0097d60757c9d2a693a9fe1c0b9b0e94c5cd3981943860141"
-      ],
-      "value": {
-        "title": "США могут сбросить \"мать всех бомб\" на Иран",
-        "roots": [
-          "могут",
-          "сброси"
-        ]
-      },
-      "expiresAt": 1792130490365
-    },
     "[\"factor\",\"pub\",\"e7184da954dcf61a06e2d4eb32e9f7d087bf252c2bf35992feab927899c22b07\"]": {
       "key": [
         "factor",
