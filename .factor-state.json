@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 407107,
+      "value": 846555,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792116064505,
+      "value": 1792116634016,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"b8fc3261b8b70b67d0c2f9ad29363035647bc1701999952821d77df0ee1693d0\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "b8fc3261b8b70b67d0c2f9ad29363035647bc1701999952821d77df0ee1693d0"
-      ],
-      "value": true,
-      "expiresAt": 1792116306493
-    },
-    "[\"factor\",\"topic\",\"b8fc3261b8b70b67d0c2f9ad29363035647bc1701999952821d77df0ee1693d0\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "b8fc3261b8b70b67d0c2f9ad29363035647bc1701999952821d77df0ee1693d0"
-      ],
-      "value": {
-        "title": "Судно с 25 дайверами затонуло у берегов Индонезии, один человек пропал без вести",
-        "roots": [
-          "судно",
-          "дайвер",
-          "затону",
-          "берего",
-          "индоне",
-          "челове",
-          "пропал",
-          "вести"
-        ]
-      },
-      "expiresAt": 1792116306495
     },
     "[\"factor\",\"pub\",\"12c6a7ffe1529686bb5dde7b4e8df02294dced45d8f4451f5f8be29c2a5b7bf4\"]": {
       "key": [
@@ -2943,6 +2913,37 @@
         ]
       },
       "expiresAt": 1792202808951
+    },
+    "[\"factor\",\"pub\",\"5c40e0fdaec7138a3e1b9c3ebe5af16070a35538cf3871fc484e7006fccc55c1\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "5c40e0fdaec7138a3e1b9c3ebe5af16070a35538cf3871fc484e7006fccc55c1"
+      ],
+      "value": true,
+      "expiresAt": 1792203079668
+    },
+    "[\"factor\",\"topic\",\"5c40e0fdaec7138a3e1b9c3ebe5af16070a35538cf3871fc484e7006fccc55c1\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "5c40e0fdaec7138a3e1b9c3ebe5af16070a35538cf3871fc484e7006fccc55c1"
+      ],
+      "value": {
+        "title": "Ограничение Starlink на Украине сделало непригодным значительную часть арсенала беспилотни",
+        "roots": [
+          "ограни",
+          "starli",
+          "украин",
+          "сделал",
+          "неприг",
+          "значит",
+          "часть",
+          "арсена",
+          "беспил"
+        ]
+      },
+      "expiresAt": 1792203079669
     }
   }
 }
