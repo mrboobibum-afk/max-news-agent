@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 855678,
+      "value": 340057,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792165236042,
+      "value": 1792166466716,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"7f72ebee9eaee521e1a4f69d0a7b35ef1ada5f10a9b0827302de7cc920ee274b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "7f72ebee9eaee521e1a4f69d0a7b35ef1ada5f10a9b0827302de7cc920ee274b"
-      ],
-      "value": true,
-      "expiresAt": 1792165866508
-    },
-    "[\"factor\",\"topic\",\"7f72ebee9eaee521e1a4f69d0a7b35ef1ada5f10a9b0827302de7cc920ee274b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "7f72ebee9eaee521e1a4f69d0a7b35ef1ada5f10a9b0827302de7cc920ee274b"
-      ],
-      "value": {
-        "title": "\"Не надо было начинать\" Россия будет отвечать на удары по НПЗ и логистическим и энергообъе",
-        "roots": [
-          "начина",
-          "будет",
-          "отвеча",
-          "удары",
-          "логист",
-          "энерго"
-        ]
-      },
-      "expiresAt": 1792165866509
     },
     "[\"factor\",\"pub\",\"852cd8cb096011fb0b45808bee59b26429590a68c9e69f88469373cb86f33955\"]": {
       "key": [
@@ -2906,6 +2878,38 @@
         ]
       },
       "expiresAt": 1792251651882
+    },
+    "[\"factor\",\"pub\",\"98e9807e566a1ae149f35c3f2aa6ca26f6036d4b67aeb6e66e6ce7bacb843064\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "98e9807e566a1ae149f35c3f2aa6ca26f6036d4b67aeb6e66e6ce7bacb843064"
+      ],
+      "value": true,
+      "expiresAt": 1792252885956
+    },
+    "[\"factor\",\"topic\",\"98e9807e566a1ae149f35c3f2aa6ca26f6036d4b67aeb6e66e6ce7bacb843064\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "98e9807e566a1ae149f35c3f2aa6ca26f6036d4b67aeb6e66e6ce7bacb843064"
+      ],
+      "value": {
+        "title": "❗️ Армия России приступила к ударам по объектам энергетики Украины, доложил Путину Герасим",
+        "roots": [
+          "армия",
+          "россии",
+          "присту",
+          "ударам",
+          "объект",
+          "энерге",
+          "украин",
+          "доложи",
+          "путину",
+          "гераси"
+        ]
+      },
+      "expiresAt": 1792252885957
     }
   }
 }
