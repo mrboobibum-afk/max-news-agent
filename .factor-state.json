@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 434268,
+      "value": 829597,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,40 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792108232154,
+      "value": 1792108867429,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"7db69c2a1d4ddc5f328cd6ce28d2c592374fadd2afab304a0b451f34e9ccf458\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "7db69c2a1d4ddc5f328cd6ce28d2c592374fadd2afab304a0b451f34e9ccf458"
-      ],
-      "value": true,
-      "expiresAt": 1792108258598
-    },
-    "[\"factor\",\"topic\",\"7db69c2a1d4ddc5f328cd6ce28d2c592374fadd2afab304a0b451f34e9ccf458\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "7db69c2a1d4ddc5f328cd6ce28d2c592374fadd2afab304a0b451f34e9ccf458"
-      ],
-      "value": {
-        "title": "Выплату многодетным отцам в размере не менее 2 миллионов рублей предложили ввести в Общест",
-        "roots": [
-          "выплат",
-          "многод",
-          "отцам",
-          "размер",
-          "менее",
-          "миллио",
-          "рублей",
-          "предло",
-          "ввести",
-          "общест"
-        ]
-      },
-      "expiresAt": 1792108258599
     },
     "[\"factor\",\"pub\",\"203805dd32e4f3055cbaaae43bea4d1b88bcfa281512c7d1f01f364a0dd6dacf\"]": {
       "key": [
@@ -2974,6 +2942,35 @@
         ]
       },
       "expiresAt": 1792194936229
+    },
+    "[\"factor\",\"pub\",\"dbaf970378eb2af5de269ebfb05a397961764ecdb919b920e882d09ff3bad049\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "dbaf970378eb2af5de269ebfb05a397961764ecdb919b920e882d09ff3bad049"
+      ],
+      "value": true,
+      "expiresAt": 1792195296351
+    },
+    "[\"factor\",\"topic\",\"dbaf970378eb2af5de269ebfb05a397961764ecdb919b920e882d09ff3bad049\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "dbaf970378eb2af5de269ebfb05a397961764ecdb919b920e882d09ff3bad049"
+      ],
+      "value": {
+        "title": "Урсула фон дер Ляйен предложила создать \"стратегические запасы\" газа в ЕС, сообщили издани",
+        "roots": [
+          "урсула",
+          "ляйен",
+          "предло",
+          "создат",
+          "страте",
+          "запасы",
+          "издани"
+        ]
+      },
+      "expiresAt": 1792195296352
     }
   }
 }
