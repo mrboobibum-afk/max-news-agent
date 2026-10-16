@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 381094,
+      "value": 615145,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792123836062,
+      "value": 1792124431647,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"2a7a782a5acccd18d483225b35fa531191436f2e1b7e5ae0554b95c245e63c26\"]": {
@@ -2922,6 +2922,37 @@
         ]
       },
       "expiresAt": 1792210287643
+    },
+    "[\"factor\",\"pub\",\"ca6e7016c80682fb9ffdabf753f9ef4fab4782b3ca9248678dda79d8735f1ea6\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "ca6e7016c80682fb9ffdabf753f9ef4fab4782b3ca9248678dda79d8735f1ea6"
+      ],
+      "value": true,
+      "expiresAt": 1792210861448
+    },
+    "[\"factor\",\"topic\",\"ca6e7016c80682fb9ffdabf753f9ef4fab4782b3ca9248678dda79d8735f1ea6\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "ca6e7016c80682fb9ffdabf753f9ef4fab4782b3ca9248678dda79d8735f1ea6"
+      ],
+      "value": {
+        "title": "✈️ Финляндия ограничила полеты над восточной частью Финского залива, Причины введения подо",
+        "roots": [
+          "финлян",
+          "ограни",
+          "полеты",
+          "восточ",
+          "частью",
+          "финско",
+          "залива",
+          "причин",
+          "введен"
+        ]
+      },
+      "expiresAt": 1792210861449
     }
   }
 }
