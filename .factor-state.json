@@ -17,36 +17,6 @@
       "value": 1792165236042,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"2707d3ee7c3fd32183c9cd97e467d9fc81be7ce6c6e225d1acfc0eb60cdb99f2\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "2707d3ee7c3fd32183c9cd97e467d9fc81be7ce6c6e225d1acfc0eb60cdb99f2"
-      ],
-      "value": true,
-      "expiresAt": 1792165297087
-    },
-    "[\"factor\",\"topic\",\"2707d3ee7c3fd32183c9cd97e467d9fc81be7ce6c6e225d1acfc0eb60cdb99f2\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "2707d3ee7c3fd32183c9cd97e467d9fc81be7ce6c6e225d1acfc0eb60cdb99f2"
-      ],
-      "value": {
-        "title": "Главреда \"Новой газеты\"* Соколова после обыска в его квартире привезли на допрос в СК по д",
-        "roots": [
-          "главре",
-          "новой",
-          "газеты",
-          "соколо",
-          "обыска",
-          "кварти",
-          "привез",
-          "допрос"
-        ]
-      },
-      "expiresAt": 1792165297088
-    },
     "[\"factor\",\"pub\",\"7f72ebee9eaee521e1a4f69d0a7b35ef1ada5f10a9b0827302de7cc920ee274b\"]": {
       "key": [
         "factor",
