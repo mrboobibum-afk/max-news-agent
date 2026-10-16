@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ПРЯМОЙ ЭФИР» (Live Video/Action Edition v38)
+// MAX NEWS AGENT — «ФАКТОР» (Live Video/Action Edition v40)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -28,7 +28,8 @@ const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
 const MIN_VIDEO_BYTES = 50 * 1024;
 const MAX_VIDEO_BYTES = 30 * 1024 * 1024;
 
-const MAX_BODY_LEN = 500;
+const MAX_BODY_LEN = 450;
+const MIN_INSIGHT_IMPORTANCE = 7; // "что это значит" добавляется только для важных новостей
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
 
@@ -303,8 +304,6 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
     return null;
 }
 
-// ИСПРАВЛЕНО: теперь ищем слова-маркеры в тексте (indexOf) и обрезаем всё после них.
-// Символы-эмодзи перед словом не важны — они просто попадают в обрезаемый хвост.
 function sanitizeRawText(raw: string): string {
     let t = cleanText(raw);
     t = t.replace(/(?:данные|информация|источник|по данным|сообщает|сообщил)\s+(?:shot|mash|baza|база|риа|тасс|чп)[\s\S]*?[.—:]\s*/gi, "");
@@ -312,34 +311,20 @@ function sanitizeRawText(raw: string): string {
     t = t.replace(/как\s+стало\s+известно,?\s*/gi, "");
     t = t.replace(/(?:подписывайтесь|подробнее|эксклюзив)\b[\s\S]*$/gi, "");
     t = t.replace(/—\s*данные\s+[A-Za-zА-Яа-я0-9_]+/gi, "");
-
-    // Собственные подписи и логотипы
     t = t.replace(/📢\s*Прямой Эфир/gi, "");
     t = t.replace(/⚡\s*ФАКТОР/gi, "");
 
-    // Обрезаем хвост от маркеров подписки на чужой канал.
-    // Если маркер найден не в самом начале (idx > 15) — режем всё после него.
     const markers = [
-        "Подписаться",
-        "Подпишись",
-        "Мы в Максе",
-        'Мы в "Максе"',
-        "Мы в «Максе»",
-        "Наш канал в Максе",
-        "Читайте нас в Максе",
-        "Читайте в Максе",
+        "Подписаться", "Подпишись",
+        "Мы в Максе", 'Мы в "Максе"', "Мы в «Максе»",
+        "Наш канал в Максе", "Читайте нас в Максе", "Читайте в Максе",
     ];
     for (const m of markers) {
         const idx = t.toLowerCase().indexOf(m.toLowerCase());
-        if (idx > 15) {
-            t = t.slice(0, idx);
-            break;
-        }
+        if (idx > 15) { t = t.slice(0, idx); break; }
     }
 
-    // Дочищаем одиночные символы-маркеры и знаки в конце
     t = t.replace(/[\s◆♦●○■▪▫▶➡⬛⬜⭐✔☑«»"'.,;:!?/\-–—]+$/g, "");
-
     return t.trim();
 }
 
@@ -352,9 +337,7 @@ function extractPostDate(postHtml: string): number | null {
 
 function simpleHash(str: string): string {
     let h = 0;
-    for (let i = 0; i < str.length; i++) {
-        h = (h * 31 + str.charCodeAt(i)) | 0;
-    }
+    for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) | 0;
     return Math.abs(h).toString(36);
 }
 
@@ -458,30 +441,38 @@ function cutBody(text: string, maxLen = MAX_BODY_LEN): string {
     return (lastSpace > 0 ? sub.slice(0, lastSpace) : sub) + "...";
 }
 
-async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, text: string, importance: number, is_ad: boolean }> {
+// ИЗМЕНЕНО: LLM теперь генерирует три поля — headline, body, insight.
+// Headline — громкий заголовок с эмодзи по смыслу (не шаблонным).
+// Body — 2-3 предложения о том, что случилось, с сохранением фактов.
+// Insight — одна фраза «что это значит» (только для важных, importance >= 7).
+async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, body: string, insight: string, importance: number, is_ad: boolean }> {
     const cleanDesc = sanitizeRawText(desc);
-    const bodyText = cutBody(cleanDesc);
+    const fallbackBody = cutBody(cleanDesc);
     const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 100);
 
-    const prompt = `Ты редактор новостного канала. Ниже — текст новости.
-Сделай ТОЛЬКО ЗАГОЛОВОК и оценку важности.
+    const prompt = `Ты редактор новостного канала «ФАКТОР». Девиз: события — причины — последствия.
+Ниже — исходный текст новости. Сделай из него структурированный пост.
 
-ТЕКСТ НОВОСТИ:
+ИСХОДНЫЙ ТЕКСТ:
 ${cleanDesc}
 
-СТРОГИЕ ПРАВИЛА:
-1. headline — заголовок до 7 слов, громкий, передаёт суть события. Обязательно 1-2 эмодзи (⚡ 🔥 🚨 💥 ⚠️) в начало или конец.
-   ЗАПРЕЩЕНО менять цифры, возраст, имена, названия городов и организаций.
-   ЗАПРЕЩЕНО добавлять факты, которых нет в тексте.
-2. importance — целое число 1–10:
+ЗАДАЧИ:
+1. headline — заголовок до 7 слов, отражает суть события. Одно эмодзи по смыслу (⚡ 🔥 🚨 💥 ⚠️ 📉 📈 🏆 🎯 💰 🌍 🛡️ ⚔️ — выбирай подходящее, НЕ ставь ⚡ по умолчанию).
+   ЗАПРЕЩЕНО менять цифры, возраст, имена, названия городов и организаций. Только то, что есть в тексте. Никаких выдумок.
+2. body — 2-3 законченных предложения. Расскажи что случилось: кто, что, где, когда. Сохрани все цифры и факты из источника. Закончи мысль точкой.
+3. insight — одна короткая фраза (до 12 слов) о том, что это значит / почему важно. Без выдумок — вывод из уже сказанного. Если в тексте нет оснований для вывода — оставь пустую строку "".
+4. importance — целое 1-10:
    10 — экстренно (война, теракт, катастрофа, удар по инфраструктуре, массовые протесты).
    8-9 — очень важно (крупное ЧП с жертвами, решение власти, знаковая фигура, международные протесты).
    7 — важно (политическое/экономическое событие, крупные удары, санкции).
    6 — заметно (международная политика, заявления лидеров, крупный бизнес).
    4-5 — средне (региональное ЧП без жертв, спорт, мелкий бизнес).
    1-3 — НЕ ВАЖНО (бытовуха, ДТП без жертв, курьёзы, погода).
-3. is_ad — true, если это реклама, анонс сервиса, промо-пост, приглашение подписаться.
-Верни ТОЛЬКО JSON: {"headline": "⚡ ...", "importance": 6, "is_ad": false}`;
+5. is_ad — true, если это реклама, анонс сервиса, промо-пост.
+
+Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 6, "is_ad": false}`;
+
+    let llmResult: any = null;
 
     if (GEMINI_API_KEY) {
         try {
@@ -493,13 +484,12 @@ ${cleanDesc}
             });
             if (r.ok) {
                 const j = await r.json();
-                const p = JSON.parse(j?.candidates?.[0]?.content?.parts?.[0]?.text ?? "{}");
-                if (p.headline) return { headline: p.headline, text: bodyText, importance: Number(p.importance) || 5, is_ad: !!p.is_ad };
+                llmResult = JSON.parse(j?.candidates?.[0]?.content?.parts?.[0]?.text ?? "{}");
             }
         } catch {}
     }
 
-    if (DASHSCOPE_API_KEY) {
+    if (!llmResult && DASHSCOPE_API_KEY) {
         try {
             const r = await fetch(`${QWEN_BASE_URL}/chat/completions`, {
                 method: "POST",
@@ -510,15 +500,21 @@ ${cleanDesc}
             if (r.ok) {
                 const j = await r.json();
                 const match = (j?.choices?.[0]?.message?.content ?? "").match(/\{[\s\S]*\}/);
-                if (match) {
-                    const p = JSON.parse(match[0]);
-                    if (p.headline) return { headline: p.headline, text: bodyText, importance: Number(p.importance) || 5, is_ad: !!p.is_ad };
-                }
+                if (match) llmResult = JSON.parse(match[0]);
             }
         } catch {}
     }
 
-    return { headline: fallbackHeadline, text: bodyText, importance: 5, is_ad: false };
+    if (llmResult && llmResult.headline) {
+        const headline = String(llmResult.headline).trim();
+        const body = String(llmResult.body || "").trim() || fallbackBody;
+        const insight = String(llmResult.insight || "").trim();
+        const importance = Number(llmResult.importance) || 5;
+        const is_ad = !!llmResult.is_ad;
+        return { headline, body, insight, importance, is_ad };
+    }
+
+    return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 5, is_ad: false };
 }
 
 async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<string> {
@@ -626,7 +622,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ЭФИР v38: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v40: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -720,7 +716,14 @@ async function run() {
             console.log(`Медиапакет: ${uploaded.length} (видео: ${videos}, фото: ${images})`);
         }
 
-        const postHtml = "<b>" + escapeHtml(post.headline) + "</b>\n\n" + escapeHtml(post.text) + "\n\n⚡ <i>ФАКТОР</i>\n\n#ФАКТОР";
+        // НОВАЯ СТРУКТУРА ПОСТА:
+        // Заголовок (жирный) → тело (что случилось) → 💡 Что это значит (только для важных) → подпись.
+        let postHtml = "<b>" + escapeHtml(post.headline) + "</b>\n\n" + escapeHtml(post.body);
+        if (post.insight && post.importance >= MIN_INSIGHT_IMPORTANCE) {
+            postHtml += "\n\n💡 <i>Что это значит:</i> " + escapeHtml(post.insight);
+        }
+        postHtml += "\n\n⚡ <b>ФАКТОР</b>\n#ФАКТОР";
+
         const sent = await sendPostToMax(postHtml, uploaded);
         if (sent) {
             console.log("🔥 ОПУБЛИКОВАНО (медиа: " + uploaded.length + ", важность: " + post.importance + "): " + post.headline);
