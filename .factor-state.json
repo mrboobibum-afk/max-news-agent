@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 790930,
+      "value": 200479,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792141263700,
+      "value": 1792142432944,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"0565e8dde81ac2f50ca78dd9ae0e1f31a3cf9769d2afe2df72cda577886fa794\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "0565e8dde81ac2f50ca78dd9ae0e1f31a3cf9769d2afe2df72cda577886fa794"
-      ],
-      "value": true,
-      "expiresAt": 1792141867686
-    },
-    "[\"factor\",\"topic\",\"0565e8dde81ac2f50ca78dd9ae0e1f31a3cf9769d2afe2df72cda577886fa794\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "0565e8dde81ac2f50ca78dd9ae0e1f31a3cf9769d2afe2df72cda577886fa794"
-      ],
-      "value": {
-        "title": "❗️ ВС РФ установили контроль в Нефедовке и Черном Харьковской области, сообщает МО",
-        "roots": [
-          "устано",
-          "контро",
-          "нефедо",
-          "черном",
-          "харько",
-          "област",
-          "сообща"
-        ]
-      },
-      "expiresAt": 1792141867688
     },
     "[\"factor\",\"pub\",\"c7a2083c9687c893a2801b095214e9d946d58915aae8ce879a3fbf82ed8aace7\"]": {
       "key": [
@@ -2891,6 +2862,36 @@
         ]
       },
       "expiresAt": 1792227699311
+    },
+    "[\"factor\",\"pub\",\"0f717a74c29353e49a33e95b3af67e797f7af2319a2776a87f05984eadd42a59\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "0f717a74c29353e49a33e95b3af67e797f7af2319a2776a87f05984eadd42a59"
+      ],
+      "value": true,
+      "expiresAt": 1792228857254
+    },
+    "[\"factor\",\"topic\",\"0f717a74c29353e49a33e95b3af67e797f7af2319a2776a87f05984eadd42a59\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "0f717a74c29353e49a33e95b3af67e797f7af2319a2776a87f05984eadd42a59"
+      ],
+      "value": {
+        "title": "❗️ Российские войска освободили Варваровку и Николаевку в Харьковской области, сообщило Ми",
+        "roots": [
+          "россий",
+          "войска",
+          "освобо",
+          "варвар",
+          "никола",
+          "харько",
+          "област",
+          "сообщи"
+        ]
+      },
+      "expiresAt": 1792228857255
     }
   }
 }
