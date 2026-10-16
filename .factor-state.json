@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 240873,
+      "value": 629537,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792128035097,
+      "value": 1792128652281,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"5ee92f9e60b7ec71a0f3277dacaac63ae9175b3010fee57205344211a7f0ba49\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "5ee92f9e60b7ec71a0f3277dacaac63ae9175b3010fee57205344211a7f0ba49"
-      ],
-      "value": true,
-      "expiresAt": 1792128059037
-    },
-    "[\"factor\",\"topic\",\"5ee92f9e60b7ec71a0f3277dacaac63ae9175b3010fee57205344211a7f0ba49\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "5ee92f9e60b7ec71a0f3277dacaac63ae9175b3010fee57205344211a7f0ba49"
-      ],
-      "value": {
-        "title": "Минобрнауки РФ планирует ввести оплату за первый семестр в вузе до начала обучения, следуе",
-        "roots": [
-          "минобр",
-          "планир",
-          "ввести",
-          "оплату",
-          "первый",
-          "семест",
-          "начала",
-          "обучен",
-          "следуе"
-        ]
-      },
-      "expiresAt": 1792128059039
     },
     "[\"factor\",\"pub\",\"d214582fdeb8ac999ba561beadc9f7ddc374ceab1510ec4fd8ccab496896c03a\"]": {
       "key": [
@@ -2924,6 +2893,31 @@
         ]
       },
       "expiresAt": 1792214474422
+    },
+    "[\"factor\",\"pub\",\"25b4350469e2237cc89036e976e9e86c08d5c9aa0b8fa40e7af3790a2965b126\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "25b4350469e2237cc89036e976e9e86c08d5c9aa0b8fa40e7af3790a2965b126"
+      ],
+      "value": true,
+      "expiresAt": 1792215076276
+    },
+    "[\"factor\",\"topic\",\"25b4350469e2237cc89036e976e9e86c08d5c9aa0b8fa40e7af3790a2965b126\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "25b4350469e2237cc89036e976e9e86c08d5c9aa0b8fa40e7af3790a2965b126"
+      ],
+      "value": {
+        "title": "ПВО за ночь сбила 644 дрона ВСУ, сообщили в Минобороны",
+        "roots": [
+          "сбила",
+          "дрона",
+          "минобо"
+        ]
+      },
+      "expiresAt": 1792215076277
     }
   }
 }
