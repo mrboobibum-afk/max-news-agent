@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 224629,
+      "value": 605456,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792150252769,
+      "value": 1792150836570,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"8f78c6ac0651e5b5a1c3b64ca55bcd93ef517fa8633d16c8ec3a415da9ef403d\"]": {
@@ -2828,6 +2828,35 @@
         ]
       },
       "expiresAt": 1792236707568
+    },
+    "[\"factor\",\"pub\",\"b497e0c97040ca15b6f2831a5e0c64b25fb14994f4078b991a090716e21c15c5\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "b497e0c97040ca15b6f2831a5e0c64b25fb14994f4078b991a090716e21c15c5"
+      ],
+      "value": true,
+      "expiresAt": 1792237583863
+    },
+    "[\"factor\",\"topic\",\"b497e0c97040ca15b6f2831a5e0c64b25fb14994f4078b991a090716e21c15c5\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "b497e0c97040ca15b6f2831a5e0c64b25fb14994f4078b991a090716e21c15c5"
+      ],
+      "value": {
+        "title": "❗️ Евросоюз должен спонсировать Украину ради круассанов и кофе по утрам, заявил премьер Ла",
+        "roots": [
+          "евросо",
+          "должен",
+          "спонси",
+          "украин",
+          "круасс",
+          "утрам",
+          "премье"
+        ]
+      },
+      "expiresAt": 1792237583864
     }
   }
 }
