@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 399088,
+      "value": 890685,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792171856057,
+      "value": 1792172440384,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"80db96d6cdd54c20a8bf239c1d9b5249dc36409359d11098848d19d2ddcd69d2\"]": {
@@ -2956,6 +2956,36 @@
         ]
       },
       "expiresAt": 1792258272161
+    },
+    "[\"factor\",\"pub\",\"de421422285955301347032bc343c79fe6308523adfce5dcf523f11ab05aae6d\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "de421422285955301347032bc343c79fe6308523adfce5dcf523f11ab05aae6d"
+      ],
+      "value": true,
+      "expiresAt": 1792258860574
+    },
+    "[\"factor\",\"topic\",\"de421422285955301347032bc343c79fe6308523adfce5dcf523f11ab05aae6d\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "de421422285955301347032bc343c79fe6308523adfce5dcf523f11ab05aae6d"
+      ],
+      "value": {
+        "title": "🚨 В ЛНР погиб водитель пассажирского автобуса \"Лисичанск — Краснодар\" в результате атаки ",
+        "roots": [
+          "погиб",
+          "водите",
+          "пассаж",
+          "автобу",
+          "лисича",
+          "красно",
+          "резуль",
+          "атаки"
+        ]
+      },
+      "expiresAt": 1792258860575
     }
   }
 }
