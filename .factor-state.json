@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 605456,
+      "value": 766261,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,40 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792150836570,
+      "value": 1792152066611,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"47e6bc2423d5527bfabcf7233a0e266ab0e5406424e2bf7f53e635e26c669724\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "47e6bc2423d5527bfabcf7233a0e266ab0e5406424e2bf7f53e635e26c669724"
-      ],
-      "value": true,
-      "expiresAt": 1792151764002
-    },
-    "[\"factor\",\"topic\",\"47e6bc2423d5527bfabcf7233a0e266ab0e5406424e2bf7f53e635e26c669724\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "47e6bc2423d5527bfabcf7233a0e266ab0e5406424e2bf7f53e635e26c669724"
-      ],
-      "value": {
-        "title": "Новые учебники по литературе и русскому языку для начальной школы начнут вводить в учебные",
-        "roots": [
-          "новые",
-          "учебни",
-          "литера",
-          "русско",
-          "языку",
-          "началь",
-          "школы",
-          "начнут",
-          "вводит",
-          "учебны"
-        ]
-      },
-      "expiresAt": 1792151764004
     },
     "[\"factor\",\"pub\",\"22f2d0345aca61e67ddf168bb3639a976b95ce13909a814f0543733a68a59aa1\"]": {
       "key": [
@@ -2832,6 +2800,35 @@
         ]
       },
       "expiresAt": 1792237583864
+    },
+    "[\"factor\",\"pub\",\"c5b2eb57ab561875e900b2b4c249f60fcddf672a5effd564fc6ab3ac24f99756\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "c5b2eb57ab561875e900b2b4c249f60fcddf672a5effd564fc6ab3ac24f99756"
+      ],
+      "value": true,
+      "expiresAt": 1792238616194
+    },
+    "[\"factor\",\"topic\",\"c5b2eb57ab561875e900b2b4c249f60fcddf672a5effd564fc6ab3ac24f99756\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "c5b2eb57ab561875e900b2b4c249f60fcddf672a5effd564fc6ab3ac24f99756"
+      ],
+      "value": {
+        "title": "Евросоюз в сентябре 2026 года увеличил импорт российского сжиженного природного газа (СПГ)",
+        "roots": [
+          "евросо",
+          "сентяб",
+          "увелич",
+          "импорт",
+          "россий",
+          "сжижен",
+          "природ"
+        ]
+      },
+      "expiresAt": 1792238616196
     }
   }
 }
