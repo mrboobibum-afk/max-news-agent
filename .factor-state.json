@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 503447,
+      "value": 855678,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792164653304,
+      "value": 1792165236042,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"2707d3ee7c3fd32183c9cd97e467d9fc81be7ce6c6e225d1acfc0eb60cdb99f2\"]": {
@@ -2907,6 +2907,35 @@
         ]
       },
       "expiresAt": 1792251450256
+    },
+    "[\"factor\",\"pub\",\"e034431fce3b11d053122e0b07a9c97ebb55fccf480b3b5df34a64f80288c645\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e034431fce3b11d053122e0b07a9c97ebb55fccf480b3b5df34a64f80288c645"
+      ],
+      "value": true,
+      "expiresAt": 1792251651880
+    },
+    "[\"factor\",\"topic\",\"e034431fce3b11d053122e0b07a9c97ebb55fccf480b3b5df34a64f80288c645\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e034431fce3b11d053122e0b07a9c97ebb55fccf480b3b5df34a64f80288c645"
+      ],
+      "value": {
+        "title": "Путин поговорил по телефону с папой Римским, сообщает Ватикан",
+        "roots": [
+          "путин",
+          "погово",
+          "телефо",
+          "папой",
+          "римски",
+          "сообща",
+          "ватика"
+        ]
+      },
+      "expiresAt": 1792251651882
     }
   }
 }
