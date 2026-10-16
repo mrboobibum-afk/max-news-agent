@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 215529,
+      "value": 513585,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792156836314,
+      "value": 1792157454731,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"9384eedf6935bf1bd05dcc09ea8faffd0131fc55bed29fe78d0ecd511e08e61c\"]": {
@@ -2857,6 +2857,37 @@
         ]
       },
       "expiresAt": 1792243308996
+    },
+    "[\"factor\",\"pub\",\"06480d792588a30f6092cd159f7571273e235b2faac8ed1ac7c1b7ffad101174\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "06480d792588a30f6092cd159f7571273e235b2faac8ed1ac7c1b7ffad101174"
+      ],
+      "value": true,
+      "expiresAt": 1792243913608
+    },
+    "[\"factor\",\"topic\",\"06480d792588a30f6092cd159f7571273e235b2faac8ed1ac7c1b7ffad101174\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "06480d792588a30f6092cd159f7571273e235b2faac8ed1ac7c1b7ffad101174"
+      ],
+      "value": {
+        "title": "Глава фонда \"Защитим детей от наркотиков и алкоголя\" Елена Кротова задержана, сообщили ТАС",
+        "roots": [
+          "глава",
+          "фонда",
+          "защити",
+          "детей",
+          "наркот",
+          "алкого",
+          "елена",
+          "кротов",
+          "задерж"
+        ]
+      },
+      "expiresAt": 1792243913609
     }
   }
 }
