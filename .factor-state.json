@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 215892,
+      "value": 422923,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792140034970,
+      "value": 1792140633542,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"b038576fa41a6a4db99848395618646859ec87764832015e17bb8b07f92c3081\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "b038576fa41a6a4db99848395618646859ec87764832015e17bb8b07f92c3081"
-      ],
-      "value": true,
-      "expiresAt": 1792140063096
-    },
-    "[\"factor\",\"topic\",\"b038576fa41a6a4db99848395618646859ec87764832015e17bb8b07f92c3081\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "b038576fa41a6a4db99848395618646859ec87764832015e17bb8b07f92c3081"
-      ],
-      "value": {
-        "title": "Россия планирует до конца года продолжать импорт бензина, заявил Новак",
-        "roots": [
-          "планир",
-          "конца",
-          "продол",
-          "импорт",
-          "бензин",
-          "новак"
-        ]
-      },
-      "expiresAt": 1792140063097
     },
     "[\"factor\",\"pub\",\"98755d15afcde0f75e888539b3a33fe3cadc9f4e8452a33f575ee02e54eba65a\"]": {
       "key": [
@@ -2894,6 +2866,33 @@
         ]
       },
       "expiresAt": 1792226466881
+    },
+    "[\"factor\",\"pub\",\"ac72b609d61fe4f2d17c37a6ca25109b2dfa160d0355d04b7f1198bcd773a4d7\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "ac72b609d61fe4f2d17c37a6ca25109b2dfa160d0355d04b7f1198bcd773a4d7"
+      ],
+      "value": true,
+      "expiresAt": 1792227052748
+    },
+    "[\"factor\",\"topic\",\"ac72b609d61fe4f2d17c37a6ca25109b2dfa160d0355d04b7f1198bcd773a4d7\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "ac72b609d61fe4f2d17c37a6ca25109b2dfa160d0355d04b7f1198bcd773a4d7"
+      ],
+      "value": {
+        "title": "Зеленский - \"невероятное позорище\", заявила Захарова",
+        "roots": [
+          "зеленс",
+          "неверо",
+          "позори",
+          "заявил",
+          "захаро"
+        ]
+      },
+      "expiresAt": 1792227052749
     }
   }
 }
