@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 518792,
+      "value": 787005,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792180737735,
+      "value": 1792181282345,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"22c9d372dbde9018ade728bb4d2321e19b8815661277118291298cfab89ad598\"]": {
@@ -2919,6 +2919,34 @@
         ]
       },
       "expiresAt": 1792267215464
+    },
+    "[\"factor\",\"pub\",\"639d8825b861cfabfc62b1f9ec6ffaabf760229a0e8052672c45ce1c46ea3299\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "639d8825b861cfabfc62b1f9ec6ffaabf760229a0e8052672c45ce1c46ea3299"
+      ],
+      "value": true,
+      "expiresAt": 1792267764710
+    },
+    "[\"factor\",\"topic\",\"639d8825b861cfabfc62b1f9ec6ffaabf760229a0e8052672c45ce1c46ea3299\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "639d8825b861cfabfc62b1f9ec6ffaabf760229a0e8052672c45ce1c46ea3299"
+      ],
+      "value": {
+        "title": "ЕС запустит спутниковое наблюдение за Арктикой в 2027 году, пишет Bloomberg",
+        "roots": [
+          "запуст",
+          "спутни",
+          "наблюд",
+          "арктик",
+          "пишет",
+          "bloomb"
+        ]
+      },
+      "expiresAt": 1792267764712
     }
   }
 }
