@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 721103,
+      "value": 489856,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,35 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792176035123,
+      "value": 1792177266068,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"b14da1053f23c539bca520b33ead27753e28e8ed82c41f07328776b8b6bb7581\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "b14da1053f23c539bca520b33ead27753e28e8ed82c41f07328776b8b6bb7581"
-      ],
-      "value": true,
-      "expiresAt": 1792176663574
-    },
-    "[\"factor\",\"topic\",\"b14da1053f23c539bca520b33ead27753e28e8ed82c41f07328776b8b6bb7581\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "b14da1053f23c539bca520b33ead27753e28e8ed82c41f07328776b8b6bb7581"
-      ],
-      "value": {
-        "title": "Медосмотр Трампа не выявил у него проблем со здоровьем",
-        "roots": [
-          "медосм",
-          "трампа",
-          "выявил",
-          "пробле",
-          "здоров"
-        ]
-      },
-      "expiresAt": 1792176663575
     },
     "[\"factor\",\"pub\",\"d1ceb1f1faa09654d691dcca0b1df3f4da9a71caafbdb8060fe99599ca75b11f\"]": {
       "key": [
@@ -2924,6 +2897,37 @@
         ]
       },
       "expiresAt": 1792262451609
+    },
+    "[\"factor\",\"pub\",\"2b6baef0f46f7dd68c58118541728a3874d104149c3609374b412ae01e50b4df\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "2b6baef0f46f7dd68c58118541728a3874d104149c3609374b412ae01e50b4df"
+      ],
+      "value": true,
+      "expiresAt": 1792263685502
+    },
+    "[\"factor\",\"topic\",\"2b6baef0f46f7dd68c58118541728a3874d104149c3609374b412ae01e50b4df\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "2b6baef0f46f7dd68c58118541728a3874d104149c3609374b412ae01e50b4df"
+      ],
+      "value": {
+        "title": "Трамп признался , что хотел бы видеть Путина на саммите G20 в Майами, но не знает, приедет",
+        "roots": [
+          "трамп",
+          "призна",
+          "хотел",
+          "видеть",
+          "путина",
+          "саммит",
+          "майами",
+          "знает",
+          "приеде"
+        ]
+      },
+      "expiresAt": 1792263685504
     }
   }
 }
