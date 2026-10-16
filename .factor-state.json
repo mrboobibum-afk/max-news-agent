@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 757890,
+      "value": 721103,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792174835927,
+      "value": 1792176035123,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"b7fa979d5efe1904907014f6b150fb173b0c4e6e72fdb1fcb595a7cb3dbd0c42\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "b7fa979d5efe1904907014f6b150fb173b0c4e6e72fdb1fcb595a7cb3dbd0c42"
-      ],
-      "value": true,
-      "expiresAt": 1792175654555
-    },
-    "[\"factor\",\"topic\",\"b7fa979d5efe1904907014f6b150fb173b0c4e6e72fdb1fcb595a7cb3dbd0c42\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "b7fa979d5efe1904907014f6b150fb173b0c4e6e72fdb1fcb595a7cb3dbd0c42"
-      ],
-      "value": {
-        "title": "Високосную секунду хотят заменить на високосный час Високосная секунда, которую с 1972 год",
-        "roots": [
-          "високо",
-          "секунд",
-          "хотят",
-          "замени",
-          "високо",
-          "високо",
-          "секунд",
-          "котору"
-        ]
-      },
-      "expiresAt": 1792175654557
     },
     "[\"factor\",\"pub\",\"874e9c5699884f346d0d6815d30e615b0ae02feb1ee4b249ac8c28c9404045a6\"]": {
       "key": [
@@ -2954,6 +2924,36 @@
         ]
       },
       "expiresAt": 1792261262151
+    },
+    "[\"factor\",\"pub\",\"e003cc325dff62abf94a562d800a9abfb27f5390dd605fa1837b6c6f21757275\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e003cc325dff62abf94a562d800a9abfb27f5390dd605fa1837b6c6f21757275"
+      ],
+      "value": true,
+      "expiresAt": 1792262451608
+    },
+    "[\"factor\",\"topic\",\"e003cc325dff62abf94a562d800a9abfb27f5390dd605fa1837b6c6f21757275\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e003cc325dff62abf94a562d800a9abfb27f5390dd605fa1837b6c6f21757275"
+      ],
+      "value": {
+        "title": "Месячный охват ИИ-сервисов в России в сентябре 2026 года достиг 55% населения старше 12 ле",
+        "roots": [
+          "месячн",
+          "охват",
+          "сервис",
+          "россии",
+          "сентяб",
+          "достиг",
+          "населе",
+          "старше"
+        ]
+      },
+      "expiresAt": 1792262451609
     }
   }
 }
