@@ -17,31 +17,6 @@
       "value": 1792150836570,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"8f78c6ac0651e5b5a1c3b64ca55bcd93ef517fa8633d16c8ec3a415da9ef403d\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "8f78c6ac0651e5b5a1c3b64ca55bcd93ef517fa8633d16c8ec3a415da9ef403d"
-      ],
-      "value": true,
-      "expiresAt": 1792150874046
-    },
-    "[\"factor\",\"topic\",\"8f78c6ac0651e5b5a1c3b64ca55bcd93ef517fa8633d16c8ec3a415da9ef403d\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "8f78c6ac0651e5b5a1c3b64ca55bcd93ef517fa8633d16c8ec3a415da9ef403d"
-      ],
-      "value": {
-        "title": "\"Ни о каком усложнении ЕГЭ не может идти речи\" ",
-        "roots": [
-          "каком",
-          "усложн",
-          "может"
-        ]
-      },
-      "expiresAt": 1792150874047
-    },
     "[\"factor\",\"pub\",\"47e6bc2423d5527bfabcf7233a0e266ab0e5406424e2bf7f53e635e26c669724\"]": {
       "key": [
         "factor",
