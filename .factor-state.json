@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 829597,
+      "value": 684629,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792108867429,
+      "value": 1792110033539,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"203805dd32e4f3055cbaaae43bea4d1b88bcfa281512c7d1f01f364a0dd6dacf\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "203805dd32e4f3055cbaaae43bea4d1b88bcfa281512c7d1f01f364a0dd6dacf"
-      ],
-      "value": true,
-      "expiresAt": 1792109453574
-    },
-    "[\"factor\",\"topic\",\"203805dd32e4f3055cbaaae43bea4d1b88bcfa281512c7d1f01f364a0dd6dacf\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "203805dd32e4f3055cbaaae43bea4d1b88bcfa281512c7d1f01f364a0dd6dacf"
-      ],
-      "value": {
-        "title": "Сотрудники ТЦК на Украине получают премию за поимку людей и отправку их на линию фронта, р",
-        "roots": [
-          "сотруд",
-          "украин",
-          "получа",
-          "премию",
-          "поимку",
-          "людей",
-          "отправ",
-          "линию",
-          "фронта"
-        ]
-      },
-      "expiresAt": 1792109453575
     },
     "[\"factor\",\"pub\",\"7e8ac47a55f66327756fe13660cfc456ef50409f60636ab8539f25bdc5d14280\"]": {
       "key": [
@@ -2971,6 +2940,36 @@
         ]
       },
       "expiresAt": 1792195296352
+    },
+    "[\"factor\",\"pub\",\"7d8979297721d3b5841755c1a38ad710632531393b3a0abb4ec1fd622e364c24\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "7d8979297721d3b5841755c1a38ad710632531393b3a0abb4ec1fd622e364c24"
+      ],
+      "value": true,
+      "expiresAt": 1792196459591
+    },
+    "[\"factor\",\"topic\",\"7d8979297721d3b5841755c1a38ad710632531393b3a0abb4ec1fd622e364c24\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "7d8979297721d3b5841755c1a38ad710632531393b3a0abb4ec1fd622e364c24"
+      ],
+      "value": {
+        "title": "Перенести начало уроков в школах на девять утра предложили в Общественной палате",
+        "roots": [
+          "перене",
+          "начало",
+          "уроков",
+          "школах",
+          "девять",
+          "предло",
+          "общест",
+          "палате"
+        ]
+      },
+      "expiresAt": 1792196459592
     }
   }
 }
