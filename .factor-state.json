@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 841542,
+      "value": 864618,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792193594388,
+      "value": 1792194634765,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"3c8567228bf0bc6fea3734b7efee92146a93811ce6a618de0648f32df56e3a9b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "3c8567228bf0bc6fea3734b7efee92146a93811ce6a618de0648f32df56e3a9b"
-      ],
-      "value": true,
-      "expiresAt": 1792194058671
-    },
-    "[\"factor\",\"topic\",\"3c8567228bf0bc6fea3734b7efee92146a93811ce6a618de0648f32df56e3a9b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "3c8567228bf0bc6fea3734b7efee92146a93811ce6a618de0648f32df56e3a9b"
-      ],
-      "value": {
-        "title": "Путин уточнил меры по защите предприятий РФ от требований иностранных властей",
-        "roots": [
-          "путин",
-          "уточни",
-          "защите",
-          "предпр",
-          "требов",
-          "иностр",
-          "власте"
-        ]
-      },
-      "expiresAt": 1792194058672
     },
     "[\"factor\",\"pub\",\"1da18e8b1450477991f6d01b3804e271db71a4a44250e40f3d58a5dd471177c3\"]": {
       "key": [
@@ -2884,6 +2855,34 @@
         ]
       },
       "expiresAt": 1792280118602
+    },
+    "[\"factor\",\"pub\",\"745658e163f4cb28f0c2c7bd37f69d09614c4056e9c2672713f08a0eefbde5d8\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "745658e163f4cb28f0c2c7bd37f69d09614c4056e9c2672713f08a0eefbde5d8"
+      ],
+      "value": true,
+      "expiresAt": 1792281101733
+    },
+    "[\"factor\",\"topic\",\"745658e163f4cb28f0c2c7bd37f69d09614c4056e9c2672713f08a0eefbde5d8\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "745658e163f4cb28f0c2c7bd37f69d09614c4056e9c2672713f08a0eefbde5d8"
+      ],
+      "value": {
+        "title": "Россиянам рассказали, где легче всего трудоустроиться без опыта",
+        "roots": [
+          "россия",
+          "расска",
+          "легче",
+          "всего",
+          "трудоу",
+          "опыта"
+        ]
+      },
+      "expiresAt": 1792281101735
     }
   }
 }
