@@ -17,37 +17,6 @@
       "value": 1792172440384,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"80db96d6cdd54c20a8bf239c1d9b5249dc36409359d11098848d19d2ddcd69d2\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "80db96d6cdd54c20a8bf239c1d9b5249dc36409359d11098848d19d2ddcd69d2"
-      ],
-      "value": true,
-      "expiresAt": 1792172501031
-    },
-    "[\"factor\",\"topic\",\"80db96d6cdd54c20a8bf239c1d9b5249dc36409359d11098848d19d2ddcd69d2\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "80db96d6cdd54c20a8bf239c1d9b5249dc36409359d11098848d19d2ddcd69d2"
-      ],
-      "value": {
-        "title": "◻️ ◻️ ◻️ Компания Rockstar Games выпустила полутораминутный лаунч-трейлер Grand Theft Auto",
-        "roots": [
-          "компан",
-          "rockst",
-          "games",
-          "выпуст",
-          "полуто",
-          "лаунч",
-          "трейле",
-          "grand",
-          "theft"
-        ]
-      },
-      "expiresAt": 1792172501032
-    },
     "[\"factor\",\"pub\",\"9c4b07d31c4a5874ef0d42b2f92bae37eee5eb6b057d2934fe159107ef81be2d\"]": {
       "key": [
         "factor",
