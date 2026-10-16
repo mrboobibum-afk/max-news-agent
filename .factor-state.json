@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 239284,
+      "value": 770109,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792117854316,
+      "value": 1792118435217,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"4076d709b759cca1883fe84be6cea35d4db107d59534fd9235c40545428be048\"]": {
@@ -2946,6 +2946,32 @@
         ]
       },
       "expiresAt": 1792204541563
+    },
+    "[\"factor\",\"pub\",\"0392948677f27368aea6af804f20480a6ac25798033382682722035f91bea74e\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "0392948677f27368aea6af804f20480a6ac25798033382682722035f91bea74e"
+      ],
+      "value": true,
+      "expiresAt": 1792205118873
+    },
+    "[\"factor\",\"topic\",\"0392948677f27368aea6af804f20480a6ac25798033382682722035f91bea74e\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "0392948677f27368aea6af804f20480a6ac25798033382682722035f91bea74e"
+      ],
+      "value": {
+        "title": "Трамп заявил, что не является поклонником Зеленского",
+        "roots": [
+          "трамп",
+          "являет",
+          "поклон",
+          "зеленс"
+        ]
+      },
+      "expiresAt": 1792205118875
     }
   }
 }
