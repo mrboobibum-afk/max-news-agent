@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 225338,
+      "value": 240873,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792127318721,
+      "value": 1792128035097,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"757cdd0c57d0352a4fe871b220c11a61f870aaa66422c7d7476c58f8ac707474\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "757cdd0c57d0352a4fe871b220c11a61f870aaa66422c7d7476c58f8ac707474"
-      ],
-      "value": true,
-      "expiresAt": 1792127456821
-    },
-    "[\"factor\",\"topic\",\"757cdd0c57d0352a4fe871b220c11a61f870aaa66422c7d7476c58f8ac707474\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "757cdd0c57d0352a4fe871b220c11a61f870aaa66422c7d7476c58f8ac707474"
-      ],
-      "value": {
-        "title": "ФБР США опровергло прибытие своего директора Кэша Патела в Россию",
-        "roots": [
-          "опрове",
-          "прибыт",
-          "своего",
-          "директ",
-          "патела",
-          "россию"
-        ]
-      },
-      "expiresAt": 1792127456822
     },
     "[\"factor\",\"pub\",\"5ee92f9e60b7ec71a0f3277dacaac63ae9175b3010fee57205344211a7f0ba49\"]": {
       "key": [
@@ -2922,6 +2894,36 @@
         ]
       },
       "expiresAt": 1792213744523
+    },
+    "[\"factor\",\"pub\",\"6c1284d22570e0b7a1e2948aa2b1b34dc835aabe45f59b4072592943ccdfbd52\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "6c1284d22570e0b7a1e2948aa2b1b34dc835aabe45f59b4072592943ccdfbd52"
+      ],
+      "value": true,
+      "expiresAt": 1792214474421
+    },
+    "[\"factor\",\"topic\",\"6c1284d22570e0b7a1e2948aa2b1b34dc835aabe45f59b4072592943ccdfbd52\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "6c1284d22570e0b7a1e2948aa2b1b34dc835aabe45f59b4072592943ccdfbd52"
+      ],
+      "value": {
+        "title": "Гражданина России экстрадировали в США по обвинению в обходе санкций , сообщает американск",
+        "roots": [
+          "гражда",
+          "россии",
+          "экстра",
+          "обвине",
+          "обходе",
+          "санкци",
+          "сообща",
+          "америк"
+        ]
+      },
+      "expiresAt": 1792214474422
     }
   }
 }
