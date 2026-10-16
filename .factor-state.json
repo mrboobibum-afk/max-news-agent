@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 263191,
+      "value": 885691,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,35 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792114254894,
+      "value": 1792114834076,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"85f856c79a8ec0ad54fdc5d535ba7a03073d553a806d6a6a3e8ca6a735c463a4\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "85f856c79a8ec0ad54fdc5d535ba7a03073d553a806d6a6a3e8ca6a735c463a4"
-      ],
-      "value": true,
-      "expiresAt": 1792114404056
-    },
-    "[\"factor\",\"topic\",\"85f856c79a8ec0ad54fdc5d535ba7a03073d553a806d6a6a3e8ca6a735c463a4\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "85f856c79a8ec0ad54fdc5d535ba7a03073d553a806d6a6a3e8ca6a735c463a4"
-      ],
-      "value": {
-        "title": "Деятельность Росгвардии дает ярко выраженный экономический эффект",
-        "roots": [
-          "деятел",
-          "росгва",
-          "выраже",
-          "эконом",
-          "эффект"
-        ]
-      },
-      "expiresAt": 1792114404057
     },
     "[\"factor\",\"pub\",\"d7309bc22c0fdeb6fa968934102ad86bc976ef1036bda3f7a741778e6ece39fe\"]": {
       "key": [
@@ -2971,6 +2944,36 @@
         ]
       },
       "expiresAt": 1792200672457
+    },
+    "[\"factor\",\"pub\",\"730f07566aab588ab4f8cd6b786d1a27674c9e80519709491e8f205a88bce25c\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "730f07566aab588ab4f8cd6b786d1a27674c9e80519709491e8f205a88bce25c"
+      ],
+      "value": true,
+      "expiresAt": 1792201480671
+    },
+    "[\"factor\",\"topic\",\"730f07566aab588ab4f8cd6b786d1a27674c9e80519709491e8f205a88bce25c\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "730f07566aab588ab4f8cd6b786d1a27674c9e80519709491e8f205a88bce25c"
+      ],
+      "value": {
+        "title": "Экс-глава Совбеза РФ Бордюжа: Зеленского ждет печальная судьба марионеток Запада",
+        "roots": [
+          "глава",
+          "совбез",
+          "бордюж",
+          "зеленс",
+          "печаль",
+          "судьба",
+          "марион",
+          "запада"
+        ]
+      },
+      "expiresAt": 1792201480672
     }
   }
 }
