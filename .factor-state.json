@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 865431,
+      "value": 884364,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792125054243,
+      "value": 1792126234830,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"04fc21ad8360383cb03886dc036d081c0d33928044504e744a78a83495e76cec\"]": {
@@ -2925,6 +2925,35 @@
         ]
       },
       "expiresAt": 1792211500756
+    },
+    "[\"factor\",\"pub\",\"f35804fc51c49d378b60834395fda37b33c38f6e124081b1fd5b2c325d06c92f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "f35804fc51c49d378b60834395fda37b33c38f6e124081b1fd5b2c325d06c92f"
+      ],
+      "value": true,
+      "expiresAt": 1792212660362
+    },
+    "[\"factor\",\"topic\",\"f35804fc51c49d378b60834395fda37b33c38f6e124081b1fd5b2c325d06c92f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "f35804fc51c49d378b60834395fda37b33c38f6e124081b1fd5b2c325d06c92f"
+      ],
+      "value": {
+        "title": "На Украине больше не уверены в поставках вооружения от НАТО, пишет Washington Post",
+        "roots": [
+          "украин",
+          "больше",
+          "уверен",
+          "постав",
+          "вооруж",
+          "пишет",
+          "washin"
+        ]
+      },
+      "expiresAt": 1792212660363
     }
   }
 }
