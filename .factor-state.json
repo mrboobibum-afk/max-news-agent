@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 340057,
+      "value": 442607,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792166466716,
+      "value": 1792167036715,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"852cd8cb096011fb0b45808bee59b26429590a68c9e69f88469373cb86f33955\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "852cd8cb096011fb0b45808bee59b26429590a68c9e69f88469373cb86f33955"
-      ],
-      "value": true,
-      "expiresAt": 1792166886958
-    },
-    "[\"factor\",\"topic\",\"852cd8cb096011fb0b45808bee59b26429590a68c9e69f88469373cb86f33955\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "852cd8cb096011fb0b45808bee59b26429590a68c9e69f88469373cb86f33955"
-      ],
-      "value": {
-        "title": "Информации о пострадавших в ходе беспорядков в Албании россиянах пока не поступало, заявил",
-        "roots": [
-          "информ",
-          "постра",
-          "беспор",
-          "албани",
-          "россия",
-          "поступ"
-        ]
-      },
-      "expiresAt": 1792166886959
     },
     "[\"factor\",\"pub\",\"91b87d85224eb7cb6692b9b4dc17358d92ef19aa96146de09ba5f5c8b11f9879\"]": {
       "key": [
@@ -2910,6 +2882,34 @@
         ]
       },
       "expiresAt": 1792252885957
+    },
+    "[\"factor\",\"pub\",\"4f661646db572b556e076e5595e60cb9c9b92cf1959a082223fc5da4f6bdfed7\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4f661646db572b556e076e5595e60cb9c9b92cf1959a082223fc5da4f6bdfed7"
+      ],
+      "value": true,
+      "expiresAt": 1792253469618
+    },
+    "[\"factor\",\"topic\",\"4f661646db572b556e076e5595e60cb9c9b92cf1959a082223fc5da4f6bdfed7\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4f661646db572b556e076e5595e60cb9c9b92cf1959a082223fc5da4f6bdfed7"
+      ],
+      "value": {
+        "title": "❗️ Путин заявил, что надо повышать эффективность защиты гражданских объектов",
+        "roots": [
+          "путин",
+          "повыша",
+          "эффект",
+          "защиты",
+          "гражда",
+          "объект"
+        ]
+      },
+      "expiresAt": 1792253469620
     }
   }
 }
