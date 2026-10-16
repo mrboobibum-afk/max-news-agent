@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Live Video/Action Edition v40)
+// MAX NEWS AGENT — «ФАКТОР» (Live Video/Action Edition v41)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -29,7 +29,7 @@ const MIN_VIDEO_BYTES = 50 * 1024;
 const MAX_VIDEO_BYTES = 30 * 1024 * 1024;
 
 const MAX_BODY_LEN = 450;
-const MIN_INSIGHT_IMPORTANCE = 7; // "что это значит" добавляется только для важных новостей
+const MIN_INSIGHT_IMPORTANCE = 7;
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
 
@@ -52,20 +52,9 @@ async function initMaxHttpClient() {
 }
 
 const TG_LIVE_CHANNELS = [
-    "rian_ru",
-    "tass_agency",
-    "rbc_news",
-    "mod_russia",
-    "vesti_news",
-    "rt_russian",
-    "ntvru",
-    "1tv_news",
-    "shot_shot",
-    "bazabazon",
-    "readovkanews",
-    "mash",
-    "life_shot",
-    "bbbreaking",
+    "rian_ru", "tass_agency", "rbc_news", "mod_russia", "vesti_news",
+    "rt_russian", "ntvru", "1tv_news", "shot_shot", "bazabazon",
+    "readovkanews", "mash", "life_shot", "bbbreaking",
 ];
 
 const NEWS_FEEDS = [
@@ -95,16 +84,10 @@ const NEWS_FEEDS = [
 ];
 
 const SOURCE_MATCH: Record<string, string> = {
-    "rbc_news": "РБК",
-    "rian_ru": "РИА Новости",
-    "tass_agency": "ТАСС",
-    "rt_russian": "RT на русском",
-    "lenta_ru": "Lenta.ru",
-    "vesti_news": "Вести",
-    "ntvru": "НТВ",
-    "1tv_news": "Первый канал",
-    "life_shot": "Life.ru",
-    "bbbreaking": "КП",
+    "rbc_news": "РБК", "rian_ru": "РИА Новости", "tass_agency": "ТАСС",
+    "rt_russian": "RT на русском", "lenta_ru": "Lenta.ru",
+    "vesti_news": "Вести", "ntvru": "НТВ", "1tv_news": "Первый канал",
+    "life_shot": "Life.ru", "bbbreaking": "КП",
 };
 
 const BORING_TOPICS = [
@@ -147,8 +130,7 @@ class FileKV {
     async set(key: any[], value: any, options: { expireIn?: number } = {}) {
         const d = await this.load();
         d.entries[JSON.stringify(key)] = {
-            key,
-            value,
+            key, value,
             expiresAt: options?.expireIn ? Date.now() + options.expireIn : null,
         };
         await Deno.writeTextFile(this.file, JSON.stringify(d, null, 2) + "\n");
@@ -170,9 +152,7 @@ class FileKV {
         const d = await this.load();
         const now = Date.now();
         const entries = d.entries as Record<string, any>;
-        let removedExpired = 0;
-        let removedOld = 0;
-
+        let removedExpired = 0, removedOld = 0;
         const survivors: Array<{ key: string; entry: any }> = [];
 
         for (const [k, v] of Object.entries<any>(entries)) {
@@ -185,8 +165,7 @@ class FileKV {
         let removedOverflow = 0;
         if (survivors.length > STATE_MAX_ENTRIES) {
             survivors.sort((a, b) => (b.entry?.expiresAt ?? 0) - (a.entry?.expiresAt ?? 0));
-            const toDrop = survivors.slice(STATE_KEEP_ENTRIES);
-            removedOverflow = toDrop.length;
+            removedOverflow = survivors.slice(STATE_KEEP_ENTRIES).length;
             const keep = survivors.slice(0, STATE_KEEP_ENTRIES);
             d.entries = {};
             for (const { key, entry } of keep) d.entries[key] = entry;
@@ -196,7 +175,6 @@ class FileKV {
         }
 
         await Deno.writeTextFile(this.file, JSON.stringify(d, null, 2) + "\n");
-
         return { removedExpired, removedOld, removedOverflow, kept: Object.keys(d.entries).length };
     }
 }
@@ -205,31 +183,19 @@ const kv = new FileKV();
 
 function decodeHtmlEntities(str: string): string {
     return str
-        .replace(/&lt;/gi, "<")
-        .replace(/&gt;/gi, ">")
-        .replace(/&quot;/gi, '"')
-        .replace(/&apos;/gi, "'")
-        .replace(/&#0*39;/g, "'")
-        .replace(/&nbsp;/gi, " ")
-        .replace(/&mdash;/gi, "—")
-        .replace(/&ndash;/gi, "–")
-        .replace(/&laquo;/gi, "«")
-        .replace(/&raquo;/gi, "»")
-        .replace(/&hellip;/gi, "…")
+        .replace(/&lt;/gi, "<").replace(/&gt;/gi, ">")
+        .replace(/&quot;/gi, '"').replace(/&apos;/gi, "'").replace(/&#0*39;/g, "'")
+        .replace(/&nbsp;/gi, " ").replace(/&mdash;/gi, "—").replace(/&ndash;/gi, "–")
+        .replace(/&laquo;/gi, "«").replace(/&raquo;/gi, "»").replace(/&hellip;/gi, "…")
         .replace(/&amp;/gi, "&")
-        .replace(/&#(\d+);/g, (_, n) => {
-            try { return String.fromCharCode(parseInt(n, 10)); } catch { return ""; }
-        })
-        .replace(/&#x([0-9a-f]+);/gi, (_, h) => {
-            try { return String.fromCharCode(parseInt(h, 16)); } catch { return ""; }
-        });
+        .replace(/&#(\d+);/g, (_, n) => { try { return String.fromCharCode(parseInt(n, 10)); } catch { return ""; } })
+        .replace(/&#x([0-9a-f]+);/gi, (_, h) => { try { return String.fromCharCode(parseInt(h, 16)); } catch { return ""; } });
 }
 
 function cleanText(val: any): string {
     let t = String(val ?? "");
     t = t.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/gi, "$1");
-    t = decodeHtmlEntities(t);
-    t = decodeHtmlEntities(t);
+    t = decodeHtmlEntities(t); t = decodeHtmlEntities(t);
     t = t.replace(/<[^>]+>/g, " ");
     t = t.replace(/\s+/g, " ").trim();
     return t;
@@ -250,17 +216,15 @@ async function isDuplicate(title: string, desc?: string): Promise<boolean> {
     const titleRoots = getRoots(title);
     const allRoots = [...new Set([...titleRoots, ...(desc ? getRoots(desc) : [])])];
     if (!allRoots.length) return false;
-
     const past = await kv.getAllTopics();
     for (const item of past) {
         const set = new Set(item.roots || []);
-        let titleMatch = 0;
-        for (const r of titleRoots) if (set.has(r)) titleMatch++;
-        if (titleMatch >= 2) return true;
-
-        let fullMatch = 0;
-        for (const r of allRoots) if (set.has(r)) fullMatch++;
-        if (fullMatch >= 3 && titleRoots.length > 0) return true;
+        let tm = 0;
+        for (const r of titleRoots) if (set.has(r)) tm++;
+        if (tm >= 2) return true;
+        let fm = 0;
+        for (const r of allRoots) if (set.has(r)) fm++;
+        if (fm >= 3 && titleRoots.length > 0) return true;
     }
     return false;
 }
@@ -276,30 +240,55 @@ function isTrashUrl(url: string): boolean {
     );
 }
 
+// ИЗМЕНЕНО: добавлены публичные прокси.
+// Telegram CDN блокирует IP GitHub Actions (403). Прокси-сервисы ходят с других IP и часто пробивают блок.
+function buildProxyUrls(url: string): string[] {
+    const enc = encodeURIComponent(url);
+    return [
+        url,
+        `https://api.allorigins.win/raw?url=${enc}`,
+        `https://corsproxy.io/?${enc}`,
+        `https://images.weserv.nl/?url=${enc.replace(/^https?%3A%2F%2F/, "")}`,
+    ];
+}
+
 async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array | null> {
     if (!url || isTrashUrl(url)) return null;
-    const strategies: Array<Record<string, string>> = [
+
+    const headersList: Array<Record<string, string>> = [
         { "User-Agent": USER_AGENT, "Referer": "https://t.me/", "Accept": "*/*" },
         { "User-Agent": USER_AGENT, "Referer": "https://lenta.ru/", "Accept": "image/*,*/*" },
         { "User-Agent": USER_AGENT, "Referer": "https://life.ru/", "Accept": "image/*,*/*" },
-        { "User-Agent": USER_AGENT, "Referer": "https://www.kp.ru/", "Accept": "image/*,*/*" },
-        { "User-Agent": USER_AGENT, "Referer": "https://360tv.ru/", "Accept": "image/*,*/*" },
-        { "User-Agent": USER_AGENT, "Referer": "https://ren.tv/", "Accept": "image/*,*/*" },
         { "User-Agent": USER_AGENT, "Referer": "https://www.rbc.ru/", "Accept": "image/*,*/*" },
         { "User-Agent": USER_AGENT },
     ];
-    for (const headers of strategies) {
-        try {
-            const res = await fetch(url, { headers, signal: AbortSignal.timeout(isVideo ? 35000 : 15000) });
-            if (!res.ok) continue;
-            const buf = new Uint8Array(await res.arrayBuffer());
-            const min = isVideo ? MIN_VIDEO_BYTES : MIN_IMAGE_BYTES;
-            const max = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
-            if (buf.byteLength < min || buf.byteLength > max) continue;
-            const head = new TextDecoder().decode(buf.subarray(0, 30)).toLowerCase();
-            if (head.includes("<html") || head.includes("<!doctype") || head.includes("<?xml")) continue;
-            return buf;
-        } catch { continue; }
+
+    const proxyUrls = buildProxyUrls(url);
+
+    for (const candidateUrl of proxyUrls) {
+        const isProxy = candidateUrl !== url;
+        // Прокси-сервисам Referer t.me не нужен — только простой User-Agent
+        const headersToTry = isProxy
+            ? [{ "User-Agent": USER_AGENT, "Accept": "*/*" }]
+            : headersList;
+
+        for (const headers of headersToTry) {
+            try {
+                const res = await fetch(candidateUrl, {
+                    headers,
+                    signal: AbortSignal.timeout(isVideo ? 40000 : 20000),
+                    redirect: "follow",
+                });
+                if (!res.ok) continue;
+                const buf = new Uint8Array(await res.arrayBuffer());
+                const min = isVideo ? MIN_VIDEO_BYTES : MIN_IMAGE_BYTES;
+                const max = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
+                if (buf.byteLength < min || buf.byteLength > max) continue;
+                const head = new TextDecoder().decode(buf.subarray(0, 30)).toLowerCase();
+                if (head.includes("<html") || head.includes("<!doctype") || head.includes("<?xml")) continue;
+                return buf;
+            } catch { continue; }
+        }
     }
     return null;
 }
@@ -313,17 +302,11 @@ function sanitizeRawText(raw: string): string {
     t = t.replace(/—\s*данные\s+[A-Za-zА-Яа-я0-9_]+/gi, "");
     t = t.replace(/📢\s*Прямой Эфир/gi, "");
     t = t.replace(/⚡\s*ФАКТОР/gi, "");
-
-    const markers = [
-        "Подписаться", "Подпишись",
-        "Мы в Максе", 'Мы в "Максе"', "Мы в «Максе»",
-        "Наш канал в Максе", "Читайте нас в Максе", "Читайте в Максе",
-    ];
+    const markers = ["Подписаться", "Подпишись", "Мы в Максе", 'Мы в "Максе"', "Мы в «Максе»", "Наш канал в Максе", "Читайте нас в Максе", "Читайте в Максе"];
     for (const m of markers) {
         const idx = t.toLowerCase().indexOf(m.toLowerCase());
         if (idx > 15) { t = t.slice(0, idx); break; }
     }
-
     t = t.replace(/[\s◆♦●○■▪▫▶➡⬛⬜⭐✔☑«»"'.,;:!?/\-–—]+$/g, "");
     return t.trim();
 }
@@ -354,7 +337,6 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
             for (const post of posts.slice(-15).reverse()) {
                 const postDate = extractPostDate(post);
                 if (postDate && (now - postDate) > MAX_POST_AGE_MS) continue;
-
                 const textRaw = cleanText(post.match(/<div class="tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/i)?.[1]);
                 if (!textRaw || textRaw.length < 30 || textRaw.length > 2000) continue;
                 if (BORING_TOPICS.some(r => r.test(textRaw))) continue;
@@ -383,9 +365,7 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 found++;
             }
             console.log(`  [${ch}] постов: ${found}`);
-        } catch (e) {
-            console.log(`  [${ch}] ошибка: ${String(e)}`);
-        }
+        } catch (e) { console.log(`  [${ch}] ошибка: ${String(e)}`); }
     }
     return liveItems;
 }
@@ -403,12 +383,10 @@ async function fetchRssFeeds(): Promise<any[]> {
                 const descHtml = raw.match(/<description[\s\S]*?>([\s\S]*?)<\/description>/i)?.[1] ?? "";
                 const desc = sanitizeRawText(descHtml);
                 const link = cleanText(raw.match(/<link>([\s\S]*?)<\/link>/i)?.[1]);
-
                 if (BORING_TOPICS.some(r => r.test(`${title} ${desc}`))) continue;
                 if (!title) continue;
 
                 const postKey = `${feed.name.toLowerCase()}_${simpleHash(title + (link || ""))}`;
-
                 const enclosureImg = raw.match(/<enclosure[^>]+url=["']([^"']+)["'][^>]+type=["']image/i)?.[1];
                 const mediaContent = raw.match(/<media:content[^>]+url=["']([^"']+)["']/i)?.[1];
                 const mediaThumbnail = raw.match(/<media:thumbnail[^>]+url=["']([^"']+)["']/i)?.[1];
@@ -441,10 +419,6 @@ function cutBody(text: string, maxLen = MAX_BODY_LEN): string {
     return (lastSpace > 0 ? sub.slice(0, lastSpace) : sub) + "...";
 }
 
-// ИЗМЕНЕНО: LLM теперь генерирует три поля — headline, body, insight.
-// Headline — громкий заголовок с эмодзи по смыслу (не шаблонным).
-// Body — 2-3 предложения о том, что случилось, с сохранением фактов.
-// Insight — одна фраза «что это значит» (только для важных, importance >= 7).
 async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, body: string, insight: string, importance: number, is_ad: boolean }> {
     const cleanDesc = sanitizeRawText(desc);
     const fallbackBody = cutBody(cleanDesc);
@@ -457,10 +431,10 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
 ${cleanDesc}
 
 ЗАДАЧИ:
-1. headline — заголовок до 7 слов, отражает суть события. Одно эмодзи по смыслу (⚡ 🔥 🚨 💥 ⚠️ 📉 📈 🏆 🎯 💰 🌍 🛡️ ⚔️ — выбирай подходящее, НЕ ставь ⚡ по умолчанию).
-   ЗАПРЕЩЕНО менять цифры, возраст, имена, названия городов и организаций. Только то, что есть в тексте. Никаких выдумок.
-2. body — 2-3 законченных предложения. Расскажи что случилось: кто, что, где, когда. Сохрани все цифры и факты из источника. Закончи мысль точкой.
-3. insight — одна короткая фраза (до 12 слов) о том, что это значит / почему важно. Без выдумок — вывод из уже сказанного. Если в тексте нет оснований для вывода — оставь пустую строку "".
+1. headline — заголовок до 7 слов, отражает суть события. Одно эмодзи по смыслу (⚡ 🔥 🚨 💥 ⚠️ 📉 📈 🏆 🎯 💰 🌍 🛡️ ⚔️).
+   ЗАПРЕЩЕНО менять цифры, возраст, имена, названия городов и организаций. Только то, что есть в тексте.
+2. body — 2-3 законченных предложения. Что случилось: кто, что, где, когда. Сохрани все цифры и факты. Закончи мысль точкой.
+3. insight — одна короткая фраза (до 12 слов) о том, что это значит / почему важно. Если оснований нет — оставь "".
 4. importance — целое 1-10:
    10 — экстренно (война, теракт, катастрофа, удар по инфраструктуре, массовые протесты).
    8-9 — очень важно (крупное ЧП с жертвами, решение власти, знаковая фигура, международные протесты).
@@ -506,14 +480,14 @@ ${cleanDesc}
     }
 
     if (llmResult && llmResult.headline) {
-        const headline = String(llmResult.headline).trim();
-        const body = String(llmResult.body || "").trim() || fallbackBody;
-        const insight = String(llmResult.insight || "").trim();
-        const importance = Number(llmResult.importance) || 5;
-        const is_ad = !!llmResult.is_ad;
-        return { headline, body, insight, importance, is_ad };
+        return {
+            headline: String(llmResult.headline).trim(),
+            body: String(llmResult.body || "").trim() || fallbackBody,
+            insight: String(llmResult.insight || "").trim(),
+            importance: Number(llmResult.importance) || 5,
+            is_ad: !!llmResult.is_ad,
+        };
     }
-
     return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 5, is_ad: false };
 }
 
@@ -526,10 +500,8 @@ async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<
     });
     const initData = await upInit.json();
     if (!initData.url) throw new Error("Upload URL error");
-
     const form = new FormData();
     form.append("data", new Blob([bytes], { type: type === "video" ? "video/mp4" : "image/jpeg" }), `file.${type === "video" ? "mp4" : "jpg"}`);
-
     const res = await fetch(initData.url, { method: "POST", body: form, signal: AbortSignal.timeout(120000) });
     const text = await res.text();
     let json: any = {};
@@ -540,13 +512,9 @@ async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<
 async function sendPostToMax(text: string, media: Array<{ token: string, type: "image" | "video" }>) {
     const client = await initMaxHttpClient();
     const body: any = {
-        text,
-        format: "html",
-        notify: true,
-        disable_link_preview: true,
+        text, format: "html", notify: true, disable_link_preview: true,
         attachments: media.map(item => ({ type: item.type, payload: { token: item.token } }))
     };
-
     const res = await fetch(MAX_API + "/messages?chat_id=" + encodeURIComponent(TARGET_CHAT_ID), {
         method: "POST",
         headers: { "Authorization": MAX_BOT_TOKEN, "Content-Type": "application/json" },
@@ -581,14 +549,11 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
         const rssName = SOURCE_MATCH[item.sourceName];
         if (rssName) {
             const sameSource = candidates.filter(c => c.sourceType === "rss" && c.sourceName === rssName && c.mediaUrl);
-            const scored = sameSource
-                .map(c => {
-                    const roots = getRoots(c.title);
-                    const overlap = roots.filter((r: string) => baseRoots.has(r)).length;
-                    return { candidate: c, overlap };
-                })
-                .filter(x => x.overlap >= 2)
-                .sort((a, b) => b.overlap - a.overlap);
+            const scored = sameSource.map(c => {
+                const roots = getRoots(c.title);
+                const overlap = roots.filter((r: string) => baseRoots.has(r)).length;
+                return { candidate: c, overlap };
+            }).filter(x => x.overlap >= 2).sort((a, b) => b.overlap - a.overlap);
 
             for (const { candidate } of scored) {
                 if (seen.has(candidate.mediaUrl)) continue;
@@ -606,9 +571,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
                 const roots = getRoots(c.title);
                 const overlap = roots.filter((r: string) => baseRoots.has(r)).length;
                 return { candidate: c, overlap };
-            })
-            .filter(x => x.overlap >= 2)
-            .sort((a, b) => b.overlap - a.overlap);
+            }).filter(x => x.overlap >= 2).sort((a, b) => b.overlap - a.overlap);
 
         for (const { candidate } of scored) {
             if (seen.has(candidate.mediaUrl)) continue;
@@ -622,21 +585,17 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v40: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v41: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
         const stat = await kv.cleanup();
         console.log(`Очистка state: удалено просроченных ${stat.removedExpired}, старых ${stat.removedOld}, лишних ${stat.removedOverflow}; оставлено ${stat.kept}`);
-    } catch (e) {
-        console.log("Очистка state не удалась:", String(e));
-    }
+    } catch (e) { console.log("Очистка state не удалась:", String(e)); }
 
     const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
-
     if (now - lastRegular < HARD_MIN_INTERVAL_MS) {
-        const secondsLeft = Math.ceil((HARD_MIN_INTERVAL_MS - (now - lastRegular)) / 1000);
-        console.log(`Жёсткий интервал: ждём ещё ${secondsLeft} сек.`);
+        console.log(`Жёсткий интервал: ждём ещё ${Math.ceil((HARD_MIN_INTERVAL_MS - (now - lastRegular)) / 1000)} сек.`);
         return;
     }
 
@@ -670,9 +629,7 @@ async function run() {
     }
     console.log(`Уникальных постов: ${uniqueCandidates.length}`);
 
-    let skippedDup = 0;
-    let skippedImportance = 0;
-    let passedToMedia = 0;
+    let skippedDup = 0, skippedImportance = 0, passedToMedia = 0;
 
     for (const item of uniqueCandidates) {
         const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(item.title))))
@@ -682,7 +639,6 @@ async function run() {
         if (await isDuplicate(item.title, item.desc)) { skippedDup++; continue; }
 
         console.log("\nОбработка: " + item.title);
-
         const post = await formatNewsPost(item.title, item.desc);
 
         if (post.is_ad) { skippedImportance++; continue; }
@@ -702,9 +658,7 @@ async function run() {
             try {
                 const token = await uploadToMax(mediaBytes, media.mediaType);
                 if (token) uploaded.push({ token, type: media.mediaType });
-            } catch (e) {
-                console.error("Ошибка загрузки медиа:", e);
-            }
+            } catch (e) { console.error("Ошибка загрузки медиа:", e); }
             if (uploaded.length >= MEDIA_PACKET_MAX) break;
         }
 
@@ -716,8 +670,6 @@ async function run() {
             console.log(`Медиапакет: ${uploaded.length} (видео: ${videos}, фото: ${images})`);
         }
 
-        // НОВАЯ СТРУКТУРА ПОСТА:
-        // Заголовок (жирный) → тело (что случилось) → 💡 Что это значит (только для важных) → подпись.
         let postHtml = "<b>" + escapeHtml(post.headline) + "</b>\n\n" + escapeHtml(post.body);
         if (post.insight && post.importance >= MIN_INSIGHT_IMPORTANCE) {
             postHtml += "\n\n💡 <i>Что это значит:</i> " + escapeHtml(post.insight);
