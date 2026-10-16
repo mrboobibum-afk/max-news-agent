@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 596256,
+      "value": 249488,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792162871725,
+      "value": 1792164052438,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"442a60b455a7e89d3f4f1d018cca5822a015f56d502bb2979d93002693c7f2d3\"]": {
@@ -2886,6 +2886,29 @@
         ]
       },
       "expiresAt": 1792249331776
+    },
+    "[\"factor\",\"pub\",\"ff3ed8bb54b1110546ddce3277a03fca603e14c58efa4df66f84609feee57ad0\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "ff3ed8bb54b1110546ddce3277a03fca603e14c58efa4df66f84609feee57ad0"
+      ],
+      "value": true,
+      "expiresAt": 1792250479192
+    },
+    "[\"factor\",\"topic\",\"ff3ed8bb54b1110546ddce3277a03fca603e14c58efa4df66f84609feee57ad0\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "ff3ed8bb54b1110546ddce3277a03fca603e14c58efa4df66f84609feee57ad0"
+      ],
+      "value": {
+        "title": "\"Ни евро Украине",
+        "roots": [
+          "украин"
+        ]
+      },
+      "expiresAt": 1792250479193
     }
   }
 }
