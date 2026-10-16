@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 890685,
+      "value": 535887,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792172440384,
+      "value": 1792173667182,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"9c4b07d31c4a5874ef0d42b2f92bae37eee5eb6b057d2934fe159107ef81be2d\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "9c4b07d31c4a5874ef0d42b2f92bae37eee5eb6b057d2934fe159107ef81be2d"
-      ],
-      "value": true,
-      "expiresAt": 1792173112211
-    },
-    "[\"factor\",\"topic\",\"9c4b07d31c4a5874ef0d42b2f92bae37eee5eb6b057d2934fe159107ef81be2d\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "9c4b07d31c4a5874ef0d42b2f92bae37eee5eb6b057d2934fe159107ef81be2d"
-      ],
-      "value": {
-        "title": "❗️ Молдавии для возобновления диалога с Москвой надо отказаться от линии, основанной на ру",
-        "roots": [
-          "молдав",
-          "возобн",
-          "диалог",
-          "москво",
-          "отказа",
-          "линии",
-          "основа"
-        ]
-      },
-      "expiresAt": 1792173112213
     },
     "[\"factor\",\"pub\",\"76075058a2691deee05e5f6c8bc828fcd751811424fec45fdea6f962fa5b4c81\"]": {
       "key": [
@@ -2955,6 +2926,35 @@
         ]
       },
       "expiresAt": 1792258860575
+    },
+    "[\"factor\",\"pub\",\"30b7baca9ceeb7095e203520a72cbf1144edb498ec021df85454197374087f57\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "30b7baca9ceeb7095e203520a72cbf1144edb498ec021df85454197374087f57"
+      ],
+      "value": true,
+      "expiresAt": 1792260097232
+    },
+    "[\"factor\",\"topic\",\"30b7baca9ceeb7095e203520a72cbf1144edb498ec021df85454197374087f57\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "30b7baca9ceeb7095e203520a72cbf1144edb498ec021df85454197374087f57"
+      ],
+      "value": {
+        "title": "Страны ЕС имеют все меньше времени для подготовки к зиме, в то время как запасы газа в рег",
+        "roots": [
+          "страны",
+          "имеют",
+          "меньше",
+          "времен",
+          "подгот",
+          "время",
+          "запасы"
+        ]
+      },
+      "expiresAt": 1792260097234
     }
   }
 }
