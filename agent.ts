@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Live Video/Action Edition v41)
+// MAX NEWS AGENT — «ФАКТОР» (Live Video/Action Edition v43)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -29,7 +29,8 @@ const MIN_VIDEO_BYTES = 50 * 1024;
 const MAX_VIDEO_BYTES = 30 * 1024 * 1024;
 
 const MAX_BODY_LEN = 450;
-const MIN_INSIGHT_IMPORTANCE = 7;
+// ИЗМЕНЕНО: 7 → 6. Теперь блок «💡 Что это значит» добавляется ко всем публикуемым постам.
+const MIN_INSIGHT_IMPORTANCE = 6;
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
 
@@ -240,8 +241,6 @@ function isTrashUrl(url: string): boolean {
     );
 }
 
-// ИЗМЕНЕНО: добавлены публичные прокси.
-// Telegram CDN блокирует IP GitHub Actions (403). Прокси-сервисы ходят с других IP и часто пробивают блок.
 function buildProxyUrls(url: string): string[] {
     const enc = encodeURIComponent(url);
     return [
@@ -267,7 +266,6 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
 
     for (const candidateUrl of proxyUrls) {
         const isProxy = candidateUrl !== url;
-        // Прокси-сервисам Referer t.me не нужен — только простой User-Agent
         const headersToTry = isProxy
             ? [{ "User-Agent": USER_AGENT, "Accept": "*/*" }]
             : headersList;
@@ -432,9 +430,17 @@ ${cleanDesc}
 
 ЗАДАЧИ:
 1. headline — заголовок до 7 слов, отражает суть события. Одно эмодзи по смыслу (⚡ 🔥 🚨 💥 ⚠️ 📉 📈 🏆 🎯 💰 🌍 🛡️ ⚔️).
-   ЗАПРЕЩЕНО менять цифры, возраст, имена, названия городов и организаций. Только то, что есть в тексте.
-2. body — 2-3 законченных предложения. Что случилось: кто, что, где, когда. Сохрани все цифры и факты. Закончи мысль точкой.
-3. insight — одна короткая фраза (до 12 слов) о том, что это значит / почему важно. Если оснований нет — оставь "".
+   ЗАПРЕЩЕНО менять цифры, возраст, имена, названия городов и организаций.
+
+2. body — 2-3 законченных предложения.
+   КРИТИЧНО: тело НЕ ДОЛЖНО начинаться с тех же слов, что и заголовок, и НЕ ДОЛЖНО пересказывать заголовок.
+   Заголовок уже сказал «ЧТО». Тело начинает сразу с ДЕТАЛЕЙ: кто именно, где именно, когда, сколько, что за источник, какие обстоятельства.
+   Пример ПЛОХО: headline="Пять человек госпитализированы в Петербурге", body="Пять человек госпитализированы в Петербурге. Об этом сообщает Роспотребнадзор."
+   Пример ХОРОШО: headline="🚨 Пять госпитализированы с подозрением на оспу обезьян в Петербурге", body="Всех пострадавших доставили в инфекционную больницу имени Боткина. Об этом сообщает Роспотребнадзор со ссылкой на экстренное уведомление. Врачи проводят лабораторные исследования."
+   Сохрани все цифры и факты из источника. Закончи мысль точкой.
+
+3. insight — одна короткая фраза (до 12 слов) о том, что это значит / почему важно. Обязательно заполни — это ключевой блок канала. Если совсем нечего сказать — сформулируй значение из уже сказанного.
+
 4. importance — целое 1-10:
    10 — экстренно (война, теракт, катастрофа, удар по инфраструктуре, массовые протесты).
    8-9 — очень важно (крупное ЧП с жертвами, решение власти, знаковая фигура, международные протесты).
@@ -442,6 +448,7 @@ ${cleanDesc}
    6 — заметно (международная политика, заявления лидеров, крупный бизнес).
    4-5 — средне (региональное ЧП без жертв, спорт, мелкий бизнес).
    1-3 — НЕ ВАЖНО (бытовуха, ДТП без жертв, курьёзы, погода).
+
 5. is_ad — true, если это реклама, анонс сервиса, промо-пост.
 
 Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 6, "is_ad": false}`;
@@ -480,9 +487,26 @@ ${cleanDesc}
     }
 
     if (llmResult && llmResult.headline) {
+        let body = String(llmResult.body || "").trim() || fallbackBody;
+        const headline = String(llmResult.headline).trim();
+
+        // Пост-обработка: убираем первое предложение тела, если оно повторяет заголовок.
+        const headlineRoots = getRoots(headline);
+        const bodyWords = body.split(/\s+/);
+        const first10 = bodyWords.slice(0, 10).join(" ").toLowerCase();
+        let overlap = 0;
+        for (const r of headlineRoots) if (first10.includes(r)) overlap++;
+
+        if (overlap >= 3 && bodyWords.length > 15) {
+            const sentences = body.split(/(?<=[.!?])\s+/);
+            if (sentences.length > 1) {
+                body = sentences.slice(1).join(" ").trim();
+            }
+        }
+
         return {
-            headline: String(llmResult.headline).trim(),
-            body: String(llmResult.body || "").trim() || fallbackBody,
+            headline,
+            body,
             insight: String(llmResult.insight || "").trim(),
             importance: Number(llmResult.importance) || 5,
             is_ad: !!llmResult.is_ad,
@@ -585,7 +609,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v41: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v43: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -670,6 +694,15 @@ async function run() {
             console.log(`Медиапакет: ${uploaded.length} (видео: ${videos}, фото: ${images})`);
         }
 
+        // ФОРМАТ ПОСТА:
+        // <b>ЗАГОЛОВОК</b>
+        // (пустая строка)
+        // Тело
+        // (пустая строка)
+        // 💡 Что это значит: ...
+        // (пустая строка)
+        // ⚡ ФАКТОР
+        // #ФАКТОР
         let postHtml = "<b>" + escapeHtml(post.headline) + "</b>\n\n" + escapeHtml(post.body);
         if (post.insight && post.importance >= MIN_INSIGHT_IMPORTANCE) {
             postHtml += "\n\n💡 <i>Что это значит:</i> " + escapeHtml(post.insight);
