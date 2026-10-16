@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 198998,
+      "value": 381094,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,32 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792123265947,
+      "value": 1792123836062,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"7f84f7f5d8fc453b2d2fe6993e8626cf964529d3b9fe7a8cb0e4782aebfd6516\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "7f84f7f5d8fc453b2d2fe6993e8626cf964529d3b9fe7a8cb0e4782aebfd6516"
-      ],
-      "value": true,
-      "expiresAt": 1792123298874
-    },
-    "[\"factor\",\"topic\",\"7f84f7f5d8fc453b2d2fe6993e8626cf964529d3b9fe7a8cb0e4782aebfd6516\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "7f84f7f5d8fc453b2d2fe6993e8626cf964529d3b9fe7a8cb0e4782aebfd6516"
-      ],
-      "value": {
-        "title": "\"И так бойня продолжится",
-        "roots": [
-          "бойня",
-          "продол"
-        ]
-      },
-      "expiresAt": 1792123298875
     },
     "[\"factor\",\"pub\",\"2a7a782a5acccd18d483225b35fa531191436f2e1b7e5ae0554b95c245e63c26\"]": {
       "key": [
@@ -2916,6 +2892,36 @@
         ]
       },
       "expiresAt": 1792209704899
+    },
+    "[\"factor\",\"pub\",\"3f91406785517ea8b44db315a6ecb41b65f817d4a292a68547e24fcba93b05c9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "3f91406785517ea8b44db315a6ecb41b65f817d4a292a68547e24fcba93b05c9"
+      ],
+      "value": true,
+      "expiresAt": 1792210287642
+    },
+    "[\"factor\",\"topic\",\"3f91406785517ea8b44db315a6ecb41b65f817d4a292a68547e24fcba93b05c9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "3f91406785517ea8b44db315a6ecb41b65f817d4a292a68547e24fcba93b05c9"
+      ],
+      "value": {
+        "title": "▶️ Операторы БПЛА ВСУ тренируются наносить удары на мирных жителях Алешек, Видео: Виктор А",
+        "roots": [
+          "операт",
+          "тренир",
+          "наноси",
+          "удары",
+          "мирных",
+          "жителя",
+          "алешек",
+          "виктор"
+        ]
+      },
+      "expiresAt": 1792210287643
     }
   }
 }
