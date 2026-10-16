@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 535887,
+      "value": 231767,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792173667182,
+      "value": 1792174235390,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"76075058a2691deee05e5f6c8bc828fcd751811424fec45fdea6f962fa5b4c81\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "76075058a2691deee05e5f6c8bc828fcd751811424fec45fdea6f962fa5b4c81"
-      ],
-      "value": true,
-      "expiresAt": 1792173706610
-    },
-    "[\"factor\",\"topic\",\"76075058a2691deee05e5f6c8bc828fcd751811424fec45fdea6f962fa5b4c81\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "76075058a2691deee05e5f6c8bc828fcd751811424fec45fdea6f962fa5b4c81"
-      ],
-      "value": {
-        "title": "▶️ Мотострелки Центрального военного округа отработали прикрытие техники от удара БПЛА на ",
-        "roots": [
-          "мотост",
-          "центра",
-          "военно",
-          "округа",
-          "отрабо",
-          "прикры",
-          "техник",
-          "удара"
-        ]
-      },
-      "expiresAt": 1792173706614
     },
     "[\"factor\",\"pub\",\"dd2f8d0dd63ac6ed396abcbe8fcbd8a21c811b1ebc16655a31933b7b8cf235db\"]": {
       "key": [
@@ -2955,6 +2925,35 @@
         ]
       },
       "expiresAt": 1792260097234
+    },
+    "[\"factor\",\"pub\",\"f16d8ef2a8843ba93a4dd0fab421ed55441c429c87eeb488d9b109827fc35cbc\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "f16d8ef2a8843ba93a4dd0fab421ed55441c429c87eeb488d9b109827fc35cbc"
+      ],
+      "value": true,
+      "expiresAt": 1792260664405
+    },
+    "[\"factor\",\"topic\",\"f16d8ef2a8843ba93a4dd0fab421ed55441c429c87eeb488d9b109827fc35cbc\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "f16d8ef2a8843ba93a4dd0fab421ed55441c429c87eeb488d9b109827fc35cbc"
+      ],
+      "value": {
+        "title": "❗️ Путин дал исчерпывающие разъяснения Папе Римскому об ответственности киевского режима з",
+        "roots": [
+          "путин",
+          "исчерп",
+          "разъяс",
+          "римско",
+          "ответс",
+          "киевск",
+          "режима"
+        ]
+      },
+      "expiresAt": 1792260664406
     }
   }
 }
