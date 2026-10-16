@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 684126,
+      "value": 684527,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,34 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792183834521,
+      "value": 1792184733217,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"ba453e3c3685fbb0d7a35681b374bb25e985bb89f293494eacf845525cc48aa9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "ba453e3c3685fbb0d7a35681b374bb25e985bb89f293494eacf845525cc48aa9"
-      ],
-      "value": true,
-      "expiresAt": 1792184494675
-    },
-    "[\"factor\",\"topic\",\"ba453e3c3685fbb0d7a35681b374bb25e985bb89f293494eacf845525cc48aa9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "ba453e3c3685fbb0d7a35681b374bb25e985bb89f293494eacf845525cc48aa9"
-      ],
-      "value": {
-        "title": "Саммит ЕС не смог договориться о бюджете на 2028-2034 годы на €1,76 трлн с расширенными во",
-        "roots": [
-          "саммит",
-          "догово",
-          "бюджет",
-          "расшир"
-        ]
-      },
-      "expiresAt": 1792184494677
     },
     "[\"factor\",\"pub\",\"fd704a65525f731af5f0ce7011d2b127c6e3aeb6cb91ac39b0e8579ca444b8cb\"]": {
       "key": [
@@ -2918,6 +2892,36 @@
         ]
       },
       "expiresAt": 1792270386901
+    },
+    "[\"factor\",\"pub\",\"d0966ec30574a5ab538efb01cfca0208a761c2555230bf7c59e1e378a274ffc2\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d0966ec30574a5ab538efb01cfca0208a761c2555230bf7c59e1e378a274ffc2"
+      ],
+      "value": true,
+      "expiresAt": 1792271338985
+    },
+    "[\"factor\",\"topic\",\"d0966ec30574a5ab538efb01cfca0208a761c2555230bf7c59e1e378a274ffc2\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d0966ec30574a5ab538efb01cfca0208a761c2555230bf7c59e1e378a274ffc2"
+      ],
+      "value": {
+        "title": "Дефицит автомобильного бензина на внутреннем рынке России составляет около 5%",
+        "roots": [
+          "дефици",
+          "автомо",
+          "бензин",
+          "внутре",
+          "рынке",
+          "россии",
+          "состав",
+          "около"
+        ]
+      },
+      "expiresAt": 1792271338986
     }
   }
 }
