@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 755985,
+      "value": 512954,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792134065053,
+      "value": 1792135235476,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"ffe068f67130563ead168f5686bff2beadf40d3cee82d59d6b0984050047733f\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "ffe068f67130563ead168f5686bff2beadf40d3cee82d59d6b0984050047733f"
-      ],
-      "value": true,
-      "expiresAt": 1792134685873
-    },
-    "[\"factor\",\"topic\",\"ffe068f67130563ead168f5686bff2beadf40d3cee82d59d6b0984050047733f\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "ffe068f67130563ead168f5686bff2beadf40d3cee82d59d6b0984050047733f"
-      ],
-      "value": {
-        "title": "Netflix планирует сократить рекордные 6% сотрудников , сообщил журнал Variety со ссылкой н",
-        "roots": [
-          "netfli",
-          "планир",
-          "сократ",
-          "рекорд",
-          "сотруд",
-          "журнал",
-          "variet",
-          "ссылко"
-        ]
-      },
-      "expiresAt": 1792134685875
     },
     "[\"factor\",\"pub\",\"3ed99474ca4336ed5fb6cdde4a1546980bf37fb320501746e01d1fda271aa662\"]": {
       "key": [
@@ -2866,6 +2836,36 @@
         ]
       },
       "expiresAt": 1792220486175
+    },
+    "[\"factor\",\"pub\",\"26c56f309b6436a83e3ab513145390963b56689d642c7995ee7349a1cabb58a1\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "26c56f309b6436a83e3ab513145390963b56689d642c7995ee7349a1cabb58a1"
+      ],
+      "value": true,
+      "expiresAt": 1792221660385
+    },
+    "[\"factor\",\"topic\",\"26c56f309b6436a83e3ab513145390963b56689d642c7995ee7349a1cabb58a1\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "26c56f309b6436a83e3ab513145390963b56689d642c7995ee7349a1cabb58a1"
+      ],
+      "value": {
+        "title": "Башкирскую группу Ay Yola включили в первый раунд голосования премии \"Грэмми\"",
+        "roots": [
+          "башкир",
+          "группу",
+          "включи",
+          "первый",
+          "раунд",
+          "голосо",
+          "премии",
+          "грэмми"
+        ]
+      },
+      "expiresAt": 1792221660387
     }
   }
 }
