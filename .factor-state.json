@@ -17,34 +17,6 @@
       "value": 1792122035587,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"2b4b0c70b2305f73d180f9051e91a869a40b20ff327b9c1f0a5acee8ee1db4bf\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "2b4b0c70b2305f73d180f9051e91a869a40b20ff327b9c1f0a5acee8ee1db4bf"
-      ],
-      "value": true,
-      "expiresAt": 1792122084642
-    },
-    "[\"factor\",\"topic\",\"2b4b0c70b2305f73d180f9051e91a869a40b20ff327b9c1f0a5acee8ee1db4bf\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "2b4b0c70b2305f73d180f9051e91a869a40b20ff327b9c1f0a5acee8ee1db4bf"
-      ],
-      "value": {
-        "title": "Киев с 1 января принудительно вывез с подконтрольной территории ДНР более 13,5 тыс",
-        "roots": [
-          "января",
-          "принуд",
-          "вывез",
-          "подкон",
-          "террит",
-          "более"
-        ]
-      },
-      "expiresAt": 1792122084644
-    },
     "[\"factor\",\"pub\",\"7f84f7f5d8fc453b2d2fe6993e8626cf964529d3b9fe7a8cb0e4782aebfd6516\"]": {
       "key": [
         "factor",
