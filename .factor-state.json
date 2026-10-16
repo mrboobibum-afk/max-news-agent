@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 359960,
+      "value": 836335,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,34 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792129834524,
+      "value": 1792130467847,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"fa4bad886643d061d512ad60aa623da2fa21ae0485de078d27997f30f346d366\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "fa4bad886643d061d512ad60aa623da2fa21ae0485de078d27997f30f346d366"
-      ],
-      "value": true,
-      "expiresAt": 1792130084900
-    },
-    "[\"factor\",\"topic\",\"fa4bad886643d061d512ad60aa623da2fa21ae0485de078d27997f30f346d366\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "fa4bad886643d061d512ad60aa623da2fa21ae0485de078d27997f30f346d366"
-      ],
-      "value": {
-        "title": "Российский мотоциклист погиб в ДТП в Таиланде",
-        "roots": [
-          "россий",
-          "мотоци",
-          "погиб",
-          "таилан"
-        ]
-      },
-      "expiresAt": 1792130084901
     },
     "[\"factor\",\"pub\",\"6c38524951fe64b0097d60757c9d2a693a9fe1c0b9b0e94c5cd3981943860141\"]": {
       "key": [
@@ -2889,6 +2863,37 @@
         ]
       },
       "expiresAt": 1792216280149
+    },
+    "[\"factor\",\"pub\",\"074349d73c589ea914088f5628435fda5fa79e82fbe1047fa6c421b5e0430231\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "074349d73c589ea914088f5628435fda5fa79e82fbe1047fa6c421b5e0430231"
+      ],
+      "value": true,
+      "expiresAt": 1792216895307
+    },
+    "[\"factor\",\"topic\",\"074349d73c589ea914088f5628435fda5fa79e82fbe1047fa6c421b5e0430231\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "074349d73c589ea914088f5628435fda5fa79e82fbe1047fa6c421b5e0430231"
+      ],
+      "value": {
+        "title": "❕ На переходе морем поражен сухогруз, доставлявший в порт Одесса грузы военного назначения",
+        "roots": [
+          "перехо",
+          "морем",
+          "пораже",
+          "сухогр",
+          "достав",
+          "одесса",
+          "грузы",
+          "военно",
+          "назнач"
+        ]
+      },
+      "expiresAt": 1792216895309
     }
   }
 }
