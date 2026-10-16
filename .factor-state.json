@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 439256,
+      "value": 830939,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792111233686,
+      "value": 1792111832309,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"a1717851bebca4551531a78f8353e936042d717c75397d664c255faa4fac661d\"]": {
@@ -2967,6 +2967,36 @@
         ]
       },
       "expiresAt": 1792197667567
+    },
+    "[\"factor\",\"pub\",\"75ddad11e0156d88e36071113d1b424126a041d3536fbac511a8d8cd0d86920b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "75ddad11e0156d88e36071113d1b424126a041d3536fbac511a8d8cd0d86920b"
+      ],
+      "value": true,
+      "expiresAt": 1792198277739
+    },
+    "[\"factor\",\"topic\",\"75ddad11e0156d88e36071113d1b424126a041d3536fbac511a8d8cd0d86920b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "75ddad11e0156d88e36071113d1b424126a041d3536fbac511a8d8cd0d86920b"
+      ],
+      "value": {
+        "title": "▶️ Использование ИИ в работе госслужащих не должно приводить к утечкам, заявила ТАСС депут",
+        "roots": [
+          "исполь",
+          "работе",
+          "госслу",
+          "должно",
+          "привод",
+          "утечка",
+          "заявил",
+          "депут"
+        ]
+      },
+      "expiresAt": 1792198277740
     }
   }
 }
