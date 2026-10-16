@@ -17,37 +17,6 @@
       "value": 1792177832778,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"d1ceb1f1faa09654d691dcca0b1df3f4da9a71caafbdb8060fe99599ca75b11f\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "d1ceb1f1faa09654d691dcca0b1df3f4da9a71caafbdb8060fe99599ca75b11f"
-      ],
-      "value": true,
-      "expiresAt": 1792178073499
-    },
-    "[\"factor\",\"topic\",\"d1ceb1f1faa09654d691dcca0b1df3f4da9a71caafbdb8060fe99599ca75b11f\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "d1ceb1f1faa09654d691dcca0b1df3f4da9a71caafbdb8060fe99599ca75b11f"
-      ],
-      "value": {
-        "title": "❗️ Черногория вслед за Евросоюзом ужесточила правила предоставления временной защиты военн",
-        "roots": [
-          "черног",
-          "вслед",
-          "евросо",
-          "ужесто",
-          "правил",
-          "предос",
-          "времен",
-          "защиты",
-          "военн"
-        ]
-      },
-      "expiresAt": 1792178073500
-    },
     "[\"factor\",\"pub\",\"de901b95d7120cbb0b539a025b6542e202bd146e1f4b842fd2f049ac3fc73453\"]": {
       "key": [
         "factor",
