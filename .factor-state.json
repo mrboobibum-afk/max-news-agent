@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 885691,
+      "value": 407107,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,35 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792114834076,
+      "value": 1792116064505,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"7feb1777d3f3eaec810391be21c32e7eb9368d6d5c2a79c6a43261f2e443432b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "7feb1777d3f3eaec810391be21c32e7eb9368d6d5c2a79c6a43261f2e443432b"
-      ],
-      "value": true,
-      "expiresAt": 1792115602315
-    },
-    "[\"factor\",\"topic\",\"7feb1777d3f3eaec810391be21c32e7eb9368d6d5c2a79c6a43261f2e443432b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "7feb1777d3f3eaec810391be21c32e7eb9368d6d5c2a79c6a43261f2e443432b"
-      ],
-      "value": {
-        "title": "NY Post: США ждут поступления российского дизеля к концу октября",
-        "roots": [
-          "поступ",
-          "россий",
-          "дизеля",
-          "концу",
-          "октябр"
-        ]
-      },
-      "expiresAt": 1792115602316
     },
     "[\"factor\",\"pub\",\"b8fc3261b8b70b67d0c2f9ad29363035647bc1701999952821d77df0ee1693d0\"]": {
       "key": [
@@ -2943,6 +2916,33 @@
         ]
       },
       "expiresAt": 1792201480672
+    },
+    "[\"factor\",\"pub\",\"d3e0a9c1b115f9dbc9384a57897c591e7f1875fd2b3ae2450369723759fb992f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d3e0a9c1b115f9dbc9384a57897c591e7f1875fd2b3ae2450369723759fb992f"
+      ],
+      "value": true,
+      "expiresAt": 1792202808950
+    },
+    "[\"factor\",\"topic\",\"d3e0a9c1b115f9dbc9384a57897c591e7f1875fd2b3ae2450369723759fb992f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d3e0a9c1b115f9dbc9384a57897c591e7f1875fd2b3ae2450369723759fb992f"
+      ],
+      "value": {
+        "title": "Трамп разочарован экс-послом США в Греции Гилфойл",
+        "roots": [
+          "трамп",
+          "разоча",
+          "послом",
+          "греции",
+          "гилфой"
+        ]
+      },
+      "expiresAt": 1792202808951
     }
   }
 }
