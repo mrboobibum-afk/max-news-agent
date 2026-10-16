@@ -17,36 +17,6 @@
       "value": 1792176035123,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"874e9c5699884f346d0d6815d30e615b0ae02feb1ee4b249ac8c28c9404045a6\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "874e9c5699884f346d0d6815d30e615b0ae02feb1ee4b249ac8c28c9404045a6"
-      ],
-      "value": true,
-      "expiresAt": 1792176073490
-    },
-    "[\"factor\",\"topic\",\"874e9c5699884f346d0d6815d30e615b0ae02feb1ee4b249ac8c28c9404045a6\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "874e9c5699884f346d0d6815d30e615b0ae02feb1ee4b249ac8c28c9404045a6"
-      ],
-      "value": {
-        "title": "🚗 Volkswagen отзовет несколько тысяч электромобилей из-за риска возгорания батарей , пише",
-        "roots": [
-          "volksw",
-          "отзове",
-          "нескол",
-          "тысяч",
-          "электр",
-          "риска",
-          "возгор",
-          "батаре"
-        ]
-      },
-      "expiresAt": 1792176073491
-    },
     "[\"factor\",\"pub\",\"b14da1053f23c539bca520b33ead27753e28e8ed82c41f07328776b8b6bb7581\"]": {
       "key": [
         "factor",
