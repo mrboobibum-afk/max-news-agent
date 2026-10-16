@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 846555,
+      "value": 239284,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792116634016,
+      "value": 1792117854316,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"12c6a7ffe1529686bb5dde7b4e8df02294dced45d8f4451f5f8be29c2a5b7bf4\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "12c6a7ffe1529686bb5dde7b4e8df02294dced45d8f4451f5f8be29c2a5b7bf4"
-      ],
-      "value": true,
-      "expiresAt": 1792117261409
-    },
-    "[\"factor\",\"topic\",\"12c6a7ffe1529686bb5dde7b4e8df02294dced45d8f4451f5f8be29c2a5b7bf4\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "12c6a7ffe1529686bb5dde7b4e8df02294dced45d8f4451f5f8be29c2a5b7bf4"
-      ],
-      "value": {
-        "title": "Личности всех 14 погибших в Кубринске Ярославской области, где накануне произошел пожар, у",
-        "roots": [
-          "личнос",
-          "погибш",
-          "кубрин",
-          "яросла",
-          "област",
-          "накану",
-          "произо",
-          "пожар"
-        ]
-      },
-      "expiresAt": 1792117261410
     },
     "[\"factor\",\"pub\",\"4076d709b759cca1883fe84be6cea35d4db107d59534fd9235c40545428be048\"]": {
       "key": [
@@ -2944,6 +2914,38 @@
         ]
       },
       "expiresAt": 1792203079669
+    },
+    "[\"factor\",\"pub\",\"4c0ce4c258c46ec4128ead8c29cc0f06a50a99d38c3b4e4ac87a47eda2fd46b1\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4c0ce4c258c46ec4128ead8c29cc0f06a50a99d38c3b4e4ac87a47eda2fd46b1"
+      ],
+      "value": true,
+      "expiresAt": 1792204541562
+    },
+    "[\"factor\",\"topic\",\"4c0ce4c258c46ec4128ead8c29cc0f06a50a99d38c3b4e4ac87a47eda2fd46b1\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4c0ce4c258c46ec4128ead8c29cc0f06a50a99d38c3b4e4ac87a47eda2fd46b1"
+      ],
+      "value": {
+        "title": "Онищенко: в ближайшее время может появиться более заразный штамм свиного гриппа",
+        "roots": [
+          "онищен",
+          "ближай",
+          "время",
+          "может",
+          "появит",
+          "более",
+          "заразн",
+          "штамм",
+          "свиног",
+          "гриппа"
+        ]
+      },
+      "expiresAt": 1792204541563
     }
   }
 }
