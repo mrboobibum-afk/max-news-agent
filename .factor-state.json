@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 622733,
+      "value": 385204,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792158036060,
+      "value": 1792159267295,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"a0fb03c116a13ab19c4c42dd5a20af6c8b3aa18ca7619e184c66f5c52b0b30e1\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "a0fb03c116a13ab19c4c42dd5a20af6c8b3aa18ca7619e184c66f5c52b0b30e1"
-      ],
-      "value": true,
-      "expiresAt": 1792158658636
-    },
-    "[\"factor\",\"topic\",\"a0fb03c116a13ab19c4c42dd5a20af6c8b3aa18ca7619e184c66f5c52b0b30e1\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "a0fb03c116a13ab19c4c42dd5a20af6c8b3aa18ca7619e184c66f5c52b0b30e1"
-      ],
-      "value": {
-        "title": "Александра Невзорова* внесли в перечень террористов и экстремистов Росфинмониторинга",
-        "roots": [
-          "алекса",
-          "невзор",
-          "внесли",
-          "перече",
-          "террор",
-          "экстре",
-          "росфин"
-        ]
-      },
-      "expiresAt": 1792158658637
     },
     "[\"factor\",\"pub\",\"e125e26c31b91bae98a82ec8b22a439d2ec752ddd6b34949268f9e5a22c7eba2\"]": {
       "key": [
@@ -2889,6 +2860,37 @@
         ]
       },
       "expiresAt": 1792244485350
+    },
+    "[\"factor\",\"pub\",\"4db1c896d207bfac3c3c29fd188efb4128713a939f6715539bdee832314f73d6\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4db1c896d207bfac3c3c29fd188efb4128713a939f6715539bdee832314f73d6"
+      ],
+      "value": true,
+      "expiresAt": 1792245825126
+    },
+    "[\"factor\",\"topic\",\"4db1c896d207bfac3c3c29fd188efb4128713a939f6715539bdee832314f73d6\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4db1c896d207bfac3c3c29fd188efb4128713a939f6715539bdee832314f73d6"
+      ],
+      "value": {
+        "title": "📍 За кормой – Малайзия: отряд кораблей ТОФ завершил визит в Баттерворт Отряд кораблей Тих",
+        "roots": [
+          "кормой",
+          "малайз",
+          "отряд",
+          "корабл",
+          "заверш",
+          "визит",
+          "баттер",
+          "отряд",
+          "корабл"
+        ]
+      },
+      "expiresAt": 1792245825127
     }
   }
 }
