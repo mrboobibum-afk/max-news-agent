@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 414707,
+      "value": 525882,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792153856468,
+      "value": 1792154439182,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"2bb73c25bfd9ffe1fc9b5fa40945fdd3e87d1d6890f20d34e50fbbe78739c94b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "2bb73c25bfd9ffe1fc9b5fa40945fdd3e87d1d6890f20d34e50fbbe78739c94b"
-      ],
-      "value": true,
-      "expiresAt": 1792153878983
-    },
-    "[\"factor\",\"topic\",\"2bb73c25bfd9ffe1fc9b5fa40945fdd3e87d1d6890f20d34e50fbbe78739c94b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "2bb73c25bfd9ffe1fc9b5fa40945fdd3e87d1d6890f20d34e50fbbe78739c94b"
-      ],
-      "value": {
-        "title": "Ошибки в разговорной речи не должны становиться нормой русского языка, заявила Ямпольская",
-        "roots": [
-          "ошибки",
-          "разгов",
-          "должны",
-          "станов",
-          "нормой",
-          "русско",
-          "языка",
-          "заявил",
-          "ямполь"
-        ]
-      },
-      "expiresAt": 1792153878984
     },
     "[\"factor\",\"pub\",\"d6e659baf34f42d6ef0eb1f60f7dd5988db17b9e6629f786818da1d048a34222\"]": {
       "key": [
@@ -2829,6 +2798,35 @@
         ]
       },
       "expiresAt": 1792240406604
+    },
+    "[\"factor\",\"pub\",\"96f028d716ae830a6e04cc0ba8d3f803cf8e0c23c0ba4c21e3a59af10b666adb\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "96f028d716ae830a6e04cc0ba8d3f803cf8e0c23c0ba4c21e3a59af10b666adb"
+      ],
+      "value": true,
+      "expiresAt": 1792240886753
+    },
+    "[\"factor\",\"topic\",\"96f028d716ae830a6e04cc0ba8d3f803cf8e0c23c0ba4c21e3a59af10b666adb\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "96f028d716ae830a6e04cc0ba8d3f803cf8e0c23c0ba4c21e3a59af10b666adb"
+      ],
+      "value": {
+        "title": "Операцию по трансплантации спинного мозга впервые провели в России",
+        "roots": [
+          "операц",
+          "трансп",
+          "спинно",
+          "мозга",
+          "впервы",
+          "провел",
+          "россии"
+        ]
+      },
+      "expiresAt": 1792240886755
     }
   }
 }
