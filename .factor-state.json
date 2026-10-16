@@ -17,36 +17,6 @@
       "value": 1792147832875,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"18d723fbae6a444d3b57ada3c665be5090d07d7944bc1bb2d56c698839a0cdc2\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "18d723fbae6a444d3b57ada3c665be5090d07d7944bc1bb2d56c698839a0cdc2"
-      ],
-      "value": true,
-      "expiresAt": 1792147940270
-    },
-    "[\"factor\",\"topic\",\"18d723fbae6a444d3b57ada3c665be5090d07d7944bc1bb2d56c698839a0cdc2\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "18d723fbae6a444d3b57ada3c665be5090d07d7944bc1bb2d56c698839a0cdc2"
-      ],
-      "value": {
-        "title": "Саммит ЕС впервые с начала СВО отложил обсуждение Украины на второй день встречи ",
-        "roots": [
-          "саммит",
-          "впервы",
-          "начала",
-          "отложи",
-          "обсужд",
-          "украин",
-          "второй",
-          "встреч"
-        ]
-      },
-      "expiresAt": 1792147940271
-    },
     "[\"factor\",\"pub\",\"b6aaa966ac74489d379615656c4219bfc9084f8b09986465e11d42f42ccb0376\"]": {
       "key": [
         "factor",
