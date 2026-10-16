@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 240083,
+      "value": 331773,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792160720944,
+      "value": 1792161057205,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"34ef4651e5524ee85a7215fed25403552a95ce42e49629b191f663227da41330\"]": {
@@ -2889,6 +2889,35 @@
         ]
       },
       "expiresAt": 1792247151907
+    },
+    "[\"factor\",\"pub\",\"525729e87962b1d59eb47afce24f6c39f531c2441fa2ac1ef7a87a73d6a68d6f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "525729e87962b1d59eb47afce24f6c39f531c2441fa2ac1ef7a87a73d6a68d6f"
+      ],
+      "value": true,
+      "expiresAt": 1792247483866
+    },
+    "[\"factor\",\"topic\",\"525729e87962b1d59eb47afce24f6c39f531c2441fa2ac1ef7a87a73d6a68d6f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "525729e87962b1d59eb47afce24f6c39f531c2441fa2ac1ef7a87a73d6a68d6f"
+      ],
+      "value": {
+        "title": "Цены на сталь в США из-за импортных пошлин Трампа выросли до максимума за четыре года, пиш",
+        "roots": [
+          "сталь",
+          "импорт",
+          "пошлин",
+          "трампа",
+          "выросл",
+          "максим",
+          "четыре"
+        ]
+      },
+      "expiresAt": 1792247483867
     }
   }
 }
