@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 442607,
+      "value": 258957,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792167036715,
+      "value": 1792167635312,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"91b87d85224eb7cb6692b9b4dc17358d92ef19aa96146de09ba5f5c8b11f9879\"]": {
@@ -2910,6 +2910,35 @@
         ]
       },
       "expiresAt": 1792253469620
+    },
+    "[\"factor\",\"pub\",\"79bc3e1687c2601a7184100fd2a758dd5b6137bc0735065a5e03bb1a9dd40e09\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "79bc3e1687c2601a7184100fd2a758dd5b6137bc0735065a5e03bb1a9dd40e09"
+      ],
+      "value": true,
+      "expiresAt": 1792254051127
+    },
+    "[\"factor\",\"topic\",\"79bc3e1687c2601a7184100fd2a758dd5b6137bc0735065a5e03bb1a9dd40e09\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "79bc3e1687c2601a7184100fd2a758dd5b6137bc0735065a5e03bb1a9dd40e09"
+      ],
+      "value": {
+        "title": "❗️ Нанесение массированных ударов по ВПК Украины должно быть продолжено, заявил Путин",
+        "roots": [
+          "нанесе",
+          "массир",
+          "ударов",
+          "украин",
+          "должно",
+          "продол",
+          "путин"
+        ]
+      },
+      "expiresAt": 1792254051128
     }
   }
 }
