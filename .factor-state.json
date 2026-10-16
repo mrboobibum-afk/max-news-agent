@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 688745,
+      "value": 209693,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792169436390,
+      "value": 1792170636325,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"75733bfad930e9caad0f64b93a704acf2f0bd3ee0e9a0d12478a81a6254dcc36\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "75733bfad930e9caad0f64b93a704acf2f0bd3ee0e9a0d12478a81a6254dcc36"
-      ],
-      "value": true,
-      "expiresAt": 1792170147897
-    },
-    "[\"factor\",\"topic\",\"75733bfad930e9caad0f64b93a704acf2f0bd3ee0e9a0d12478a81a6254dcc36\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "75733bfad930e9caad0f64b93a704acf2f0bd3ee0e9a0d12478a81a6254dcc36"
-      ],
-      "value": {
-        "title": "Армения создает рабочую группу для обсуждения с российской стороной вопросов концессионног",
-        "roots": [
-          "армени",
-          "создае",
-          "рабочу",
-          "группу",
-          "обсужд",
-          "россий",
-          "сторон",
-          "вопрос",
-          "концес"
-        ]
-      },
-      "expiresAt": 1792170147898
     },
     "[\"factor\",\"pub\",\"0d79ac1257adcfcd93f79907852acd5c475d310b734ca9de3c9730e72d46bdbd\"]": {
       "key": [
@@ -2960,6 +2929,34 @@
         ]
       },
       "expiresAt": 1792255865369
+    },
+    "[\"factor\",\"pub\",\"28222c3d2c636f312655ad817e1d40688b51cc9591110f0301ded3603b3d8caa\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "28222c3d2c636f312655ad817e1d40688b51cc9591110f0301ded3603b3d8caa"
+      ],
+      "value": true,
+      "expiresAt": 1792257060359
+    },
+    "[\"factor\",\"topic\",\"28222c3d2c636f312655ad817e1d40688b51cc9591110f0301ded3603b3d8caa\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "28222c3d2c636f312655ad817e1d40688b51cc9591110f0301ded3603b3d8caa"
+      ],
+      "value": {
+        "title": "Кадры из освобожденного Доброполья показало Минобороны России",
+        "roots": [
+          "кадры",
+          "освобо",
+          "доброп",
+          "показа",
+          "минобо",
+          "россии"
+        ]
+      },
+      "expiresAt": 1792257060360
     }
   }
 }
