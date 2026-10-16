@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 266976,
+      "value": 333805,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792155042523,
+      "value": 1792155680793,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"3ac7aa272fe02151e76e0209a9cee1eef62f258d59b0ed922f4894bef15d6087\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "3ac7aa272fe02151e76e0209a9cee1eef62f258d59b0ed922f4894bef15d6087"
-      ],
-      "value": true,
-      "expiresAt": 1792155069229
-    },
-    "[\"factor\",\"topic\",\"3ac7aa272fe02151e76e0209a9cee1eef62f258d59b0ed922f4894bef15d6087\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "3ac7aa272fe02151e76e0209a9cee1eef62f258d59b0ed922f4894bef15d6087"
-      ],
-      "value": {
-        "title": "НАТО с 13 октября проведет в Италии учения по ядерному сдерживанию без боеприпасов",
-        "roots": [
-          "октябр",
-          "провед",
-          "италии",
-          "учения",
-          "ядерно",
-          "сдержи",
-          "боепри"
-        ]
-      },
-      "expiresAt": 1792155069231
     },
     "[\"factor\",\"pub\",\"a73dd0954b237e0c96a50441af2a3a5118673fb6e7ceae5c1a2781f5ea10221f\"]": {
       "key": [
@@ -2828,6 +2799,35 @@
         ]
       },
       "expiresAt": 1792241467801
+    },
+    "[\"factor\",\"pub\",\"be0079cd308f5164cf5e6d57b042a61f2bdf023adbbae659de38eaa808bafcf0\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "be0079cd308f5164cf5e6d57b042a61f2bdf023adbbae659de38eaa808bafcf0"
+      ],
+      "value": true,
+      "expiresAt": 1792242164742
+    },
+    "[\"factor\",\"topic\",\"be0079cd308f5164cf5e6d57b042a61f2bdf023adbbae659de38eaa808bafcf0\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "be0079cd308f5164cf5e6d57b042a61f2bdf023adbbae659de38eaa808bafcf0"
+      ],
+      "value": {
+        "title": "▶️ Бомбардировщики Ту-22М3 выполнили плановый полет над нейтральными водами Балтики в сопр",
+        "roots": [
+          "бомбар",
+          "выполн",
+          "планов",
+          "полет",
+          "нейтра",
+          "водами",
+          "балтик"
+        ]
+      },
+      "expiresAt": 1792242164744
     }
   }
 }
