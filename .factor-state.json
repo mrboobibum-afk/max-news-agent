@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 406992,
+      "value": 699412,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792143054056,
+      "value": 1792143633842,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"ac20c7eb29415318956a26963cb249886cc79974d4a6fbb78498f3d926c7ddf6\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "ac20c7eb29415318956a26963cb249886cc79974d4a6fbb78498f3d926c7ddf6"
-      ],
-      "value": true,
-      "expiresAt": 1792143130319
-    },
-    "[\"factor\",\"topic\",\"ac20c7eb29415318956a26963cb249886cc79974d4a6fbb78498f3d926c7ddf6\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "ac20c7eb29415318956a26963cb249886cc79974d4a6fbb78498f3d926c7ddf6"
-      ],
-      "value": {
-        "title": "На территории НПЗ в Рязанской области началось возгорание в результате атаки БПЛА",
-        "roots": [
-          "террит",
-          "рязанс",
-          "област",
-          "начало",
-          "возгор",
-          "резуль",
-          "атаки"
-        ]
-      },
-      "expiresAt": 1792143130320
     },
     "[\"factor\",\"pub\",\"b2ce0fe108404bc1dc334593f697e34058eb452fc7bba8b9fb9778a3767d20c6\"]": {
       "key": [
@@ -2890,6 +2861,37 @@
         ]
       },
       "expiresAt": 1792229487277
+    },
+    "[\"factor\",\"pub\",\"7ba80d4c960a81436458e14f5b2c8ce85078b54e3543a0defb4698fa5b42aa49\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "7ba80d4c960a81436458e14f5b2c8ce85078b54e3543a0defb4698fa5b42aa49"
+      ],
+      "value": true,
+      "expiresAt": 1792230055116
+    },
+    "[\"factor\",\"topic\",\"7ba80d4c960a81436458e14f5b2c8ce85078b54e3543a0defb4698fa5b42aa49\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "7ba80d4c960a81436458e14f5b2c8ce85078b54e3543a0defb4698fa5b42aa49"
+      ],
+      "value": {
+        "title": "❕ ВС РФ взяли под полный контроль трассу Волчанск — Бударки, по которой ВСУ пытались прокл",
+        "roots": [
+          "взяли",
+          "полный",
+          "контро",
+          "трассу",
+          "волчан",
+          "бударк",
+          "которо",
+          "пытали",
+          "прокл"
+        ]
+      },
+      "expiresAt": 1792230055117
     }
   }
 }
