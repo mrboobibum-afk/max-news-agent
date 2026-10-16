@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 830939,
+      "value": 803233,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792111832309,
+      "value": 1792113033756,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"9aa187b6c43758c9e4740ba44a9c7d65a97ab415118b0bf2bc10e58c510eb7ee\"]": {
@@ -2968,6 +2968,37 @@
         ]
       },
       "expiresAt": 1792198277740
+    },
+    "[\"factor\",\"pub\",\"7e8ac47a55f66327756fe13660cfc456ef50409f60636ab8539f25bdc5d14280\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "7e8ac47a55f66327756fe13660cfc456ef50409f60636ab8539f25bdc5d14280"
+      ],
+      "value": true,
+      "expiresAt": 1792199493076
+    },
+    "[\"factor\",\"topic\",\"7e8ac47a55f66327756fe13660cfc456ef50409f60636ab8539f25bdc5d14280\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "7e8ac47a55f66327756fe13660cfc456ef50409f60636ab8539f25bdc5d14280"
+      ],
+      "value": {
+        "title": "США предложили странам ЕС разморозить часть российских активов в рамках формирования мирно",
+        "roots": [
+          "предло",
+          "страна",
+          "размор",
+          "часть",
+          "россий",
+          "активо",
+          "рамках",
+          "формир",
+          "мирно"
+        ]
+      },
+      "expiresAt": 1792199493078
     }
   }
 }
