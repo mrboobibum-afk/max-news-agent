@@ -17,32 +17,6 @@
       "value": 1792119665920,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"3c894aac995915143a2eaa91dc0de4990ac7dc31d0028e6e7fd717d867ccea59\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "3c894aac995915143a2eaa91dc0de4990ac7dc31d0028e6e7fd717d867ccea59"
-      ],
-      "value": true,
-      "expiresAt": 1792119698901
-    },
-    "[\"factor\",\"topic\",\"3c894aac995915143a2eaa91dc0de4990ac7dc31d0028e6e7fd717d867ccea59\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "3c894aac995915143a2eaa91dc0de4990ac7dc31d0028e6e7fd717d867ccea59"
-      ],
-      "value": {
-        "title": "За время СВО бригада \"Азов\"* потеряла свыше 27 тыс",
-        "roots": [
-          "время",
-          "бригад",
-          "потеря",
-          "свыше"
-        ]
-      },
-      "expiresAt": 1792119698902
-    },
     "[\"factor\",\"pub\",\"40ac18aef58a882304af7dab5aa703b752821216789bd7703b8e7d49595cd208\"]": {
       "key": [
         "factor",
