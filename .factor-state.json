@@ -17,35 +17,6 @@
       "value": 1792229449680,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"3cf2dec54fbec1a241f93b228c0e273607a0c59f6e4fefd89bfaf13f73a5c257\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "3cf2dec54fbec1a241f93b228c0e273607a0c59f6e4fefd89bfaf13f73a5c257"
-      ],
-      "value": true,
-      "expiresAt": 1792229487276
-    },
-    "[\"factor\",\"topic\",\"3cf2dec54fbec1a241f93b228c0e273607a0c59f6e4fefd89bfaf13f73a5c257\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "3cf2dec54fbec1a241f93b228c0e273607a0c59f6e4fefd89bfaf13f73a5c257"
-      ],
-      "value": {
-        "title": "Директор ФБР Кэш Пател после ложной информации телеканала MS Now о его поездке в РФ написа",
-        "roots": [
-          "директ",
-          "пател",
-          "ложной",
-          "информ",
-          "телека",
-          "поездк",
-          "написа"
-        ]
-      },
-      "expiresAt": 1792229487277
-    },
     "[\"factor\",\"pub\",\"7ba80d4c960a81436458e14f5b2c8ce85078b54e3543a0defb4698fa5b42aa49\"]": {
       "key": [
         "factor",
