@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 347772,
+      "value": 871213,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,68 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792271001640,
+      "value": 1792272545726,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"d0966ec30574a5ab538efb01cfca0208a761c2555230bf7c59e1e378a274ffc2\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "d0966ec30574a5ab538efb01cfca0208a761c2555230bf7c59e1e378a274ffc2"
-      ],
-      "value": true,
-      "expiresAt": 1792271338985
-    },
-    "[\"factor\",\"topic\",\"d0966ec30574a5ab538efb01cfca0208a761c2555230bf7c59e1e378a274ffc2\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "d0966ec30574a5ab538efb01cfca0208a761c2555230bf7c59e1e378a274ffc2"
-      ],
-      "value": {
-        "title": "Дефицит автомобильного бензина на внутреннем рынке России составляет около 5%",
-        "roots": [
-          "дефици",
-          "автомо",
-          "бензин",
-          "внутре",
-          "рынке",
-          "россии",
-          "состав",
-          "около"
-        ]
-      },
-      "expiresAt": 1792271338986
-    },
-    "[\"factor\",\"pub\",\"c52c9550f5026a2edc80158d485b7209ced792ede08e3e0f8c71602e70d9d1e7\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c52c9550f5026a2edc80158d485b7209ced792ede08e3e0f8c71602e70d9d1e7"
-      ],
-      "value": true,
-      "expiresAt": 1792272179114
-    },
-    "[\"factor\",\"topic\",\"c52c9550f5026a2edc80158d485b7209ced792ede08e3e0f8c71602e70d9d1e7\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c52c9550f5026a2edc80158d485b7209ced792ede08e3e0f8c71602e70d9d1e7"
-      ],
-      "value": {
-        "title": "▶️ В итальянской Болонье произошли столкновения между полицией и протестующими студентами ",
-        "roots": [
-          "италья",
-          "болонь",
-          "произо",
-          "столкн",
-          "между",
-          "полици",
-          "протес",
-          "студен"
-        ]
-      },
-      "expiresAt": 1792272179115
     },
     "[\"factor\",\"pub\",\"4b8238e3fb09fa10a8cd0b2b3350d5c77deae2d06b403e60c346a68828533bca\"]": {
       "key": [
@@ -2551,6 +2491,46 @@
       ],
       "value": true,
       "expiresAt": 1792357747518
+    },
+    "[\"factor\",\"pub\",\"c45bd32ddc81ea864a50737ccdb143bfaff49a149840f0316bfc22163020a725\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "c45bd32ddc81ea864a50737ccdb143bfaff49a149840f0316bfc22163020a725"
+      ],
+      "value": true,
+      "expiresAt": 1792360103586
+    },
+    "[\"factor\",\"topic\",\"c45bd32ddc81ea864a50737ccdb143bfaff49a149840f0316bfc22163020a725\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "c45bd32ddc81ea864a50737ccdb143bfaff49a149840f0316bfc22163020a725"
+      ],
+      "value": {
+        "title": "«В хоккей играют настоящие мужчины, а в следж-хоккей – в два раза больше» Адаптивный спорт",
+        "roots": [
+          "хоккей",
+          "играют",
+          "настоя",
+          "мужчин",
+          "следж",
+          "хоккей",
+          "больше",
+          "адапти",
+          "спорт"
+        ]
+      },
+      "expiresAt": 1792360103587
+    },
+    "[\"factor\",\"texthash\",\"b334d87cd1ddb8cbaee201b32749b4ef742a89fccd44ceea3e529319bd7b8c73\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "b334d87cd1ddb8cbaee201b32749b4ef742a89fccd44ceea3e529319bd7b8c73"
+      ],
+      "value": true,
+      "expiresAt": 1792360103588
     }
   }
 }
