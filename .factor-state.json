@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 794222,
+      "value": 594894,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792220462787,
+      "value": 1792221633532,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"26c56f309b6436a83e3ab513145390963b56689d642c7995ee7349a1cabb58a1\"]": {
@@ -2882,6 +2882,36 @@
         ]
       },
       "expiresAt": 1792307038272
+    },
+    "[\"factor\",\"pub\",\"3f91406785517ea8b44db315a6ecb41b65f817d4a292a68547e24fcba93b05c9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "3f91406785517ea8b44db315a6ecb41b65f817d4a292a68547e24fcba93b05c9"
+      ],
+      "value": true,
+      "expiresAt": 1792308215676
+    },
+    "[\"factor\",\"topic\",\"3f91406785517ea8b44db315a6ecb41b65f817d4a292a68547e24fcba93b05c9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "3f91406785517ea8b44db315a6ecb41b65f817d4a292a68547e24fcba93b05c9"
+      ],
+      "value": {
+        "title": "▶️ Операторы БПЛА ВСУ тренируются наносить удары на мирных жителях Алешек, Видео: Виктор А",
+        "roots": [
+          "операт",
+          "тренир",
+          "наноси",
+          "удары",
+          "мирных",
+          "жителя",
+          "алешек",
+          "виктор"
+        ]
+      },
+      "expiresAt": 1792308215677
     }
   }
 }
