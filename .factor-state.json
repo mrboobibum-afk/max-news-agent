@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 199745,
+      "value": 571310,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792218034246,
+      "value": 1792218648746,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"53389a060335379c55aef790b0b7189aba36829671a967d0df3b62c64c4624af\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "53389a060335379c55aef790b0b7189aba36829671a967d0df3b62c64c4624af"
-      ],
-      "value": true,
-      "expiresAt": 1792218053910
-    },
-    "[\"factor\",\"topic\",\"53389a060335379c55aef790b0b7189aba36829671a967d0df3b62c64c4624af\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "53389a060335379c55aef790b0b7189aba36829671a967d0df3b62c64c4624af"
-      ],
-      "value": {
-        "title": "Криптобизнесмена Романа Новака с женой закопали в пустыне",
-        "roots": [
-          "крипто",
-          "романа",
-          "новака",
-          "женой",
-          "закопа",
-          "пустын"
-        ]
-      },
-      "expiresAt": 1792218053912
     },
     "[\"factor\",\"pub\",\"1949b64d49cda68d5c66ac45f72e70d8fd67078ca32703d4c1bc5506e4fb7f67\"]": {
       "key": [
@@ -2874,6 +2846,36 @@
         ]
       },
       "expiresAt": 1792304605930
+    },
+    "[\"factor\",\"pub\",\"0738d11538caf12c06f91fe7bdd0971de36ab547606e05f9852be0918e0f93a1\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "0738d11538caf12c06f91fe7bdd0971de36ab547606e05f9852be0918e0f93a1"
+      ],
+      "value": true,
+      "expiresAt": 1792305147909
+    },
+    "[\"factor\",\"topic\",\"0738d11538caf12c06f91fe7bdd0971de36ab547606e05f9852be0918e0f93a1\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "0738d11538caf12c06f91fe7bdd0971de36ab547606e05f9852be0918e0f93a1"
+      ],
+      "value": {
+        "title": "Путин поздравил президента Индонезии Прабово Субианто с 75-летием, сообщили в Кремле",
+        "roots": [
+          "путин",
+          "поздра",
+          "презид",
+          "индоне",
+          "прабов",
+          "субиан",
+          "летием",
+          "кремле"
+        ]
+      },
+      "expiresAt": 1792305147910
     }
   }
 }
