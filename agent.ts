@@ -1,6 +1,8 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Live Video/Action Edition v47)
+// MAX NEWS AGENT — «ФАКТОР» (Live Video/Action Edition v51)
 // ============================================================
+
+import { fetchify } from "https://deno.land/x/fetchify@0.3.11/mod.ts";
 
 const MAX_API = "https://platform-api2.max.ru";
 const MAX_BOT_TOKEN = Deno.env.get("MAX_BOT_TOKEN") ?? "";
@@ -28,7 +30,6 @@ const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
 const MIN_VIDEO_BYTES = 50 * 1024;
 const MAX_VIDEO_BYTES = 30 * 1024 * 1024;
 
-// Ограничение длины тела поста, чтобы не превышать лимиты MAX
 const MAX_BODY_LEN = 600;
 const MIN_INSIGHT_IMPORTANCE = 6;
 
@@ -53,9 +54,9 @@ async function initMaxHttpClient() {
 }
 
 const TG_LIVE_CHANNELS = [
+    "shot_shot", "bazabazon", "readovkanews", "mash", "life_shot", "bbbreaking",
     "rian_ru", "tass_agency", "rbc_news", "mod_russia", "vesti_news",
-    "rt_russian", "ntvru", "1tv_news", "shot_shot", "bazabazon",
-    "readovkanews", "mash", "life_shot", "bbbreaking",
+    "rt_russian", "ntvru", "1tv_news"
 ];
 
 const NEWS_FEEDS = [
@@ -241,56 +242,50 @@ function isTrashUrl(url: string): boolean {
     );
 }
 
+// ПРИОРИТЕТНЫЙ СПИСОК ПРОКСИ. corsproxy.io — самый стабильный для видео.
 function buildProxyUrls(url: string): string[] {
     const enc = encodeURIComponent(url);
     return [
-        url,
-        `https://api.allorigins.win/raw?url=${enc}`,
-        `https://corsproxy.io/?${enc}`,
-        `https://api.codetabs.com/v1/proxy?quest=${enc}`,
-        `https://cors.x2u.in/${enc}`,
-        `https://yacdn.org/proxy/${enc}`,
-        `https://thingproxy.freeboard.io/fetch/${enc}`,
-        `https://cors.bridged.cc/${enc}`,
-        `https://images.weserv.nl/?url=${enc.replace(/^https?%3A%2F%2F/, "")}`,
+        `https://corsproxy.io/?${enc}`,               // основной для видео
+        `https://api.allorigins.win/raw?url=${enc}`, // запасной для фото
+        url,                                          // прямая попытка (для RSS)
     ];
 }
 
 async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array | null> {
     if (!url || isTrashUrl(url)) return null;
 
-    const headersList: Array<Record<string, string>> = [
-        { "User-Agent": USER_AGENT, "Referer": "https://t.me/", "Accept": "*/*" },
-        { "User-Agent": USER_AGENT, "Referer": "https://lenta.ru/", "Accept": "image/*,*/*" },
-        { "User-Agent": USER_AGENT, "Referer": "https://life.ru/", "Accept": "image/*,*/*" },
-        { "User-Agent": USER_AGENT, "Referer": "https://www.rbc.ru/", "Accept": "image/*,*/*" },
-        { "User-Agent": USER_AGENT },
-    ];
-
     const proxyUrls = buildProxyUrls(url);
+    const timeout = isVideo ? 60000 : 20000; // Даём видео больше времени
 
     for (const candidateUrl of proxyUrls) {
-        const isProxy = candidateUrl !== url;
-        const headersToTry = isProxy
-            ? [{ "User-Agent": USER_AGENT, "Accept": "*/*" }]
-            : headersList;
+        try {
+            // Используем fetchify для ретраев и обхода лимитов
+            const response = await fetchify(candidateUrl, {
+                method: "GET",
+                headers: {
+                    "User-Agent": USER_AGENT,
+                    "Referer": "https://t.me/",
+                    "Accept": "*/*",
+                },
+                timeout,
+                retries: 2,
+            });
 
-        for (const headers of headersToTry) {
-            try {
-                const res = await fetch(candidateUrl, {
-                    headers,
-                    signal: AbortSignal.timeout(isVideo ? 40000 : 20000),
-                    redirect: "follow",
-                });
-                if (!res.ok) continue;
-                const buf = new Uint8Array(await res.arrayBuffer());
-                const min = isVideo ? MIN_VIDEO_BYTES : MIN_IMAGE_BYTES;
-                const max = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
-                if (buf.byteLength < min || buf.byteLength > max) continue;
-                const head = new TextDecoder().decode(buf.subarray(0, 30)).toLowerCase();
-                if (head.includes("<html") || head.includes("<!doctype") || head.includes("<?xml")) continue;
-                return buf;
-            } catch { continue; }
+            if (!response.ok) continue;
+
+            const buf = new Uint8Array(await response.arrayBuffer());
+            const min = isVideo ? MIN_VIDEO_BYTES : MIN_IMAGE_BYTES;
+            const max = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
+
+            if (buf.byteLength < min || buf.byteLength > max) continue;
+
+            const head = new TextDecoder().decode(buf.subarray(0, 30)).toLowerCase();
+            if (head.includes("<html") || head.includes("<!doctype") || head.includes("<?xml")) continue;
+
+            return buf;
+        } catch {
+            continue;
         }
     }
     return null;
@@ -340,6 +335,7 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
             for (const post of posts.slice(-15).reverse()) {
                 const postDate = extractPostDate(post);
                 if (postDate && (now - postDate) > MAX_POST_AGE_MS) continue;
+                
                 const textRaw = cleanText(post.match(/<div class="tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/i)?.[1]);
                 if (!textRaw || textRaw.length < 30 || textRaw.length > 2000) continue;
                 if (BORING_TOPICS.some(r => r.test(textRaw))) continue;
@@ -358,16 +354,14 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                     ...imageMatches.map(mediaUrl => ({ mediaUrl, mediaType: "image" })),
                 ];
 
-                if (mediaUrls.length === 0) {
-                    liveItems.push({ title: firstSentence.slice(0, 90), desc: sanitized, mediaUrl: "", mediaType: "image", sourceName: ch, sourceType: "tg", postKey });
-                } else {
+                if (mediaUrls.length > 0) {
                     for (const media of mediaUrls) {
                         liveItems.push({ title: firstSentence.slice(0, 90), desc: sanitized, mediaUrl: media.mediaUrl, mediaType: media.mediaType, sourceName: ch, sourceType: "tg", postKey });
                     }
+                    found++;
                 }
-                found++;
             }
-            console.log(`  [${ch}] постов: ${found}`);
+            console.log(`  [${ch}] постов с медиа: ${found}`);
         } catch (e) { console.log(`  [${ch}] ошибка: ${String(e)}`); }
     }
     return liveItems;
@@ -397,18 +391,16 @@ async function fetchRssFeeds(): Promise<any[]> {
                 const allImages = [enclosureImg, mediaContent, mediaThumbnail, ...imgMatches].filter(Boolean).filter(u => !isTrashUrl(u));
                 const uniqueImages = [...new Set(allImages)];
 
-                if (uniqueImages.length === 0) {
-                    items.push({ title, desc, mediaUrl: "", mediaType: "image", sourceName: feed.name, sourceType: "rss", postKey });
-                } else {
+                if (uniqueImages.length > 0) {
                     for (const img of uniqueImages) {
                         items.push({ title, desc, mediaUrl: img, mediaType: "image", sourceName: feed.name, sourceType: "rss", postKey });
                     }
+                    totalFound++;
                 }
-                totalFound++;
             }
         } catch {}
     }));
-    console.log(`RSS-источники: собрано ${totalFound} постов`);
+    console.log(`RSS-источники: собрано ${totalFound} постов с медиа`);
     return items;
 }
 
@@ -424,7 +416,6 @@ function cutBody(text: string, maxLen = MAX_BODY_LEN): string {
 
 async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, body: string, insight: string, importance: number, is_ad: boolean }> {
     const cleanDesc = sanitizeRawText(desc);
-    // ТЕЛО ПОСТА БЕРЕТСЯ ДОСЛОВНО ИЗ ИСТОЧНИКА, БЕЗ ПЕРЕСКАЗА НЕЙРОСЕТЬЮ
     const bodyText = cutBody(cleanDesc);
     const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 100);
 
@@ -436,21 +427,21 @@ ${cleanDesc}
 
 ЗАДАЧИ:
 1. headline — заголовок до 7 слов, отражает суть события. Одно эмодзи по смыслу (⚡ 🔥 🚨 💥 ⚠️ 📉 📈 🏆 🎯 💰 🌍 🛡️ ⚔️).
-   СТРОГО ЗАПРЕЩЕНО менять цифры, возраст, имена, даты, названия городов и организаций. Только то, что есть в тексте. Никаких выдумок. Если в тексте написано "действующий", не пиши "бывший".
+   СТРОГО ЗАПРЕЩЕНО менять цифры, возраст, имена, даты, названия городов и организаций. Только то, что есть в тексте.
 
-2. body — НЕ НУЖНО. Тело поста уже взято дословно из источника. НЕ присылай поле body.
+2. body — НЕ НУЖНО. Тело поста уже взято дословно из источника.
 
-3. insight — одна короткая фраза (до 12 слов) о том, что это значит / почему важно. Обязательно заполни — это ключевой блок канала. Если совсем нечего сказать — сформулируй значение из уже сказанного.
+3. insight — одна короткая фраза (до 12 слов) о том, что это значит / почему важно. Обязательно заполни.
 
 4. importance — целое 1-10:
-   10 — экстренно (война, теракт, катастрофа, удар по инфраструктуре, массовые протесты).
-   8-9 — очень важно (крупное ЧП с жертвами, решение власти, знаковая фигура, международные протесты).
-   7 — важно (политическое/экономическое событие, крупные удары, санкции).
-   6 — заметно (международная политика, заявления лидеров, крупный бизнес).
-   4-5 — средне (региональное ЧП без жертв, спорт, мелкий бизнес).
-   1-3 — НЕ ВАЖНО (бытовуха, ДТП без жертв, курьёзы, погода).
+   10 — экстренно (война, теракт, катастрофа).
+   8-9 — очень важно (крупное ЧП с жертвами).
+   7 — важно (политика, экономика).
+   6 — заметно (международка, бизнес).
+   4-5 — средне (региональное ЧП).
+   1-3 — НЕ ВАЖНО (бытовуха, ДТП).
 
-5. is_ad — true, если это реклама, анонс сервиса, промо-пост.
+5. is_ad — true, если это реклама, промо-пост.
 
 Верни ТОЛЬКО JSON: {"headline": "...", "insight": "...", "importance": 6, "is_ad": false}`;
 
@@ -490,7 +481,7 @@ ${cleanDesc}
     if (llmResult && llmResult.headline) {
         return {
             headline: String(llmResult.headline).trim(),
-            body: bodyText, // Дословный текст из источника
+            body: bodyText,
             insight: String(llmResult.insight || "").trim(),
             importance: Number(llmResult.importance) || 5,
             is_ad: !!llmResult.is_ad,
@@ -536,6 +527,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
     const packet: any[] = [];
     const seen = new Set<string>();
 
+    // 1. Медиа из того же поста
     if (item.postKey) {
         const samePost = candidates.filter(c => c.postKey === item.postKey);
         const ordered = [
@@ -553,6 +545,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 
     const baseRoots = new Set(getRoots(item.title));
 
+    // 2. Медиа из того же источника (RSS)
     if (packet.length === 0 && item.sourceType === "tg") {
         const rssName = SOURCE_MATCH[item.sourceName];
         if (rssName) {
@@ -572,6 +565,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
         }
     }
 
+    // 3. Любое похожее медиа (RSS или TG) по 3+ корням
     if (packet.length === 0) {
         const scored = candidates
             .filter(c => c.mediaUrl && !isTrashUrl(c.mediaUrl) && c.postKey !== item.postKey)
@@ -579,7 +573,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
                 const roots = getRoots(c.title);
                 const overlap = roots.filter((r: string) => baseRoots.has(r)).length;
                 return { candidate: c, overlap };
-            }).filter(x => x.overlap >= 2).sort((a, b) => b.overlap - a.overlap);
+            }).filter(x => x.overlap >= 3).sort((a, b) => b.overlap - a.overlap);
 
         for (const { candidate } of scored) {
             if (seen.has(candidate.mediaUrl)) continue;
@@ -593,7 +587,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v47: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v51: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -637,7 +631,7 @@ async function run() {
     }
     console.log(`Уникальных постов: ${uniqueCandidates.length}`);
 
-    let skippedDup = 0, skippedImportance = 0, passedToMedia = 0;
+    let skippedDup = 0, skippedImportance = 0, passedToMedia = 0, skippedNoMedia = 0;
 
     for (const item of uniqueCandidates) {
         const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(item.title))))
@@ -660,6 +654,7 @@ async function run() {
 
         const mediaPacket = getMediaPacket(item, candidates);
         const uploaded: Array<{ token: string, type: "image" | "video" }> = [];
+        
         for (const media of mediaPacket) {
             const mediaBytes = await downloadBuffer(media.mediaUrl, media.mediaType === "video");
             if (!mediaBytes) continue;
@@ -670,12 +665,20 @@ async function run() {
             if (uploaded.length >= MEDIA_PACKET_MAX) break;
         }
 
+        // 🚨 УМНЫЙ ФОЛБЭК: если нет медиа, но новость КРИТИЧЕСКИ ВАЖНАЯ (8+), публикуем текстом.
+        // Остальное — пропускаем, чтобы не позориться.
         if (!uploaded.length) {
-            console.log("Медиа не найдено — публикуем текстом");
+            if (post.importance >= 8) {
+                console.log(`⚠️ Медиа не найдено, но новость критически важная (${post.importance}). Публикуем текстом.`);
+            } else {
+                console.log(`❌ Пропуск: нет медиа, важность ${post.importance} < 8.`);
+                skippedNoMedia++;
+                continue;
+            }
         } else {
             const videos = uploaded.filter(u => u.type === "video").length;
             const images = uploaded.filter(u => u.type === "image").length;
-            console.log(`Медиапакет: ${uploaded.length} (видео: ${videos}, фото: ${images})`);
+            console.log(`✅ Медиапакет: ${uploaded.length} (видео: ${videos}, фото: ${images})`);
         }
 
         let postHtml = "<b>" + escapeHtml(post.headline) + "</b>\n\n" + escapeHtml(post.body);
@@ -696,7 +699,7 @@ async function run() {
         }
     }
 
-    console.log(`\nИтого: пропущено как дубли ${skippedDup}, отсеяно по важности ${skippedImportance}, дошло до публикации ${passedToMedia}`);
+    console.log(`\nИтого: дублей ${skippedDup}, неважных ${skippedImportance}, без медиа (не критичные) ${skippedNoMedia}, опубликовано ${passedToMedia}`);
     console.log("Подходящих событий пока нет.");
 }
 
