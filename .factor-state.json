@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 449453,
+      "value": 540980,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792224063940,
+      "value": 1792224630708,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"849eb641974f3248e24336c9df778fb3d968fee0e8e586dadeb67fa129fc2f2a\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "849eb641974f3248e24336c9df778fb3d968fee0e8e586dadeb67fa129fc2f2a"
-      ],
-      "value": true,
-      "expiresAt": 1792224103116
-    },
-    "[\"factor\",\"topic\",\"849eb641974f3248e24336c9df778fb3d968fee0e8e586dadeb67fa129fc2f2a\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "849eb641974f3248e24336c9df778fb3d968fee0e8e586dadeb67fa129fc2f2a"
-      ],
-      "value": {
-        "title": "Мемориальную доску в память о военкоре РИА Новости Иване Зуеве открыли на здании медиагруп",
-        "roots": [
-          "мемори",
-          "доску",
-          "память",
-          "военко",
-          "иване",
-          "зуеве",
-          "открыл",
-          "здании",
-          "медиаг"
-        ]
-      },
-      "expiresAt": 1792224103117
     },
     "[\"factor\",\"pub\",\"ef0ba0cb364766a911e51c396f8351de2d9b5756a6c5d679f08c54aeba1648e0\"]": {
       "key": [
@@ -2880,6 +2849,34 @@
         ]
       },
       "expiresAt": 1792310715843
+    },
+    "[\"factor\",\"pub\",\"fef10431b824c27d5824a03c19b474047fcab29f8801f221f1b486506427b27a\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "fef10431b824c27d5824a03c19b474047fcab29f8801f221f1b486506427b27a"
+      ],
+      "value": true,
+      "expiresAt": 1792311133790
+    },
+    "[\"factor\",\"topic\",\"fef10431b824c27d5824a03c19b474047fcab29f8801f221f1b486506427b27a\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "fef10431b824c27d5824a03c19b474047fcab29f8801f221f1b486506427b27a"
+      ],
+      "value": {
+        "title": "🚨 В течение недели в сторону Московского региона летели 2 730 БПЛА",
+        "roots": [
+          "течени",
+          "недели",
+          "сторон",
+          "москов",
+          "регион",
+          "летели"
+        ]
+      },
+      "expiresAt": 1792311133791
     }
   }
 }
