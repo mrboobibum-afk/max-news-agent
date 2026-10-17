@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 248423,
+      "value": 201586,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,35 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792227663530,
+      "value": 1792228233206,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"1c69a44310e0fe83df04ee7223c9a140540dfc0d7180fcd143ccab21f481da3a\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "1c69a44310e0fe83df04ee7223c9a140540dfc0d7180fcd143ccab21f481da3a"
-      ],
-      "value": true,
-      "expiresAt": 1792227699310
-    },
-    "[\"factor\",\"topic\",\"1c69a44310e0fe83df04ee7223c9a140540dfc0d7180fcd143ccab21f481da3a\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "1c69a44310e0fe83df04ee7223c9a140540dfc0d7180fcd143ccab21f481da3a"
-      ],
-      "value": {
-        "title": "⚡️ ВС РФ за неделю освободили 12 населенных пунктов, сообщает МО",
-        "roots": [
-          "неделю",
-          "освобо",
-          "населе",
-          "пункто",
-          "сообща"
-        ]
-      },
-      "expiresAt": 1792227699311
     },
     "[\"factor\",\"pub\",\"0f717a74c29353e49a33e95b3af67e797f7af2319a2776a87f05984eadd42a59\"]": {
       "key": [
@@ -2915,6 +2888,34 @@
         ]
       },
       "expiresAt": 1792314196560
+    },
+    "[\"factor\",\"pub\",\"2934413efb77f88bfc430102a3f9e00f8f892474b825550145f6b3d5516bc894\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "2934413efb77f88bfc430102a3f9e00f8f892474b825550145f6b3d5516bc894"
+      ],
+      "value": true,
+      "expiresAt": 1792314654002
+    },
+    "[\"factor\",\"topic\",\"2934413efb77f88bfc430102a3f9e00f8f892474b825550145f6b3d5516bc894\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "2934413efb77f88bfc430102a3f9e00f8f892474b825550145f6b3d5516bc894"
+      ],
+      "value": {
+        "title": "Япония приостановила работу реактора АЭС из-за утечки радиоактивной воды",
+        "roots": [
+          "япония",
+          "приост",
+          "работу",
+          "реакто",
+          "утечки",
+          "радиоа"
+        ]
+      },
+      "expiresAt": 1792314654003
     }
   }
 }
