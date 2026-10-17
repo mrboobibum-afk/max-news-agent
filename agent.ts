@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Live Video/Action Edition v45)
+// MAX NEWS AGENT — «ФАКТОР» (Live Video/Action Edition v47)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -28,7 +28,8 @@ const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
 const MIN_VIDEO_BYTES = 50 * 1024;
 const MAX_VIDEO_BYTES = 30 * 1024 * 1024;
 
-const MAX_BODY_LEN = 450;
+// Ограничение длины тела поста, чтобы не превышать лимиты MAX
+const MAX_BODY_LEN = 600;
 const MIN_INSIGHT_IMPORTANCE = 6;
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
@@ -423,7 +424,8 @@ function cutBody(text: string, maxLen = MAX_BODY_LEN): string {
 
 async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, body: string, insight: string, importance: number, is_ad: boolean }> {
     const cleanDesc = sanitizeRawText(desc);
-    const fallbackBody = cutBody(cleanDesc);
+    // ТЕЛО ПОСТА БЕРЕТСЯ ДОСЛОВНО ИЗ ИСТОЧНИКА, БЕЗ ПЕРЕСКАЗА НЕЙРОСЕТЬЮ
+    const bodyText = cutBody(cleanDesc);
     const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 100);
 
     const prompt = `Ты редактор новостного канала «ФАКТОР». Девиз: события — причины — последствия.
@@ -434,14 +436,9 @@ ${cleanDesc}
 
 ЗАДАЧИ:
 1. headline — заголовок до 7 слов, отражает суть события. Одно эмодзи по смыслу (⚡ 🔥 🚨 💥 ⚠️ 📉 📈 🏆 🎯 💰 🌍 🛡️ ⚔️).
-   ЗАПРЕЩЕНО менять цифры, возраст, имена, названия городов и организаций.
+   СТРОГО ЗАПРЕЩЕНО менять цифры, возраст, имена, даты, названия городов и организаций. Только то, что есть в тексте. Никаких выдумок. Если в тексте написано "действующий", не пиши "бывший".
 
-2. body — 2-3 законченных предложения.
-   КРИТИЧНО: тело НЕ ДОЛЖНО начинаться с тех же слов, что и заголовок, и НЕ ДОЛЖНО пересказывать заголовок.
-   Заголовок уже сказал «ЧТО». Тело начинает сразу с ДЕТАЛЕЙ: кто именно, где именно, когда, сколько, что за источник, какие обстоятельства.
-   Пример ПЛОХО: headline="Пять человек госпитализированы в Петербурге", body="Пять человек госпитализированы в Петербурге. Об этом сообщает Роспотребнадзор."
-   Пример ХОРОШО: headline="🚨 Пять госпитализированы с подозрением на оспу обезьян в Петербурге", body="Всех пострадавших доставили в инфекционную больницу имени Боткина. Об этом сообщает Роспотребнадзор со ссылкой на экстренное уведомление. Врачи проводят лабораторные исследования."
-   Сохрани все цифры и факты из источника. Закончи мысль точкой.
+2. body — НЕ НУЖНО. Тело поста уже взято дословно из источника. НЕ присылай поле body.
 
 3. insight — одна короткая фраза (до 12 слов) о том, что это значит / почему важно. Обязательно заполни — это ключевой блок канала. Если совсем нечего сказать — сформулируй значение из уже сказанного.
 
@@ -455,7 +452,7 @@ ${cleanDesc}
 
 5. is_ad — true, если это реклама, анонс сервиса, промо-пост.
 
-Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 6, "is_ad": false}`;
+Верни ТОЛЬКО JSON: {"headline": "...", "insight": "...", "importance": 6, "is_ad": false}`;
 
     let llmResult: any = null;
 
@@ -491,32 +488,15 @@ ${cleanDesc}
     }
 
     if (llmResult && llmResult.headline) {
-        let body = String(llmResult.body || "").trim() || fallbackBody;
-        const headline = String(llmResult.headline).trim();
-
-        // Умная обрезка: если тело начинается с тех же слов, что и заголовок, удаляем первое предложение.
-        const headlineRoots = getRoots(headline);
-        const bodyWords = body.split(/\s+/);
-        const first10 = bodyWords.slice(0, 10).join(" ").toLowerCase();
-        let overlap = 0;
-        for (const r of headlineRoots) if (first10.includes(r)) overlap++;
-
-        if (overlap >= 2 && bodyWords.length > 12) {
-            const sentences = body.split(/(?<=[.!?])\s+/);
-            if (sentences.length > 1) {
-                body = sentences.slice(1).join(" ").trim();
-            }
-        }
-
         return {
-            headline,
-            body,
+            headline: String(llmResult.headline).trim(),
+            body: bodyText, // Дословный текст из источника
             insight: String(llmResult.insight || "").trim(),
             importance: Number(llmResult.importance) || 5,
             is_ad: !!llmResult.is_ad,
         };
     }
-    return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 5, is_ad: false };
+    return { headline: fallbackHeadline, body: bodyText, insight: "", importance: 5, is_ad: false };
 }
 
 async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<string> {
@@ -613,7 +593,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v45: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v47: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
