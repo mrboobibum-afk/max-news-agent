@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 749477,
+      "value": 886990,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792197053922,
+      "value": 1792198230779,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"c60f6bd1ad146fb99a0cd489b8e0587a37194a1c68b2e50ac06fe440a9459986\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c60f6bd1ad146fb99a0cd489b8e0587a37194a1c68b2e50ac06fe440a9459986"
-      ],
-      "value": true,
-      "expiresAt": 1792197667565
-    },
-    "[\"factor\",\"topic\",\"c60f6bd1ad146fb99a0cd489b8e0587a37194a1c68b2e50ac06fe440a9459986\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c60f6bd1ad146fb99a0cd489b8e0587a37194a1c68b2e50ac06fe440a9459986"
-      ],
-      "value": {
-        "title": "📹 ВСУ в Алешках целенаправленно охотятся на пешеходов, Видео: Виктор Антонюк/ТАСС ✔️",
-        "roots": [
-          "алешка",
-          "целена",
-          "охотят",
-          "пешехо",
-          "виктор",
-          "антоню"
-        ]
-      },
-      "expiresAt": 1792197667567
     },
     "[\"factor\",\"pub\",\"75ddad11e0156d88e36071113d1b424126a041d3536fbac511a8d8cd0d86920b\"]": {
       "key": [
@@ -2857,6 +2829,37 @@
         ]
       },
       "expiresAt": 1792283494934
+    },
+    "[\"factor\",\"pub\",\"81b4b265002aea4af717a32509d1efabc85de3d3ccb8560d013cc59e1bf8892b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "81b4b265002aea4af717a32509d1efabc85de3d3ccb8560d013cc59e1bf8892b"
+      ],
+      "value": true,
+      "expiresAt": 1792284668685
+    },
+    "[\"factor\",\"topic\",\"81b4b265002aea4af717a32509d1efabc85de3d3ccb8560d013cc59e1bf8892b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "81b4b265002aea4af717a32509d1efabc85de3d3ccb8560d013cc59e1bf8892b"
+      ],
+      "value": {
+        "title": "Трамп своим указом распорядился не применять ряд мер, предусмотренных ранее принятым закон",
+        "roots": [
+          "трамп",
+          "своим",
+          "указом",
+          "распор",
+          "примен",
+          "предус",
+          "ранее",
+          "принят",
+          "закон"
+        ]
+      },
+      "expiresAt": 1792284668686
     }
   }
 }
