@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 308587,
+      "value": 449453,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792223436240,
+      "value": 1792224063940,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"bd59a29003ceb2eab6730dfb94ad37d254f46ff3461f65f7c05981ba022b8642\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "bd59a29003ceb2eab6730dfb94ad37d254f46ff3461f65f7c05981ba022b8642"
-      ],
-      "value": true,
-      "expiresAt": 1792223468178
-    },
-    "[\"factor\",\"topic\",\"bd59a29003ceb2eab6730dfb94ad37d254f46ff3461f65f7c05981ba022b8642\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "bd59a29003ceb2eab6730dfb94ad37d254f46ff3461f65f7c05981ba022b8642"
-      ],
-      "value": {
-        "title": "💬 «Для нас нет тяжелых целей» Военнослужащие ПВО ежедневно выполняют задачи по защите неб",
-        "roots": [
-          "тяжелы",
-          "целей",
-          "военно",
-          "ежедне",
-          "выполн",
-          "задачи",
-          "защите"
-        ]
-      },
-      "expiresAt": 1792223468179
     },
     "[\"factor\",\"pub\",\"849eb641974f3248e24336c9df778fb3d968fee0e8e586dadeb67fa129fc2f2a\"]": {
       "key": [
@@ -2879,6 +2850,36 @@
         ]
       },
       "expiresAt": 1792310058185
+    },
+    "[\"factor\",\"pub\",\"6360990ef0727b292d627aa1d50bb8cac0cad236f52f7756afb4dd28563e97ba\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "6360990ef0727b292d627aa1d50bb8cac0cad236f52f7756afb4dd28563e97ba"
+      ],
+      "value": true,
+      "expiresAt": 1792310715842
+    },
+    "[\"factor\",\"topic\",\"6360990ef0727b292d627aa1d50bb8cac0cad236f52f7756afb4dd28563e97ba\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "6360990ef0727b292d627aa1d50bb8cac0cad236f52f7756afb4dd28563e97ba"
+      ],
+      "value": {
+        "title": "▶️ РСПП просит кабмин выработать правила введения временного управления на предприятиях за",
+        "roots": [
+          "просит",
+          "кабмин",
+          "вырабо",
+          "правил",
+          "введен",
+          "времен",
+          "управл",
+          "предпр"
+        ]
+      },
+      "expiresAt": 1792310715843
     }
   }
 }
