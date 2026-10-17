@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 621848,
+      "value": 254217,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,68 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792260634044,
+      "value": 1792262896529,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"325d33b82035009656bb313bbce7694ea8627f377f05f8b11273d2cfb92daca1\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "325d33b82035009656bb313bbce7694ea8627f377f05f8b11273d2cfb92daca1"
-      ],
-      "value": true,
-      "expiresAt": 1792261262150
-    },
-    "[\"factor\",\"topic\",\"325d33b82035009656bb313bbce7694ea8627f377f05f8b11273d2cfb92daca1\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "325d33b82035009656bb313bbce7694ea8627f377f05f8b11273d2cfb92daca1"
-      ],
-      "value": {
-        "title": "Зеленский - самое большое препятствие на пути к миру на Украине, считает бывший советник Т",
-        "roots": [
-          "зеленс",
-          "самое",
-          "большо",
-          "препят",
-          "украин",
-          "считае",
-          "бывший",
-          "советн"
-        ]
-      },
-      "expiresAt": 1792261262151
-    },
-    "[\"factor\",\"pub\",\"e003cc325dff62abf94a562d800a9abfb27f5390dd605fa1837b6c6f21757275\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "e003cc325dff62abf94a562d800a9abfb27f5390dd605fa1837b6c6f21757275"
-      ],
-      "value": true,
-      "expiresAt": 1792262451608
-    },
-    "[\"factor\",\"topic\",\"e003cc325dff62abf94a562d800a9abfb27f5390dd605fa1837b6c6f21757275\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "e003cc325dff62abf94a562d800a9abfb27f5390dd605fa1837b6c6f21757275"
-      ],
-      "value": {
-        "title": "Месячный охват ИИ-сервисов в России в сентябре 2026 года достиг 55% населения старше 12 ле",
-        "roots": [
-          "месячн",
-          "охват",
-          "сервис",
-          "россии",
-          "сентяб",
-          "достиг",
-          "населе",
-          "старше"
-        ]
-      },
-      "expiresAt": 1792262451609
     },
     "[\"factor\",\"pub\",\"2b6baef0f46f7dd68c58118541728a3874d104149c3609374b412ae01e50b4df\"]": {
       "key": [
@@ -2573,6 +2513,41 @@
       ],
       "value": true,
       "expiresAt": 1792347377172
+    },
+    "[\"factor\",\"pub\",\"7ce597f73d980f377367dd3893927d3abe274c23ea7ffd73f7336627c9988cc9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "7ce597f73d980f377367dd3893927d3abe274c23ea7ffd73f7336627c9988cc9"
+      ],
+      "value": true,
+      "expiresAt": 1792350056351
+    },
+    "[\"factor\",\"topic\",\"7ce597f73d980f377367dd3893927d3abe274c23ea7ffd73f7336627c9988cc9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "7ce597f73d980f377367dd3893927d3abe274c23ea7ffd73f7336627c9988cc9"
+      ],
+      "value": {
+        "title": "Tesla представила летающий автомобиль",
+        "roots": [
+          "tesla",
+          "предст",
+          "летающ",
+          "автомо"
+        ]
+      },
+      "expiresAt": 1792350056352
+    },
+    "[\"factor\",\"texthash\",\"fa81e84dfe53c0991cc84db10ace92d300199749baabad4998c6d970f5197e99\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "fa81e84dfe53c0991cc84db10ace92d300199749baabad4998c6d970f5197e99"
+      ],
+      "value": true,
+      "expiresAt": 1792350056352
     }
   }
 }
