@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 571310,
+      "value": 807094,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792218648746,
+      "value": 1792219236935,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"1949b64d49cda68d5c66ac45f72e70d8fd67078ca32703d4c1bc5506e4fb7f67\"]": {
@@ -2876,6 +2876,36 @@
         ]
       },
       "expiresAt": 1792305147910
+    },
+    "[\"factor\",\"pub\",\"e4dbcd09b0dda52d1b20d635890bd842614ee45b6e6cfd8509a0e10ff528569c\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e4dbcd09b0dda52d1b20d635890bd842614ee45b6e6cfd8509a0e10ff528569c"
+      ],
+      "value": true,
+      "expiresAt": 1792305889958
+    },
+    "[\"factor\",\"topic\",\"e4dbcd09b0dda52d1b20d635890bd842614ee45b6e6cfd8509a0e10ff528569c\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e4dbcd09b0dda52d1b20d635890bd842614ee45b6e6cfd8509a0e10ff528569c"
+      ],
+      "value": {
+        "title": "💙 Бриллиант огранки Heart cut стоимостью более $1,5 млн представит \"Алроса\" 22 октября в ",
+        "roots": [
+          "брилли",
+          "огранк",
+          "heart",
+          "стоимо",
+          "более",
+          "предст",
+          "алроса",
+          "октябр"
+        ]
+      },
+      "expiresAt": 1792305889959
     }
   }
 }
