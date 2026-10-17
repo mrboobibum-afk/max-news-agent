@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 181639,
+      "value": 854238,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,95 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792242048039,
+      "value": 1792243498685,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"be0079cd308f5164cf5e6d57b042a61f2bdf023adbbae659de38eaa808bafcf0\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "be0079cd308f5164cf5e6d57b042a61f2bdf023adbbae659de38eaa808bafcf0"
-      ],
-      "value": true,
-      "expiresAt": 1792242164742
-    },
-    "[\"factor\",\"topic\",\"be0079cd308f5164cf5e6d57b042a61f2bdf023adbbae659de38eaa808bafcf0\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "be0079cd308f5164cf5e6d57b042a61f2bdf023adbbae659de38eaa808bafcf0"
-      ],
-      "value": {
-        "title": "▶️ Бомбардировщики Ту-22М3 выполнили плановый полет над нейтральными водами Балтики в сопр",
-        "roots": [
-          "бомбар",
-          "выполн",
-          "планов",
-          "полет",
-          "нейтра",
-          "водами",
-          "балтик"
-        ]
-      },
-      "expiresAt": 1792242164744
-    },
-    "[\"factor\",\"pub\",\"0bd576bc1437a06dd91aa3b213830c3ca3b4f500505d722d7b6cb61a0105fa86\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "0bd576bc1437a06dd91aa3b213830c3ca3b4f500505d722d7b6cb61a0105fa86"
-      ],
-      "value": true,
-      "expiresAt": 1792242659954
-    },
-    "[\"factor\",\"topic\",\"0bd576bc1437a06dd91aa3b213830c3ca3b4f500505d722d7b6cb61a0105fa86\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "0bd576bc1437a06dd91aa3b213830c3ca3b4f500505d722d7b6cb61a0105fa86"
-      ],
-      "value": {
-        "title": "Тело убитой женщины восемь месяцев пролежало в сундуке под Брянском",
-        "roots": [
-          "убитой",
-          "женщин",
-          "восемь",
-          "месяце",
-          "пролеж",
-          "сундук",
-          "брянск"
-        ]
-      },
-      "expiresAt": 1792242659955
-    },
-    "[\"factor\",\"pub\",\"90d6614887a1de6fa0f92f99d61dc9bb46bbec923aa415f010fc96b53fdb9ca6\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "90d6614887a1de6fa0f92f99d61dc9bb46bbec923aa415f010fc96b53fdb9ca6"
-      ],
-      "value": true,
-      "expiresAt": 1792243308994
-    },
-    "[\"factor\",\"topic\",\"90d6614887a1de6fa0f92f99d61dc9bb46bbec923aa415f010fc96b53fdb9ca6\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "90d6614887a1de6fa0f92f99d61dc9bb46bbec923aa415f010fc96b53fdb9ca6"
-      ],
-      "value": {
-        "title": "ЕС ждет очень сложная зима из-за высоких цен на энергию, заявила представитель Еврокомисси",
-        "roots": [
-          "очень",
-          "сложна",
-          "высоки",
-          "энерги",
-          "заявил",
-          "предст",
-          "евроко"
-        ]
-      },
-      "expiresAt": 1792243308996
     },
     "[\"factor\",\"pub\",\"06480d792588a30f6092cd159f7571273e235b2faac8ed1ac7c1b7ffad101174\"]": {
       "key": [
@@ -2855,36 +2768,6 @@
         "421654349879afaf42e188ad50e13e2440f76e5db18967ddf1e3466e094378da"
       ],
       "value": true,
-      "expiresAt": 1792328427224
-    },
-    "[\"factor\",\"topic\",\"421654349879afaf42e188ad50e13e2440f76e5db18967ddf1e3466e094378da\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "421654349879afaf42e188ad50e13e2440f76e5db18967ddf1e3466e094378da"
-      ],
-      "value": {
-        "title": "▶️ 40 человек задержаны в Париже и его пригородах перед началом массовых демонстраций прот",
-        "roots": [
-          "челове",
-          "задерж",
-          "париже",
-          "пригор",
-          "перед",
-          "начало",
-          "массов",
-          "демонс"
-        ]
-      },
-      "expiresAt": 1792327436028
-    },
-    "[\"factor\",\"pub\",\"421654349879afaf42e188ad50e13e2440f76e5db18967ddf1e3466e094378da\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "421654349879afaf42e188ad50e13e2440f76e5db18967ddf1e3466e094378da"
-      ],
-      "value": true,
       "expiresAt": 1792329169096
     },
     "[\"factor\",\"topic\",\"421654349879afaf42e188ad50e13e2440f76e5db18967ddf1e3466e094378da\"]": {
@@ -2907,6 +2790,38 @@
         ]
       },
       "expiresAt": 1792329169097
+    },
+    "[\"factor\",\"pub\",\"21e90465f219c6428be1a0decca7c83499d1770515ffbc4bd7fa599c45e992da\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "21e90465f219c6428be1a0decca7c83499d1770515ffbc4bd7fa599c45e992da"
+      ],
+      "value": true,
+      "expiresAt": 1792330155091
+    },
+    "[\"factor\",\"topic\",\"21e90465f219c6428be1a0decca7c83499d1770515ffbc4bd7fa599c45e992da\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "21e90465f219c6428be1a0decca7c83499d1770515ffbc4bd7fa599c45e992da"
+      ],
+      "value": {
+        "title": "В Турции требуют отменить концерт Максима Галкина*, который должен пройти в Стамбуле Как в",
+        "roots": [
+          "турции",
+          "требую",
+          "отмени",
+          "концер",
+          "максим",
+          "галкин",
+          "которы",
+          "должен",
+          "пройти",
+          "стамбу"
+        ]
+      },
+      "expiresAt": 1792330155092
     }
   }
 }
