@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 757609,
+      "value": 470415,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792225232156,
+      "value": 1792226430058,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"219d2986902b206fd6ae9c5234806ee055bd80c3295ae00c29617844d2805d9b\"]": {
@@ -2881,6 +2881,37 @@
         ]
       },
       "expiresAt": 1792311772477
+    },
+    "[\"factor\",\"pub\",\"5c553c7e5fcbaef2ba87c2c267a2f520f6d7fb7e932dda1bbfa57766ad33b3bb\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "5c553c7e5fcbaef2ba87c2c267a2f520f6d7fb7e932dda1bbfa57766ad33b3bb"
+      ],
+      "value": true,
+      "expiresAt": 1792312954627
+    },
+    "[\"factor\",\"topic\",\"5c553c7e5fcbaef2ba87c2c267a2f520f6d7fb7e932dda1bbfa57766ad33b3bb\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "5c553c7e5fcbaef2ba87c2c267a2f520f6d7fb7e932dda1bbfa57766ad33b3bb"
+      ],
+      "value": {
+        "title": "Новый препарат для лечения рака печени \"Гепаторен-МРНЦ\" успешно прошел первую и вторую фаз",
+        "roots": [
+          "новый",
+          "препар",
+          "лечени",
+          "печени",
+          "гепато",
+          "успешн",
+          "прошел",
+          "первую",
+          "вторую"
+        ]
+      },
+      "expiresAt": 1792312954628
     }
   }
 }
