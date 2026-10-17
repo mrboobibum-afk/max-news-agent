@@ -17,36 +17,6 @@
       "value": 1792222250506,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"a4bdb16b8749834e68ec87b6d88b761cc729631150fb830dfa86cf4b6346c9d4\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "a4bdb16b8749834e68ec87b6d88b761cc729631150fb830dfa86cf4b6346c9d4"
-      ],
-      "value": true,
-      "expiresAt": 1792222275767
-    },
-    "[\"factor\",\"topic\",\"a4bdb16b8749834e68ec87b6d88b761cc729631150fb830dfa86cf4b6346c9d4\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "a4bdb16b8749834e68ec87b6d88b761cc729631150fb830dfa86cf4b6346c9d4"
-      ],
-      "value": {
-        "title": "\"Яндекс\" опроверг сообщения о непродленной страховке дата-центров: \"Информация не соответс",
-        "roots": [
-          "яндекс",
-          "опрове",
-          "сообще",
-          "непрод",
-          "страхо",
-          "центро",
-          "информ",
-          "соотве"
-        ]
-      },
-      "expiresAt": 1792222275769
-    },
     "[\"factor\",\"pub\",\"04aeb9659aeb40ab0d3d3abb9ceae23e24f98aea5d489477c9ac9d08cfad6083\"]": {
       "key": [
         "factor",
