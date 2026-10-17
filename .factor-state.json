@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 807094,
+      "value": 794222,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792219236935,
+      "value": 1792220462787,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"8023d84f4851df4f31f88f6a2a8823f9d23251050eba3026f9cebc7efe07f5dc\"]": {
@@ -2879,6 +2879,38 @@
         ]
       },
       "expiresAt": 1792305889959
+    },
+    "[\"factor\",\"pub\",\"21ab8d2826c4145fbbd9e8a19f78a0c6d2112826127eee30f03a460d1298951d\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "21ab8d2826c4145fbbd9e8a19f78a0c6d2112826127eee30f03a460d1298951d"
+      ],
+      "value": true,
+      "expiresAt": 1792307038271
+    },
+    "[\"factor\",\"topic\",\"21ab8d2826c4145fbbd9e8a19f78a0c6d2112826127eee30f03a460d1298951d\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "21ab8d2826c4145fbbd9e8a19f78a0c6d2112826127eee30f03a460d1298951d"
+      ],
+      "value": {
+        "title": "Свой любимый регион России назвала переехавшая в страну экс-глава МИД Австрии Карин Кнайсл",
+        "roots": [
+          "любимы",
+          "регион",
+          "россии",
+          "назвал",
+          "переех",
+          "страну",
+          "глава",
+          "австри",
+          "карин",
+          "кнайсл"
+        ]
+      },
+      "expiresAt": 1792307038272
     }
   }
 }
