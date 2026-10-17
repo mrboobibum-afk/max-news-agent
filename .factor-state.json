@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 542993,
+      "value": 394842,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792233636145,
+      "value": 1792234236903,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"f72646468e69af020369cdc00017c0dcbccf9c3b16381808edd840340415adbe\"]": {
@@ -2966,6 +2966,34 @@
         ]
       },
       "expiresAt": 1792320334529
+    },
+    "[\"factor\",\"pub\",\"5600f83801a0f0469a26ea004f761f095cc00eada23d1c9abd9676e59e0d2401\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "5600f83801a0f0469a26ea004f761f095cc00eada23d1c9abd9676e59e0d2401"
+      ],
+      "value": true,
+      "expiresAt": 1792320711901
+    },
+    "[\"factor\",\"topic\",\"5600f83801a0f0469a26ea004f761f095cc00eada23d1c9abd9676e59e0d2401\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "5600f83801a0f0469a26ea004f761f095cc00eada23d1c9abd9676e59e0d2401"
+      ],
+      "value": {
+        "title": "В Киеве проходит митинг с требованием отставки мэра Кличко",
+        "roots": [
+          "киеве",
+          "проход",
+          "митинг",
+          "требов",
+          "отстав",
+          "кличко"
+        ]
+      },
+      "expiresAt": 1792320711903
     }
   }
 }
