@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 442855,
+      "value": 621848,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792260061792,
+      "value": 1792260634044,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"30b7baca9ceeb7095e203520a72cbf1144edb498ec021df85454197374087f57\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "30b7baca9ceeb7095e203520a72cbf1144edb498ec021df85454197374087f57"
-      ],
-      "value": true,
-      "expiresAt": 1792260097232
-    },
-    "[\"factor\",\"topic\",\"30b7baca9ceeb7095e203520a72cbf1144edb498ec021df85454197374087f57\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "30b7baca9ceeb7095e203520a72cbf1144edb498ec021df85454197374087f57"
-      ],
-      "value": {
-        "title": "Страны ЕС имеют все меньше времени для подготовки к зиме, в то время как запасы газа в рег",
-        "roots": [
-          "страны",
-          "имеют",
-          "меньше",
-          "времен",
-          "подгот",
-          "время",
-          "запасы"
-        ]
-      },
-      "expiresAt": 1792260097234
     },
     "[\"factor\",\"pub\",\"f16d8ef2a8843ba93a4dd0fab421ed55441c429c87eeb488d9b109827fc35cbc\"]": {
       "key": [
@@ -2591,6 +2562,46 @@
       ],
       "value": true,
       "expiresAt": 1792346895872
+    },
+    "[\"factor\",\"pub\",\"d146e4d6f51c697ca31952d1f0a0813db2f1ff73e57b7fec48d5e0b72eaffe3f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d146e4d6f51c697ca31952d1f0a0813db2f1ff73e57b7fec48d5e0b72eaffe3f"
+      ],
+      "value": true,
+      "expiresAt": 1792347377170
+    },
+    "[\"factor\",\"topic\",\"d146e4d6f51c697ca31952d1f0a0813db2f1ff73e57b7fec48d5e0b72eaffe3f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d146e4d6f51c697ca31952d1f0a0813db2f1ff73e57b7fec48d5e0b72eaffe3f"
+      ],
+      "value": {
+        "title": "Рассказ о десяти повешенных: как союзники казнили нацистских вождей и почему боялись их пе",
+        "roots": [
+          "расска",
+          "десяти",
+          "повеше",
+          "союзни",
+          "казнил",
+          "нацист",
+          "вождей",
+          "почему",
+          "боялис"
+        ]
+      },
+      "expiresAt": 1792347377171
+    },
+    "[\"factor\",\"texthash\",\"4c1eb0a40c9cd82f5ff98bdedc7a08c35f0aa2862abdf1753e147d6373143ded\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "4c1eb0a40c9cd82f5ff98bdedc7a08c35f0aa2862abdf1753e147d6373143ded"
+      ],
+      "value": true,
+      "expiresAt": 1792347377172
     }
   }
 }
