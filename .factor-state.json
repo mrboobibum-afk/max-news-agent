@@ -2451,40 +2451,39 @@
       "value": true,
       "expiresAt": 1792360751503
     },
-    "[\"factor\",\"pub\",\"fb82722fd3de305402e869ab1631bb77bd803541b8e318fafefe059ef9ecdd5b\"]": {
+    "[\"factor\",\"pub\",\"a28a43af419893acab30542a912a240b846220e845d1305a15fd23b1dd306f35\"]": {
       "key": [
         "factor",
         "pub",
-        "fb82722fd3de305402e869ab1631bb77bd803541b8e318fafefe059ef9ecdd5b"
+        "a28a43af419893acab30542a912a240b846220e845d1305a15fd23b1dd306f35"
       ],
       "value": true,
-      "expiresAt": 1792361979313
+      "expiresAt": 1792362873359
     },
-    "[\"factor\",\"topic\",\"fb82722fd3de305402e869ab1631bb77bd803541b8e318fafefe059ef9ecdd5b\"]": {
+    "[\"factor\",\"topic\",\"a28a43af419893acab30542a912a240b846220e845d1305a15fd23b1dd306f35\"]": {
       "key": [
         "factor",
         "topic",
-        "fb82722fd3de305402e869ab1631bb77bd803541b8e318fafefe059ef9ecdd5b"
+        "a28a43af419893acab30542a912a240b846220e845d1305a15fd23b1dd306f35"
       ],
       "value": {
-        "title": "\"Нижний Новгород\" прилетел в Екатеринбург с более чем 10-часовой задержкой",
+        "title": "▶️ Потеря Алексеево-Дружковки и Доброполья болезненна для ВСУ, заявил в интервью ТАСС Пуши",
         "roots": [
-          "нижний",
-          "новгор",
-          "прилет",
-          "екатер",
-          "более",
-          "часово",
-          "задерж"
+          "потеря",
+          "алексе",
+          "дружко",
+          "доброп",
+          "болезн",
+          "интерв"
         ]
       },
-      "expiresAt": 1792361979315
+      "expiresAt": 1792362873360
     },
-    "[\"factor\",\"texthash\",\"8c7cb2833e39092b1f973f3620de4b40511f0da38df607c07a68b554263e06fb\"]": {
+    "[\"factor\",\"texthash\",\"6b72d671525c8f6f22a37e49db443a1f632f95b74ce787902a244174ef4ac7d4\"]": {
       "key": [
         "factor",
         "texthash",
-        "8c7cb2833e39092b1f973f3620de4b40511f0da38df607c07a68b554263e06fb"
+        "6b72d671525c8f6f22a37e49db443a1f632f95b74ce787902a244174ef4ac7d4"
       ],
       "value": true,
       "expiresAt": 1792361979316
