@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 598292,
+      "value": 359524,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792244434358,
+      "value": 1792245033641,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"4db1c896d207bfac3c3c29fd188efb4128713a939f6715539bdee832314f73d6\"]": {
@@ -2791,6 +2791,35 @@
         ]
       },
       "expiresAt": 1792331050353
+    },
+    "[\"factor\",\"pub\",\"2077275f5a9e3599c4668cc37b652d4cf9a5066277e39434975b0cf13613b537\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "2077275f5a9e3599c4668cc37b652d4cf9a5066277e39434975b0cf13613b537"
+      ],
+      "value": true,
+      "expiresAt": 1792331711755
+    },
+    "[\"factor\",\"topic\",\"2077275f5a9e3599c4668cc37b652d4cf9a5066277e39434975b0cf13613b537\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "2077275f5a9e3599c4668cc37b652d4cf9a5066277e39434975b0cf13613b537"
+      ],
+      "value": {
+        "title": "Ребенок погиб на Урале, спасая из пожара бабушку и собаку",
+        "roots": [
+          "ребено",
+          "погиб",
+          "урале",
+          "спасая",
+          "пожара",
+          "бабушк",
+          "собаку"
+        ]
+      },
+      "expiresAt": 1792331711756
     }
   }
 }
