@@ -17,33 +17,6 @@
       "value": 1792225232156,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"ef0ba0cb364766a911e51c396f8351de2d9b5756a6c5d679f08c54aeba1648e0\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "ef0ba0cb364766a911e51c396f8351de2d9b5756a6c5d679f08c54aeba1648e0"
-      ],
-      "value": true,
-      "expiresAt": 1792225263306
-    },
-    "[\"factor\",\"topic\",\"ef0ba0cb364766a911e51c396f8351de2d9b5756a6c5d679f08c54aeba1648e0\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "ef0ba0cb364766a911e51c396f8351de2d9b5756a6c5d679f08c54aeba1648e0"
-      ],
-      "value": {
-        "title": "Азербайджан хочет вновь закупать газ у \"Газпрома\"",
-        "roots": [
-          "азерба",
-          "хочет",
-          "вновь",
-          "закупа",
-          "газпро"
-        ]
-      },
-      "expiresAt": 1792225263307
-    },
     "[\"factor\",\"pub\",\"219d2986902b206fd6ae9c5234806ee055bd80c3295ae00c29617844d2805d9b\"]": {
       "key": [
         "factor",
