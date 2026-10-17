@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 793688,
+      "value": 643740,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792213832298,
+      "value": 1792215047914,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"6c1284d22570e0b7a1e2948aa2b1b34dc835aabe45f59b4072592943ccdfbd52\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "6c1284d22570e0b7a1e2948aa2b1b34dc835aabe45f59b4072592943ccdfbd52"
-      ],
-      "value": true,
-      "expiresAt": 1792214474421
-    },
-    "[\"factor\",\"topic\",\"6c1284d22570e0b7a1e2948aa2b1b34dc835aabe45f59b4072592943ccdfbd52\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "6c1284d22570e0b7a1e2948aa2b1b34dc835aabe45f59b4072592943ccdfbd52"
-      ],
-      "value": {
-        "title": "Гражданина России экстрадировали в США по обвинению в обходе санкций , сообщает американск",
-        "roots": [
-          "гражда",
-          "россии",
-          "экстра",
-          "обвине",
-          "обходе",
-          "санкци",
-          "сообща",
-          "америк"
-        ]
-      },
-      "expiresAt": 1792214474422
     },
     "[\"factor\",\"pub\",\"25b4350469e2237cc89036e976e9e86c08d5c9aa0b8fa40e7af3790a2965b126\"]": {
       "key": [
@@ -2876,6 +2846,35 @@
         ]
       },
       "expiresAt": 1792300376550
+    },
+    "[\"factor\",\"pub\",\"b39dd1e9a43180e6d961ed6ac7b1a4d847a69156c523e7e9da3c51f55abec49e\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "b39dd1e9a43180e6d961ed6ac7b1a4d847a69156c523e7e9da3c51f55abec49e"
+      ],
+      "value": true,
+      "expiresAt": 1792301577619
+    },
+    "[\"factor\",\"topic\",\"b39dd1e9a43180e6d961ed6ac7b1a4d847a69156c523e7e9da3c51f55abec49e\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "b39dd1e9a43180e6d961ed6ac7b1a4d847a69156c523e7e9da3c51f55abec49e"
+      ],
+      "value": {
+        "title": "❕ ВС РФ поразили \"Запорожтрансформатор\", осуществляющий выпуск силовых масляных трансформа",
+        "roots": [
+          "порази",
+          "запоро",
+          "осущес",
+          "выпуск",
+          "силовы",
+          "маслян",
+          "трансф"
+        ]
+      },
+      "expiresAt": 1792301577621
     }
   }
 }
