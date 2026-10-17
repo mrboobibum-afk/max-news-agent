@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 406517,
+      "value": 451352,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792231840006,
+      "value": 1792232430533,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"0d7a2fb1f4d6140bd28981a64b088d3423b85f608a36b2dab8a897f9aa9d1515\"]": {
@@ -2937,6 +2937,34 @@
         ]
       },
       "expiresAt": 1792318444509
+    },
+    "[\"factor\",\"pub\",\"60bbb2d4e910544bc9daad8a2c46001d1cc1f24100b4475eb9d829890f3bc894\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "60bbb2d4e910544bc9daad8a2c46001d1cc1f24100b4475eb9d829890f3bc894"
+      ],
+      "value": true,
+      "expiresAt": 1792319141227
+    },
+    "[\"factor\",\"topic\",\"60bbb2d4e910544bc9daad8a2c46001d1cc1f24100b4475eb9d829890f3bc894\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "60bbb2d4e910544bc9daad8a2c46001d1cc1f24100b4475eb9d829890f3bc894"
+      ],
+      "value": {
+        "title": "Истребители Королевских военно-воздушных сил Великобритании (RAF) чуть не столкнулись с дв",
+        "roots": [
+          "истреб",
+          "короле",
+          "военно",
+          "воздуш",
+          "велико",
+          "столкн"
+        ]
+      },
+      "expiresAt": 1792319141228
     }
   }
 }
