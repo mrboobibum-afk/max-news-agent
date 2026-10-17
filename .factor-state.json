@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 877139,
+      "value": 504671,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792239037270,
+      "value": 1792240251638,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"45ce79e15ea656240e5b10b159cc8b31d0e049a4714025a3d90dd90e28e9408d\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "45ce79e15ea656240e5b10b159cc8b31d0e049a4714025a3d90dd90e28e9408d"
-      ],
-      "value": true,
-      "expiresAt": 1792239716032
-    },
-    "[\"factor\",\"topic\",\"45ce79e15ea656240e5b10b159cc8b31d0e049a4714025a3d90dd90e28e9408d\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "45ce79e15ea656240e5b10b159cc8b31d0e049a4714025a3d90dd90e28e9408d"
-      ],
-      "value": {
-        "title": "Предоставление связи ВСУ ранее было ограничено по указанию Белого дома, утверждает Reuters",
-        "roots": [
-          "предос",
-          "связи",
-          "ранее",
-          "ограни",
-          "указан",
-          "белого",
-          "утверж",
-          "reuter"
-        ]
-      },
-      "expiresAt": 1792239716033
     },
     "[\"factor\",\"pub\",\"60dab0b22099a82e5378b72ed3ac1d53c7c978ed2621561860c1c6ba0d63ef4e\"]": {
       "key": [
@@ -2966,6 +2936,34 @@
         ]
       },
       "expiresAt": 1792325608417
+    },
+    "[\"factor\",\"pub\",\"beef222986f808132e55ff3d149c6ccca6521981a18e66be9f573f058d9a6afa\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "beef222986f808132e55ff3d149c6ccca6521981a18e66be9f573f058d9a6afa"
+      ],
+      "value": true,
+      "expiresAt": 1792327436027
+    },
+    "[\"factor\",\"topic\",\"beef222986f808132e55ff3d149c6ccca6521981a18e66be9f573f058d9a6afa\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "beef222986f808132e55ff3d149c6ccca6521981a18e66be9f573f058d9a6afa"
+      ],
+      "value": {
+        "title": "▶️ Зеленский является лживым псевдоруководителем, неспособным договариваться, заявил в инт",
+        "roots": [
+          "зеленс",
+          "являет",
+          "лживым",
+          "псевдо",
+          "неспос",
+          "догова"
+        ]
+      },
+      "expiresAt": 1792327436028
     }
   }
 }
