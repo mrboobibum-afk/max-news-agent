@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 638146,
+      "value": 687739,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,64 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792255913203,
+      "value": 1792258267885,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"28222c3d2c636f312655ad817e1d40688b51cc9591110f0301ded3603b3d8caa\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "28222c3d2c636f312655ad817e1d40688b51cc9591110f0301ded3603b3d8caa"
-      ],
-      "value": true,
-      "expiresAt": 1792257060359
-    },
-    "[\"factor\",\"topic\",\"28222c3d2c636f312655ad817e1d40688b51cc9591110f0301ded3603b3d8caa\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "28222c3d2c636f312655ad817e1d40688b51cc9591110f0301ded3603b3d8caa"
-      ],
-      "value": {
-        "title": "Кадры из освобожденного Доброполья показало Минобороны России",
-        "roots": [
-          "кадры",
-          "освобо",
-          "доброп",
-          "показа",
-          "минобо",
-          "россии"
-        ]
-      },
-      "expiresAt": 1792257060360
-    },
-    "[\"factor\",\"pub\",\"afb3945c7a6b7a23526eca09d210eef445b07b6a15f6fbf17c26ed9a65d39451\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "afb3945c7a6b7a23526eca09d210eef445b07b6a15f6fbf17c26ed9a65d39451"
-      ],
-      "value": true,
-      "expiresAt": 1792257664269
-    },
-    "[\"factor\",\"topic\",\"afb3945c7a6b7a23526eca09d210eef445b07b6a15f6fbf17c26ed9a65d39451\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "afb3945c7a6b7a23526eca09d210eef445b07b6a15f6fbf17c26ed9a65d39451"
-      ],
-      "value": {
-        "title": "❕ Общая протяженность полосы безопасности у границы РФ 660 км, под контролем ВС РФ — 465 к",
-        "roots": [
-          "общая",
-          "протяж",
-          "полосы",
-          "безопа",
-          "границ",
-          "контро"
-        ]
-      },
-      "expiresAt": 1792257664272
     },
     "[\"factor\",\"pub\",\"2979755ee132b33317383d41de556178abb7801f88723c6cbc0446c3e8d57bc5\"]": {
       "key": [
@@ -2622,6 +2566,41 @@
       ],
       "value": true,
       "expiresAt": 1792342812454
+    },
+    "[\"factor\",\"pub\",\"7ce597f73d980f377367dd3893927d3abe274c23ea7ffd73f7336627c9988cc9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "7ce597f73d980f377367dd3893927d3abe274c23ea7ffd73f7336627c9988cc9"
+      ],
+      "value": true,
+      "expiresAt": 1792345833920
+    },
+    "[\"factor\",\"topic\",\"7ce597f73d980f377367dd3893927d3abe274c23ea7ffd73f7336627c9988cc9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "7ce597f73d980f377367dd3893927d3abe274c23ea7ffd73f7336627c9988cc9"
+      ],
+      "value": {
+        "title": "Tesla представила летающий автомобиль",
+        "roots": [
+          "tesla",
+          "предст",
+          "летающ",
+          "автомо"
+        ]
+      },
+      "expiresAt": 1792345833921
+    },
+    "[\"factor\",\"texthash\",\"fa81e84dfe53c0991cc84db10ace92d300199749baabad4998c6d970f5197e99\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "fa81e84dfe53c0991cc84db10ace92d300199749baabad4998c6d970f5197e99"
+      ],
+      "value": true,
+      "expiresAt": 1792345833922
     }
   }
 }
