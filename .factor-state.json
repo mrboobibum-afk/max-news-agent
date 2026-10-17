@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 327232,
+      "value": 406517,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792231262623,
+      "value": 1792231840006,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"e63f886081b848b85b7b0aaf6eca7dcbf9423b21dc390e485d53fd7e2e7b2eae\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "e63f886081b848b85b7b0aaf6eca7dcbf9423b21dc390e485d53fd7e2e7b2eae"
-      ],
-      "value": true,
-      "expiresAt": 1792231347252
-    },
-    "[\"factor\",\"topic\",\"e63f886081b848b85b7b0aaf6eca7dcbf9423b21dc390e485d53fd7e2e7b2eae\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "e63f886081b848b85b7b0aaf6eca7dcbf9423b21dc390e485d53fd7e2e7b2eae"
-      ],
-      "value": {
-        "title": "У Путина вечером состоится международный телефонный разговор, заявил Песков",
-        "roots": [
-          "путина",
-          "вечеро",
-          "состои",
-          "междун",
-          "телефо",
-          "разгов",
-          "песков"
-        ]
-      },
-      "expiresAt": 1792231347253
     },
     "[\"factor\",\"pub\",\"0d7a2fb1f4d6140bd28981a64b088d3423b85f608a36b2dab8a897f9aa9d1515\"]": {
       "key": [
@@ -2936,6 +2907,36 @@
         "roots": []
       },
       "expiresAt": 1792317768030
+    },
+    "[\"factor\",\"pub\",\"ad97d37c8d7af3a9d76bc8ffe68b7e3ad48c58e3268f981ccc2365e6bca5b936\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "ad97d37c8d7af3a9d76bc8ffe68b7e3ad48c58e3268f981ccc2365e6bca5b936"
+      ],
+      "value": true,
+      "expiresAt": 1792318444508
+    },
+    "[\"factor\",\"topic\",\"ad97d37c8d7af3a9d76bc8ffe68b7e3ad48c58e3268f981ccc2365e6bca5b936\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "ad97d37c8d7af3a9d76bc8ffe68b7e3ad48c58e3268f981ccc2365e6bca5b936"
+      ],
+      "value": {
+        "title": "❗️ Группировка войск \"Днепр\" освободила населенный пункт Малокатериновка в Запорожской обл",
+        "roots": [
+          "группи",
+          "войск",
+          "днепр",
+          "освобо",
+          "населе",
+          "пункт",
+          "малока",
+          "запоро"
+        ]
+      },
+      "expiresAt": 1792318444509
     }
   }
 }
