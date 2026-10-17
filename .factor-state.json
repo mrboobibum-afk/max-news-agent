@@ -17,31 +17,6 @@
       "value": 1792215047914,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"25b4350469e2237cc89036e976e9e86c08d5c9aa0b8fa40e7af3790a2965b126\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "25b4350469e2237cc89036e976e9e86c08d5c9aa0b8fa40e7af3790a2965b126"
-      ],
-      "value": true,
-      "expiresAt": 1792215076276
-    },
-    "[\"factor\",\"topic\",\"25b4350469e2237cc89036e976e9e86c08d5c9aa0b8fa40e7af3790a2965b126\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "25b4350469e2237cc89036e976e9e86c08d5c9aa0b8fa40e7af3790a2965b126"
-      ],
-      "value": {
-        "title": "ПВО за ночь сбила 644 дрона ВСУ, сообщили в Минобороны",
-        "roots": [
-          "сбила",
-          "дрона",
-          "минобо"
-        ]
-      },
-      "expiresAt": 1792215076277
-    },
     "[\"factor\",\"pub\",\"0da12309094d5ed8b844ddad2d0a1394986385a843efb733dece9efeef29e472\"]": {
       "key": [
         "factor",
