@@ -17,35 +17,6 @@
       "value": 1792260634044,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"f16d8ef2a8843ba93a4dd0fab421ed55441c429c87eeb488d9b109827fc35cbc\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "f16d8ef2a8843ba93a4dd0fab421ed55441c429c87eeb488d9b109827fc35cbc"
-      ],
-      "value": true,
-      "expiresAt": 1792260708934
-    },
-    "[\"factor\",\"topic\",\"f16d8ef2a8843ba93a4dd0fab421ed55441c429c87eeb488d9b109827fc35cbc\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "f16d8ef2a8843ba93a4dd0fab421ed55441c429c87eeb488d9b109827fc35cbc"
-      ],
-      "value": {
-        "title": "❗️ Путин дал исчерпывающие разъяснения Папе Римскому об ответственности киевского режима з",
-        "roots": [
-          "путин",
-          "исчерп",
-          "разъяс",
-          "римско",
-          "ответс",
-          "киевск",
-          "режима"
-        ]
-      },
-      "expiresAt": 1792260708935
-    },
     "[\"factor\",\"pub\",\"325d33b82035009656bb313bbce7694ea8627f377f05f8b11273d2cfb92daca1\"]": {
       "key": [
         "factor",
