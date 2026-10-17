@@ -1,8 +1,6 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Live Video/Action Edition v51)
+// MAX NEWS AGENT — «ФАКТОР» (Live Video/Action Edition v52)
 // ============================================================
-
-import { fetchify } from "https://deno.land/x/fetchify@0.3.11/mod.ts";
 
 const MAX_API = "https://platform-api2.max.ru";
 const MAX_BOT_TOKEN = Deno.env.get("MAX_BOT_TOKEN") ?? "";
@@ -242,7 +240,7 @@ function isTrashUrl(url: string): boolean {
     );
 }
 
-// ПРИОРИТЕТНЫЙ СПИСОК ПРОКСИ. corsproxy.io — самый стабильный для видео.
+// ПРИОРИТЕТНЫЙ СПИСОК ПРОКСИ (без fetchify)
 function buildProxyUrls(url: string): string[] {
     const enc = encodeURIComponent(url);
     return [
@@ -257,35 +255,54 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
 
     const proxyUrls = buildProxyUrls(url);
     const timeout = isVideo ? 60000 : 20000; // Даём видео больше времени
+    const maxRetries = 2;
 
     for (const candidateUrl of proxyUrls) {
-        try {
-            // Используем fetchify для ретраев и обхода лимитов
-            const response = await fetchify(candidateUrl, {
-                method: "GET",
-                headers: {
-                    "User-Agent": USER_AGENT,
-                    "Referer": "https://t.me/",
-                    "Accept": "*/*",
-                },
-                timeout,
-                retries: 2,
-            });
+        for (let attempt = 0; attempt <= maxRetries; attempt++) {
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), timeout);
 
-            if (!response.ok) continue;
+                const response = await fetch(candidateUrl, {
+                    method: "GET",
+                    headers: {
+                        "User-Agent": USER_AGENT,
+                        "Referer": "https://t.me/",
+                        "Accept": "*/*",
+                    },
+                    signal: controller.signal,
+                });
 
-            const buf = new Uint8Array(await response.arrayBuffer());
-            const min = isVideo ? MIN_VIDEO_BYTES : MIN_IMAGE_BYTES;
-            const max = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
+                clearTimeout(timeoutId);
 
-            if (buf.byteLength < min || buf.byteLength > max) continue;
+                if (!response.ok) {
+                    if (attempt < maxRetries) continue;
+                    break;
+                }
 
-            const head = new TextDecoder().decode(buf.subarray(0, 30)).toLowerCase();
-            if (head.includes("<html") || head.includes("<!doctype") || head.includes("<?xml")) continue;
+                const buf = new Uint8Array(await response.arrayBuffer());
+                const min = isVideo ? MIN_VIDEO_BYTES : MIN_IMAGE_BYTES;
+                const max = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
 
-            return buf;
-        } catch {
-            continue;
+                if (buf.byteLength < min || buf.byteLength > max) {
+                    if (attempt < maxRetries) continue;
+                    break;
+                }
+
+                const head = new TextDecoder().decode(buf.subarray(0, 30)).toLowerCase();
+                if (head.includes("<html") || head.includes("<!doctype") || head.includes("<?xml")) {
+                    if (attempt < maxRetries) continue;
+                    break;
+                }
+
+                return buf;
+            } catch {
+                if (attempt < maxRetries) {
+                    await new Promise(r => setTimeout(r, 1000 * (attempt + 1)));
+                    continue;
+                }
+                break;
+            }
         }
     }
     return null;
@@ -587,7 +604,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v51: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v52: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -666,7 +683,6 @@ async function run() {
         }
 
         // 🚨 УМНЫЙ ФОЛБЭК: если нет медиа, но новость КРИТИЧЕСКИ ВАЖНАЯ (8+), публикуем текстом.
-        // Остальное — пропускаем, чтобы не позориться.
         if (!uploaded.length) {
             if (post.importance >= 8) {
                 console.log(`⚠️ Медиа не найдено, но новость критически важная (${post.importance}). Публикуем текстом.`);
