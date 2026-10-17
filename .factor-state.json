@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 213449,
+      "value": 688128,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792203036173,
+      "value": 1792203635378,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"5c40e0fdaec7138a3e1b9c3ebe5af16070a35538cf3871fc484e7006fccc55c1\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "5c40e0fdaec7138a3e1b9c3ebe5af16070a35538cf3871fc484e7006fccc55c1"
-      ],
-      "value": true,
-      "expiresAt": 1792203079668
-    },
-    "[\"factor\",\"topic\",\"5c40e0fdaec7138a3e1b9c3ebe5af16070a35538cf3871fc484e7006fccc55c1\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "5c40e0fdaec7138a3e1b9c3ebe5af16070a35538cf3871fc484e7006fccc55c1"
-      ],
-      "value": {
-        "title": "Ограничение Starlink на Украине сделало непригодным значительную часть арсенала беспилотни",
-        "roots": [
-          "ограни",
-          "starli",
-          "украин",
-          "сделал",
-          "неприг",
-          "значит",
-          "часть",
-          "арсена",
-          "беспил"
-        ]
-      },
-      "expiresAt": 1792203079669
     },
     "[\"factor\",\"pub\",\"4c0ce4c258c46ec4128ead8c29cc0f06a50a99d38c3b4e4ac87a47eda2fd46b1\"]": {
       "key": [
@@ -2886,6 +2855,36 @@
         ]
       },
       "expiresAt": 1792289490278
+    },
+    "[\"factor\",\"pub\",\"a21cf6c7e4a6a4203a886297490fee66139d6ae1f659e7af0439daa475b1179a\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "a21cf6c7e4a6a4203a886297490fee66139d6ae1f659e7af0439daa475b1179a"
+      ],
+      "value": true,
+      "expiresAt": 1792290098799
+    },
+    "[\"factor\",\"topic\",\"a21cf6c7e4a6a4203a886297490fee66139d6ae1f659e7af0439daa475b1179a\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "a21cf6c7e4a6a4203a886297490fee66139d6ae1f659e7af0439daa475b1179a"
+      ],
+      "value": {
+        "title": "Обязательного предмета \"Дроноведение\" в российских школах нет, но учебные заведения вправе",
+        "roots": [
+          "обязат",
+          "предме",
+          "дронов",
+          "россий",
+          "школах",
+          "учебны",
+          "заведе",
+          "вправе"
+        ]
+      },
+      "expiresAt": 1792290098801
     }
   }
 }
