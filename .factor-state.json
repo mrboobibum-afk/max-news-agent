@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 786906,
+      "value": 486403,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792229449680,
+      "value": 1792230635559,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"7ba80d4c960a81436458e14f5b2c8ce85078b54e3543a0defb4698fa5b42aa49\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "7ba80d4c960a81436458e14f5b2c8ce85078b54e3543a0defb4698fa5b42aa49"
-      ],
-      "value": true,
-      "expiresAt": 1792230055116
-    },
-    "[\"factor\",\"topic\",\"7ba80d4c960a81436458e14f5b2c8ce85078b54e3543a0defb4698fa5b42aa49\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "7ba80d4c960a81436458e14f5b2c8ce85078b54e3543a0defb4698fa5b42aa49"
-      ],
-      "value": {
-        "title": "❕ ВС РФ взяли под полный контроль трассу Волчанск — Бударки, по которой ВСУ пытались прокл",
-        "roots": [
-          "взяли",
-          "полный",
-          "контро",
-          "трассу",
-          "волчан",
-          "бударк",
-          "которо",
-          "пытали",
-          "прокл"
-        ]
-      },
-      "expiresAt": 1792230055117
     },
     "[\"factor\",\"pub\",\"e63f886081b848b85b7b0aaf6eca7dcbf9423b21dc390e485d53fd7e2e7b2eae\"]": {
       "key": [
@@ -2916,6 +2885,36 @@
         ]
       },
       "expiresAt": 1792315981739
+    },
+    "[\"factor\",\"pub\",\"fb586974a60b1cb2bfa465bf08bd4bbd061d70317e710ef2a670925b496a1f88\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "fb586974a60b1cb2bfa465bf08bd4bbd061d70317e710ef2a670925b496a1f88"
+      ],
+      "value": true,
+      "expiresAt": 1792317121823
+    },
+    "[\"factor\",\"topic\",\"fb586974a60b1cb2bfa465bf08bd4bbd061d70317e710ef2a670925b496a1f88\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "fb586974a60b1cb2bfa465bf08bd4bbd061d70317e710ef2a670925b496a1f88"
+      ],
+      "value": {
+        "title": "Российский боксер Денис Бойцов, известный как \"русский Тайсон\", умер в возрасте 40 лет, со",
+        "roots": [
+          "россий",
+          "боксер",
+          "денис",
+          "бойцов",
+          "извест",
+          "русски",
+          "тайсон",
+          "возрас"
+        ]
+      },
+      "expiresAt": 1792317121824
     }
   }
 }
