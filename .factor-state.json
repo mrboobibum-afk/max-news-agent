@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 469905,
+      "value": 489826,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,32 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792263697777,
+      "value": 1792265290845,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"4ce8fb4b6bca66a9f2f1eb4a5b19dfeb5aa31655fa92e0770e020f3b7a6d2dee\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "4ce8fb4b6bca66a9f2f1eb4a5b19dfeb5aa31655fa92e0770e020f3b7a6d2dee"
-      ],
-      "value": true,
-      "expiresAt": 1792264267708
-    },
-    "[\"factor\",\"topic\",\"4ce8fb4b6bca66a9f2f1eb4a5b19dfeb5aa31655fa92e0770e020f3b7a6d2dee\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "4ce8fb4b6bca66a9f2f1eb4a5b19dfeb5aa31655fa92e0770e020f3b7a6d2dee"
-      ],
-      "value": {
-        "title": "О чем пишут иностранные СМИ",
-        "roots": [
-          "пишут",
-          "иностр"
-        ]
-      },
-      "expiresAt": 1792264267709
     },
     "[\"factor\",\"pub\",\"0c188861ebc08d3bced619e742ce895264d7513f724c932f794a646450e9b0a6\"]": {
       "key": [
@@ -2555,6 +2531,44 @@
       ],
       "value": true,
       "expiresAt": 1792350675487
+    },
+    "[\"factor\",\"pub\",\"f406024046cf7f4cba60b7bb21e8722eda6bfbd28996e594a76f51a5b0321cea\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "f406024046cf7f4cba60b7bb21e8722eda6bfbd28996e594a76f51a5b0321cea"
+      ],
+      "value": true,
+      "expiresAt": 1792352262546
+    },
+    "[\"factor\",\"topic\",\"f406024046cf7f4cba60b7bb21e8722eda6bfbd28996e594a76f51a5b0321cea\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "f406024046cf7f4cba60b7bb21e8722eda6bfbd28996e594a76f51a5b0321cea"
+      ],
+      "value": {
+        "title": "На западе Украины взлетели цены на аренду квартир из-за переселенцев из Киева",
+        "roots": [
+          "западе",
+          "украин",
+          "взлете",
+          "аренду",
+          "кварти",
+          "пересе",
+          "киева"
+        ]
+      },
+      "expiresAt": 1792352262548
+    },
+    "[\"factor\",\"texthash\",\"76ea3e8b51abcffb22c1bac58e6088637b04b53ef04bd3ce0b45af11c7fa9ecc\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "76ea3e8b51abcffb22c1bac58e6088637b04b53ef04bd3ce0b45af11c7fa9ecc"
+      ],
+      "value": true,
+      "expiresAt": 1792352262548
     }
   }
 }
