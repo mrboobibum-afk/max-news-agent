@@ -2441,45 +2441,7 @@
         "f406024046cf7f4cba60b7bb21e8722eda6bfbd28996e594a76f51a5b0321cea"
       ],
       "value": true,
-      "expiresAt": 1792351646795
-    },
-    "[\"factor\",\"topic\",\"f406024046cf7f4cba60b7bb21e8722eda6bfbd28996e594a76f51a5b0321cea\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "f406024046cf7f4cba60b7bb21e8722eda6bfbd28996e594a76f51a5b0321cea"
-      ],
-      "value": {
-        "title": "На западе Украины взлетели цены на аренду квартир из-за переселенцев из Киева",
-        "roots": [
-          "западе",
-          "украин",
-          "взлете",
-          "аренду",
-          "кварти",
-          "пересе",
-          "киева"
-        ]
-      },
-      "expiresAt": 1792351646796
-    },
-    "[\"factor\",\"texthash\",\"76ea3e8b51abcffb22c1bac58e6088637b04b53ef04bd3ce0b45af11c7fa9ecc\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "76ea3e8b51abcffb22c1bac58e6088637b04b53ef04bd3ce0b45af11c7fa9ecc"
-      ],
-      "value": true,
-      "expiresAt": 1792351646797
-    },
-    "[\"factor\",\"pub\",\"d0f25081c5c2f9cdcc89525fda68ebf1875a28ad7ec4df4728e3c9fe0561798d\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "d0f25081c5c2f9cdcc89525fda68ebf1875a28ad7ec4df4728e3c9fe0561798d"
-      ],
-      "value": true,
-      "expiresAt": 1792352905971
+      "expiresAt": 1792352262546
     },
     "[\"factor\",\"topic\",\"d0f25081c5c2f9cdcc89525fda68ebf1875a28ad7ec4df4728e3c9fe0561798d\"]": {
       "key": [
