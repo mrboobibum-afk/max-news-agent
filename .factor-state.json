@@ -17,37 +17,6 @@
       "value": 1792206067158,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"c2130cdc5345d9347dbac9724492c0ec35a28deb8cc3a005b57d517f9dd2d6c3\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c2130cdc5345d9347dbac9724492c0ec35a28deb8cc3a005b57d517f9dd2d6c3"
-      ],
-      "value": true,
-      "expiresAt": 1792206098317
-    },
-    "[\"factor\",\"topic\",\"c2130cdc5345d9347dbac9724492c0ec35a28deb8cc3a005b57d517f9dd2d6c3\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c2130cdc5345d9347dbac9724492c0ec35a28deb8cc3a005b57d517f9dd2d6c3"
-      ],
-      "value": {
-        "title": "Итальянский журналист Винченцо Лоруссо, основатель Telegram-канала \"Донбасс Италия\" , полу",
-        "roots": [
-          "италья",
-          "журнал",
-          "винчен",
-          "лорусс",
-          "основа",
-          "telegr",
-          "канала",
-          "донбас",
-          "италия"
-        ]
-      },
-      "expiresAt": 1792206098319
-    },
     "[\"factor\",\"pub\",\"f38120b3888596d581e3f9e6836c8bcab5748acf89bd36c88ff674595873edb0\"]": {
       "key": [
         "factor",
