@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 232381,
+      "value": 847540,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,92 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792246832792,
+      "value": 1792248651051,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"413bb6592500f507445eaba93d46e22210ae09b17f0830c48b86dd74f6478ebe\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "413bb6592500f507445eaba93d46e22210ae09b17f0830c48b86dd74f6478ebe"
-      ],
-      "value": true,
-      "expiresAt": 1792247151905
-    },
-    "[\"factor\",\"topic\",\"413bb6592500f507445eaba93d46e22210ae09b17f0830c48b86dd74f6478ebe\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "413bb6592500f507445eaba93d46e22210ae09b17f0830c48b86dd74f6478ebe"
-      ],
-      "value": {
-        "title": "Россия готова участвовать в балансировке энергетических рынков, заявил Новак",
-        "roots": [
-          "готова",
-          "участв",
-          "баланс",
-          "энерге",
-          "рынков",
-          "новак"
-        ]
-      },
-      "expiresAt": 1792247151907
-    },
-    "[\"factor\",\"pub\",\"525729e87962b1d59eb47afce24f6c39f531c2441fa2ac1ef7a87a73d6a68d6f\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "525729e87962b1d59eb47afce24f6c39f531c2441fa2ac1ef7a87a73d6a68d6f"
-      ],
-      "value": true,
-      "expiresAt": 1792247483866
-    },
-    "[\"factor\",\"topic\",\"525729e87962b1d59eb47afce24f6c39f531c2441fa2ac1ef7a87a73d6a68d6f\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "525729e87962b1d59eb47afce24f6c39f531c2441fa2ac1ef7a87a73d6a68d6f"
-      ],
-      "value": {
-        "title": "Цены на сталь в США из-за импортных пошлин Трампа выросли до максимума за четыре года, пиш",
-        "roots": [
-          "сталь",
-          "импорт",
-          "пошлин",
-          "трампа",
-          "выросл",
-          "максим",
-          "четыре"
-        ]
-      },
-      "expiresAt": 1792247483867
-    },
-    "[\"factor\",\"pub\",\"93526effd9653520088dba5803ad372bebc4fd21afe559d32216fae710a199c9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "93526effd9653520088dba5803ad372bebc4fd21afe559d32216fae710a199c9"
-      ],
-      "value": true,
-      "expiresAt": 1792248060926
-    },
-    "[\"factor\",\"topic\",\"93526effd9653520088dba5803ad372bebc4fd21afe559d32216fae710a199c9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "93526effd9653520088dba5803ad372bebc4fd21afe559d32216fae710a199c9"
-      ],
-      "value": {
-        "title": "Россия и США обсуждают сотрудничество в сфере дата-центров, заявил Дмитриев",
-        "roots": [
-          "обсужд",
-          "сотруд",
-          "сфере",
-          "центро",
-          "дмитри"
-        ]
-      },
-      "expiresAt": 1792248060928
     },
     "[\"factor\",\"pub\",\"726ef84c7d4f5c6bc490c977619a9c0f045374f538ff6a6025d462ccc08386d9\"]": {
       "key": [
@@ -2819,6 +2735,36 @@
         ]
       },
       "expiresAt": 1792333474836
+    },
+    "[\"factor\",\"pub\",\"7a7cc032eb62f11247d48fbfb0982aabf6cb844d0c1c0bb5b7b8ab5d22cc4733\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "7a7cc032eb62f11247d48fbfb0982aabf6cb844d0c1c0bb5b7b8ab5d22cc4733"
+      ],
+      "value": true,
+      "expiresAt": 1792335321615
+    },
+    "[\"factor\",\"topic\",\"7a7cc032eb62f11247d48fbfb0982aabf6cb844d0c1c0bb5b7b8ab5d22cc4733\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "7a7cc032eb62f11247d48fbfb0982aabf6cb844d0c1c0bb5b7b8ab5d22cc4733"
+      ],
+      "value": {
+        "title": "Почти 40 часов пассажиры Air Cairo не могут вылететь из Шереметьево в Хургаду",
+        "roots": [
+          "почти",
+          "часов",
+          "пассаж",
+          "cairo",
+          "могут",
+          "вылете",
+          "шереме",
+          "хургад"
+        ]
+      },
+      "expiresAt": 1792335321616
     }
   }
 }
