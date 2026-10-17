@@ -17,35 +17,6 @@
       "value": 1792216235028,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"0da12309094d5ed8b844ddad2d0a1394986385a843efb733dece9efeef29e472\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "0da12309094d5ed8b844ddad2d0a1394986385a843efb733dece9efeef29e472"
-      ],
-      "value": true,
-      "expiresAt": 1792216280148
-    },
-    "[\"factor\",\"topic\",\"0da12309094d5ed8b844ddad2d0a1394986385a843efb733dece9efeef29e472\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "0da12309094d5ed8b844ddad2d0a1394986385a843efb733dece9efeef29e472"
-      ],
-      "value": {
-        "title": "Самонадеянность Зеленского, игнорирующего призывы прекратить удары по российским НПЗ, выво",
-        "roots": [
-          "самона",
-          "зеленс",
-          "игнори",
-          "призыв",
-          "прекра",
-          "удары",
-          "россий"
-        ]
-      },
-      "expiresAt": 1792216280149
-    },
     "[\"factor\",\"pub\",\"074349d73c589ea914088f5628435fda5fa79e82fbe1047fa6c421b5e0430231\"]": {
       "key": [
         "factor",
