@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 663821,
+      "value": 505519,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792212032440,
+      "value": 1792213264096,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"f35804fc51c49d378b60834395fda37b33c38f6e124081b1fd5b2c325d06c92f\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "f35804fc51c49d378b60834395fda37b33c38f6e124081b1fd5b2c325d06c92f"
-      ],
-      "value": true,
-      "expiresAt": 1792212660362
-    },
-    "[\"factor\",\"topic\",\"f35804fc51c49d378b60834395fda37b33c38f6e124081b1fd5b2c325d06c92f\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "f35804fc51c49d378b60834395fda37b33c38f6e124081b1fd5b2c325d06c92f"
-      ],
-      "value": {
-        "title": "На Украине больше не уверены в поставках вооружения от НАТО, пишет Washington Post",
-        "roots": [
-          "украин",
-          "больше",
-          "уверен",
-          "постав",
-          "вооруж",
-          "пишет",
-          "washin"
-        ]
-      },
-      "expiresAt": 1792212660363
     },
     "[\"factor\",\"pub\",\"a70930167b5822426b6d08a7d3bad5f44ebee6e79289e44c9893bb1a879b4b3a\"]": {
       "key": [
@@ -2883,6 +2854,31 @@
         ]
       },
       "expiresAt": 1792298599387
+    },
+    "[\"factor\",\"pub\",\"d94e6e2a2932f05af6625ca9fe9b6e4256d8398ec45d0d193df9aaa3679effbc\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d94e6e2a2932f05af6625ca9fe9b6e4256d8398ec45d0d193df9aaa3679effbc"
+      ],
+      "value": true,
+      "expiresAt": 1792299823455
+    },
+    "[\"factor\",\"topic\",\"d94e6e2a2932f05af6625ca9fe9b6e4256d8398ec45d0d193df9aaa3679effbc\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d94e6e2a2932f05af6625ca9fe9b6e4256d8398ec45d0d193df9aaa3679effbc"
+      ],
+      "value": {
+        "title": "Боец Клим сообщил о ликвидации наблюдательного дрона ВСУ",
+        "roots": [
+          "ликвид",
+          "наблюд",
+          "дрона"
+        ]
+      },
+      "expiresAt": 1792299823456
     }
   }
 }
