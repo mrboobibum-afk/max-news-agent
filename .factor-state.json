@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 486403,
+      "value": 327232,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792230635559,
+      "value": 1792231262623,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"e63f886081b848b85b7b0aaf6eca7dcbf9423b21dc390e485d53fd7e2e7b2eae\"]": {
@@ -2915,6 +2915,27 @@
         ]
       },
       "expiresAt": 1792317121824
+    },
+    "[\"factor\",\"pub\",\"9180fc126ceb181e9e007236613107eb6b4e078ca27e4de6a3352ba4490352b4\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "9180fc126ceb181e9e007236613107eb6b4e078ca27e4de6a3352ba4490352b4"
+      ],
+      "value": true,
+      "expiresAt": 1792317768029
+    },
+    "[\"factor\",\"topic\",\"9180fc126ceb181e9e007236613107eb6b4e078ca27e4de6a3352ba4490352b4\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "9180fc126ceb181e9e007236613107eb6b4e078ca27e4de6a3352ba4490352b4"
+      ],
+      "value": {
+        "title": "\"Шах и мат\"",
+        "roots": []
+      },
+      "expiresAt": 1792317768030
     }
   }
 }
