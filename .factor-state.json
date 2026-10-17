@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 187958,
+      "value": 347679,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792269050898,
+      "value": 1792269634332,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"bc5632200bb2993dc82041c6731790368e3d8b6367aa154675b2ca6a7747777f\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "bc5632200bb2993dc82041c6731790368e3d8b6367aa154675b2ca6a7747777f"
-      ],
-      "value": true,
-      "expiresAt": 1792269109355
-    },
-    "[\"factor\",\"topic\",\"bc5632200bb2993dc82041c6731790368e3d8b6367aa154675b2ca6a7747777f\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "bc5632200bb2993dc82041c6731790368e3d8b6367aa154675b2ca6a7747777f"
-      ],
-      "value": {
-        "title": "Полный комплекс противоэпидемических мероприятий организован в Петербурге после ситуации с",
-        "roots": [
-          "полный",
-          "компле",
-          "против",
-          "меропр",
-          "органи",
-          "петерб",
-          "ситуац"
-        ]
-      },
-      "expiresAt": 1792269109357
     },
     "[\"factor\",\"pub\",\"ab92e907b2bcbf63b0edeb90c5d795fa1b30f8c8fd31e06e0681a4f59c72684a\"]": {
       "key": [
@@ -2531,6 +2502,43 @@
       ],
       "value": true,
       "expiresAt": 1792355699306
+    },
+    "[\"factor\",\"pub\",\"b99175252ae889aa8902b380b9cad8d4e432c0e57df159b57e907e5b9f4733c2\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "b99175252ae889aa8902b380b9cad8d4e432c0e57df159b57e907e5b9f4733c2"
+      ],
+      "value": true,
+      "expiresAt": 1792356239995
+    },
+    "[\"factor\",\"topic\",\"b99175252ae889aa8902b380b9cad8d4e432c0e57df159b57e907e5b9f4733c2\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "b99175252ae889aa8902b380b9cad8d4e432c0e57df159b57e907e5b9f4733c2"
+      ],
+      "value": {
+        "title": "Генконсульство РФ направило ноту в МИД Казахстана после ареста рэпера Navai, сообщили ТАСС",
+        "roots": [
+          "генкон",
+          "направ",
+          "казахс",
+          "ареста",
+          "рэпера",
+          "navai"
+        ]
+      },
+      "expiresAt": 1792356239997
+    },
+    "[\"factor\",\"texthash\",\"e990b1808aa7670a6caf7f40137bcb7ef45e5578a7a983c26781f55c918be1f5\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "e990b1808aa7670a6caf7f40137bcb7ef45e5578a7a983c26781f55c918be1f5"
+      ],
+      "value": true,
+      "expiresAt": 1792356239997
     }
   }
 }
