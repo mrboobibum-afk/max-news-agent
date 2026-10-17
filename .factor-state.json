@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 886990,
+      "value": 307238,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792198230779,
+      "value": 1792199432508,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"7e8ac47a55f66327756fe13660cfc456ef50409f60636ab8539f25bdc5d14280\"]": {
@@ -2830,6 +2830,35 @@
         ]
       },
       "expiresAt": 1792284668686
+    },
+    "[\"factor\",\"pub\",\"79004ffda9266289c511ab19c0991d9b77f4ccc42c451d33ff8199cb635ca228\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "79004ffda9266289c511ab19c0991d9b77f4ccc42c451d33ff8199cb635ca228"
+      ],
+      "value": true,
+      "expiresAt": 1792285918136
+    },
+    "[\"factor\",\"topic\",\"79004ffda9266289c511ab19c0991d9b77f4ccc42c451d33ff8199cb635ca228\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "79004ffda9266289c511ab19c0991d9b77f4ccc42c451d33ff8199cb635ca228"
+      ],
+      "value": {
+        "title": "❗️ Трамп заявил, что не намерен вводить ряд санкций на основании закона об ужесточении рес",
+        "roots": [
+          "трамп",
+          "намере",
+          "вводит",
+          "санкци",
+          "основа",
+          "закона",
+          "ужесто"
+        ]
+      },
+      "expiresAt": 1792285918137
     }
   }
 }
