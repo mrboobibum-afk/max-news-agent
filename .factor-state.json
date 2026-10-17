@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 643740,
+      "value": 726054,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792215047914,
+      "value": 1792216235028,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"0da12309094d5ed8b844ddad2d0a1394986385a843efb733dece9efeef29e472\"]": {
@@ -2850,6 +2850,31 @@
         ]
       },
       "expiresAt": 1792301577621
+    },
+    "[\"factor\",\"pub\",\"6c2944979e2e6e893bfdcb7f9c148a35ab26b3876f39305aa97029260ab335b2\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "6c2944979e2e6e893bfdcb7f9c148a35ab26b3876f39305aa97029260ab335b2"
+      ],
+      "value": true,
+      "expiresAt": 1792302808229
+    },
+    "[\"factor\",\"topic\",\"6c2944979e2e6e893bfdcb7f9c148a35ab26b3876f39305aa97029260ab335b2\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "6c2944979e2e6e893bfdcb7f9c148a35ab26b3876f39305aa97029260ab335b2"
+      ],
+      "value": {
+        "title": "ПВО за ночь уничтожила 610 дронов ВСУ, сообщили в Минобороны",
+        "roots": [
+          "уничто",
+          "дронов",
+          "минобо"
+        ]
+      },
+      "expiresAt": 1792302808230
     }
   }
 }
