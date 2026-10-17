@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 209391,
+      "value": 213449,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,35 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792202462621,
+      "value": 1792203036173,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"d3e0a9c1b115f9dbc9384a57897c591e7f1875fd2b3ae2450369723759fb992f\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "d3e0a9c1b115f9dbc9384a57897c591e7f1875fd2b3ae2450369723759fb992f"
-      ],
-      "value": true,
-      "expiresAt": 1792202808950
-    },
-    "[\"factor\",\"topic\",\"d3e0a9c1b115f9dbc9384a57897c591e7f1875fd2b3ae2450369723759fb992f\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "d3e0a9c1b115f9dbc9384a57897c591e7f1875fd2b3ae2450369723759fb992f"
-      ],
-      "value": {
-        "title": "Трамп разочарован экс-послом США в Греции Гилфойл",
-        "roots": [
-          "трамп",
-          "разоча",
-          "послом",
-          "греции",
-          "гилфой"
-        ]
-      },
-      "expiresAt": 1792202808951
     },
     "[\"factor\",\"pub\",\"5c40e0fdaec7138a3e1b9c3ebe5af16070a35538cf3871fc484e7006fccc55c1\"]": {
       "key": [
@@ -2885,6 +2858,34 @@
         ]
       },
       "expiresAt": 1792288942868
+    },
+    "[\"factor\",\"pub\",\"da458d1256125a643c124e83e625eb3bb92dce81867b887cf0ca5b7cd3312409\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "da458d1256125a643c124e83e625eb3bb92dce81867b887cf0ca5b7cd3312409"
+      ],
+      "value": true,
+      "expiresAt": 1792289490277
+    },
+    "[\"factor\",\"topic\",\"da458d1256125a643c124e83e625eb3bb92dce81867b887cf0ca5b7cd3312409\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "da458d1256125a643c124e83e625eb3bb92dce81867b887cf0ca5b7cd3312409"
+      ],
+      "value": {
+        "title": "Россия возобновляет экспорт дизеля после договоренностей с США. Что это значит для инвестора",
+        "roots": [
+          "возобн",
+          "экспор",
+          "дизеля",
+          "догово",
+          "значит",
+          "инвест"
+        ]
+      },
+      "expiresAt": 1792289490278
     }
   }
 }
