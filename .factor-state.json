@@ -2426,41 +2426,42 @@
         "da769cf5bf5a67951b6de18de7492c389fac5542cd4e9e2b399c8f5172eabfba"
       ],
       "value": true,
-      "expiresAt": 1792363525197
+      "expiresAt": 1792364145095
     },
-    "[\"factor\",\"pub\",\"71cd4ef82725c75e6abda09e8aa10ec4ddc0351717c09899544ed24fc421b790\"]": {
+    "[\"factor\",\"pub\",\"57d4dd3bfc552fa6d598988d4992501c3346dc69ac6a7a182e88228827678aea\"]": {
       "key": [
         "factor",
         "pub",
-        "71cd4ef82725c75e6abda09e8aa10ec4ddc0351717c09899544ed24fc421b790"
+        "57d4dd3bfc552fa6d598988d4992501c3346dc69ac6a7a182e88228827678aea"
       ],
       "value": true,
-      "expiresAt": 1792364909598
+      "expiresAt": 1792365336314
     },
-    "[\"factor\",\"topic\",\"71cd4ef82725c75e6abda09e8aa10ec4ddc0351717c09899544ed24fc421b790\"]": {
+    "[\"factor\",\"topic\",\"57d4dd3bfc552fa6d598988d4992501c3346dc69ac6a7a182e88228827678aea\"]": {
       "key": [
         "factor",
         "topic",
-        "71cd4ef82725c75e6abda09e8aa10ec4ddc0351717c09899544ed24fc421b790"
+        "57d4dd3bfc552fa6d598988d4992501c3346dc69ac6a7a182e88228827678aea"
       ],
       "value": {
-        "title": "Новак заявил об отсутствии проблем с продажей российской нефти",
+        "title": "▶️ В Лиможе из-за пожара, возникшего в ходе беспорядков, обрушилась колокольня здания мэри",
         "roots": [
-          "новак",
-          "отсутс",
-          "пробле",
-          "продаж",
-          "россий",
-          "нефти"
+          "лиможе",
+          "пожара",
+          "возник",
+          "беспор",
+          "обруши",
+          "колоко",
+          "здания"
         ]
       },
-      "expiresAt": 1792364909599
+      "expiresAt": 1792365336315
     },
-    "[\"factor\",\"texthash\",\"74509988cd19f8ebd2600ccfc3b084c15eab9413a9215a74146ef7b9ddfd480d\"]": {
+    "[\"factor\",\"texthash\",\"16f3321fe5f0548da6a85074c1fbec11d91bf387d6bdf11ccf7b97580e74eebf\"]": {
       "key": [
         "factor",
         "texthash",
-        "74509988cd19f8ebd2600ccfc3b084c15eab9413a9215a74146ef7b9ddfd480d"
+        "16f3321fe5f0548da6a85074c1fbec11d91bf387d6bdf11ccf7b97580e74eebf"
       ],
       "value": true,
       "expiresAt": 1792364909600
