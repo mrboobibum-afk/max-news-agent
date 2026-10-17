@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 232381,
+      "value": 683519,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792246832792,
+      "value": 1792247452454,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"413bb6592500f507445eaba93d46e22210ae09b17f0830c48b86dd74f6478ebe\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "413bb6592500f507445eaba93d46e22210ae09b17f0830c48b86dd74f6478ebe"
-      ],
-      "value": true,
-      "expiresAt": 1792247151905
-    },
-    "[\"factor\",\"topic\",\"413bb6592500f507445eaba93d46e22210ae09b17f0830c48b86dd74f6478ebe\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "413bb6592500f507445eaba93d46e22210ae09b17f0830c48b86dd74f6478ebe"
-      ],
-      "value": {
-        "title": "Россия готова участвовать в балансировке энергетических рынков, заявил Новак",
-        "roots": [
-          "готова",
-          "участв",
-          "баланс",
-          "энерге",
-          "рынков",
-          "новак"
-        ]
-      },
-      "expiresAt": 1792247151907
     },
     "[\"factor\",\"pub\",\"525729e87962b1d59eb47afce24f6c39f531c2441fa2ac1ef7a87a73d6a68d6f\"]": {
       "key": [
@@ -2819,6 +2791,35 @@
         ]
       },
       "expiresAt": 1792333474836
+    },
+    "[\"factor\",\"pub\",\"ed09b289ed58f887dfc763adb2a7784c5a4b9fa8d34412936490d5cc78afcd53\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "ed09b289ed58f887dfc763adb2a7784c5a4b9fa8d34412936490d5cc78afcd53"
+      ],
+      "value": true,
+      "expiresAt": 1792334417318
+    },
+    "[\"factor\",\"topic\",\"ed09b289ed58f887dfc763adb2a7784c5a4b9fa8d34412936490d5cc78afcd53\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "ed09b289ed58f887dfc763adb2a7784c5a4b9fa8d34412936490d5cc78afcd53"
+      ],
+      "value": {
+        "title": "Кирпич прилетел в голову девушке через окно электрички в Москве",
+        "roots": [
+          "кирпич",
+          "прилет",
+          "голову",
+          "девушк",
+          "через",
+          "электр",
+          "москве"
+        ]
+      },
+      "expiresAt": 1792334417319
     }
   }
 }
