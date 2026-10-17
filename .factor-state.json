@@ -2473,31 +2473,32 @@
       "value": true,
       "expiresAt": 1792352262546
     },
-    "[\"factor\",\"topic\",\"f406024046cf7f4cba60b7bb21e8722eda6bfbd28996e594a76f51a5b0321cea\"]": {
+    "[\"factor\",\"topic\",\"d0f25081c5c2f9cdcc89525fda68ebf1875a28ad7ec4df4728e3c9fe0561798d\"]": {
       "key": [
         "factor",
         "topic",
-        "f406024046cf7f4cba60b7bb21e8722eda6bfbd28996e594a76f51a5b0321cea"
+        "d0f25081c5c2f9cdcc89525fda68ebf1875a28ad7ec4df4728e3c9fe0561798d"
       ],
       "value": {
-        "title": "На западе Украины взлетели цены на аренду квартир из-за переселенцев из Киева",
+        "title": "«Не существует никакой европейской инициативы о мире» Евросоюз продолжает разжигать конфли",
         "roots": [
-          "западе",
-          "украин",
-          "взлете",
-          "аренду",
-          "кварти",
-          "пересе",
-          "киева"
+          "сущест",
+          "никако",
+          "европе",
+          "инициа",
+          "евросо",
+          "продол",
+          "разжиг",
+          "конфли"
         ]
       },
-      "expiresAt": 1792352262548
+      "expiresAt": 1792352905972
     },
-    "[\"factor\",\"texthash\",\"76ea3e8b51abcffb22c1bac58e6088637b04b53ef04bd3ce0b45af11c7fa9ecc\"]": {
+    "[\"factor\",\"texthash\",\"88ddbb003de09b31bd46faaf33a25be068118e0ad2cd495b5280f5acb3b465bb\"]": {
       "key": [
         "factor",
         "texthash",
-        "76ea3e8b51abcffb22c1bac58e6088637b04b53ef04bd3ce0b45af11c7fa9ecc"
+        "88ddbb003de09b31bd46faaf33a25be068118e0ad2cd495b5280f5acb3b465bb"
       ],
       "value": true,
       "expiresAt": 1792352262548
