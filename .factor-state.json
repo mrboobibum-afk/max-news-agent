@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 854238,
+      "value": 598292,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792243498685,
+      "value": 1792244434358,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"06480d792588a30f6092cd159f7571273e235b2faac8ed1ac7c1b7ffad101174\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "06480d792588a30f6092cd159f7571273e235b2faac8ed1ac7c1b7ffad101174"
-      ],
-      "value": true,
-      "expiresAt": 1792243913608
-    },
-    "[\"factor\",\"topic\",\"06480d792588a30f6092cd159f7571273e235b2faac8ed1ac7c1b7ffad101174\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "06480d792588a30f6092cd159f7571273e235b2faac8ed1ac7c1b7ffad101174"
-      ],
-      "value": {
-        "title": "Глава фонда \"Защитим детей от наркотиков и алкоголя\" Елена Кротова задержана, сообщили ТАС",
-        "roots": [
-          "глава",
-          "фонда",
-          "защити",
-          "детей",
-          "наркот",
-          "алкого",
-          "елена",
-          "кротов",
-          "задерж"
-        ]
-      },
-      "expiresAt": 1792243913609
     },
     "[\"factor\",\"pub\",\"9ca5f9a72e50582a11808062d56f35929514f68019acf581adf42cc9d6079aeb\"]": {
       "key": [
@@ -2823,6 +2792,36 @@
         ]
       },
       "expiresAt": 1792330155092
+    },
+    "[\"factor\",\"pub\",\"9e16bd2a9515fb1073bb7be522a9b8d17120b1a471926adf2b7de893f8f699bb\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "9e16bd2a9515fb1073bb7be522a9b8d17120b1a471926adf2b7de893f8f699bb"
+      ],
+      "value": true,
+      "expiresAt": 1792331050351
+    },
+    "[\"factor\",\"topic\",\"9e16bd2a9515fb1073bb7be522a9b8d17120b1a471926adf2b7de893f8f699bb\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "9e16bd2a9515fb1073bb7be522a9b8d17120b1a471926adf2b7de893f8f699bb"
+      ],
+      "value": {
+        "title": "Выгнали на улицу и снесли дома вместе с мебелью и вещами — ликвидация спорного посёлка в Т",
+        "roots": [
+          "выгнал",
+          "улицу",
+          "снесли",
+          "вместе",
+          "мебель",
+          "вещами",
+          "ликвид",
+          "спорно"
+        ]
+      },
+      "expiresAt": 1792331050353
     }
   }
 }
