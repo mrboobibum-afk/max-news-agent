@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 428215,
+      "value": 390477,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,64 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792250570451,
+      "value": 1792252203271,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"d00f1fcb6a1ba3f53723804d07d004c4ba9795c7e7c5c7bac44661a4eb7ec09f\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "d00f1fcb6a1ba3f53723804d07d004c4ba9795c7e7c5c7bac44661a4eb7ec09f"
-      ],
-      "value": true,
-      "expiresAt": 1792251450255
-    },
-    "[\"factor\",\"topic\",\"d00f1fcb6a1ba3f53723804d07d004c4ba9795c7e7c5c7bac44661a4eb7ec09f\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "d00f1fcb6a1ba3f53723804d07d004c4ba9795c7e7c5c7bac44661a4eb7ec09f"
-      ],
-      "value": {
-        "title": "Зеленский не стал отрицать, что стал \"козлом отпущения\" для Трампа",
-        "roots": [
-          "зеленс",
-          "отрица",
-          "козлом",
-          "отпуще",
-          "трампа"
-        ]
-      },
-      "expiresAt": 1792251450256
-    },
-    "[\"factor\",\"pub\",\"e034431fce3b11d053122e0b07a9c97ebb55fccf480b3b5df34a64f80288c645\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "e034431fce3b11d053122e0b07a9c97ebb55fccf480b3b5df34a64f80288c645"
-      ],
-      "value": true,
-      "expiresAt": 1792251651880
-    },
-    "[\"factor\",\"topic\",\"e034431fce3b11d053122e0b07a9c97ebb55fccf480b3b5df34a64f80288c645\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "e034431fce3b11d053122e0b07a9c97ebb55fccf480b3b5df34a64f80288c645"
-      ],
-      "value": {
-        "title": "Путин поговорил по телефону с папой Римским, сообщает Ватикан",
-        "roots": [
-          "путин",
-          "погово",
-          "телефо",
-          "папой",
-          "римски",
-          "сообща",
-          "ватика"
-        ]
-      },
-      "expiresAt": 1792251651882
     },
     "[\"factor\",\"pub\",\"98e9807e566a1ae149f35c3f2aa6ca26f6036d4b67aeb6e66e6ce7bacb843064\"]": {
       "key": [
@@ -2745,6 +2689,37 @@
         ]
       },
       "expiresAt": 1792337646170
+    },
+    "[\"factor\",\"pub\",\"1700a848cc5a89cb1546530593f3a5c7f7f0b16cd6a863de28b76637d69effd6\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "1700a848cc5a89cb1546530593f3a5c7f7f0b16cd6a863de28b76637d69effd6"
+      ],
+      "value": true,
+      "expiresAt": 1792339532559
+    },
+    "[\"factor\",\"topic\",\"1700a848cc5a89cb1546530593f3a5c7f7f0b16cd6a863de28b76637d69effd6\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "1700a848cc5a89cb1546530593f3a5c7f7f0b16cd6a863de28b76637d69effd6"
+      ],
+      "value": {
+        "title": "Летнюю резину в Москве можно будет использовать еще две-три недели из-за теплой погоды, ра",
+        "roots": [
+          "летнюю",
+          "резину",
+          "москве",
+          "можно",
+          "будет",
+          "исполь",
+          "недели",
+          "теплой",
+          "погоды"
+        ]
+      },
+      "expiresAt": 1792339532560
     }
   }
 }
