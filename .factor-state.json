@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 232417,
+      "value": 399686,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792232759167,
+      "value": 1792233047914,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"76d156800161733b007b3fd43cc62d437617b51d20bf713ed7fc81c21cd0c76c\"]": {
@@ -2935,6 +2935,34 @@
         ]
       },
       "expiresAt": 1792319337211
+    },
+    "[\"factor\",\"pub\",\"60bbb2d4e910544bc9daad8a2c46001d1cc1f24100b4475eb9d829890f3bc894\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "60bbb2d4e910544bc9daad8a2c46001d1cc1f24100b4475eb9d829890f3bc894"
+      ],
+      "value": true,
+      "expiresAt": 1792319759723
+    },
+    "[\"factor\",\"topic\",\"60bbb2d4e910544bc9daad8a2c46001d1cc1f24100b4475eb9d829890f3bc894\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "60bbb2d4e910544bc9daad8a2c46001d1cc1f24100b4475eb9d829890f3bc894"
+      ],
+      "value": {
+        "title": "Истребители Королевских военно-воздушных сил Великобритании (RAF) чуть не столкнулись с дв",
+        "roots": [
+          "истреб",
+          "короле",
+          "военно",
+          "воздуш",
+          "велико",
+          "столкн"
+        ]
+      },
+      "expiresAt": 1792319759724
     }
   }
 }
