@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 766655,
+      "value": 851051,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792254444332,
+      "value": 1792255234819,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"45ae2045472024123f870fcfe17b2fc7b6badf9a87ae100e75034d9e774e1492\"]": {
@@ -2635,6 +2635,45 @@
         ]
       },
       "expiresAt": 1792341487595
+    },
+    "[\"factor\",\"pub\",\"bc838f72943849c890f0818cae14c41a9476f7d2912a19fbbbed8e282b29ddd1\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "bc838f72943849c890f0818cae14c41a9476f7d2912a19fbbbed8e282b29ddd1"
+      ],
+      "value": true,
+      "expiresAt": 1792342291519
+    },
+    "[\"factor\",\"topic\",\"bc838f72943849c890f0818cae14c41a9476f7d2912a19fbbbed8e282b29ddd1\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "bc838f72943849c890f0818cae14c41a9476f7d2912a19fbbbed8e282b29ddd1"
+      ],
+      "value": {
+        "title": "▶️ ВСУ считают жителей Алешек коллаборантами и уничтожают за поддержку России, заявила ТАС",
+        "roots": [
+          "считаю",
+          "жителе",
+          "алешек",
+          "коллаб",
+          "уничто",
+          "поддер",
+          "россии",
+          "заявил"
+        ]
+      },
+      "expiresAt": 1792342291521
+    },
+    "[\"factor\",\"texthash\",\"c9044ebdbff6c91dccd80e1c6e01b7f77f13f261c50e770fd9fdae2029880b37\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "c9044ebdbff6c91dccd80e1c6e01b7f77f13f261c50e770fd9fdae2029880b37"
+      ],
+      "value": true,
+      "expiresAt": 1792342291521
     }
   }
 }
