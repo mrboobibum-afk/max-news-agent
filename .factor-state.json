@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 248498,
+      "value": 409081,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792207234452,
+      "value": 1792207852085,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"f38120b3888596d581e3f9e6836c8bcab5748acf89bd36c88ff674595873edb0\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "f38120b3888596d581e3f9e6836c8bcab5748acf89bd36c88ff674595873edb0"
-      ],
-      "value": true,
-      "expiresAt": 1792207299597
-    },
-    "[\"factor\",\"topic\",\"f38120b3888596d581e3f9e6836c8bcab5748acf89bd36c88ff674595873edb0\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "f38120b3888596d581e3f9e6836c8bcab5748acf89bd36c88ff674595873edb0"
-      ],
-      "value": {
-        "title": "📹 Tesla показала новый Roadster, способный отрываться от земли",
-        "roots": [
-          "tesla",
-          "показа",
-          "новый",
-          "roadst",
-          "способ",
-          "отрыва",
-          "земли"
-        ]
-      },
-      "expiresAt": 1792207299598
     },
     "[\"factor\",\"pub\",\"dacecac81032780fa0d580d8737df2b47c3d3a2396bee377066f576ffe5479cd\"]": {
       "key": [
@@ -2880,6 +2851,37 @@
         ]
       },
       "expiresAt": 1792293741399
+    },
+    "[\"factor\",\"pub\",\"b805ee4fe1e7caf8d8ea85101b49adf04dbdef888cbe2d1831ba702651e17cfb\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "b805ee4fe1e7caf8d8ea85101b49adf04dbdef888cbe2d1831ba702651e17cfb"
+      ],
+      "value": true,
+      "expiresAt": 1792294347030
+    },
+    "[\"factor\",\"topic\",\"b805ee4fe1e7caf8d8ea85101b49adf04dbdef888cbe2d1831ba702651e17cfb\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "b805ee4fe1e7caf8d8ea85101b49adf04dbdef888cbe2d1831ba702651e17cfb"
+      ],
+      "value": {
+        "title": "Кирилл Дмитриев прокомментировал слова Трампа о якобы известных ему первопричинах украинск",
+        "roots": [
+          "кирилл",
+          "дмитри",
+          "проком",
+          "слова",
+          "трампа",
+          "якобы",
+          "извест",
+          "первоп",
+          "украин"
+        ]
+      },
+      "expiresAt": 1792294347031
     }
   }
 }
