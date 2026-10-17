@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 262438,
+      "value": 248423,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,35 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792227031802,
+      "value": 1792227663530,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"ac72b609d61fe4f2d17c37a6ca25109b2dfa160d0355d04b7f1198bcd773a4d7\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "ac72b609d61fe4f2d17c37a6ca25109b2dfa160d0355d04b7f1198bcd773a4d7"
-      ],
-      "value": true,
-      "expiresAt": 1792227052748
-    },
-    "[\"factor\",\"topic\",\"ac72b609d61fe4f2d17c37a6ca25109b2dfa160d0355d04b7f1198bcd773a4d7\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "ac72b609d61fe4f2d17c37a6ca25109b2dfa160d0355d04b7f1198bcd773a4d7"
-      ],
-      "value": {
-        "title": "Зеленский - \"невероятное позорище\", заявила Захарова",
-        "roots": [
-          "зеленс",
-          "неверо",
-          "позори",
-          "заявил",
-          "захаро"
-        ]
-      },
-      "expiresAt": 1792227052749
     },
     "[\"factor\",\"pub\",\"1c69a44310e0fe83df04ee7223c9a140540dfc0d7180fcd143ccab21f481da3a\"]": {
       "key": [
@@ -2912,6 +2885,36 @@
         ]
       },
       "expiresAt": 1792313519907
+    },
+    "[\"factor\",\"pub\",\"bfb44dedcd4216a1fdd0fff7d421b36e6c8151e75fd00a2b061771196de35a14\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "bfb44dedcd4216a1fdd0fff7d421b36e6c8151e75fd00a2b061771196de35a14"
+      ],
+      "value": true,
+      "expiresAt": 1792314196558
+    },
+    "[\"factor\",\"topic\",\"bfb44dedcd4216a1fdd0fff7d421b36e6c8151e75fd00a2b061771196de35a14\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "bfb44dedcd4216a1fdd0fff7d421b36e6c8151e75fd00a2b061771196de35a14"
+      ],
+      "value": {
+        "title": "В Москве пенсионер отдал мошенникам почти 13 млн рублей , рассказали ТАСС в столичной прок",
+        "roots": [
+          "москве",
+          "пенсио",
+          "отдал",
+          "мошенн",
+          "почти",
+          "рублей",
+          "расска",
+          "столич"
+        ]
+      },
+      "expiresAt": 1792314196560
     }
   }
 }
