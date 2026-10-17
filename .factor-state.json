@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 714834,
+      "value": 232381,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792245662911,
+      "value": 1792246832792,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"3856fffd72f4441aaae2b42e1dae2b686a5cc2a5fbc550695b42cae48cbf0ec5\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "3856fffd72f4441aaae2b42e1dae2b686a5cc2a5fbc550695b42cae48cbf0ec5"
-      ],
-      "value": true,
-      "expiresAt": 1792246271042
-    },
-    "[\"factor\",\"topic\",\"3856fffd72f4441aaae2b42e1dae2b686a5cc2a5fbc550695b42cae48cbf0ec5\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "3856fffd72f4441aaae2b42e1dae2b686a5cc2a5fbc550695b42cae48cbf0ec5"
-      ],
-      "value": {
-        "title": "Певицу Наоко (Диану Логинову) признали иноагентом",
-        "roots": [
-          "певицу",
-          "наоко",
-          "диану",
-          "логино",
-          "призна",
-          "иноаге"
-        ]
-      },
-      "expiresAt": 1792246271043
     },
     "[\"factor\",\"pub\",\"413bb6592500f507445eaba93d46e22210ae09b17f0830c48b86dd74f6478ebe\"]": {
       "key": [
@@ -2817,6 +2789,36 @@
         ]
       },
       "expiresAt": 1792332537314
+    },
+    "[\"factor\",\"pub\",\"fd200e01cdb79e1a56423f1c3b835fa40e86c33121ae78eb11787fca5d3c7b7c\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "fd200e01cdb79e1a56423f1c3b835fa40e86c33121ae78eb11787fca5d3c7b7c"
+      ],
+      "value": true,
+      "expiresAt": 1792333474835
+    },
+    "[\"factor\",\"topic\",\"fd200e01cdb79e1a56423f1c3b835fa40e86c33121ae78eb11787fca5d3c7b7c\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "fd200e01cdb79e1a56423f1c3b835fa40e86c33121ae78eb11787fca5d3c7b7c"
+      ],
+      "value": {
+        "title": "❗️ В Марселе протестующие ворвались в здание мэрии Как сообщает La Provence, демонстранты ",
+        "roots": [
+          "марсел",
+          "протес",
+          "ворвал",
+          "здание",
+          "мэрии",
+          "сообща",
+          "proven",
+          "демонс"
+        ]
+      },
+      "expiresAt": 1792333474836
     }
   }
 }
