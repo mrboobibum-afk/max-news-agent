@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 688128,
+      "value": 734479,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,40 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792203635378,
+      "value": 1792204817323,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"4c0ce4c258c46ec4128ead8c29cc0f06a50a99d38c3b4e4ac87a47eda2fd46b1\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "4c0ce4c258c46ec4128ead8c29cc0f06a50a99d38c3b4e4ac87a47eda2fd46b1"
-      ],
-      "value": true,
-      "expiresAt": 1792204541562
-    },
-    "[\"factor\",\"topic\",\"4c0ce4c258c46ec4128ead8c29cc0f06a50a99d38c3b4e4ac87a47eda2fd46b1\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "4c0ce4c258c46ec4128ead8c29cc0f06a50a99d38c3b4e4ac87a47eda2fd46b1"
-      ],
-      "value": {
-        "title": "Онищенко: в ближайшее время может появиться более заразный штамм свиного гриппа",
-        "roots": [
-          "онищен",
-          "ближай",
-          "время",
-          "может",
-          "появит",
-          "более",
-          "заразн",
-          "штамм",
-          "свиног",
-          "гриппа"
-        ]
-      },
-      "expiresAt": 1792204541563
     },
     "[\"factor\",\"pub\",\"0392948677f27368aea6af804f20480a6ac25798033382682722035f91bea74e\"]": {
       "key": [
@@ -2885,6 +2853,33 @@
         ]
       },
       "expiresAt": 1792290098801
+    },
+    "[\"factor\",\"pub\",\"c4b69243a64c613c2c7354a618546bea7ae98031db9db8a1e8242e46ca09c67f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "c4b69243a64c613c2c7354a618546bea7ae98031db9db8a1e8242e46ca09c67f"
+      ],
+      "value": true,
+      "expiresAt": 1792291408109
+    },
+    "[\"factor\",\"topic\",\"c4b69243a64c613c2c7354a618546bea7ae98031db9db8a1e8242e46ca09c67f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "c4b69243a64c613c2c7354a618546bea7ae98031db9db8a1e8242e46ca09c67f"
+      ],
+      "value": {
+        "title": "🚨 Нефтяной супертанкер подорвался на мине в Ормузском проливе",
+        "roots": [
+          "нефтян",
+          "суперт",
+          "подорв",
+          "ормузс",
+          "пролив"
+        ]
+      },
+      "expiresAt": 1792291408110
     }
   }
 }
