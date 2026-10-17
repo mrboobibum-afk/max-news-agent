@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 847540,
+      "value": 566293,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,34 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792248651051,
+      "value": 1792249834961,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"726ef84c7d4f5c6bc490c977619a9c0f045374f538ff6a6025d462ccc08386d9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "726ef84c7d4f5c6bc490c977619a9c0f045374f538ff6a6025d462ccc08386d9"
-      ],
-      "value": true,
-      "expiresAt": 1792249331775
-    },
-    "[\"factor\",\"topic\",\"726ef84c7d4f5c6bc490c977619a9c0f045374f538ff6a6025d462ccc08386d9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "726ef84c7d4f5c6bc490c977619a9c0f045374f538ff6a6025d462ccc08386d9"
-      ],
-      "value": {
-        "title": "✈️ 106 рейсов задерживаются в столичных аэропортах ",
-        "roots": [
-          "рейсов",
-          "задерж",
-          "столич",
-          "аэропо"
-        ]
-      },
-      "expiresAt": 1792249331776
     },
     "[\"factor\",\"pub\",\"ff3ed8bb54b1110546ddce3277a03fca603e14c58efa4df66f84609feee57ad0\"]": {
       "key": [
@@ -2765,6 +2739,37 @@
         ]
       },
       "expiresAt": 1792335321616
+    },
+    "[\"factor\",\"pub\",\"5b40785b8806b1d2670fe7305a7b292d38f1169d20d05772aad4d7c8d4b38658\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "5b40785b8806b1d2670fe7305a7b292d38f1169d20d05772aad4d7c8d4b38658"
+      ],
+      "value": true,
+      "expiresAt": 1792336947657
+    },
+    "[\"factor\",\"topic\",\"5b40785b8806b1d2670fe7305a7b292d38f1169d20d05772aad4d7c8d4b38658\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "5b40785b8806b1d2670fe7305a7b292d38f1169d20d05772aad4d7c8d4b38658"
+      ],
+      "value": {
+        "title": "🏆 Россиянин Егор Корнев завоевал \"Тройную корону\" , победив на третьем этапе Кубка мира п",
+        "roots": [
+          "россия",
+          "корнев",
+          "завоев",
+          "тройну",
+          "корону",
+          "победи",
+          "третье",
+          "этапе",
+          "кубка"
+        ]
+      },
+      "expiresAt": 1792336947659
     }
   }
 }
