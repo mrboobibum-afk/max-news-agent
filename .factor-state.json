@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 408938,
+      "value": 581354,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792209034735,
+      "value": 1792209663587,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"7ce597f73d980f377367dd3893927d3abe274c23ea7ffd73f7336627c9988cc9\"]": {
@@ -2912,6 +2912,36 @@
         ]
       },
       "expiresAt": 1792295645626
+    },
+    "[\"factor\",\"pub\",\"8e3ea58eb99e1e36479eb8421622bde12dff337412bbda437838d6a1bbc2d3d9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "8e3ea58eb99e1e36479eb8421622bde12dff337412bbda437838d6a1bbc2d3d9"
+      ],
+      "value": true,
+      "expiresAt": 1792296136749
+    },
+    "[\"factor\",\"topic\",\"8e3ea58eb99e1e36479eb8421622bde12dff337412bbda437838d6a1bbc2d3d9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "8e3ea58eb99e1e36479eb8421622bde12dff337412bbda437838d6a1bbc2d3d9"
+      ],
+      "value": {
+        "title": "Си Цзиньпин в поездке во Внутреннюю Монголию призвал стремиться к зеленому развитию",
+        "roots": [
+          "цзиньп",
+          "поездк",
+          "внутре",
+          "монгол",
+          "призва",
+          "стреми",
+          "зелено",
+          "развит"
+        ]
+      },
+      "expiresAt": 1792296136751
     }
   }
 }
