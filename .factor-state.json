@@ -17,36 +17,6 @@
       "value": 1792236681577,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"cdf0c9acbc513f5ae453092cd6da0a7e08bac3daa2d768fb2914299965a508af\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "cdf0c9acbc513f5ae453092cd6da0a7e08bac3daa2d768fb2914299965a508af"
-      ],
-      "value": true,
-      "expiresAt": 1792236707566
-    },
-    "[\"factor\",\"topic\",\"cdf0c9acbc513f5ae453092cd6da0a7e08bac3daa2d768fb2914299965a508af\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "cdf0c9acbc513f5ae453092cd6da0a7e08bac3daa2d768fb2914299965a508af"
-      ],
-      "value": {
-        "title": "Минимальный размер пенсии в Москве с 2027 года с учетом городской доплаты составит 28 580 ",
-        "roots": [
-          "минима",
-          "размер",
-          "пенсии",
-          "москве",
-          "учетом",
-          "городс",
-          "доплат",
-          "состав"
-        ]
-      },
-      "expiresAt": 1792236707568
-    },
     "[\"factor\",\"pub\",\"b497e0c97040ca15b6f2831a5e0c64b25fb14994f4078b991a090716e21c15c5\"]": {
       "key": [
         "factor",
