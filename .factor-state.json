@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 776653,
+      "value": 526824,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,96 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792241058694,
+      "value": 1792242792681,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"a9729a6bc982e22978ac4110364363de8b79a1069e25d3c5539bf03b2c3c1a3b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "a9729a6bc982e22978ac4110364363de8b79a1069e25d3c5539bf03b2c3c1a3b"
-      ],
-      "value": true,
-      "expiresAt": 1792241467800
-    },
-    "[\"factor\",\"topic\",\"a9729a6bc982e22978ac4110364363de8b79a1069e25d3c5539bf03b2c3c1a3b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "a9729a6bc982e22978ac4110364363de8b79a1069e25d3c5539bf03b2c3c1a3b"
-      ],
-      "value": {
-        "title": "Пожар вспыхнул из-за атаки дронов на промышленный объект в Сургутском районе ХМАО",
-        "roots": [
-          "пожар",
-          "вспыхн",
-          "атаки",
-          "дронов",
-          "промыш",
-          "объект",
-          "сургут",
-          "районе"
-        ]
-      },
-      "expiresAt": 1792241467801
-    },
-    "[\"factor\",\"pub\",\"be0079cd308f5164cf5e6d57b042a61f2bdf023adbbae659de38eaa808bafcf0\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "be0079cd308f5164cf5e6d57b042a61f2bdf023adbbae659de38eaa808bafcf0"
-      ],
-      "value": true,
-      "expiresAt": 1792242164742
-    },
-    "[\"factor\",\"topic\",\"be0079cd308f5164cf5e6d57b042a61f2bdf023adbbae659de38eaa808bafcf0\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "be0079cd308f5164cf5e6d57b042a61f2bdf023adbbae659de38eaa808bafcf0"
-      ],
-      "value": {
-        "title": "▶️ Бомбардировщики Ту-22М3 выполнили плановый полет над нейтральными водами Балтики в сопр",
-        "roots": [
-          "бомбар",
-          "выполн",
-          "планов",
-          "полет",
-          "нейтра",
-          "водами",
-          "балтик"
-        ]
-      },
-      "expiresAt": 1792242164744
-    },
-    "[\"factor\",\"pub\",\"0bd576bc1437a06dd91aa3b213830c3ca3b4f500505d722d7b6cb61a0105fa86\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "0bd576bc1437a06dd91aa3b213830c3ca3b4f500505d722d7b6cb61a0105fa86"
-      ],
-      "value": true,
-      "expiresAt": 1792242659954
-    },
-    "[\"factor\",\"topic\",\"0bd576bc1437a06dd91aa3b213830c3ca3b4f500505d722d7b6cb61a0105fa86\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "0bd576bc1437a06dd91aa3b213830c3ca3b4f500505d722d7b6cb61a0105fa86"
-      ],
-      "value": {
-        "title": "Тело убитой женщины восемь месяцев пролежало в сундуке под Брянском",
-        "roots": [
-          "убитой",
-          "женщин",
-          "восемь",
-          "месяце",
-          "пролеж",
-          "сундук",
-          "брянск"
-        ]
-      },
-      "expiresAt": 1792242659955
     },
     "[\"factor\",\"pub\",\"90d6614887a1de6fa0f92f99d61dc9bb46bbec923aa415f010fc96b53fdb9ca6\"]": {
       "key": [
@@ -2907,6 +2819,37 @@
         ]
       },
       "expiresAt": 1792328427225
+    },
+    "[\"factor\",\"pub\",\"bc69989c830cea99a3ecf70250175257e0c6b8f75cbdc5d4673a0b539ad779d3\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "bc69989c830cea99a3ecf70250175257e0c6b8f75cbdc5d4673a0b539ad779d3"
+      ],
+      "value": true,
+      "expiresAt": 1792329877479
+    },
+    "[\"factor\",\"topic\",\"bc69989c830cea99a3ecf70250175257e0c6b8f75cbdc5d4673a0b539ad779d3\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "bc69989c830cea99a3ecf70250175257e0c6b8f75cbdc5d4673a0b539ad779d3"
+      ],
+      "value": {
+        "title": "▶️ Отношения между Вашингтоном и Киевом сейчас сильно накалены, но все может измениться",
+        "roots": [
+          "отноше",
+          "между",
+          "вашинг",
+          "киевом",
+          "сейчас",
+          "сильно",
+          "накале",
+          "может",
+          "измени"
+        ]
+      },
+      "expiresAt": 1792329877480
     }
   }
 }
