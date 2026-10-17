@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 638146,
+      "value": 558024,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,122 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792255913203,
+      "value": 1792259475322,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"28222c3d2c636f312655ad817e1d40688b51cc9591110f0301ded3603b3d8caa\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "28222c3d2c636f312655ad817e1d40688b51cc9591110f0301ded3603b3d8caa"
-      ],
-      "value": true,
-      "expiresAt": 1792257060359
-    },
-    "[\"factor\",\"topic\",\"28222c3d2c636f312655ad817e1d40688b51cc9591110f0301ded3603b3d8caa\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "28222c3d2c636f312655ad817e1d40688b51cc9591110f0301ded3603b3d8caa"
-      ],
-      "value": {
-        "title": "Кадры из освобожденного Доброполья показало Минобороны России",
-        "roots": [
-          "кадры",
-          "освобо",
-          "доброп",
-          "показа",
-          "минобо",
-          "россии"
-        ]
-      },
-      "expiresAt": 1792257060360
-    },
-    "[\"factor\",\"pub\",\"afb3945c7a6b7a23526eca09d210eef445b07b6a15f6fbf17c26ed9a65d39451\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "afb3945c7a6b7a23526eca09d210eef445b07b6a15f6fbf17c26ed9a65d39451"
-      ],
-      "value": true,
-      "expiresAt": 1792257664269
-    },
-    "[\"factor\",\"topic\",\"afb3945c7a6b7a23526eca09d210eef445b07b6a15f6fbf17c26ed9a65d39451\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "afb3945c7a6b7a23526eca09d210eef445b07b6a15f6fbf17c26ed9a65d39451"
-      ],
-      "value": {
-        "title": "❕ Общая протяженность полосы безопасности у границы РФ 660 км, под контролем ВС РФ — 465 к",
-        "roots": [
-          "общая",
-          "протяж",
-          "полосы",
-          "безопа",
-          "границ",
-          "контро"
-        ]
-      },
-      "expiresAt": 1792257664272
-    },
-    "[\"factor\",\"pub\",\"2979755ee132b33317383d41de556178abb7801f88723c6cbc0446c3e8d57bc5\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "2979755ee132b33317383d41de556178abb7801f88723c6cbc0446c3e8d57bc5"
-      ],
-      "value": true,
-      "expiresAt": 1792258272160
-    },
-    "[\"factor\",\"topic\",\"2979755ee132b33317383d41de556178abb7801f88723c6cbc0446c3e8d57bc5\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "2979755ee132b33317383d41de556178abb7801f88723c6cbc0446c3e8d57bc5"
-      ],
-      "value": {
-        "title": "Средства ПВО за день сбили 47 украинских БПЛА над регионами РФ, сообщает Минобороны",
-        "roots": [
-          "средст",
-          "сбили",
-          "украин",
-          "регион",
-          "сообща",
-          "минобо"
-        ]
-      },
-      "expiresAt": 1792258272161
-    },
-    "[\"factor\",\"pub\",\"de421422285955301347032bc343c79fe6308523adfce5dcf523f11ab05aae6d\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "de421422285955301347032bc343c79fe6308523adfce5dcf523f11ab05aae6d"
-      ],
-      "value": true,
-      "expiresAt": 1792258860574
-    },
-    "[\"factor\",\"topic\",\"de421422285955301347032bc343c79fe6308523adfce5dcf523f11ab05aae6d\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "de421422285955301347032bc343c79fe6308523adfce5dcf523f11ab05aae6d"
-      ],
-      "value": {
-        "title": "🚨 В ЛНР погиб водитель пассажирского автобуса \"Лисичанск — Краснодар\" в результате атаки ",
-        "roots": [
-          "погиб",
-          "водите",
-          "пассаж",
-          "автобу",
-          "лисича",
-          "красно",
-          "резуль",
-          "атаки"
-        ]
-      },
-      "expiresAt": 1792258860575
     },
     "[\"factor\",\"pub\",\"30b7baca9ceeb7095e203520a72cbf1144edb498ec021df85454197374087f57\"]": {
       "key": [
@@ -2622,6 +2508,47 @@
       ],
       "value": true,
       "expiresAt": 1792342812454
+    },
+    "[\"factor\",\"pub\",\"e59f49cda88d4fe7ce39b82b738d8f77f47a33be7482da49446984ee8135fbf8\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e59f49cda88d4fe7ce39b82b738d8f77f47a33be7482da49446984ee8135fbf8"
+      ],
+      "value": true,
+      "expiresAt": 1792346138090
+    },
+    "[\"factor\",\"topic\",\"e59f49cda88d4fe7ce39b82b738d8f77f47a33be7482da49446984ee8135fbf8\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e59f49cda88d4fe7ce39b82b738d8f77f47a33be7482da49446984ee8135fbf8"
+      ],
+      "value": {
+        "title": "99-летняя британка прокатилась на крыле биплана и установила мировой рекорд Хельга Даффи и",
+        "roots": [
+          "летняя",
+          "британ",
+          "прокат",
+          "крыле",
+          "биплан",
+          "устано",
+          "мирово",
+          "рекорд",
+          "хельга",
+          "даффи"
+        ]
+      },
+      "expiresAt": 1792346138092
+    },
+    "[\"factor\",\"texthash\",\"ea4f7289e77b61c7c00b57ac285e879d63511f9725fbb6483b7c9ddd0528dceb\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "ea4f7289e77b61c7c00b57ac285e879d63511f9725fbb6483b7c9ddd0528dceb"
+      ],
+      "value": true,
+      "expiresAt": 1792346138093
     }
   }
 }
