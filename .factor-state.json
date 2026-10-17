@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 594894,
+      "value": 850694,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792221633532,
+      "value": 1792222250506,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"26c56f309b6436a83e3ab513145390963b56689d642c7995ee7349a1cabb58a1\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "26c56f309b6436a83e3ab513145390963b56689d642c7995ee7349a1cabb58a1"
-      ],
-      "value": true,
-      "expiresAt": 1792221660385
-    },
-    "[\"factor\",\"topic\",\"26c56f309b6436a83e3ab513145390963b56689d642c7995ee7349a1cabb58a1\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "26c56f309b6436a83e3ab513145390963b56689d642c7995ee7349a1cabb58a1"
-      ],
-      "value": {
-        "title": "Башкирскую группу Ay Yola включили в первый раунд голосования премии \"Грэмми\"",
-        "roots": [
-          "башкир",
-          "группу",
-          "включи",
-          "первый",
-          "раунд",
-          "голосо",
-          "премии",
-          "грэмми"
-        ]
-      },
-      "expiresAt": 1792221660387
     },
     "[\"factor\",\"pub\",\"a4bdb16b8749834e68ec87b6d88b761cc729631150fb830dfa86cf4b6346c9d4\"]": {
       "key": [
@@ -2912,6 +2882,34 @@
         ]
       },
       "expiresAt": 1792308215677
+    },
+    "[\"factor\",\"pub\",\"fb272b8eba3e1edcf2185e97cf283edb101c899f31d95cc1dbd95aa8855a97e8\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "fb272b8eba3e1edcf2185e97cf283edb101c899f31d95cc1dbd95aa8855a97e8"
+      ],
+      "value": true,
+      "expiresAt": 1792308805954
+    },
+    "[\"factor\",\"topic\",\"fb272b8eba3e1edcf2185e97cf283edb101c899f31d95cc1dbd95aa8855a97e8\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "fb272b8eba3e1edcf2185e97cf283edb101c899f31d95cc1dbd95aa8855a97e8"
+      ],
+      "value": {
+        "title": "Врач погиб в Карелии, спеша на помощь семимесячному малышу",
+        "roots": [
+          "погиб",
+          "карели",
+          "спеша",
+          "помощь",
+          "семиме",
+          "малышу"
+        ]
+      },
+      "expiresAt": 1792308805955
     }
   }
 }
