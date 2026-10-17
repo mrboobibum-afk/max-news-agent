@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 716007,
+      "value": 584931,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,96 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792251288013,
+      "value": 1792253173264,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"d00f1fcb6a1ba3f53723804d07d004c4ba9795c7e7c5c7bac44661a4eb7ec09f\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "d00f1fcb6a1ba3f53723804d07d004c4ba9795c7e7c5c7bac44661a4eb7ec09f"
-      ],
-      "value": true,
-      "expiresAt": 1792251450255
-    },
-    "[\"factor\",\"topic\",\"d00f1fcb6a1ba3f53723804d07d004c4ba9795c7e7c5c7bac44661a4eb7ec09f\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "d00f1fcb6a1ba3f53723804d07d004c4ba9795c7e7c5c7bac44661a4eb7ec09f"
-      ],
-      "value": {
-        "title": "Зеленский не стал отрицать, что стал \"козлом отпущения\" для Трампа",
-        "roots": [
-          "зеленс",
-          "отрица",
-          "козлом",
-          "отпуще",
-          "трампа"
-        ]
-      },
-      "expiresAt": 1792251450256
-    },
-    "[\"factor\",\"pub\",\"e034431fce3b11d053122e0b07a9c97ebb55fccf480b3b5df34a64f80288c645\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "e034431fce3b11d053122e0b07a9c97ebb55fccf480b3b5df34a64f80288c645"
-      ],
-      "value": true,
-      "expiresAt": 1792251651880
-    },
-    "[\"factor\",\"topic\",\"e034431fce3b11d053122e0b07a9c97ebb55fccf480b3b5df34a64f80288c645\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "e034431fce3b11d053122e0b07a9c97ebb55fccf480b3b5df34a64f80288c645"
-      ],
-      "value": {
-        "title": "Путин поговорил по телефону с папой Римским, сообщает Ватикан",
-        "roots": [
-          "путин",
-          "погово",
-          "телефо",
-          "папой",
-          "римски",
-          "сообща",
-          "ватика"
-        ]
-      },
-      "expiresAt": 1792251651882
-    },
-    "[\"factor\",\"pub\",\"98e9807e566a1ae149f35c3f2aa6ca26f6036d4b67aeb6e66e6ce7bacb843064\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "98e9807e566a1ae149f35c3f2aa6ca26f6036d4b67aeb6e66e6ce7bacb843064"
-      ],
-      "value": true,
-      "expiresAt": 1792252885956
-    },
-    "[\"factor\",\"topic\",\"98e9807e566a1ae149f35c3f2aa6ca26f6036d4b67aeb6e66e6ce7bacb843064\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "98e9807e566a1ae149f35c3f2aa6ca26f6036d4b67aeb6e66e6ce7bacb843064"
-      ],
-      "value": {
-        "title": "❗️ Армия России приступила к ударам по объектам энергетики Украины, доложил Путину Герасим",
-        "roots": [
-          "армия",
-          "россии",
-          "присту",
-          "ударам",
-          "объект",
-          "энерге",
-          "украин",
-          "доложи",
-          "путину",
-          "гераси"
-        ]
-      },
-      "expiresAt": 1792252885957
     },
     "[\"factor\",\"pub\",\"4f661646db572b556e076e5595e60cb9c9b92cf1959a082223fc5da4f6bdfed7\"]": {
       "key": [
@@ -2724,35 +2636,6 @@
         "9c38a31c0d89b7cbab4d64fa9471e6f10b7da5c50b4b757b801a10511703951b"
       ],
       "value": true,
-      "expiresAt": 1792337646169
-    },
-    "[\"factor\",\"topic\",\"9c38a31c0d89b7cbab4d64fa9471e6f10b7da5c50b4b757b801a10511703951b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "9c38a31c0d89b7cbab4d64fa9471e6f10b7da5c50b4b757b801a10511703951b"
-      ],
-      "value": {
-        "title": "ВС России поразили электроподстанцию в Тернопольской области и предприятие \"Кромберг энд Ш",
-        "roots": [
-          "россии",
-          "порази",
-          "электр",
-          "терноп",
-          "област",
-          "предпр",
-          "кромбе"
-        ]
-      },
-      "expiresAt": 1792336947659
-    },
-    "[\"factor\",\"pub\",\"9c38a31c0d89b7cbab4d64fa9471e6f10b7da5c50b4b757b801a10511703951b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "9c38a31c0d89b7cbab4d64fa9471e6f10b7da5c50b4b757b801a10511703951b"
-      ],
-      "value": true,
       "expiresAt": 1792338563169
     },
     "[\"factor\",\"topic\",\"9c38a31c0d89b7cbab4d64fa9471e6f10b7da5c50b4b757b801a10511703951b\"]": {
@@ -2774,6 +2657,35 @@
         ]
       },
       "expiresAt": 1792338563170
+    },
+    "[\"factor\",\"pub\",\"6a65a2ebfc7e873d3599995e4ac9fa95786f61591f2cd6047ba6bac252a34740\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "6a65a2ebfc7e873d3599995e4ac9fa95786f61591f2cd6047ba6bac252a34740"
+      ],
+      "value": true,
+      "expiresAt": 1792340368437
+    },
+    "[\"factor\",\"topic\",\"6a65a2ebfc7e873d3599995e4ac9fa95786f61591f2cd6047ba6bac252a34740\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "6a65a2ebfc7e873d3599995e4ac9fa95786f61591f2cd6047ba6bac252a34740"
+      ],
+      "value": {
+        "title": "Брюханов признался, что не поверил в допуск фигуристов на мировую арену",
+        "roots": [
+          "брюхан",
+          "призна",
+          "повери",
+          "допуск",
+          "фигури",
+          "мирову",
+          "арену"
+        ]
+      },
+      "expiresAt": 1792340368439
     }
   }
 }
