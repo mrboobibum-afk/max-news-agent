@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 508433,
+      "value": 795474,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792275602247,
+      "value": 1792277147401,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"16a16586cc0e18847082dfb867316cb924442fa34b5af796c98f692933aa4134\"]": {
@@ -2487,6 +2487,42 @@
       ],
       "value": true,
       "expiresAt": 1792362873361
+    },
+    "[\"factor\",\"pub\",\"441fff36221aefb6b5737dacb947a9d1bb2b561ef36877a4a6122e5fecbf539b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "441fff36221aefb6b5737dacb947a9d1bb2b561ef36877a4a6122e5fecbf539b"
+      ],
+      "value": true,
+      "expiresAt": 1792364145093
+    },
+    "[\"factor\",\"topic\",\"441fff36221aefb6b5737dacb947a9d1bb2b561ef36877a4a6122e5fecbf539b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "441fff36221aefb6b5737dacb947a9d1bb2b561ef36877a4a6122e5fecbf539b"
+      ],
+      "value": {
+        "title": "🚨 Уничтожены 11 беспилотников, летевших на Москву, сообщил Собянин",
+        "roots": [
+          "уничто",
+          "беспил",
+          "летевш",
+          "москву",
+          "собяни"
+        ]
+      },
+      "expiresAt": 1792364145094
+    },
+    "[\"factor\",\"texthash\",\"da769cf5bf5a67951b6de18de7492c389fac5542cd4e9e2b399c8f5172eabfba\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "da769cf5bf5a67951b6de18de7492c389fac5542cd4e9e2b399c8f5172eabfba"
+      ],
+      "value": true,
+      "expiresAt": 1792364145095
     }
   }
 }
