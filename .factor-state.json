@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 861818,
+      "value": 292221,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792205030728,
+      "value": 1792205914286,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"c2130cdc5345d9347dbac9724492c0ec35a28deb8cc3a005b57d517f9dd2d6c3\"]": {
@@ -2854,6 +2854,35 @@
         ]
       },
       "expiresAt": 1792291606384
+    },
+    "[\"factor\",\"pub\",\"cbcbda2e0bab0917a00b44d8e8a3aa62913524ec1accdde50320af4d82162486\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "cbcbda2e0bab0917a00b44d8e8a3aa62913524ec1accdde50320af4d82162486"
+      ],
+      "value": true,
+      "expiresAt": 1792292446626
+    },
+    "[\"factor\",\"topic\",\"cbcbda2e0bab0917a00b44d8e8a3aa62913524ec1accdde50320af4d82162486\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "cbcbda2e0bab0917a00b44d8e8a3aa62913524ec1accdde50320af4d82162486"
+      ],
+      "value": {
+        "title": "В генконсульстве РФ подтвердили ТАСС, что суд в Индии обязал индийскую сторону принять сро",
+        "roots": [
+          "генкон",
+          "подтве",
+          "индии",
+          "обязал",
+          "индийс",
+          "сторон",
+          "принят"
+        ]
+      },
+      "expiresAt": 1792292446628
     }
   }
 }
