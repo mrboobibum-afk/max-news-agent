@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 574995,
+      "value": 199745,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792217431404,
+      "value": 1792218034246,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"53389a060335379c55aef790b0b7189aba36829671a967d0df3b62c64c4624af\"]": {
@@ -2843,6 +2843,37 @@
         ]
       },
       "expiresAt": 1792304033636
+    },
+    "[\"factor\",\"pub\",\"e98da3f1b5dfe41324b7ce27818c32fbb78c6492dd6b2ea7536d1faee6a35701\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e98da3f1b5dfe41324b7ce27818c32fbb78c6492dd6b2ea7536d1faee6a35701"
+      ],
+      "value": true,
+      "expiresAt": 1792304605929
+    },
+    "[\"factor\",\"topic\",\"e98da3f1b5dfe41324b7ce27818c32fbb78c6492dd6b2ea7536d1faee6a35701\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e98da3f1b5dfe41324b7ce27818c32fbb78c6492dd6b2ea7536d1faee6a35701"
+      ],
+      "value": {
+        "title": "ВСУ не смогли отразить ночные удары российских войск, пишет \"Политика Страны\"",
+        "roots": [
+          "смогли",
+          "отрази",
+          "ночные",
+          "удары",
+          "россий",
+          "войск",
+          "пишет",
+          "полити",
+          "страны"
+        ]
+      },
+      "expiresAt": 1792304605930
     }
   }
 }
