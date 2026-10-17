@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 871213,
+      "value": 300881,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,95 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792272545726,
+      "value": 1792274104136,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"4b8238e3fb09fa10a8cd0b2b3350d5c77deae2d06b403e60c346a68828533bca\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "4b8238e3fb09fa10a8cd0b2b3350d5c77deae2d06b403e60c346a68828533bca"
-      ],
-      "value": true,
-      "expiresAt": 1792272761122
-    },
-    "[\"factor\",\"topic\",\"4b8238e3fb09fa10a8cd0b2b3350d5c77deae2d06b403e60c346a68828533bca\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "4b8238e3fb09fa10a8cd0b2b3350d5c77deae2d06b403e60c346a68828533bca"
-      ],
-      "value": {
-        "title": "Трамп рекомендовал пресс-секретарю Белого дома Кейти Зэкэрайа уйти в отставку примерно чер",
-        "roots": [
-          "трамп",
-          "рекоме",
-          "пресс",
-          "секрет",
-          "белого",
-          "кейти",
-          "зэкэра",
-          "отстав",
-          "пример"
-        ]
-      },
-      "expiresAt": 1792272761124
-    },
-    "[\"factor\",\"pub\",\"7b254cd9ba1a757699803727ae7120371101b025857b4a1494ca16daa5f4a083\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "7b254cd9ba1a757699803727ae7120371101b025857b4a1494ca16daa5f4a083"
-      ],
-      "value": true,
-      "expiresAt": 1792273296602
-    },
-    "[\"factor\",\"topic\",\"7b254cd9ba1a757699803727ae7120371101b025857b4a1494ca16daa5f4a083\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "7b254cd9ba1a757699803727ae7120371101b025857b4a1494ca16daa5f4a083"
-      ],
-      "value": {
-        "title": "ПВО уничтожила 15 беспилотников, летевших на Москву, сообщил Собянин",
-        "roots": [
-          "уничто",
-          "беспил",
-          "летевш",
-          "москву",
-          "собяни"
-        ]
-      },
-      "expiresAt": 1792273296603
-    },
-    "[\"factor\",\"pub\",\"f8bfc008961743b0d8a397ef5d270fbab0c54f0792d715b4e4b7d66ae2b03e74\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "f8bfc008961743b0d8a397ef5d270fbab0c54f0792d715b4e4b7d66ae2b03e74"
-      ],
-      "value": true,
-      "expiresAt": 1792273922849
-    },
-    "[\"factor\",\"topic\",\"f8bfc008961743b0d8a397ef5d270fbab0c54f0792d715b4e4b7d66ae2b03e74\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "f8bfc008961743b0d8a397ef5d270fbab0c54f0792d715b4e4b7d66ae2b03e74"
-      ],
-      "value": {
-        "title": "Сербия не будет вводить визы для россиян, заявил в интервью ТАСС госсекретарь министерства",
-        "roots": [
-          "сербия",
-          "будет",
-          "вводит",
-          "россия",
-          "интерв",
-          "госсек",
-          "минист"
-        ]
-      },
-      "expiresAt": 1792273922851
     },
     "[\"factor\",\"pub\",\"308c436d72d4b2df601947822b150ee6f2b765160eb97fab6921be024d11c625\"]": {
       "key": [
@@ -2531,6 +2444,42 @@
       ],
       "value": true,
       "expiresAt": 1792360103588
+    },
+    "[\"factor\",\"pub\",\"10da6338965d9e53c433bf8c124aab1dee566b7abc4ba50f1e62f424eb29805f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "10da6338965d9e53c433bf8c124aab1dee566b7abc4ba50f1e62f424eb29805f"
+      ],
+      "value": true,
+      "expiresAt": 1792360751500
+    },
+    "[\"factor\",\"topic\",\"10da6338965d9e53c433bf8c124aab1dee566b7abc4ba50f1e62f424eb29805f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "10da6338965d9e53c433bf8c124aab1dee566b7abc4ba50f1e62f424eb29805f"
+      ],
+      "value": {
+        "title": "Блогер Иван Золо был задержан силовиками на концерте в Донецке ",
+        "roots": [
+          "блогер",
+          "задерж",
+          "силови",
+          "концер",
+          "донецк"
+        ]
+      },
+      "expiresAt": 1792360751502
+    },
+    "[\"factor\",\"texthash\",\"4abb64e9e7dfb611e9abaa70b258b87524f6d34825672367a80137d32229ff0f\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "4abb64e9e7dfb611e9abaa70b258b87524f6d34825672367a80137d32229ff0f"
+      ],
+      "value": true,
+      "expiresAt": 1792360751503
     }
   }
 }
