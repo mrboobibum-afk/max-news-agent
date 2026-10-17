@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 664027,
+      "value": 248498,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792206067158,
+      "value": 1792207234452,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"f38120b3888596d581e3f9e6836c8bcab5748acf89bd36c88ff674595873edb0\"]": {
@@ -2852,6 +2852,34 @@
         ]
       },
       "expiresAt": 1792292593358
+    },
+    "[\"factor\",\"pub\",\"5d7ea3929f5ed3a8355c55df7052409921fbcb7050f110e82a7b694fd732e480\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "5d7ea3929f5ed3a8355c55df7052409921fbcb7050f110e82a7b694fd732e480"
+      ],
+      "value": true,
+      "expiresAt": 1792293741398
+    },
+    "[\"factor\",\"topic\",\"5d7ea3929f5ed3a8355c55df7052409921fbcb7050f110e82a7b694fd732e480\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "5d7ea3929f5ed3a8355c55df7052409921fbcb7050f110e82a7b694fd732e480"
+      ],
+      "value": {
+        "title": "Семь коротких рабочих недель ждут россиян в 2027 году: в феврале, марте, две в мае, в июне",
+        "roots": [
+          "коротк",
+          "рабочи",
+          "недель",
+          "россия",
+          "феврал",
+          "марте"
+        ]
+      },
+      "expiresAt": 1792293741399
     }
   }
 }
