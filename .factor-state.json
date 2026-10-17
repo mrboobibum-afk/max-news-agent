@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 531375,
+      "value": 479220,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,31 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792278961159,
+      "value": 1792279849319,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"cf1a201f8dd98647cf89d94bc444c869abe02c18b8f4703dd4a7f48af8b79d4d\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "cf1a201f8dd98647cf89d94bc444c869abe02c18b8f4703dd4a7f48af8b79d4d"
-      ],
-      "value": true,
-      "expiresAt": 1792279339627
-    },
-    "[\"factor\",\"topic\",\"cf1a201f8dd98647cf89d94bc444c869abe02c18b8f4703dd4a7f48af8b79d4d\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "cf1a201f8dd98647cf89d94bc444c869abe02c18b8f4703dd4a7f48af8b79d4d"
-      ],
-      "value": {
-        "title": "Около 1,5 тыс",
-        "roots": [
-          "около"
-        ]
-      },
-      "expiresAt": 1792279339628
     },
     "[\"factor\",\"pub\",\"9f96b74639a604825c04a68f276666408f1ee9cce5a651bc0643849d97e8922a\"]": {
       "key": [
@@ -2504,6 +2481,46 @@
       ],
       "value": true,
       "expiresAt": 1792365608489
+    },
+    "[\"factor\",\"pub\",\"e547ce5217861311c9a918650c2e39c61b8272aee4d2ed3336a3aeaa2bf42327\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e547ce5217861311c9a918650c2e39c61b8272aee4d2ed3336a3aeaa2bf42327"
+      ],
+      "value": true,
+      "expiresAt": 1792366625277
+    },
+    "[\"factor\",\"topic\",\"e547ce5217861311c9a918650c2e39c61b8272aee4d2ed3336a3aeaa2bf42327\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e547ce5217861311c9a918650c2e39c61b8272aee4d2ed3336a3aeaa2bf42327"
+      ],
+      "value": {
+        "title": "Илон Маск предложил Трампу замедлить работу Starlink на Украине, сообщает The Daily Telegr",
+        "roots": [
+          "предло",
+          "трампу",
+          "замедл",
+          "работу",
+          "starli",
+          "украин",
+          "сообща",
+          "daily",
+          "telegr"
+        ]
+      },
+      "expiresAt": 1792366625279
+    },
+    "[\"factor\",\"texthash\",\"79fb90a82b162efce55d949520c03b91e803f383bb26e6a80c20e5631cd58184\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "79fb90a82b162efce55d949520c03b91e803f383bb26e6a80c20e5631cd58184"
+      ],
+      "value": true,
+      "expiresAt": 1792366625279
     }
   }
 }
