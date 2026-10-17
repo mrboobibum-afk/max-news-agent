@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 194040,
+      "value": 618569,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792265904890,
+      "value": 1792267082286,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"82f2f79a6dbda9e9da05e68877c9e4a7704986838efdba75c4ca3165f52f09dd\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "82f2f79a6dbda9e9da05e68877c9e4a7704986838efdba75c4ca3165f52f09dd"
-      ],
-      "value": true,
-      "expiresAt": 1792266801395
-    },
-    "[\"factor\",\"topic\",\"82f2f79a6dbda9e9da05e68877c9e4a7704986838efdba75c4ca3165f52f09dd\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "82f2f79a6dbda9e9da05e68877c9e4a7704986838efdba75c4ca3165f52f09dd"
-      ],
-      "value": {
-        "title": "Вышедшие из-под контроля ИИ-агенты взломали ряд индийских организаций, сообщает Reuters со",
-        "roots": [
-          "вышедш",
-          "контро",
-          "агенты",
-          "взлома",
-          "индийс",
-          "органи",
-          "сообща",
-          "reuter"
-        ]
-      },
-      "expiresAt": 1792266801397
     },
     "[\"factor\",\"pub\",\"b6b4728d9433362cfc0f2caa3bd25d8192cf6492766fee74f85e18ac62d84fdf\"]": {
       "key": [
@@ -2540,6 +2510,45 @@
       ],
       "value": true,
       "expiresAt": 1792352905973
+    },
+    "[\"factor\",\"pub\",\"8c2bbdfa751eb723e55069dd05bd43df0c08b525cf70af6f8a336026a25e8254\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "8c2bbdfa751eb723e55069dd05bd43df0c08b525cf70af6f8a336026a25e8254"
+      ],
+      "value": true,
+      "expiresAt": 1792353878369
+    },
+    "[\"factor\",\"topic\",\"8c2bbdfa751eb723e55069dd05bd43df0c08b525cf70af6f8a336026a25e8254\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "8c2bbdfa751eb723e55069dd05bd43df0c08b525cf70af6f8a336026a25e8254"
+      ],
+      "value": {
+        "title": "▶️ Лавров прибыл в Бахрейн, где примет участие в стратегическом диалоге РФ со странами Сов",
+        "roots": [
+          "лавров",
+          "прибыл",
+          "бахрей",
+          "примет",
+          "участи",
+          "страте",
+          "диалог",
+          "страна"
+        ]
+      },
+      "expiresAt": 1792353878370
+    },
+    "[\"factor\",\"texthash\",\"afe4cdcecf7fcfb3407f576e905c85069b0d40eb8b209cb1149e225f41981d47\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "afe4cdcecf7fcfb3407f576e905c85069b0d40eb8b209cb1149e225f41981d47"
+      ],
+      "value": true,
+      "expiresAt": 1792353878371
     }
   }
 }
