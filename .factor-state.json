@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 864618,
+      "value": 735821,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792194634765,
+      "value": 1792195836306,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"dbaf970378eb2af5de269ebfb05a397961764ecdb919b920e882d09ff3bad049\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "dbaf970378eb2af5de269ebfb05a397961764ecdb919b920e882d09ff3bad049"
-      ],
-      "value": true,
-      "expiresAt": 1792195296351
-    },
-    "[\"factor\",\"topic\",\"dbaf970378eb2af5de269ebfb05a397961764ecdb919b920e882d09ff3bad049\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "dbaf970378eb2af5de269ebfb05a397961764ecdb919b920e882d09ff3bad049"
-      ],
-      "value": {
-        "title": "Урсула фон дер Ляйен предложила создать \"стратегические запасы\" газа в ЕС, сообщили издани",
-        "roots": [
-          "урсула",
-          "ляйен",
-          "предло",
-          "создат",
-          "страте",
-          "запасы",
-          "издани"
-        ]
-      },
-      "expiresAt": 1792195296352
     },
     "[\"factor\",\"pub\",\"7d8979297721d3b5841755c1a38ad710632531393b3a0abb4ec1fd622e364c24\"]": {
       "key": [
@@ -2852,6 +2823,38 @@
         ]
       },
       "expiresAt": 1792281101735
+    },
+    "[\"factor\",\"pub\",\"0c2b258bbf8e10e48072f743fcc4be99d83b26e548b68757f80e0e7e732ef699\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "0c2b258bbf8e10e48072f743fcc4be99d83b26e548b68757f80e0e7e732ef699"
+      ],
+      "value": true,
+      "expiresAt": 1792282278192
+    },
+    "[\"factor\",\"topic\",\"0c2b258bbf8e10e48072f743fcc4be99d83b26e548b68757f80e0e7e732ef699\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "0c2b258bbf8e10e48072f743fcc4be99d83b26e548b68757f80e0e7e732ef699"
+      ],
+      "value": {
+        "title": "Минэнерго США предоставило России список компаний, которые хотят покупать российский дизел",
+        "roots": [
+          "минэне",
+          "предос",
+          "россии",
+          "список",
+          "компан",
+          "которы",
+          "хотят",
+          "покупа",
+          "россий",
+          "дизел"
+        ]
+      },
+      "expiresAt": 1792282278194
     }
   }
 }
