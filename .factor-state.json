@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 779839,
+      "value": 225614,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792274464463,
+      "value": 1792276496750,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"308c436d72d4b2df601947822b150ee6f2b765160eb97fab6921be024d11c625\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "308c436d72d4b2df601947822b150ee6f2b765160eb97fab6921be024d11c625"
-      ],
-      "value": true,
-      "expiresAt": 1792274506476
-    },
-    "[\"factor\",\"topic\",\"308c436d72d4b2df601947822b150ee6f2b765160eb97fab6921be024d11c625\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "308c436d72d4b2df601947822b150ee6f2b765160eb97fab6921be024d11c625"
-      ],
-      "value": {
-        "title": "Возможная остановка Вашингтоном закупок оружия для Украины в США на европейские деньги по ",
-        "roots": [
-          "возмож",
-          "остано",
-          "вашинг",
-          "закупо",
-          "оружия",
-          "украин",
-          "европе",
-          "деньги"
-        ]
-      },
-      "expiresAt": 1792274506477
     },
     "[\"factor\",\"pub\",\"16a16586cc0e18847082dfb867316cb924442fa34b5af796c98f692933aa4134\"]": {
       "key": [
@@ -2518,6 +2488,43 @@
       ],
       "value": true,
       "expiresAt": 1792361979316
+    },
+    "[\"factor\",\"pub\",\"a28a43af419893acab30542a912a240b846220e845d1305a15fd23b1dd306f35\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "a28a43af419893acab30542a912a240b846220e845d1305a15fd23b1dd306f35"
+      ],
+      "value": true,
+      "expiresAt": 1792363525195
+    },
+    "[\"factor\",\"topic\",\"a28a43af419893acab30542a912a240b846220e845d1305a15fd23b1dd306f35\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "a28a43af419893acab30542a912a240b846220e845d1305a15fd23b1dd306f35"
+      ],
+      "value": {
+        "title": "▶️ Потеря Алексеево-Дружковки и Доброполья болезненна для ВСУ, заявил в интервью ТАСС Пуши",
+        "roots": [
+          "потеря",
+          "алексе",
+          "дружко",
+          "доброп",
+          "болезн",
+          "интерв"
+        ]
+      },
+      "expiresAt": 1792363525196
+    },
+    "[\"factor\",\"texthash\",\"6b72d671525c8f6f22a37e49db443a1f632f95b74ce787902a244174ef4ac7d4\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "6b72d671525c8f6f22a37e49db443a1f632f95b74ce787902a244174ef4ac7d4"
+      ],
+      "value": true,
+      "expiresAt": 1792363525197
     }
   }
 }
