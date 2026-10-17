@@ -17,35 +17,6 @@
       "value": 1792220462787,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"8023d84f4851df4f31f88f6a2a8823f9d23251050eba3026f9cebc7efe07f5dc\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "8023d84f4851df4f31f88f6a2a8823f9d23251050eba3026f9cebc7efe07f5dc"
-      ],
-      "value": true,
-      "expiresAt": 1792220486172
-    },
-    "[\"factor\",\"topic\",\"8023d84f4851df4f31f88f6a2a8823f9d23251050eba3026f9cebc7efe07f5dc\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "8023d84f4851df4f31f88f6a2a8823f9d23251050eba3026f9cebc7efe07f5dc"
-      ],
-      "value": {
-        "title": "▪️ Новым владельцем разработчика игр «Леста» стал консорциум АО «Промышленные сооружения»",
-        "roots": [
-          "новым",
-          "владел",
-          "разраб",
-          "леста",
-          "консор",
-          "промыш",
-          "сооруж"
-        ]
-      },
-      "expiresAt": 1792220486175
-    },
     "[\"factor\",\"pub\",\"26c56f309b6436a83e3ab513145390963b56689d642c7995ee7349a1cabb58a1\"]": {
       "key": [
         "factor",
