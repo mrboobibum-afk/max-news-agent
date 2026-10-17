@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 479220,
+      "value": 733424,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792279849319,
+      "value": 1792280434507,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"9f96b74639a604825c04a68f276666408f1ee9cce5a651bc0643849d97e8922a\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "9f96b74639a604825c04a68f276666408f1ee9cce5a651bc0643849d97e8922a"
-      ],
-      "value": true,
-      "expiresAt": 1792280118601
-    },
-    "[\"factor\",\"topic\",\"9f96b74639a604825c04a68f276666408f1ee9cce5a651bc0643849d97e8922a\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "9f96b74639a604825c04a68f276666408f1ee9cce5a651bc0643849d97e8922a"
-      ],
-      "value": {
-        "title": "▶️ Индийские СМИ не ориентируются на западные при освещении конфликта на Украине",
-        "roots": [
-          "индийс",
-          "ориент",
-          "западн",
-          "освеще",
-          "конфли",
-          "украин"
-        ]
-      },
-      "expiresAt": 1792280118602
     },
     "[\"factor\",\"pub\",\"745658e163f4cb28f0c2c7bd37f69d09614c4056e9c2672713f08a0eefbde5d8\"]": {
       "key": [
@@ -2521,6 +2493,45 @@
       ],
       "value": true,
       "expiresAt": 1792366625279
+    },
+    "[\"factor\",\"pub\",\"abd9687e4e91e8e5c175499da3774bd6d4c7db5e159208894694f193c5adc47c\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "abd9687e4e91e8e5c175499da3774bd6d4c7db5e159208894694f193c5adc47c"
+      ],
+      "value": true,
+      "expiresAt": 1792366981976
+    },
+    "[\"factor\",\"topic\",\"abd9687e4e91e8e5c175499da3774bd6d4c7db5e159208894694f193c5adc47c\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "abd9687e4e91e8e5c175499da3774bd6d4c7db5e159208894694f193c5adc47c"
+      ],
+      "value": {
+        "title": "В Ницце группы в масках нападают на магазины и полицию, сообщила префектура",
+        "roots": [
+          "ницце",
+          "группы",
+          "масках",
+          "напада",
+          "магази",
+          "полици",
+          "сообщи",
+          "префек"
+        ]
+      },
+      "expiresAt": 1792366981977
+    },
+    "[\"factor\",\"texthash\",\"99b0120ecfaa3f03cf17119349834a162166725ae41e51262a16bc659a6dd2ae\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "99b0120ecfaa3f03cf17119349834a162166725ae41e51262a16bc659a6dd2ae"
+      ],
+      "value": true,
+      "expiresAt": 1792366981978
     }
   }
 }
