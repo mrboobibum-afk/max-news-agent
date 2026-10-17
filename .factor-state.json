@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 581354,
+      "value": 877172,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792209663587,
+      "value": 1792210831509,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"3f91406785517ea8b44db315a6ecb41b65f817d4a292a68547e24fcba93b05c9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "3f91406785517ea8b44db315a6ecb41b65f817d4a292a68547e24fcba93b05c9"
-      ],
-      "value": true,
-      "expiresAt": 1792210287642
-    },
-    "[\"factor\",\"topic\",\"3f91406785517ea8b44db315a6ecb41b65f817d4a292a68547e24fcba93b05c9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "3f91406785517ea8b44db315a6ecb41b65f817d4a292a68547e24fcba93b05c9"
-      ],
-      "value": {
-        "title": "▶️ Операторы БПЛА ВСУ тренируются наносить удары на мирных жителях Алешек, Видео: Виктор А",
-        "roots": [
-          "операт",
-          "тренир",
-          "наноси",
-          "удары",
-          "мирных",
-          "жителя",
-          "алешек",
-          "виктор"
-        ]
-      },
-      "expiresAt": 1792210287643
     },
     "[\"factor\",\"pub\",\"ca6e7016c80682fb9ffdabf753f9ef4fab4782b3ca9248678dda79d8735f1ea6\"]": {
       "key": [
@@ -2916,6 +2886,34 @@
         ]
       },
       "expiresAt": 1792296136751
+    },
+    "[\"factor\",\"pub\",\"3eaeba62dad533b1266422b04496b8debec03d422e67393e9082a84002db1e46\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "3eaeba62dad533b1266422b04496b8debec03d422e67393e9082a84002db1e46"
+      ],
+      "value": true,
+      "expiresAt": 1792297322344
+    },
+    "[\"factor\",\"topic\",\"3eaeba62dad533b1266422b04496b8debec03d422e67393e9082a84002db1e46\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "3eaeba62dad533b1266422b04496b8debec03d422e67393e9082a84002db1e46"
+      ],
+      "value": {
+        "title": "Более 20 БПЛА уничтожены за ночь в Ростовской области, сообщил губернатор региона",
+        "roots": [
+          "более",
+          "уничто",
+          "ростов",
+          "област",
+          "губерн",
+          "регион"
+        ]
+      },
+      "expiresAt": 1792297322345
     }
   }
 }
