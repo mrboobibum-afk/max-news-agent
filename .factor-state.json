@@ -17,37 +17,6 @@
       "value": 1792245662911,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"4db1c896d207bfac3c3c29fd188efb4128713a939f6715539bdee832314f73d6\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "4db1c896d207bfac3c3c29fd188efb4128713a939f6715539bdee832314f73d6"
-      ],
-      "value": true,
-      "expiresAt": 1792245825126
-    },
-    "[\"factor\",\"topic\",\"4db1c896d207bfac3c3c29fd188efb4128713a939f6715539bdee832314f73d6\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "4db1c896d207bfac3c3c29fd188efb4128713a939f6715539bdee832314f73d6"
-      ],
-      "value": {
-        "title": "📍 За кормой – Малайзия: отряд кораблей ТОФ завершил визит в Баттерворт Отряд кораблей Тих",
-        "roots": [
-          "кормой",
-          "малайз",
-          "отряд",
-          "корабл",
-          "заверш",
-          "визит",
-          "баттер",
-          "отряд",
-          "корабл"
-        ]
-      },
-      "expiresAt": 1792245825127
-    },
     "[\"factor\",\"pub\",\"3856fffd72f4441aaae2b42e1dae2b686a5cc2a5fbc550695b42cae48cbf0ec5\"]": {
       "key": [
         "factor",
