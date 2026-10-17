@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 847540,
+      "value": 428215,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,57 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792248651051,
+      "value": 1792250570451,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"726ef84c7d4f5c6bc490c977619a9c0f045374f538ff6a6025d462ccc08386d9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "726ef84c7d4f5c6bc490c977619a9c0f045374f538ff6a6025d462ccc08386d9"
-      ],
-      "value": true,
-      "expiresAt": 1792249331775
-    },
-    "[\"factor\",\"topic\",\"726ef84c7d4f5c6bc490c977619a9c0f045374f538ff6a6025d462ccc08386d9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "726ef84c7d4f5c6bc490c977619a9c0f045374f538ff6a6025d462ccc08386d9"
-      ],
-      "value": {
-        "title": "✈️ 106 рейсов задерживаются в столичных аэропортах ",
-        "roots": [
-          "рейсов",
-          "задерж",
-          "столич",
-          "аэропо"
-        ]
-      },
-      "expiresAt": 1792249331776
-    },
-    "[\"factor\",\"pub\",\"ff3ed8bb54b1110546ddce3277a03fca603e14c58efa4df66f84609feee57ad0\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "ff3ed8bb54b1110546ddce3277a03fca603e14c58efa4df66f84609feee57ad0"
-      ],
-      "value": true,
-      "expiresAt": 1792250479192
-    },
-    "[\"factor\",\"topic\",\"ff3ed8bb54b1110546ddce3277a03fca603e14c58efa4df66f84609feee57ad0\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "ff3ed8bb54b1110546ddce3277a03fca603e14c58efa4df66f84609feee57ad0"
-      ],
-      "value": {
-        "title": "\"Ни евро Украине",
-        "roots": [
-          "украин"
-        ]
-      },
-      "expiresAt": 1792250479193
     },
     "[\"factor\",\"pub\",\"d00f1fcb6a1ba3f53723804d07d004c4ba9795c7e7c5c7bac44661a4eb7ec09f\"]": {
       "key": [
@@ -2765,6 +2716,35 @@
         ]
       },
       "expiresAt": 1792335321616
+    },
+    "[\"factor\",\"pub\",\"9c38a31c0d89b7cbab4d64fa9471e6f10b7da5c50b4b757b801a10511703951b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "9c38a31c0d89b7cbab4d64fa9471e6f10b7da5c50b4b757b801a10511703951b"
+      ],
+      "value": true,
+      "expiresAt": 1792337646169
+    },
+    "[\"factor\",\"topic\",\"9c38a31c0d89b7cbab4d64fa9471e6f10b7da5c50b4b757b801a10511703951b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "9c38a31c0d89b7cbab4d64fa9471e6f10b7da5c50b4b757b801a10511703951b"
+      ],
+      "value": {
+        "title": "ВС России поразили электроподстанцию в Тернопольской области и предприятие \"Кромберг энд Ш",
+        "roots": [
+          "россии",
+          "порази",
+          "электр",
+          "терноп",
+          "област",
+          "предпр",
+          "кромбе"
+        ]
+      },
+      "expiresAt": 1792337646170
     }
   }
 }
