@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 676211,
+      "value": 877139,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792237832192,
+      "value": 1792239037270,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"c5b2eb57ab561875e900b2b4c249f60fcddf672a5effd564fc6ab3ac24f99756\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c5b2eb57ab561875e900b2b4c249f60fcddf672a5effd564fc6ab3ac24f99756"
-      ],
-      "value": true,
-      "expiresAt": 1792238616194
-    },
-    "[\"factor\",\"topic\",\"c5b2eb57ab561875e900b2b4c249f60fcddf672a5effd564fc6ab3ac24f99756\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c5b2eb57ab561875e900b2b4c249f60fcddf672a5effd564fc6ab3ac24f99756"
-      ],
-      "value": {
-        "title": "Евросоюз в сентябре 2026 года увеличил импорт российского сжиженного природного газа (СПГ)",
-        "roots": [
-          "евросо",
-          "сентяб",
-          "увелич",
-          "импорт",
-          "россий",
-          "сжижен",
-          "природ"
-        ]
-      },
-      "expiresAt": 1792238616196
     },
     "[\"factor\",\"pub\",\"45ce79e15ea656240e5b10b159cc8b31d0e049a4714025a3d90dd90e28e9408d\"]": {
       "key": [
@@ -2970,6 +2941,31 @@
         ]
       },
       "expiresAt": 1792324446026
+    },
+    "[\"factor\",\"pub\",\"177a8dd66782d01a299eb4fbbf6f265c95647130446ef221079416e7ea657dcd\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "177a8dd66782d01a299eb4fbbf6f265c95647130446ef221079416e7ea657dcd"
+      ],
+      "value": true,
+      "expiresAt": 1792325608416
+    },
+    "[\"factor\",\"topic\",\"177a8dd66782d01a299eb4fbbf6f265c95647130446ef221079416e7ea657dcd\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "177a8dd66782d01a299eb4fbbf6f265c95647130446ef221079416e7ea657dcd"
+      ],
+      "value": {
+        "title": "Кличко отправляют в нокаут",
+        "roots": [
+          "кличко",
+          "отправ",
+          "нокаут"
+        ]
+      },
+      "expiresAt": 1792325608417
     }
   }
 }
