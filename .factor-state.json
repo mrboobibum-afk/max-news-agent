@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 795474,
+      "value": 569090,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,67 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792277147401,
+      "value": 1792278531703,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"16a16586cc0e18847082dfb867316cb924442fa34b5af796c98f692933aa4134\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "16a16586cc0e18847082dfb867316cb924442fa34b5af796c98f692933aa4134"
-      ],
-      "value": true,
-      "expiresAt": 1792277598594
-    },
-    "[\"factor\",\"topic\",\"16a16586cc0e18847082dfb867316cb924442fa34b5af796c98f692933aa4134\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "16a16586cc0e18847082dfb867316cb924442fa34b5af796c98f692933aa4134"
-      ],
-      "value": {
-        "title": "▶️ Индии интересен опыт России в развитии органического сельского хозяйства, заявил ТАСС в",
-        "roots": [
-          "индии",
-          "интере",
-          "россии",
-          "развит",
-          "органи",
-          "сельск",
-          "хозяйс"
-        ]
-      },
-      "expiresAt": 1792277598595
-    },
-    "[\"factor\",\"pub\",\"070a6459c0f37cc877f68ffa240f3bcbd02101a5560e80e8170cb9fbb3075bb3\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "070a6459c0f37cc877f68ffa240f3bcbd02101a5560e80e8170cb9fbb3075bb3"
-      ],
-      "value": true,
-      "expiresAt": 1792278146924
-    },
-    "[\"factor\",\"topic\",\"070a6459c0f37cc877f68ffa240f3bcbd02101a5560e80e8170cb9fbb3075bb3\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "070a6459c0f37cc877f68ffa240f3bcbd02101a5560e80e8170cb9fbb3075bb3"
-      ],
-      "value": {
-        "title": "▶️ Детский прожиточный минимум необходимо увеличить, сейчас его размер недостаточный для у",
-        "roots": [
-          "детски",
-          "прожит",
-          "миниму",
-          "необхо",
-          "увелич",
-          "сейчас",
-          "размер",
-          "недост"
-        ]
-      },
-      "expiresAt": 1792278146925
     },
     "[\"factor\",\"pub\",\"cf1a201f8dd98647cf89d94bc444c869abe02c18b8f4703dd4a7f48af8b79d4d\"]": {
       "key": [
@@ -2523,6 +2464,44 @@
       ],
       "value": true,
       "expiresAt": 1792364145095
+    },
+    "[\"factor\",\"pub\",\"57d4dd3bfc552fa6d598988d4992501c3346dc69ac6a7a182e88228827678aea\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "57d4dd3bfc552fa6d598988d4992501c3346dc69ac6a7a182e88228827678aea"
+      ],
+      "value": true,
+      "expiresAt": 1792365336314
+    },
+    "[\"factor\",\"topic\",\"57d4dd3bfc552fa6d598988d4992501c3346dc69ac6a7a182e88228827678aea\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "57d4dd3bfc552fa6d598988d4992501c3346dc69ac6a7a182e88228827678aea"
+      ],
+      "value": {
+        "title": "▶️ В Лиможе из-за пожара, возникшего в ходе беспорядков, обрушилась колокольня здания мэри",
+        "roots": [
+          "лиможе",
+          "пожара",
+          "возник",
+          "беспор",
+          "обруши",
+          "колоко",
+          "здания"
+        ]
+      },
+      "expiresAt": 1792365336315
+    },
+    "[\"factor\",\"texthash\",\"16f3321fe5f0548da6a85074c1fbec11d91bf387d6bdf11ccf7b97580e74eebf\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "16f3321fe5f0548da6a85074c1fbec11d91bf387d6bdf11ccf7b97580e74eebf"
+      ],
+      "value": true,
+      "expiresAt": 1792365336316
     }
   }
 }
