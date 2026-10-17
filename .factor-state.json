@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 896443,
+      "value": 187958,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792268087557,
+      "value": 1792269050898,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"bc5632200bb2993dc82041c6731790368e3d8b6367aa154675b2ca6a7747777f\"]": {
@@ -2493,6 +2493,44 @@
       ],
       "value": true,
       "expiresAt": 1792354696420
+    },
+    "[\"factor\",\"pub\",\"db39f580ee1a7b66d39497a6b9d6e13a5320038d31066e86edc1d88b23359bff\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "db39f580ee1a7b66d39497a6b9d6e13a5320038d31066e86edc1d88b23359bff"
+      ],
+      "value": true,
+      "expiresAt": 1792355699304
+    },
+    "[\"factor\",\"topic\",\"db39f580ee1a7b66d39497a6b9d6e13a5320038d31066e86edc1d88b23359bff\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "db39f580ee1a7b66d39497a6b9d6e13a5320038d31066e86edc1d88b23359bff"
+      ],
+      "value": {
+        "title": "▶️ Несогласованную демонстрацию вблизи Елисейского дворца в Париже разогнали, сообщил теле",
+        "roots": [
+          "несогл",
+          "демонс",
+          "вблизи",
+          "елисей",
+          "дворца",
+          "париже",
+          "разогн"
+        ]
+      },
+      "expiresAt": 1792355699305
+    },
+    "[\"factor\",\"texthash\",\"4e436fb4496cfa1642ffefea89b6288ea94048103c76d99bde217899653c2eba\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "4e436fb4496cfa1642ffefea89b6288ea94048103c76d99bde217899653c2eba"
+      ],
+      "value": true,
+      "expiresAt": 1792355699306
     }
   }
 }
