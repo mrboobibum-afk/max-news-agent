@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 685431,
+      "value": 209391,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792201230368,
+      "value": 1792202462621,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"d3e0a9c1b115f9dbc9384a57897c591e7f1875fd2b3ae2450369723759fb992f\"]": {
@@ -2856,6 +2856,35 @@
         ]
       },
       "expiresAt": 1792287740712
+    },
+    "[\"factor\",\"pub\",\"d29a0a14c79de8969036e873ae561d8fb9af5929585b0935af8d6cff7d9154a2\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d29a0a14c79de8969036e873ae561d8fb9af5929585b0935af8d6cff7d9154a2"
+      ],
+      "value": true,
+      "expiresAt": 1792288942866
+    },
+    "[\"factor\",\"topic\",\"d29a0a14c79de8969036e873ae561d8fb9af5929585b0935af8d6cff7d9154a2\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d29a0a14c79de8969036e873ae561d8fb9af5929585b0935af8d6cff7d9154a2"
+      ],
+      "value": {
+        "title": "❗️ Трамп поручил администрации США следить за поставками энергоносителей из России",
+        "roots": [
+          "трамп",
+          "поручи",
+          "админи",
+          "следит",
+          "постав",
+          "энерго",
+          "россии"
+        ]
+      },
+      "expiresAt": 1792288942868
     }
   }
 }
