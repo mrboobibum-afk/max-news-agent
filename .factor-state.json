@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 740975,
+      "value": 765087,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,66 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792270235545,
+      "value": 1792271370827,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"ab92e907b2bcbf63b0edeb90c5d795fa1b30f8c8fd31e06e0681a4f59c72684a\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "ab92e907b2bcbf63b0edeb90c5d795fa1b30f8c8fd31e06e0681a4f59c72684a"
-      ],
-      "value": true,
-      "expiresAt": 1792270386900
-    },
-    "[\"factor\",\"topic\",\"ab92e907b2bcbf63b0edeb90c5d795fa1b30f8c8fd31e06e0681a4f59c72684a\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "ab92e907b2bcbf63b0edeb90c5d795fa1b30f8c8fd31e06e0681a4f59c72684a"
-      ],
-      "value": {
-        "title": "Речи о массовом нашествии волков в Подмосковье нет и не было, заявил ТАСС начальник управл",
-        "roots": [
-          "массов",
-          "нашест",
-          "волков",
-          "подмос",
-          "началь",
-          "управл"
-        ]
-      },
-      "expiresAt": 1792270386901
-    },
-    "[\"factor\",\"pub\",\"d0966ec30574a5ab538efb01cfca0208a761c2555230bf7c59e1e378a274ffc2\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "d0966ec30574a5ab538efb01cfca0208a761c2555230bf7c59e1e378a274ffc2"
-      ],
-      "value": true,
-      "expiresAt": 1792271338985
-    },
-    "[\"factor\",\"topic\",\"d0966ec30574a5ab538efb01cfca0208a761c2555230bf7c59e1e378a274ffc2\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "d0966ec30574a5ab538efb01cfca0208a761c2555230bf7c59e1e378a274ffc2"
-      ],
-      "value": {
-        "title": "Дефицит автомобильного бензина на внутреннем рынке России составляет около 5%",
-        "roots": [
-          "дефици",
-          "автомо",
-          "бензин",
-          "внутре",
-          "рынке",
-          "россии",
-          "состав",
-          "около"
-        ]
-      },
-      "expiresAt": 1792271338986
     },
     "[\"factor\",\"pub\",\"c52c9550f5026a2edc80158d485b7209ced792ede08e3e0f8c71602e70d9d1e7\"]": {
       "key": [
@@ -2579,6 +2521,46 @@
       ],
       "value": true,
       "expiresAt": 1792357376920
+    },
+    "[\"factor\",\"pub\",\"c45bd32ddc81ea864a50737ccdb143bfaff49a149840f0316bfc22163020a725\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "c45bd32ddc81ea864a50737ccdb143bfaff49a149840f0316bfc22163020a725"
+      ],
+      "value": true,
+      "expiresAt": 1792358904753
+    },
+    "[\"factor\",\"topic\",\"c45bd32ddc81ea864a50737ccdb143bfaff49a149840f0316bfc22163020a725\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "c45bd32ddc81ea864a50737ccdb143bfaff49a149840f0316bfc22163020a725"
+      ],
+      "value": {
+        "title": "«В хоккей играют настоящие мужчины, а в следж-хоккей – в два раза больше» Адаптивный спорт",
+        "roots": [
+          "хоккей",
+          "играют",
+          "настоя",
+          "мужчин",
+          "следж",
+          "хоккей",
+          "больше",
+          "адапти",
+          "спорт"
+        ]
+      },
+      "expiresAt": 1792358904754
+    },
+    "[\"factor\",\"texthash\",\"b334d87cd1ddb8cbaee201b32749b4ef742a89fccd44ceea3e529319bd7b8c73\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "b334d87cd1ddb8cbaee201b32749b4ef742a89fccd44ceea3e529319bd7b8c73"
+      ],
+      "value": true,
+      "expiresAt": 1792358904755
     }
   }
 }
