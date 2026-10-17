@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 276983,
+      "value": 408938,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792208433293,
+      "value": 1792209034735,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"dacecac81032780fa0d580d8737df2b47c3d3a2396bee377066f576ffe5479cd\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "dacecac81032780fa0d580d8737df2b47c3d3a2396bee377066f576ffe5479cd"
-      ],
-      "value": true,
-      "expiresAt": 1792208534000
-    },
-    "[\"factor\",\"topic\",\"dacecac81032780fa0d580d8737df2b47c3d3a2396bee377066f576ffe5479cd\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "dacecac81032780fa0d580d8737df2b47c3d3a2396bee377066f576ffe5479cd"
-      ],
-      "value": {
-        "title": "Фигурантом дела о мошенничестве адвоката Карабанова стал победитель \"Танцев со звездами\" в",
-        "roots": [
-          "фигура",
-          "мошенн",
-          "адвока",
-          "караба",
-          "победи",
-          "танцев",
-          "звезда"
-        ]
-      },
-      "expiresAt": 1792208534002
     },
     "[\"factor\",\"pub\",\"7ce597f73d980f377367dd3893927d3abe274c23ea7ffd73f7336627c9988cc9\"]": {
       "key": [
@@ -2912,6 +2883,35 @@
         ]
       },
       "expiresAt": 1792294915830
+    },
+    "[\"factor\",\"pub\",\"4f79a637ed3c432b2fef847ecee83f03aa2e8826e3a885c2e540aa65882a7433\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4f79a637ed3c432b2fef847ecee83f03aa2e8826e3a885c2e540aa65882a7433"
+      ],
+      "value": true,
+      "expiresAt": 1792295645624
+    },
+    "[\"factor\",\"topic\",\"4f79a637ed3c432b2fef847ecee83f03aa2e8826e3a885c2e540aa65882a7433\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4f79a637ed3c432b2fef847ecee83f03aa2e8826e3a885c2e540aa65882a7433"
+      ],
+      "value": {
+        "title": "🌪 Поураганили на позициях ВСУ Расчет РСЗО «Ураган» 11-го армейского корпуса группировки «",
+        "roots": [
+          "поураг",
+          "позици",
+          "расчет",
+          "ураган",
+          "армейс",
+          "корпус",
+          "группи"
+        ]
+      },
+      "expiresAt": 1792295645626
     }
   }
 }
