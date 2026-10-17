@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 618569,
+      "value": 896443,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,64 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792267082286,
+      "value": 1792268087557,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"b6b4728d9433362cfc0f2caa3bd25d8192cf6492766fee74f85e18ac62d84fdf\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "b6b4728d9433362cfc0f2caa3bd25d8192cf6492766fee74f85e18ac62d84fdf"
-      ],
-      "value": true,
-      "expiresAt": 1792267215463
-    },
-    "[\"factor\",\"topic\",\"b6b4728d9433362cfc0f2caa3bd25d8192cf6492766fee74f85e18ac62d84fdf\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "b6b4728d9433362cfc0f2caa3bd25d8192cf6492766fee74f85e18ac62d84fdf"
-      ],
-      "value": {
-        "title": "🚨 Пять человек госпитализированы с подозрением на оспу обезьян в Петербурге, сообщает Рос",
-        "roots": [
-          "челове",
-          "госпит",
-          "подозр",
-          "обезья",
-          "петерб",
-          "сообща"
-        ]
-      },
-      "expiresAt": 1792267215464
-    },
-    "[\"factor\",\"pub\",\"639d8825b861cfabfc62b1f9ec6ffaabf760229a0e8052672c45ce1c46ea3299\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "639d8825b861cfabfc62b1f9ec6ffaabf760229a0e8052672c45ce1c46ea3299"
-      ],
-      "value": true,
-      "expiresAt": 1792267764710
-    },
-    "[\"factor\",\"topic\",\"639d8825b861cfabfc62b1f9ec6ffaabf760229a0e8052672c45ce1c46ea3299\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "639d8825b861cfabfc62b1f9ec6ffaabf760229a0e8052672c45ce1c46ea3299"
-      ],
-      "value": {
-        "title": "ЕС запустит спутниковое наблюдение за Арктикой в 2027 году, пишет Bloomberg",
-        "roots": [
-          "запуст",
-          "спутни",
-          "наблюд",
-          "арктик",
-          "пишет",
-          "bloomb"
-        ]
-      },
-      "expiresAt": 1792267764712
     },
     "[\"factor\",\"pub\",\"bc5632200bb2993dc82041c6731790368e3d8b6367aa154675b2ca6a7747777f\"]": {
       "key": [
@@ -2511,6 +2455,44 @@
       ],
       "value": true,
       "expiresAt": 1792353878371
+    },
+    "[\"factor\",\"pub\",\"b913fc1987637f802744546b0aa020c80eb5d023def81943081835af47fe467e\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "b913fc1987637f802744546b0aa020c80eb5d023def81943081835af47fe467e"
+      ],
+      "value": true,
+      "expiresAt": 1792354696418
+    },
+    "[\"factor\",\"topic\",\"b913fc1987637f802744546b0aa020c80eb5d023def81943081835af47fe467e\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "b913fc1987637f802744546b0aa020c80eb5d023def81943081835af47fe467e"
+      ],
+      "value": {
+        "title": "Общая сумма средств Украине из ЕС может достичь €520 млрд в 2027 году, заявил премьер Чехи",
+        "roots": [
+          "общая",
+          "сумма",
+          "средст",
+          "украин",
+          "может",
+          "достич",
+          "премье"
+        ]
+      },
+      "expiresAt": 1792354696419
+    },
+    "[\"factor\",\"texthash\",\"99f65eeb1008d7f9e32d1ab3bf3fabef0a05e1d0134b96a79729ee3b0faa8ee8\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "99f65eeb1008d7f9e32d1ab3bf3fabef0a05e1d0134b96a79729ee3b0faa8ee8"
+      ],
+      "value": true,
+      "expiresAt": 1792354696420
     }
   }
 }
