@@ -17,37 +17,6 @@
       "value": 1792244434358,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"9ca5f9a72e50582a11808062d56f35929514f68019acf581adf42cc9d6079aeb\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "9ca5f9a72e50582a11808062d56f35929514f68019acf581adf42cc9d6079aeb"
-      ],
-      "value": true,
-      "expiresAt": 1792244485349
-    },
-    "[\"factor\",\"topic\",\"9ca5f9a72e50582a11808062d56f35929514f68019acf581adf42cc9d6079aeb\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "9ca5f9a72e50582a11808062d56f35929514f68019acf581adf42cc9d6079aeb"
-      ],
-      "value": {
-        "title": "Макрон теряет влияние на мировой арене , пишет Agence France-Presse",
-        "roots": [
-          "макрон",
-          "теряет",
-          "влияни",
-          "мирово",
-          "арене",
-          "пишет",
-          "agence",
-          "france",
-          "presse"
-        ]
-      },
-      "expiresAt": 1792244485350
-    },
     "[\"factor\",\"pub\",\"4db1c896d207bfac3c3c29fd188efb4128713a939f6715539bdee832314f73d6\"]": {
       "key": [
         "factor",
