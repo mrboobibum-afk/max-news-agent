@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 621848,
+      "value": 699177,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792260634044,
+      "value": 1792261851493,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"325d33b82035009656bb313bbce7694ea8627f377f05f8b11273d2cfb92daca1\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "325d33b82035009656bb313bbce7694ea8627f377f05f8b11273d2cfb92daca1"
-      ],
-      "value": true,
-      "expiresAt": 1792261262150
-    },
-    "[\"factor\",\"topic\",\"325d33b82035009656bb313bbce7694ea8627f377f05f8b11273d2cfb92daca1\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "325d33b82035009656bb313bbce7694ea8627f377f05f8b11273d2cfb92daca1"
-      ],
-      "value": {
-        "title": "Зеленский - самое большое препятствие на пути к миру на Украине, считает бывший советник Т",
-        "roots": [
-          "зеленс",
-          "самое",
-          "большо",
-          "препят",
-          "украин",
-          "считае",
-          "бывший",
-          "советн"
-        ]
-      },
-      "expiresAt": 1792261262151
     },
     "[\"factor\",\"pub\",\"e003cc325dff62abf94a562d800a9abfb27f5390dd605fa1837b6c6f21757275\"]": {
       "key": [
@@ -2573,6 +2543,44 @@
       ],
       "value": true,
       "expiresAt": 1792347377172
+    },
+    "[\"factor\",\"pub\",\"f406024046cf7f4cba60b7bb21e8722eda6bfbd28996e594a76f51a5b0321cea\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "f406024046cf7f4cba60b7bb21e8722eda6bfbd28996e594a76f51a5b0321cea"
+      ],
+      "value": true,
+      "expiresAt": 1792349256793
+    },
+    "[\"factor\",\"topic\",\"f406024046cf7f4cba60b7bb21e8722eda6bfbd28996e594a76f51a5b0321cea\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "f406024046cf7f4cba60b7bb21e8722eda6bfbd28996e594a76f51a5b0321cea"
+      ],
+      "value": {
+        "title": "На западе Украины взлетели цены на аренду квартир из-за переселенцев из Киева",
+        "roots": [
+          "западе",
+          "украин",
+          "взлете",
+          "аренду",
+          "кварти",
+          "пересе",
+          "киева"
+        ]
+      },
+      "expiresAt": 1792349256795
+    },
+    "[\"factor\",\"texthash\",\"76ea3e8b51abcffb22c1bac58e6088637b04b53ef04bd3ce0b45af11c7fa9ecc\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "76ea3e8b51abcffb22c1bac58e6088637b04b53ef04bd3ce0b45af11c7fa9ecc"
+      ],
+      "value": true,
+      "expiresAt": 1792349256795
     }
   }
 }
