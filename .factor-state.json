@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 347679,
+      "value": 740975,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792269634332,
+      "value": 1792270235545,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"ab92e907b2bcbf63b0edeb90c5d795fa1b30f8c8fd31e06e0681a4f59c72684a\"]": {
@@ -2539,6 +2539,46 @@
       ],
       "value": true,
       "expiresAt": 1792356239997
+    },
+    "[\"factor\",\"pub\",\"981c1850916749129927fc657cfa32dc45e9e1c01c0e729863b5ed45c48c7105\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "981c1850916749129927fc657cfa32dc45e9e1c01c0e729863b5ed45c48c7105"
+      ],
+      "value": true,
+      "expiresAt": 1792357376918
+    },
+    "[\"factor\",\"topic\",\"981c1850916749129927fc657cfa32dc45e9e1c01c0e729863b5ed45c48c7105\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "981c1850916749129927fc657cfa32dc45e9e1c01c0e729863b5ed45c48c7105"
+      ],
+      "value": {
+        "title": "❕ Первый танкер с российской нефтью на мировой рынок уже был отгружен из порта Диксон, зая",
+        "roots": [
+          "первый",
+          "танкер",
+          "россий",
+          "нефтью",
+          "мирово",
+          "рынок",
+          "отгруж",
+          "порта",
+          "диксон"
+        ]
+      },
+      "expiresAt": 1792357376919
+    },
+    "[\"factor\",\"texthash\",\"5c0b7db371779039722ddcdf4fe3756c5857d5629d07d077680497d750b620c0\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "5c0b7db371779039722ddcdf4fe3756c5857d5629d07d077680497d750b620c0"
+      ],
+      "value": true,
+      "expiresAt": 1792357376920
     }
   }
 }
