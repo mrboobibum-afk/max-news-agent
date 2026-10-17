@@ -17,37 +17,6 @@
       "value": 1792210831509,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"ca6e7016c80682fb9ffdabf753f9ef4fab4782b3ca9248678dda79d8735f1ea6\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "ca6e7016c80682fb9ffdabf753f9ef4fab4782b3ca9248678dda79d8735f1ea6"
-      ],
-      "value": true,
-      "expiresAt": 1792210861448
-    },
-    "[\"factor\",\"topic\",\"ca6e7016c80682fb9ffdabf753f9ef4fab4782b3ca9248678dda79d8735f1ea6\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "ca6e7016c80682fb9ffdabf753f9ef4fab4782b3ca9248678dda79d8735f1ea6"
-      ],
-      "value": {
-        "title": "✈️ Финляндия ограничила полеты над восточной частью Финского залива, Причины введения подо",
-        "roots": [
-          "финлян",
-          "ограни",
-          "полеты",
-          "восточ",
-          "частью",
-          "финско",
-          "залива",
-          "причин",
-          "введен"
-        ]
-      },
-      "expiresAt": 1792210861449
-    },
     "[\"factor\",\"pub\",\"2446aca4fcf58a29724ab5fad1370419163a36dd53649a77efa6b1e1c689b167\"]": {
       "key": [
         "factor",
