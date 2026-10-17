@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 201586,
+      "value": 288955,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792228233206,
+      "value": 1792228832797,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"0f717a74c29353e49a33e95b3af67e797f7af2319a2776a87f05984eadd42a59\"]": {
@@ -2916,6 +2916,37 @@
         ]
       },
       "expiresAt": 1792314654003
+    },
+    "[\"factor\",\"pub\",\"6bdf8467f3b9cf7f761f45f0dacb63d1f3955e49a47c218857d10cd93624a558\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "6bdf8467f3b9cf7f761f45f0dacb63d1f3955e49a47c218857d10cd93624a558"
+      ],
+      "value": true,
+      "expiresAt": 1792315394344
+    },
+    "[\"factor\",\"topic\",\"6bdf8467f3b9cf7f761f45f0dacb63d1f3955e49a47c218857d10cd93624a558\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "6bdf8467f3b9cf7f761f45f0dacb63d1f3955e49a47c218857d10cd93624a558"
+      ],
+      "value": {
+        "title": "Египет готов принять любые меры для защиты Саудовской Аравии, если поступит соответствующи",
+        "roots": [
+          "египет",
+          "готов",
+          "принят",
+          "любые",
+          "защиты",
+          "саудов",
+          "аравии",
+          "поступ",
+          "соотве"
+        ]
+      },
+      "expiresAt": 1792315394346
     }
   }
 }
