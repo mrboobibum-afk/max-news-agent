@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 850694,
+      "value": 308587,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792222250506,
+      "value": 1792223436240,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"04aeb9659aeb40ab0d3d3abb9ceae23e24f98aea5d489477c9ac9d08cfad6083\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "04aeb9659aeb40ab0d3d3abb9ceae23e24f98aea5d489477c9ac9d08cfad6083"
-      ],
-      "value": true,
-      "expiresAt": 1792222851545
-    },
-    "[\"factor\",\"topic\",\"04aeb9659aeb40ab0d3d3abb9ceae23e24f98aea5d489477c9ac9d08cfad6083\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "04aeb9659aeb40ab0d3d3abb9ceae23e24f98aea5d489477c9ac9d08cfad6083"
-      ],
-      "value": {
-        "title": "Крупнейшие алкогольные ретейлеры России начали сокращать число магазинов после активного р",
-        "roots": [
-          "крупне",
-          "алкого",
-          "ретейл",
-          "россии",
-          "начали",
-          "сокращ",
-          "число",
-          "магази",
-          "активн"
-        ]
-      },
-      "expiresAt": 1792222851546
     },
     "[\"factor\",\"pub\",\"bd59a29003ceb2eab6730dfb94ad37d254f46ff3461f65f7c05981ba022b8642\"]": {
       "key": [
@@ -2880,6 +2849,36 @@
         ]
       },
       "expiresAt": 1792308805955
+    },
+    "[\"factor\",\"pub\",\"4a418eb4fad7addcadf582db52120f1e00d77a3d36de8afd665280ac82c0af00\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4a418eb4fad7addcadf582db52120f1e00d77a3d36de8afd665280ac82c0af00"
+      ],
+      "value": true,
+      "expiresAt": 1792310058184
+    },
+    "[\"factor\",\"topic\",\"4a418eb4fad7addcadf582db52120f1e00d77a3d36de8afd665280ac82c0af00\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4a418eb4fad7addcadf582db52120f1e00d77a3d36de8afd665280ac82c0af00"
+      ],
+      "value": {
+        "title": "Факты пыток российских пленных на Украине потребовал изучить Мирошник",
+        "roots": [
+          "факты",
+          "пыток",
+          "россий",
+          "пленны",
+          "украин",
+          "потреб",
+          "изучит",
+          "мирошн"
+        ]
+      },
+      "expiresAt": 1792310058185
     }
   }
 }
