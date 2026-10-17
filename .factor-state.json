@@ -2399,44 +2399,7 @@
         "a28a43af419893acab30542a912a240b846220e845d1305a15fd23b1dd306f35"
       ],
       "value": true,
-      "expiresAt": 1792362873359
-    },
-    "[\"factor\",\"topic\",\"a28a43af419893acab30542a912a240b846220e845d1305a15fd23b1dd306f35\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "a28a43af419893acab30542a912a240b846220e845d1305a15fd23b1dd306f35"
-      ],
-      "value": {
-        "title": "▶️ Потеря Алексеево-Дружковки и Доброполья болезненна для ВСУ, заявил в интервью ТАСС Пуши",
-        "roots": [
-          "потеря",
-          "алексе",
-          "дружко",
-          "доброп",
-          "болезн",
-          "интерв"
-        ]
-      },
-      "expiresAt": 1792362873360
-    },
-    "[\"factor\",\"texthash\",\"6b72d671525c8f6f22a37e49db443a1f632f95b74ce787902a244174ef4ac7d4\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "6b72d671525c8f6f22a37e49db443a1f632f95b74ce787902a244174ef4ac7d4"
-      ],
-      "value": true,
-      "expiresAt": 1792362873361
-    },
-    "[\"factor\",\"pub\",\"441fff36221aefb6b5737dacb947a9d1bb2b561ef36877a4a6122e5fecbf539b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "441fff36221aefb6b5737dacb947a9d1bb2b561ef36877a4a6122e5fecbf539b"
-      ],
-      "value": true,
-      "expiresAt": 1792364145093
+      "expiresAt": 1792363525195
     },
     "[\"factor\",\"topic\",\"441fff36221aefb6b5737dacb947a9d1bb2b561ef36877a4a6122e5fecbf539b\"]": {
       "key": [
