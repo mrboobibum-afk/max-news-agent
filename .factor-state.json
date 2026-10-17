@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 215763,
+      "value": 531375,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792277765966,
+      "value": 1792278961159,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"070a6459c0f37cc877f68ffa240f3bcbd02101a5560e80e8170cb9fbb3075bb3\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "070a6459c0f37cc877f68ffa240f3bcbd02101a5560e80e8170cb9fbb3075bb3"
-      ],
-      "value": true,
-      "expiresAt": 1792278146924
-    },
-    "[\"factor\",\"topic\",\"070a6459c0f37cc877f68ffa240f3bcbd02101a5560e80e8170cb9fbb3075bb3\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "070a6459c0f37cc877f68ffa240f3bcbd02101a5560e80e8170cb9fbb3075bb3"
-      ],
-      "value": {
-        "title": "▶️ Детский прожиточный минимум необходимо увеличить, сейчас его размер недостаточный для у",
-        "roots": [
-          "детски",
-          "прожит",
-          "миниму",
-          "необхо",
-          "увелич",
-          "сейчас",
-          "размер",
-          "недост"
-        ]
-      },
-      "expiresAt": 1792278146925
     },
     "[\"factor\",\"pub\",\"cf1a201f8dd98647cf89d94bc444c869abe02c18b8f4703dd4a7f48af8b79d4d\"]": {
       "key": [
@@ -2494,6 +2464,45 @@
       ],
       "value": true,
       "expiresAt": 1792364909600
+    },
+    "[\"factor\",\"pub\",\"829442445e69215cdc7c99ed695f1a9dbfeb51eae118280a161d2f8b993b9fcb\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "829442445e69215cdc7c99ed695f1a9dbfeb51eae118280a161d2f8b993b9fcb"
+      ],
+      "value": true,
+      "expiresAt": 1792365608487
+    },
+    "[\"factor\",\"topic\",\"829442445e69215cdc7c99ed695f1a9dbfeb51eae118280a161d2f8b993b9fcb\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "829442445e69215cdc7c99ed695f1a9dbfeb51eae118280a161d2f8b993b9fcb"
+      ],
+      "value": {
+        "title": "Леопард, зебра и снежный барс: почему анималистичные шубы стали главным хитом",
+        "roots": [
+          "леопар",
+          "зебра",
+          "снежны",
+          "почему",
+          "анимал",
+          "стали",
+          "главны",
+          "хитом"
+        ]
+      },
+      "expiresAt": 1792365608488
+    },
+    "[\"factor\",\"texthash\",\"564d1637c36b1dcf06e6e2097b4755cd6007a148e799b11ccf98c57e40ab48fd\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "564d1637c36b1dcf06e6e2097b4755cd6007a148e799b11ccf98c57e40ab48fd"
+      ],
+      "value": true,
+      "expiresAt": 1792365608489
     }
   }
 }
