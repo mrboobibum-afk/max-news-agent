@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 505519,
+      "value": 793688,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792213264096,
+      "value": 1792213832298,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"a70930167b5822426b6d08a7d3bad5f44ebee6e79289e44c9893bb1a879b4b3a\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "a70930167b5822426b6d08a7d3bad5f44ebee6e79289e44c9893bb1a879b4b3a"
-      ],
-      "value": true,
-      "expiresAt": 1792213744522
-    },
-    "[\"factor\",\"topic\",\"a70930167b5822426b6d08a7d3bad5f44ebee6e79289e44c9893bb1a879b4b3a\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "a70930167b5822426b6d08a7d3bad5f44ebee6e79289e44c9893bb1a879b4b3a"
-      ],
-      "value": {
-        "title": "❗️ ВС РФ ночью поразили логистический центр \"Блум\" в Теплодаре Одесской области, используе",
-        "roots": [
-          "ночью",
-          "порази",
-          "логист",
-          "центр",
-          "теплод",
-          "одесск",
-          "област",
-          "исполь"
-        ]
-      },
-      "expiresAt": 1792213744523
     },
     "[\"factor\",\"pub\",\"6c1284d22570e0b7a1e2948aa2b1b34dc835aabe45f59b4072592943ccdfbd52\"]": {
       "key": [
@@ -2879,6 +2849,33 @@
         ]
       },
       "expiresAt": 1792299823456
+    },
+    "[\"factor\",\"pub\",\"2ad087a14719b30250562d4675316394849eac05ba48a2fb043134ffcc6ecaf3\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "2ad087a14719b30250562d4675316394849eac05ba48a2fb043134ffcc6ecaf3"
+      ],
+      "value": true,
+      "expiresAt": 1792300376549
+    },
+    "[\"factor\",\"topic\",\"2ad087a14719b30250562d4675316394849eac05ba48a2fb043134ffcc6ecaf3\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "2ad087a14719b30250562d4675316394849eac05ba48a2fb043134ffcc6ecaf3"
+      ],
+      "value": {
+        "title": "Депутат Гаврилов назвал способы афер с дачами",
+        "roots": [
+          "депута",
+          "гаврил",
+          "назвал",
+          "способ",
+          "дачами"
+        ]
+      },
+      "expiresAt": 1792300376550
     }
   }
 }
