@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 359524,
+      "value": 714834,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792245033641,
+      "value": 1792245662911,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"4db1c896d207bfac3c3c29fd188efb4128713a939f6715539bdee832314f73d6\"]": {
@@ -2820,6 +2820,34 @@
         ]
       },
       "expiresAt": 1792331711756
+    },
+    "[\"factor\",\"pub\",\"beef222986f808132e55ff3d149c6ccca6521981a18e66be9f573f058d9a6afa\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "beef222986f808132e55ff3d149c6ccca6521981a18e66be9f573f058d9a6afa"
+      ],
+      "value": true,
+      "expiresAt": 1792332537312
+    },
+    "[\"factor\",\"topic\",\"beef222986f808132e55ff3d149c6ccca6521981a18e66be9f573f058d9a6afa\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "beef222986f808132e55ff3d149c6ccca6521981a18e66be9f573f058d9a6afa"
+      ],
+      "value": {
+        "title": "▶️ Зеленский является лживым псевдоруководителем, неспособным договариваться, заявил в инт",
+        "roots": [
+          "зеленс",
+          "являет",
+          "лживым",
+          "псевдо",
+          "неспос",
+          "догова"
+        ]
+      },
+      "expiresAt": 1792332537314
     }
   }
 }
