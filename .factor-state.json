@@ -2492,42 +2492,42 @@
         "fa81e84dfe53c0991cc84db10ace92d300199749baabad4998c6d970f5197e99"
       ],
       "value": true,
-      "expiresAt": 1792349256795
+      "expiresAt": 1792350056352
     },
-    "[\"factor\",\"pub\",\"db39f580ee1a7b66d39497a6b9d6e13a5320038d31066e86edc1d88b23359bff\"]": {
+    "[\"factor\",\"pub\",\"f406024046cf7f4cba60b7bb21e8722eda6bfbd28996e594a76f51a5b0321cea\"]": {
       "key": [
         "factor",
         "pub",
-        "db39f580ee1a7b66d39497a6b9d6e13a5320038d31066e86edc1d88b23359bff"
+        "f406024046cf7f4cba60b7bb21e8722eda6bfbd28996e594a76f51a5b0321cea"
       ],
       "value": true,
-      "expiresAt": 1792350675485
+      "expiresAt": 1792351646795
     },
-    "[\"factor\",\"topic\",\"db39f580ee1a7b66d39497a6b9d6e13a5320038d31066e86edc1d88b23359bff\"]": {
+    "[\"factor\",\"topic\",\"f406024046cf7f4cba60b7bb21e8722eda6bfbd28996e594a76f51a5b0321cea\"]": {
       "key": [
         "factor",
         "topic",
-        "db39f580ee1a7b66d39497a6b9d6e13a5320038d31066e86edc1d88b23359bff"
+        "f406024046cf7f4cba60b7bb21e8722eda6bfbd28996e594a76f51a5b0321cea"
       ],
       "value": {
-        "title": "▶️ Несогласованную демонстрацию вблизи Елисейского дворца в Париже разогнали, сообщил теле",
+        "title": "На западе Украины взлетели цены на аренду квартир из-за переселенцев из Киева",
         "roots": [
-          "несогл",
-          "демонс",
-          "вблизи",
-          "елисей",
-          "дворца",
-          "париже",
-          "разогн"
+          "западе",
+          "украин",
+          "взлете",
+          "аренду",
+          "кварти",
+          "пересе",
+          "киева"
         ]
       },
-      "expiresAt": 1792350675486
+      "expiresAt": 1792351646796
     },
-    "[\"factor\",\"texthash\",\"4e436fb4496cfa1642ffefea89b6288ea94048103c76d99bde217899653c2eba\"]": {
+    "[\"factor\",\"texthash\",\"76ea3e8b51abcffb22c1bac58e6088637b04b53ef04bd3ce0b45af11c7fa9ecc\"]": {
       "key": [
         "factor",
         "texthash",
-        "4e436fb4496cfa1642ffefea89b6288ea94048103c76d99bde217899653c2eba"
+        "76ea3e8b51abcffb22c1bac58e6088637b04b53ef04bd3ce0b45af11c7fa9ecc"
       ],
       "value": true,
       "expiresAt": 1792350675487
