@@ -17,33 +17,6 @@
       "value": 1792219236935,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"1949b64d49cda68d5c66ac45f72e70d8fd67078ca32703d4c1bc5506e4fb7f67\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "1949b64d49cda68d5c66ac45f72e70d8fd67078ca32703d4c1bc5506e4fb7f67"
-      ],
-      "value": true,
-      "expiresAt": 1792219264214
-    },
-    "[\"factor\",\"topic\",\"1949b64d49cda68d5c66ac45f72e70d8fd67078ca32703d4c1bc5506e4fb7f67\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "1949b64d49cda68d5c66ac45f72e70d8fd67078ca32703d4c1bc5506e4fb7f67"
-      ],
-      "value": {
-        "title": "◻️ ◻️ ◻️ Главные новости — в утреннем выпуске на телеканале РБК: ▪️ 00:00-00:46 — Смертель",
-        "roots": [
-          "главны",
-          "утренн",
-          "выпуск",
-          "телека",
-          "смерте"
-        ]
-      },
-      "expiresAt": 1792219264485
-    },
     "[\"factor\",\"pub\",\"8023d84f4851df4f31f88f6a2a8823f9d23251050eba3026f9cebc7efe07f5dc\"]": {
       "key": [
         "factor",
