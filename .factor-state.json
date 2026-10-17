@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 225614,
+      "value": 215763,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792276496750,
+      "value": 1792277765966,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"16a16586cc0e18847082dfb867316cb924442fa34b5af796c98f692933aa4134\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "16a16586cc0e18847082dfb867316cb924442fa34b5af796c98f692933aa4134"
-      ],
-      "value": true,
-      "expiresAt": 1792277598594
-    },
-    "[\"factor\",\"topic\",\"16a16586cc0e18847082dfb867316cb924442fa34b5af796c98f692933aa4134\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "16a16586cc0e18847082dfb867316cb924442fa34b5af796c98f692933aa4134"
-      ],
-      "value": {
-        "title": "▶️ Индии интересен опыт России в развитии органического сельского хозяйства, заявил ТАСС в",
-        "roots": [
-          "индии",
-          "интере",
-          "россии",
-          "развит",
-          "органи",
-          "сельск",
-          "хозяйс"
-        ]
-      },
-      "expiresAt": 1792277598595
     },
     "[\"factor\",\"pub\",\"070a6459c0f37cc877f68ffa240f3bcbd02101a5560e80e8170cb9fbb3075bb3\"]": {
       "key": [
@@ -2458,43 +2429,6 @@
         "a28a43af419893acab30542a912a240b846220e845d1305a15fd23b1dd306f35"
       ],
       "value": true,
-      "expiresAt": 1792362873359
-    },
-    "[\"factor\",\"topic\",\"a28a43af419893acab30542a912a240b846220e845d1305a15fd23b1dd306f35\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "a28a43af419893acab30542a912a240b846220e845d1305a15fd23b1dd306f35"
-      ],
-      "value": {
-        "title": "▶️ Потеря Алексеево-Дружковки и Доброполья болезненна для ВСУ, заявил в интервью ТАСС Пуши",
-        "roots": [
-          "потеря",
-          "алексе",
-          "дружко",
-          "доброп",
-          "болезн",
-          "интерв"
-        ]
-      },
-      "expiresAt": 1792362873360
-    },
-    "[\"factor\",\"texthash\",\"6b72d671525c8f6f22a37e49db443a1f632f95b74ce787902a244174ef4ac7d4\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "6b72d671525c8f6f22a37e49db443a1f632f95b74ce787902a244174ef4ac7d4"
-      ],
-      "value": true,
-      "expiresAt": 1792361979316
-    },
-    "[\"factor\",\"pub\",\"a28a43af419893acab30542a912a240b846220e845d1305a15fd23b1dd306f35\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "a28a43af419893acab30542a912a240b846220e845d1305a15fd23b1dd306f35"
-      ],
-      "value": true,
       "expiresAt": 1792363525195
     },
     "[\"factor\",\"topic\",\"a28a43af419893acab30542a912a240b846220e845d1305a15fd23b1dd306f35\"]": {
@@ -2524,6 +2458,43 @@
       ],
       "value": true,
       "expiresAt": 1792363525197
+    },
+    "[\"factor\",\"pub\",\"71cd4ef82725c75e6abda09e8aa10ec4ddc0351717c09899544ed24fc421b790\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "71cd4ef82725c75e6abda09e8aa10ec4ddc0351717c09899544ed24fc421b790"
+      ],
+      "value": true,
+      "expiresAt": 1792364909598
+    },
+    "[\"factor\",\"topic\",\"71cd4ef82725c75e6abda09e8aa10ec4ddc0351717c09899544ed24fc421b790\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "71cd4ef82725c75e6abda09e8aa10ec4ddc0351717c09899544ed24fc421b790"
+      ],
+      "value": {
+        "title": "Новак заявил об отсутствии проблем с продажей российской нефти",
+        "roots": [
+          "новак",
+          "отсутс",
+          "пробле",
+          "продаж",
+          "россий",
+          "нефти"
+        ]
+      },
+      "expiresAt": 1792364909599
+    },
+    "[\"factor\",\"texthash\",\"74509988cd19f8ebd2600ccfc3b084c15eab9413a9215a74146ef7b9ddfd480d\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "74509988cd19f8ebd2600ccfc3b084c15eab9413a9215a74146ef7b9ddfd480d"
+      ],
+      "value": true,
+      "expiresAt": 1792364909600
     }
   }
 }
