@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 766655,
+      "value": 638146,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,61 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792254444332,
+      "value": 1792255913203,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"45ae2045472024123f870fcfe17b2fc7b6badf9a87ae100e75034d9e774e1492\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "45ae2045472024123f870fcfe17b2fc7b6badf9a87ae100e75034d9e774e1492"
-      ],
-      "value": true,
-      "expiresAt": 1792255312646
-    },
-    "[\"factor\",\"topic\",\"45ae2045472024123f870fcfe17b2fc7b6badf9a87ae100e75034d9e774e1492\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "45ae2045472024123f870fcfe17b2fc7b6badf9a87ae100e75034d9e774e1492"
-      ],
-      "value": {
-        "title": "❗️ Освобождена Алексеево-Дружковка в ДНР, сообщил Герасимов",
-        "roots": [
-          "освобо",
-          "алексе",
-          "дружко",
-          "гераси"
-        ]
-      },
-      "expiresAt": 1792255312646
-    },
-    "[\"factor\",\"pub\",\"6ea999a5785e74c6fcfa1dfe82cb299349744f7626500b665ec45c3e9c7a5b86\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "6ea999a5785e74c6fcfa1dfe82cb299349744f7626500b665ec45c3e9c7a5b86"
-      ],
-      "value": true,
-      "expiresAt": 1792255865368
-    },
-    "[\"factor\",\"topic\",\"6ea999a5785e74c6fcfa1dfe82cb299349744f7626500b665ec45c3e9c7a5b86\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "6ea999a5785e74c6fcfa1dfe82cb299349744f7626500b665ec45c3e9c7a5b86"
-      ],
-      "value": {
-        "title": "Цена нефти Brent поднялась уже выше 107 долларов за баррель",
-        "roots": [
-          "нефти",
-          "brent",
-          "поднял",
-          "доллар",
-          "баррел"
-        ]
-      },
-      "expiresAt": 1792255865369
     },
     "[\"factor\",\"pub\",\"28222c3d2c636f312655ad817e1d40688b51cc9591110f0301ded3603b3d8caa\"]": {
       "key": [
@@ -2635,6 +2582,46 @@
         ]
       },
       "expiresAt": 1792341487595
+    },
+    "[\"factor\",\"pub\",\"76f483c05cc4a90adf248a977c5d1c1f6898b5864c166f2e46792c0d1185524b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "76f483c05cc4a90adf248a977c5d1c1f6898b5864c166f2e46792c0d1185524b"
+      ],
+      "value": true,
+      "expiresAt": 1792342812452
+    },
+    "[\"factor\",\"topic\",\"76f483c05cc4a90adf248a977c5d1c1f6898b5864c166f2e46792c0d1185524b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "76f483c05cc4a90adf248a977c5d1c1f6898b5864c166f2e46792c0d1185524b"
+      ],
+      "value": {
+        "title": "Минимум 17 человек погибли из-за давки на религиозном празднике Дурга-пуджа в индийской Ка",
+        "roots": [
+          "миниму",
+          "челове",
+          "погибл",
+          "давки",
+          "религи",
+          "праздн",
+          "дурга",
+          "пуджа",
+          "индийс"
+        ]
+      },
+      "expiresAt": 1792342812453
+    },
+    "[\"factor\",\"texthash\",\"48b3126f9bae0b3d7829d4c6bcb6f2797d861fdd34bf8cb9ff441404dd9c0a72\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "48b3126f9bae0b3d7829d4c6bcb6f2797d861fdd34bf8cb9ff441404dd9c0a72"
+      ],
+      "value": true,
+      "expiresAt": 1792342812454
     }
   }
 }
