@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 877139,
+      "value": 776653,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,97 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792239037270,
+      "value": 1792241058694,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"45ce79e15ea656240e5b10b159cc8b31d0e049a4714025a3d90dd90e28e9408d\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "45ce79e15ea656240e5b10b159cc8b31d0e049a4714025a3d90dd90e28e9408d"
-      ],
-      "value": true,
-      "expiresAt": 1792239716032
-    },
-    "[\"factor\",\"topic\",\"45ce79e15ea656240e5b10b159cc8b31d0e049a4714025a3d90dd90e28e9408d\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "45ce79e15ea656240e5b10b159cc8b31d0e049a4714025a3d90dd90e28e9408d"
-      ],
-      "value": {
-        "title": "Предоставление связи ВСУ ранее было ограничено по указанию Белого дома, утверждает Reuters",
-        "roots": [
-          "предос",
-          "связи",
-          "ранее",
-          "ограни",
-          "указан",
-          "белого",
-          "утверж",
-          "reuter"
-        ]
-      },
-      "expiresAt": 1792239716033
-    },
-    "[\"factor\",\"pub\",\"60dab0b22099a82e5378b72ed3ac1d53c7c978ed2621561860c1c6ba0d63ef4e\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "60dab0b22099a82e5378b72ed3ac1d53c7c978ed2621561860c1c6ba0d63ef4e"
-      ],
-      "value": true,
-      "expiresAt": 1792240406603
-    },
-    "[\"factor\",\"topic\",\"60dab0b22099a82e5378b72ed3ac1d53c7c978ed2621561860c1c6ba0d63ef4e\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "60dab0b22099a82e5378b72ed3ac1d53c7c978ed2621561860c1c6ba0d63ef4e"
-      ],
-      "value": {
-        "title": "▶️ Один человек погиб, четверо пострадали в массовом ДТП в Тюмени, где столкнулись четыре ",
-        "roots": [
-          "челове",
-          "погиб",
-          "четвер",
-          "постра",
-          "массов",
-          "тюмени",
-          "столкн",
-          "четыре"
-        ]
-      },
-      "expiresAt": 1792240406604
-    },
-    "[\"factor\",\"pub\",\"96f028d716ae830a6e04cc0ba8d3f803cf8e0c23c0ba4c21e3a59af10b666adb\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "96f028d716ae830a6e04cc0ba8d3f803cf8e0c23c0ba4c21e3a59af10b666adb"
-      ],
-      "value": true,
-      "expiresAt": 1792240886753
-    },
-    "[\"factor\",\"topic\",\"96f028d716ae830a6e04cc0ba8d3f803cf8e0c23c0ba4c21e3a59af10b666adb\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "96f028d716ae830a6e04cc0ba8d3f803cf8e0c23c0ba4c21e3a59af10b666adb"
-      ],
-      "value": {
-        "title": "Операцию по трансплантации спинного мозга впервые провели в России",
-        "roots": [
-          "операц",
-          "трансп",
-          "спинно",
-          "мозга",
-          "впервы",
-          "провел",
-          "россии"
-        ]
-      },
-      "expiresAt": 1792240886755
     },
     "[\"factor\",\"pub\",\"a9729a6bc982e22978ac4110364363de8b79a1069e25d3c5539bf03b2c3c1a3b\"]": {
       "key": [
@@ -2966,6 +2877,36 @@
         ]
       },
       "expiresAt": 1792325608417
+    },
+    "[\"factor\",\"pub\",\"421654349879afaf42e188ad50e13e2440f76e5db18967ddf1e3466e094378da\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "421654349879afaf42e188ad50e13e2440f76e5db18967ddf1e3466e094378da"
+      ],
+      "value": true,
+      "expiresAt": 1792328427224
+    },
+    "[\"factor\",\"topic\",\"421654349879afaf42e188ad50e13e2440f76e5db18967ddf1e3466e094378da\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "421654349879afaf42e188ad50e13e2440f76e5db18967ddf1e3466e094378da"
+      ],
+      "value": {
+        "title": "▶️ 40 человек задержаны в Париже и его пригородах перед началом массовых демонстраций прот",
+        "roots": [
+          "челове",
+          "задерж",
+          "париже",
+          "пригор",
+          "перед",
+          "начало",
+          "массов",
+          "демонс"
+        ]
+      },
+      "expiresAt": 1792328427225
     }
   }
 }
