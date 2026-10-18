@@ -17,42 +17,6 @@
       "value": 1792354835862,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"10da6338965d9e53c433bf8c124aab1dee566b7abc4ba50f1e62f424eb29805f\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "10da6338965d9e53c433bf8c124aab1dee566b7abc4ba50f1e62f424eb29805f"
-      ],
-      "value": true,
-      "expiresAt": 1792360751500
-    },
-    "[\"factor\",\"topic\",\"10da6338965d9e53c433bf8c124aab1dee566b7abc4ba50f1e62f424eb29805f\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "10da6338965d9e53c433bf8c124aab1dee566b7abc4ba50f1e62f424eb29805f"
-      ],
-      "value": {
-        "title": "Блогер Иван Золо был задержан силовиками на концерте в Донецке ",
-        "roots": [
-          "блогер",
-          "задерж",
-          "силови",
-          "концер",
-          "донецк"
-        ]
-      },
-      "expiresAt": 1792360751502
-    },
-    "[\"factor\",\"texthash\",\"4abb64e9e7dfb611e9abaa70b258b87524f6d34825672367a80137d32229ff0f\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "4abb64e9e7dfb611e9abaa70b258b87524f6d34825672367a80137d32229ff0f"
-      ],
-      "value": true,
-      "expiresAt": 1792360751503
-    },
     "[\"factor\",\"pub\",\"a28a43af419893acab30542a912a240b846220e845d1305a15fd23b1dd306f35\"]": {
       "key": [
         "factor",
