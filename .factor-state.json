@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 191740,
+      "value": 264764,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792288231734,
+      "value": 1792288860644,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"d29a0a14c79de8969036e873ae561d8fb9af5929585b0935af8d6cff7d9154a2\"]": {
@@ -2591,6 +2591,45 @@
       ],
       "value": true,
       "expiresAt": 1792374949182
+    },
+    "[\"factor\",\"pub\",\"2d72f12c75e452b6a79c4b316d1768e3344df05f5b4b4d2d61d3ec54936c2cd3\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "2d72f12c75e452b6a79c4b316d1768e3344df05f5b4b4d2d61d3ec54936c2cd3"
+      ],
+      "value": true,
+      "expiresAt": 1792375401613
+    },
+    "[\"factor\",\"topic\",\"2d72f12c75e452b6a79c4b316d1768e3344df05f5b4b4d2d61d3ec54936c2cd3\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "2d72f12c75e452b6a79c4b316d1768e3344df05f5b4b4d2d61d3ec54936c2cd3"
+      ],
+      "value": {
+        "title": "▶️ Трамп следует интересам США, налаживая взаимоотношения с Россией, заявил Денис Пушилин ",
+        "roots": [
+          "трамп",
+          "следуе",
+          "интере",
+          "налажи",
+          "взаимо",
+          "россие",
+          "денис",
+          "пушили"
+        ]
+      },
+      "expiresAt": 1792375401615
+    },
+    "[\"factor\",\"texthash\",\"6d2e4cacefe7e314606ddf3c0f26d5fe9deacaf9fb2a8e340d9beecd22541096\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "6d2e4cacefe7e314606ddf3c0f26d5fe9deacaf9fb2a8e340d9beecd22541096"
+      ],
+      "value": true,
+      "expiresAt": 1792375401616
     }
   }
 }
