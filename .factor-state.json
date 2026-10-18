@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 797530,
+      "value": 190834,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792300832187,
+      "value": 1792302036366,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"b39dd1e9a43180e6d961ed6ac7b1a4d847a69156c523e7e9da3c51f55abec49e\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "b39dd1e9a43180e6d961ed6ac7b1a4d847a69156c523e7e9da3c51f55abec49e"
-      ],
-      "value": true,
-      "expiresAt": 1792301577619
-    },
-    "[\"factor\",\"topic\",\"b39dd1e9a43180e6d961ed6ac7b1a4d847a69156c523e7e9da3c51f55abec49e\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "b39dd1e9a43180e6d961ed6ac7b1a4d847a69156c523e7e9da3c51f55abec49e"
-      ],
-      "value": {
-        "title": "❕ ВС РФ поразили \"Запорожтрансформатор\", осуществляющий выпуск силовых масляных трансформа",
-        "roots": [
-          "порази",
-          "запоро",
-          "осущес",
-          "выпуск",
-          "силовы",
-          "маслян",
-          "трансф"
-        ]
-      },
-      "expiresAt": 1792301577621
     },
     "[\"factor\",\"pub\",\"6c2944979e2e6e893bfdcb7f9c148a35ab26b3876f39305aa97029260ab335b2\"]": {
       "key": [
@@ -2533,6 +2504,47 @@
       ],
       "value": true,
       "expiresAt": 1792387531635
+    },
+    "[\"factor\",\"pub\",\"082941dcad34f1660ba2a87345ff10bfb3c55d577539a35e917c7627daf6cbcb\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "082941dcad34f1660ba2a87345ff10bfb3c55d577539a35e917c7627daf6cbcb"
+      ],
+      "value": true,
+      "expiresAt": 1792389617610
+    },
+    "[\"factor\",\"topic\",\"082941dcad34f1660ba2a87345ff10bfb3c55d577539a35e917c7627daf6cbcb\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "082941dcad34f1660ba2a87345ff10bfb3c55d577539a35e917c7627daf6cbcb"
+      ],
+      "value": {
+        "title": "Герои в белых халатах 🔹 Врачи передовой группы 341-го медбата ежедневно спасают жизни наш",
+        "roots": [
+          "герои",
+          "белых",
+          "халата",
+          "врачи",
+          "передо",
+          "группы",
+          "медбат",
+          "ежедне",
+          "спасаю",
+          "жизни"
+        ]
+      },
+      "expiresAt": 1792389617611
+    },
+    "[\"factor\",\"texthash\",\"559b6938a0a95e6d6ad2ef72a70b12f9be66f065d372e403899ee4d3441abe9c\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "559b6938a0a95e6d6ad2ef72a70b12f9be66f065d372e403899ee4d3441abe9c"
+      ],
+      "value": true,
+      "expiresAt": 1792389617612
     }
   }
 }
