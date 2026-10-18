@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 276135,
+      "value": 431082,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,66 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792308745768,
+      "value": 1792310382966,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"fb272b8eba3e1edcf2185e97cf283edb101c899f31d95cc1dbd95aa8855a97e8\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "fb272b8eba3e1edcf2185e97cf283edb101c899f31d95cc1dbd95aa8855a97e8"
-      ],
-      "value": true,
-      "expiresAt": 1792308805954
-    },
-    "[\"factor\",\"topic\",\"fb272b8eba3e1edcf2185e97cf283edb101c899f31d95cc1dbd95aa8855a97e8\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "fb272b8eba3e1edcf2185e97cf283edb101c899f31d95cc1dbd95aa8855a97e8"
-      ],
-      "value": {
-        "title": "Врач погиб в Карелии, спеша на помощь семимесячному малышу",
-        "roots": [
-          "погиб",
-          "карели",
-          "спеша",
-          "помощь",
-          "семиме",
-          "малышу"
-        ]
-      },
-      "expiresAt": 1792308805955
-    },
-    "[\"factor\",\"pub\",\"4a418eb4fad7addcadf582db52120f1e00d77a3d36de8afd665280ac82c0af00\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "4a418eb4fad7addcadf582db52120f1e00d77a3d36de8afd665280ac82c0af00"
-      ],
-      "value": true,
-      "expiresAt": 1792310058184
-    },
-    "[\"factor\",\"topic\",\"4a418eb4fad7addcadf582db52120f1e00d77a3d36de8afd665280ac82c0af00\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "4a418eb4fad7addcadf582db52120f1e00d77a3d36de8afd665280ac82c0af00"
-      ],
-      "value": {
-        "title": "Факты пыток российских пленных на Украине потребовал изучить Мирошник",
-        "roots": [
-          "факты",
-          "пыток",
-          "россий",
-          "пленны",
-          "украин",
-          "потреб",
-          "изучит",
-          "мирошн"
-        ]
-      },
-      "expiresAt": 1792310058185
     },
     "[\"factor\",\"pub\",\"6360990ef0727b292d627aa1d50bb8cac0cad236f52f7756afb4dd28563e97ba\"]": {
       "key": [
@@ -2421,6 +2363,44 @@
       ],
       "value": true,
       "expiresAt": 1792395471924
+    },
+    "[\"factor\",\"pub\",\"304ab800723a28fb455b8f5c54394c7e51295177125daac41ad00e11d20323fc\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "304ab800723a28fb455b8f5c54394c7e51295177125daac41ad00e11d20323fc"
+      ],
+      "value": true,
+      "expiresAt": 1792397779184
+    },
+    "[\"factor\",\"topic\",\"304ab800723a28fb455b8f5c54394c7e51295177125daac41ad00e11d20323fc\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "304ab800723a28fb455b8f5c54394c7e51295177125daac41ad00e11d20323fc"
+      ],
+      "value": {
+        "title": "▶️ Мошенники используют несколько сценариев вовлечения подростков в преступления",
+        "roots": [
+          "мошенн",
+          "исполь",
+          "нескол",
+          "сценар",
+          "вовлеч",
+          "подрос",
+          "престу"
+        ]
+      },
+      "expiresAt": 1792397779185
+    },
+    "[\"factor\",\"texthash\",\"5b0e834addad9878a3cecee562747405dc88aa5b0bf895ad8d162944eaa0662e\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "5b0e834addad9878a3cecee562747405dc88aa5b0bf895ad8d162944eaa0662e"
+      ],
+      "value": true,
+      "expiresAt": 1792397779186
     }
   }
 }
