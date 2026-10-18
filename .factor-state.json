@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 3320118,
+      "value": 5028369,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792331435587,
+      "value": 1792335032604,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"7a7cc032eb62f11247d48fbfb0982aabf6cb844d0c1c0bb5b7b8ab5d22cc4733\"]": {
@@ -2019,6 +2019,46 @@
       ],
       "value": true,
       "expiresAt": 1792418093609
+    },
+    "[\"factor\",\"pub\",\"a8512d825dfa88158ad4d7176748d7d6b7e828fe6343e608d189aa5c0b332bc1\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "a8512d825dfa88158ad4d7176748d7d6b7e828fe6343e608d189aa5c0b332bc1"
+      ],
+      "value": true,
+      "expiresAt": 1792421756922
+    },
+    "[\"factor\",\"topic\",\"a8512d825dfa88158ad4d7176748d7d6b7e828fe6343e608d189aa5c0b332bc1\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "a8512d825dfa88158ad4d7176748d7d6b7e828fe6343e608d189aa5c0b332bc1"
+      ],
+      "value": {
+        "title": "Москвич отсудил у бывшей жены 14 млн рублей за ремонт квартиры на Арбате, которую та получ",
+        "roots": [
+          "москви",
+          "отсуди",
+          "бывшей",
+          "рублей",
+          "ремонт",
+          "кварти",
+          "арбате",
+          "котору",
+          "получ"
+        ]
+      },
+      "expiresAt": 1792421756923
+    },
+    "[\"factor\",\"texthash\",\"fddbf834c649a951a9a556c9d799656bcbce32da80fef868d29f5fe466008954\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "fddbf834c649a951a9a556c9d799656bcbce32da80fef868d29f5fe466008954"
+      ],
+      "value": true,
+      "expiresAt": 1792421756924
     }
   }
 }
