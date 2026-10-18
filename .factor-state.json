@@ -17,46 +17,6 @@
       "value": 1792354835862,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"c45bd32ddc81ea864a50737ccdb143bfaff49a149840f0316bfc22163020a725\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c45bd32ddc81ea864a50737ccdb143bfaff49a149840f0316bfc22163020a725"
-      ],
-      "value": true,
-      "expiresAt": 1792360103586
-    },
-    "[\"factor\",\"topic\",\"c45bd32ddc81ea864a50737ccdb143bfaff49a149840f0316bfc22163020a725\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c45bd32ddc81ea864a50737ccdb143bfaff49a149840f0316bfc22163020a725"
-      ],
-      "value": {
-        "title": "«В хоккей играют настоящие мужчины, а в следж-хоккей – в два раза больше» Адаптивный спорт",
-        "roots": [
-          "хоккей",
-          "играют",
-          "настоя",
-          "мужчин",
-          "следж",
-          "хоккей",
-          "больше",
-          "адапти",
-          "спорт"
-        ]
-      },
-      "expiresAt": 1792360103587
-    },
-    "[\"factor\",\"texthash\",\"b334d87cd1ddb8cbaee201b32749b4ef742a89fccd44ceea3e529319bd7b8c73\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "b334d87cd1ddb8cbaee201b32749b4ef742a89fccd44ceea3e529319bd7b8c73"
-      ],
-      "value": true,
-      "expiresAt": 1792360103588
-    },
     "[\"factor\",\"pub\",\"10da6338965d9e53c433bf8c124aab1dee566b7abc4ba50f1e62f424eb29805f\"]": {
       "key": [
         "factor",
