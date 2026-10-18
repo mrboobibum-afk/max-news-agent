@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 874688,
+      "value": 469505,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792283449599,
+      "value": 1792284632130,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"81b4b265002aea4af717a32509d1efabc85de3d3ccb8560d013cc59e1bf8892b\"]": {
@@ -2552,6 +2552,45 @@
       ],
       "value": true,
       "expiresAt": 1792369980485
+    },
+    "[\"factor\",\"pub\",\"17e5f70bc98dea2b94e8f8256fc69ac2e74f78a2236065506e8e6a9a6d414fe1\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "17e5f70bc98dea2b94e8f8256fc69ac2e74f78a2236065506e8e6a9a6d414fe1"
+      ],
+      "value": true,
+      "expiresAt": 1792371306916
+    },
+    "[\"factor\",\"topic\",\"17e5f70bc98dea2b94e8f8256fc69ac2e74f78a2236065506e8e6a9a6d414fe1\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "17e5f70bc98dea2b94e8f8256fc69ac2e74f78a2236065506e8e6a9a6d414fe1"
+      ],
+      "value": {
+        "title": "60 суток перемирия Украине нужно не для проведения выборов, а чтобы \"залечить раны\" и прод",
+        "roots": [
+          "суток",
+          "переми",
+          "украин",
+          "нужно",
+          "провед",
+          "выборо",
+          "чтобы",
+          "залечи"
+        ]
+      },
+      "expiresAt": 1792371306918
+    },
+    "[\"factor\",\"texthash\",\"db7f05a98eacdadc903442dc08c0a121e98683d85c8d510a83711cf3472bf599\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "db7f05a98eacdadc903442dc08c0a121e98683d85c8d510a83711cf3472bf599"
+      ],
+      "value": true,
+      "expiresAt": 1792371306919
     }
   }
 }
