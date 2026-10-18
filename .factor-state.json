@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 203227,
+      "value": 874688,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792282834306,
+      "value": 1792283449599,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"987407c4062c2ca8e65e9a0b8087549242932cdb33364c84a83763e34b01ec7f\"]": {
@@ -2545,6 +2545,45 @@
       ],
       "value": true,
       "expiresAt": 1792369485352
+    },
+    "[\"factor\",\"pub\",\"bb2239162267e4e9204a041ff43738f19bd7fdacb6f29c6ffe36915b43b13e6b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "bb2239162267e4e9204a041ff43738f19bd7fdacb6f29c6ffe36915b43b13e6b"
+      ],
+      "value": true,
+      "expiresAt": 1792369980483
+    },
+    "[\"factor\",\"topic\",\"bb2239162267e4e9204a041ff43738f19bd7fdacb6f29c6ffe36915b43b13e6b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "bb2239162267e4e9204a041ff43738f19bd7fdacb6f29c6ffe36915b43b13e6b"
+      ],
+      "value": {
+        "title": "Всемирный банк признает достижения России в цифровой сфере и предоставляет площадку для об",
+        "roots": [
+          "всемир",
+          "призна",
+          "достиж",
+          "россии",
+          "цифров",
+          "сфере",
+          "предос",
+          "площад"
+        ]
+      },
+      "expiresAt": 1792369980484
+    },
+    "[\"factor\",\"texthash\",\"af8c3ac02f5920453b182b97d709622cf4dcce2aaa184aca7395f668ce6ee6fc\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "af8c3ac02f5920453b182b97d709622cf4dcce2aaa184aca7395f668ce6ee6fc"
+      ],
+      "value": true,
+      "expiresAt": 1792369980485
     }
   }
 }
