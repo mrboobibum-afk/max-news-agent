@@ -2499,43 +2499,41 @@
         "0b9e6ac0d345c1ea17cc7678aec3e81edd707ad16c5119c9ae758ef91bb74788"
       ],
       "value": true,
-      "expiresAt": 1792382306893
+      "expiresAt": 1792383037513
     },
-    "[\"factor\",\"pub\",\"34f1b3723bfd5068e2cf8ac8f9bc2e0b86148b94764fd7e13ff76133d2affb02\"]": {
+    "[\"factor\",\"pub\",\"b6b4728d9433362cfc0f2caa3bd25d8192cf6492766fee74f85e18ac62d84fdf\"]": {
       "key": [
         "factor",
         "pub",
-        "34f1b3723bfd5068e2cf8ac8f9bc2e0b86148b94764fd7e13ff76133d2affb02"
+        "b6b4728d9433362cfc0f2caa3bd25d8192cf6492766fee74f85e18ac62d84fdf"
       ],
       "value": true,
-      "expiresAt": 1792383894678
+      "expiresAt": 1792384414052
     },
-    "[\"factor\",\"topic\",\"34f1b3723bfd5068e2cf8ac8f9bc2e0b86148b94764fd7e13ff76133d2affb02\"]": {
+    "[\"factor\",\"topic\",\"b6b4728d9433362cfc0f2caa3bd25d8192cf6492766fee74f85e18ac62d84fdf\"]": {
       "key": [
         "factor",
         "topic",
-        "34f1b3723bfd5068e2cf8ac8f9bc2e0b86148b94764fd7e13ff76133d2affb02"
+        "b6b4728d9433362cfc0f2caa3bd25d8192cf6492766fee74f85e18ac62d84fdf"
       ],
       "value": {
-        "title": "Инфаркт, деменция и COVID: как ваша группа крови влияет на риск опасных заболеваний",
+        "title": "🚨 Пять человек госпитализированы с подозрением на оспу обезьян в Петербурге, сообщает Рос",
         "roots": [
-          "инфарк",
-          "деменц",
-          "covid",
-          "группа",
-          "крови",
-          "влияет",
-          "опасны",
-          "заболе"
+          "челове",
+          "госпит",
+          "подозр",
+          "обезья",
+          "петерб",
+          "сообща"
         ]
       },
-      "expiresAt": 1792383894679
+      "expiresAt": 1792384414053
     },
-    "[\"factor\",\"texthash\",\"3e3fc219683758e5524df00bf7dca859fe7112c1fdd113df614eee42195852b4\"]": {
+    "[\"factor\",\"texthash\",\"7e1cb3fd4783f3e6b6fa8a53f876f7e19a48130b95190f46606fc9038e7538ce\"]": {
       "key": [
         "factor",
         "texthash",
-        "3e3fc219683758e5524df00bf7dca859fe7112c1fdd113df614eee42195852b4"
+        "7e1cb3fd4783f3e6b6fa8a53f876f7e19a48130b95190f46606fc9038e7538ce"
       ],
       "value": true,
       "expiresAt": 1792383894680
