@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 373708,
+      "value": 252390,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792297517614,
+      "value": 1792298734811,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"38398c8b8146ba18f3e99618529d5f54c68dd4b56a0158c4c7257c7569176983\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "38398c8b8146ba18f3e99618529d5f54c68dd4b56a0158c4c7257c7569176983"
-      ],
-      "value": true,
-      "expiresAt": 1792298599386
-    },
-    "[\"factor\",\"topic\",\"38398c8b8146ba18f3e99618529d5f54c68dd4b56a0158c4c7257c7569176983\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "38398c8b8146ba18f3e99618529d5f54c68dd4b56a0158c4c7257c7569176983"
-      ],
-      "value": {
-        "title": "В МВД назвали правила, которые помогут защитить телефон от взлома: 🔹 Поставить сложный ПИ",
-        "roots": [
-          "назвал",
-          "правил",
-          "которы",
-          "помогу",
-          "защити",
-          "телефо",
-          "взлома",
-          "постав",
-          "сложны"
-        ]
-      },
-      "expiresAt": 1792298599387
     },
     "[\"factor\",\"pub\",\"d94e6e2a2932f05af6625ca9fe9b6e4256d8398ec45d0d193df9aaa3679effbc\"]": {
       "key": [
@@ -2537,6 +2506,45 @@
       ],
       "value": true,
       "expiresAt": 1792384414108
+    },
+    "[\"factor\",\"pub\",\"f6250742c3ee9e0e96dbd62ef2d0a8461f74e0f2bb76f45a210a1bd716f73ee1\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "f6250742c3ee9e0e96dbd62ef2d0a8461f74e0f2bb76f45a210a1bd716f73ee1"
+      ],
+      "value": true,
+      "expiresAt": 1792385825903
+    },
+    "[\"factor\",\"topic\",\"f6250742c3ee9e0e96dbd62ef2d0a8461f74e0f2bb76f45a210a1bd716f73ee1\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "f6250742c3ee9e0e96dbd62ef2d0a8461f74e0f2bb76f45a210a1bd716f73ee1"
+      ],
+      "value": {
+        "title": "▶️ Расчет \"Молний\" ликвидировал украинских боевиков под Сумами, Видео: Минобороны России/Т",
+        "roots": [
+          "расчет",
+          "молний",
+          "ликвид",
+          "украин",
+          "боевик",
+          "сумами",
+          "минобо",
+          "россии"
+        ]
+      },
+      "expiresAt": 1792385825904
+    },
+    "[\"factor\",\"texthash\",\"b70d0246ae5cf7a147740e13838a25c48653a737c77a5fdf41480abad70e7699\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "b70d0246ae5cf7a147740e13838a25c48653a737c77a5fdf41480abad70e7699"
+      ],
+      "value": true,
+      "expiresAt": 1792385825905
     }
   }
 }
