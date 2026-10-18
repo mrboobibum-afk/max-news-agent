@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 718393,
+      "value": 542115,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,64 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792290651651,
+      "value": 1792292884629,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"c4b69243a64c613c2c7354a618546bea7ae98031db9db8a1e8242e46ca09c67f\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c4b69243a64c613c2c7354a618546bea7ae98031db9db8a1e8242e46ca09c67f"
-      ],
-      "value": true,
-      "expiresAt": 1792291606383
-    },
-    "[\"factor\",\"topic\",\"c4b69243a64c613c2c7354a618546bea7ae98031db9db8a1e8242e46ca09c67f\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c4b69243a64c613c2c7354a618546bea7ae98031db9db8a1e8242e46ca09c67f"
-      ],
-      "value": {
-        "title": "🚨 Нефтяной супертанкер подорвался на мине в Ормузском проливе",
-        "roots": [
-          "нефтян",
-          "суперт",
-          "подорв",
-          "ормузс",
-          "пролив"
-        ]
-      },
-      "expiresAt": 1792291606384
-    },
-    "[\"factor\",\"pub\",\"cbcbda2e0bab0917a00b44d8e8a3aa62913524ec1accdde50320af4d82162486\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "cbcbda2e0bab0917a00b44d8e8a3aa62913524ec1accdde50320af4d82162486"
-      ],
-      "value": true,
-      "expiresAt": 1792292593357
-    },
-    "[\"factor\",\"topic\",\"cbcbda2e0bab0917a00b44d8e8a3aa62913524ec1accdde50320af4d82162486\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "cbcbda2e0bab0917a00b44d8e8a3aa62913524ec1accdde50320af4d82162486"
-      ],
-      "value": {
-        "title": "В генконсульстве РФ подтвердили ТАСС, что суд в Индии обязал индийскую сторону принять сро",
-        "roots": [
-          "генкон",
-          "подтве",
-          "индии",
-          "обязал",
-          "индийс",
-          "сторон",
-          "принят"
-        ]
-      },
-      "expiresAt": 1792292593358
     },
     "[\"factor\",\"pub\",\"5d7ea3929f5ed3a8355c55df7052409921fbcb7050f110e82a7b694fd732e480\"]": {
       "key": [
@@ -2620,6 +2564,44 @@
       ],
       "value": true,
       "expiresAt": 1792377138215
+    },
+    "[\"factor\",\"pub\",\"3fea93e38ad1035bf7e5118a9efc8322f88083a79c79a853eb1b0fd5278e29f0\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "3fea93e38ad1035bf7e5118a9efc8322f88083a79c79a853eb1b0fd5278e29f0"
+      ],
+      "value": true,
+      "expiresAt": 1792380109601
+    },
+    "[\"factor\",\"topic\",\"3fea93e38ad1035bf7e5118a9efc8322f88083a79c79a853eb1b0fd5278e29f0\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "3fea93e38ad1035bf7e5118a9efc8322f88083a79c79a853eb1b0fd5278e29f0"
+      ],
+      "value": {
+        "title": "✈️ Пассажиры и сотрудники аэропорта Пулково переведены в безопасные места, сообщили в авиа",
+        "roots": [
+          "пассаж",
+          "сотруд",
+          "аэропо",
+          "пулков",
+          "переве",
+          "безопа",
+          "места"
+        ]
+      },
+      "expiresAt": 1792380109602
+    },
+    "[\"factor\",\"texthash\",\"ec0ee8c51f24a893d9a7f388f7474f6498713726e0bd4756cf79e2c27bdc129d\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "ec0ee8c51f24a893d9a7f388f7474f6498713726e0bd4756cf79e2c27bdc129d"
+      ],
+      "value": true,
+      "expiresAt": 1792380109603
     }
   }
 }
