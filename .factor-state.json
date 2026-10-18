@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 2229270,
+      "value": 5138897,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,48 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792340438048,
+      "value": 1792342863592,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"76f483c05cc4a90adf248a977c5d1c1f6898b5864c166f2e46792c0d1185524b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "76f483c05cc4a90adf248a977c5d1c1f6898b5864c166f2e46792c0d1185524b"
-      ],
-      "value": true,
-      "expiresAt": 1792342812452
-    },
-    "[\"factor\",\"topic\",\"76f483c05cc4a90adf248a977c5d1c1f6898b5864c166f2e46792c0d1185524b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "76f483c05cc4a90adf248a977c5d1c1f6898b5864c166f2e46792c0d1185524b"
-      ],
-      "value": {
-        "title": "Минимум 17 человек погибли из-за давки на религиозном празднике Дурга-пуджа в индийской Ка",
-        "roots": [
-          "миниму",
-          "челове",
-          "погибл",
-          "давки",
-          "религи",
-          "праздн",
-          "дурга",
-          "пуджа",
-          "индийс"
-        ]
-      },
-      "expiresAt": 1792342812453
-    },
-    "[\"factor\",\"texthash\",\"48b3126f9bae0b3d7829d4c6bcb6f2797d861fdd34bf8cb9ff441404dd9c0a72\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "48b3126f9bae0b3d7829d4c6bcb6f2797d861fdd34bf8cb9ff441404dd9c0a72"
-      ],
-      "value": true,
-      "expiresAt": 1792342812454
     },
     "[\"factor\",\"pub\",\"e59f49cda88d4fe7ce39b82b738d8f77f47a33be7482da49446984ee8135fbf8\"]": {
       "key": [
@@ -1976,6 +1936,44 @@
       ],
       "value": true,
       "expiresAt": 1792427099550
+    },
+    "[\"factor\",\"pub\",\"dffa8a5ae14fedd6c673f9c5b0ac46cc18137c68b3c76912af6e97dccb2fdff4\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "dffa8a5ae14fedd6c673f9c5b0ac46cc18137c68b3c76912af6e97dccb2fdff4"
+      ],
+      "value": true,
+      "expiresAt": 1792429502245
+    },
+    "[\"factor\",\"topic\",\"dffa8a5ae14fedd6c673f9c5b0ac46cc18137c68b3c76912af6e97dccb2fdff4\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "dffa8a5ae14fedd6c673f9c5b0ac46cc18137c68b3c76912af6e97dccb2fdff4"
+      ],
+      "value": {
+        "title": "Актрису сериалов «Метод» и «Полицейский с Рублёвки» Александру Виноградову госпитализирова",
+        "roots": [
+          "актрис",
+          "сериал",
+          "метод",
+          "полице",
+          "алекса",
+          "виногр",
+          "госпит"
+        ]
+      },
+      "expiresAt": 1792429502246
+    },
+    "[\"factor\",\"texthash\",\"a62fda5536be9086aca30d68321462f7638c9583d3f87a5c074bc3ccd81a469a\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "a62fda5536be9086aca30d68321462f7638c9583d3f87a5c074bc3ccd81a469a"
+      ],
+      "value": true,
+      "expiresAt": 1792429502247
     }
   }
 }
