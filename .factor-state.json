@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 758292,
+      "value": 640783,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,67 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792314633192,
+      "value": 1792316576420,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"6bdf8467f3b9cf7f761f45f0dacb63d1f3955e49a47c218857d10cd93624a558\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "6bdf8467f3b9cf7f761f45f0dacb63d1f3955e49a47c218857d10cd93624a558"
-      ],
-      "value": true,
-      "expiresAt": 1792315394344
-    },
-    "[\"factor\",\"topic\",\"6bdf8467f3b9cf7f761f45f0dacb63d1f3955e49a47c218857d10cd93624a558\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "6bdf8467f3b9cf7f761f45f0dacb63d1f3955e49a47c218857d10cd93624a558"
-      ],
-      "value": {
-        "title": "Египет готов принять любые меры для защиты Саудовской Аравии, если поступит соответствующи",
-        "roots": [
-          "египет",
-          "готов",
-          "принят",
-          "любые",
-          "защиты",
-          "саудов",
-          "аравии",
-          "поступ",
-          "соотве"
-        ]
-      },
-      "expiresAt": 1792315394346
-    },
-    "[\"factor\",\"pub\",\"0b3c3db243ec6527deee8922d2662571fee243a012bab8fb88732a81e41f4a3c\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "0b3c3db243ec6527deee8922d2662571fee243a012bab8fb88732a81e41f4a3c"
-      ],
-      "value": true,
-      "expiresAt": 1792315981737
-    },
-    "[\"factor\",\"topic\",\"0b3c3db243ec6527deee8922d2662571fee243a012bab8fb88732a81e41f4a3c\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "0b3c3db243ec6527deee8922d2662571fee243a012bab8fb88732a81e41f4a3c"
-      ],
-      "value": {
-        "title": "❗️ ВС РФ освободили Великомихайловку в Днепропетровской области, Паламаревку и Ковалевку в",
-        "roots": [
-          "освобо",
-          "велико",
-          "днепро",
-          "област",
-          "палама",
-          "ковале"
-        ]
-      },
-      "expiresAt": 1792315981739
     },
     "[\"factor\",\"pub\",\"fb586974a60b1cb2bfa465bf08bd4bbd061d70317e710ef2a670925b496a1f88\"]": {
       "key": [
@@ -2390,6 +2331,41 @@
       ],
       "value": true,
       "expiresAt": 1792401377268
+    },
+    "[\"factor\",\"pub\",\"41bf9a874363ccfc6f51bda55327cab44e5b92d8a18d97437d72d0948fe499cd\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "41bf9a874363ccfc6f51bda55327cab44e5b92d8a18d97437d72d0948fe499cd"
+      ],
+      "value": true,
+      "expiresAt": 1792403128840
+    },
+    "[\"factor\",\"topic\",\"41bf9a874363ccfc6f51bda55327cab44e5b92d8a18d97437d72d0948fe499cd\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "41bf9a874363ccfc6f51bda55327cab44e5b92d8a18d97437d72d0948fe499cd"
+      ],
+      "value": {
+        "title": "❗️ Ответ на удары Украины идет постоянно",
+        "roots": [
+          "ответ",
+          "удары",
+          "украин",
+          "постоя"
+        ]
+      },
+      "expiresAt": 1792403128841
+    },
+    "[\"factor\",\"texthash\",\"13a1ec9c911e785ac3c8833146b7aa283dc996aa9efa168021e2ac883bc40a2f\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "13a1ec9c911e785ac3c8833146b7aa283dc996aa9efa168021e2ac883bc40a2f"
+      ],
+      "value": true,
+      "expiresAt": 1792403128842
     }
   }
 }
