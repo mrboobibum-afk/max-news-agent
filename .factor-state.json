@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 695104,
+      "value": 373708,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,66 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792295929872,
+      "value": 1792297517614,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"8e3ea58eb99e1e36479eb8421622bde12dff337412bbda437838d6a1bbc2d3d9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "8e3ea58eb99e1e36479eb8421622bde12dff337412bbda437838d6a1bbc2d3d9"
-      ],
-      "value": true,
-      "expiresAt": 1792296136749
-    },
-    "[\"factor\",\"topic\",\"8e3ea58eb99e1e36479eb8421622bde12dff337412bbda437838d6a1bbc2d3d9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "8e3ea58eb99e1e36479eb8421622bde12dff337412bbda437838d6a1bbc2d3d9"
-      ],
-      "value": {
-        "title": "Си Цзиньпин в поездке во Внутреннюю Монголию призвал стремиться к зеленому развитию",
-        "roots": [
-          "цзиньп",
-          "поездк",
-          "внутре",
-          "монгол",
-          "призва",
-          "стреми",
-          "зелено",
-          "развит"
-        ]
-      },
-      "expiresAt": 1792296136751
-    },
-    "[\"factor\",\"pub\",\"3eaeba62dad533b1266422b04496b8debec03d422e67393e9082a84002db1e46\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "3eaeba62dad533b1266422b04496b8debec03d422e67393e9082a84002db1e46"
-      ],
-      "value": true,
-      "expiresAt": 1792297322344
-    },
-    "[\"factor\",\"topic\",\"3eaeba62dad533b1266422b04496b8debec03d422e67393e9082a84002db1e46\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "3eaeba62dad533b1266422b04496b8debec03d422e67393e9082a84002db1e46"
-      ],
-      "value": {
-        "title": "Более 20 БПЛА уничтожены за ночь в Ростовской области, сообщил губернатор региона",
-        "roots": [
-          "более",
-          "уничто",
-          "ростов",
-          "област",
-          "губерн",
-          "регион"
-        ]
-      },
-      "expiresAt": 1792297322345
     },
     "[\"factor\",\"pub\",\"38398c8b8146ba18f3e99618529d5f54c68dd4b56a0158c4c7257c7569176983\"]": {
       "key": [
@@ -2558,6 +2500,43 @@
       ],
       "value": true,
       "expiresAt": 1792383037513
+    },
+    "[\"factor\",\"pub\",\"b6b4728d9433362cfc0f2caa3bd25d8192cf6492766fee74f85e18ac62d84fdf\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "b6b4728d9433362cfc0f2caa3bd25d8192cf6492766fee74f85e18ac62d84fdf"
+      ],
+      "value": true,
+      "expiresAt": 1792384414052
+    },
+    "[\"factor\",\"topic\",\"b6b4728d9433362cfc0f2caa3bd25d8192cf6492766fee74f85e18ac62d84fdf\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "b6b4728d9433362cfc0f2caa3bd25d8192cf6492766fee74f85e18ac62d84fdf"
+      ],
+      "value": {
+        "title": "🚨 Пять человек госпитализированы с подозрением на оспу обезьян в Петербурге, сообщает Рос",
+        "roots": [
+          "челове",
+          "госпит",
+          "подозр",
+          "обезья",
+          "петерб",
+          "сообща"
+        ]
+      },
+      "expiresAt": 1792384414053
+    },
+    "[\"factor\",\"texthash\",\"7e1cb3fd4783f3e6b6fa8a53f876f7e19a48130b95190f46606fc9038e7538ce\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "7e1cb3fd4783f3e6b6fa8a53f876f7e19a48130b95190f46606fc9038e7538ce"
+      ],
+      "value": true,
+      "expiresAt": 1792384414108
     }
   }
 }
