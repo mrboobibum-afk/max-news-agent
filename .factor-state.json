@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 6257801,
+      "value": 6615770,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,76 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792348251042,
+      "value": 1792354835862,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"8c2bbdfa751eb723e55069dd05bd43df0c08b525cf70af6f8a336026a25e8254\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "8c2bbdfa751eb723e55069dd05bd43df0c08b525cf70af6f8a336026a25e8254"
-      ],
-      "value": true,
-      "expiresAt": 1792354466178
-    },
-    "[\"factor\",\"topic\",\"8c2bbdfa751eb723e55069dd05bd43df0c08b525cf70af6f8a336026a25e8254\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "8c2bbdfa751eb723e55069dd05bd43df0c08b525cf70af6f8a336026a25e8254"
-      ],
-      "value": {
-        "title": "▶️ Лавров прибыл в Бахрейн, где примет участие в стратегическом диалоге РФ со странами Сов",
-        "roots": [
-          "лавров",
-          "прибыл",
-          "бахрей",
-          "примет",
-          "участи",
-          "страте",
-          "диалог",
-          "страна"
-        ]
-      },
-      "expiresAt": 1792354466179
-    },
-    "[\"factor\",\"pub\",\"b913fc1987637f802744546b0aa020c80eb5d023def81943081835af47fe467e\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "b913fc1987637f802744546b0aa020c80eb5d023def81943081835af47fe467e"
-      ],
-      "value": true,
-      "expiresAt": 1792354696418
-    },
-    "[\"factor\",\"topic\",\"b913fc1987637f802744546b0aa020c80eb5d023def81943081835af47fe467e\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "b913fc1987637f802744546b0aa020c80eb5d023def81943081835af47fe467e"
-      ],
-      "value": {
-        "title": "Общая сумма средств Украине из ЕС может достичь €520 млрд в 2027 году, заявил премьер Чехи",
-        "roots": [
-          "общая",
-          "сумма",
-          "средст",
-          "украин",
-          "может",
-          "достич",
-          "премье"
-        ]
-      },
-      "expiresAt": 1792354696419
-    },
-    "[\"factor\",\"texthash\",\"99f65eeb1008d7f9e32d1ab3bf3fabef0a05e1d0134b96a79729ee3b0faa8ee8\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "99f65eeb1008d7f9e32d1ab3bf3fabef0a05e1d0134b96a79729ee3b0faa8ee8"
-      ],
-      "value": true,
-      "expiresAt": 1792354696420
     },
     "[\"factor\",\"pub\",\"db39f580ee1a7b66d39497a6b9d6e13a5320038d31066e86edc1d88b23359bff\"]": {
       "key": [
@@ -1807,6 +1739,47 @@
       ],
       "value": true,
       "expiresAt": 1792434928774
+    },
+    "[\"factor\",\"pub\",\"eea23a3745f6f50a55f8333e6965a3cbcf43c0a0a1463a67551e0cffe3c10a9d\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "eea23a3745f6f50a55f8333e6965a3cbcf43c0a0a1463a67551e0cffe3c10a9d"
+      ],
+      "value": true,
+      "expiresAt": 1792441629512
+    },
+    "[\"factor\",\"topic\",\"eea23a3745f6f50a55f8333e6965a3cbcf43c0a0a1463a67551e0cffe3c10a9d\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "eea23a3745f6f50a55f8333e6965a3cbcf43c0a0a1463a67551e0cffe3c10a9d"
+      ],
+      "value": {
+        "title": "Знаменитый питерский тюлень Крошик рискует навсегда «пропасть» в водах Ладожского озера",
+        "roots": [
+          "знамен",
+          "питерс",
+          "тюлень",
+          "крошик",
+          "рискуе",
+          "навсег",
+          "пропас",
+          "водах",
+          "ладожс",
+          "озера"
+        ]
+      },
+      "expiresAt": 1792441629513
+    },
+    "[\"factor\",\"texthash\",\"107ab8c80dbd47ba09999f357c951e172334bd96577d74c2617bbf46f2087ace\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "107ab8c80dbd47ba09999f357c951e172334bd96577d74c2617bbf46f2087ace"
+      ],
+      "value": true,
+      "expiresAt": 1792441629514
     }
   }
 }
