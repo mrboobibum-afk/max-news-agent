@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 718393,
+      "value": 274500,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,35 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792290651651,
+      "value": 1792291833015,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"c4b69243a64c613c2c7354a618546bea7ae98031db9db8a1e8242e46ca09c67f\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c4b69243a64c613c2c7354a618546bea7ae98031db9db8a1e8242e46ca09c67f"
-      ],
-      "value": true,
-      "expiresAt": 1792291606383
-    },
-    "[\"factor\",\"topic\",\"c4b69243a64c613c2c7354a618546bea7ae98031db9db8a1e8242e46ca09c67f\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c4b69243a64c613c2c7354a618546bea7ae98031db9db8a1e8242e46ca09c67f"
-      ],
-      "value": {
-        "title": "🚨 Нефтяной супертанкер подорвался на мине в Ормузском проливе",
-        "roots": [
-          "нефтян",
-          "суперт",
-          "подорв",
-          "ормузс",
-          "пролив"
-        ]
-      },
-      "expiresAt": 1792291606384
     },
     "[\"factor\",\"pub\",\"cbcbda2e0bab0917a00b44d8e8a3aa62913524ec1accdde50320af4d82162486\"]": {
       "key": [
@@ -2620,6 +2593,43 @@
       ],
       "value": true,
       "expiresAt": 1792377138215
+    },
+    "[\"factor\",\"pub\",\"50be19f04023abfe88571623111326d0c5d6fa4ad4c82f2c579971eec31e9133\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "50be19f04023abfe88571623111326d0c5d6fa4ad4c82f2c579971eec31e9133"
+      ],
+      "value": true,
+      "expiresAt": 1792379262298
+    },
+    "[\"factor\",\"topic\",\"50be19f04023abfe88571623111326d0c5d6fa4ad4c82f2c579971eec31e9133\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "50be19f04023abfe88571623111326d0c5d6fa4ad4c82f2c579971eec31e9133"
+      ],
+      "value": {
+        "title": "Под ногами тихо, а опасность уже рядом: эта ядовитая змея остаётся незаметной даже вблизи",
+        "roots": [
+          "ногами",
+          "опасно",
+          "рядом",
+          "ядовит",
+          "незаме",
+          "вблизи"
+        ]
+      },
+      "expiresAt": 1792379262299
+    },
+    "[\"factor\",\"texthash\",\"5df0e22c002cd0853789e1b8ebe934f65a4a65be4c0bc411c2dc4bbaa29e5597\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "5df0e22c002cd0853789e1b8ebe934f65a4a65be4c0bc411c2dc4bbaa29e5597"
+      ],
+      "value": true,
+      "expiresAt": 1792379262300
     }
   }
 }
