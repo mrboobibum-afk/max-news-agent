@@ -17,34 +17,6 @@
       "value": 1792331435587,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"beef222986f808132e55ff3d149c6ccca6521981a18e66be9f573f058d9a6afa\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "beef222986f808132e55ff3d149c6ccca6521981a18e66be9f573f058d9a6afa"
-      ],
-      "value": true,
-      "expiresAt": 1792332537312
-    },
-    "[\"factor\",\"topic\",\"beef222986f808132e55ff3d149c6ccca6521981a18e66be9f573f058d9a6afa\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "beef222986f808132e55ff3d149c6ccca6521981a18e66be9f573f058d9a6afa"
-      ],
-      "value": {
-        "title": "▶️ Зеленский является лживым псевдоруководителем, неспособным договариваться, заявил в инт",
-        "roots": [
-          "зеленс",
-          "являет",
-          "лживым",
-          "псевдо",
-          "неспос",
-          "догова"
-        ]
-      },
-      "expiresAt": 1792332537314
-    },
     "[\"factor\",\"pub\",\"fd200e01cdb79e1a56423f1c3b835fa40e86c33121ae78eb11787fca5d3c7b7c\"]": {
       "key": [
         "factor",
