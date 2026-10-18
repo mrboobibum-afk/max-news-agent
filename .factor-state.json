@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 276135,
+      "value": 269263,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792308745768,
+      "value": 1792309231298,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"fb272b8eba3e1edcf2185e97cf283edb101c899f31d95cc1dbd95aa8855a97e8\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "fb272b8eba3e1edcf2185e97cf283edb101c899f31d95cc1dbd95aa8855a97e8"
-      ],
-      "value": true,
-      "expiresAt": 1792308805954
-    },
-    "[\"factor\",\"topic\",\"fb272b8eba3e1edcf2185e97cf283edb101c899f31d95cc1dbd95aa8855a97e8\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "fb272b8eba3e1edcf2185e97cf283edb101c899f31d95cc1dbd95aa8855a97e8"
-      ],
-      "value": {
-        "title": "Врач погиб в Карелии, спеша на помощь семимесячному малышу",
-        "roots": [
-          "погиб",
-          "карели",
-          "спеша",
-          "помощь",
-          "семиме",
-          "малышу"
-        ]
-      },
-      "expiresAt": 1792308805955
     },
     "[\"factor\",\"pub\",\"4a418eb4fad7addcadf582db52120f1e00d77a3d36de8afd665280ac82c0af00\"]": {
       "key": [
@@ -2421,6 +2393,44 @@
       ],
       "value": true,
       "expiresAt": 1792395471924
+    },
+    "[\"factor\",\"pub\",\"b97c584ecf722114829d222e07bd9789e27675653fc57ac7632e968c43323b10\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "b97c584ecf722114829d222e07bd9789e27675653fc57ac7632e968c43323b10"
+      ],
+      "value": true,
+      "expiresAt": 1792396741317
+    },
+    "[\"factor\",\"topic\",\"b97c584ecf722114829d222e07bd9789e27675653fc57ac7632e968c43323b10\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "b97c584ecf722114829d222e07bd9789e27675653fc57ac7632e968c43323b10"
+      ],
+      "value": {
+        "title": "Российские войска поразили сухогруз и безэкипажный катер ВСУ в Черном море, сообщили в Мин",
+        "roots": [
+          "россий",
+          "войска",
+          "порази",
+          "сухогр",
+          "безэки",
+          "катер",
+          "черном"
+        ]
+      },
+      "expiresAt": 1792396741318
+    },
+    "[\"factor\",\"texthash\",\"1f36cedbe532bc0574f8c489cce256eec9dba51b4ce5b8d95b5729796d5f5bb7\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "1f36cedbe532bc0574f8c489cce256eec9dba51b4ce5b8d95b5729796d5f5bb7"
+      ],
+      "value": true,
+      "expiresAt": 1792396741319
     }
   }
 }
