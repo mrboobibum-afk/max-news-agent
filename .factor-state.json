@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 733424,
+      "value": 847372,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792280434507,
+      "value": 1792281660521,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"745658e163f4cb28f0c2c7bd37f69d09614c4056e9c2672713f08a0eefbde5d8\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "745658e163f4cb28f0c2c7bd37f69d09614c4056e9c2672713f08a0eefbde5d8"
-      ],
-      "value": true,
-      "expiresAt": 1792281101733
-    },
-    "[\"factor\",\"topic\",\"745658e163f4cb28f0c2c7bd37f69d09614c4056e9c2672713f08a0eefbde5d8\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "745658e163f4cb28f0c2c7bd37f69d09614c4056e9c2672713f08a0eefbde5d8"
-      ],
-      "value": {
-        "title": "Россиянам рассказали, где легче всего трудоустроиться без опыта",
-        "roots": [
-          "россия",
-          "расска",
-          "легче",
-          "всего",
-          "трудоу",
-          "опыта"
-        ]
-      },
-      "expiresAt": 1792281101735
     },
     "[\"factor\",\"pub\",\"0c2b258bbf8e10e48072f743fcc4be99d83b26e548b68757f80e0e7e732ef699\"]": {
       "key": [
@@ -2532,6 +2504,40 @@
       ],
       "value": true,
       "expiresAt": 1792366981978
+    },
+    "[\"factor\",\"pub\",\"13a70c874c85355203589236e8479be1fbab34d4338ccafe3eaa8ebb9ec7bfe0\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "13a70c874c85355203589236e8479be1fbab34d4338ccafe3eaa8ebb9ec7bfe0"
+      ],
+      "value": true,
+      "expiresAt": 1792368201643
+    },
+    "[\"factor\",\"topic\",\"13a70c874c85355203589236e8479be1fbab34d4338ccafe3eaa8ebb9ec7bfe0\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "13a70c874c85355203589236e8479be1fbab34d4338ccafe3eaa8ebb9ec7bfe0"
+      ],
+      "value": {
+        "title": "Что известно о протестах во Франции. Главное",
+        "roots": [
+          "протес",
+          "франци",
+          "главно"
+        ]
+      },
+      "expiresAt": 1792368201644
+    },
+    "[\"factor\",\"texthash\",\"e5f0427fb3bfe60db14027cad6f64f3bd21dee17f6ada3342174b37424bc3f8f\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "e5f0427fb3bfe60db14027cad6f64f3bd21dee17f6ada3342174b37424bc3f8f"
+      ],
+      "value": true,
+      "expiresAt": 1792368201645
     }
   }
 }
