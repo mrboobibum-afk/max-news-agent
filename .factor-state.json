@@ -2452,44 +2452,7 @@
         "b6b4728d9433362cfc0f2caa3bd25d8192cf6492766fee74f85e18ac62d84fdf"
       ],
       "value": true,
-      "expiresAt": 1792384414052
-    },
-    "[\"factor\",\"topic\",\"b6b4728d9433362cfc0f2caa3bd25d8192cf6492766fee74f85e18ac62d84fdf\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "b6b4728d9433362cfc0f2caa3bd25d8192cf6492766fee74f85e18ac62d84fdf"
-      ],
-      "value": {
-        "title": "🚨 Пять человек госпитализированы с подозрением на оспу обезьян в Петербурге, сообщает Рос",
-        "roots": [
-          "челове",
-          "госпит",
-          "подозр",
-          "обезья",
-          "петерб",
-          "сообща"
-        ]
-      },
-      "expiresAt": 1792384414053
-    },
-    "[\"factor\",\"texthash\",\"7e1cb3fd4783f3e6b6fa8a53f876f7e19a48130b95190f46606fc9038e7538ce\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "7e1cb3fd4783f3e6b6fa8a53f876f7e19a48130b95190f46606fc9038e7538ce"
-      ],
-      "value": true,
-      "expiresAt": 1792384414108
-    },
-    "[\"factor\",\"pub\",\"f6250742c3ee9e0e96dbd62ef2d0a8461f74e0f2bb76f45a210a1bd716f73ee1\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "f6250742c3ee9e0e96dbd62ef2d0a8461f74e0f2bb76f45a210a1bd716f73ee1"
-      ],
-      "value": true,
-      "expiresAt": 1792385825903
+      "expiresAt": 1792385112259
     },
     "[\"factor\",\"topic\",\"f6250742c3ee9e0e96dbd62ef2d0a8461f74e0f2bb76f45a210a1bd716f73ee1\"]": {
       "key": [
