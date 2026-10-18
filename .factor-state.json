@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 300277,
+      "value": 201170,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792307213989,
+      "value": 1792308033287,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"3f91406785517ea8b44db315a6ecb41b65f817d4a292a68547e24fcba93b05c9\"]": {
@@ -2412,6 +2412,45 @@
       ],
       "value": true,
       "expiresAt": 1792393761531
+    },
+    "[\"factor\",\"pub\",\"f5a9a42f70ad5b59cc4a07b16c56d4c1adcb191558fe58f9404e3e0d6c8567d9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "f5a9a42f70ad5b59cc4a07b16c56d4c1adcb191558fe58f9404e3e0d6c8567d9"
+      ],
+      "value": true,
+      "expiresAt": 1792395122552
+    },
+    "[\"factor\",\"topic\",\"f5a9a42f70ad5b59cc4a07b16c56d4c1adcb191558fe58f9404e3e0d6c8567d9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "f5a9a42f70ad5b59cc4a07b16c56d4c1adcb191558fe58f9404e3e0d6c8567d9"
+      ],
+      "value": {
+        "title": "▶️ ВСУ потеряли укрытие с живой силой и два пункта управления БПЛА в районе Славянско-Крам",
+        "roots": [
+          "потеря",
+          "укрыти",
+          "живой",
+          "силой",
+          "пункта",
+          "управл",
+          "районе",
+          "славян"
+        ]
+      },
+      "expiresAt": 1792395122554
+    },
+    "[\"factor\",\"texthash\",\"8787b373a0d82eb840eee9faf64fb819182c5d88c6584f4605e2d9efb12d6365\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "8787b373a0d82eb840eee9faf64fb819182c5d88c6584f4605e2d9efb12d6365"
+      ],
+      "value": true,
+      "expiresAt": 1792395122555
     }
   }
 }
