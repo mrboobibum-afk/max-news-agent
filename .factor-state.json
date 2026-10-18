@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 300277,
+      "value": 276135,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792307213989,
+      "value": 1792308745768,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"3f91406785517ea8b44db315a6ecb41b65f817d4a292a68547e24fcba93b05c9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "3f91406785517ea8b44db315a6ecb41b65f817d4a292a68547e24fcba93b05c9"
-      ],
-      "value": true,
-      "expiresAt": 1792308215676
-    },
-    "[\"factor\",\"topic\",\"3f91406785517ea8b44db315a6ecb41b65f817d4a292a68547e24fcba93b05c9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "3f91406785517ea8b44db315a6ecb41b65f817d4a292a68547e24fcba93b05c9"
-      ],
-      "value": {
-        "title": "▶️ Операторы БПЛА ВСУ тренируются наносить удары на мирных жителях Алешек, Видео: Виктор А",
-        "roots": [
-          "операт",
-          "тренир",
-          "наноси",
-          "удары",
-          "мирных",
-          "жителя",
-          "алешек",
-          "виктор"
-        ]
-      },
-      "expiresAt": 1792308215677
     },
     "[\"factor\",\"pub\",\"fb272b8eba3e1edcf2185e97cf283edb101c899f31d95cc1dbd95aa8855a97e8\"]": {
       "key": [
@@ -2412,6 +2382,45 @@
       ],
       "value": true,
       "expiresAt": 1792393761531
+    },
+    "[\"factor\",\"pub\",\"d5d37f36e51b713e598ba9e028d392510efc061ac1b434dabed43195b01b94b7\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d5d37f36e51b713e598ba9e028d392510efc061ac1b434dabed43195b01b94b7"
+      ],
+      "value": true,
+      "expiresAt": 1792395471921
+    },
+    "[\"factor\",\"topic\",\"d5d37f36e51b713e598ba9e028d392510efc061ac1b434dabed43195b01b94b7\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d5d37f36e51b713e598ba9e028d392510efc061ac1b434dabed43195b01b94b7"
+      ],
+      "value": {
+        "title": "Около 30 новых островов появилось в России за последние годы из-за глобального потепления ",
+        "roots": [
+          "около",
+          "новых",
+          "остров",
+          "появил",
+          "россии",
+          "послед",
+          "глобал",
+          "потепл"
+        ]
+      },
+      "expiresAt": 1792395471923
+    },
+    "[\"factor\",\"texthash\",\"99a4aaca3f23a1d9a828a7d5c44e1059778c5382b4742e89df8ed055f35963bb\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "99a4aaca3f23a1d9a828a7d5c44e1059778c5382b4742e89df8ed055f35963bb"
+      ],
+      "value": true,
+      "expiresAt": 1792395471924
     }
   }
 }
