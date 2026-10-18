@@ -17,48 +17,6 @@
       "value": 1792342863592,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"8c93b01da62057a15cdccd4feeb01f0526e50695d29148994d038ebc82428662\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "8c93b01da62057a15cdccd4feeb01f0526e50695d29148994d038ebc82428662"
-      ],
-      "value": true,
-      "expiresAt": 1792346895870
-    },
-    "[\"factor\",\"topic\",\"8c93b01da62057a15cdccd4feeb01f0526e50695d29148994d038ebc82428662\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "8c93b01da62057a15cdccd4feeb01f0526e50695d29148994d038ebc82428662"
-      ],
-      "value": {
-        "title": "В Париже выставят на аукцион чайно-кофейный сервиз дочери Николая I, великой княжны Ольги ",
-        "roots": [
-          "париже",
-          "выстав",
-          "аукцио",
-          "чайно",
-          "кофейн",
-          "сервиз",
-          "дочери",
-          "никола",
-          "велико",
-          "княжны",
-          "ольги"
-        ]
-      },
-      "expiresAt": 1792346895871
-    },
-    "[\"factor\",\"texthash\",\"6380314b489c3b1c5db14190f63987a54dd5e1d727bdad8f6f5060fd29d3d28e\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "6380314b489c3b1c5db14190f63987a54dd5e1d727bdad8f6f5060fd29d3d28e"
-      ],
-      "value": true,
-      "expiresAt": 1792346895872
-    },
     "[\"factor\",\"pub\",\"d146e4d6f51c697ca31952d1f0a0813db2f1ff73e57b7fec48d5e0b72eaffe3f\"]": {
       "key": [
         "factor",
