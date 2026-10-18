@@ -17,43 +17,6 @@
       "value": 1792354835862,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"b99175252ae889aa8902b380b9cad8d4e432c0e57df159b57e907e5b9f4733c2\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "b99175252ae889aa8902b380b9cad8d4e432c0e57df159b57e907e5b9f4733c2"
-      ],
-      "value": true,
-      "expiresAt": 1792356239995
-    },
-    "[\"factor\",\"topic\",\"b99175252ae889aa8902b380b9cad8d4e432c0e57df159b57e907e5b9f4733c2\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "b99175252ae889aa8902b380b9cad8d4e432c0e57df159b57e907e5b9f4733c2"
-      ],
-      "value": {
-        "title": "Генконсульство РФ направило ноту в МИД Казахстана после ареста рэпера Navai, сообщили ТАСС",
-        "roots": [
-          "генкон",
-          "направ",
-          "казахс",
-          "ареста",
-          "рэпера",
-          "navai"
-        ]
-      },
-      "expiresAt": 1792356239997
-    },
-    "[\"factor\",\"texthash\",\"e990b1808aa7670a6caf7f40137bcb7ef45e5578a7a983c26781f55c918be1f5\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "e990b1808aa7670a6caf7f40137bcb7ef45e5578a7a983c26781f55c918be1f5"
-      ],
-      "value": true,
-      "expiresAt": 1792356239997
-    },
     "[\"factor\",\"pub\",\"981c1850916749129927fc657cfa32dc45e9e1c01c0e729863b5ed45c48c7105\"]": {
       "key": [
         "factor",
