@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 355246,
+      "value": 191740,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,36 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792287631777,
+      "value": 1792288231734,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"cf7ef49cf3ddd0b9e9530d1b5347a4d41072136bf63e12ff9166c58f525067d0\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "cf7ef49cf3ddd0b9e9530d1b5347a4d41072136bf63e12ff9166c58f525067d0"
-      ],
-      "value": true,
-      "expiresAt": 1792287740711
-    },
-    "[\"factor\",\"topic\",\"cf7ef49cf3ddd0b9e9530d1b5347a4d41072136bf63e12ff9166c58f525067d0\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "cf7ef49cf3ddd0b9e9530d1b5347a4d41072136bf63e12ff9166c58f525067d0"
-      ],
-      "value": {
-        "title": "Тимуру Иванову еще на три месяца продлили арест по делу о взятках на 1,415 млрд руб., ✔️",
-        "roots": [
-          "тимуру",
-          "иванов",
-          "месяца",
-          "продли",
-          "арест",
-          "взятка"
-        ]
-      },
-      "expiresAt": 1792287740712
     },
     "[\"factor\",\"pub\",\"d29a0a14c79de8969036e873ae561d8fb9af5929585b0935af8d6cff7d9154a2\"]": {
       "key": [
@@ -2585,6 +2557,40 @@
       ],
       "value": true,
       "expiresAt": 1792374134797
+    },
+    "[\"factor\",\"pub\",\"e4c184ee0aa1cc9a9f54978cabd8e5925d9c09318fd46355c950ec7623b08368\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e4c184ee0aa1cc9a9f54978cabd8e5925d9c09318fd46355c950ec7623b08368"
+      ],
+      "value": true,
+      "expiresAt": 1792374949180
+    },
+    "[\"factor\",\"topic\",\"e4c184ee0aa1cc9a9f54978cabd8e5925d9c09318fd46355c950ec7623b08368\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e4c184ee0aa1cc9a9f54978cabd8e5925d9c09318fd46355c950ec7623b08368"
+      ],
+      "value": {
+        "title": "🚨 В Энергодаре дрон ВСУ залетел в квартиру",
+        "roots": [
+          "энерго",
+          "залете",
+          "кварти"
+        ]
+      },
+      "expiresAt": 1792374949181
+    },
+    "[\"factor\",\"texthash\",\"73e4d2116efb5bf7635d127d4a36eac78909b13dd3f6d51d21f577669a1abbd1\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "73e4d2116efb5bf7635d127d4a36eac78909b13dd3f6d51d21f577669a1abbd1"
+      ],
+      "value": true,
+      "expiresAt": 1792374949182
     }
   }
 }
