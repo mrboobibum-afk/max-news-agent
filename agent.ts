@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Live Video/Action Edition v53)
+// MAX NEWS AGENT — «ФАКТОР» (Live Video/Action Edition v54)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -10,9 +10,10 @@ const DASHSCOPE_API_KEY = Deno.env.get("DASHSCOPE_API_KEY") ?? "";
 const QWEN_MODEL = Deno.env.get("QWEN_MODEL") ?? "qwen3.8-max";
 const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyuncs.com/compatible-mode/v1";
 
-const REGULAR_MIN_INTERVAL_MS = 3 * 60 * 1000;
-const REGULAR_MAX_INTERVAL_MS = 15 * 60 * 1000;
-const HARD_MIN_INTERVAL_MS = 3 * 60 * 1000;
+// 🚨 ЖЕСТКИЕ ИНТЕРВАЛЫ: от 30 минут до 2 часов между постами.
+const REGULAR_MIN_INTERVAL_MS = 30 * 60 * 1000;
+const REGULAR_MAX_INTERVAL_MS = 120 * 60 * 1000;
+const HARD_MIN_INTERVAL_MS = 30 * 60 * 1000;
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000;
 
 const MEDIA_PACKET_MAX = 6;
@@ -83,13 +84,6 @@ const NEWS_FEEDS = [
     { name: "Правда.ру", url: "https://www.pravda.ru/export.xml" },
 ];
 
-const SOURCE_MATCH: Record<string, string> = {
-    "rbc_news": "РБК", "rian_ru": "РИА Новости", "tass_agency": "ТАСС",
-    "rt_russian": "RT на русском", "lenta_ru": "Lenta.ru",
-    "vesti_news": "Вести", "ntvru": "НТВ", "1tv_news": "Первый канал",
-    "life_shot": "Life.ru", "bbbreaking": "КП",
-};
-
 const BORING_TOPICS = [
     /(?:сесси[яи]|форум|круглый\s+стол|конференци[яи]|совещани[ея]|заседани[ея]|брифинг)/i,
     /(?:рэц|экспортер|клиентск|госуслуг|росреестр|минфин|ведомств)/i,
@@ -103,9 +97,6 @@ const BORING_TOPICS = [
     /спецпредложени/i,
     /реклама\s*[.:!]/i,
     /партнёрск(?:ий|ого)\s+материал/i,
-    /(?:введены|новые)\s+(?:правила|требования|инструкци|регламент)/i,
-    /(?:правила|требования|инструкци|регламент)\s+(?:для|к)\s+(?:постов|новостей|заголовков|текст)/i,
-    /(?:заголовок|текст)\s+(?:до|не\s+более)\s+\d+/i,
 ];
 
 class FileKV {
@@ -221,15 +212,14 @@ async function isDuplicate(title: string, desc?: string): Promise<boolean> {
         const set = new Set(item.roots || []);
         let tm = 0;
         for (const r of titleRoots) if (set.has(r)) tm++;
-        if (tm >= 2) return true;
+        if (tm >= 2) return true; // 2 совпадения в заголовке = дубль
         let fm = 0;
         for (const r of allRoots) if (set.has(r)) fm++;
-        if (fm >= 3 && titleRoots.length > 0) return true;
+        if (fm >= 4 && titleRoots.length > 0) return true; // 4 совпадения в тексте = дубль
     }
     return false;
 }
 
-// НОВАЯ ФУНКЦИЯ: Генерация хеша для всего текста (защита от дублей)
 async function getTextHash(text: string): Promise<string> {
     const normalized = text.toLowerCase().replace(/[^a-zа-я0-9]/gi, "").trim();
     const hashBuffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(normalized));
@@ -546,68 +536,32 @@ async function sendPostToMax(text: string, media: Array<{ token: string, type: "
     return res.ok;
 }
 
+// 🚨 ЖЕСТКАЯ ЛОГИКА: только медиа из этого же поста. Никаких фолбэков на другие новости.
 function getMediaPacket(item: any, candidates: any[]): any[] {
     const packet: any[] = [];
     const seen = new Set<string>();
 
-    if (item.postKey) {
-        const samePost = candidates.filter(c => c.postKey === item.postKey);
-        const ordered = [
-            ...samePost.filter(c => c.mediaType === "video"),
-            ...samePost.filter(c => c.mediaType === "image"),
-        ];
-        for (const c of ordered) {
-            if (!c.mediaUrl || isTrashUrl(c.mediaUrl)) continue;
-            if (seen.has(c.mediaUrl)) continue;
-            seen.add(c.mediaUrl);
-            packet.push(c);
-            if (packet.length >= MEDIA_PACKET_MAX) return packet;
-        }
-    }
+    if (!item.postKey) return [];
 
-    const baseRoots = new Set(getRoots(item.title));
+    const samePost = candidates.filter(c => c.postKey === item.postKey);
+    const ordered = [
+        ...samePost.filter(c => c.mediaType === "video"),
+        ...samePost.filter(c => c.mediaType === "image"),
+    ];
 
-    if (packet.length === 0 && item.sourceType === "tg") {
-        const rssName = SOURCE_MATCH[item.sourceName];
-        if (rssName) {
-            const sameSource = candidates.filter(c => c.sourceType === "rss" && c.sourceName === rssName && c.mediaUrl);
-            const scored = sameSource.map(c => {
-                const roots = getRoots(c.title);
-                const overlap = roots.filter((r: string) => baseRoots.has(r)).length;
-                return { candidate: c, overlap };
-            }).filter(x => x.overlap >= 2).sort((a, b) => b.overlap - a.overlap);
-
-            for (const { candidate } of scored) {
-                if (seen.has(candidate.mediaUrl)) continue;
-                seen.add(candidate.mediaUrl);
-                packet.push(candidate);
-                if (packet.length >= MEDIA_PACKET_MAX) break;
-            }
-        }
-    }
-
-    if (packet.length === 0) {
-        const scored = candidates
-            .filter(c => c.mediaUrl && !isTrashUrl(c.mediaUrl) && c.postKey !== item.postKey)
-            .map(c => {
-                const roots = getRoots(c.title);
-                const overlap = roots.filter((r: string) => baseRoots.has(r)).length;
-                return { candidate: c, overlap };
-            }).filter(x => x.overlap >= 3).sort((a, b) => b.overlap - a.overlap);
-
-        for (const { candidate } of scored) {
-            if (seen.has(candidate.mediaUrl)) continue;
-            seen.add(candidate.mediaUrl);
-            packet.push(candidate);
-            if (packet.length >= MEDIA_PACKET_MAX) break;
-        }
+    for (const c of ordered) {
+        if (!c.mediaUrl || isTrashUrl(c.mediaUrl)) continue;
+        if (seen.has(c.mediaUrl)) continue;
+        seen.add(c.mediaUrl);
+        packet.push(c);
+        if (packet.length >= MEDIA_PACKET_MAX) break;
     }
 
     return packet;
 }
 
 async function run() {
-    console.log("=== ФАКТОР v53: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v54: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -651,7 +605,7 @@ async function run() {
     }
     console.log(`Уникальных постов: ${uniqueCandidates.length}`);
 
-    let skippedDup = 0, skippedImportance = 0, passedToMedia = 0, skippedNoMedia = 0;
+    let skippedDup = 0, skippedImportance = 0, skippedNoMedia = 0, published = 0;
 
     for (const item of uniqueCandidates) {
         const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(item.title))))
@@ -661,6 +615,16 @@ async function run() {
         if (await isDuplicate(item.title, item.desc)) { skippedDup++; continue; }
 
         console.log("\nОбработка: " + item.title);
+        
+        // 1. Сначала проверяем, есть ли медиа в самом посте. Если нет — сразу скипаем.
+        const mediaPacket = getMediaPacket(item, candidates);
+        if (mediaPacket.length === 0) {
+            console.log(`❌ Пропуск: нет медиа в самом посте.`);
+            skippedNoMedia++;
+            continue;
+        }
+
+        // 2. Только потом идем в LLM
         const post = await formatNewsPost(item.title, item.desc);
 
         if (post.is_ad) { skippedImportance++; continue; }
@@ -670,19 +634,14 @@ async function run() {
             continue;
         }
 
-        // ПРОВЕРКА НА ДУБЛЬ ТЕКСТА (новая защита)
         const textHash = await getTextHash(post.body);
         if ((await kv.get(["factor", "texthash", textHash])).value) {
-            console.log(`❌ Пропуск: такой текст уже был опубликован за последние 24 часа.`);
+            console.log(`❌ Пропуск: такой текст уже был опубликован.`);
             skippedDup++;
             continue;
         }
 
-        passedToMedia++;
-
-        const mediaPacket = getMediaPacket(item, candidates);
         const uploaded: Array<{ token: string, type: "image" | "video" }> = [];
-        
         for (const media of mediaPacket) {
             const mediaBytes = await downloadBuffer(media.mediaUrl, media.mediaType === "video");
             if (!mediaBytes) continue;
@@ -694,18 +653,14 @@ async function run() {
         }
 
         if (!uploaded.length) {
-            if (post.importance >= 8) {
-                console.log(`⚠️ Медиа не найдено, но новость критически важная (${post.importance}). Публикуем текстом.`);
-            } else {
-                console.log(`❌ Пропуск: нет медиа, важность ${post.importance} < 8.`);
-                skippedNoMedia++;
-                continue;
-            }
-        } else {
-            const videos = uploaded.filter(u => u.type === "video").length;
-            const images = uploaded.filter(u => u.type === "image").length;
-            console.log(`✅ Медиапакет: ${uploaded.length} (видео: ${videos}, фото: ${images})`);
+            console.log(`❌ Пропуск: медиа было, но не скачалось.`);
+            skippedNoMedia++;
+            continue;
         }
+
+        const videos = uploaded.filter(u => u.type === "video").length;
+        const images = uploaded.filter(u => u.type === "image").length;
+        console.log(`✅ Медиапакет: ${uploaded.length} (видео: ${videos}, фото: ${images})`);
 
         let postHtml = "<b>" + escapeHtml(post.headline) + "</b>\n\n" + escapeHtml(post.body);
         if (post.insight && post.importance >= MIN_INSIGHT_IMPORTANCE) {
@@ -715,20 +670,20 @@ async function run() {
 
         const sent = await sendPostToMax(postHtml, uploaded);
         if (sent) {
-            console.log("🔥 ОПУБЛИКОВАНО (медиа: " + uploaded.length + ", важность: " + post.importance + "): " + post.headline);
+            console.log("🔥 ОПУБЛИКОВАНО: " + post.headline);
             await kv.set(["factor", "pub", hash], true, { expireIn: HISTORY_TTL_MS });
             await kv.set(["factor", "topic", hash], { title: item.title, roots: getRoots(item.title) }, { expireIn: HISTORY_TTL_MS });
-            // СОХРАНЯЕМ ХЕШ ТЕКСТА
             await kv.set(["factor", "texthash", textHash], true, { expireIn: HISTORY_TTL_MS });
             
+            // Увеличиваем задержку после публикации, чтобы не спамить
             const nextDelay = Math.floor(REGULAR_MIN_INTERVAL_MS + Math.random() * (REGULAR_MAX_INTERVAL_MS - REGULAR_MIN_INTERVAL_MS + 1));
             await kv.set(["factor", "next_regular_delay"], nextDelay);
             await kv.set(["factor", "last_regular"], now);
-            return;
+            return; // Выходим, следующий пост будет не раньше чем через 30 минут
         }
     }
 
-    console.log(`\nИтого: дублей ${skippedDup}, неважных ${skippedImportance}, без медиа ${skippedNoMedia}, опубликовано ${passedToMedia}`);
+    console.log(`\nИтого: дублей ${skippedDup}, неважных ${skippedImportance}, без медиа ${skippedNoMedia}, опубликовано ${published}`);
     console.log("Подходящих событий пока нет.");
 }
 
