@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Live Video/Action Edition v54)
+// MAX NEWS AGENT — «ФАКТОР» (Live Video/Action Edition v55)
 // ============================================================
 
 const MAX_API = "https://platform-api2.max.ru";
@@ -10,7 +10,6 @@ const DASHSCOPE_API_KEY = Deno.env.get("DASHSCOPE_API_KEY") ?? "";
 const QWEN_MODEL = Deno.env.get("QWEN_MODEL") ?? "qwen3.8-max";
 const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyuncs.com/compatible-mode/v1";
 
-// 🚨 ЖЕСТКИЕ ИНТЕРВАЛЫ: от 30 минут до 2 часов между постами.
 const REGULAR_MIN_INTERVAL_MS = 30 * 60 * 1000;
 const REGULAR_MAX_INTERVAL_MS = 120 * 60 * 1000;
 const HARD_MIN_INTERVAL_MS = 30 * 60 * 1000;
@@ -212,10 +211,10 @@ async function isDuplicate(title: string, desc?: string): Promise<boolean> {
         const set = new Set(item.roots || []);
         let tm = 0;
         for (const r of titleRoots) if (set.has(r)) tm++;
-        if (tm >= 2) return true; // 2 совпадения в заголовке = дубль
+        if (tm >= 2) return true;
         let fm = 0;
         for (const r of allRoots) if (set.has(r)) fm++;
-        if (fm >= 4 && titleRoots.length > 0) return true; // 4 совпадения в тексте = дубль
+        if (fm >= 4 && titleRoots.length > 0) return true;
     }
     return false;
 }
@@ -304,13 +303,21 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
     return null;
 }
 
+// 🚨 ОЧИСТКА ТЕКСТА ОТ АТРИБУЦИИ (ТАСС, SHOT, MASH и т.д.)
 function sanitizeRawText(raw: string): string {
     let t = cleanText(raw);
-    t = t.replace(/(?:данные|информация|источник|по данным|сообщает|сообщил)\s+(?:shot|mash|baza|база|риа|тасс|чп)[\s\S]*?[.—:]\s*/gi, "");
-    t = t.replace(/по\s+нашей\s+информации,?\s*/gi, "");
-    t = t.replace(/как\s+стало\s+известно,?\s*/gi, "");
-    t = t.replace(/(?:подписывайтесь|подробнее|эксклюзив)\b[\s\S]*$/gi, "");
-    t = t.replace(/—\s*данные\s+[A-Za-zА-Яа-я0-9_]+/gi, "");
+
+    // 1. Убираем фразы "Видео:", "Фото:", "Источник:", "Об этом сообщает..." в начале строки или предложения
+    t = t.replace(/(?:^|\.\s*)(Видео|Фото|Источник|Об этом сообщает|Об этом сообщило|Об этом пишет|По данным)\s*:?\s*[^.!?]+[.!?]/gi, "");
+
+    // 2. Убираем упоминания конкретных каналов и агентств в скобках или через слэш
+    t = t.replace(/\s*[\(\[\/]\s*(?:ТАСС|SHOT|Mash|База|Readovka|РИА Новости|Интерфакс|Минобороны России)[^\)\]]*[\)\]]\s*/gi, " ");
+    t = t.replace(/\s*[-—]\s*(?:ТАСС|SHOT|Mash|База|Readovka|РИА Новости|Интерфакс|Минобороны России)\s*$/gi, "");
+
+    // 3. Убираем просто упоминания каналов в конце предложения или текста
+    t = t.replace(/\s*(?:ТАСС|SHOT|Mash|База|Readovka|РИА Новости|Интерфакс|Минобороны России)\s*[.!?]?\s*$/gi, "");
+
+    // 4. Чистим старые маркеры и хвосты
     t = t.replace(/📢\s*Прямой Эфир/gi, "");
     t = t.replace(/⚡\s*ФАКТОР/gi, "");
     const markers = ["Подписаться", "Подпишись", "Мы в Максе", 'Мы в "Максе"', "Мы в «Максе»", "Наш канал в Максе", "Читайте нас в Максе", "Читайте в Максе"];
@@ -319,6 +326,7 @@ function sanitizeRawText(raw: string): string {
         if (idx > 15) { t = t.slice(0, idx); break; }
     }
     t = t.replace(/[\s◆♦●○■▪▫▶➡⬛⬜⭐✔☑«»"'.,;:!?/\-–—]+$/g, "");
+
     return t.trim();
 }
 
@@ -536,7 +544,6 @@ async function sendPostToMax(text: string, media: Array<{ token: string, type: "
     return res.ok;
 }
 
-// 🚨 ЖЕСТКАЯ ЛОГИКА: только медиа из этого же поста. Никаких фолбэков на другие новости.
 function getMediaPacket(item: any, candidates: any[]): any[] {
     const packet: any[] = [];
     const seen = new Set<string>();
@@ -561,7 +568,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v54: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v55: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -616,7 +623,6 @@ async function run() {
 
         console.log("\nОбработка: " + item.title);
         
-        // 1. Сначала проверяем, есть ли медиа в самом посте. Если нет — сразу скипаем.
         const mediaPacket = getMediaPacket(item, candidates);
         if (mediaPacket.length === 0) {
             console.log(`❌ Пропуск: нет медиа в самом посте.`);
@@ -624,7 +630,6 @@ async function run() {
             continue;
         }
 
-        // 2. Только потом идем в LLM
         const post = await formatNewsPost(item.title, item.desc);
 
         if (post.is_ad) { skippedImportance++; continue; }
@@ -675,11 +680,10 @@ async function run() {
             await kv.set(["factor", "topic", hash], { title: item.title, roots: getRoots(item.title) }, { expireIn: HISTORY_TTL_MS });
             await kv.set(["factor", "texthash", textHash], true, { expireIn: HISTORY_TTL_MS });
             
-            // Увеличиваем задержку после публикации, чтобы не спамить
             const nextDelay = Math.floor(REGULAR_MIN_INTERVAL_MS + Math.random() * (REGULAR_MAX_INTERVAL_MS - REGULAR_MIN_INTERVAL_MS + 1));
             await kv.set(["factor", "next_regular_delay"], nextDelay);
             await kv.set(["factor", "last_regular"], now);
-            return; // Выходим, следующий пост будет не раньше чем через 30 минут
+            return;
         }
     }
 
