@@ -17,47 +17,6 @@
       "value": 1792342863592,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"e59f49cda88d4fe7ce39b82b738d8f77f47a33be7482da49446984ee8135fbf8\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "e59f49cda88d4fe7ce39b82b738d8f77f47a33be7482da49446984ee8135fbf8"
-      ],
-      "value": true,
-      "expiresAt": 1792346138090
-    },
-    "[\"factor\",\"topic\",\"e59f49cda88d4fe7ce39b82b738d8f77f47a33be7482da49446984ee8135fbf8\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "e59f49cda88d4fe7ce39b82b738d8f77f47a33be7482da49446984ee8135fbf8"
-      ],
-      "value": {
-        "title": "99-летняя британка прокатилась на крыле биплана и установила мировой рекорд Хельга Даффи и",
-        "roots": [
-          "летняя",
-          "британ",
-          "прокат",
-          "крыле",
-          "биплан",
-          "устано",
-          "мирово",
-          "рекорд",
-          "хельга",
-          "даффи"
-        ]
-      },
-      "expiresAt": 1792346138092
-    },
-    "[\"factor\",\"texthash\",\"ea4f7289e77b61c7c00b57ac285e879d63511f9725fbb6483b7c9ddd0528dceb\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "ea4f7289e77b61c7c00b57ac285e879d63511f9725fbb6483b7c9ddd0528dceb"
-      ],
-      "value": true,
-      "expiresAt": 1792346138093
-    },
     "[\"factor\",\"pub\",\"8c93b01da62057a15cdccd4feeb01f0526e50695d29148994d038ebc82428662\"]": {
       "key": [
         "factor",
