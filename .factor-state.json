@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 695246,
+      "value": 242271,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,99 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792304572412,
+      "value": 1792306124863,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"e98da3f1b5dfe41324b7ce27818c32fbb78c6492dd6b2ea7536d1faee6a35701\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "e98da3f1b5dfe41324b7ce27818c32fbb78c6492dd6b2ea7536d1faee6a35701"
-      ],
-      "value": true,
-      "expiresAt": 1792304605929
-    },
-    "[\"factor\",\"topic\",\"e98da3f1b5dfe41324b7ce27818c32fbb78c6492dd6b2ea7536d1faee6a35701\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "e98da3f1b5dfe41324b7ce27818c32fbb78c6492dd6b2ea7536d1faee6a35701"
-      ],
-      "value": {
-        "title": "ВСУ не смогли отразить ночные удары российских войск, пишет \"Политика Страны\"",
-        "roots": [
-          "смогли",
-          "отрази",
-          "ночные",
-          "удары",
-          "россий",
-          "войск",
-          "пишет",
-          "полити",
-          "страны"
-        ]
-      },
-      "expiresAt": 1792304605930
-    },
-    "[\"factor\",\"pub\",\"0738d11538caf12c06f91fe7bdd0971de36ab547606e05f9852be0918e0f93a1\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "0738d11538caf12c06f91fe7bdd0971de36ab547606e05f9852be0918e0f93a1"
-      ],
-      "value": true,
-      "expiresAt": 1792305147909
-    },
-    "[\"factor\",\"topic\",\"0738d11538caf12c06f91fe7bdd0971de36ab547606e05f9852be0918e0f93a1\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "0738d11538caf12c06f91fe7bdd0971de36ab547606e05f9852be0918e0f93a1"
-      ],
-      "value": {
-        "title": "Путин поздравил президента Индонезии Прабово Субианто с 75-летием, сообщили в Кремле",
-        "roots": [
-          "путин",
-          "поздра",
-          "презид",
-          "индоне",
-          "прабов",
-          "субиан",
-          "летием",
-          "кремле"
-        ]
-      },
-      "expiresAt": 1792305147910
-    },
-    "[\"factor\",\"pub\",\"e4dbcd09b0dda52d1b20d635890bd842614ee45b6e6cfd8509a0e10ff528569c\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "e4dbcd09b0dda52d1b20d635890bd842614ee45b6e6cfd8509a0e10ff528569c"
-      ],
-      "value": true,
-      "expiresAt": 1792305889958
-    },
-    "[\"factor\",\"topic\",\"e4dbcd09b0dda52d1b20d635890bd842614ee45b6e6cfd8509a0e10ff528569c\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "e4dbcd09b0dda52d1b20d635890bd842614ee45b6e6cfd8509a0e10ff528569c"
-      ],
-      "value": {
-        "title": "💙 Бриллиант огранки Heart cut стоимостью более $1,5 млн представит \"Алроса\" 22 октября в ",
-        "roots": [
-          "брилли",
-          "огранк",
-          "heart",
-          "стоимо",
-          "более",
-          "предст",
-          "алроса",
-          "октябр"
-        ]
-      },
-      "expiresAt": 1792305889959
     },
     "[\"factor\",\"pub\",\"21ab8d2826c4145fbbd9e8a19f78a0c6d2112826127eee30f03a460d1298951d\"]": {
       "key": [
@@ -2527,6 +2436,45 @@
       ],
       "value": true,
       "expiresAt": 1792391652373
+    },
+    "[\"factor\",\"pub\",\"f3b495e6f70f6704a45e48f951e97ac6b799cb1a9f7cc28a9ab5d5b1205b9044\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "f3b495e6f70f6704a45e48f951e97ac6b799cb1a9f7cc28a9ab5d5b1205b9044"
+      ],
+      "value": true,
+      "expiresAt": 1792393592489
+    },
+    "[\"factor\",\"topic\",\"f3b495e6f70f6704a45e48f951e97ac6b799cb1a9f7cc28a9ab5d5b1205b9044\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "f3b495e6f70f6704a45e48f951e97ac6b799cb1a9f7cc28a9ab5d5b1205b9044"
+      ],
+      "value": {
+        "title": "Мифы о вакцинации: можно ли заболеть от прививки и зачем защищаться здоровым людям",
+        "roots": [
+          "вакцин",
+          "можно",
+          "заболе",
+          "привив",
+          "зачем",
+          "защища",
+          "здоров",
+          "людям"
+        ]
+      },
+      "expiresAt": 1792393592489
+    },
+    "[\"factor\",\"texthash\",\"3c576a3904850622d4979acd38a92edf869d3be4727eb9c80d6f83aa24afa3b9\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "3c576a3904850622d4979acd38a92edf869d3be4727eb9c80d6f83aa24afa3b9"
+      ],
+      "value": true,
+      "expiresAt": 1792393592490
     }
   }
 }
