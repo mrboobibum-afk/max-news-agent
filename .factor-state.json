@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 7141129,
+      "value": 3711311,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,33 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792318832332,
+      "value": 1792326034608,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"177a8dd66782d01a299eb4fbbf6f265c95647130446ef221079416e7ea657dcd\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "177a8dd66782d01a299eb4fbbf6f265c95647130446ef221079416e7ea657dcd"
-      ],
-      "value": true,
-      "expiresAt": 1792325608416
-    },
-    "[\"factor\",\"topic\",\"177a8dd66782d01a299eb4fbbf6f265c95647130446ef221079416e7ea657dcd\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "177a8dd66782d01a299eb4fbbf6f265c95647130446ef221079416e7ea657dcd"
-      ],
-      "value": {
-        "title": "Кличко отправляют в нокаут",
-        "roots": [
-          "кличко",
-          "отправ",
-          "нокаут"
-        ]
-      },
-      "expiresAt": 1792325608417
     },
     "[\"factor\",\"pub\",\"421654349879afaf42e188ad50e13e2440f76e5db18967ddf1e3466e094378da\"]": {
       "key": [
@@ -2113,6 +2088,44 @@
       ],
       "value": true,
       "expiresAt": 1792405536185
+    },
+    "[\"factor\",\"pub\",\"bd3c1f5d69c69c91c949196cf9dec05975077010058c5c9f37477d4c3c0a3a35\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "bd3c1f5d69c69c91c949196cf9dec05975077010058c5c9f37477d4c3c0a3a35"
+      ],
+      "value": true,
+      "expiresAt": 1792413029076
+    },
+    "[\"factor\",\"topic\",\"bd3c1f5d69c69c91c949196cf9dec05975077010058c5c9f37477d4c3c0a3a35\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "bd3c1f5d69c69c91c949196cf9dec05975077010058c5c9f37477d4c3c0a3a35"
+      ],
+      "value": {
+        "title": "ПВО сбила семь крылатых ракет \"Фламинго\" и 1256 дронов ВСУ , сообщило Минобороны",
+        "roots": [
+          "сбила",
+          "крылат",
+          "ракет",
+          "фламин",
+          "дронов",
+          "сообщи",
+          "минобо"
+        ]
+      },
+      "expiresAt": 1792413029077
+    },
+    "[\"factor\",\"texthash\",\"4031661dd2fcf118948b8f52079b1bd229b12a13dbfc23908188379ffef5af8d\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "4031661dd2fcf118948b8f52079b1bd229b12a13dbfc23908188379ffef5af8d"
+      ],
+      "value": true,
+      "expiresAt": 1792413029078
     }
   }
 }
