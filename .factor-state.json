@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 797530,
+      "value": 493766,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,62 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792300832187,
+      "value": 1792303260234,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"b39dd1e9a43180e6d961ed6ac7b1a4d847a69156c523e7e9da3c51f55abec49e\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "b39dd1e9a43180e6d961ed6ac7b1a4d847a69156c523e7e9da3c51f55abec49e"
-      ],
-      "value": true,
-      "expiresAt": 1792301577619
-    },
-    "[\"factor\",\"topic\",\"b39dd1e9a43180e6d961ed6ac7b1a4d847a69156c523e7e9da3c51f55abec49e\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "b39dd1e9a43180e6d961ed6ac7b1a4d847a69156c523e7e9da3c51f55abec49e"
-      ],
-      "value": {
-        "title": "❕ ВС РФ поразили \"Запорожтрансформатор\", осуществляющий выпуск силовых масляных трансформа",
-        "roots": [
-          "порази",
-          "запоро",
-          "осущес",
-          "выпуск",
-          "силовы",
-          "маслян",
-          "трансф"
-        ]
-      },
-      "expiresAt": 1792301577621
-    },
-    "[\"factor\",\"pub\",\"6c2944979e2e6e893bfdcb7f9c148a35ab26b3876f39305aa97029260ab335b2\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "6c2944979e2e6e893bfdcb7f9c148a35ab26b3876f39305aa97029260ab335b2"
-      ],
-      "value": true,
-      "expiresAt": 1792302808229
-    },
-    "[\"factor\",\"topic\",\"6c2944979e2e6e893bfdcb7f9c148a35ab26b3876f39305aa97029260ab335b2\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "6c2944979e2e6e893bfdcb7f9c148a35ab26b3876f39305aa97029260ab335b2"
-      ],
-      "value": {
-        "title": "ПВО за ночь уничтожила 610 дронов ВСУ, сообщили в Минобороны",
-        "roots": [
-          "уничто",
-          "дронов",
-          "минобо"
-        ]
-      },
-      "expiresAt": 1792302808230
     },
     "[\"factor\",\"pub\",\"f7bd5b62ded2ddc9b86a95933173e0a1782866e182f26d7e19e541c1587e7037\"]": {
       "key": [
@@ -2533,6 +2479,45 @@
       ],
       "value": true,
       "expiresAt": 1792387531635
+    },
+    "[\"factor\",\"pub\",\"1ba922488b3d4cc582863c39a541315597f6c912ae977395e086d5c2698661e3\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "1ba922488b3d4cc582863c39a541315597f6c912ae977395e086d5c2698661e3"
+      ],
+      "value": true,
+      "expiresAt": 1792390153702
+    },
+    "[\"factor\",\"topic\",\"1ba922488b3d4cc582863c39a541315597f6c912ae977395e086d5c2698661e3\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "1ba922488b3d4cc582863c39a541315597f6c912ae977395e086d5c2698661e3"
+      ],
+      "value": {
+        "title": "Женщина и трое детей пострадали в результате атаки беспилотников во Всеволожском районе Ле",
+        "roots": [
+          "женщин",
+          "детей",
+          "постра",
+          "резуль",
+          "атаки",
+          "беспил",
+          "всевол",
+          "районе"
+        ]
+      },
+      "expiresAt": 1792390153703
+    },
+    "[\"factor\",\"texthash\",\"c060457ec070dfa781c60c11e27bd0d4e850ec1442c15b3bc09a8d32525d5378\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "c060457ec070dfa781c60c11e27bd0d4e850ec1442c15b3bc09a8d32525d5378"
+      ],
+      "value": true,
+      "expiresAt": 1792390153704
     }
   }
 }
