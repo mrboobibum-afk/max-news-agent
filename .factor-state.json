@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 252390,
+      "value": 824633,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,33 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792298734811,
+      "value": 1792299941559,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"d94e6e2a2932f05af6625ca9fe9b6e4256d8398ec45d0d193df9aaa3679effbc\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "d94e6e2a2932f05af6625ca9fe9b6e4256d8398ec45d0d193df9aaa3679effbc"
-      ],
-      "value": true,
-      "expiresAt": 1792299823455
-    },
-    "[\"factor\",\"topic\",\"d94e6e2a2932f05af6625ca9fe9b6e4256d8398ec45d0d193df9aaa3679effbc\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "d94e6e2a2932f05af6625ca9fe9b6e4256d8398ec45d0d193df9aaa3679effbc"
-      ],
-      "value": {
-        "title": "Боец Клим сообщил о ликвидации наблюдательного дрона ВСУ",
-        "roots": [
-          "ликвид",
-          "наблюд",
-          "дрона"
-        ]
-      },
-      "expiresAt": 1792299823456
     },
     "[\"factor\",\"pub\",\"2ad087a14719b30250562d4675316394849eac05ba48a2fb043134ffcc6ecaf3\"]": {
       "key": [
@@ -2545,6 +2520,44 @@
       ],
       "value": true,
       "expiresAt": 1792385825905
+    },
+    "[\"factor\",\"pub\",\"562b45efb8bb0f7a60cb26c22382f18645aead9ab546bbe2145b0f37c9d201cb\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "562b45efb8bb0f7a60cb26c22382f18645aead9ab546bbe2145b0f37c9d201cb"
+      ],
+      "value": true,
+      "expiresAt": 1792386500272
+    },
+    "[\"factor\",\"topic\",\"562b45efb8bb0f7a60cb26c22382f18645aead9ab546bbe2145b0f37c9d201cb\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "562b45efb8bb0f7a60cb26c22382f18645aead9ab546bbe2145b0f37c9d201cb"
+      ],
+      "value": {
+        "title": "БПЛА массированно атаковали Ленинградскую область этой ночью — над регионом сбили 126 бесп",
+        "roots": [
+          "массир",
+          "атаков",
+          "ленинг",
+          "област",
+          "ночью",
+          "регион",
+          "сбили"
+        ]
+      },
+      "expiresAt": 1792386500273
+    },
+    "[\"factor\",\"texthash\",\"2b6ba88444864991d22ea89e10b10431a4e55d0fa2991fc10df8f2fe928942fd\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "2b6ba88444864991d22ea89e10b10431a4e55d0fa2991fc10df8f2fe928942fd"
+      ],
+      "value": true,
+      "expiresAt": 1792386500274
     }
   }
 }
