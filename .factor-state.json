@@ -17,34 +17,6 @@
       "value": 1792318832332,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"60bbb2d4e910544bc9daad8a2c46001d1cc1f24100b4475eb9d829890f3bc894\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "60bbb2d4e910544bc9daad8a2c46001d1cc1f24100b4475eb9d829890f3bc894"
-      ],
-      "value": true,
-      "expiresAt": 1792319759723
-    },
-    "[\"factor\",\"topic\",\"60bbb2d4e910544bc9daad8a2c46001d1cc1f24100b4475eb9d829890f3bc894\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "60bbb2d4e910544bc9daad8a2c46001d1cc1f24100b4475eb9d829890f3bc894"
-      ],
-      "value": {
-        "title": "Истребители Королевских военно-воздушных сил Великобритании (RAF) чуть не столкнулись с дв",
-        "roots": [
-          "истреб",
-          "короле",
-          "военно",
-          "воздуш",
-          "велико",
-          "столкн"
-        ]
-      },
-      "expiresAt": 1792319759724
-    },
     "[\"factor\",\"pub\",\"5d8ee5c3e8b7c7826c0503c366b4149f214e196b92c88d6823da832172aa4219\"]": {
       "key": [
         "factor",
