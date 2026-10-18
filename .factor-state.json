@@ -17,37 +17,6 @@
       "value": 1792311698903,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"755307775004a2202f4df5f78e798d9cbb67aa04fca00e0338e32edda02efd7a\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "755307775004a2202f4df5f78e798d9cbb67aa04fca00e0338e32edda02efd7a"
-      ],
-      "value": true,
-      "expiresAt": 1792311772476
-    },
-    "[\"factor\",\"topic\",\"755307775004a2202f4df5f78e798d9cbb67aa04fca00e0338e32edda02efd7a\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "755307775004a2202f4df5f78e798d9cbb67aa04fca00e0338e32edda02efd7a"
-      ],
-      "value": {
-        "title": "❗️ На переходе морем поражен сухогруз, доставлявший в порт Одесса грузы военного назначени",
-        "roots": [
-          "перехо",
-          "морем",
-          "пораже",
-          "сухогр",
-          "достав",
-          "одесса",
-          "грузы",
-          "военно",
-          "назнач"
-        ]
-      },
-      "expiresAt": 1792311772477
-    },
     "[\"factor\",\"pub\",\"5c553c7e5fcbaef2ba87c2c267a2f520f6d7fb7e932dda1bbfa57766ad33b3bb\"]": {
       "key": [
         "factor",
