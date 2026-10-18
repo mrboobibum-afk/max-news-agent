@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 758292,
+      "value": 713353,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792314633192,
+      "value": 1792315848966,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"6bdf8467f3b9cf7f761f45f0dacb63d1f3955e49a47c218857d10cd93624a558\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "6bdf8467f3b9cf7f761f45f0dacb63d1f3955e49a47c218857d10cd93624a558"
-      ],
-      "value": true,
-      "expiresAt": 1792315394344
-    },
-    "[\"factor\",\"topic\",\"6bdf8467f3b9cf7f761f45f0dacb63d1f3955e49a47c218857d10cd93624a558\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "6bdf8467f3b9cf7f761f45f0dacb63d1f3955e49a47c218857d10cd93624a558"
-      ],
-      "value": {
-        "title": "Египет готов принять любые меры для защиты Саудовской Аравии, если поступит соответствующи",
-        "roots": [
-          "египет",
-          "готов",
-          "принят",
-          "любые",
-          "защиты",
-          "саудов",
-          "аравии",
-          "поступ",
-          "соотве"
-        ]
-      },
-      "expiresAt": 1792315394346
     },
     "[\"factor\",\"pub\",\"0b3c3db243ec6527deee8922d2662571fee243a012bab8fb88732a81e41f4a3c\"]": {
       "key": [
@@ -2390,6 +2359,45 @@
       ],
       "value": true,
       "expiresAt": 1792401377268
+    },
+    "[\"factor\",\"pub\",\"d3b97fd0621e64d8da125533d8d9e6ca138dd51b8dc035ec2a964b13dfb66060\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d3b97fd0621e64d8da125533d8d9e6ca138dd51b8dc035ec2a964b13dfb66060"
+      ],
+      "value": true,
+      "expiresAt": 1792402953392
+    },
+    "[\"factor\",\"topic\",\"d3b97fd0621e64d8da125533d8d9e6ca138dd51b8dc035ec2a964b13dfb66060\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d3b97fd0621e64d8da125533d8d9e6ca138dd51b8dc035ec2a964b13dfb66060"
+      ],
+      "value": {
+        "title": "Netflix зарегистрировал в России товарный знак логотипа c названием, выяснил корреспондент",
+        "roots": [
+          "netfli",
+          "зареги",
+          "россии",
+          "товарн",
+          "логоти",
+          "назван",
+          "выясни",
+          "коррес"
+        ]
+      },
+      "expiresAt": 1792402953393
+    },
+    "[\"factor\",\"texthash\",\"e7e56507ad43d2f69d35af62f4d24cf60748660dbe2fdd7ea48c16afe4ef88a3\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "e7e56507ad43d2f69d35af62f4d24cf60748660dbe2fdd7ea48c16afe4ef88a3"
+      ],
+      "value": true,
+      "expiresAt": 1792402953393
     }
   }
 }
