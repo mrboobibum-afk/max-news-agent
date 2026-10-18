@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 874663,
+      "value": 494820,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,69 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792285832930,
+      "value": 1792287050080,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"1898b675656fe0829c1d1734167577b33fe6a331eb641cffda210c3f1433b1c2\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "1898b675656fe0829c1d1734167577b33fe6a331eb641cffda210c3f1433b1c2"
-      ],
-      "value": true,
-      "expiresAt": 1792286541955
-    },
-    "[\"factor\",\"topic\",\"1898b675656fe0829c1d1734167577b33fe6a331eb641cffda210c3f1433b1c2\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "1898b675656fe0829c1d1734167577b33fe6a331eb641cffda210c3f1433b1c2"
-      ],
-      "value": {
-        "title": "Исследователи рассказали об изменении риска пищевой аллергии по мере взросления",
-        "roots": [
-          "исслед",
-          "расска",
-          "измене",
-          "риска",
-          "пищево",
-          "аллерг",
-          "взросл"
-        ]
-      },
-      "expiresAt": 1792286541956
-    },
-    "[\"factor\",\"pub\",\"985af7ab2a02b674454b20f26bef02bdd6ce00007f9094e52bfd259c74a5a5fa\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "985af7ab2a02b674454b20f26bef02bdd6ce00007f9094e52bfd259c74a5a5fa"
-      ],
-      "value": true,
-      "expiresAt": 1792287008360
-    },
-    "[\"factor\",\"topic\",\"985af7ab2a02b674454b20f26bef02bdd6ce00007f9094e52bfd259c74a5a5fa\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "985af7ab2a02b674454b20f26bef02bdd6ce00007f9094e52bfd259c74a5a5fa"
-      ],
-      "value": {
-        "title": "Мошенники стали атаковать россиян рассылками вирусных повесток о вызове на допрос, выяснил",
-        "roots": [
-          "мошенн",
-          "стали",
-          "атаков",
-          "россия",
-          "рассыл",
-          "вирусн",
-          "повест",
-          "вызове",
-          "допрос",
-          "выясни"
-        ]
-      },
-      "expiresAt": 1792287008361
     },
     "[\"factor\",\"pub\",\"cf7ef49cf3ddd0b9e9530d1b5347a4d41072136bf63e12ff9166c58f525067d0\"]": {
       "key": [
@@ -2569,6 +2508,44 @@
       ],
       "value": true,
       "expiresAt": 1792372684041
+    },
+    "[\"factor\",\"pub\",\"2e25c1e1a83c06f5e3ca0fa5de0ad536302273b8e491d880561f0d4c682b83c5\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "2e25c1e1a83c06f5e3ca0fa5de0ad536302273b8e491d880561f0d4c682b83c5"
+      ],
+      "value": true,
+      "expiresAt": 1792373646806
+    },
+    "[\"factor\",\"topic\",\"2e25c1e1a83c06f5e3ca0fa5de0ad536302273b8e491d880561f0d4c682b83c5\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "2e25c1e1a83c06f5e3ca0fa5de0ad536302273b8e491d880561f0d4c682b83c5"
+      ],
+      "value": {
+        "title": "Трамп взял 60 дней на оценку последствий санкций, которые США могут наложить на РФ, заявил",
+        "roots": [
+          "трамп",
+          "оценку",
+          "послед",
+          "санкци",
+          "которы",
+          "могут",
+          "наложи"
+        ]
+      },
+      "expiresAt": 1792373646807
+    },
+    "[\"factor\",\"texthash\",\"57d261192041e4bfa7c575c837464f63888f5ad2c35db20fdfce1081ea5f93f9\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "57d261192041e4bfa7c575c837464f63888f5ad2c35db20fdfce1081ea5f93f9"
+      ],
+      "value": true,
+      "expiresAt": 1792373646808
     }
   }
 }
