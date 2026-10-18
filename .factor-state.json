@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 264764,
+      "value": 625450,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792288860644,
+      "value": 1792289434885,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"d29a0a14c79de8969036e873ae561d8fb9af5929585b0935af8d6cff7d9154a2\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "d29a0a14c79de8969036e873ae561d8fb9af5929585b0935af8d6cff7d9154a2"
-      ],
-      "value": true,
-      "expiresAt": 1792288942866
-    },
-    "[\"factor\",\"topic\",\"d29a0a14c79de8969036e873ae561d8fb9af5929585b0935af8d6cff7d9154a2\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "d29a0a14c79de8969036e873ae561d8fb9af5929585b0935af8d6cff7d9154a2"
-      ],
-      "value": {
-        "title": "❗️ Трамп поручил администрации США следить за поставками энергоносителей из России",
-        "roots": [
-          "трамп",
-          "поручи",
-          "админи",
-          "следит",
-          "постав",
-          "энерго",
-          "россии"
-        ]
-      },
-      "expiresAt": 1792288942868
     },
     "[\"factor\",\"pub\",\"da458d1256125a643c124e83e625eb3bb92dce81867b887cf0ca5b7cd3312409\"]": {
       "key": [
@@ -2630,6 +2601,43 @@
       ],
       "value": true,
       "expiresAt": 1792375401616
+    },
+    "[\"factor\",\"pub\",\"71cd4ef82725c75e6abda09e8aa10ec4ddc0351717c09899544ed24fc421b790\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "71cd4ef82725c75e6abda09e8aa10ec4ddc0351717c09899544ed24fc421b790"
+      ],
+      "value": true,
+      "expiresAt": 1792376028653
+    },
+    "[\"factor\",\"topic\",\"71cd4ef82725c75e6abda09e8aa10ec4ddc0351717c09899544ed24fc421b790\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "71cd4ef82725c75e6abda09e8aa10ec4ddc0351717c09899544ed24fc421b790"
+      ],
+      "value": {
+        "title": "Новак заявил об отсутствии проблем с продажей российской нефти",
+        "roots": [
+          "новак",
+          "отсутс",
+          "пробле",
+          "продаж",
+          "россий",
+          "нефти"
+        ]
+      },
+      "expiresAt": 1792376028654
+    },
+    "[\"factor\",\"texthash\",\"74509988cd19f8ebd2600ccfc3b084c15eab9413a9215a74146ef7b9ddfd480d\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "74509988cd19f8ebd2600ccfc3b084c15eab9413a9215a74146ef7b9ddfd480d"
+      ],
+      "value": true,
+      "expiresAt": 1792376028655
     }
   }
 }
