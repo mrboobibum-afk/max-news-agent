@@ -1,6 +1,8 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Live Video/Action Edition v55)
+// MAX NEWS AGENT — «ФАКТОР» (Live Video/Action Edition v56)
 // ============================================================
+
+import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
 
 const MAX_API = "https://platform-api2.max.ru";
 const MAX_BOT_TOKEN = Deno.env.get("MAX_BOT_TOKEN") ?? "";
@@ -303,21 +305,15 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
     return null;
 }
 
-// 🚨 ОЧИСТКА ТЕКСТА ОТ АТРИБУЦИИ (ТАСС, SHOT, MASH и т.д.)
+// 🚨 ОЧИСТКА ТЕКСТА ОТ АТРИБУЦИИ
 function sanitizeRawText(raw: string): string {
     let t = cleanText(raw);
 
-    // 1. Убираем фразы "Видео:", "Фото:", "Источник:", "Об этом сообщает..." в начале строки или предложения
     t = t.replace(/(?:^|\.\s*)(Видео|Фото|Источник|Об этом сообщает|Об этом сообщило|Об этом пишет|По данным)\s*:?\s*[^.!?]+[.!?]/gi, "");
-
-    // 2. Убираем упоминания конкретных каналов и агентств в скобках или через слэш
     t = t.replace(/\s*[\(\[\/]\s*(?:ТАСС|SHOT|Mash|База|Readovka|РИА Новости|Интерфакс|Минобороны России)[^\)\]]*[\)\]]\s*/gi, " ");
     t = t.replace(/\s*[-—]\s*(?:ТАСС|SHOT|Mash|База|Readovka|РИА Новости|Интерфакс|Минобороны России)\s*$/gi, "");
-
-    // 3. Убираем просто упоминания каналов в конце предложения или текста
     t = t.replace(/\s*(?:ТАСС|SHOT|Mash|База|Readovka|РИА Новости|Интерфакс|Минобороны России)\s*[.!?]?\s*$/gi, "");
 
-    // 4. Чистим старые маркеры и хвосты
     t = t.replace(/📢\s*Прямой Эфир/gi, "");
     t = t.replace(/⚡\s*ФАКТОР/gi, "");
     const markers = ["Подписаться", "Подпишись", "Мы в Максе", 'Мы в "Максе"', "Мы в «Максе»", "Наш канал в Максе", "Читайте нас в Максе", "Читайте в Максе"];
@@ -328,6 +324,26 @@ function sanitizeRawText(raw: string): string {
     t = t.replace(/[\s◆♦●○■▪▫▶➡⬛⬜⭐✔☑«»"'.,;:!?/\-–—]+$/g, "");
 
     return t.trim();
+}
+
+// 🚨 ОБРЕЗКА ВОДЯНЫХ ЗНАКОВ НА ФОТО
+async function cropWatermarks(bytes: Uint8Array): Promise<Uint8Array> {
+    try {
+        const img = await Image.decode(bytes);
+        const w = img.width;
+        const h = img.height;
+        
+        // Обрезаем 12% сверху и 12% снизу (где обычно логотипы SHOT, BAZA, MASH)
+        // Оставляем центральную часть
+        const cropY = Math.floor(h * 0.12);
+        const cropH = Math.floor(h * 0.76); // 100% - 12% - 12% = 76%
+        
+        img.crop(0, cropY, w, cropH);
+        
+        return await img.encode();
+    } catch {
+        return bytes; // Если не удалось обработать, возвращаем оригинал
+    }
 }
 
 function extractPostDate(postHtml: string): number | null {
@@ -568,7 +584,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v55: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v56: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -648,8 +664,14 @@ async function run() {
 
         const uploaded: Array<{ token: string, type: "image" | "video" }> = [];
         for (const media of mediaPacket) {
-            const mediaBytes = await downloadBuffer(media.mediaUrl, media.mediaType === "video");
+            let mediaBytes = await downloadBuffer(media.mediaUrl, media.mediaType === "video");
             if (!mediaBytes) continue;
+
+            // 🚨 ОБРЕЗКА ВОДЯНЫХ ЗНАКОВ НА ФОТО
+            if (media.mediaType === "image") {
+                mediaBytes = await cropWatermarks(mediaBytes);
+            }
+
             try {
                 const token = await uploadToMax(mediaBytes, media.mediaType);
                 if (token) uploaded.push({ token, type: media.mediaType });
