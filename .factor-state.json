@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 640783,
+      "value": 7141129,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792316576420,
+      "value": 1792318832332,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"ad97d37c8d7af3a9d76bc8ffe68b7e3ad48c58e3268f981ccc2365e6bca5b936\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "ad97d37c8d7af3a9d76bc8ffe68b7e3ad48c58e3268f981ccc2365e6bca5b936"
-      ],
-      "value": true,
-      "expiresAt": 1792318444508
-    },
-    "[\"factor\",\"topic\",\"ad97d37c8d7af3a9d76bc8ffe68b7e3ad48c58e3268f981ccc2365e6bca5b936\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "ad97d37c8d7af3a9d76bc8ffe68b7e3ad48c58e3268f981ccc2365e6bca5b936"
-      ],
-      "value": {
-        "title": "❗️ Группировка войск \"Днепр\" освободила населенный пункт Малокатериновка в Запорожской обл",
-        "roots": [
-          "группи",
-          "войск",
-          "днепр",
-          "освобо",
-          "населе",
-          "пункт",
-          "малока",
-          "запоро"
-        ]
-      },
-      "expiresAt": 1792318444509
     },
     "[\"factor\",\"pub\",\"2c5d337bedb5008fece107992d3d5996b5df1844b7824fc5c482ca3f93bdb304\"]": {
       "key": [
@@ -2315,6 +2285,42 @@
       ],
       "value": true,
       "expiresAt": 1792403128842
+    },
+    "[\"factor\",\"pub\",\"e4417febdcc170eaa438d7579a96786e08d9d91786b8131074d4a78e6ea3b9cc\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e4417febdcc170eaa438d7579a96786e08d9d91786b8131074d4a78e6ea3b9cc"
+      ],
+      "value": true,
+      "expiresAt": 1792405536183
+    },
+    "[\"factor\",\"topic\",\"e4417febdcc170eaa438d7579a96786e08d9d91786b8131074d4a78e6ea3b9cc\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e4417febdcc170eaa438d7579a96786e08d9d91786b8131074d4a78e6ea3b9cc"
+      ],
+      "value": {
+        "title": "Россияне начали готовиться к Новому году за 3 месяца",
+        "roots": [
+          "россия",
+          "начали",
+          "готови",
+          "новому",
+          "месяца"
+        ]
+      },
+      "expiresAt": 1792405536184
+    },
+    "[\"factor\",\"texthash\",\"f68cdaa394eac85220912a54a3c73c3e02a606057ffcdc01d83fa8e9a5d3b709\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "f68cdaa394eac85220912a54a3c73c3e02a606057ffcdc01d83fa8e9a5d3b709"
+      ],
+      "value": true,
+      "expiresAt": 1792405536185
     }
   }
 }
