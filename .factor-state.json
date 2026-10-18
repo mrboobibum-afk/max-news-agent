@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 3324724,
+      "value": 6712376,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,76 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792362036160,
+      "value": 1792365631055,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"57d4dd3bfc552fa6d598988d4992501c3346dc69ac6a7a182e88228827678aea\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "57d4dd3bfc552fa6d598988d4992501c3346dc69ac6a7a182e88228827678aea"
-      ],
-      "value": true,
-      "expiresAt": 1792365336314
-    },
-    "[\"factor\",\"topic\",\"57d4dd3bfc552fa6d598988d4992501c3346dc69ac6a7a182e88228827678aea\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "57d4dd3bfc552fa6d598988d4992501c3346dc69ac6a7a182e88228827678aea"
-      ],
-      "value": {
-        "title": "▶️ В Лиможе из-за пожара, возникшего в ходе беспорядков, обрушилась колокольня здания мэри",
-        "roots": [
-          "лиможе",
-          "пожара",
-          "возник",
-          "беспор",
-          "обруши",
-          "колоко",
-          "здания"
-        ]
-      },
-      "expiresAt": 1792365336315
-    },
-    "[\"factor\",\"pub\",\"829442445e69215cdc7c99ed695f1a9dbfeb51eae118280a161d2f8b993b9fcb\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "829442445e69215cdc7c99ed695f1a9dbfeb51eae118280a161d2f8b993b9fcb"
-      ],
-      "value": true,
-      "expiresAt": 1792365608487
-    },
-    "[\"factor\",\"topic\",\"829442445e69215cdc7c99ed695f1a9dbfeb51eae118280a161d2f8b993b9fcb\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "829442445e69215cdc7c99ed695f1a9dbfeb51eae118280a161d2f8b993b9fcb"
-      ],
-      "value": {
-        "title": "Леопард, зебра и снежный барс: почему анималистичные шубы стали главным хитом",
-        "roots": [
-          "леопар",
-          "зебра",
-          "снежны",
-          "почему",
-          "анимал",
-          "стали",
-          "главны",
-          "хитом"
-        ]
-      },
-      "expiresAt": 1792365608488
-    },
-    "[\"factor\",\"texthash\",\"564d1637c36b1dcf06e6e2097b4755cd6007a148e799b11ccf98c57e40ab48fd\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "564d1637c36b1dcf06e6e2097b4755cd6007a148e799b11ccf98c57e40ab48fd"
-      ],
-      "value": true,
-      "expiresAt": 1792365608489
     },
     "[\"factor\",\"pub\",\"e547ce5217861311c9a918650c2e39c61b8272aee4d2ed3336a3aeaa2bf42327\"]": {
       "key": [
@@ -1584,6 +1516,45 @@
       ],
       "value": true,
       "expiresAt": 1792448732733
+    },
+    "[\"factor\",\"pub\",\"487780681433624576d41af0c1af47318c9aae87365ab6408599f873dde31c45\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "487780681433624576d41af0c1af47318c9aae87365ab6408599f873dde31c45"
+      ],
+      "value": true,
+      "expiresAt": 1792453105990
+    },
+    "[\"factor\",\"topic\",\"487780681433624576d41af0c1af47318c9aae87365ab6408599f873dde31c45\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "487780681433624576d41af0c1af47318c9aae87365ab6408599f873dde31c45"
+      ],
+      "value": {
+        "title": "Москва, Татарстан и Петербург возглавили рейтинг регионов по научно-технологическому разви",
+        "roots": [
+          "татарс",
+          "петерб",
+          "возгла",
+          "рейтин",
+          "регион",
+          "научно",
+          "технол",
+          "разви"
+        ]
+      },
+      "expiresAt": 1792453105991
+    },
+    "[\"factor\",\"texthash\",\"d5070bf401404a7fb100e9910531b9a22a07984fd440d3d24c2f1d4a89d1955e\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "d5070bf401404a7fb100e9910531b9a22a07984fd440d3d24c2f1d4a89d1955e"
+      ],
+      "value": true,
+      "expiresAt": 1792453105991
     }
   }
 }
