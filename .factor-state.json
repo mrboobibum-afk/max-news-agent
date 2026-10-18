@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 614831,
+      "value": 781085,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,97 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792293734974,
+      "value": 1792295295564,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"5d7ea3929f5ed3a8355c55df7052409921fbcb7050f110e82a7b694fd732e480\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "5d7ea3929f5ed3a8355c55df7052409921fbcb7050f110e82a7b694fd732e480"
-      ],
-      "value": true,
-      "expiresAt": 1792293741398
-    },
-    "[\"factor\",\"topic\",\"5d7ea3929f5ed3a8355c55df7052409921fbcb7050f110e82a7b694fd732e480\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "5d7ea3929f5ed3a8355c55df7052409921fbcb7050f110e82a7b694fd732e480"
-      ],
-      "value": {
-        "title": "Семь коротких рабочих недель ждут россиян в 2027 году: в феврале, марте, две в мае, в июне",
-        "roots": [
-          "коротк",
-          "рабочи",
-          "недель",
-          "россия",
-          "феврал",
-          "марте"
-        ]
-      },
-      "expiresAt": 1792293741399
-    },
-    "[\"factor\",\"pub\",\"b805ee4fe1e7caf8d8ea85101b49adf04dbdef888cbe2d1831ba702651e17cfb\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "b805ee4fe1e7caf8d8ea85101b49adf04dbdef888cbe2d1831ba702651e17cfb"
-      ],
-      "value": true,
-      "expiresAt": 1792294347030
-    },
-    "[\"factor\",\"topic\",\"b805ee4fe1e7caf8d8ea85101b49adf04dbdef888cbe2d1831ba702651e17cfb\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "b805ee4fe1e7caf8d8ea85101b49adf04dbdef888cbe2d1831ba702651e17cfb"
-      ],
-      "value": {
-        "title": "Кирилл Дмитриев прокомментировал слова Трампа о якобы известных ему первопричинах украинск",
-        "roots": [
-          "кирилл",
-          "дмитри",
-          "проком",
-          "слова",
-          "трампа",
-          "якобы",
-          "извест",
-          "первоп",
-          "украин"
-        ]
-      },
-      "expiresAt": 1792294347031
-    },
-    "[\"factor\",\"pub\",\"1508c864f7270e2e9a6ecbc271c34d3b1eab693426c50ed314d53c3877282ec3\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "1508c864f7270e2e9a6ecbc271c34d3b1eab693426c50ed314d53c3877282ec3"
-      ],
-      "value": true,
-      "expiresAt": 1792294915829
-    },
-    "[\"factor\",\"topic\",\"1508c864f7270e2e9a6ecbc271c34d3b1eab693426c50ed314d53c3877282ec3\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "1508c864f7270e2e9a6ecbc271c34d3b1eab693426c50ed314d53c3877282ec3"
-      ],
-      "value": {
-        "title": "Бюджет Украины потерял с начала 2026 года около $1 млрд налогов из-за взрывов и пожаров",
-        "roots": [
-          "бюджет",
-          "украин",
-          "потеря",
-          "начала",
-          "около",
-          "налого",
-          "взрыво",
-          "пожаро"
-        ]
-      },
-      "expiresAt": 1792294915830
     },
     "[\"factor\",\"pub\",\"4f79a637ed3c432b2fef847ecee83f03aa2e8826e3a885c2e540aa65882a7433\"]": {
       "key": [
@@ -2637,6 +2548,45 @@
       ],
       "value": true,
       "expiresAt": 1792380838132
+    },
+    "[\"factor\",\"pub\",\"932a8938b92aeb96ff73056fd451e76266222c75d788e08019080bf9193ac006\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "932a8938b92aeb96ff73056fd451e76266222c75d788e08019080bf9193ac006"
+      ],
+      "value": true,
+      "expiresAt": 1792382306892
+    },
+    "[\"factor\",\"topic\",\"932a8938b92aeb96ff73056fd451e76266222c75d788e08019080bf9193ac006\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "932a8938b92aeb96ff73056fd451e76266222c75d788e08019080bf9193ac006"
+      ],
+      "value": {
+        "title": "Зубастый монстр из деревни: зачем гусю на самом деле нужны жуткие шипы и зазубрины во рту",
+        "roots": [
+          "зубаст",
+          "монстр",
+          "деревн",
+          "зачем",
+          "самом",
+          "нужны",
+          "жуткие",
+          "зазубр"
+        ]
+      },
+      "expiresAt": 1792382306893
+    },
+    "[\"factor\",\"texthash\",\"bb7dd43e9ef232ccaa4c65c3aaab5503d29fcddc7258aad803bf1217e68ebbbc\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "bb7dd43e9ef232ccaa4c65c3aaab5503d29fcddc7258aad803bf1217e68ebbbc"
+      ],
+      "value": true,
+      "expiresAt": 1792382306893
     }
   }
 }
