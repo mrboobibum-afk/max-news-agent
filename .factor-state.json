@@ -17,37 +17,6 @@
       "value": 1792318832332,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"0cea4c7d3dc448151d875cfd7d3838122fb931edbac6e5a8f2d0d1c22ef548f6\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "0cea4c7d3dc448151d875cfd7d3838122fb931edbac6e5a8f2d0d1c22ef548f6"
-      ],
-      "value": true,
-      "expiresAt": 1792322186605
-    },
-    "[\"factor\",\"topic\",\"0cea4c7d3dc448151d875cfd7d3838122fb931edbac6e5a8f2d0d1c22ef548f6\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "0cea4c7d3dc448151d875cfd7d3838122fb931edbac6e5a8f2d0d1c22ef548f6"
-      ],
-      "value": {
-        "title": "Реальный срок за татуировку грозит тату-мастеру из Перми — работу девушки признали оскорбл",
-        "roots": [
-          "реальн",
-          "татуир",
-          "грозит",
-          "мастер",
-          "перми",
-          "работу",
-          "девушк",
-          "призна",
-          "оскорб"
-        ]
-      },
-      "expiresAt": 1792322186607
-    },
     "[\"factor\",\"pub\",\"9cc320eb8aebee9469518be199d0df9624f4d48d810d07895d0510e61ebed97d\"]": {
       "key": [
         "factor",
