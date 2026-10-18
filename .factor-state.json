@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 7141129,
+      "value": 1885357,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,33 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792318832332,
+      "value": 1792326671710,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"177a8dd66782d01a299eb4fbbf6f265c95647130446ef221079416e7ea657dcd\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "177a8dd66782d01a299eb4fbbf6f265c95647130446ef221079416e7ea657dcd"
-      ],
-      "value": true,
-      "expiresAt": 1792325608416
-    },
-    "[\"factor\",\"topic\",\"177a8dd66782d01a299eb4fbbf6f265c95647130446ef221079416e7ea657dcd\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "177a8dd66782d01a299eb4fbbf6f265c95647130446ef221079416e7ea657dcd"
-      ],
-      "value": {
-        "title": "Кличко отправляют в нокаут",
-        "roots": [
-          "кличко",
-          "отправ",
-          "нокаут"
-        ]
-      },
-      "expiresAt": 1792325608417
     },
     "[\"factor\",\"pub\",\"421654349879afaf42e188ad50e13e2440f76e5db18967ddf1e3466e094378da\"]": {
       "key": [
@@ -2113,6 +2088,41 @@
       ],
       "value": true,
       "expiresAt": 1792405536185
+    },
+    "[\"factor\",\"pub\",\"62811b8eb8863368df4298e9fbf8d837b446e35299c829673a7f664c2ab6ffe7\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "62811b8eb8863368df4298e9fbf8d837b446e35299c829673a7f664c2ab6ffe7"
+      ],
+      "value": true,
+      "expiresAt": 1792413347372
+    },
+    "[\"factor\",\"topic\",\"62811b8eb8863368df4298e9fbf8d837b446e35299c829673a7f664c2ab6ffe7\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "62811b8eb8863368df4298e9fbf8d837b446e35299c829673a7f664c2ab6ffe7"
+      ],
+      "value": {
+        "title": "Проклятый рейс Москва — Хургада снова перенесли",
+        "roots": [
+          "прокля",
+          "хургад",
+          "снова",
+          "перене"
+        ]
+      },
+      "expiresAt": 1792413347373
+    },
+    "[\"factor\",\"texthash\",\"00b3794883f01c5c6a8d179816b9ecb613a43bcf22b86c4f8cdf10de37244a70\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "00b3794883f01c5c6a8d179816b9ecb613a43bcf22b86c4f8cdf10de37244a70"
+      ],
+      "value": true,
+      "expiresAt": 1792413347374
     }
   }
 }
