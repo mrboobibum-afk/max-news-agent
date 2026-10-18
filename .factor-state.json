@@ -17,41 +17,6 @@
       "value": 1792348251042,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"7ce597f73d980f377367dd3893927d3abe274c23ea7ffd73f7336627c9988cc9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "7ce597f73d980f377367dd3893927d3abe274c23ea7ffd73f7336627c9988cc9"
-      ],
-      "value": true,
-      "expiresAt": 1792350056351
-    },
-    "[\"factor\",\"topic\",\"7ce597f73d980f377367dd3893927d3abe274c23ea7ffd73f7336627c9988cc9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "7ce597f73d980f377367dd3893927d3abe274c23ea7ffd73f7336627c9988cc9"
-      ],
-      "value": {
-        "title": "Tesla представила летающий автомобиль",
-        "roots": [
-          "tesla",
-          "предст",
-          "летающ",
-          "автомо"
-        ]
-      },
-      "expiresAt": 1792350056352
-    },
-    "[\"factor\",\"texthash\",\"fa81e84dfe53c0991cc84db10ace92d300199749baabad4998c6d970f5197e99\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "fa81e84dfe53c0991cc84db10ace92d300199749baabad4998c6d970f5197e99"
-      ],
-      "value": true,
-      "expiresAt": 1792350056352
-    },
     "[\"factor\",\"pub\",\"f406024046cf7f4cba60b7bb21e8722eda6bfbd28996e594a76f51a5b0321cea\"]": {
       "key": [
         "factor",
