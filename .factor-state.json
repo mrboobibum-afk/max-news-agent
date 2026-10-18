@@ -17,46 +17,6 @@
       "value": 1792342863592,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"d146e4d6f51c697ca31952d1f0a0813db2f1ff73e57b7fec48d5e0b72eaffe3f\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "d146e4d6f51c697ca31952d1f0a0813db2f1ff73e57b7fec48d5e0b72eaffe3f"
-      ],
-      "value": true,
-      "expiresAt": 1792347377170
-    },
-    "[\"factor\",\"topic\",\"d146e4d6f51c697ca31952d1f0a0813db2f1ff73e57b7fec48d5e0b72eaffe3f\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "d146e4d6f51c697ca31952d1f0a0813db2f1ff73e57b7fec48d5e0b72eaffe3f"
-      ],
-      "value": {
-        "title": "Рассказ о десяти повешенных: как союзники казнили нацистских вождей и почему боялись их пе",
-        "roots": [
-          "расска",
-          "десяти",
-          "повеше",
-          "союзни",
-          "казнил",
-          "нацист",
-          "вождей",
-          "почему",
-          "боялис"
-        ]
-      },
-      "expiresAt": 1792347377171
-    },
-    "[\"factor\",\"texthash\",\"4c1eb0a40c9cd82f5ff98bdedc7a08c35f0aa2862abdf1753e147d6373143ded\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "4c1eb0a40c9cd82f5ff98bdedc7a08c35f0aa2862abdf1753e147d6373143ded"
-      ],
-      "value": true,
-      "expiresAt": 1792347377172
-    },
     "[\"factor\",\"pub\",\"7ce597f73d980f377367dd3893927d3abe274c23ea7ffd73f7336627c9988cc9\"]": {
       "key": [
         "factor",
