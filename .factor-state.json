@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 824633,
+      "value": 797530,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792299941559,
+      "value": 1792300832187,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"b39dd1e9a43180e6d961ed6ac7b1a4d847a69156c523e7e9da3c51f55abec49e\"]": {
@@ -2494,6 +2494,45 @@
       ],
       "value": true,
       "expiresAt": 1792386500274
+    },
+    "[\"factor\",\"pub\",\"bc69204384ef732105b5b11ad8767b8d76d17fab7a4b47b182eb196c446707eb\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "bc69204384ef732105b5b11ad8767b8d76d17fab7a4b47b182eb196c446707eb"
+      ],
+      "value": true,
+      "expiresAt": 1792387531633
+    },
+    "[\"factor\",\"topic\",\"bc69204384ef732105b5b11ad8767b8d76d17fab7a4b47b182eb196c446707eb\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "bc69204384ef732105b5b11ad8767b8d76d17fab7a4b47b182eb196c446707eb"
+      ],
+      "value": {
+        "title": "Выбери новое лицо: в России разрабатывают приложение для моделирования результатов пластич",
+        "roots": [
+          "выбери",
+          "новое",
+          "россии",
+          "разраб",
+          "прилож",
+          "модели",
+          "резуль",
+          "пласти"
+        ]
+      },
+      "expiresAt": 1792387531634
+    },
+    "[\"factor\",\"texthash\",\"5dae230a4bf999266d26ca00a7956b9ebb84234e36f702872e7cc5116b0913ea\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "5dae230a4bf999266d26ca00a7956b9ebb84234e36f702872e7cc5116b0913ea"
+      ],
+      "value": true,
+      "expiresAt": 1792387531635
     }
   }
 }
