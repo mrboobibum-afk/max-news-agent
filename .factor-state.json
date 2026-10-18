@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 874688,
+      "value": 582464,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792283449599,
+      "value": 1792284930595,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"81b4b265002aea4af717a32509d1efabc85de3d3ccb8560d013cc59e1bf8892b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "81b4b265002aea4af717a32509d1efabc85de3d3ccb8560d013cc59e1bf8892b"
-      ],
-      "value": true,
-      "expiresAt": 1792284668685
-    },
-    "[\"factor\",\"topic\",\"81b4b265002aea4af717a32509d1efabc85de3d3ccb8560d013cc59e1bf8892b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "81b4b265002aea4af717a32509d1efabc85de3d3ccb8560d013cc59e1bf8892b"
-      ],
-      "value": {
-        "title": "Трамп своим указом распорядился не применять ряд мер, предусмотренных ранее принятым закон",
-        "roots": [
-          "трамп",
-          "своим",
-          "указом",
-          "распор",
-          "примен",
-          "предус",
-          "ранее",
-          "принят",
-          "закон"
-        ]
-      },
-      "expiresAt": 1792284668686
     },
     "[\"factor\",\"pub\",\"79004ffda9266289c511ab19c0991d9b77f4ccc42c451d33ff8199cb635ca228\"]": {
       "key": [
@@ -2552,6 +2521,44 @@
       ],
       "value": true,
       "expiresAt": 1792369980485
+    },
+    "[\"factor\",\"pub\",\"1e10b39066f59fb26d96e053308c65330ef5f5b0ba902a926cce43b5b3326fa3\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "1e10b39066f59fb26d96e053308c65330ef5f5b0ba902a926cce43b5b3326fa3"
+      ],
+      "value": true,
+      "expiresAt": 1792371636238
+    },
+    "[\"factor\",\"topic\",\"1e10b39066f59fb26d96e053308c65330ef5f5b0ba902a926cce43b5b3326fa3\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "1e10b39066f59fb26d96e053308c65330ef5f5b0ba902a926cce43b5b3326fa3"
+      ],
+      "value": {
+        "title": "Не голодать, но и не вредить: какие фрукты не дадут вздутия и чем их дополнить",
+        "roots": [
+          "голода",
+          "вредит",
+          "какие",
+          "фрукты",
+          "дадут",
+          "вздути",
+          "дополн"
+        ]
+      },
+      "expiresAt": 1792371636239
+    },
+    "[\"factor\",\"texthash\",\"6a1dba614b3e3e2b3f9e9c6b4d33b753c43b275a4a74c68559587d79df212fe1\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "6a1dba614b3e3e2b3f9e9c6b4d33b753c43b275a4a74c68559587d79df212fe1"
+      ],
+      "value": true,
+      "expiresAt": 1792371636240
     }
   }
 }
