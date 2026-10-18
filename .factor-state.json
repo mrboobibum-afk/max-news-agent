@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 1885357,
+      "value": 2169856,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792326671710,
+      "value": 1792329035014,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"421654349879afaf42e188ad50e13e2440f76e5db18967ddf1e3466e094378da\"]": {
@@ -2123,6 +2123,44 @@
       ],
       "value": true,
       "expiresAt": 1792413347374
+    },
+    "[\"factor\",\"pub\",\"993dbe90f415addfeae0249b11d5c98a43e7b087f01182618884167d4241a528\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "993dbe90f415addfeae0249b11d5c98a43e7b087f01182618884167d4241a528"
+      ],
+      "value": true,
+      "expiresAt": 1792415693951
+    },
+    "[\"factor\",\"topic\",\"993dbe90f415addfeae0249b11d5c98a43e7b087f01182618884167d4241a528\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "993dbe90f415addfeae0249b11d5c98a43e7b087f01182618884167d4241a528"
+      ],
+      "value": {
+        "title": "Бойца поп-ММА Ибрагима Исмаилова расстреляли во Владикавказе По данным SHOT, сегодня ночью",
+        "roots": [
+          "бойца",
+          "ибраги",
+          "исмаил",
+          "расстр",
+          "владик",
+          "данным",
+          "ночью"
+        ]
+      },
+      "expiresAt": 1792415693953
+    },
+    "[\"factor\",\"texthash\",\"fbb465cc01b992524f0201bd54dfcb8781d9503c1914397f66b21b8f1a1a5a7c\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "fbb465cc01b992524f0201bd54dfcb8781d9503c1914397f66b21b8f1a1a5a7c"
+      ],
+      "value": true,
+      "expiresAt": 1792415693953
     }
   }
 }
