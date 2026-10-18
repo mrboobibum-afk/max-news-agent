@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 781085,
+      "value": 713556,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,67 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792295295564,
+      "value": 1792296661085,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"4f79a637ed3c432b2fef847ecee83f03aa2e8826e3a885c2e540aa65882a7433\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "4f79a637ed3c432b2fef847ecee83f03aa2e8826e3a885c2e540aa65882a7433"
-      ],
-      "value": true,
-      "expiresAt": 1792295645624
-    },
-    "[\"factor\",\"topic\",\"4f79a637ed3c432b2fef847ecee83f03aa2e8826e3a885c2e540aa65882a7433\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "4f79a637ed3c432b2fef847ecee83f03aa2e8826e3a885c2e540aa65882a7433"
-      ],
-      "value": {
-        "title": "🌪 Поураганили на позициях ВСУ Расчет РСЗО «Ураган» 11-го армейского корпуса группировки «",
-        "roots": [
-          "поураг",
-          "позици",
-          "расчет",
-          "ураган",
-          "армейс",
-          "корпус",
-          "группи"
-        ]
-      },
-      "expiresAt": 1792295645626
-    },
-    "[\"factor\",\"pub\",\"8e3ea58eb99e1e36479eb8421622bde12dff337412bbda437838d6a1bbc2d3d9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "8e3ea58eb99e1e36479eb8421622bde12dff337412bbda437838d6a1bbc2d3d9"
-      ],
-      "value": true,
-      "expiresAt": 1792296136749
-    },
-    "[\"factor\",\"topic\",\"8e3ea58eb99e1e36479eb8421622bde12dff337412bbda437838d6a1bbc2d3d9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "8e3ea58eb99e1e36479eb8421622bde12dff337412bbda437838d6a1bbc2d3d9"
-      ],
-      "value": {
-        "title": "Си Цзиньпин в поездке во Внутреннюю Монголию призвал стремиться к зеленому развитию",
-        "roots": [
-          "цзиньп",
-          "поездк",
-          "внутре",
-          "монгол",
-          "призва",
-          "стреми",
-          "зелено",
-          "развит"
-        ]
-      },
-      "expiresAt": 1792296136751
     },
     "[\"factor\",\"pub\",\"3eaeba62dad533b1266422b04496b8debec03d422e67393e9082a84002db1e46\"]": {
       "key": [
@@ -2588,6 +2529,45 @@
       ],
       "value": true,
       "expiresAt": 1792382306893
+    },
+    "[\"factor\",\"pub\",\"34f1b3723bfd5068e2cf8ac8f9bc2e0b86148b94764fd7e13ff76133d2affb02\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "34f1b3723bfd5068e2cf8ac8f9bc2e0b86148b94764fd7e13ff76133d2affb02"
+      ],
+      "value": true,
+      "expiresAt": 1792383894678
+    },
+    "[\"factor\",\"topic\",\"34f1b3723bfd5068e2cf8ac8f9bc2e0b86148b94764fd7e13ff76133d2affb02\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "34f1b3723bfd5068e2cf8ac8f9bc2e0b86148b94764fd7e13ff76133d2affb02"
+      ],
+      "value": {
+        "title": "Инфаркт, деменция и COVID: как ваша группа крови влияет на риск опасных заболеваний",
+        "roots": [
+          "инфарк",
+          "деменц",
+          "covid",
+          "группа",
+          "крови",
+          "влияет",
+          "опасны",
+          "заболе"
+        ]
+      },
+      "expiresAt": 1792383894679
+    },
+    "[\"factor\",\"texthash\",\"3e3fc219683758e5524df00bf7dca859fe7112c1fdd113df614eee42195852b4\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "3e3fc219683758e5524df00bf7dca859fe7112c1fdd113df614eee42195852b4"
+      ],
+      "value": true,
+      "expiresAt": 1792383894680
     }
   }
 }
