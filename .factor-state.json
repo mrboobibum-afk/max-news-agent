@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 589510,
+      "value": 284439,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,39 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792312835995,
+      "value": 1792313434888,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"5c553c7e5fcbaef2ba87c2c267a2f520f6d7fb7e932dda1bbfa57766ad33b3bb\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "5c553c7e5fcbaef2ba87c2c267a2f520f6d7fb7e932dda1bbfa57766ad33b3bb"
-      ],
-      "value": true,
-      "expiresAt": 1792312954627
-    },
-    "[\"factor\",\"topic\",\"5c553c7e5fcbaef2ba87c2c267a2f520f6d7fb7e932dda1bbfa57766ad33b3bb\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "5c553c7e5fcbaef2ba87c2c267a2f520f6d7fb7e932dda1bbfa57766ad33b3bb"
-      ],
-      "value": {
-        "title": "Новый препарат для лечения рака печени \"Гепаторен-МРНЦ\" успешно прошел первую и вторую фаз",
-        "roots": [
-          "новый",
-          "препар",
-          "лечени",
-          "печени",
-          "гепато",
-          "успешн",
-          "прошел",
-          "первую",
-          "вторую"
-        ]
-      },
-      "expiresAt": 1792312954628
     },
     "[\"factor\",\"pub\",\"a6b8d0ca818347437b0d4cf0d163775d2b97da08ae1a9cd984d327fe11357d13\"]": {
       "key": [
@@ -2391,6 +2360,44 @@
       ],
       "value": true,
       "expiresAt": 1792399525133
+    },
+    "[\"factor\",\"pub\",\"a034bf364624ea07c86a014323f716dc3eb3e928d06896e28baf79c9876250e5\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "a034bf364624ea07c86a014323f716dc3eb3e928d06896e28baf79c9876250e5"
+      ],
+      "value": true,
+      "expiresAt": 1792400139257
+    },
+    "[\"factor\",\"topic\",\"a034bf364624ea07c86a014323f716dc3eb3e928d06896e28baf79c9876250e5\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "a034bf364624ea07c86a014323f716dc3eb3e928d06896e28baf79c9876250e5"
+      ],
+      "value": {
+        "title": "Квартиры по цене айфонов массово распродают в Челябинской области из-за радиационного след",
+        "roots": [
+          "кварти",
+          "айфоно",
+          "массов",
+          "распро",
+          "челяби",
+          "област",
+          "радиац"
+        ]
+      },
+      "expiresAt": 1792400139258
+    },
+    "[\"factor\",\"texthash\",\"8a595ce5fdb32107758626dcb4f6557cac1c2ddd89894db939a6df3f7cb4f65c\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "8a595ce5fdb32107758626dcb4f6557cac1c2ddd89894db939a6df3f7cb4f65c"
+      ],
+      "value": true,
+      "expiresAt": 1792400139259
     }
   }
 }
