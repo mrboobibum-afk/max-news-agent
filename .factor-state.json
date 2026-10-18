@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 2169856,
+      "value": 3320118,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792329035014,
+      "value": 1792331435587,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"9e16bd2a9515fb1073bb7be522a9b8d17120b1a471926adf2b7de893f8f699bb\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "9e16bd2a9515fb1073bb7be522a9b8d17120b1a471926adf2b7de893f8f699bb"
-      ],
-      "value": true,
-      "expiresAt": 1792331050351
-    },
-    "[\"factor\",\"topic\",\"9e16bd2a9515fb1073bb7be522a9b8d17120b1a471926adf2b7de893f8f699bb\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "9e16bd2a9515fb1073bb7be522a9b8d17120b1a471926adf2b7de893f8f699bb"
-      ],
-      "value": {
-        "title": "Выгнали на улицу и снесли дома вместе с мебелью и вещами — ликвидация спорного посёлка в Т",
-        "roots": [
-          "выгнал",
-          "улицу",
-          "снесли",
-          "вместе",
-          "мебель",
-          "вещами",
-          "ликвид",
-          "спорно"
-        ]
-      },
-      "expiresAt": 1792331050353
     },
     "[\"factor\",\"pub\",\"2077275f5a9e3599c4668cc37b652d4cf9a5066277e39434975b0cf13613b537\"]": {
       "key": [
@@ -2098,6 +2068,44 @@
       ],
       "value": true,
       "expiresAt": 1792415693953
+    },
+    "[\"factor\",\"pub\",\"85c24d07023aa3c47906fd92f444901a83bbd6dfec6af97128efd90052fcb675\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "85c24d07023aa3c47906fd92f444901a83bbd6dfec6af97128efd90052fcb675"
+      ],
+      "value": true,
+      "expiresAt": 1792418093607
+    },
+    "[\"factor\",\"topic\",\"85c24d07023aa3c47906fd92f444901a83bbd6dfec6af97128efd90052fcb675\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "85c24d07023aa3c47906fd92f444901a83bbd6dfec6af97128efd90052fcb675"
+      ],
+      "value": {
+        "title": "Более 400 россиян застряли в Белоруссии из-за атак БПЛА на Санкт-Петербург — два самолёта ",
+        "roots": [
+          "более",
+          "россия",
+          "застря",
+          "белору",
+          "санкт",
+          "петерб",
+          "самол"
+        ]
+      },
+      "expiresAt": 1792418093608
+    },
+    "[\"factor\",\"texthash\",\"202b699613d934d3d598c09acaca9238e4eb956df93df3e617be4684d297b310\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "202b699613d934d3d598c09acaca9238e4eb956df93df3e617be4684d297b310"
+      ],
+      "value": true,
+      "expiresAt": 1792418093609
     }
   }
 }
