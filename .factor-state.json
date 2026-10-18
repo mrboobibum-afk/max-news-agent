@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 542115,
+      "value": 724860,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,67 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792292884629,
+      "value": 1792294462884,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"5d7ea3929f5ed3a8355c55df7052409921fbcb7050f110e82a7b694fd732e480\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "5d7ea3929f5ed3a8355c55df7052409921fbcb7050f110e82a7b694fd732e480"
-      ],
-      "value": true,
-      "expiresAt": 1792293741398
-    },
-    "[\"factor\",\"topic\",\"5d7ea3929f5ed3a8355c55df7052409921fbcb7050f110e82a7b694fd732e480\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "5d7ea3929f5ed3a8355c55df7052409921fbcb7050f110e82a7b694fd732e480"
-      ],
-      "value": {
-        "title": "Семь коротких рабочих недель ждут россиян в 2027 году: в феврале, марте, две в мае, в июне",
-        "roots": [
-          "коротк",
-          "рабочи",
-          "недель",
-          "россия",
-          "феврал",
-          "марте"
-        ]
-      },
-      "expiresAt": 1792293741399
-    },
-    "[\"factor\",\"pub\",\"b805ee4fe1e7caf8d8ea85101b49adf04dbdef888cbe2d1831ba702651e17cfb\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "b805ee4fe1e7caf8d8ea85101b49adf04dbdef888cbe2d1831ba702651e17cfb"
-      ],
-      "value": true,
-      "expiresAt": 1792294347030
-    },
-    "[\"factor\",\"topic\",\"b805ee4fe1e7caf8d8ea85101b49adf04dbdef888cbe2d1831ba702651e17cfb\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "b805ee4fe1e7caf8d8ea85101b49adf04dbdef888cbe2d1831ba702651e17cfb"
-      ],
-      "value": {
-        "title": "Кирилл Дмитриев прокомментировал слова Трампа о якобы известных ему первопричинах украинск",
-        "roots": [
-          "кирилл",
-          "дмитри",
-          "проком",
-          "слова",
-          "трампа",
-          "якобы",
-          "извест",
-          "первоп",
-          "украин"
-        ]
-      },
-      "expiresAt": 1792294347031
     },
     "[\"factor\",\"pub\",\"1508c864f7270e2e9a6ecbc271c34d3b1eab693426c50ed314d53c3877282ec3\"]": {
       "key": [
@@ -2602,6 +2543,42 @@
       ],
       "value": true,
       "expiresAt": 1792380109603
+    },
+    "[\"factor\",\"pub\",\"6ba3e79d39eaca2fcc6ef560fd5f1940d5df78716db0f0b09c12510f7940b197\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "6ba3e79d39eaca2fcc6ef560fd5f1940d5df78716db0f0b09c12510f7940b197"
+      ],
+      "value": true,
+      "expiresAt": 1792381673488
+    },
+    "[\"factor\",\"topic\",\"6ba3e79d39eaca2fcc6ef560fd5f1940d5df78716db0f0b09c12510f7940b197\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "6ba3e79d39eaca2fcc6ef560fd5f1940d5df78716db0f0b09c12510f7940b197"
+      ],
+      "value": {
+        "title": "❗️ В Доброполье уничтожена группировка ВСУ численностью около 2 тыс",
+        "roots": [
+          "доброп",
+          "уничто",
+          "группи",
+          "числен",
+          "около"
+        ]
+      },
+      "expiresAt": 1792381673489
+    },
+    "[\"factor\",\"texthash\",\"26410aacb490119ebbf81fe6572f516553b8bd840aa157dbe230497fad8f7f0a\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "26410aacb490119ebbf81fe6572f516553b8bd840aa157dbe230497fad8f7f0a"
+      ],
+      "value": true,
+      "expiresAt": 1792381673490
     }
   }
 }
