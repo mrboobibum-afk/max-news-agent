@@ -17,33 +17,6 @@
       "value": 1792299941559,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"2ad087a14719b30250562d4675316394849eac05ba48a2fb043134ffcc6ecaf3\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "2ad087a14719b30250562d4675316394849eac05ba48a2fb043134ffcc6ecaf3"
-      ],
-      "value": true,
-      "expiresAt": 1792300376549
-    },
-    "[\"factor\",\"topic\",\"2ad087a14719b30250562d4675316394849eac05ba48a2fb043134ffcc6ecaf3\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "2ad087a14719b30250562d4675316394849eac05ba48a2fb043134ffcc6ecaf3"
-      ],
-      "value": {
-        "title": "Депутат Гаврилов назвал способы афер с дачами",
-        "roots": [
-          "депута",
-          "гаврил",
-          "назвал",
-          "способ",
-          "дачами"
-        ]
-      },
-      "expiresAt": 1792300376550
-    },
     "[\"factor\",\"pub\",\"b39dd1e9a43180e6d961ed6ac7b1a4d847a69156c523e7e9da3c51f55abec49e\"]": {
       "key": [
         "factor",
