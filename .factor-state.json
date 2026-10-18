@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 847372,
+      "value": 203227,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,40 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792281660521,
+      "value": 1792282834306,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"0c2b258bbf8e10e48072f743fcc4be99d83b26e548b68757f80e0e7e732ef699\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "0c2b258bbf8e10e48072f743fcc4be99d83b26e548b68757f80e0e7e732ef699"
-      ],
-      "value": true,
-      "expiresAt": 1792282278192
-    },
-    "[\"factor\",\"topic\",\"0c2b258bbf8e10e48072f743fcc4be99d83b26e548b68757f80e0e7e732ef699\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "0c2b258bbf8e10e48072f743fcc4be99d83b26e548b68757f80e0e7e732ef699"
-      ],
-      "value": {
-        "title": "Минэнерго США предоставило России список компаний, которые хотят покупать российский дизел",
-        "roots": [
-          "минэне",
-          "предос",
-          "россии",
-          "список",
-          "компан",
-          "которы",
-          "хотят",
-          "покупа",
-          "россий",
-          "дизел"
-        ]
-      },
-      "expiresAt": 1792282278194
     },
     "[\"factor\",\"pub\",\"987407c4062c2ca8e65e9a0b8087549242932cdb33364c84a83763e34b01ec7f\"]": {
       "key": [
@@ -2538,6 +2506,45 @@
       ],
       "value": true,
       "expiresAt": 1792368201645
+    },
+    "[\"factor\",\"pub\",\"68e160930925d91a8d72b9a05f880d1a987be46e9c17c4b5f9125915d1cef5b8\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "68e160930925d91a8d72b9a05f880d1a987be46e9c17c4b5f9125915d1cef5b8"
+      ],
+      "value": true,
+      "expiresAt": 1792369485349
+    },
+    "[\"factor\",\"topic\",\"68e160930925d91a8d72b9a05f880d1a987be46e9c17c4b5f9125915d1cef5b8\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "68e160930925d91a8d72b9a05f880d1a987be46e9c17c4b5f9125915d1cef5b8"
+      ],
+      "value": {
+        "title": "США хотят предложить Европе возобновить закупку российского газа, утверждает газета New Yo",
+        "roots": [
+          "хотят",
+          "предло",
+          "европе",
+          "возобн",
+          "закупк",
+          "россий",
+          "утверж",
+          "газета"
+        ]
+      },
+      "expiresAt": 1792369485351
+    },
+    "[\"factor\",\"texthash\",\"49e486e9366f38e92905f488dd2803039b389b2e6d91be215a468ebc48a825e1\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "49e486e9366f38e92905f488dd2803039b389b2e6d91be215a468ebc48a825e1"
+      ],
+      "value": true,
+      "expiresAt": 1792369485352
     }
   }
 }
