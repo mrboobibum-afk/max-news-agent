@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 5028369,
+      "value": 2229270,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792335032604,
+      "value": 1792340438048,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"5b40785b8806b1d2670fe7305a7b292d38f1169d20d05772aad4d7c8d4b38658\"]": {
@@ -25,28 +25,6 @@
       ],
       "value": true,
       "expiresAt": 1792340820949
-    },
-    "[\"factor\",\"topic\",\"5b40785b8806b1d2670fe7305a7b292d38f1169d20d05772aad4d7c8d4b38658\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "5b40785b8806b1d2670fe7305a7b292d38f1169d20d05772aad4d7c8d4b38658"
-      ],
-      "value": {
-        "title": "🏆 Россиянин Егор Корнев завоевал \"Тройную корону\" , победив на третьем этапе Кубка мира п",
-        "roots": [
-          "россия",
-          "корнев",
-          "завоев",
-          "тройну",
-          "корону",
-          "победи",
-          "третье",
-          "этапе",
-          "кубка"
-        ]
-      },
-      "expiresAt": 1792340368439
     },
     "[\"factor\",\"pub\",\"50b423676bb07afbd8c8e2f160954010e2f26bf1067c72e99477a2b897df3513\"]": {
       "key": [
@@ -1998,6 +1976,46 @@
       ],
       "value": true,
       "expiresAt": 1792421756924
+    },
+    "[\"factor\",\"pub\",\"566b76cf2a00f1fad66aaca96ead3a38c8e66c9d3431c4792ceaf4b0e77e6a56\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "566b76cf2a00f1fad66aaca96ead3a38c8e66c9d3431c4792ceaf4b0e77e6a56"
+      ],
+      "value": true,
+      "expiresAt": 1792427099548
+    },
+    "[\"factor\",\"topic\",\"566b76cf2a00f1fad66aaca96ead3a38c8e66c9d3431c4792ceaf4b0e77e6a56\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "566b76cf2a00f1fad66aaca96ead3a38c8e66c9d3431c4792ceaf4b0e77e6a56"
+      ],
+      "value": {
+        "title": "«Обещал дочерям вернуться»: раненый боец три недели полз на сломанных ногах, чтобы обнять ",
+        "roots": [
+          "обещал",
+          "дочеря",
+          "вернут",
+          "ранены",
+          "недели",
+          "сломан",
+          "ногах",
+          "чтобы",
+          "обнять"
+        ]
+      },
+      "expiresAt": 1792427099549
+    },
+    "[\"factor\",\"texthash\",\"2e99eb798889decb7fc0cd133ab2ba9b5a8228dad7f3e5329cfcb2a668280e53\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "2e99eb798889decb7fc0cd133ab2ba9b5a8228dad7f3e5329cfcb2a668280e53"
+      ],
+      "value": true,
+      "expiresAt": 1792427099550
     }
   }
 }
