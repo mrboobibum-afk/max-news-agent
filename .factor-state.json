@@ -17,36 +17,6 @@
       "value": 1792335032604,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"7a7cc032eb62f11247d48fbfb0982aabf6cb844d0c1c0bb5b7b8ab5d22cc4733\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "7a7cc032eb62f11247d48fbfb0982aabf6cb844d0c1c0bb5b7b8ab5d22cc4733"
-      ],
-      "value": true,
-      "expiresAt": 1792335321615
-    },
-    "[\"factor\",\"topic\",\"7a7cc032eb62f11247d48fbfb0982aabf6cb844d0c1c0bb5b7b8ab5d22cc4733\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "7a7cc032eb62f11247d48fbfb0982aabf6cb844d0c1c0bb5b7b8ab5d22cc4733"
-      ],
-      "value": {
-        "title": "Почти 40 часов пассажиры Air Cairo не могут вылететь из Шереметьево в Хургаду",
-        "roots": [
-          "почти",
-          "часов",
-          "пассаж",
-          "cairo",
-          "могут",
-          "вылете",
-          "шереме",
-          "хургад"
-        ]
-      },
-      "expiresAt": 1792335321616
-    },
     "[\"factor\",\"pub\",\"9c38a31c0d89b7cbab4d64fa9471e6f10b7da5c50b4b757b801a10511703951b\"]": {
       "key": [
         "factor",
