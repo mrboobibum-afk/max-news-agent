@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 274500,
+      "value": 614831,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792291833015,
+      "value": 1792293734974,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"cbcbda2e0bab0917a00b44d8e8a3aa62913524ec1accdde50320af4d82162486\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "cbcbda2e0bab0917a00b44d8e8a3aa62913524ec1accdde50320af4d82162486"
-      ],
-      "value": true,
-      "expiresAt": 1792292593357
-    },
-    "[\"factor\",\"topic\",\"cbcbda2e0bab0917a00b44d8e8a3aa62913524ec1accdde50320af4d82162486\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "cbcbda2e0bab0917a00b44d8e8a3aa62913524ec1accdde50320af4d82162486"
-      ],
-      "value": {
-        "title": "В генконсульстве РФ подтвердили ТАСС, что суд в Индии обязал индийскую сторону принять сро",
-        "roots": [
-          "генкон",
-          "подтве",
-          "индии",
-          "обязал",
-          "индийс",
-          "сторон",
-          "принят"
-        ]
-      },
-      "expiresAt": 1792292593358
     },
     "[\"factor\",\"pub\",\"5d7ea3929f5ed3a8355c55df7052409921fbcb7050f110e82a7b694fd732e480\"]": {
       "key": [
@@ -2630,6 +2601,41 @@
       ],
       "value": true,
       "expiresAt": 1792379262300
+    },
+    "[\"factor\",\"pub\",\"fec07325f13805530f896e996032fd9de377328cbe305adc2c90182cc57c671d\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "fec07325f13805530f896e996032fd9de377328cbe305adc2c90182cc57c671d"
+      ],
+      "value": true,
+      "expiresAt": 1792380838131
+    },
+    "[\"factor\",\"topic\",\"fec07325f13805530f896e996032fd9de377328cbe305adc2c90182cc57c671d\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "fec07325f13805530f896e996032fd9de377328cbe305adc2c90182cc57c671d"
+      ],
+      "value": {
+        "title": "▶️ Боец ВС РФ рассказал, как за пять дней прошел 25 км с осколочным ранением легкого",
+        "roots": [
+          "прошел",
+          "осколо",
+          "ранени",
+          "легког"
+        ]
+      },
+      "expiresAt": 1792380838132
+    },
+    "[\"factor\",\"texthash\",\"1279a669136450469b1fbb852812e78c5eb0854f5436b38102bd9ebc6f429cc9\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "1279a669136450469b1fbb852812e78c5eb0854f5436b38102bd9ebc6f429cc9"
+      ],
+      "value": true,
+      "expiresAt": 1792380838132
     }
   }
 }
