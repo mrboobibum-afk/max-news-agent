@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 431082,
+      "value": 882130,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,66 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792310382966,
+      "value": 1792311698903,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"6360990ef0727b292d627aa1d50bb8cac0cad236f52f7756afb4dd28563e97ba\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "6360990ef0727b292d627aa1d50bb8cac0cad236f52f7756afb4dd28563e97ba"
-      ],
-      "value": true,
-      "expiresAt": 1792310715842
-    },
-    "[\"factor\",\"topic\",\"6360990ef0727b292d627aa1d50bb8cac0cad236f52f7756afb4dd28563e97ba\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "6360990ef0727b292d627aa1d50bb8cac0cad236f52f7756afb4dd28563e97ba"
-      ],
-      "value": {
-        "title": "▶️ РСПП просит кабмин выработать правила введения временного управления на предприятиях за",
-        "roots": [
-          "просит",
-          "кабмин",
-          "вырабо",
-          "правил",
-          "введен",
-          "времен",
-          "управл",
-          "предпр"
-        ]
-      },
-      "expiresAt": 1792310715843
-    },
-    "[\"factor\",\"pub\",\"fef10431b824c27d5824a03c19b474047fcab29f8801f221f1b486506427b27a\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "fef10431b824c27d5824a03c19b474047fcab29f8801f221f1b486506427b27a"
-      ],
-      "value": true,
-      "expiresAt": 1792311133790
-    },
-    "[\"factor\",\"topic\",\"fef10431b824c27d5824a03c19b474047fcab29f8801f221f1b486506427b27a\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "fef10431b824c27d5824a03c19b474047fcab29f8801f221f1b486506427b27a"
-      ],
-      "value": {
-        "title": "🚨 В течение недели в сторону Московского региона летели 2 730 БПЛА",
-        "roots": [
-          "течени",
-          "недели",
-          "сторон",
-          "москов",
-          "регион",
-          "летели"
-        ]
-      },
-      "expiresAt": 1792311133791
     },
     "[\"factor\",\"pub\",\"755307775004a2202f4df5f78e798d9cbb67aa04fca00e0338e32edda02efd7a\"]": {
       "key": [
@@ -2401,6 +2343,44 @@
       ],
       "value": true,
       "expiresAt": 1792397779186
+    },
+    "[\"factor\",\"pub\",\"6d393646ebed69c6bb4cd83acc883a6c1ec9deedef47b45bc8d8f1d63ad02830\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "6d393646ebed69c6bb4cd83acc883a6c1ec9deedef47b45bc8d8f1d63ad02830"
+      ],
+      "value": true,
+      "expiresAt": 1792398377809
+    },
+    "[\"factor\",\"topic\",\"6d393646ebed69c6bb4cd83acc883a6c1ec9deedef47b45bc8d8f1d63ad02830\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "6d393646ebed69c6bb4cd83acc883a6c1ec9deedef47b45bc8d8f1d63ad02830"
+      ],
+      "value": {
+        "title": "Париж требует голову Макрона, Марсель штурмует мэрию",
+        "roots": [
+          "париж",
+          "требуе",
+          "голову",
+          "макрон",
+          "марсел",
+          "штурму",
+          "мэрию"
+        ]
+      },
+      "expiresAt": 1792398377810
+    },
+    "[\"factor\",\"texthash\",\"22ffea806c17a1b1b9583be8b9c00d451370ef56ae8fc6e51740bc9d5f5d95a9\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "22ffea806c17a1b1b9583be8b9c00d451370ef56ae8fc6e51740bc9d5f5d95a9"
+      ],
+      "value": true,
+      "expiresAt": 1792398377811
     }
   }
 }
