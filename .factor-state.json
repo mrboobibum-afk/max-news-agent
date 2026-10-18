@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 724860,
+      "value": 695104,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,67 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792294462884,
+      "value": 1792295929872,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"1508c864f7270e2e9a6ecbc271c34d3b1eab693426c50ed314d53c3877282ec3\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "1508c864f7270e2e9a6ecbc271c34d3b1eab693426c50ed314d53c3877282ec3"
-      ],
-      "value": true,
-      "expiresAt": 1792294915829
-    },
-    "[\"factor\",\"topic\",\"1508c864f7270e2e9a6ecbc271c34d3b1eab693426c50ed314d53c3877282ec3\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "1508c864f7270e2e9a6ecbc271c34d3b1eab693426c50ed314d53c3877282ec3"
-      ],
-      "value": {
-        "title": "Бюджет Украины потерял с начала 2026 года около $1 млрд налогов из-за взрывов и пожаров",
-        "roots": [
-          "бюджет",
-          "украин",
-          "потеря",
-          "начала",
-          "около",
-          "налого",
-          "взрыво",
-          "пожаро"
-        ]
-      },
-      "expiresAt": 1792294915830
-    },
-    "[\"factor\",\"pub\",\"4f79a637ed3c432b2fef847ecee83f03aa2e8826e3a885c2e540aa65882a7433\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "4f79a637ed3c432b2fef847ecee83f03aa2e8826e3a885c2e540aa65882a7433"
-      ],
-      "value": true,
-      "expiresAt": 1792295645624
-    },
-    "[\"factor\",\"topic\",\"4f79a637ed3c432b2fef847ecee83f03aa2e8826e3a885c2e540aa65882a7433\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "4f79a637ed3c432b2fef847ecee83f03aa2e8826e3a885c2e540aa65882a7433"
-      ],
-      "value": {
-        "title": "🌪 Поураганили на позициях ВСУ Расчет РСЗО «Ураган» 11-го армейского корпуса группировки «",
-        "roots": [
-          "поураг",
-          "позици",
-          "расчет",
-          "ураган",
-          "армейс",
-          "корпус",
-          "группи"
-        ]
-      },
-      "expiresAt": 1792295645626
     },
     "[\"factor\",\"pub\",\"8e3ea58eb99e1e36479eb8421622bde12dff337412bbda437838d6a1bbc2d3d9\"]": {
       "key": [
@@ -2579,6 +2520,44 @@
       ],
       "value": true,
       "expiresAt": 1792381673490
+    },
+    "[\"factor\",\"pub\",\"ba094d32402164f9264097eaf673568e5e2f4ba28723c02f22018d30cc245823\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "ba094d32402164f9264097eaf673568e5e2f4ba28723c02f22018d30cc245823"
+      ],
+      "value": true,
+      "expiresAt": 1792383037511
+    },
+    "[\"factor\",\"topic\",\"ba094d32402164f9264097eaf673568e5e2f4ba28723c02f22018d30cc245823\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "ba094d32402164f9264097eaf673568e5e2f4ba28723c02f22018d30cc245823"
+      ],
+      "value": {
+        "title": "На какой отметке зафиксировалась средняя ставка по вкладам. Инфографика",
+        "roots": [
+          "какой",
+          "отметк",
+          "зафикс",
+          "средня",
+          "ставка",
+          "вклада",
+          "инфогр"
+        ]
+      },
+      "expiresAt": 1792383037512
+    },
+    "[\"factor\",\"texthash\",\"0b9e6ac0d345c1ea17cc7678aec3e81edd707ad16c5119c9ae758ef91bb74788\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "0b9e6ac0d345c1ea17cc7678aec3e81edd707ad16c5119c9ae758ef91bb74788"
+      ],
+      "value": true,
+      "expiresAt": 1792383037513
     }
   }
 }
