@@ -2565,39 +2565,40 @@
       "value": true,
       "expiresAt": 1792377138215
     },
-    "[\"factor\",\"pub\",\"50be19f04023abfe88571623111326d0c5d6fa4ad4c82f2c579971eec31e9133\"]": {
+    "[\"factor\",\"pub\",\"3fea93e38ad1035bf7e5118a9efc8322f88083a79c79a853eb1b0fd5278e29f0\"]": {
       "key": [
         "factor",
         "pub",
-        "50be19f04023abfe88571623111326d0c5d6fa4ad4c82f2c579971eec31e9133"
+        "3fea93e38ad1035bf7e5118a9efc8322f88083a79c79a853eb1b0fd5278e29f0"
       ],
       "value": true,
-      "expiresAt": 1792379262298
+      "expiresAt": 1792380109601
     },
-    "[\"factor\",\"topic\",\"50be19f04023abfe88571623111326d0c5d6fa4ad4c82f2c579971eec31e9133\"]": {
+    "[\"factor\",\"topic\",\"3fea93e38ad1035bf7e5118a9efc8322f88083a79c79a853eb1b0fd5278e29f0\"]": {
       "key": [
         "factor",
         "topic",
-        "50be19f04023abfe88571623111326d0c5d6fa4ad4c82f2c579971eec31e9133"
+        "3fea93e38ad1035bf7e5118a9efc8322f88083a79c79a853eb1b0fd5278e29f0"
       ],
       "value": {
-        "title": "Под ногами тихо, а опасность уже рядом: эта ядовитая змея остаётся незаметной даже вблизи",
+        "title": "✈️ Пассажиры и сотрудники аэропорта Пулково переведены в безопасные места, сообщили в авиа",
         "roots": [
-          "ногами",
-          "опасно",
-          "рядом",
-          "ядовит",
-          "незаме",
-          "вблизи"
+          "пассаж",
+          "сотруд",
+          "аэропо",
+          "пулков",
+          "переве",
+          "безопа",
+          "места"
         ]
       },
-      "expiresAt": 1792379262299
+      "expiresAt": 1792380109602
     },
-    "[\"factor\",\"texthash\",\"5df0e22c002cd0853789e1b8ebe934f65a4a65be4c0bc411c2dc4bbaa29e5597\"]": {
+    "[\"factor\",\"texthash\",\"ec0ee8c51f24a893d9a7f388f7474f6498713726e0bd4756cf79e2c27bdc129d\"]": {
       "key": [
         "factor",
         "texthash",
-        "5df0e22c002cd0853789e1b8ebe934f65a4a65be4c0bc411c2dc4bbaa29e5597"
+        "ec0ee8c51f24a893d9a7f388f7474f6498713726e0bd4756cf79e2c27bdc129d"
       ],
       "value": true,
       "expiresAt": 1792379262300
