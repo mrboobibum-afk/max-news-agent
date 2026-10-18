@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 494820,
+      "value": 355246,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792287050080,
+      "value": 1792287631777,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"cf7ef49cf3ddd0b9e9530d1b5347a4d41072136bf63e12ff9166c58f525067d0\"]": {
@@ -2546,6 +2546,45 @@
       ],
       "value": true,
       "expiresAt": 1792373646808
+    },
+    "[\"factor\",\"pub\",\"413e2fdb6602527af0e2138434e99aa17019d060521356b61a2eddc44e545094\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "413e2fdb6602527af0e2138434e99aa17019d060521356b61a2eddc44e545094"
+      ],
+      "value": true,
+      "expiresAt": 1792374134795
+    },
+    "[\"factor\",\"topic\",\"413e2fdb6602527af0e2138434e99aa17019d060521356b61a2eddc44e545094\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "413e2fdb6602527af0e2138434e99aa17019d060521356b61a2eddc44e545094"
+      ],
+      "value": {
+        "title": "Краснокнижные снежные барсы оказались под угрозой из-за голодных медведей на юге Сибири",
+        "roots": [
+          "красно",
+          "снежны",
+          "барсы",
+          "оказал",
+          "угрозо",
+          "голодн",
+          "медвед",
+          "сибири"
+        ]
+      },
+      "expiresAt": 1792374134796
+    },
+    "[\"factor\",\"texthash\",\"359e1a1c9927efc327da1e4599cf47dd83cffbf48929f3aa2ec24c894bcd6767\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "359e1a1c9927efc327da1e4599cf47dd83cffbf48929f3aa2ec24c894bcd6767"
+      ],
+      "value": true,
+      "expiresAt": 1792374134797
     }
   }
 }
