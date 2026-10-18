@@ -17,15 +17,6 @@
       "value": 1792362036160,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"a28a43af419893acab30542a912a240b846220e845d1305a15fd23b1dd306f35\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "a28a43af419893acab30542a912a240b846220e845d1305a15fd23b1dd306f35"
-      ],
-      "value": true,
-      "expiresAt": 1792363525195
-    },
     "[\"factor\",\"topic\",\"441fff36221aefb6b5737dacb947a9d1bb2b561ef36877a4a6122e5fecbf539b\"]": {
       "key": [
         "factor",
