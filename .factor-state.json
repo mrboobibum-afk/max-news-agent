@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 284439,
+      "value": 523551,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,37 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792313434888,
+      "value": 1792314064462,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"a6b8d0ca818347437b0d4cf0d163775d2b97da08ae1a9cd984d327fe11357d13\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "a6b8d0ca818347437b0d4cf0d163775d2b97da08ae1a9cd984d327fe11357d13"
-      ],
-      "value": true,
-      "expiresAt": 1792313519905
-    },
-    "[\"factor\",\"topic\",\"a6b8d0ca818347437b0d4cf0d163775d2b97da08ae1a9cd984d327fe11357d13\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "a6b8d0ca818347437b0d4cf0d163775d2b97da08ae1a9cd984d327fe11357d13"
-      ],
-      "value": {
-        "title": "Трамп рассказал, что делает сам себе макияж, чтобы не выглядеть похожим на мертвеца: \"Я ис",
-        "roots": [
-          "трамп",
-          "делает",
-          "макияж",
-          "чтобы",
-          "выгляд",
-          "похожи",
-          "мертве"
-        ]
-      },
-      "expiresAt": 1792313519907
     },
     "[\"factor\",\"pub\",\"bfb44dedcd4216a1fdd0fff7d421b36e6c8151e75fd00a2b061771196de35a14\"]": {
       "key": [
@@ -2398,6 +2369,47 @@
       ],
       "value": true,
       "expiresAt": 1792400139259
+    },
+    "[\"factor\",\"pub\",\"7d0bf16dc7f22219e1ab20a4e87e966a662659f53e36b332155cc37ecf8aa502\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "7d0bf16dc7f22219e1ab20a4e87e966a662659f53e36b332155cc37ecf8aa502"
+      ],
+      "value": true,
+      "expiresAt": 1792400739927
+    },
+    "[\"factor\",\"topic\",\"7d0bf16dc7f22219e1ab20a4e87e966a662659f53e36b332155cc37ecf8aa502\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "7d0bf16dc7f22219e1ab20a4e87e966a662659f53e36b332155cc37ecf8aa502"
+      ],
+      "value": {
+        "title": "Мировое признание русской королевы волейбола: Екатерина Гамова вошла в Зал славы волейбола",
+        "roots": [
+          "мирово",
+          "призна",
+          "русско",
+          "короле",
+          "волейб",
+          "екатер",
+          "гамова",
+          "вошла",
+          "славы",
+          "волейб"
+        ]
+      },
+      "expiresAt": 1792400739928
+    },
+    "[\"factor\",\"texthash\",\"99da922657b59e0b1010d51bbacedf6a4ea11006d8fc0ddd83cc09fdeb886b33\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "99da922657b59e0b1010d51bbacedf6a4ea11006d8fc0ddd83cc09fdeb886b33"
+      ],
+      "value": true,
+      "expiresAt": 1792400739929
     }
   }
 }
