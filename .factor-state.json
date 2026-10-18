@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 5138897,
+      "value": 6257801,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792342863592,
+      "value": 1792348251042,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"7ce597f73d980f377367dd3893927d3abe274c23ea7ffd73f7336627c9988cc9\"]": {
@@ -1851,6 +1851,45 @@
       ],
       "value": true,
       "expiresAt": 1792429502247
+    },
+    "[\"factor\",\"pub\",\"76e5f2fdf6ef0623c61cfc6cf98c7e84f9a06a0213a41ff97e7ce86bed442adf\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "76e5f2fdf6ef0623c61cfc6cf98c7e84f9a06a0213a41ff97e7ce86bed442adf"
+      ],
+      "value": true,
+      "expiresAt": 1792434928772
+    },
+    "[\"factor\",\"topic\",\"76e5f2fdf6ef0623c61cfc6cf98c7e84f9a06a0213a41ff97e7ce86bed442adf\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "76e5f2fdf6ef0623c61cfc6cf98c7e84f9a06a0213a41ff97e7ce86bed442adf"
+      ],
+      "value": {
+        "title": "Российские туристы снимают инфернальные видео из Парижа и других городов Франции — пьют ко",
+        "roots": [
+          "россий",
+          "турист",
+          "снимаю",
+          "инферн",
+          "парижа",
+          "других",
+          "городо",
+          "франци"
+        ]
+      },
+      "expiresAt": 1792434928774
+    },
+    "[\"factor\",\"texthash\",\"67f1ba8cc04428a15795bbb1254c073e4b29558d92d481d543b63f41757dddbd\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "67f1ba8cc04428a15795bbb1254c073e4b29558d92d481d543b63f41757dddbd"
+      ],
+      "value": true,
+      "expiresAt": 1792434928774
     }
   }
 }
