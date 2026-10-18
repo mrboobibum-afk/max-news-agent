@@ -17,33 +17,6 @@
       "value": 1792362036160,
       "expiresAt": null
     },
-    "[\"factor\",\"topic\",\"441fff36221aefb6b5737dacb947a9d1bb2b561ef36877a4a6122e5fecbf539b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "441fff36221aefb6b5737dacb947a9d1bb2b561ef36877a4a6122e5fecbf539b"
-      ],
-      "value": {
-        "title": "🚨 Уничтожены 11 беспилотников, летевших на Москву, сообщил Собянин",
-        "roots": [
-          "уничто",
-          "беспил",
-          "летевш",
-          "москву",
-          "собяни"
-        ]
-      },
-      "expiresAt": 1792364145094
-    },
-    "[\"factor\",\"texthash\",\"da769cf5bf5a67951b6de18de7492c389fac5542cd4e9e2b399c8f5172eabfba\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "da769cf5bf5a67951b6de18de7492c389fac5542cd4e9e2b399c8f5172eabfba"
-      ],
-      "value": true,
-      "expiresAt": 1792364145095
-    },
     "[\"factor\",\"pub\",\"57d4dd3bfc552fa6d598988d4992501c3346dc69ac6a7a182e88228827678aea\"]": {
       "key": [
         "factor",
