@@ -17,34 +17,6 @@
       "value": 1792318832332,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"5600f83801a0f0469a26ea004f761f095cc00eada23d1c9abd9676e59e0d2401\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "5600f83801a0f0469a26ea004f761f095cc00eada23d1c9abd9676e59e0d2401"
-      ],
-      "value": true,
-      "expiresAt": 1792320711901
-    },
-    "[\"factor\",\"topic\",\"5600f83801a0f0469a26ea004f761f095cc00eada23d1c9abd9676e59e0d2401\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "5600f83801a0f0469a26ea004f761f095cc00eada23d1c9abd9676e59e0d2401"
-      ],
-      "value": {
-        "title": "В Киеве проходит митинг с требованием отставки мэра Кличко",
-        "roots": [
-          "киеве",
-          "проход",
-          "митинг",
-          "требов",
-          "отстав",
-          "кличко"
-        ]
-      },
-      "expiresAt": 1792320711903
-    },
     "[\"factor\",\"pub\",\"0cea4c7d3dc448151d875cfd7d3838122fb931edbac6e5a8f2d0d1c22ef548f6\"]": {
       "key": [
         "factor",
