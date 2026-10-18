@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 625450,
+      "value": 718393,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792289434885,
+      "value": 1792290651651,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"a21cf6c7e4a6a4203a886297490fee66139d6ae1f659e7af0439daa475b1179a\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "a21cf6c7e4a6a4203a886297490fee66139d6ae1f659e7af0439daa475b1179a"
-      ],
-      "value": true,
-      "expiresAt": 1792290098799
-    },
-    "[\"factor\",\"topic\",\"a21cf6c7e4a6a4203a886297490fee66139d6ae1f659e7af0439daa475b1179a\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "a21cf6c7e4a6a4203a886297490fee66139d6ae1f659e7af0439daa475b1179a"
-      ],
-      "value": {
-        "title": "Обязательного предмета \"Дроноведение\" в российских школах нет, но учебные заведения вправе",
-        "roots": [
-          "обязат",
-          "предме",
-          "дронов",
-          "россий",
-          "школах",
-          "учебны",
-          "заведе",
-          "вправе"
-        ]
-      },
-      "expiresAt": 1792290098801
     },
     "[\"factor\",\"pub\",\"c4b69243a64c613c2c7354a618546bea7ae98031db9db8a1e8242e46ca09c67f\"]": {
       "key": [
@@ -2610,6 +2580,46 @@
       ],
       "value": true,
       "expiresAt": 1792376028655
+    },
+    "[\"factor\",\"pub\",\"f06fb10176302152b6b89cc96fc85a821e17d5ecc751f1099a95622d65311227\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "f06fb10176302152b6b89cc96fc85a821e17d5ecc751f1099a95622d65311227"
+      ],
+      "value": true,
+      "expiresAt": 1792377138213
+    },
+    "[\"factor\",\"topic\",\"f06fb10176302152b6b89cc96fc85a821e17d5ecc751f1099a95622d65311227\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "f06fb10176302152b6b89cc96fc85a821e17d5ecc751f1099a95622d65311227"
+      ],
+      "value": {
+        "title": "🚨 Крупный пожар произошел на военной базе Уэйнрайт в канадской провинции Альберта, сообщи",
+        "roots": [
+          "крупны",
+          "пожар",
+          "произо",
+          "военно",
+          "уэйнра",
+          "канадс",
+          "провин",
+          "альбер",
+          "сообщи"
+        ]
+      },
+      "expiresAt": 1792377138215
+    },
+    "[\"factor\",\"texthash\",\"f9dd9862c4ed7d7b54592ae6dbdc3d6d6fdb4be2d4e5d9b1440fc9d9f8d39f61\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "f9dd9862c4ed7d7b54592ae6dbdc3d6d6fdb4be2d4e5d9b1440fc9d9f8d39f61"
+      ],
+      "value": true,
+      "expiresAt": 1792377138215
     }
   }
 }
