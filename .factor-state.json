@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 3324724,
+      "value": 1905818,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,116 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792362036160,
+      "value": 1792366745634,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"57d4dd3bfc552fa6d598988d4992501c3346dc69ac6a7a182e88228827678aea\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "57d4dd3bfc552fa6d598988d4992501c3346dc69ac6a7a182e88228827678aea"
-      ],
-      "value": true,
-      "expiresAt": 1792365336314
-    },
-    "[\"factor\",\"topic\",\"57d4dd3bfc552fa6d598988d4992501c3346dc69ac6a7a182e88228827678aea\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "57d4dd3bfc552fa6d598988d4992501c3346dc69ac6a7a182e88228827678aea"
-      ],
-      "value": {
-        "title": "▶️ В Лиможе из-за пожара, возникшего в ходе беспорядков, обрушилась колокольня здания мэри",
-        "roots": [
-          "лиможе",
-          "пожара",
-          "возник",
-          "беспор",
-          "обруши",
-          "колоко",
-          "здания"
-        ]
-      },
-      "expiresAt": 1792365336315
-    },
-    "[\"factor\",\"pub\",\"829442445e69215cdc7c99ed695f1a9dbfeb51eae118280a161d2f8b993b9fcb\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "829442445e69215cdc7c99ed695f1a9dbfeb51eae118280a161d2f8b993b9fcb"
-      ],
-      "value": true,
-      "expiresAt": 1792365608487
-    },
-    "[\"factor\",\"topic\",\"829442445e69215cdc7c99ed695f1a9dbfeb51eae118280a161d2f8b993b9fcb\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "829442445e69215cdc7c99ed695f1a9dbfeb51eae118280a161d2f8b993b9fcb"
-      ],
-      "value": {
-        "title": "Леопард, зебра и снежный барс: почему анималистичные шубы стали главным хитом",
-        "roots": [
-          "леопар",
-          "зебра",
-          "снежны",
-          "почему",
-          "анимал",
-          "стали",
-          "главны",
-          "хитом"
-        ]
-      },
-      "expiresAt": 1792365608488
-    },
-    "[\"factor\",\"texthash\",\"564d1637c36b1dcf06e6e2097b4755cd6007a148e799b11ccf98c57e40ab48fd\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "564d1637c36b1dcf06e6e2097b4755cd6007a148e799b11ccf98c57e40ab48fd"
-      ],
-      "value": true,
-      "expiresAt": 1792365608489
-    },
-    "[\"factor\",\"pub\",\"e547ce5217861311c9a918650c2e39c61b8272aee4d2ed3336a3aeaa2bf42327\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "e547ce5217861311c9a918650c2e39c61b8272aee4d2ed3336a3aeaa2bf42327"
-      ],
-      "value": true,
-      "expiresAt": 1792366625277
-    },
-    "[\"factor\",\"topic\",\"e547ce5217861311c9a918650c2e39c61b8272aee4d2ed3336a3aeaa2bf42327\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "e547ce5217861311c9a918650c2e39c61b8272aee4d2ed3336a3aeaa2bf42327"
-      ],
-      "value": {
-        "title": "Илон Маск предложил Трампу замедлить работу Starlink на Украине, сообщает The Daily Telegr",
-        "roots": [
-          "предло",
-          "трампу",
-          "замедл",
-          "работу",
-          "starli",
-          "украин",
-          "сообща",
-          "daily",
-          "telegr"
-        ]
-      },
-      "expiresAt": 1792366625279
-    },
-    "[\"factor\",\"texthash\",\"79fb90a82b162efce55d949520c03b91e803f383bb26e6a80c20e5631cd58184\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "79fb90a82b162efce55d949520c03b91e803f383bb26e6a80c20e5631cd58184"
-      ],
-      "value": true,
-      "expiresAt": 1792366625279
     },
     "[\"factor\",\"pub\",\"abd9687e4e91e8e5c175499da3774bd6d4c7db5e159208894694f193c5adc47c\"]": {
       "key": [
@@ -1584,6 +1476,46 @@
       ],
       "value": true,
       "expiresAt": 1792448732733
+    },
+    "[\"factor\",\"pub\",\"4d8e8871852015dfa4b9ac28eb44fdf9199280555672405820bf5159e6ad8fe6\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4d8e8871852015dfa4b9ac28eb44fdf9199280555672405820bf5159e6ad8fe6"
+      ],
+      "value": true,
+      "expiresAt": 1792453866844
+    },
+    "[\"factor\",\"topic\",\"4d8e8871852015dfa4b9ac28eb44fdf9199280555672405820bf5159e6ad8fe6\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4d8e8871852015dfa4b9ac28eb44fdf9199280555672405820bf5159e6ad8fe6"
+      ],
+      "value": {
+        "title": "Блэкаут в Киеве — встали поезда и часть метро, в городе отключилось электричество",
+        "roots": [
+          "блэкау",
+          "киеве",
+          "встали",
+          "поезда",
+          "часть",
+          "метро",
+          "городе",
+          "отключ",
+          "электр"
+        ]
+      },
+      "expiresAt": 1792453866845
+    },
+    "[\"factor\",\"texthash\",\"649c1a2de2ce4c995248ab63bfd90563816bdf63cee8d219a866e6b4ec34b0f6\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "649c1a2de2ce4c995248ab63bfd90563816bdf63cee8d219a866e6b4ec34b0f6"
+      ],
+      "value": true,
+      "expiresAt": 1792453866846
     }
   }
 }
