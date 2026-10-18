@@ -17,36 +17,6 @@
       "value": 1792331435587,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"fd200e01cdb79e1a56423f1c3b835fa40e86c33121ae78eb11787fca5d3c7b7c\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "fd200e01cdb79e1a56423f1c3b835fa40e86c33121ae78eb11787fca5d3c7b7c"
-      ],
-      "value": true,
-      "expiresAt": 1792333474835
-    },
-    "[\"factor\",\"topic\",\"fd200e01cdb79e1a56423f1c3b835fa40e86c33121ae78eb11787fca5d3c7b7c\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "fd200e01cdb79e1a56423f1c3b835fa40e86c33121ae78eb11787fca5d3c7b7c"
-      ],
-      "value": {
-        "title": "❗️ В Марселе протестующие ворвались в здание мэрии Как сообщает La Provence, демонстранты ",
-        "roots": [
-          "марсел",
-          "протес",
-          "ворвал",
-          "здание",
-          "мэрии",
-          "сообща",
-          "proven",
-          "демонс"
-        ]
-      },
-      "expiresAt": 1792333474836
-    },
     "[\"factor\",\"pub\",\"7a7cc032eb62f11247d48fbfb0982aabf6cb844d0c1c0bb5b7b8ab5d22cc4733\"]": {
       "key": [
         "factor",
