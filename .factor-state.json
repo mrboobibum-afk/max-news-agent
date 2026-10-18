@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 891342,
+      "value": 300277,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,70 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792305274487,
+      "value": 1792307213989,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"e4dbcd09b0dda52d1b20d635890bd842614ee45b6e6cfd8509a0e10ff528569c\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "e4dbcd09b0dda52d1b20d635890bd842614ee45b6e6cfd8509a0e10ff528569c"
-      ],
-      "value": true,
-      "expiresAt": 1792305889958
-    },
-    "[\"factor\",\"topic\",\"e4dbcd09b0dda52d1b20d635890bd842614ee45b6e6cfd8509a0e10ff528569c\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "e4dbcd09b0dda52d1b20d635890bd842614ee45b6e6cfd8509a0e10ff528569c"
-      ],
-      "value": {
-        "title": "💙 Бриллиант огранки Heart cut стоимостью более $1,5 млн представит \"Алроса\" 22 октября в ",
-        "roots": [
-          "брилли",
-          "огранк",
-          "heart",
-          "стоимо",
-          "более",
-          "предст",
-          "алроса",
-          "октябр"
-        ]
-      },
-      "expiresAt": 1792305889959
-    },
-    "[\"factor\",\"pub\",\"21ab8d2826c4145fbbd9e8a19f78a0c6d2112826127eee30f03a460d1298951d\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "21ab8d2826c4145fbbd9e8a19f78a0c6d2112826127eee30f03a460d1298951d"
-      ],
-      "value": true,
-      "expiresAt": 1792307038271
-    },
-    "[\"factor\",\"topic\",\"21ab8d2826c4145fbbd9e8a19f78a0c6d2112826127eee30f03a460d1298951d\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "21ab8d2826c4145fbbd9e8a19f78a0c6d2112826127eee30f03a460d1298951d"
-      ],
-      "value": {
-        "title": "Свой любимый регион России назвала переехавшая в страну экс-глава МИД Австрии Карин Кнайсл",
-        "roots": [
-          "любимы",
-          "регион",
-          "россии",
-          "назвал",
-          "переех",
-          "страну",
-          "глава",
-          "австри",
-          "карин",
-          "кнайсл"
-        ]
-      },
-      "expiresAt": 1792307038272
     },
     "[\"factor\",\"pub\",\"3f91406785517ea8b44db315a6ecb41b65f817d4a292a68547e24fcba93b05c9\"]": {
       "key": [
@@ -2417,7 +2355,7 @@
           "подтве"
         ]
       },
-      "expiresAt": 1792391652372
+      "expiresAt": 1792392504646
     },
     "[\"factor\",\"texthash\",\"0a88e2dbc6f27db83b5ab1be9617f7beae4c24844746897aff8e6c3f0b09ff80\"]": {
       "key": [
@@ -2426,7 +2364,7 @@
         "0a88e2dbc6f27db83b5ab1be9617f7beae4c24844746897aff8e6c3f0b09ff80"
       ],
       "value": true,
-      "expiresAt": 1792390932729
+      "expiresAt": 1792392504646
     },
     "[\"factor\",\"pub\",\"c52bc65203be1355879147f38f77c37c5dd3a44b4a1e644759fb9488d7a8a266\"]": {
       "key": [
@@ -2437,33 +2375,43 @@
       "value": true,
       "expiresAt": 1792392504645
     },
-    "[\"factor\",\"topic\",\"c52bc65203be1355879147f38f77c37c5dd3a44b4a1e644759fb9488d7a8a266\"]": {
+    "[\"factor\",\"pub\",\"632a17b6bfd2c308142ec688eb22311e17c2d57264dcfbd94d0e728f30883d05\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "632a17b6bfd2c308142ec688eb22311e17c2d57264dcfbd94d0e728f30883d05"
+      ],
+      "value": true,
+      "expiresAt": 1792393761529
+    },
+    "[\"factor\",\"topic\",\"632a17b6bfd2c308142ec688eb22311e17c2d57264dcfbd94d0e728f30883d05\"]": {
       "key": [
         "factor",
         "topic",
-        "c52bc65203be1355879147f38f77c37c5dd3a44b4a1e644759fb9488d7a8a266"
+        "632a17b6bfd2c308142ec688eb22311e17c2d57264dcfbd94d0e728f30883d05"
       ],
       "value": {
-        "title": "В МВД посоветовали в разговоре с неизвестными не говорить фразы \"да\", \"подтверждаю\", \"согл",
+        "title": "❗️ Один человек погиб, пять пострадали в результате массированной атаки БПЛА ВСУ на Санкт-",
         "roots": [
-          "посове",
-          "разгов",
-          "неизве",
-          "говори",
-          "фразы",
-          "подтве"
+          "челове",
+          "погиб",
+          "постра",
+          "резуль",
+          "массир",
+          "атаки",
+          "санкт"
         ]
       },
-      "expiresAt": 1792392504646
+      "expiresAt": 1792393761530
     },
-    "[\"factor\",\"texthash\",\"0a88e2dbc6f27db83b5ab1be9617f7beae4c24844746897aff8e6c3f0b09ff80\"]": {
+    "[\"factor\",\"texthash\",\"065c698d41dbe95ca99f97c226a594a7a5e4ee32a8a2341cc73aaefba421c0c5\"]": {
       "key": [
         "factor",
         "texthash",
-        "0a88e2dbc6f27db83b5ab1be9617f7beae4c24844746897aff8e6c3f0b09ff80"
+        "065c698d41dbe95ca99f97c226a594a7a5e4ee32a8a2341cc73aaefba421c0c5"
       ],
       "value": true,
-      "expiresAt": 1792392504646
+      "expiresAt": 1792393761531
     }
   }
 }
