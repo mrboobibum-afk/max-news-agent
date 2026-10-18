@@ -17,27 +17,6 @@
       "value": 1792316576420,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"9180fc126ceb181e9e007236613107eb6b4e078ca27e4de6a3352ba4490352b4\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "9180fc126ceb181e9e007236613107eb6b4e078ca27e4de6a3352ba4490352b4"
-      ],
-      "value": true,
-      "expiresAt": 1792317768029
-    },
-    "[\"factor\",\"topic\",\"9180fc126ceb181e9e007236613107eb6b4e078ca27e4de6a3352ba4490352b4\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "9180fc126ceb181e9e007236613107eb6b4e078ca27e4de6a3352ba4490352b4"
-      ],
-      "value": {
-        "title": "\"Шах и мат\"",
-        "roots": []
-      },
-      "expiresAt": 1792317768030
-    },
     "[\"factor\",\"pub\",\"ad97d37c8d7af3a9d76bc8ffe68b7e3ad48c58e3268f981ccc2365e6bca5b936\"]": {
       "key": [
         "factor",
