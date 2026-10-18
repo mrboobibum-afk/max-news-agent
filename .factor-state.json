@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 523551,
+      "value": 758292,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,38 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792314064462,
+      "value": 1792314633192,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"bfb44dedcd4216a1fdd0fff7d421b36e6c8151e75fd00a2b061771196de35a14\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "bfb44dedcd4216a1fdd0fff7d421b36e6c8151e75fd00a2b061771196de35a14"
-      ],
-      "value": true,
-      "expiresAt": 1792314196558
-    },
-    "[\"factor\",\"topic\",\"bfb44dedcd4216a1fdd0fff7d421b36e6c8151e75fd00a2b061771196de35a14\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "bfb44dedcd4216a1fdd0fff7d421b36e6c8151e75fd00a2b061771196de35a14"
-      ],
-      "value": {
-        "title": "В Москве пенсионер отдал мошенникам почти 13 млн рублей , рассказали ТАСС в столичной прок",
-        "roots": [
-          "москве",
-          "пенсио",
-          "отдал",
-          "мошенн",
-          "почти",
-          "рублей",
-          "расска",
-          "столич"
-        ]
-      },
-      "expiresAt": 1792314196560
     },
     "[\"factor\",\"pub\",\"2934413efb77f88bfc430102a3f9e00f8f892474b825550145f6b3d5516bc894\"]": {
       "key": [
@@ -2410,6 +2380,44 @@
       ],
       "value": true,
       "expiresAt": 1792400739929
+    },
+    "[\"factor\",\"pub\",\"50dc76787b2f6a7962608f31673ec7c95b2036315c4933bd3eca0cfa58e704bb\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "50dc76787b2f6a7962608f31673ec7c95b2036315c4933bd3eca0cfa58e704bb"
+      ],
+      "value": true,
+      "expiresAt": 1792401377266
+    },
+    "[\"factor\",\"topic\",\"50dc76787b2f6a7962608f31673ec7c95b2036315c4933bd3eca0cfa58e704bb\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "50dc76787b2f6a7962608f31673ec7c95b2036315c4933bd3eca0cfa58e704bb"
+      ],
+      "value": {
+        "title": "▶ БПЛА \"Рубикона\" уничтожили объект с ГСМ и пункты дислокации ВСУ в Харьковской области, с",
+        "roots": [
+          "рубико",
+          "уничто",
+          "объект",
+          "пункты",
+          "дислок",
+          "харько",
+          "област"
+        ]
+      },
+      "expiresAt": 1792401377267
+    },
+    "[\"factor\",\"texthash\",\"23dbbdab41b90ba10d9c0acff65d255500181f7db600fe70a86bb17717fc780e\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "23dbbdab41b90ba10d9c0acff65d255500181f7db600fe70a86bb17717fc780e"
+      ],
+      "value": true,
+      "expiresAt": 1792401377268
     }
   }
 }
