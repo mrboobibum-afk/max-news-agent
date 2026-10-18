@@ -2512,39 +2512,40 @@
         "ec0ee8c51f24a893d9a7f388f7474f6498713726e0bd4756cf79e2c27bdc129d"
       ],
       "value": true,
-      "expiresAt": 1792379262300
+      "expiresAt": 1792380109603
     },
-    "[\"factor\",\"pub\",\"fec07325f13805530f896e996032fd9de377328cbe305adc2c90182cc57c671d\"]": {
+    "[\"factor\",\"pub\",\"6ba3e79d39eaca2fcc6ef560fd5f1940d5df78716db0f0b09c12510f7940b197\"]": {
       "key": [
         "factor",
         "pub",
-        "fec07325f13805530f896e996032fd9de377328cbe305adc2c90182cc57c671d"
+        "6ba3e79d39eaca2fcc6ef560fd5f1940d5df78716db0f0b09c12510f7940b197"
       ],
       "value": true,
-      "expiresAt": 1792380838131
+      "expiresAt": 1792381673488
     },
-    "[\"factor\",\"topic\",\"fec07325f13805530f896e996032fd9de377328cbe305adc2c90182cc57c671d\"]": {
+    "[\"factor\",\"topic\",\"6ba3e79d39eaca2fcc6ef560fd5f1940d5df78716db0f0b09c12510f7940b197\"]": {
       "key": [
         "factor",
         "topic",
-        "fec07325f13805530f896e996032fd9de377328cbe305adc2c90182cc57c671d"
+        "6ba3e79d39eaca2fcc6ef560fd5f1940d5df78716db0f0b09c12510f7940b197"
       ],
       "value": {
-        "title": "▶️ Боец ВС РФ рассказал, как за пять дней прошел 25 км с осколочным ранением легкого",
+        "title": "❗️ В Доброполье уничтожена группировка ВСУ численностью около 2 тыс",
         "roots": [
-          "прошел",
-          "осколо",
-          "ранени",
-          "легког"
+          "доброп",
+          "уничто",
+          "группи",
+          "числен",
+          "около"
         ]
       },
-      "expiresAt": 1792380838132
+      "expiresAt": 1792381673489
     },
-    "[\"factor\",\"texthash\",\"1279a669136450469b1fbb852812e78c5eb0854f5436b38102bd9ebc6f429cc9\"]": {
+    "[\"factor\",\"texthash\",\"26410aacb490119ebbf81fe6572f516553b8bd840aa157dbe230497fad8f7f0a\"]": {
       "key": [
         "factor",
         "texthash",
-        "1279a669136450469b1fbb852812e78c5eb0854f5436b38102bd9ebc6f429cc9"
+        "26410aacb490119ebbf81fe6572f516553b8bd840aa157dbe230497fad8f7f0a"
       ],
       "value": true,
       "expiresAt": 1792380838132
