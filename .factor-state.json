@@ -17,34 +17,6 @@
       "value": 1792318832332,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"2c5d337bedb5008fece107992d3d5996b5df1844b7824fc5c482ca3f93bdb304\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "2c5d337bedb5008fece107992d3d5996b5df1844b7824fc5c482ca3f93bdb304"
-      ],
-      "value": true,
-      "expiresAt": 1792319337210
-    },
-    "[\"factor\",\"topic\",\"2c5d337bedb5008fece107992d3d5996b5df1844b7824fc5c482ca3f93bdb304\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "2c5d337bedb5008fece107992d3d5996b5df1844b7824fc5c482ca3f93bdb304"
-      ],
-      "value": {
-        "title": "Восстановление Папы Римского Льва XIV после операции по удалению злокачественного образова",
-        "roots": [
-          "восста",
-          "римско",
-          "операц",
-          "удален",
-          "злокач",
-          "образо"
-        ]
-      },
-      "expiresAt": 1792319337211
-    },
     "[\"factor\",\"pub\",\"60bbb2d4e910544bc9daad8a2c46001d1cc1f24100b4475eb9d829890f3bc894\"]": {
       "key": [
         "factor",
