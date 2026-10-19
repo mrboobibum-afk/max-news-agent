@@ -17,45 +17,6 @@
       "value": 1792374684303,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"2d72f12c75e452b6a79c4b316d1768e3344df05f5b4b4d2d61d3ec54936c2cd3\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "2d72f12c75e452b6a79c4b316d1768e3344df05f5b4b4d2d61d3ec54936c2cd3"
-      ],
-      "value": true,
-      "expiresAt": 1792375401613
-    },
-    "[\"factor\",\"topic\",\"2d72f12c75e452b6a79c4b316d1768e3344df05f5b4b4d2d61d3ec54936c2cd3\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "2d72f12c75e452b6a79c4b316d1768e3344df05f5b4b4d2d61d3ec54936c2cd3"
-      ],
-      "value": {
-        "title": "▶️ Трамп следует интересам США, налаживая взаимоотношения с Россией, заявил Денис Пушилин ",
-        "roots": [
-          "трамп",
-          "следуе",
-          "интере",
-          "налажи",
-          "взаимо",
-          "россие",
-          "денис",
-          "пушили"
-        ]
-      },
-      "expiresAt": 1792375401615
-    },
-    "[\"factor\",\"texthash\",\"6d2e4cacefe7e314606ddf3c0f26d5fe9deacaf9fb2a8e340d9beecd22541096\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "6d2e4cacefe7e314606ddf3c0f26d5fe9deacaf9fb2a8e340d9beecd22541096"
-      ],
-      "value": true,
-      "expiresAt": 1792375401616
-    },
     "[\"factor\",\"pub\",\"71cd4ef82725c75e6abda09e8aa10ec4ddc0351717c09899544ed24fc421b790\"]": {
       "key": [
         "factor",
