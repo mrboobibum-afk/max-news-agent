@@ -17,45 +17,6 @@
       "value": 1792369234166,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"68e160930925d91a8d72b9a05f880d1a987be46e9c17c4b5f9125915d1cef5b8\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "68e160930925d91a8d72b9a05f880d1a987be46e9c17c4b5f9125915d1cef5b8"
-      ],
-      "value": true,
-      "expiresAt": 1792369485349
-    },
-    "[\"factor\",\"topic\",\"68e160930925d91a8d72b9a05f880d1a987be46e9c17c4b5f9125915d1cef5b8\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "68e160930925d91a8d72b9a05f880d1a987be46e9c17c4b5f9125915d1cef5b8"
-      ],
-      "value": {
-        "title": "США хотят предложить Европе возобновить закупку российского газа, утверждает газета New Yo",
-        "roots": [
-          "хотят",
-          "предло",
-          "европе",
-          "возобн",
-          "закупк",
-          "россий",
-          "утверж",
-          "газета"
-        ]
-      },
-      "expiresAt": 1792369485351
-    },
-    "[\"factor\",\"texthash\",\"49e486e9366f38e92905f488dd2803039b389b2e6d91be215a468ebc48a825e1\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "49e486e9366f38e92905f488dd2803039b389b2e6d91be215a468ebc48a825e1"
-      ],
-      "value": true,
-      "expiresAt": 1792369485352
-    },
     "[\"factor\",\"pub\",\"bb2239162267e4e9204a041ff43738f19bd7fdacb6f29c6ffe36915b43b13e6b\"]": {
       "key": [
         "factor",
