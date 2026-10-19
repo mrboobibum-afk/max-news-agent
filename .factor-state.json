@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 494122,
+      "value": 745636,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,47 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792434654084,
+      "value": 1792435234751,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"76e5f2fdf6ef0623c61cfc6cf98c7e84f9a06a0213a41ff97e7ce86bed442adf\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "76e5f2fdf6ef0623c61cfc6cf98c7e84f9a06a0213a41ff97e7ce86bed442adf"
-      ],
-      "value": true,
-      "expiresAt": 1792434928772
-    },
-    "[\"factor\",\"topic\",\"76e5f2fdf6ef0623c61cfc6cf98c7e84f9a06a0213a41ff97e7ce86bed442adf\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "76e5f2fdf6ef0623c61cfc6cf98c7e84f9a06a0213a41ff97e7ce86bed442adf"
-      ],
-      "value": {
-        "title": "Российские туристы снимают инфернальные видео из Парижа и других городов Франции — пьют ко",
-        "roots": [
-          "россий",
-          "турист",
-          "снимаю",
-          "инферн",
-          "парижа",
-          "других",
-          "городо",
-          "франци"
-        ]
-      },
-      "expiresAt": 1792434928774
-    },
-    "[\"factor\",\"texthash\",\"67f1ba8cc04428a15795bbb1254c073e4b29558d92d481d543b63f41757dddbd\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "67f1ba8cc04428a15795bbb1254c073e4b29558d92d481d543b63f41757dddbd"
-      ],
-      "value": true,
-      "expiresAt": 1792434928774
     },
     "[\"factor\",\"pub\",\"eea23a3745f6f50a55f8333e6965a3cbcf43c0a0a1463a67551e0cffe3c10a9d\"]": {
       "key": [
@@ -1672,6 +1633,45 @@
       ],
       "value": true,
       "expiresAt": 1792521424407
+    },
+    "[\"factor\",\"pub\",\"0fdb60b40406f541a08fc4b0a0760e6f4714b19b04cac562c95159ba74104663\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "0fdb60b40406f541a08fc4b0a0760e6f4714b19b04cac562c95159ba74104663"
+      ],
+      "value": true,
+      "expiresAt": 1792522081696
+    },
+    "[\"factor\",\"topic\",\"0fdb60b40406f541a08fc4b0a0760e6f4714b19b04cac562c95159ba74104663\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "0fdb60b40406f541a08fc4b0a0760e6f4714b19b04cac562c95159ba74104663"
+      ],
+      "value": {
+        "title": "🥒 🍅 В России растет производство тепличных овощей С начала года в теплицах собрано уже н",
+        "roots": [
+          "россии",
+          "растет",
+          "произв",
+          "теплич",
+          "овощей",
+          "начала",
+          "теплиц",
+          "собран"
+        ]
+      },
+      "expiresAt": 1792522081696
+    },
+    "[\"factor\",\"texthash\",\"afe3c9ca4b1b9db1b721ddb60d83d5dec05347670d518ed152c04e878734ab06\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "afe3c9ca4b1b9db1b721ddb60d83d5dec05347670d518ed152c04e878734ab06"
+      ],
+      "value": true,
+      "expiresAt": 1792522081697
     }
   }
 }
