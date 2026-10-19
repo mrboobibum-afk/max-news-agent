@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 6568108,
+      "value": 2310640,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,47 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792381233215,
+      "value": 1792387849140,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"bc69204384ef732105b5b11ad8767b8d76d17fab7a4b47b182eb196c446707eb\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "bc69204384ef732105b5b11ad8767b8d76d17fab7a4b47b182eb196c446707eb"
-      ],
-      "value": true,
-      "expiresAt": 1792387531633
-    },
-    "[\"factor\",\"topic\",\"bc69204384ef732105b5b11ad8767b8d76d17fab7a4b47b182eb196c446707eb\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "bc69204384ef732105b5b11ad8767b8d76d17fab7a4b47b182eb196c446707eb"
-      ],
-      "value": {
-        "title": "Выбери новое лицо: в России разрабатывают приложение для моделирования результатов пластич",
-        "roots": [
-          "выбери",
-          "новое",
-          "россии",
-          "разраб",
-          "прилож",
-          "модели",
-          "резуль",
-          "пласти"
-        ]
-      },
-      "expiresAt": 1792387531634
-    },
-    "[\"factor\",\"texthash\",\"5dae230a4bf999266d26ca00a7956b9ebb84234e36f702872e7cc5116b0913ea\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "5dae230a4bf999266d26ca00a7956b9ebb84234e36f702872e7cc5116b0913ea"
-      ],
-      "value": true,
-      "expiresAt": 1792387531635
     },
     "[\"factor\",\"pub\",\"1ba922488b3d4cc582863c39a541315597f6c912ae977395e086d5c2698661e3\"]": {
       "key": [
@@ -988,6 +949,47 @@
       ],
       "value": true,
       "expiresAt": 1792467859852
+    },
+    "[\"factor\",\"pub\",\"0f31d6dab8d3a7515b503c8107e409ffcd8e537eef2e64add184cf1e9aab64c8\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "0f31d6dab8d3a7515b503c8107e409ffcd8e537eef2e64add184cf1e9aab64c8"
+      ],
+      "value": true,
+      "expiresAt": 1792474678197
+    },
+    "[\"factor\",\"topic\",\"0f31d6dab8d3a7515b503c8107e409ffcd8e537eef2e64add184cf1e9aab64c8\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "0f31d6dab8d3a7515b503c8107e409ffcd8e537eef2e64add184cf1e9aab64c8"
+      ],
+      "value": {
+        "title": "Превращают iPhone в кирпичи под видом установки ChatGPT — мошенники придумали новую схему ",
+        "roots": [
+          "превра",
+          "iphone",
+          "кирпич",
+          "видом",
+          "устано",
+          "chatgp",
+          "мошенн",
+          "придум",
+          "новую",
+          "схему"
+        ]
+      },
+      "expiresAt": 1792474678198
+    },
+    "[\"factor\",\"texthash\",\"81a2996c32a5b18de38c52e0394451a96d8fa7cbccda38189744cc1896061606\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "81a2996c32a5b18de38c52e0394451a96d8fa7cbccda38189744cc1896061606"
+      ],
+      "value": true,
+      "expiresAt": 1792474678198
     }
   }
 }
