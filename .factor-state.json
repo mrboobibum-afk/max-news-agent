@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 860712,
+      "value": 459887,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792420257061,
+      "value": 1792421434643,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"a8512d825dfa88158ad4d7176748d7d6b7e828fe6343e608d189aa5c0b332bc1\"]": {
@@ -1295,6 +1295,44 @@
       ],
       "value": true,
       "expiresAt": 1792506929540
+    },
+    "[\"factor\",\"pub\",\"d9b9354bfec61029df2038a3452deb6f13b1bb2f7d6d3b91e78707344740a1ab\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d9b9354bfec61029df2038a3452deb6f13b1bb2f7d6d3b91e78707344740a1ab"
+      ],
+      "value": true,
+      "expiresAt": 1792508120297
+    },
+    "[\"factor\",\"topic\",\"d9b9354bfec61029df2038a3452deb6f13b1bb2f7d6d3b91e78707344740a1ab\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d9b9354bfec61029df2038a3452deb6f13b1bb2f7d6d3b91e78707344740a1ab"
+      ],
+      "value": {
+        "title": "▶️ Пленный военнослужащий ВСУ Виталий Юрчишин рассказал о провальной подготовке на полигон",
+        "roots": [
+          "пленны",
+          "военно",
+          "витали",
+          "юрчиши",
+          "провал",
+          "подгот",
+          "полиго"
+        ]
+      },
+      "expiresAt": 1792508120298
+    },
+    "[\"factor\",\"texthash\",\"aa518636233629918cf02e42d851f0e68ff5dfe241ee0658f283a35c4a500149\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "aa518636233629918cf02e42d851f0e68ff5dfe241ee0658f283a35c4a500149"
+      ],
+      "value": true,
+      "expiresAt": 1792508120298
     }
   }
 }
