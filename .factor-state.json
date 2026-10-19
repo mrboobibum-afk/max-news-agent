@@ -1557,44 +1557,43 @@
         "20ca56729d1d5d0f13198c5ce3a5d6f2300017876e4367111e348396fdd551c8"
       ],
       "value": true,
-      "expiresAt": 1792518217046
+      "expiresAt": 1792518620633
     },
-    "[\"factor\",\"pub\",\"d3abd353f47f8dc8c8fd66436ab5e7f62c8d93dc394d8c66550073c688d1c5d7\"]": {
+    "[\"factor\",\"pub\",\"c313caff7b29fde06fd4b6eba48222bfb50201ce820d440dffad8dd0dcc60af0\"]": {
       "key": [
         "factor",
         "pub",
-        "d3abd353f47f8dc8c8fd66436ab5e7f62c8d93dc394d8c66550073c688d1c5d7"
+        "c313caff7b29fde06fd4b6eba48222bfb50201ce820d440dffad8dd0dcc60af0"
       ],
       "value": true,
-      "expiresAt": 1792519326871
+      "expiresAt": 1792519816055
     },
-    "[\"factor\",\"topic\",\"d3abd353f47f8dc8c8fd66436ab5e7f62c8d93dc394d8c66550073c688d1c5d7\"]": {
+    "[\"factor\",\"topic\",\"c313caff7b29fde06fd4b6eba48222bfb50201ce820d440dffad8dd0dcc60af0\"]": {
       "key": [
         "factor",
         "topic",
-        "d3abd353f47f8dc8c8fd66436ab5e7f62c8d93dc394d8c66550073c688d1c5d7"
+        "c313caff7b29fde06fd4b6eba48222bfb50201ce820d440dffad8dd0dcc60af0"
       ],
       "value": {
-        "title": "🔥 У мемориала жертвам еврейского гетто состоялась траурная церемония, посвященная трагиче",
+        "title": "🫶 Команда Минпромторга России стала победителем «Лиги чемпионов» — суперфинала шестого се",
         "roots": [
-          "мемори",
-          "жертва",
-          "еврейс",
-          "гетто",
-          "состоя",
-          "траурн",
-          "церемо",
-          "посвящ",
-          "трагич"
+          "команд",
+          "минпро",
+          "россии",
+          "стала",
+          "победи",
+          "чемпио",
+          "суперф",
+          "шестог"
         ]
       },
-      "expiresAt": 1792519326872
+      "expiresAt": 1792519816056
     },
-    "[\"factor\",\"texthash\",\"f868a865586f383b8ce942d859d2375886673d219d914db439ed5582752ce3d2\"]": {
+    "[\"factor\",\"texthash\",\"2f6aff37709d5582f5491b53f235522f17e01223751ec175603c75b8638533dd\"]": {
       "key": [
         "factor",
         "texthash",
-        "f868a865586f383b8ce942d859d2375886673d219d914db439ed5582752ce3d2"
+        "2f6aff37709d5582f5491b53f235522f17e01223751ec175603c75b8638533dd"
       ],
       "value": true,
       "expiresAt": 1792519326872
