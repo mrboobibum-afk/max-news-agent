@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 500494,
+      "value": 568922,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,44 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792405231933,
+      "value": 1792405847976,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"e4417febdcc170eaa438d7579a96786e08d9d91786b8131074d4a78e6ea3b9cc\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "e4417febdcc170eaa438d7579a96786e08d9d91786b8131074d4a78e6ea3b9cc"
-      ],
-      "value": true,
-      "expiresAt": 1792405536183
-    },
-    "[\"factor\",\"topic\",\"e4417febdcc170eaa438d7579a96786e08d9d91786b8131074d4a78e6ea3b9cc\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "e4417febdcc170eaa438d7579a96786e08d9d91786b8131074d4a78e6ea3b9cc"
-      ],
-      "value": {
-        "title": "Россияне начали готовиться к Новому году за 3 месяца",
-        "roots": [
-          "россия",
-          "начали",
-          "готови",
-          "новому",
-          "месяца"
-        ]
-      },
-      "expiresAt": 1792405536184
-    },
-    "[\"factor\",\"texthash\",\"f68cdaa394eac85220912a54a3c73c3e02a606057ffcdc01d83fa8e9a5d3b709\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "f68cdaa394eac85220912a54a3c73c3e02a606057ffcdc01d83fa8e9a5d3b709"
-      ],
-      "value": true,
-      "expiresAt": 1792405536185
     },
     "[\"factor\",\"pub\",\"62811b8eb8863368df4298e9fbf8d837b446e35299c829673a7f664c2ab6ffe7\"]": {
       "key": [
@@ -832,6 +796,46 @@
       ],
       "value": true,
       "expiresAt": 1792492018063
+    },
+    "[\"factor\",\"pub\",\"5f524537873f8a052a047b6cab10d938638b80a064772c64767cd3b18bfd5e81\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "5f524537873f8a052a047b6cab10d938638b80a064772c64767cd3b18bfd5e81"
+      ],
+      "value": true,
+      "expiresAt": 1792492620950
+    },
+    "[\"factor\",\"topic\",\"5f524537873f8a052a047b6cab10d938638b80a064772c64767cd3b18bfd5e81\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "5f524537873f8a052a047b6cab10d938638b80a064772c64767cd3b18bfd5e81"
+      ],
+      "value": {
+        "title": "Путин одобрил кадровые перестановки в правительстве Премьер-министр РФ Михаил Мишустин нап",
+        "roots": [
+          "путин",
+          "одобри",
+          "кадров",
+          "перест",
+          "правит",
+          "премье",
+          "минист",
+          "михаил",
+          "мишуст"
+        ]
+      },
+      "expiresAt": 1792492620951
+    },
+    "[\"factor\",\"texthash\",\"8a564c2b8cb8d2aa8396a22773236c6baf7ce58a9e570f430ce87692fb31bfe6\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "8a564c2b8cb8d2aa8396a22773236c6baf7ce58a9e570f430ce87692fb31bfe6"
+      ],
+      "value": true,
+      "expiresAt": 1792492620951
     }
   }
 }
