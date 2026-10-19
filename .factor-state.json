@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 627101,
+      "value": 752982,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792436466629,
+      "value": 1792437634368,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"eea23a3745f6f50a55f8333e6965a3cbcf43c0a0a1463a67551e0cffe3c10a9d\"]": {
@@ -1709,6 +1709,45 @@
       ],
       "value": true,
       "expiresAt": 1792523215470
+    },
+    "[\"factor\",\"pub\",\"77f74887be5221f721f4596bf260623837ad78bb5ace3eb12457bd998619ee38\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "77f74887be5221f721f4596bf260623837ad78bb5ace3eb12457bd998619ee38"
+      ],
+      "value": true,
+      "expiresAt": 1792524428260
+    },
+    "[\"factor\",\"topic\",\"77f74887be5221f721f4596bf260623837ad78bb5ace3eb12457bd998619ee38\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "77f74887be5221f721f4596bf260623837ad78bb5ace3eb12457bd998619ee38"
+      ],
+      "value": {
+        "title": "🗓 16 октября в штаб-квартире ЮНЕСКО в Париже Министерство образования и науки представило",
+        "roots": [
+          "октябр",
+          "кварти",
+          "юнеско",
+          "париже",
+          "минист",
+          "образо",
+          "науки",
+          "предст"
+        ]
+      },
+      "expiresAt": 1792524428261
+    },
+    "[\"factor\",\"texthash\",\"4f4f077ecca5f85d6669d97e1c89823fbf058daac947e971eabb275513998bb5\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "4f4f077ecca5f85d6669d97e1c89823fbf058daac947e971eabb275513998bb5"
+      ],
+      "value": true,
+      "expiresAt": 1792524428261
     }
   }
 }
