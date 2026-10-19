@@ -1968,39 +1968,41 @@
       "value": true,
       "expiresAt": 1792530971194
     },
-    "[\"factor\",\"pub\",\"830f399a8abc1bd13cf5741dc7020cfb0bf7eaeb4f2e549b375c1f1fea93e9d0\"]": {
+    "[\"factor\",\"pub\",\"acd8c552c5ce797a1cea69e4e55964b06cd10b1b2231a63a0005b51cdf8b2912\"]": {
       "key": [
         "factor",
         "pub",
-        "830f399a8abc1bd13cf5741dc7020cfb0bf7eaeb4f2e549b375c1f1fea93e9d0"
+        "acd8c552c5ce797a1cea69e4e55964b06cd10b1b2231a63a0005b51cdf8b2912"
       ],
       "value": true,
-      "expiresAt": 1792531886994
+      "expiresAt": 1792532514663
     },
-    "[\"factor\",\"topic\",\"830f399a8abc1bd13cf5741dc7020cfb0bf7eaeb4f2e549b375c1f1fea93e9d0\"]": {
+    "[\"factor\",\"topic\",\"acd8c552c5ce797a1cea69e4e55964b06cd10b1b2231a63a0005b51cdf8b2912\"]": {
       "key": [
         "factor",
         "topic",
-        "830f399a8abc1bd13cf5741dc7020cfb0bf7eaeb4f2e549b375c1f1fea93e9d0"
+        "acd8c552c5ce797a1cea69e4e55964b06cd10b1b2231a63a0005b51cdf8b2912"
       ],
       "value": {
-        "title": "\"Это были не мы\" Трамп заявил, что не ограничивал доступ Украины к спутникам Starshield",
+        "title": "Париж скоро будет мусульманским городом - так президент США прокомментировал протесты во Ф",
         "roots": [
-          "трамп",
-          "ограни",
-          "доступ",
-          "украин",
-          "спутни",
-          "starsh"
+          "париж",
+          "скоро",
+          "будет",
+          "мусуль",
+          "городо",
+          "презид",
+          "проком",
+          "протес"
         ]
       },
-      "expiresAt": 1792531886994
+      "expiresAt": 1792532514664
     },
-    "[\"factor\",\"texthash\",\"3330ed597bd003c7e8c5fc29dfda4d9f8d071e8b35e96f866260eec0ac4d91c9\"]": {
+    "[\"factor\",\"texthash\",\"537169c49137ad6a8865c6f06f997aad24a912436d8e98562effa2178677364c\"]": {
       "key": [
         "factor",
         "texthash",
-        "3330ed597bd003c7e8c5fc29dfda4d9f8d071e8b35e96f866260eec0ac4d91c9"
+        "537169c49137ad6a8865c6f06f997aad24a912436d8e98562effa2178677364c"
       ],
       "value": true,
       "expiresAt": 1792531886996
