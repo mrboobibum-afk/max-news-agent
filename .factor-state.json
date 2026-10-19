@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 2310640,
+      "value": 1885805,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792387849140,
+      "value": 1792390235353,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"1ba922488b3d4cc582863c39a541315597f6c912ae977395e086d5c2698661e3\"]": {
@@ -990,6 +990,45 @@
       ],
       "value": true,
       "expiresAt": 1792474678198
+    },
+    "[\"factor\",\"pub\",\"74c5ff63e0aaca99475ae9edc9bd94b37e701164689e78bea8c18ded7cf56cfa\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "74c5ff63e0aaca99475ae9edc9bd94b37e701164689e78bea8c18ded7cf56cfa"
+      ],
+      "value": true,
+      "expiresAt": 1792477207485
+    },
+    "[\"factor\",\"topic\",\"74c5ff63e0aaca99475ae9edc9bd94b37e701164689e78bea8c18ded7cf56cfa\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "74c5ff63e0aaca99475ae9edc9bd94b37e701164689e78bea8c18ded7cf56cfa"
+      ],
+      "value": {
+        "title": "Задержаны 13 подозреваемых в хищении выплат у участников СВО Задержания прошли в Московско",
+        "roots": [
+          "задерж",
+          "подозр",
+          "хищени",
+          "выплат",
+          "участн",
+          "задерж",
+          "прошли",
+          "москов"
+        ]
+      },
+      "expiresAt": 1792477207486
+    },
+    "[\"factor\",\"texthash\",\"3ae975574231291bfd38e6e74cb16f49d471f5776892d69ff00c52ecac2fd6d0\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "3ae975574231291bfd38e6e74cb16f49d471f5776892d69ff00c52ecac2fd6d0"
+      ],
+      "value": true,
+      "expiresAt": 1792477207487
     }
   }
 }
