@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 420034,
+      "value": 654960,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792442431611,
+      "value": 1792443033212,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"1264f469b665334ec0e9c2951522ffa9059f285a2fd568c0dcd0e7d4d6a322bd\"]": {
@@ -1895,6 +1895,43 @@
       ],
       "value": true,
       "expiresAt": 1792529155998
+    },
+    "[\"factor\",\"pub\",\"23d56d5c40ae99a14c90f7477f5d1a6c3bd439610f5dabf179dded0fe5c74f4b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "23d56d5c40ae99a14c90f7477f5d1a6c3bd439610f5dabf179dded0fe5c74f4b"
+      ],
+      "value": true,
+      "expiresAt": 1792529803642
+    },
+    "[\"factor\",\"topic\",\"23d56d5c40ae99a14c90f7477f5d1a6c3bd439610f5dabf179dded0fe5c74f4b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "23d56d5c40ae99a14c90f7477f5d1a6c3bd439610f5dabf179dded0fe5c74f4b"
+      ],
+      "value": {
+        "title": "Средний балл ЕГЭ поступивших по целевой квоте вырос на 2,1 и в 2026 году составил 66,7 бал",
+        "roots": [
+          "средни",
+          "поступ",
+          "целево",
+          "квоте",
+          "вырос",
+          "состав"
+        ]
+      },
+      "expiresAt": 1792529803643
+    },
+    "[\"factor\",\"texthash\",\"94e77f9aae3ec38d16d1dece1090e66799cc27f08b47b4901971528674440416\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "94e77f9aae3ec38d16d1dece1090e66799cc27f08b47b4901971528674440416"
+      ],
+      "value": true,
+      "expiresAt": 1792529803644
     }
   }
 }
