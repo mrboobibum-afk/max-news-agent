@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 1973367,
+      "value": 712188,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792403431835,
+      "value": 1792404030464,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"e4417febdcc170eaa438d7579a96786e08d9d91786b8131074d4a78e6ea3b9cc\"]": {
@@ -753,6 +753,46 @@
       ],
       "value": true,
       "expiresAt": 1792490117777
+    },
+    "[\"factor\",\"pub\",\"8956a3f270a2a528de62e88ff03bd3824d624fc60f47f1fb14a15ce7f31cf6b0\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "8956a3f270a2a528de62e88ff03bd3824d624fc60f47f1fb14a15ce7f31cf6b0"
+      ],
+      "value": true,
+      "expiresAt": 1792490808280
+    },
+    "[\"factor\",\"topic\",\"8956a3f270a2a528de62e88ff03bd3824d624fc60f47f1fb14a15ce7f31cf6b0\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "8956a3f270a2a528de62e88ff03bd3824d624fc60f47f1fb14a15ce7f31cf6b0"
+      ],
+      "value": {
+        "title": "Михаил Мишустин предложил назначить четырёх новых вице-премьеров и главу Минтранса",
+        "roots": [
+          "михаил",
+          "мишуст",
+          "предло",
+          "назнач",
+          "четыр",
+          "новых",
+          "премье",
+          "главу",
+          "минтра"
+        ]
+      },
+      "expiresAt": 1792490808281
+    },
+    "[\"factor\",\"texthash\",\"ad0ed36994a131712bddb5b4c6c937b0e0e20a17ea586e5fcb36b3b55acbadf2\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "ad0ed36994a131712bddb5b4c6c937b0e0e20a17ea586e5fcb36b3b55acbadf2"
+      ],
+      "value": true,
+      "expiresAt": 1792490808281
     }
   }
 }
