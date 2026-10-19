@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 436134,
+      "value": 302200,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792407033520,
+      "value": 1792407659885,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"62811b8eb8863368df4298e9fbf8d837b446e35299c829673a7f664c2ab6ffe7\"]": {
@@ -909,6 +909,46 @@
       ],
       "value": true,
       "expiresAt": 1792493767099
+    },
+    "[\"factor\",\"pub\",\"dd8e46a2ab0ac7971f9b5a8e34a698545f9e17dbdb6809b298fbb8bbe83d94d6\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "dd8e46a2ab0ac7971f9b5a8e34a698545f9e17dbdb6809b298fbb8bbe83d94d6"
+      ],
+      "value": true,
+      "expiresAt": 1792494275563
+    },
+    "[\"factor\",\"topic\",\"dd8e46a2ab0ac7971f9b5a8e34a698545f9e17dbdb6809b298fbb8bbe83d94d6\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "dd8e46a2ab0ac7971f9b5a8e34a698545f9e17dbdb6809b298fbb8bbe83d94d6"
+      ],
+      "value": {
+        "title": "Туристка из России сорвалась с шестиметровой высоты в районе водопада Куршунлу в турецкой ",
+        "roots": [
+          "турист",
+          "россии",
+          "сорвал",
+          "шестим",
+          "высоты",
+          "районе",
+          "водопа",
+          "куршун",
+          "турецк"
+        ]
+      },
+      "expiresAt": 1792494275564
+    },
+    "[\"factor\",\"texthash\",\"005274310ae8edcda7e731184c2f3fd11f64f870b9f60117e77545915c84412f\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "005274310ae8edcda7e731184c2f3fd11f64f870b9f60117e77545915c84412f"
+      ],
+      "value": true,
+      "expiresAt": 1792494275564
     }
   }
 }
