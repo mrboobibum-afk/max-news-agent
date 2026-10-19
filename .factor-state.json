@@ -17,47 +17,6 @@
       "value": 1792441235121,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"eea23a3745f6f50a55f8333e6965a3cbcf43c0a0a1463a67551e0cffe3c10a9d\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "eea23a3745f6f50a55f8333e6965a3cbcf43c0a0a1463a67551e0cffe3c10a9d"
-      ],
-      "value": true,
-      "expiresAt": 1792441629512
-    },
-    "[\"factor\",\"topic\",\"eea23a3745f6f50a55f8333e6965a3cbcf43c0a0a1463a67551e0cffe3c10a9d\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "eea23a3745f6f50a55f8333e6965a3cbcf43c0a0a1463a67551e0cffe3c10a9d"
-      ],
-      "value": {
-        "title": "Знаменитый питерский тюлень Крошик рискует навсегда «пропасть» в водах Ладожского озера",
-        "roots": [
-          "знамен",
-          "питерс",
-          "тюлень",
-          "крошик",
-          "рискуе",
-          "навсег",
-          "пропас",
-          "водах",
-          "ладожс",
-          "озера"
-        ]
-      },
-      "expiresAt": 1792441629513
-    },
-    "[\"factor\",\"texthash\",\"107ab8c80dbd47ba09999f357c951e172334bd96577d74c2617bbf46f2087ace\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "107ab8c80dbd47ba09999f357c951e172334bd96577d74c2617bbf46f2087ace"
-      ],
-      "value": true,
-      "expiresAt": 1792441629514
-    },
     "[\"factor\",\"pub\",\"1264f469b665334ec0e9c2951522ffa9059f285a2fd568c0dcd0e7d4d6a322bd\"]": {
       "key": [
         "factor",
