@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 439597,
+      "value": 824874,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792430525155,
+      "value": 1792431845918,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"76e5f2fdf6ef0623c61cfc6cf98c7e84f9a06a0213a41ff97e7ce86bed442adf\"]": {
@@ -1518,6 +1518,46 @@
       ],
       "value": true,
       "expiresAt": 1792517307801
+    },
+    "[\"factor\",\"pub\",\"e6c2efdb92018cd71c6da4758ece8be2010db0cceae2333a33233097c6bfdc4b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e6c2efdb92018cd71c6da4758ece8be2010db0cceae2333a33233097c6bfdc4b"
+      ],
+      "value": true,
+      "expiresAt": 1792518620632
+    },
+    "[\"factor\",\"topic\",\"e6c2efdb92018cd71c6da4758ece8be2010db0cceae2333a33233097c6bfdc4b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e6c2efdb92018cd71c6da4758ece8be2010db0cceae2333a33233097c6bfdc4b"
+      ],
+      "value": {
+        "title": "Только за первую половину этого года криминалисты Следственного Комитета приняли участие в",
+        "roots": [
+          "только",
+          "первую",
+          "полови",
+          "этого",
+          "кримин",
+          "следст",
+          "комите",
+          "принял",
+          "участи"
+        ]
+      },
+      "expiresAt": 1792518620632
+    },
+    "[\"factor\",\"texthash\",\"20ca56729d1d5d0f13198c5ce3a5d6f2300017876e4367111e348396fdd551c8\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "20ca56729d1d5d0f13198c5ce3a5d6f2300017876e4367111e348396fdd551c8"
+      ],
+      "value": true,
+      "expiresAt": 1792518620633
     }
   }
 }
