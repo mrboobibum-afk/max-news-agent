@@ -17,47 +17,6 @@
       "value": 1792400465557,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"7d0bf16dc7f22219e1ab20a4e87e966a662659f53e36b332155cc37ecf8aa502\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "7d0bf16dc7f22219e1ab20a4e87e966a662659f53e36b332155cc37ecf8aa502"
-      ],
-      "value": true,
-      "expiresAt": 1792400739927
-    },
-    "[\"factor\",\"topic\",\"7d0bf16dc7f22219e1ab20a4e87e966a662659f53e36b332155cc37ecf8aa502\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "7d0bf16dc7f22219e1ab20a4e87e966a662659f53e36b332155cc37ecf8aa502"
-      ],
-      "value": {
-        "title": "Мировое признание русской королевы волейбола: Екатерина Гамова вошла в Зал славы волейбола",
-        "roots": [
-          "мирово",
-          "призна",
-          "русско",
-          "короле",
-          "волейб",
-          "екатер",
-          "гамова",
-          "вошла",
-          "славы",
-          "волейб"
-        ]
-      },
-      "expiresAt": 1792400739928
-    },
-    "[\"factor\",\"texthash\",\"99da922657b59e0b1010d51bbacedf6a4ea11006d8fc0ddd83cc09fdeb886b33\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "99da922657b59e0b1010d51bbacedf6a4ea11006d8fc0ddd83cc09fdeb886b33"
-      ],
-      "value": true,
-      "expiresAt": 1792400739929
-    },
     "[\"factor\",\"pub\",\"50dc76787b2f6a7962608f31673ec7c95b2036315c4933bd3eca0cfa58e704bb\"]": {
       "key": [
         "factor",
