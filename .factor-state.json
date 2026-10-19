@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 407236,
+      "value": 618545,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792427600429,
+      "value": 1792428037002,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"dffa8a5ae14fedd6c673f9c5b0ac46cc18137c68b3c76912af6e97dccb2fdff4\"]": {
@@ -1446,6 +1446,39 @@
       ],
       "value": true,
       "expiresAt": 1792514371271
+    },
+    "[\"factor\",\"pub\",\"dde1bab24d0d4ca50112cff5e7cf02b5b4d56bab9a84716611332cbf4c5ce3e7\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "dde1bab24d0d4ca50112cff5e7cf02b5b4d56bab9a84716611332cbf4c5ce3e7"
+      ],
+      "value": true,
+      "expiresAt": 1792514770556
+    },
+    "[\"factor\",\"topic\",\"dde1bab24d0d4ca50112cff5e7cf02b5b4d56bab9a84716611332cbf4c5ce3e7\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "dde1bab24d0d4ca50112cff5e7cf02b5b4d56bab9a84716611332cbf4c5ce3e7"
+      ],
+      "value": {
+        "title": "🤝 Восток – дело тонкое",
+        "roots": [
+          "восток",
+          "тонкое"
+        ]
+      },
+      "expiresAt": 1792514770556
+    },
+    "[\"factor\",\"texthash\",\"010536613283a6d1e031bef6d8242ef11bbd493f79d02173bdb443e1b942ac4c\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "010536613283a6d1e031bef6d8242ef11bbd493f79d02173bdb443e1b942ac4c"
+      ],
+      "value": true,
+      "expiresAt": 1792514770557
     }
   }
 }
