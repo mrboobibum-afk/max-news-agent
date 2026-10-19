@@ -17,42 +17,6 @@
       "value": 1792381233215,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"6ba3e79d39eaca2fcc6ef560fd5f1940d5df78716db0f0b09c12510f7940b197\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "6ba3e79d39eaca2fcc6ef560fd5f1940d5df78716db0f0b09c12510f7940b197"
-      ],
-      "value": true,
-      "expiresAt": 1792381673488
-    },
-    "[\"factor\",\"topic\",\"6ba3e79d39eaca2fcc6ef560fd5f1940d5df78716db0f0b09c12510f7940b197\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "6ba3e79d39eaca2fcc6ef560fd5f1940d5df78716db0f0b09c12510f7940b197"
-      ],
-      "value": {
-        "title": "❗️ В Доброполье уничтожена группировка ВСУ численностью около 2 тыс",
-        "roots": [
-          "доброп",
-          "уничто",
-          "группи",
-          "числен",
-          "около"
-        ]
-      },
-      "expiresAt": 1792381673489
-    },
-    "[\"factor\",\"texthash\",\"26410aacb490119ebbf81fe6572f516553b8bd840aa157dbe230497fad8f7f0a\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "26410aacb490119ebbf81fe6572f516553b8bd840aa157dbe230497fad8f7f0a"
-      ],
-      "value": true,
-      "expiresAt": 1792381673490
-    },
     "[\"factor\",\"pub\",\"ba094d32402164f9264097eaf673568e5e2f4ba28723c02f22018d30cc245823\"]": {
       "key": [
         "factor",
