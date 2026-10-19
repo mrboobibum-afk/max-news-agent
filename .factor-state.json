@@ -17,44 +17,6 @@
       "value": 1792381233215,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"562b45efb8bb0f7a60cb26c22382f18645aead9ab546bbe2145b0f37c9d201cb\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "562b45efb8bb0f7a60cb26c22382f18645aead9ab546bbe2145b0f37c9d201cb"
-      ],
-      "value": true,
-      "expiresAt": 1792386500272
-    },
-    "[\"factor\",\"topic\",\"562b45efb8bb0f7a60cb26c22382f18645aead9ab546bbe2145b0f37c9d201cb\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "562b45efb8bb0f7a60cb26c22382f18645aead9ab546bbe2145b0f37c9d201cb"
-      ],
-      "value": {
-        "title": "БПЛА массированно атаковали Ленинградскую область этой ночью — над регионом сбили 126 бесп",
-        "roots": [
-          "массир",
-          "атаков",
-          "ленинг",
-          "област",
-          "ночью",
-          "регион",
-          "сбили"
-        ]
-      },
-      "expiresAt": 1792386500273
-    },
-    "[\"factor\",\"texthash\",\"2b6ba88444864991d22ea89e10b10431a4e55d0fa2991fc10df8f2fe928942fd\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "2b6ba88444864991d22ea89e10b10431a4e55d0fa2991fc10df8f2fe928942fd"
-      ],
-      "value": true,
-      "expiresAt": 1792386500274
-    },
     "[\"factor\",\"pub\",\"bc69204384ef732105b5b11ad8767b8d76d17fab7a4b47b182eb196c446707eb\"]": {
       "key": [
         "factor",
