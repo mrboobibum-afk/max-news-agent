@@ -17,40 +17,6 @@
       "value": 1792374684303,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"e4c184ee0aa1cc9a9f54978cabd8e5925d9c09318fd46355c950ec7623b08368\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "e4c184ee0aa1cc9a9f54978cabd8e5925d9c09318fd46355c950ec7623b08368"
-      ],
-      "value": true,
-      "expiresAt": 1792374949180
-    },
-    "[\"factor\",\"topic\",\"e4c184ee0aa1cc9a9f54978cabd8e5925d9c09318fd46355c950ec7623b08368\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "e4c184ee0aa1cc9a9f54978cabd8e5925d9c09318fd46355c950ec7623b08368"
-      ],
-      "value": {
-        "title": "🚨 В Энергодаре дрон ВСУ залетел в квартиру",
-        "roots": [
-          "энерго",
-          "залете",
-          "кварти"
-        ]
-      },
-      "expiresAt": 1792374949181
-    },
-    "[\"factor\",\"texthash\",\"73e4d2116efb5bf7635d127d4a36eac78909b13dd3f6d51d21f577669a1abbd1\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "73e4d2116efb5bf7635d127d4a36eac78909b13dd3f6d51d21f577669a1abbd1"
-      ],
-      "value": true,
-      "expiresAt": 1792374949182
-    },
     "[\"factor\",\"pub\",\"2d72f12c75e452b6a79c4b316d1768e3344df05f5b4b4d2d61d3ec54936c2cd3\"]": {
       "key": [
         "factor",
