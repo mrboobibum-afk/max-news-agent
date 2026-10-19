@@ -17,40 +17,6 @@
       "value": 1792366745634,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"13a70c874c85355203589236e8479be1fbab34d4338ccafe3eaa8ebb9ec7bfe0\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "13a70c874c85355203589236e8479be1fbab34d4338ccafe3eaa8ebb9ec7bfe0"
-      ],
-      "value": true,
-      "expiresAt": 1792368201643
-    },
-    "[\"factor\",\"topic\",\"13a70c874c85355203589236e8479be1fbab34d4338ccafe3eaa8ebb9ec7bfe0\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "13a70c874c85355203589236e8479be1fbab34d4338ccafe3eaa8ebb9ec7bfe0"
-      ],
-      "value": {
-        "title": "Что известно о протестах во Франции. Главное",
-        "roots": [
-          "протес",
-          "франци",
-          "главно"
-        ]
-      },
-      "expiresAt": 1792368201644
-    },
-    "[\"factor\",\"texthash\",\"e5f0427fb3bfe60db14027cad6f64f3bd21dee17f6ada3342174b37424bc3f8f\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "e5f0427fb3bfe60db14027cad6f64f3bd21dee17f6ada3342174b37424bc3f8f"
-      ],
-      "value": true,
-      "expiresAt": 1792368201645
-    },
     "[\"factor\",\"pub\",\"68e160930925d91a8d72b9a05f880d1a987be46e9c17c4b5f9125915d1cef5b8\"]": {
       "key": [
         "factor",
