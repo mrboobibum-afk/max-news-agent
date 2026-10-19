@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 4615824,
+      "value": 6454356,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,85 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792369234166,
+      "value": 1792374684303,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"2e25c1e1a83c06f5e3ca0fa5de0ad536302273b8e491d880561f0d4c682b83c5\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "2e25c1e1a83c06f5e3ca0fa5de0ad536302273b8e491d880561f0d4c682b83c5"
-      ],
-      "value": true,
-      "expiresAt": 1792373646806
-    },
-    "[\"factor\",\"topic\",\"2e25c1e1a83c06f5e3ca0fa5de0ad536302273b8e491d880561f0d4c682b83c5\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "2e25c1e1a83c06f5e3ca0fa5de0ad536302273b8e491d880561f0d4c682b83c5"
-      ],
-      "value": {
-        "title": "Трамп взял 60 дней на оценку последствий санкций, которые США могут наложить на РФ, заявил",
-        "roots": [
-          "трамп",
-          "оценку",
-          "послед",
-          "санкци",
-          "которы",
-          "могут",
-          "наложи"
-        ]
-      },
-      "expiresAt": 1792373646807
-    },
-    "[\"factor\",\"texthash\",\"57d261192041e4bfa7c575c837464f63888f5ad2c35db20fdfce1081ea5f93f9\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "57d261192041e4bfa7c575c837464f63888f5ad2c35db20fdfce1081ea5f93f9"
-      ],
-      "value": true,
-      "expiresAt": 1792373646808
-    },
-    "[\"factor\",\"pub\",\"413e2fdb6602527af0e2138434e99aa17019d060521356b61a2eddc44e545094\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "413e2fdb6602527af0e2138434e99aa17019d060521356b61a2eddc44e545094"
-      ],
-      "value": true,
-      "expiresAt": 1792374134795
-    },
-    "[\"factor\",\"topic\",\"413e2fdb6602527af0e2138434e99aa17019d060521356b61a2eddc44e545094\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "413e2fdb6602527af0e2138434e99aa17019d060521356b61a2eddc44e545094"
-      ],
-      "value": {
-        "title": "Краснокнижные снежные барсы оказались под угрозой из-за голодных медведей на юге Сибири",
-        "roots": [
-          "красно",
-          "снежны",
-          "барсы",
-          "оказал",
-          "угрозо",
-          "голодн",
-          "медвед",
-          "сибири"
-        ]
-      },
-      "expiresAt": 1792374134796
-    },
-    "[\"factor\",\"texthash\",\"359e1a1c9927efc327da1e4599cf47dd83cffbf48929f3aa2ec24c894bcd6767\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "359e1a1c9927efc327da1e4599cf47dd83cffbf48929f3aa2ec24c894bcd6767"
-      ],
-      "value": true,
-      "expiresAt": 1792374134797
     },
     "[\"factor\",\"pub\",\"e4c184ee0aa1cc9a9f54978cabd8e5925d9c09318fd46355c950ec7623b08368\"]": {
       "key": [
@@ -1326,6 +1249,45 @@
       ],
       "value": true,
       "expiresAt": 1792456107315
+    },
+    "[\"factor\",\"pub\",\"5f16341d8f15a958d645ac653138c77a498d9a01e157598bbe3695fcd4f0644f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "5f16341d8f15a958d645ac653138c77a498d9a01e157598bbe3695fcd4f0644f"
+      ],
+      "value": true,
+      "expiresAt": 1792461358065
+    },
+    "[\"factor\",\"topic\",\"5f16341d8f15a958d645ac653138c77a498d9a01e157598bbe3695fcd4f0644f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "5f16341d8f15a958d645ac653138c77a498d9a01e157598bbe3695fcd4f0644f"
+      ],
+      "value": {
+        "title": "Из носа Зеленского во время видеообращения к украинцам вылетел шарик белого цвета",
+        "roots": [
+          "зеленс",
+          "время",
+          "видеоо",
+          "украин",
+          "вылете",
+          "шарик",
+          "белого",
+          "цвета"
+        ]
+      },
+      "expiresAt": 1792461358066
+    },
+    "[\"factor\",\"texthash\",\"703471b42dcd9428afe94388e6baf8ecac4b3ad524bc7d11dde77c6457d27b72\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "703471b42dcd9428afe94388e6baf8ecac4b3ad524bc7d11dde77c6457d27b72"
+      ],
+      "value": true,
+      "expiresAt": 1792461358066
     }
   }
 }
