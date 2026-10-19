@@ -17,44 +17,6 @@
       "value": 1792417235814,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"85c24d07023aa3c47906fd92f444901a83bbd6dfec6af97128efd90052fcb675\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "85c24d07023aa3c47906fd92f444901a83bbd6dfec6af97128efd90052fcb675"
-      ],
-      "value": true,
-      "expiresAt": 1792418093607
-    },
-    "[\"factor\",\"topic\",\"85c24d07023aa3c47906fd92f444901a83bbd6dfec6af97128efd90052fcb675\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "85c24d07023aa3c47906fd92f444901a83bbd6dfec6af97128efd90052fcb675"
-      ],
-      "value": {
-        "title": "Более 400 россиян застряли в Белоруссии из-за атак БПЛА на Санкт-Петербург — два самолёта ",
-        "roots": [
-          "более",
-          "россия",
-          "застря",
-          "белору",
-          "санкт",
-          "петерб",
-          "самол"
-        ]
-      },
-      "expiresAt": 1792418093608
-    },
-    "[\"factor\",\"texthash\",\"202b699613d934d3d598c09acaca9238e4eb956df93df3e617be4684d297b310\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "202b699613d934d3d598c09acaca9238e4eb956df93df3e617be4684d297b310"
-      ],
-      "value": true,
-      "expiresAt": 1792418093609
-    },
     "[\"factor\",\"pub\",\"a8512d825dfa88158ad4d7176748d7d6b7e828fe6343e608d189aa5c0b332bc1\"]": {
       "key": [
         "factor",
