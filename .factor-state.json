@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 568922,
+      "value": 529629,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792405847976,
+      "value": 1792406432931,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"62811b8eb8863368df4298e9fbf8d837b446e35299c829673a7f664c2ab6ffe7\"]": {
@@ -836,6 +836,41 @@
       ],
       "value": true,
       "expiresAt": 1792492620951
+    },
+    "[\"factor\",\"pub\",\"a91a0a06acb29fc059b7dc0ad184ba9459c18a388a361cb6c5966d9cc99e05a0\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "a91a0a06acb29fc059b7dc0ad184ba9459c18a388a361cb6c5966d9cc99e05a0"
+      ],
+      "value": true,
+      "expiresAt": 1792493152057
+    },
+    "[\"factor\",\"topic\",\"a91a0a06acb29fc059b7dc0ad184ba9459c18a388a361cb6c5966d9cc99e05a0\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "a91a0a06acb29fc059b7dc0ad184ba9459c18a388a361cb6c5966d9cc99e05a0"
+      ],
+      "value": {
+        "title": "Премиум-класс побьет «китайцев»",
+        "roots": [
+          "премиу",
+          "класс",
+          "побьет",
+          "китайц"
+        ]
+      },
+      "expiresAt": 1792493152058
+    },
+    "[\"factor\",\"texthash\",\"a72592dc79a0307774ab0f13313f7cad209b90a96edf446a227cc46d28a3de6b\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "a72592dc79a0307774ab0f13313f7cad209b90a96edf446a227cc46d28a3de6b"
+      ],
+      "value": true,
+      "expiresAt": 1792493152059
     }
   }
 }
