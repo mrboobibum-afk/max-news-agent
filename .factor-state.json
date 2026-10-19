@@ -1068,40 +1068,42 @@
       "value": true,
       "expiresAt": 1792501071716
     },
-    "[\"factor\",\"pub\",\"8c9c3b6b96b22bd502a065e270b4fc9eec1ae0418f5b51db8de4a27e4836a448\"]": {
+    "[\"factor\",\"pub\",\"88ff9a314402334405091eac8c17e27883e122e00111a0182a7f7c1ce2da55a5\"]": {
       "key": [
         "factor",
         "pub",
-        "8c9c3b6b96b22bd502a065e270b4fc9eec1ae0418f5b51db8de4a27e4836a448"
+        "88ff9a314402334405091eac8c17e27883e122e00111a0182a7f7c1ce2da55a5"
       ],
       "value": true,
-      "expiresAt": 1792501909963
+      "expiresAt": 1792502286742
     },
-    "[\"factor\",\"topic\",\"8c9c3b6b96b22bd502a065e270b4fc9eec1ae0418f5b51db8de4a27e4836a448\"]": {
+    "[\"factor\",\"topic\",\"88ff9a314402334405091eac8c17e27883e122e00111a0182a7f7c1ce2da55a5\"]": {
       "key": [
         "factor",
         "topic",
-        "8c9c3b6b96b22bd502a065e270b4fc9eec1ae0418f5b51db8de4a27e4836a448"
+        "88ff9a314402334405091eac8c17e27883e122e00111a0182a7f7c1ce2da55a5"
       ],
       "value": {
-        "title": "🛬 Сергей Лавров прибыл в Исламскую Республику Иран с рабочим визитом",
+        "title": "Дом за домом, улица за улицей ➡️ Освобождение любого населенного пункта – тяжелейшая работ",
         "roots": [
-          "сергей",
-          "лавров",
-          "прибыл",
-          "исламс",
-          "респуб",
-          "рабочи",
-          "визито"
+          "домом",
+          "улица",
+          "улицей",
+          "освобо",
+          "любого",
+          "населе",
+          "пункта",
+          "тяжеле",
+          "работ"
         ]
       },
-      "expiresAt": 1792501909964
+      "expiresAt": 1792502286743
     },
-    "[\"factor\",\"texthash\",\"891df5e4904bc7877bb0a8d2c17bfc7a6dfe6fb83495c163541f1603476e70de\"]": {
+    "[\"factor\",\"texthash\",\"7726020f5b0460fc221c63b359612c948ad137ec958bde2e5b5e0e3eac141b7b\"]": {
       "key": [
         "factor",
         "texthash",
-        "891df5e4904bc7877bb0a8d2c17bfc7a6dfe6fb83495c163541f1603476e70de"
+        "7726020f5b0460fc221c63b359612c948ad137ec958bde2e5b5e0e3eac141b7b"
       ],
       "value": true,
       "expiresAt": 1792501909964
