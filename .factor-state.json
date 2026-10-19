@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 354080,
+      "value": 796557,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792449651690,
+      "value": 1792451710325,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"4d8e8871852015dfa4b9ac28eb44fdf9199280555672405820bf5159e6ad8fe6\"]": {
@@ -2039,6 +2039,45 @@
       ],
       "value": true,
       "expiresAt": 1792536854377
+    },
+    "[\"factor\",\"pub\",\"71cd504e89657c6999db3799240f2eee19e61e0137d6c61abe4aa906c12b80f0\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "71cd504e89657c6999db3799240f2eee19e61e0137d6c61abe4aa906c12b80f0"
+      ],
+      "value": true,
+      "expiresAt": 1792538834297
+    },
+    "[\"factor\",\"topic\",\"71cd504e89657c6999db3799240f2eee19e61e0137d6c61abe4aa906c12b80f0\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "71cd504e89657c6999db3799240f2eee19e61e0137d6c61abe4aa906c12b80f0"
+      ],
+      "value": {
+        "title": "📃 В Минпросвещения раскрыли цели введения устного экзамена по истории Введение устного эк",
+        "roots": [
+          "минпро",
+          "раскры",
+          "введен",
+          "устног",
+          "экзаме",
+          "истори",
+          "введен",
+          "устног"
+        ]
+      },
+      "expiresAt": 1792538834298
+    },
+    "[\"factor\",\"texthash\",\"3c75959bc93edc9ba3677d4df347076836272db81eab00dc78430af7c5a58f7a\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "3c75959bc93edc9ba3677d4df347076836272db81eab00dc78430af7c5a58f7a"
+      ],
+      "value": true,
+      "expiresAt": 1792538834299
     }
   }
 }
