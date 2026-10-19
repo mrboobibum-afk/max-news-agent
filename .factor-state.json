@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 560386,
+      "value": 508240,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,46 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792429263970,
+      "value": 1792429835956,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"dffa8a5ae14fedd6c673f9c5b0ac46cc18137c68b3c76912af6e97dccb2fdff4\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "dffa8a5ae14fedd6c673f9c5b0ac46cc18137c68b3c76912af6e97dccb2fdff4"
-      ],
-      "value": true,
-      "expiresAt": 1792429502245
-    },
-    "[\"factor\",\"topic\",\"dffa8a5ae14fedd6c673f9c5b0ac46cc18137c68b3c76912af6e97dccb2fdff4\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "dffa8a5ae14fedd6c673f9c5b0ac46cc18137c68b3c76912af6e97dccb2fdff4"
-      ],
-      "value": {
-        "title": "Актрису сериалов «Метод» и «Полицейский с Рублёвки» Александру Виноградову госпитализирова",
-        "roots": [
-          "актрис",
-          "сериал",
-          "метод",
-          "полице",
-          "алекса",
-          "виногр",
-          "госпит"
-        ]
-      },
-      "expiresAt": 1792429502246
-    },
-    "[\"factor\",\"texthash\",\"a62fda5536be9086aca30d68321462f7638c9583d3f87a5c074bc3ccd81a469a\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "a62fda5536be9086aca30d68321462f7638c9583d3f87a5c074bc3ccd81a469a"
-      ],
-      "value": true,
-      "expiresAt": 1792429502247
     },
     "[\"factor\",\"pub\",\"76e5f2fdf6ef0623c61cfc6cf98c7e84f9a06a0213a41ff97e7ce86bed442adf\"]": {
       "key": [
@@ -1518,6 +1480,46 @@
       ],
       "value": true,
       "expiresAt": 1792515867593
+    },
+    "[\"factor\",\"pub\",\"e6c2efdb92018cd71c6da4758ece8be2010db0cceae2333a33233097c6bfdc4b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e6c2efdb92018cd71c6da4758ece8be2010db0cceae2333a33233097c6bfdc4b"
+      ],
+      "value": true,
+      "expiresAt": 1792516881788
+    },
+    "[\"factor\",\"topic\",\"e6c2efdb92018cd71c6da4758ece8be2010db0cceae2333a33233097c6bfdc4b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e6c2efdb92018cd71c6da4758ece8be2010db0cceae2333a33233097c6bfdc4b"
+      ],
+      "value": {
+        "title": "Только за первую половину этого года криминалисты Следственного Комитета приняли участие в",
+        "roots": [
+          "только",
+          "первую",
+          "полови",
+          "этого",
+          "кримин",
+          "следст",
+          "комите",
+          "принял",
+          "участи"
+        ]
+      },
+      "expiresAt": 1792516881789
+    },
+    "[\"factor\",\"texthash\",\"20ca56729d1d5d0f13198c5ce3a5d6f2300017876e4367111e348396fdd551c8\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "20ca56729d1d5d0f13198c5ce3a5d6f2300017876e4367111e348396fdd551c8"
+      ],
+      "value": true,
+      "expiresAt": 1792516881789
     }
   }
 }
