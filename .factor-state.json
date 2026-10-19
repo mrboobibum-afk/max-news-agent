@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 560386,
+      "value": 439597,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,46 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792429263970,
+      "value": 1792430525155,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"dffa8a5ae14fedd6c673f9c5b0ac46cc18137c68b3c76912af6e97dccb2fdff4\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "dffa8a5ae14fedd6c673f9c5b0ac46cc18137c68b3c76912af6e97dccb2fdff4"
-      ],
-      "value": true,
-      "expiresAt": 1792429502245
-    },
-    "[\"factor\",\"topic\",\"dffa8a5ae14fedd6c673f9c5b0ac46cc18137c68b3c76912af6e97dccb2fdff4\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "dffa8a5ae14fedd6c673f9c5b0ac46cc18137c68b3c76912af6e97dccb2fdff4"
-      ],
-      "value": {
-        "title": "Актрису сериалов «Метод» и «Полицейский с Рублёвки» Александру Виноградову госпитализирова",
-        "roots": [
-          "актрис",
-          "сериал",
-          "метод",
-          "полице",
-          "алекса",
-          "виногр",
-          "госпит"
-        ]
-      },
-      "expiresAt": 1792429502246
-    },
-    "[\"factor\",\"texthash\",\"a62fda5536be9086aca30d68321462f7638c9583d3f87a5c074bc3ccd81a469a\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "a62fda5536be9086aca30d68321462f7638c9583d3f87a5c074bc3ccd81a469a"
-      ],
-      "value": true,
-      "expiresAt": 1792429502247
     },
     "[\"factor\",\"pub\",\"76e5f2fdf6ef0623c61cfc6cf98c7e84f9a06a0213a41ff97e7ce86bed442adf\"]": {
       "key": [
@@ -1518,6 +1480,44 @@
       ],
       "value": true,
       "expiresAt": 1792515867593
+    },
+    "[\"factor\",\"pub\",\"037f908d8e551e6098b40d3edd48010177d6a5efbdcc66ff87b2d321e186a5bb\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "037f908d8e551e6098b40d3edd48010177d6a5efbdcc66ff87b2d321e186a5bb"
+      ],
+      "value": true,
+      "expiresAt": 1792517307800
+    },
+    "[\"factor\",\"topic\",\"037f908d8e551e6098b40d3edd48010177d6a5efbdcc66ff87b2d321e186a5bb\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "037f908d8e551e6098b40d3edd48010177d6a5efbdcc66ff87b2d321e186a5bb"
+      ],
+      "value": {
+        "title": "🇷🇺 🇰🇭 Андрей Денисов : Российские парламентарии открыты к плодотворной совместной рабо",
+        "roots": [
+          "андрей",
+          "денисо",
+          "россий",
+          "парлам",
+          "открыт",
+          "плодот",
+          "совмес"
+        ]
+      },
+      "expiresAt": 1792517307801
+    },
+    "[\"factor\",\"texthash\",\"219831c86f3e522c7a2535d692cbce209ca99ba78dd62d3aea16ee12b0d778dc\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "219831c86f3e522c7a2535d692cbce209ca99ba78dd62d3aea16ee12b0d778dc"
+      ],
+      "value": true,
+      "expiresAt": 1792517307801
     }
   }
 }
