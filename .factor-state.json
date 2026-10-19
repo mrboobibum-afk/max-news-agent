@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 396894,
+      "value": 322185,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792438945091,
+      "value": 1792439434390,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"eea23a3745f6f50a55f8333e6965a3cbcf43c0a0a1463a67551e0cffe3c10a9d\"]": {
@@ -1784,6 +1784,47 @@
       ],
       "value": true,
       "expiresAt": 1792525670925
+    },
+    "[\"factor\",\"pub\",\"0f34c9981df29aaacded076b4d216d6d9e4f46de790f5e642f0411c673760511\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "0f34c9981df29aaacded076b4d216d6d9e4f46de790f5e642f0411c673760511"
+      ],
+      "value": true,
+      "expiresAt": 1792526206736
+    },
+    "[\"factor\",\"topic\",\"0f34c9981df29aaacded076b4d216d6d9e4f46de790f5e642f0411c673760511\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "0f34c9981df29aaacded076b4d216d6d9e4f46de790f5e642f0411c673760511"
+      ],
+      "value": {
+        "title": "В Малайзии почтили память моряков, погибших во время Первой мировой войны на российском кр",
+        "roots": [
+          "малайз",
+          "почтил",
+          "память",
+          "моряко",
+          "погибш",
+          "время",
+          "первой",
+          "мирово",
+          "войны",
+          "россий"
+        ]
+      },
+      "expiresAt": 1792526206739
+    },
+    "[\"factor\",\"texthash\",\"cb701fad3619ae1440ff47950cf58419fe5782c0fa196b149b743dd1f81b7b17\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "cb701fad3619ae1440ff47950cf58419fe5782c0fa196b149b743dd1f81b7b17"
+      ],
+      "value": true,
+      "expiresAt": 1792526206739
     }
   }
 }
