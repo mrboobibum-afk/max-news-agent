@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Official Clean Edition v62)
+// MAX NEWS AGENT — «ФАКТОР» (Official Clean Edition v63)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -53,21 +53,16 @@ async function initMaxHttpClient() {
     return maxHttpClient;
 }
 
-// 🏛️ ОФИЦИАЛЬНЫЕ TELEGRAM-КАНАЛЫ (БЕЗ ВОДЯНЫХ ЗНАКОВ)
+// 🏛️ ОФИЦИАЛЬНЫЕ TELEGRAM-КАНАЛЫ (БЕЗ ЖЕЛТУХИ)
 const TG_LIVE_CHANNELS = [
-    // Правительство и Кремль
     "government_rus", "news_kremlin", "kremlinpress",
-    // Силовые и ключевые ведомства
     "mod_russia", "mchs_official", "mediamvd", "MID_Russia", "sledcom_press",
     "genprocru", "rosgvardofficial",
-    // Парламент и экономика
     "duma_gov_ru", "sovfedofficial", "centralbank_russia", "minfin", "minec_russia",
     "mintsifry", "minenergo_official", "minpromtorg_ru", "mcx_ru", "mintrudrf",
     "minstroyrf", "minzdrav_ru", "minobrnaukiofficial", "minsport_russia",
     "mincultrussia", "mintransrussia", "prirodovedenie_rus", "minvostok",
-    // Госкорпорации
     "rostecnews", "rosatominfo", "rzdtg", "GazpromNews", "rosneftinfo",
-    // Государственные СМИ (чистые)
     "rian_ru", "tass_agency", "rbc_news", "vesti_news", "rt_russian",
     "1tv_news", "ntvru", "izvestya", "rgru_news"
 ];
@@ -112,7 +107,6 @@ const BORING_TOPICS = [
     /спецпредложени/i,
     /реклама\s*[.:!]/i,
     /партнёрск(?:ий|ого)\s+материал/i,
-    // 🚫 ЖЕЛТУХА, БЫТОВУХА И ЖИВОТНЫЕ
     /(?:собак|кошк|котят|щенят|ши-тцу|животн|питомц|зоозащит)/i,
     /(?:пылесос|розетк|бытов|квартир[аеу].*пожар|пожар.*квартир|кухн[яе].*пожар|закурил|уснул\s+с\s+сигарет)/i,
     /(?:гороскоп|астролог|экстрасенс|таролог|гадан)/i,
@@ -325,29 +319,40 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
     return null;
 }
 
-// 🧹 ГЛУБОКАЯ ОЧИСТКА ТЕКСТА ОТ ВСЕХ УПОМИНАНИЙ ЖЕЛТЫХ И ВНЕШНИХ ПАБЛИКОВ
+// 🧹 ЖЕСТКАЯ ОЧИСТКА: УДАЛЯЕМ ВСЕ ХЭШТЕГИ, РЕКЛАМУ И ПРОМО-ХВОСТЫ
 function sanitizeRawText(raw: string): string {
     let t = cleanText(raw);
 
-    // Вырезаем фразы со ссылками на любые источники в любом падеже и с кавычками
-    t = t.replace(/(?:Как выяснил|Как выяснила|Как узнал|Как узнала|Как рассказал|Как рассказали|По данным|Об этом сообщает|Об этом сообщило|Об этом пишет|Подписывайся на|Подписывайтесь на)\s*[«"']?(?:SHOT|Mash|База|Баз[ыуе]|Readovka|ТАСС|РИА Новости|Интерфакс|Минобороны России)[»"']?/gi, "");
+    // 1. Вырезаем фразы со ссылками на любые источники
+    t = t.replace(/(?:Как выяснил|Как выяснила|Как узнал|Как узнала|Как рассказал|Как рассказали|По данным|Об этом сообщает|Об этом сообщило|Об этом пишет)\s*[«"']?(?:SHOT|Mash|База|Баз[ыуе]|Readovka|ТАСС|РИА Новости|Интерфакс|Минобороны России)[»"']?/gi, "");
     
-    // Убираем любые остатки упоминаний желтых пабликов
+    // 2. Убираем любые остатки упоминаний желтых пабликов
     t = t.replace(/[«"']?(?:SHOT|Mash|База|Баз[ыуе]|Readovka)[»"']?/gi, "");
-    t = t.replace(/(?:Mash|SHOT|Readovka)\s*(?:\||в)\s*(?:MAX|Telegram|Макс|Телеграм)/gi, "");
+    
+    // 3. Удаляем ВСЕ хэштеги из текста (мы добавим свой в конце)
+    t = t.replace(/#[a-zA-Zа-яА-Я0-9_]+/g, "");
 
-    // Убираем одиночные упоминания источников в скобках и в конце
-    t = t.replace(/\s*[\(\[\/]\s*(?:ТАСС|SHOT|Mash|База|Readovka|РИА Новости|Интерфакс|Минобороны России)[^\)\]]*[\)\]]\s*/gi, " ");
-    t = t.replace(/\s*[-—]\s*(?:ТАСС|SHOT|Mash|База|Readovka|РИА Новости|Интерфакс|Минобороны России)\s*$/gi, "");
-    t = t.replace(/\s*(?:ТАСС|SHOT|Mash|База|Readovka|РИА Новости|Интерфакс|Минобороны России)\s*[.!?]?\s*$/gi, "");
+    // 4. Отрезаем ВСЁ, что начинается с промо-маркеров (подписки, реклама каналов)
+    const markers = [
+        "Подписаться", "Подпишись", "Подписывайтесь", "Мы в Максе", 'Мы в "Максе"', "Мы в «Максе»", 
+        "Наш канал в Максе", "Читайте нас в Максе", "Читайте в Максе", "Канал Минобороны", 
+        "Канал в МАКС", "Больше новостей", "Читайте также", "только для своих", 
+        "Источник:", "Фото:", "Видео:", "Прислать новость", "Предложить новость"
+    ];
+    
+    for (const m of markers) {
+        const idx = t.toLowerCase().indexOf(m.toLowerCase());
+        // Если маркер найден не в самом начале текста (чтобы не обрезать суть), режем всё после него
+        if (idx > 10) { 
+            t = t.slice(0, idx); 
+            break; 
+        }
+    }
 
     t = t.replace(/📢\s*Прямой Эфир/gi, "");
     t = t.replace(/⚡\s*ФАКТОР/gi, "");
-    const markers = ["Подписаться", "Подпишись", "Мы в Максе", 'Мы в "Максе"', "Мы в «Максе»", "Наш канал в Максе", "Читайте нас в Максе", "Читайте в Максе"];
-    for (const m of markers) {
-        const idx = t.toLowerCase().indexOf(m.toLowerCase());
-        if (idx > 15) { t = t.slice(0, idx); break; }
-    }
+    
+    // Убираем лишние символы и пробелы в конце
     t = t.replace(/[\s◆♦●○■▪▫▶➡⬛⬜⭐✔☑«»"'.,;:!?/\-–—]+$/g, "");
 
     return t.trim();
@@ -609,7 +614,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v62: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v63: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
