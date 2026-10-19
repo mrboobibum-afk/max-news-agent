@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 426255,
+      "value": 863064,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,46 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792414961284,
+      "value": 1792415928153,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"993dbe90f415addfeae0249b11d5c98a43e7b087f01182618884167d4241a528\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "993dbe90f415addfeae0249b11d5c98a43e7b087f01182618884167d4241a528"
-      ],
-      "value": true,
-      "expiresAt": 1792415693951
-    },
-    "[\"factor\",\"topic\",\"993dbe90f415addfeae0249b11d5c98a43e7b087f01182618884167d4241a528\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "993dbe90f415addfeae0249b11d5c98a43e7b087f01182618884167d4241a528"
-      ],
-      "value": {
-        "title": "Бойца поп-ММА Ибрагима Исмаилова расстреляли во Владикавказе По данным SHOT, сегодня ночью",
-        "roots": [
-          "бойца",
-          "ибраги",
-          "исмаил",
-          "расстр",
-          "владик",
-          "данным",
-          "ночью"
-        ]
-      },
-      "expiresAt": 1792415693953
-    },
-    "[\"factor\",\"texthash\",\"fbb465cc01b992524f0201bd54dfcb8781d9503c1914397f66b21b8f1a1a5a7c\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "fbb465cc01b992524f0201bd54dfcb8781d9503c1914397f66b21b8f1a1a5a7c"
-      ],
-      "value": true,
-      "expiresAt": 1792415693953
     },
     "[\"factor\",\"pub\",\"85c24d07023aa3c47906fd92f444901a83bbd6dfec6af97128efd90052fcb675\"]": {
       "key": [
@@ -1143,6 +1105,45 @@
       ],
       "value": true,
       "expiresAt": 1792501909964
+    },
+    "[\"factor\",\"pub\",\"c7588fc03804a8df429f24e6e464b94ddc894e4528ae1a38f1f7b6c787afb4eb\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "c7588fc03804a8df429f24e6e464b94ddc894e4528ae1a38f1f7b6c787afb4eb"
+      ],
+      "value": true,
+      "expiresAt": 1792502873947
+    },
+    "[\"factor\",\"topic\",\"c7588fc03804a8df429f24e6e464b94ddc894e4528ae1a38f1f7b6c787afb4eb\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "c7588fc03804a8df429f24e6e464b94ddc894e4528ae1a38f1f7b6c787afb4eb"
+      ],
+      "value": {
+        "title": "🎉 100 лет Мурманскому областному краеведческому музею Старейший музей Мурманской области ",
+        "roots": [
+          "мурман",
+          "област",
+          "краеве",
+          "музею",
+          "старей",
+          "музей",
+          "мурман",
+          "област"
+        ]
+      },
+      "expiresAt": 1792502873947
+    },
+    "[\"factor\",\"texthash\",\"34102964f0a8978b5c70b8181e5465a4399bb8d9817dad1f659fa5ff8fc3389d\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "34102964f0a8978b5c70b8181e5465a4399bb8d9817dad1f659fa5ff8fc3389d"
+      ],
+      "value": true,
+      "expiresAt": 1792502873948
     }
   }
 }
