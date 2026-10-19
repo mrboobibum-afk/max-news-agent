@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Live Video/Action Edition v56)
+// MAX NEWS AGENT — «ФАКТОР» (Live Video/Action Edition v57)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -12,8 +12,9 @@ const DASHSCOPE_API_KEY = Deno.env.get("DASHSCOPE_API_KEY") ?? "";
 const QWEN_MODEL = Deno.env.get("QWEN_MODEL") ?? "qwen3.8-max";
 const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyuncs.com/compatible-mode/v1";
 
+// 🚨 ИНТЕРВАЛ ПРОВЕРКИ: каждые 30-60 минут
 const REGULAR_MIN_INTERVAL_MS = 30 * 60 * 1000;
-const REGULAR_MAX_INTERVAL_MS = 120 * 60 * 1000;
+const REGULAR_MAX_INTERVAL_MS = 60 * 60 * 1000;
 const HARD_MIN_INTERVAL_MS = 30 * 60 * 1000;
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000;
 
@@ -53,10 +54,12 @@ async function initMaxHttpClient() {
     return maxHttpClient;
 }
 
+// 🚨 РАСШИРЕННЫЙ СПИСОК ИСТОЧНИКОВ (Добавлены культура, общество, спорт)
 const TG_LIVE_CHANNELS = [
     "shot_shot", "bazabazon", "readovkanews", "mash", "life_shot", "bbbreaking",
     "rian_ru", "tass_agency", "rbc_news", "mod_russia", "vesti_news",
-    "rt_russian", "ntvru", "1tv_news"
+    "rt_russian", "ntvru", "1tv_news",
+    "mk_ru", "kulturny_blog", "sports_ru" // Новые каналы
 ];
 
 const NEWS_FEEDS = [
@@ -83,6 +86,9 @@ const NEWS_FEEDS = [
     { name: "БФМ", url: "https://www.bfm.ru/rss.xml" },
     { name: "URA.ру", url: "https://ura.news/rss" },
     { name: "Правда.ру", url: "https://www.pravda.ru/export.xml" },
+    { name: "Афиша", url: "https://www.afisha.ru/rss/news/" }, // Культура
+    { name: "Спорт-Экспресс", url: "https://www.sport-express.ru/rss/news.xml" }, // Спорт
+    { name: "МК", url: "https://www.mk.ru/rss/index.xml" } // Общество
 ];
 
 const BORING_TOPICS = [
@@ -326,23 +332,20 @@ function sanitizeRawText(raw: string): string {
     return t.trim();
 }
 
-// 🚨 ОБРЕЗКА ВОДЯНЫХ ЗНАКОВ НА ФОТО
-async function cropWatermarks(bytes: Uint8Array): Promise<Uint8Array> {
+// 🚨 НАЛОЖЕНИЕ СВОЕГО БРЕНДА ПОВЕРХ ЧУЖОГО ВОДЯНОГО ЗНАКА
+async function applyBrandOverlay(bytes: Uint8Array): Promise<Uint8Array> {
     try {
         const img = await Image.decode(bytes);
-        const w = img.width;
-        const h = img.height;
+        const logo = await Image.decode(await Deno.readFile("./logo.png")); // Логотип должен лежать в корне репозитория
+        const logoW = Math.floor(img.width * 0.15); // Логотип 15% от ширины фото
+        const logoH = Math.floor(logo.height * (logoW / logo.width));
         
-        // Обрезаем 12% сверху и 12% снизу (где обычно логотипы SHOT, BAZA, MASH)
-        // Оставляем центральную часть
-        const cropY = Math.floor(h * 0.12);
-        const cropH = Math.floor(h * 0.76); // 100% - 12% - 12% = 76%
-        
-        img.crop(0, cropY, w, cropH);
+        // Накладываем логотип в правый верхний угол (поверх водяного знака SHOT/BAZA)
+        img.composite(logo.resize(logoW, logoH), img.width - logoW - 10, 10);
         
         return await img.encode();
     } catch {
-        return bytes; // Если не удалось обработать, возвращаем оригинал
+        return bytes; // Если не удалось, возвращаем оригинал
     }
 }
 
@@ -583,8 +586,19 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
     return packet;
 }
 
+// 🚨 ЛОГИКА ПРИЕМА ПОЛЬЗОВАТЕЛЬСКИХ НОВОСТЕЙ (UGC)
+// Ты можешь настроить отдельного бота (например, @faktor_tip_bot),
+// который будет пересылать сообщения сюда, в этот чат.
+// Бот будет проверять последние сообщения и публиковать их как новости.
+async function checkUgcFeed(): Promise<any[]> {
+    // ЭТА ФУНКЦИЯ ТРЕБУЕТ ДОПОЛНИТЕЛЬНОЙ НАСТРОЙКИ БОТА.
+    // Пока она возвращает пустой массив, чтобы не ломать код.
+    // Инструкция по настройке будет ниже.
+    return [];
+}
+
 async function run() {
-    console.log("=== ФАКТОР v56: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v57: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -615,7 +629,11 @@ async function run() {
     console.log("\nИсточники (RSS):");
     const rssCandidates = await fetchRssFeeds();
 
-    const candidates = [...tgCandidates, ...rssCandidates];
+    console.log("\nИсточники (UGC):");
+    const ugcCandidates = await checkUgcFeed();
+    console.log(`Всего кандидатов из UGC: ${ugcCandidates.length}`);
+
+    const candidates = [...tgCandidates, ...rssCandidates, ...ugcCandidates];
     console.log(`Всего кандидатов: ${candidates.length}`);
 
     const seenPostKeys = new Set<string>();
@@ -667,9 +685,9 @@ async function run() {
             let mediaBytes = await downloadBuffer(media.mediaUrl, media.mediaType === "video");
             if (!mediaBytes) continue;
 
-            // 🚨 ОБРЕЗКА ВОДЯНЫХ ЗНАКОВ НА ФОТО
+            // 🚨 НАЛОЖЕНИЕ БРЕНДА
             if (media.mediaType === "image") {
-                mediaBytes = await cropWatermarks(mediaBytes);
+                mediaBytes = await applyBrandOverlay(mediaBytes);
             }
 
             try {
