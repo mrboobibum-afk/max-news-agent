@@ -17,45 +17,6 @@
       "value": 1792390852827,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"d5d37f36e51b713e598ba9e028d392510efc061ac1b434dabed43195b01b94b7\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "d5d37f36e51b713e598ba9e028d392510efc061ac1b434dabed43195b01b94b7"
-      ],
-      "value": true,
-      "expiresAt": 1792395471921
-    },
-    "[\"factor\",\"topic\",\"d5d37f36e51b713e598ba9e028d392510efc061ac1b434dabed43195b01b94b7\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "d5d37f36e51b713e598ba9e028d392510efc061ac1b434dabed43195b01b94b7"
-      ],
-      "value": {
-        "title": "Около 30 новых островов появилось в России за последние годы из-за глобального потепления ",
-        "roots": [
-          "около",
-          "новых",
-          "остров",
-          "появил",
-          "россии",
-          "послед",
-          "глобал",
-          "потепл"
-        ]
-      },
-      "expiresAt": 1792395471923
-    },
-    "[\"factor\",\"texthash\",\"99a4aaca3f23a1d9a828a7d5c44e1059778c5382b4742e89df8ed055f35963bb\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "99a4aaca3f23a1d9a828a7d5c44e1059778c5382b4742e89df8ed055f35963bb"
-      ],
-      "value": true,
-      "expiresAt": 1792395471924
-    },
     "[\"factor\",\"pub\",\"304ab800723a28fb455b8f5c54394c7e51295177125daac41ad00e11d20323fc\"]": {
       "key": [
         "factor",
