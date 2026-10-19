@@ -17,46 +17,6 @@
       "value": 1792374684303,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"f06fb10176302152b6b89cc96fc85a821e17d5ecc751f1099a95622d65311227\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "f06fb10176302152b6b89cc96fc85a821e17d5ecc751f1099a95622d65311227"
-      ],
-      "value": true,
-      "expiresAt": 1792377138213
-    },
-    "[\"factor\",\"topic\",\"f06fb10176302152b6b89cc96fc85a821e17d5ecc751f1099a95622d65311227\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "f06fb10176302152b6b89cc96fc85a821e17d5ecc751f1099a95622d65311227"
-      ],
-      "value": {
-        "title": "🚨 Крупный пожар произошел на военной базе Уэйнрайт в канадской провинции Альберта, сообщи",
-        "roots": [
-          "крупны",
-          "пожар",
-          "произо",
-          "военно",
-          "уэйнра",
-          "канадс",
-          "провин",
-          "альбер",
-          "сообщи"
-        ]
-      },
-      "expiresAt": 1792377138215
-    },
-    "[\"factor\",\"texthash\",\"f9dd9862c4ed7d7b54592ae6dbdc3d6d6fdb4be2d4e5d9b1440fc9d9f8d39f61\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "f9dd9862c4ed7d7b54592ae6dbdc3d6d6fdb4be2d4e5d9b1440fc9d9f8d39f61"
-      ],
-      "value": true,
-      "expiresAt": 1792377138215
-    },
     "[\"factor\",\"pub\",\"3fea93e38ad1035bf7e5118a9efc8322f88083a79c79a853eb1b0fd5278e29f0\"]": {
       "key": [
         "factor",
