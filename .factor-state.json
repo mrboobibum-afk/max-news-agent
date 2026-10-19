@@ -17,34 +17,6 @@
       "value": 1792390852827,
       "expiresAt": null
     },
-    "[\"factor\",\"topic\",\"c52bc65203be1355879147f38f77c37c5dd3a44b4a1e644759fb9488d7a8a266\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c52bc65203be1355879147f38f77c37c5dd3a44b4a1e644759fb9488d7a8a266"
-      ],
-      "value": {
-        "title": "В МВД посоветовали в разговоре с неизвестными не говорить фразы \"да\", \"подтверждаю\", \"согл",
-        "roots": [
-          "посове",
-          "разгов",
-          "неизве",
-          "говори",
-          "фразы",
-          "подтве"
-        ]
-      },
-      "expiresAt": 1792392504646
-    },
-    "[\"factor\",\"texthash\",\"0a88e2dbc6f27db83b5ab1be9617f7beae4c24844746897aff8e6c3f0b09ff80\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "0a88e2dbc6f27db83b5ab1be9617f7beae4c24844746897aff8e6c3f0b09ff80"
-      ],
-      "value": true,
-      "expiresAt": 1792392504646
-    },
     "[\"factor\",\"pub\",\"f3b495e6f70f6704a45e48f951e97ac6b799cb1a9f7cc28a9ab5d5b1205b9044\"]": {
       "key": [
         "factor",
