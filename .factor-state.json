@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 4615824,
+      "value": 3989779,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,46 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792369234166,
+      "value": 1792374038132,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"2e25c1e1a83c06f5e3ca0fa5de0ad536302273b8e491d880561f0d4c682b83c5\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "2e25c1e1a83c06f5e3ca0fa5de0ad536302273b8e491d880561f0d4c682b83c5"
-      ],
-      "value": true,
-      "expiresAt": 1792373646806
-    },
-    "[\"factor\",\"topic\",\"2e25c1e1a83c06f5e3ca0fa5de0ad536302273b8e491d880561f0d4c682b83c5\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "2e25c1e1a83c06f5e3ca0fa5de0ad536302273b8e491d880561f0d4c682b83c5"
-      ],
-      "value": {
-        "title": "Трамп взял 60 дней на оценку последствий санкций, которые США могут наложить на РФ, заявил",
-        "roots": [
-          "трамп",
-          "оценку",
-          "послед",
-          "санкци",
-          "которы",
-          "могут",
-          "наложи"
-        ]
-      },
-      "expiresAt": 1792373646807
-    },
-    "[\"factor\",\"texthash\",\"57d261192041e4bfa7c575c837464f63888f5ad2c35db20fdfce1081ea5f93f9\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "57d261192041e4bfa7c575c837464f63888f5ad2c35db20fdfce1081ea5f93f9"
-      ],
-      "value": true,
-      "expiresAt": 1792373646808
     },
     "[\"factor\",\"pub\",\"413e2fdb6602527af0e2138434e99aa17019d060521356b61a2eddc44e545094\"]": {
       "key": [
@@ -1326,6 +1288,39 @@
       ],
       "value": true,
       "expiresAt": 1792456107315
+    },
+    "[\"factor\",\"pub\",\"cbc4d24eb3129612f2ac7efadf74198b0be57fb2f2152f4c764ca8c6ce0985b6\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "cbc4d24eb3129612f2ac7efadf74198b0be57fb2f2152f4c764ca8c6ce0985b6"
+      ],
+      "value": true,
+      "expiresAt": 1792461053608
+    },
+    "[\"factor\",\"topic\",\"cbc4d24eb3129612f2ac7efadf74198b0be57fb2f2152f4c764ca8c6ce0985b6\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "cbc4d24eb3129612f2ac7efadf74198b0be57fb2f2152f4c764ca8c6ce0985b6"
+      ],
+      "value": {
+        "title": "\"Крошик уплыл от нас\"",
+        "roots": [
+          "крошик",
+          "уплыл"
+        ]
+      },
+      "expiresAt": 1792461053609
+    },
+    "[\"factor\",\"texthash\",\"f406bf0a466b67fa7de70614e4dad3b58c5d59eac1ca0fd87e3ca52bb4477528\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "f406bf0a466b67fa7de70614e4dad3b58c5d59eac1ca0fd87e3ca52bb4477528"
+      ],
+      "value": true,
+      "expiresAt": 1792461053609
     }
   }
 }
