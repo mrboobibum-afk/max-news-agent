@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Live Video/Action Edition v58)
+// MAX NEWS AGENT — «ФАКТОР» (Live Video/Action Edition v59)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -12,9 +12,10 @@ const DASHSCOPE_API_KEY = Deno.env.get("DASHSCOPE_API_KEY") ?? "";
 const QWEN_MODEL = Deno.env.get("QWEN_MODEL") ?? "qwen3.8-max";
 const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyuncs.com/compatible-mode/v1";
 
-const REGULAR_MIN_INTERVAL_MS = 30 * 60 * 1000;
-const REGULAR_MAX_INTERVAL_MS = 60 * 60 * 1000;
-const HARD_MIN_INTERVAL_MS = 30 * 60 * 1000;
+// 🚀 ЧАСТЫЙ МОНИТОРИНГ: проверка каждые 5 минут, пауза между постами 5-15 минут
+const REGULAR_MIN_INTERVAL_MS = 5 * 60 * 1000;
+const REGULAR_MAX_INTERVAL_MS = 15 * 60 * 1000;
+const HARD_MIN_INTERVAL_MS = 5 * 60 * 1000;
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000;
 
 const MEDIA_PACKET_MAX = 6;
@@ -52,13 +53,6 @@ async function initMaxHttpClient() {
     } catch {}
     return maxHttpClient;
 }
-
-// Официальные каналы (приоритет для "чистых" видео)
-const OFFICIAL_VIDEO_CHANNELS = [
-    { name: "Кремль", url: "https://rutube.ru/channel/24109358/", type: "video" },
-    { name: "Минобороны", url: "https://rutube.ru/channel/24106395/", type: "video" },
-    { name: "МИД", url: "https://rutube.ru/channel/24106355/", type: "video" },
-];
 
 const TG_LIVE_CHANNELS = [
     "shot_shot", "bazabazon", "readovkanews", "mash", "life_shot", "bbbreaking",
@@ -338,9 +332,9 @@ async function applyBrandOverlay(bytes: Uint8Array): Promise<Uint8Array> {
         const logo = await Image.decode(await Deno.readFile("./logo.png"));
         const logoW = Math.floor(img.width * 0.15);
         const logoH = Math.floor(logo.height * (logoW / logo.width));
-        
+
         img.composite(logo.resize(logoW, logoH), img.width - logoW - 10, 10);
-        
+
         return await img.encode();
     } catch {
         return bytes;
@@ -373,7 +367,7 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
             for (const post of posts.slice(-15).reverse()) {
                 const postDate = extractPostDate(post);
                 if (postDate && (now - postDate) > MAX_POST_AGE_MS) continue;
-                
+
                 const textRaw = cleanText(post.match(/<div class="tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/i)?.[1]);
                 if (!textRaw || textRaw.length < 30 || textRaw.length > 2000) continue;
                 if (BORING_TOPICS.some(r => r.test(textRaw))) continue;
@@ -411,8 +405,9 @@ async function fetchRssFeeds(): Promise<any[]> {
     await Promise.all(NEWS_FEEDS.map(async (feed) => {
         try {
             const res = await fetch(feed.url, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(10000) });
-            if (!res.ok) return;
+            if (!res.ok) { console.log(`  [RSS: ${feed.name}] HTTP ${res.status}`); return; }
             const xml = await res.text();
+            let feedFound = 0;
             for (const raw of (xml.match(/<item[\s\S]*?<\/item>/gi) ?? []).slice(0, 15)) {
                 const title = sanitizeRawText(raw.match(/<title[\s\S]*?>([\s\S]*?)<\/title>/i)?.[1] ?? "");
                 const descHtml = raw.match(/<description[\s\S]*?>([\s\S]*?)<\/description>/i)?.[1] ?? "";
@@ -433,10 +428,12 @@ async function fetchRssFeeds(): Promise<any[]> {
                     for (const img of uniqueImages) {
                         items.push({ title, desc, mediaUrl: img, mediaType: "image", sourceName: feed.name, sourceType: "rss", postKey });
                     }
-                    totalFound++;
+                    feedFound++;
                 }
             }
-        } catch {}
+            console.log(`  [RSS: ${feed.name}] постов с медиа: ${feedFound}`);
+            totalFound += feedFound;
+        } catch (e) { console.log(`  [RSS: ${feed.name}] ошибка: ${String(e)}`); }
     }));
     console.log(`RSS-источники: собрано ${totalFound} постов с медиа`);
     return items;
@@ -585,7 +582,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v58: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v59: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -639,7 +636,7 @@ async function run() {
         if (await isDuplicate(item.title, item.desc)) { skippedDup++; continue; }
 
         console.log("\nОбработка: " + item.title);
-        
+
         const mediaPacket = getMediaPacket(item, candidates);
         if (mediaPacket.length === 0) {
             console.log(`❌ Пропуск: нет медиа в самом посте.`);
@@ -701,7 +698,7 @@ async function run() {
             await kv.set(["factor", "pub", hash], true, { expireIn: HISTORY_TTL_MS });
             await kv.set(["factor", "topic", hash], { title: item.title, roots: getRoots(item.title) }, { expireIn: HISTORY_TTL_MS });
             await kv.set(["factor", "texthash", textHash], true, { expireIn: HISTORY_TTL_MS });
-            
+
             const nextDelay = Math.floor(REGULAR_MIN_INTERVAL_MS + Math.random() * (REGULAR_MAX_INTERVAL_MS - REGULAR_MIN_INTERVAL_MS + 1));
             await kv.set(["factor", "next_regular_delay"], nextDelay);
             await kv.set(["factor", "last_regular"], now);
