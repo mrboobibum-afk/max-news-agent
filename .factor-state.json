@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 623020,
+      "value": 575879,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792446157584,
+      "value": 1792447264433,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"1264f469b665334ec0e9c2951522ffa9059f285a2fd568c0dcd0e7d4d6a322bd\"]": {
@@ -2006,6 +2006,42 @@
       ],
       "value": true,
       "expiresAt": 1792532910204
+    },
+    "[\"factor\",\"pub\",\"e5ba4b8c2a47da72fec616ae51c3d215b95e71a3f7b8db75808d754155a06b45\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e5ba4b8c2a47da72fec616ae51c3d215b95e71a3f7b8db75808d754155a06b45"
+      ],
+      "value": true,
+      "expiresAt": 1792534044818
+    },
+    "[\"factor\",\"topic\",\"e5ba4b8c2a47da72fec616ae51c3d215b95e71a3f7b8db75808d754155a06b45\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e5ba4b8c2a47da72fec616ae51c3d215b95e71a3f7b8db75808d754155a06b45"
+      ],
+      "value": {
+        "title": "Трамп хочет переименовать штат Нью-Мексико в Нью-Америка",
+        "roots": [
+          "трамп",
+          "хочет",
+          "переим",
+          "мексик",
+          "америк"
+        ]
+      },
+      "expiresAt": 1792534044819
+    },
+    "[\"factor\",\"texthash\",\"b7e7377f29dac5332bc94c909a33c676cc66ac1f5bdd5548d3d79483a2b8d160\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "b7e7377f29dac5332bc94c909a33c676cc66ac1f5bdd5548d3d79483a2b8d160"
+      ],
+      "value": true,
+      "expiresAt": 1792534044820
     }
   }
 }
