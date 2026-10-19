@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 824874,
+      "value": 744451,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792431845918,
+      "value": 1792432972059,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"76e5f2fdf6ef0623c61cfc6cf98c7e84f9a06a0213a41ff97e7ce86bed442adf\"]": {
@@ -1558,6 +1558,45 @@
       ],
       "value": true,
       "expiresAt": 1792518620633
+    },
+    "[\"factor\",\"pub\",\"c313caff7b29fde06fd4b6eba48222bfb50201ce820d440dffad8dd0dcc60af0\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "c313caff7b29fde06fd4b6eba48222bfb50201ce820d440dffad8dd0dcc60af0"
+      ],
+      "value": true,
+      "expiresAt": 1792519816055
+    },
+    "[\"factor\",\"topic\",\"c313caff7b29fde06fd4b6eba48222bfb50201ce820d440dffad8dd0dcc60af0\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "c313caff7b29fde06fd4b6eba48222bfb50201ce820d440dffad8dd0dcc60af0"
+      ],
+      "value": {
+        "title": "🫶 Команда Минпромторга России стала победителем «Лиги чемпионов» — суперфинала шестого се",
+        "roots": [
+          "команд",
+          "минпро",
+          "россии",
+          "стала",
+          "победи",
+          "чемпио",
+          "суперф",
+          "шестог"
+        ]
+      },
+      "expiresAt": 1792519816056
+    },
+    "[\"factor\",\"texthash\",\"2f6aff37709d5582f5491b53f235522f17e01223751ec175603c75b8638533dd\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "2f6aff37709d5582f5491b53f235522f17e01223751ec175603c75b8638533dd"
+      ],
+      "value": true,
+      "expiresAt": 1792519816057
     }
   }
 }
