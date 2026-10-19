@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 367410,
+      "value": 832360,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792414398921,
+      "value": 1792415551880,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"993dbe90f415addfeae0249b11d5c98a43e7b087f01182618884167d4241a528\"]": {
@@ -1105,6 +1105,46 @@
       ],
       "value": true,
       "expiresAt": 1792501071716
+    },
+    "[\"factor\",\"pub\",\"88ff9a314402334405091eac8c17e27883e122e00111a0182a7f7c1ce2da55a5\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "88ff9a314402334405091eac8c17e27883e122e00111a0182a7f7c1ce2da55a5"
+      ],
+      "value": true,
+      "expiresAt": 1792502286742
+    },
+    "[\"factor\",\"topic\",\"88ff9a314402334405091eac8c17e27883e122e00111a0182a7f7c1ce2da55a5\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "88ff9a314402334405091eac8c17e27883e122e00111a0182a7f7c1ce2da55a5"
+      ],
+      "value": {
+        "title": "Дом за домом, улица за улицей ➡️ Освобождение любого населенного пункта – тяжелейшая работ",
+        "roots": [
+          "домом",
+          "улица",
+          "улицей",
+          "освобо",
+          "любого",
+          "населе",
+          "пункта",
+          "тяжеле",
+          "работ"
+        ]
+      },
+      "expiresAt": 1792502286743
+    },
+    "[\"factor\",\"texthash\",\"7726020f5b0460fc221c63b359612c948ad137ec958bde2e5b5e0e3eac141b7b\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "7726020f5b0460fc221c63b359612c948ad137ec958bde2e5b5e0e3eac141b7b"
+      ],
+      "value": true,
+      "expiresAt": 1792502286743
     }
   }
 }
