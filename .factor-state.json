@@ -17,45 +17,6 @@
       "value": 1792369234166,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"17e5f70bc98dea2b94e8f8256fc69ac2e74f78a2236065506e8e6a9a6d414fe1\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "17e5f70bc98dea2b94e8f8256fc69ac2e74f78a2236065506e8e6a9a6d414fe1"
-      ],
-      "value": true,
-      "expiresAt": 1792372684039
-    },
-    "[\"factor\",\"topic\",\"17e5f70bc98dea2b94e8f8256fc69ac2e74f78a2236065506e8e6a9a6d414fe1\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "17e5f70bc98dea2b94e8f8256fc69ac2e74f78a2236065506e8e6a9a6d414fe1"
-      ],
-      "value": {
-        "title": "60 суток перемирия Украине нужно не для проведения выборов, а чтобы \"залечить раны\" и прод",
-        "roots": [
-          "суток",
-          "переми",
-          "украин",
-          "нужно",
-          "провед",
-          "выборо",
-          "чтобы",
-          "залечи"
-        ]
-      },
-      "expiresAt": 1792372684040
-    },
-    "[\"factor\",\"texthash\",\"db7f05a98eacdadc903442dc08c0a121e98683d85c8d510a83711cf3472bf599\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "db7f05a98eacdadc903442dc08c0a121e98683d85c8d510a83711cf3472bf599"
-      ],
-      "value": true,
-      "expiresAt": 1792372684041
-    },
     "[\"factor\",\"pub\",\"2e25c1e1a83c06f5e3ca0fa5de0ad536302273b8e491d880561f0d4c682b83c5\"]": {
       "key": [
         "factor",
