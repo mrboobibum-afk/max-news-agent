@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 385748,
+      "value": 700990,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792444235555,
+      "value": 1792445529554,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"1264f469b665334ec0e9c2951522ffa9059f285a2fd568c0dcd0e7d4d6a322bd\"]": {
@@ -1967,6 +1967,45 @@
       ],
       "value": true,
       "expiresAt": 1792530971194
+    },
+    "[\"factor\",\"pub\",\"acd8c552c5ce797a1cea69e4e55964b06cd10b1b2231a63a0005b51cdf8b2912\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "acd8c552c5ce797a1cea69e4e55964b06cd10b1b2231a63a0005b51cdf8b2912"
+      ],
+      "value": true,
+      "expiresAt": 1792532514663
+    },
+    "[\"factor\",\"topic\",\"acd8c552c5ce797a1cea69e4e55964b06cd10b1b2231a63a0005b51cdf8b2912\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "acd8c552c5ce797a1cea69e4e55964b06cd10b1b2231a63a0005b51cdf8b2912"
+      ],
+      "value": {
+        "title": "Париж скоро будет мусульманским городом - так президент США прокомментировал протесты во Ф",
+        "roots": [
+          "париж",
+          "скоро",
+          "будет",
+          "мусуль",
+          "городо",
+          "презид",
+          "проком",
+          "протес"
+        ]
+      },
+      "expiresAt": 1792532514664
+    },
+    "[\"factor\",\"texthash\",\"537169c49137ad6a8865c6f06f997aad24a912436d8e98562effa2178677364c\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "537169c49137ad6a8865c6f06f997aad24a912436d8e98562effa2178677364c"
+      ],
+      "value": true,
+      "expiresAt": 1792532514664
     }
   }
 }
