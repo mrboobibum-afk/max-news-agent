@@ -17,44 +17,6 @@
       "value": 1792381233215,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"ba094d32402164f9264097eaf673568e5e2f4ba28723c02f22018d30cc245823\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "ba094d32402164f9264097eaf673568e5e2f4ba28723c02f22018d30cc245823"
-      ],
-      "value": true,
-      "expiresAt": 1792383037511
-    },
-    "[\"factor\",\"topic\",\"ba094d32402164f9264097eaf673568e5e2f4ba28723c02f22018d30cc245823\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "ba094d32402164f9264097eaf673568e5e2f4ba28723c02f22018d30cc245823"
-      ],
-      "value": {
-        "title": "На какой отметке зафиксировалась средняя ставка по вкладам. Инфографика",
-        "roots": [
-          "какой",
-          "отметк",
-          "зафикс",
-          "средня",
-          "ставка",
-          "вклада",
-          "инфогр"
-        ]
-      },
-      "expiresAt": 1792383037512
-    },
-    "[\"factor\",\"texthash\",\"0b9e6ac0d345c1ea17cc7678aec3e81edd707ad16c5119c9ae758ef91bb74788\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "0b9e6ac0d345c1ea17cc7678aec3e81edd707ad16c5119c9ae758ef91bb74788"
-      ],
-      "value": true,
-      "expiresAt": 1792383037513
-    },
     "[\"factor\",\"pub\",\"b6b4728d9433362cfc0f2caa3bd25d8192cf6492766fee74f85e18ac62d84fdf\"]": {
       "key": [
         "factor",
