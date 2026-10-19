@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 439597,
+      "value": 334337,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792430525155,
+      "value": 1792431050298,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"76e5f2fdf6ef0623c61cfc6cf98c7e84f9a06a0213a41ff97e7ce86bed442adf\"]": {
@@ -1518,6 +1518,45 @@
       ],
       "value": true,
       "expiresAt": 1792517307801
+    },
+    "[\"factor\",\"pub\",\"e1e514dd08810fdfeb3f055550cc3cd21050cd1f641bbab3ae3717b8551791d7\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e1e514dd08810fdfeb3f055550cc3cd21050cd1f641bbab3ae3717b8551791d7"
+      ],
+      "value": true,
+      "expiresAt": 1792518217045
+    },
+    "[\"factor\",\"topic\",\"e1e514dd08810fdfeb3f055550cc3cd21050cd1f641bbab3ae3717b8551791d7\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e1e514dd08810fdfeb3f055550cc3cd21050cd1f641bbab3ae3717b8551791d7"
+      ],
+      "value": {
+        "title": "📃 Маммолог перечислила симптомы рака груди Онколог, маммолог Лечебно-реабилитационного це",
+        "roots": [
+          "маммол",
+          "перечи",
+          "симпто",
+          "груди",
+          "онколо",
+          "маммол",
+          "лечебн",
+          "реабил"
+        ]
+      },
+      "expiresAt": 1792518217045
+    },
+    "[\"factor\",\"texthash\",\"ccbf7293dca8afc3fabbf27940be0aa972f96e3ce8f858b168c5068c34d9c7fa\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "ccbf7293dca8afc3fabbf27940be0aa972f96e3ce8f858b168c5068c34d9c7fa"
+      ],
+      "value": true,
+      "expiresAt": 1792518217046
     }
   }
 }
