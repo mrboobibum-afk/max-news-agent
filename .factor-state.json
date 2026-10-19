@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 873723,
+      "value": 402078,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,43 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792412435056,
+      "value": 1792413634498,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"62811b8eb8863368df4298e9fbf8d837b446e35299c829673a7f664c2ab6ffe7\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "62811b8eb8863368df4298e9fbf8d837b446e35299c829673a7f664c2ab6ffe7"
-      ],
-      "value": true,
-      "expiresAt": 1792413347372
-    },
-    "[\"factor\",\"topic\",\"62811b8eb8863368df4298e9fbf8d837b446e35299c829673a7f664c2ab6ffe7\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "62811b8eb8863368df4298e9fbf8d837b446e35299c829673a7f664c2ab6ffe7"
-      ],
-      "value": {
-        "title": "Проклятый рейс Москва — Хургада снова перенесли",
-        "roots": [
-          "прокля",
-          "хургад",
-          "снова",
-          "перене"
-        ]
-      },
-      "expiresAt": 1792413347373
-    },
-    "[\"factor\",\"texthash\",\"00b3794883f01c5c6a8d179816b9ecb613a43bcf22b86c4f8cdf10de37244a70\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "00b3794883f01c5c6a8d179816b9ecb613a43bcf22b86c4f8cdf10de37244a70"
-      ],
-      "value": true,
-      "expiresAt": 1792413347374
     },
     "[\"factor\",\"pub\",\"993dbe90f415addfeae0249b11d5c98a43e7b087f01182618884167d4241a528\"]": {
       "key": [
@@ -1063,6 +1028,42 @@
       ],
       "value": true,
       "expiresAt": 1792499072269
+    },
+    "[\"factor\",\"pub\",\"4124987ea2fa4a02e927d9835ce638171c0cb3191250ed86257fecc916d72a34\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4124987ea2fa4a02e927d9835ce638171c0cb3191250ed86257fecc916d72a34"
+      ],
+      "value": true,
+      "expiresAt": 1792500540976
+    },
+    "[\"factor\",\"topic\",\"4124987ea2fa4a02e927d9835ce638171c0cb3191250ed86257fecc916d72a34\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4124987ea2fa4a02e927d9835ce638171c0cb3191250ed86257fecc916d72a34"
+      ],
+      "value": {
+        "title": "Умер ведущий программы «Вести» Михаил Пономарев, ему было 57 лет",
+        "roots": [
+          "ведущи",
+          "програ",
+          "вести",
+          "михаил",
+          "понома"
+        ]
+      },
+      "expiresAt": 1792500540977
+    },
+    "[\"factor\",\"texthash\",\"50f7abff7bdb030963b0aea6986141de17d72bd5ccab1961848edce2e338be98\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "50f7abff7bdb030963b0aea6986141de17d72bd5ccab1961848edce2e338be98"
+      ],
+      "value": true,
+      "expiresAt": 1792500540977
     }
   }
 }
