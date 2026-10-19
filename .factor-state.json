@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 6908428,
+      "value": 6026917,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,46 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792390852827,
+      "value": 1792398034282,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"304ab800723a28fb455b8f5c54394c7e51295177125daac41ad00e11d20323fc\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "304ab800723a28fb455b8f5c54394c7e51295177125daac41ad00e11d20323fc"
-      ],
-      "value": true,
-      "expiresAt": 1792397779184
-    },
-    "[\"factor\",\"topic\",\"304ab800723a28fb455b8f5c54394c7e51295177125daac41ad00e11d20323fc\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "304ab800723a28fb455b8f5c54394c7e51295177125daac41ad00e11d20323fc"
-      ],
-      "value": {
-        "title": "▶️ Мошенники используют несколько сценариев вовлечения подростков в преступления",
-        "roots": [
-          "мошенн",
-          "исполь",
-          "нескол",
-          "сценар",
-          "вовлеч",
-          "подрос",
-          "престу"
-        ]
-      },
-      "expiresAt": 1792397779185
-    },
-    "[\"factor\",\"texthash\",\"5b0e834addad9878a3cecee562747405dc88aa5b0bf895ad8d162944eaa0662e\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "5b0e834addad9878a3cecee562747405dc88aa5b0bf895ad8d162944eaa0662e"
-      ],
-      "value": true,
-      "expiresAt": 1792397779186
     },
     "[\"factor\",\"pub\",\"6d393646ebed69c6bb4cd83acc883a6c1ec9deedef47b45bc8d8f1d63ad02830\"]": {
       "key": [
@@ -905,6 +867,45 @@
       ],
       "value": true,
       "expiresAt": 1792477596720
+    },
+    "[\"factor\",\"pub\",\"7415a6273440184c638cbb8d3f1847a7ec41e0bc77f54870a11a3072fe0bb5b1\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "7415a6273440184c638cbb8d3f1847a7ec41e0bc77f54870a11a3072fe0bb5b1"
+      ],
+      "value": true,
+      "expiresAt": 1792484740062
+    },
+    "[\"factor\",\"topic\",\"7415a6273440184c638cbb8d3f1847a7ec41e0bc77f54870a11a3072fe0bb5b1\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "7415a6273440184c638cbb8d3f1847a7ec41e0bc77f54870a11a3072fe0bb5b1"
+      ],
+      "value": {
+        "title": "Крупнейший украинский дата-центр полностью уничтожен в Киеве — восстановить его уже невозм",
+        "roots": [
+          "крупне",
+          "украин",
+          "центр",
+          "полнос",
+          "уничто",
+          "киеве",
+          "восста",
+          "невозм"
+        ]
+      },
+      "expiresAt": 1792484740063
+    },
+    "[\"factor\",\"texthash\",\"8a386d822da45487e271b081b7476c46cc1943bee617ccc68dbf43891b55487a\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "8a386d822da45487e271b081b7476c46cc1943bee617ccc68dbf43891b55487a"
+      ],
+      "value": true,
+      "expiresAt": 1792484740063
     }
   }
 }
