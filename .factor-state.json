@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 2310640,
+      "value": 6908428,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792387849140,
+      "value": 1792390852827,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"1ba922488b3d4cc582863c39a541315597f6c912ae977395e086d5c2698661e3\"]": {
@@ -990,6 +990,44 @@
       ],
       "value": true,
       "expiresAt": 1792474678198
+    },
+    "[\"factor\",\"pub\",\"bb2c8dcfaaf0e711114140e15df8c2e963b29aa49fd8fcea8a09c934ce58b7b9\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "bb2c8dcfaaf0e711114140e15df8c2e963b29aa49fd8fcea8a09c934ce58b7b9"
+      ],
+      "value": true,
+      "expiresAt": 1792477596718
+    },
+    "[\"factor\",\"topic\",\"bb2c8dcfaaf0e711114140e15df8c2e963b29aa49fd8fcea8a09c934ce58b7b9\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "bb2c8dcfaaf0e711114140e15df8c2e963b29aa49fd8fcea8a09c934ce58b7b9"
+      ],
+      "value": {
+        "title": "«Зомби‑пожары» могут накрыть Россию весной из‑за аномально тёплой зимы",
+        "roots": [
+          "зомби",
+          "пожары",
+          "могут",
+          "накрыт",
+          "россию",
+          "весной",
+          "аномал"
+        ]
+      },
+      "expiresAt": 1792477596719
+    },
+    "[\"factor\",\"texthash\",\"1043ff3c859a39c14998552cb225d2d476ff9ba4c4bd2cf559d6183f5e434614\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "1043ff3c859a39c14998552cb225d2d476ff9ba4c4bd2cf559d6183f5e434614"
+      ],
+      "value": true,
+      "expiresAt": 1792477596720
     }
   }
 }
