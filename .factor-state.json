@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 385748,
+      "value": 446110,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792444235555,
+      "value": 1792444835175,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"1264f469b665334ec0e9c2951522ffa9059f285a2fd568c0dcd0e7d4d6a322bd\"]": {
@@ -1967,6 +1967,43 @@
       ],
       "value": true,
       "expiresAt": 1792530971194
+    },
+    "[\"factor\",\"pub\",\"830f399a8abc1bd13cf5741dc7020cfb0bf7eaeb4f2e549b375c1f1fea93e9d0\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "830f399a8abc1bd13cf5741dc7020cfb0bf7eaeb4f2e549b375c1f1fea93e9d0"
+      ],
+      "value": true,
+      "expiresAt": 1792531886994
+    },
+    "[\"factor\",\"topic\",\"830f399a8abc1bd13cf5741dc7020cfb0bf7eaeb4f2e549b375c1f1fea93e9d0\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "830f399a8abc1bd13cf5741dc7020cfb0bf7eaeb4f2e549b375c1f1fea93e9d0"
+      ],
+      "value": {
+        "title": "\"Это были не мы\" Трамп заявил, что не ограничивал доступ Украины к спутникам Starshield",
+        "roots": [
+          "трамп",
+          "ограни",
+          "доступ",
+          "украин",
+          "спутни",
+          "starsh"
+        ]
+      },
+      "expiresAt": 1792531886994
+    },
+    "[\"factor\",\"texthash\",\"3330ed597bd003c7e8c5fc29dfda4d9f8d071e8b35e96f866260eec0ac4d91c9\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "3330ed597bd003c7e8c5fc29dfda4d9f8d071e8b35e96f866260eec0ac4d91c9"
+      ],
+      "value": true,
+      "expiresAt": 1792531886996
     }
   }
 }
