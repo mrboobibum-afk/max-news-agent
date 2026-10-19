@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 616867,
+      "value": 547105,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792417235814,
+      "value": 1792418119433,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"a8512d825dfa88158ad4d7176748d7d6b7e828fe6343e608d189aa5c0b332bc1\"]": {
@@ -1146,6 +1146,44 @@
       ],
       "value": true,
       "expiresAt": 1792504043236
+    },
+    "[\"factor\",\"pub\",\"8c9c3b6b96b22bd502a065e270b4fc9eec1ae0418f5b51db8de4a27e4836a448\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "8c9c3b6b96b22bd502a065e270b4fc9eec1ae0418f5b51db8de4a27e4836a448"
+      ],
+      "value": true,
+      "expiresAt": 1792504928770
+    },
+    "[\"factor\",\"topic\",\"8c9c3b6b96b22bd502a065e270b4fc9eec1ae0418f5b51db8de4a27e4836a448\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "8c9c3b6b96b22bd502a065e270b4fc9eec1ae0418f5b51db8de4a27e4836a448"
+      ],
+      "value": {
+        "title": "🛬 Сергей Лавров прибыл в Исламскую Республику Иран с рабочим визитом",
+        "roots": [
+          "сергей",
+          "лавров",
+          "прибыл",
+          "исламс",
+          "респуб",
+          "рабочи",
+          "визито"
+        ]
+      },
+      "expiresAt": 1792504928771
+    },
+    "[\"factor\",\"texthash\",\"891df5e4904bc7877bb0a8d2c17bfc7a6dfe6fb83495c163541f1603476e70de\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "891df5e4904bc7877bb0a8d2c17bfc7a6dfe6fb83495c163541f1603476e70de"
+      ],
+      "value": true,
+      "expiresAt": 1792504928772
     }
   }
 }
