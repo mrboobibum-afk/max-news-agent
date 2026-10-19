@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 648311,
+      "value": 889050,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792440060048,
+      "value": 1792441235121,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"eea23a3745f6f50a55f8333e6965a3cbcf43c0a0a1463a67551e0cffe3c10a9d\"]": {
@@ -1864,6 +1864,45 @@
       ],
       "value": true,
       "expiresAt": 1792526850883
+    },
+    "[\"factor\",\"pub\",\"3e37c65f8ab60985f5714de0ca11bc35aee29761b0c60398eca7fcf477de375b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "3e37c65f8ab60985f5714de0ca11bc35aee29761b0c60398eca7fcf477de375b"
+      ],
+      "value": true,
+      "expiresAt": 1792528066471
+    },
+    "[\"factor\",\"topic\",\"3e37c65f8ab60985f5714de0ca11bc35aee29761b0c60398eca7fcf477de375b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "3e37c65f8ab60985f5714de0ca11bc35aee29761b0c60398eca7fcf477de375b"
+      ],
+      "value": {
+        "title": "⚡️ АНОНС ⚡️ 22 октября состоится международный телемост « Запорожская область: эскалация т",
+        "roots": [
+          "анонс",
+          "октябр",
+          "состои",
+          "междун",
+          "телемо",
+          "запоро",
+          "област",
+          "эскала"
+        ]
+      },
+      "expiresAt": 1792528066473
+    },
+    "[\"factor\",\"texthash\",\"c8ef8eba5a22d174fd47ff8862a701621cb6f7580af0e0199594f1b1c79c3338\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "c8ef8eba5a22d174fd47ff8862a701621cb6f7580af0e0199594f1b1c79c3338"
+      ],
+      "value": true,
+      "expiresAt": 1792528066473
     }
   }
 }
