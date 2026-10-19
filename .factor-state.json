@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 547105,
+      "value": 511461,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792418119433,
+      "value": 1792419037675,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"a8512d825dfa88158ad4d7176748d7d6b7e828fe6343e608d189aa5c0b332bc1\"]": {
@@ -1184,6 +1184,39 @@
       ],
       "value": true,
       "expiresAt": 1792504928772
+    },
+    "[\"factor\",\"pub\",\"db734c0a80516f9dfd8b633eac8e7565b401af2bc003afb9ad9d726a5bad8a7d\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "db734c0a80516f9dfd8b633eac8e7565b401af2bc003afb9ad9d726a5bad8a7d"
+      ],
+      "value": true,
+      "expiresAt": 1792505827878
+    },
+    "[\"factor\",\"topic\",\"db734c0a80516f9dfd8b633eac8e7565b401af2bc003afb9ad9d726a5bad8a7d\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "db734c0a80516f9dfd8b633eac8e7565b401af2bc003afb9ad9d726a5bad8a7d"
+      ],
+      "value": {
+        "title": "К ответу, по полной",
+        "roots": [
+          "ответу",
+          "полной"
+        ]
+      },
+      "expiresAt": 1792505827879
+    },
+    "[\"factor\",\"texthash\",\"e8451c78d1bdaaf96b245f8ef7ef1af1099dc9eedb5e3913879adca9c69e9305\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "e8451c78d1bdaaf96b245f8ef7ef1af1099dc9eedb5e3913879adca9c69e9305"
+      ],
+      "value": true,
+      "expiresAt": 1792505827880
     }
   }
 }
