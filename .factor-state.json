@@ -17,53 +17,6 @@
       "value": 1792390852827,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"f3b495e6f70f6704a45e48f951e97ac6b799cb1a9f7cc28a9ab5d5b1205b9044\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "f3b495e6f70f6704a45e48f951e97ac6b799cb1a9f7cc28a9ab5d5b1205b9044"
-      ],
-      "value": true,
-      "expiresAt": 1792393592489
-    },
-    "[\"factor\",\"pub\",\"632a17b6bfd2c308142ec688eb22311e17c2d57264dcfbd94d0e728f30883d05\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "632a17b6bfd2c308142ec688eb22311e17c2d57264dcfbd94d0e728f30883d05"
-      ],
-      "value": true,
-      "expiresAt": 1792393761529
-    },
-    "[\"factor\",\"topic\",\"632a17b6bfd2c308142ec688eb22311e17c2d57264dcfbd94d0e728f30883d05\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "632a17b6bfd2c308142ec688eb22311e17c2d57264dcfbd94d0e728f30883d05"
-      ],
-      "value": {
-        "title": "❗️ Один человек погиб, пять пострадали в результате массированной атаки БПЛА ВСУ на Санкт-",
-        "roots": [
-          "челове",
-          "погиб",
-          "постра",
-          "резуль",
-          "массир",
-          "атаки",
-          "санкт"
-        ]
-      },
-      "expiresAt": 1792393761530
-    },
-    "[\"factor\",\"texthash\",\"065c698d41dbe95ca99f97c226a594a7a5e4ee32a8a2341cc73aaefba421c0c5\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "065c698d41dbe95ca99f97c226a594a7a5e4ee32a8a2341cc73aaefba421c0c5"
-      ],
-      "value": true,
-      "expiresAt": 1792393761531
-    },
     "[\"factor\",\"pub\",\"d5d37f36e51b713e598ba9e028d392510efc061ac1b434dabed43195b01b94b7\"]": {
       "key": [
         "factor",
