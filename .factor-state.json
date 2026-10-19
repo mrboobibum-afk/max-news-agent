@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 863064,
+      "value": 616867,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792415928153,
+      "value": 1792417235814,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"85c24d07023aa3c47906fd92f444901a83bbd6dfec6af97128efd90052fcb675\"]": {
@@ -1146,6 +1146,44 @@
       ],
       "value": true,
       "expiresAt": 1792502873948
+    },
+    "[\"factor\",\"pub\",\"569cb19645654ff95286f37e3243f99219ba7dff9f316e99504137dd18d56fec\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "569cb19645654ff95286f37e3243f99219ba7dff9f316e99504137dd18d56fec"
+      ],
+      "value": true,
+      "expiresAt": 1792504043235
+    },
+    "[\"factor\",\"topic\",\"569cb19645654ff95286f37e3243f99219ba7dff9f316e99504137dd18d56fec\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "569cb19645654ff95286f37e3243f99219ba7dff9f316e99504137dd18d56fec"
+      ],
+      "value": {
+        "title": "🎥 Росгвардейцы отработали эвакуацию и ремонт бронетехники на учении под Петербургом 🚩 В ",
+        "roots": [
+          "росгва",
+          "отрабо",
+          "эвакуа",
+          "ремонт",
+          "бронет",
+          "учении",
+          "петерб"
+        ]
+      },
+      "expiresAt": 1792504043235
+    },
+    "[\"factor\",\"texthash\",\"ad0f6ccec4ebdf4cadaa370340c5cc5e08ef612fddd178835b72805b262e242a\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "ad0f6ccec4ebdf4cadaa370340c5cc5e08ef612fddd178835b72805b262e242a"
+      ],
+      "value": true,
+      "expiresAt": 1792504043236
     }
   }
 }
