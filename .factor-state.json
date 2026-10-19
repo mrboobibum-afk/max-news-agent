@@ -17,44 +17,6 @@
       "value": 1792369234166,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"1e10b39066f59fb26d96e053308c65330ef5f5b0ba902a926cce43b5b3326fa3\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "1e10b39066f59fb26d96e053308c65330ef5f5b0ba902a926cce43b5b3326fa3"
-      ],
-      "value": true,
-      "expiresAt": 1792371636238
-    },
-    "[\"factor\",\"topic\",\"1e10b39066f59fb26d96e053308c65330ef5f5b0ba902a926cce43b5b3326fa3\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "1e10b39066f59fb26d96e053308c65330ef5f5b0ba902a926cce43b5b3326fa3"
-      ],
-      "value": {
-        "title": "Не голодать, но и не вредить: какие фрукты не дадут вздутия и чем их дополнить",
-        "roots": [
-          "голода",
-          "вредит",
-          "какие",
-          "фрукты",
-          "дадут",
-          "вздути",
-          "дополн"
-        ]
-      },
-      "expiresAt": 1792371636239
-    },
-    "[\"factor\",\"texthash\",\"6a1dba614b3e3e2b3f9e9c6b4d33b753c43b275a4a74c68559587d79df212fe1\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "6a1dba614b3e3e2b3f9e9c6b4d33b753c43b275a4a74c68559587d79df212fe1"
-      ],
-      "value": true,
-      "expiresAt": 1792371636240
-    },
     "[\"factor\",\"pub\",\"17e5f70bc98dea2b94e8f8256fc69ac2e74f78a2236065506e8e6a9a6d414fe1\"]": {
       "key": [
         "factor",
