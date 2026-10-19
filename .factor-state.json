@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 443151,
+      "value": 500494,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792404451408,
+      "value": 1792405231933,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"e4417febdcc170eaa438d7579a96786e08d9d91786b8131074d4a78e6ea3b9cc\"]": {
@@ -792,6 +792,46 @@
       ],
       "value": true,
       "expiresAt": 1792491059781
+    },
+    "[\"factor\",\"pub\",\"69665daf15ab48da614e7adcbdfc069650e0793d451b194cf9e2d0ecbae3c3be\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "69665daf15ab48da614e7adcbdfc069650e0793d451b194cf9e2d0ecbae3c3be"
+      ],
+      "value": true,
+      "expiresAt": 1792492018059
+    },
+    "[\"factor\",\"topic\",\"69665daf15ab48da614e7adcbdfc069650e0793d451b194cf9e2d0ecbae3c3be\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "69665daf15ab48da614e7adcbdfc069650e0793d451b194cf9e2d0ecbae3c3be"
+      ],
+      "value": {
+        "title": "Спасатель бесследно пропал в горах Алтая, где из-за медведей введён режим повышенной готов",
+        "roots": [
+          "спасат",
+          "бессле",
+          "пропал",
+          "горах",
+          "алтая",
+          "медвед",
+          "режим",
+          "повыше",
+          "готов"
+        ]
+      },
+      "expiresAt": 1792492018061
+    },
+    "[\"factor\",\"texthash\",\"de88c48f1e840560fe69d1f0f26104f8ca702735282b5a8bfb3b1649e07bac5b\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "de88c48f1e840560fe69d1f0f26104f8ca702735282b5a8bfb3b1649e07bac5b"
+      ],
+      "value": true,
+      "expiresAt": 1792492018063
     }
   }
 }
