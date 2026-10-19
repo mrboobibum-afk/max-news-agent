@@ -1975,45 +1975,6 @@
         "acd8c552c5ce797a1cea69e4e55964b06cd10b1b2231a63a0005b51cdf8b2912"
       ],
       "value": true,
-      "expiresAt": 1792532514663
-    },
-    "[\"factor\",\"topic\",\"acd8c552c5ce797a1cea69e4e55964b06cd10b1b2231a63a0005b51cdf8b2912\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "acd8c552c5ce797a1cea69e4e55964b06cd10b1b2231a63a0005b51cdf8b2912"
-      ],
-      "value": {
-        "title": "Париж скоро будет мусульманским городом - так президент США прокомментировал протесты во Ф",
-        "roots": [
-          "париж",
-          "скоро",
-          "будет",
-          "мусуль",
-          "городо",
-          "презид",
-          "проком",
-          "протес"
-        ]
-      },
-      "expiresAt": 1792532514664
-    },
-    "[\"factor\",\"texthash\",\"537169c49137ad6a8865c6f06f997aad24a912436d8e98562effa2178677364c\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "537169c49137ad6a8865c6f06f997aad24a912436d8e98562effa2178677364c"
-      ],
-      "value": true,
-      "expiresAt": 1792531886996
-    },
-    "[\"factor\",\"pub\",\"acd8c552c5ce797a1cea69e4e55964b06cd10b1b2231a63a0005b51cdf8b2912\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "acd8c552c5ce797a1cea69e4e55964b06cd10b1b2231a63a0005b51cdf8b2912"
-      ],
-      "value": true,
       "expiresAt": 1792532910203
     },
     "[\"factor\",\"topic\",\"acd8c552c5ce797a1cea69e4e55964b06cd10b1b2231a63a0005b51cdf8b2912\"]": {
