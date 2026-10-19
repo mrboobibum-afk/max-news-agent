@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 405043,
+      "value": 781683,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792432264943,
+      "value": 1792433460407,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"76e5f2fdf6ef0623c61cfc6cf98c7e84f9a06a0213a41ff97e7ce86bed442adf\"]": {
@@ -1598,6 +1598,43 @@
       ],
       "value": true,
       "expiresAt": 1792519326872
+    },
+    "[\"factor\",\"pub\",\"ee0c2ecc40e58d0c81e674e8d57460bd102ed1f9d51cc7b6dbded5fc56f389c1\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "ee0c2ecc40e58d0c81e674e8d57460bd102ed1f9d51cc7b6dbded5fc56f389c1"
+      ],
+      "value": true,
+      "expiresAt": 1792520137935
+    },
+    "[\"factor\",\"topic\",\"ee0c2ecc40e58d0c81e674e8d57460bd102ed1f9d51cc7b6dbded5fc56f389c1\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "ee0c2ecc40e58d0c81e674e8d57460bd102ed1f9d51cc7b6dbded5fc56f389c1"
+      ],
+      "value": {
+        "title": "Россия представит на COP31 климатические решения для устойчивого развития",
+        "roots": [
+          "предст",
+          "cop31",
+          "климат",
+          "решени",
+          "устойч",
+          "развит"
+        ]
+      },
+      "expiresAt": 1792520137936
+    },
+    "[\"factor\",\"texthash\",\"05fa926f07934ccaf69da5bfa257fe9571c20f994672a781a82fc1694b6e330f\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "05fa926f07934ccaf69da5bfa257fe9571c20f994672a781a82fc1694b6e330f"
+      ],
+      "value": true,
+      "expiresAt": 1792520137937
     }
   }
 }
