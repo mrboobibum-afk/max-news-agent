@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 402078,
+      "value": 367410,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792413634498,
+      "value": 1792414398921,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"993dbe90f415addfeae0249b11d5c98a43e7b087f01182618884167d4241a528\"]": {
@@ -1064,6 +1064,47 @@
       ],
       "value": true,
       "expiresAt": 1792500540977
+    },
+    "[\"factor\",\"pub\",\"7980dee1688c436afb31a5b005cd675bf461dd346df6454b8dbad421f7718426\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "7980dee1688c436afb31a5b005cd675bf461dd346df6454b8dbad421f7718426"
+      ],
+      "value": true,
+      "expiresAt": 1792501071715
+    },
+    "[\"factor\",\"topic\",\"7980dee1688c436afb31a5b005cd675bf461dd346df6454b8dbad421f7718426\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "7980dee1688c436afb31a5b005cd675bf461dd346df6454b8dbad421f7718426"
+      ],
+      "value": {
+        "title": "Списали роботов в утиль 🔥 Операторы беспилотных систем «Южной» группировки войск уничтожи",
+        "roots": [
+          "списал",
+          "робото",
+          "утиль",
+          "операт",
+          "беспил",
+          "систем",
+          "южной",
+          "группи",
+          "войск",
+          "уничто"
+        ]
+      },
+      "expiresAt": 1792501071715
+    },
+    "[\"factor\",\"texthash\",\"54b1822d036f1e57e1c96aca7e30efedc603a0064c62ae98cd1965b481dd353e\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "54b1822d036f1e57e1c96aca7e30efedc603a0064c62ae98cd1965b481dd353e"
+      ],
+      "value": true,
+      "expiresAt": 1792501071716
     }
   }
 }
