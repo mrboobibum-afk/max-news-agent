@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 2690922,
+      "value": 1973367,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,43 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792400465557,
+      "value": 1792403431835,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"41bf9a874363ccfc6f51bda55327cab44e5b92d8a18d97437d72d0948fe499cd\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "41bf9a874363ccfc6f51bda55327cab44e5b92d8a18d97437d72d0948fe499cd"
-      ],
-      "value": true,
-      "expiresAt": 1792403128840
-    },
-    "[\"factor\",\"topic\",\"41bf9a874363ccfc6f51bda55327cab44e5b92d8a18d97437d72d0948fe499cd\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "41bf9a874363ccfc6f51bda55327cab44e5b92d8a18d97437d72d0948fe499cd"
-      ],
-      "value": {
-        "title": "❗️ Ответ на удары Украины идет постоянно",
-        "roots": [
-          "ответ",
-          "удары",
-          "украин",
-          "постоя"
-        ]
-      },
-      "expiresAt": 1792403128841
-    },
-    "[\"factor\",\"texthash\",\"13a1ec9c911e785ac3c8833146b7aa283dc996aa9efa168021e2ac883bc40a2f\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "13a1ec9c911e785ac3c8833146b7aa283dc996aa9efa168021e2ac883bc40a2f"
-      ],
-      "value": true,
-      "expiresAt": 1792403128842
     },
     "[\"factor\",\"pub\",\"e4417febdcc170eaa438d7579a96786e08d9d91786b8131074d4a78e6ea3b9cc\"]": {
       "key": [
@@ -748,6 +713,46 @@
       ],
       "value": true,
       "expiresAt": 1792487180948
+    },
+    "[\"factor\",\"pub\",\"277e59d8cad4bbdf9000fe29b671d8c84346cf80bc18a4c0306c4a4a5facdf90\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "277e59d8cad4bbdf9000fe29b671d8c84346cf80bc18a4c0306c4a4a5facdf90"
+      ],
+      "value": true,
+      "expiresAt": 1792490117776
+    },
+    "[\"factor\",\"topic\",\"277e59d8cad4bbdf9000fe29b671d8c84346cf80bc18a4c0306c4a4a5facdf90\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "277e59d8cad4bbdf9000fe29b671d8c84346cf80bc18a4c0306c4a4a5facdf90"
+      ],
+      "value": {
+        "title": "Восемь породистых собак ши‑тцу погибли в страшном пожаре в Москве Как выяснил SHOT, трагед",
+        "roots": [
+          "восемь",
+          "породи",
+          "собак",
+          "погибл",
+          "страшн",
+          "пожаре",
+          "москве",
+          "выясни",
+          "трагед"
+        ]
+      },
+      "expiresAt": 1792490117777
+    },
+    "[\"factor\",\"texthash\",\"84efa0b44722db749d686f9c4365e9f8ef103b9543bdf1f07208f254e58fbab5\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "84efa0b44722db749d686f9c4365e9f8ef103b9543bdf1f07208f254e58fbab5"
+      ],
+      "value": true,
+      "expiresAt": 1792490117777
     }
   }
 }
