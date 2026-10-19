@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 431754,
+      "value": 860712,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792419632930,
+      "value": 1792420257061,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"a8512d825dfa88158ad4d7176748d7d6b7e828fe6343e608d189aa5c0b332bc1\"]": {
@@ -1256,6 +1256,45 @@
       ],
       "value": true,
       "expiresAt": 1792506454520
+    },
+    "[\"factor\",\"pub\",\"bbe7be48c8ba6e6ef016e8a1210764ec2e6aa6573b91468423352dfaa250aebf\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "bbe7be48c8ba6e6ef016e8a1210764ec2e6aa6573b91468423352dfaa250aebf"
+      ],
+      "value": true,
+      "expiresAt": 1792506929538
+    },
+    "[\"factor\",\"topic\",\"bbe7be48c8ba6e6ef016e8a1210764ec2e6aa6573b91468423352dfaa250aebf\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "bbe7be48c8ba6e6ef016e8a1210764ec2e6aa6573b91468423352dfaa250aebf"
+      ],
+      "value": {
+        "title": "🇷🇺 🇮🇷 С.В.Лавров и Министр иностранных дел Ирана А.Аракчи проводят двусторонние перего",
+        "roots": [
+          "лавров",
+          "минист",
+          "иностр",
+          "ирана",
+          "аракчи",
+          "провод",
+          "двусто",
+          "перего"
+        ]
+      },
+      "expiresAt": 1792506929539
+    },
+    "[\"factor\",\"texthash\",\"b3f9bfec82a2bd9cc65df533a76b07dbed7111e731d9a6695fe8c289ce3711b3\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "b3f9bfec82a2bd9cc65df533a76b07dbed7111e731d9a6695fe8c289ce3711b3"
+      ],
+      "value": true,
+      "expiresAt": 1792506929540
     }
   }
 }
