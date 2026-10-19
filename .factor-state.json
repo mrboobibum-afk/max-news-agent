@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 532403,
+      "value": 407236,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,48 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792425707429,
+      "value": 1792427600429,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"566b76cf2a00f1fad66aaca96ead3a38c8e66c9d3431c4792ceaf4b0e77e6a56\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "566b76cf2a00f1fad66aaca96ead3a38c8e66c9d3431c4792ceaf4b0e77e6a56"
-      ],
-      "value": true,
-      "expiresAt": 1792427099548
-    },
-    "[\"factor\",\"topic\",\"566b76cf2a00f1fad66aaca96ead3a38c8e66c9d3431c4792ceaf4b0e77e6a56\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "566b76cf2a00f1fad66aaca96ead3a38c8e66c9d3431c4792ceaf4b0e77e6a56"
-      ],
-      "value": {
-        "title": "«Обещал дочерям вернуться»: раненый боец три недели полз на сломанных ногах, чтобы обнять ",
-        "roots": [
-          "обещал",
-          "дочеря",
-          "вернут",
-          "ранены",
-          "недели",
-          "сломан",
-          "ногах",
-          "чтобы",
-          "обнять"
-        ]
-      },
-      "expiresAt": 1792427099549
-    },
-    "[\"factor\",\"texthash\",\"2e99eb798889decb7fc0cd133ab2ba9b5a8228dad7f3e5329cfcb2a668280e53\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "2e99eb798889decb7fc0cd133ab2ba9b5a8228dad7f3e5329cfcb2a668280e53"
-      ],
-      "value": true,
-      "expiresAt": 1792427099550
     },
     "[\"factor\",\"pub\",\"dffa8a5ae14fedd6c673f9c5b0ac46cc18137c68b3c76912af6e97dccb2fdff4\"]": {
       "key": [
@@ -1446,6 +1406,46 @@
       ],
       "value": true,
       "expiresAt": 1792512740716
+    },
+    "[\"factor\",\"pub\",\"be7334db4a1d59867c152bfe7c2d25906f633c6c80f86ffaa96dc8347ffa136c\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "be7334db4a1d59867c152bfe7c2d25906f633c6c80f86ffaa96dc8347ffa136c"
+      ],
+      "value": true,
+      "expiresAt": 1792514371270
+    },
+    "[\"factor\",\"topic\",\"be7334db4a1d59867c152bfe7c2d25906f633c6c80f86ffaa96dc8347ffa136c\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "be7334db4a1d59867c152bfe7c2d25906f633c6c80f86ffaa96dc8347ffa136c"
+      ],
+      "value": {
+        "title": "Александр Новак встретился с министром энергетики Казахстана Ерланом Аккенженовым «Россию ",
+        "roots": [
+          "алекса",
+          "новак",
+          "встрет",
+          "минист",
+          "энерге",
+          "казахс",
+          "ерлано",
+          "аккенж",
+          "россию"
+        ]
+      },
+      "expiresAt": 1792514371271
+    },
+    "[\"factor\",\"texthash\",\"dc02b74e6160230ed49e0c7aacd449b2af2687a99b5625e95946c8920f040d97\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "dc02b74e6160230ed49e0c7aacd449b2af2687a99b5625e95946c8920f040d97"
+      ],
+      "value": true,
+      "expiresAt": 1792514371271
     }
   }
 }
