@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 855926,
+      "value": 332741,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792409464687,
+      "value": 1792411866495,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"62811b8eb8863368df4298e9fbf8d837b446e35299c829673a7f664c2ab6ffe7\"]": {
@@ -987,6 +987,44 @@
       ],
       "value": true,
       "expiresAt": 1792496191149
+    },
+    "[\"factor\",\"pub\",\"600fe2f9abd2ad16ea043487ff98d2c2d8564b2a4cacafe2bf2805a55c483ac3\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "600fe2f9abd2ad16ea043487ff98d2c2d8564b2a4cacafe2bf2805a55c483ac3"
+      ],
+      "value": true,
+      "expiresAt": 1792498492025
+    },
+    "[\"factor\",\"topic\",\"600fe2f9abd2ad16ea043487ff98d2c2d8564b2a4cacafe2bf2805a55c483ac3\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "600fe2f9abd2ad16ea043487ff98d2c2d8564b2a4cacafe2bf2805a55c483ac3"
+      ],
+      "value": {
+        "title": "Макаревич* опоздал на свой концерт в Латвии из-за угрозы БПЛА и выступил в полупустом зале",
+        "roots": [
+          "макаре",
+          "опозда",
+          "концер",
+          "латвии",
+          "угрозы",
+          "выступ",
+          "полупу"
+        ]
+      },
+      "expiresAt": 1792498492026
+    },
+    "[\"factor\",\"texthash\",\"f6992f174e3e1ed43bac97f1cb705db556df463d3395f0064d663a35e9222075\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "f6992f174e3e1ed43bac97f1cb705db556df463d3395f0064d663a35e9222075"
+      ],
+      "value": true,
+      "expiresAt": 1792498492026
     }
   }
 }
