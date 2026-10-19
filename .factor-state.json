@@ -17,44 +17,6 @@
       "value": 1792400465557,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"50dc76787b2f6a7962608f31673ec7c95b2036315c4933bd3eca0cfa58e704bb\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "50dc76787b2f6a7962608f31673ec7c95b2036315c4933bd3eca0cfa58e704bb"
-      ],
-      "value": true,
-      "expiresAt": 1792401377266
-    },
-    "[\"factor\",\"topic\",\"50dc76787b2f6a7962608f31673ec7c95b2036315c4933bd3eca0cfa58e704bb\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "50dc76787b2f6a7962608f31673ec7c95b2036315c4933bd3eca0cfa58e704bb"
-      ],
-      "value": {
-        "title": "▶ БПЛА \"Рубикона\" уничтожили объект с ГСМ и пункты дислокации ВСУ в Харьковской области, с",
-        "roots": [
-          "рубико",
-          "уничто",
-          "объект",
-          "пункты",
-          "дислок",
-          "харько",
-          "област"
-        ]
-      },
-      "expiresAt": 1792401377267
-    },
-    "[\"factor\",\"texthash\",\"23dbbdab41b90ba10d9c0acff65d255500181f7db600fe70a86bb17717fc780e\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "23dbbdab41b90ba10d9c0acff65d255500181f7db600fe70a86bb17717fc780e"
-      ],
-      "value": true,
-      "expiresAt": 1792401377268
-    },
     "[\"factor\",\"pub\",\"41bf9a874363ccfc6f51bda55327cab44e5b92d8a18d97437d72d0948fe499cd\"]": {
       "key": [
         "factor",
