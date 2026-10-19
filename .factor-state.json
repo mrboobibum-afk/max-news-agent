@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 6454356,
+      "value": 6568108,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792374684303,
+      "value": 1792381233215,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"6ba3e79d39eaca2fcc6ef560fd5f1940d5df78716db0f0b09c12510f7940b197\"]": {
@@ -1100,6 +1100,45 @@
       ],
       "value": true,
       "expiresAt": 1792461358066
+    },
+    "[\"factor\",\"pub\",\"f366f96fc76379bc91c7e541176001564f246189ed81396084bb357fc396bc11\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "f366f96fc76379bc91c7e541176001564f246189ed81396084bb357fc396bc11"
+      ],
+      "value": true,
+      "expiresAt": 1792467859851
+    },
+    "[\"factor\",\"topic\",\"f366f96fc76379bc91c7e541176001564f246189ed81396084bb357fc396bc11\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "f366f96fc76379bc91c7e541176001564f246189ed81396084bb357fc396bc11"
+      ],
+      "value": {
+        "title": "▶️ Московская полиция составила алгоритм действий после разговора с телефонными мошенникам",
+        "roots": [
+          "москов",
+          "полици",
+          "состав",
+          "алгори",
+          "действ",
+          "разгов",
+          "телефо",
+          "мошенн"
+        ]
+      },
+      "expiresAt": 1792467859852
+    },
+    "[\"factor\",\"texthash\",\"6808d56f81bebd22de6305b55fc6c23e21d8409f03ac2fc890ea38be0b150af7\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "6808d56f81bebd22de6305b55fc6c23e21d8409f03ac2fc890ea38be0b150af7"
+      ],
+      "value": true,
+      "expiresAt": 1792467859852
     }
   }
 }
