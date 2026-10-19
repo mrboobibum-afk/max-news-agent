@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 322185,
+      "value": 648311,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792439434390,
+      "value": 1792440060048,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"eea23a3745f6f50a55f8333e6965a3cbcf43c0a0a1463a67551e0cffe3c10a9d\"]": {
@@ -1825,6 +1825,45 @@
       ],
       "value": true,
       "expiresAt": 1792526206739
+    },
+    "[\"factor\",\"pub\",\"fdcd0a7c945800e41872276eae24605eaa113632bbf02afb368b87692e272c27\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "fdcd0a7c945800e41872276eae24605eaa113632bbf02afb368b87692e272c27"
+      ],
+      "value": true,
+      "expiresAt": 1792526850881
+    },
+    "[\"factor\",\"topic\",\"fdcd0a7c945800e41872276eae24605eaa113632bbf02afb368b87692e272c27\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "fdcd0a7c945800e41872276eae24605eaa113632bbf02afb368b87692e272c27"
+      ],
+      "value": {
+        "title": "Экипировали сборную России на IV летние юношеские Олимпийские игры, которые пройдут в Сене",
+        "roots": [
+          "экипир",
+          "сборну",
+          "россии",
+          "летние",
+          "юношес",
+          "олимпи",
+          "которы",
+          "пройду"
+        ]
+      },
+      "expiresAt": 1792526850882
+    },
+    "[\"factor\",\"texthash\",\"c36dc2baa3ea688e23ee9d2174d3329578da8172b0823e45b58d63c8b26f95a5\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "c36dc2baa3ea688e23ee9d2174d3329578da8172b0823e45b58d63c8b26f95a5"
+      ],
+      "value": true,
+      "expiresAt": 1792526850883
     }
   }
 }
