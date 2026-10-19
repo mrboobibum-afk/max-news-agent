@@ -17,44 +17,6 @@
       "value": 1792398034282,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"6d393646ebed69c6bb4cd83acc883a6c1ec9deedef47b45bc8d8f1d63ad02830\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "6d393646ebed69c6bb4cd83acc883a6c1ec9deedef47b45bc8d8f1d63ad02830"
-      ],
-      "value": true,
-      "expiresAt": 1792398377809
-    },
-    "[\"factor\",\"topic\",\"6d393646ebed69c6bb4cd83acc883a6c1ec9deedef47b45bc8d8f1d63ad02830\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "6d393646ebed69c6bb4cd83acc883a6c1ec9deedef47b45bc8d8f1d63ad02830"
-      ],
-      "value": {
-        "title": "Париж требует голову Макрона, Марсель штурмует мэрию",
-        "roots": [
-          "париж",
-          "требуе",
-          "голову",
-          "макрон",
-          "марсел",
-          "штурму",
-          "мэрию"
-        ]
-      },
-      "expiresAt": 1792398377810
-    },
-    "[\"factor\",\"texthash\",\"22ffea806c17a1b1b9583be8b9c00d451370ef56ae8fc6e51740bc9d5f5d95a9\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "22ffea806c17a1b1b9583be8b9c00d451370ef56ae8fc6e51740bc9d5f5d95a9"
-      ],
-      "value": true,
-      "expiresAt": 1792398377811
-    },
     "[\"factor\",\"pub\",\"848bf9b4d1cc0016b76b847413eb65f8efe106c83a30ac915043d399caef6021\"]": {
       "key": [
         "factor",
