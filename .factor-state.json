@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 752982,
+      "value": 396894,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792437634368,
+      "value": 1792438945091,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"eea23a3745f6f50a55f8333e6965a3cbcf43c0a0a1463a67551e0cffe3c10a9d\"]": {
@@ -1748,6 +1748,42 @@
       ],
       "value": true,
       "expiresAt": 1792524428261
+    },
+    "[\"factor\",\"pub\",\"ca05cee21e2dc965f4c343ad1d1e6691c57b417e83fd7ec57498ffd1aa37d8fb\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "ca05cee21e2dc965f4c343ad1d1e6691c57b417e83fd7ec57498ffd1aa37d8fb"
+      ],
+      "value": true,
+      "expiresAt": 1792525670924
+    },
+    "[\"factor\",\"topic\",\"ca05cee21e2dc965f4c343ad1d1e6691c57b417e83fd7ec57498ffd1aa37d8fb\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "ca05cee21e2dc965f4c343ad1d1e6691c57b417e83fd7ec57498ffd1aa37d8fb"
+      ],
+      "value": {
+        "title": "Осенний вайб на фронтовых дорогах 💥 🛻 Прислали наши бойцы",
+        "roots": [
+          "осенни",
+          "фронто",
+          "дорога",
+          "присла",
+          "бойцы"
+        ]
+      },
+      "expiresAt": 1792525670924
+    },
+    "[\"factor\",\"texthash\",\"dd330b7e3f168846e7c20dc7a1aedf591cc3de8183543db3e406077adeef7352\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "dd330b7e3f168846e7c20dc7a1aedf591cc3de8183543db3e406077adeef7352"
+      ],
+      "value": true,
+      "expiresAt": 1792525670925
     }
   }
 }
