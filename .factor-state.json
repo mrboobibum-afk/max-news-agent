@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 1973367,
+      "value": 443151,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792403431835,
+      "value": 1792404451408,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"e4417febdcc170eaa438d7579a96786e08d9d91786b8131074d4a78e6ea3b9cc\"]": {
@@ -753,6 +753,45 @@
       ],
       "value": true,
       "expiresAt": 1792490117777
+    },
+    "[\"factor\",\"pub\",\"fa5db9f33b6d172fb1e50acd1918b349035abceabe34bf08a01c0c440b7f84ed\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "fa5db9f33b6d172fb1e50acd1918b349035abceabe34bf08a01c0c440b7f84ed"
+      ],
+      "value": true,
+      "expiresAt": 1792491059780
+    },
+    "[\"factor\",\"topic\",\"fa5db9f33b6d172fb1e50acd1918b349035abceabe34bf08a01c0c440b7f84ed\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "fa5db9f33b6d172fb1e50acd1918b349035abceabe34bf08a01c0c440b7f84ed"
+      ],
+      "value": {
+        "title": "31 килограмм радиоактивных белых грибов обнаружили в багаже пассажира в Домодедово ",
+        "roots": [
+          "килогр",
+          "радиоа",
+          "белых",
+          "грибов",
+          "обнару",
+          "багаже",
+          "пассаж",
+          "домоде"
+        ]
+      },
+      "expiresAt": 1792491059781
+    },
+    "[\"factor\",\"texthash\",\"2d71531eaaa8ee722d7b891706b5eab734ce552f2535e230e47076b976e186c1\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "2d71531eaaa8ee722d7b891706b5eab734ce552f2535e230e47076b976e186c1"
+      ],
+      "value": true,
+      "expiresAt": 1792491059781
     }
   }
 }
