@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 334337,
+      "value": 405043,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792431050298,
+      "value": 1792432264943,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"76e5f2fdf6ef0623c61cfc6cf98c7e84f9a06a0213a41ff97e7ce86bed442adf\"]": {
@@ -1557,6 +1557,46 @@
       ],
       "value": true,
       "expiresAt": 1792518217046
+    },
+    "[\"factor\",\"pub\",\"d3abd353f47f8dc8c8fd66436ab5e7f62c8d93dc394d8c66550073c688d1c5d7\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d3abd353f47f8dc8c8fd66436ab5e7f62c8d93dc394d8c66550073c688d1c5d7"
+      ],
+      "value": true,
+      "expiresAt": 1792519326871
+    },
+    "[\"factor\",\"topic\",\"d3abd353f47f8dc8c8fd66436ab5e7f62c8d93dc394d8c66550073c688d1c5d7\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d3abd353f47f8dc8c8fd66436ab5e7f62c8d93dc394d8c66550073c688d1c5d7"
+      ],
+      "value": {
+        "title": "🔥 У мемориала жертвам еврейского гетто состоялась траурная церемония, посвященная трагиче",
+        "roots": [
+          "мемори",
+          "жертва",
+          "еврейс",
+          "гетто",
+          "состоя",
+          "траурн",
+          "церемо",
+          "посвящ",
+          "трагич"
+        ]
+      },
+      "expiresAt": 1792519326872
+    },
+    "[\"factor\",\"texthash\",\"f868a865586f383b8ce942d859d2375886673d219d914db439ed5582752ce3d2\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "f868a865586f383b8ce942d859d2375886673d219d914db439ed5582752ce3d2"
+      ],
+      "value": true,
+      "expiresAt": 1792519326872
     }
   }
 }
