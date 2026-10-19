@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Live Video/Action Edition v60)
+// MAX NEWS AGENT — «ФАКТОР» (Official Clean Edition v62)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -53,25 +53,39 @@ async function initMaxHttpClient() {
     return maxHttpClient;
 }
 
+// 🏛️ ОФИЦИАЛЬНЫЕ TELEGRAM-КАНАЛЫ (БЕЗ ВОДЯНЫХ ЗНАКОВ)
 const TG_LIVE_CHANNELS = [
-    "shot_shot", "bazabazon", "readovkanews", "mash", "life_shot", "bbbreaking",
-    "rian_ru", "tass_agency", "rbc_news", "mod_russia", "vesti_news",
-    "rt_russian", "ntvru", "1tv_news",
+    // Правительство и Кремль
+    "government_rus", "news_kremlin", "kremlinpress",
+    // Силовые и ключевые ведомства
+    "mod_russia", "mchs_official", "mediamvd", "MID_Russia", "sledcom_press",
+    "genprocru", "rosgvardofficial",
+    // Парламент и экономика
+    "duma_gov_ru", "sovfedofficial", "centralbank_russia", "minfin", "minec_russia",
+    "mintsifry", "minenergo_official", "minpromtorg_ru", "mcx_ru", "mintrudrf",
+    "minstroyrf", "minzdrav_ru", "minobrnaukiofficial", "minsport_russia",
+    "mincultrussia", "mintransrussia", "prirodovedenie_rus", "minvostok",
+    // Госкорпорации
+    "rostecnews", "rosatominfo", "rzdtg", "GazpromNews", "rosneftinfo",
+    // Государственные СМИ (чистые)
+    "rian_ru", "tass_agency", "rbc_news", "vesti_news", "rt_russian",
+    "1tv_news", "ntvru", "izvestya", "rgru_news"
 ];
 
+// 📰 ЧИСТЫЕ RSS-ЛЕНТЫ
 const NEWS_FEEDS = [
-    { name: "РБК", url: "https://rssexport.rbc.ru/rbcnews/news/30/full.rss" },
-    { name: "Lenta.ru", url: "https://lenta.ru/rss/news" },
-    { name: "РИА Новости", url: "https://ria.ru/export/rss2/archive/index.xml" },
     { name: "ТАСС", url: "https://tass.ru/rss/v2.xml" },
-    { name: "Коммерсантъ", url: "https://www.kommersant.ru/RSS/news.xml" },
+    { name: "РИА Новости", url: "https://ria.ru/export/rss2/archive/index.xml" },
+    { name: "Интерфакс", url: "https://www.interfax.ru/rss.asp" },
+    { name: "РБК", url: "https://rssexport.rbc.ru/rbcnews/news/30/full.rss" },
+    { name: "Российская газета", url: "https://rg.ru/xml/index.xml" },
+    { name: "АиФ", url: "https://aif.ru/rss/news.php" },
+    { name: "Коммерсантъ", url: "https://www.kommersant.ru/RSS/main.xml" },
+    { name: "Ведомости", url: "https://www.vedomosti.ru/rss/news" },
     { name: "Известия", url: "https://iz.ru/xml/rss/all.xml" },
     { name: "RT на русском", url: "https://russian.rt.com/rss" },
     { name: "Газета.Ru", url: "https://www.gazeta.ru/export/rss/lenta.xml" },
-    { name: "Ведомости", url: "https://www.vedomosti.ru/rss/news" },
-    { name: "Российская газета", url: "https://rg.ru/xml/index.xml" },
     { name: "Взгляд", url: "https://vz.ru/rss.xml" },
-    { name: "Фонтанка", url: "https://www.fontanka.ru/fontanka.rss" },
     { name: "Вести", url: "https://www.vesti.ru/vesti.rss" },
     { name: "НТВ", url: "https://www.ntv.ru/novosti/rss/" },
     { name: "Первый канал", url: "https://www.1tv.ru/rss/news" },
@@ -85,7 +99,6 @@ const NEWS_FEEDS = [
     { name: "Правда.ру", url: "https://www.pravda.ru/export.xml" },
 ];
 
-// 🚨 СТОП-ЛИСТ: Теперь здесь жестко блокируется бытовуха, животные и желтуха
 const BORING_TOPICS = [
     /(?:сесси[яи]|форум|круглый\s+стол|конференци[яи]|совещани[ея]|заседани[ея]|брифинг)/i,
     /(?:рэц|экспортер|клиентск|госуслуг|росреестр|минфин|ведомств)/i,
@@ -99,7 +112,7 @@ const BORING_TOPICS = [
     /спецпредложени/i,
     /реклама\s*[.:!]/i,
     /партнёрск(?:ий|ого)\s+материал/i,
-    // БЛОКИРОВКА ЖЕЛТУХИ И БЫТОВУХИ:
+    // 🚫 ЖЕЛТУХА, БЫТОВУХА И ЖИВОТНЫЕ
     /(?:собак|кошк|котят|щенят|ши-тцу|животн|питомц|зоозащит)/i,
     /(?:пылесос|розетк|бытов|квартир[аеу].*пожар|пожар.*квартир|кухн[яе].*пожар|закурил|уснул\s+с\s+сигарет)/i,
     /(?:гороскоп|астролог|экстрасенс|таролог|гадан)/i,
@@ -312,13 +325,18 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
     return null;
 }
 
-// 🚨 УЛУЧШЕННАЯ ОЧИСТКА ТЕКСТА
+// 🧹 ГЛУБОКАЯ ОЧИСТКА ТЕКСТА ОТ ВСЕХ УПОМИНАНИЙ ЖЕЛТЫХ И ВНЕШНИХ ПАБЛИКОВ
 function sanitizeRawText(raw: string): string {
     let t = cleanText(raw);
 
-    // Вырезаем "Как выяснил SHOT" и подобные фразы в любом месте текста
-    t = t.replace(/(?:Как выяснил|Как выяснила|Как узнал|Как узнала|По данным|Об этом сообщает|Об этом сообщило|Об этом пишет)\s+(?:SHOT|Mash|База|Readovka|ТАСС|РИА Новости|Интерфакс|Минобороны России)/gi, "");
-    // Убираем одиночные упоминания источников в скобках
+    // Вырезаем фразы со ссылками на любые источники в любом падеже и с кавычками
+    t = t.replace(/(?:Как выяснил|Как выяснила|Как узнал|Как узнала|Как рассказал|Как рассказали|По данным|Об этом сообщает|Об этом сообщило|Об этом пишет|Подписывайся на|Подписывайтесь на)\s*[«"']?(?:SHOT|Mash|База|Баз[ыуе]|Readovka|ТАСС|РИА Новости|Интерфакс|Минобороны России)[»"']?/gi, "");
+    
+    // Убираем любые остатки упоминаний желтых пабликов
+    t = t.replace(/[«"']?(?:SHOT|Mash|База|Баз[ыуе]|Readovka)[»"']?/gi, "");
+    t = t.replace(/(?:Mash|SHOT|Readovka)\s*(?:\||в)\s*(?:MAX|Telegram|Макс|Телеграм)/gi, "");
+
+    // Убираем одиночные упоминания источников в скобках и в конце
     t = t.replace(/\s*[\(\[\/]\s*(?:ТАСС|SHOT|Mash|База|Readovka|РИА Новости|Интерфакс|Минобороны России)[^\)\]]*[\)\]]\s*/gi, " ");
     t = t.replace(/\s*[-—]\s*(?:ТАСС|SHOT|Mash|База|Readovka|РИА Новости|Интерфакс|Минобороны России)\s*$/gi, "");
     t = t.replace(/\s*(?:ТАСС|SHOT|Mash|База|Readovka|РИА Новости|Интерфакс|Минобороны России)\s*[.!?]?\s*$/gi, "");
@@ -463,7 +481,6 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
     const bodyText = cutBody(cleanDesc);
     const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 100);
 
-    // 🚨 УТОЧНЕН ПРОМПТ: Запрет на высокую важность бытовухи
     const prompt = `Ты редактор новостного канала «ФАКТОР». Девиз: события — причины — последствия.
 Ниже — исходный текст новости. Сделай из него структурированный пост.
 
@@ -592,7 +609,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v60: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v62: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
