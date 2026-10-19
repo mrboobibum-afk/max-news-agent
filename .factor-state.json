@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 629236,
+      "value": 532403,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792424453522,
+      "value": 1792425707429,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"566b76cf2a00f1fad66aaca96ead3a38c8e66c9d3431c4792ceaf4b0e77e6a56\"]": {
@@ -1410,6 +1410,44 @@
       ],
       "value": true,
       "expiresAt": 1792511603922
+    },
+    "[\"factor\",\"pub\",\"84e9b2f8b71b37a35c4a436b8348140a368e1605d5a4f365eec361ad7c871d16\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "84e9b2f8b71b37a35c4a436b8348140a368e1605d5a4f365eec361ad7c871d16"
+      ],
+      "value": true,
+      "expiresAt": 1792512740715
+    },
+    "[\"factor\",\"topic\",\"84e9b2f8b71b37a35c4a436b8348140a368e1605d5a4f365eec361ad7c871d16\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "84e9b2f8b71b37a35c4a436b8348140a368e1605d5a4f365eec361ad7c871d16"
+      ],
+      "value": {
+        "title": "\"Газпром\" прокомментировал желание Азербайджана возобновить покупки газа РФ 16 октября",
+        "roots": [
+          "газпро",
+          "проком",
+          "желани",
+          "азерба",
+          "возобн",
+          "покупк",
+          "октябр"
+        ]
+      },
+      "expiresAt": 1792512740715
+    },
+    "[\"factor\",\"texthash\",\"287cf07374f7a9e3a23247edc06d301fb2368d74a18532686577977418397bc3\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "287cf07374f7a9e3a23247edc06d301fb2368d74a18532686577977418397bc3"
+      ],
+      "value": true,
+      "expiresAt": 1792512740716
     }
   }
 }
