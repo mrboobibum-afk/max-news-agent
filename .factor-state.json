@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 511461,
+      "value": 431754,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792419037675,
+      "value": 1792419632930,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"a8512d825dfa88158ad4d7176748d7d6b7e828fe6343e608d189aa5c0b332bc1\"]": {
@@ -1217,6 +1217,45 @@
       ],
       "value": true,
       "expiresAt": 1792505827880
+    },
+    "[\"factor\",\"pub\",\"61a7f861b9cb5df663a7c5ccc5c43d4c4a0a33520807b0e461b27290c709bf95\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "61a7f861b9cb5df663a7c5ccc5c43d4c4a0a33520807b0e461b27290c709bf95"
+      ],
+      "value": true,
+      "expiresAt": 1792506454518
+    },
+    "[\"factor\",\"topic\",\"61a7f861b9cb5df663a7c5ccc5c43d4c4a0a33520807b0e461b27290c709bf95\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "61a7f861b9cb5df663a7c5ccc5c43d4c4a0a33520807b0e461b27290c709bf95"
+      ],
+      "value": {
+        "title": "🔨 Сегодня Санкт-Петербургским городским судом вынесен приговор в отношении гражданина ино",
+        "roots": [
+          "санкт",
+          "петерб",
+          "городс",
+          "судом",
+          "вынесе",
+          "пригов",
+          "отноше",
+          "гражда"
+        ]
+      },
+      "expiresAt": 1792506454519
+    },
+    "[\"factor\",\"texthash\",\"6633040a91d090b2d4cbf3392c4cebeea457df94035403f0175b4cb902ce2d9e\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "6633040a91d090b2d4cbf3392c4cebeea457df94035403f0175b4cb902ce2d9e"
+      ],
+      "value": true,
+      "expiresAt": 1792506454520
     }
   }
 }
