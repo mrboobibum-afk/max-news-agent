@@ -17,43 +17,6 @@
       "value": 1792374684303,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"71cd4ef82725c75e6abda09e8aa10ec4ddc0351717c09899544ed24fc421b790\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "71cd4ef82725c75e6abda09e8aa10ec4ddc0351717c09899544ed24fc421b790"
-      ],
-      "value": true,
-      "expiresAt": 1792376028653
-    },
-    "[\"factor\",\"topic\",\"71cd4ef82725c75e6abda09e8aa10ec4ddc0351717c09899544ed24fc421b790\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "71cd4ef82725c75e6abda09e8aa10ec4ddc0351717c09899544ed24fc421b790"
-      ],
-      "value": {
-        "title": "Новак заявил об отсутствии проблем с продажей российской нефти",
-        "roots": [
-          "новак",
-          "отсутс",
-          "пробле",
-          "продаж",
-          "россий",
-          "нефти"
-        ]
-      },
-      "expiresAt": 1792376028654
-    },
-    "[\"factor\",\"texthash\",\"74509988cd19f8ebd2600ccfc3b084c15eab9413a9215a74146ef7b9ddfd480d\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "74509988cd19f8ebd2600ccfc3b084c15eab9413a9215a74146ef7b9ddfd480d"
-      ],
-      "value": true,
-      "expiresAt": 1792376028655
-    },
     "[\"factor\",\"pub\",\"f06fb10176302152b6b89cc96fc85a821e17d5ecc751f1099a95622d65311227\"]": {
       "key": [
         "factor",
