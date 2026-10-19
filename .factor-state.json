@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 1905818,
+      "value": 4615824,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792366745634,
+      "value": 1792369234166,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"68e160930925d91a8d72b9a05f880d1a987be46e9c17c4b5f9125915d1cef5b8\"]": {
@@ -1443,6 +1443,44 @@
       ],
       "value": true,
       "expiresAt": 1792453866846
+    },
+    "[\"factor\",\"pub\",\"326b5afd487b895846346c311f74177b6d3d9ec31ac086f6925c42a25c78e8ef\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "326b5afd487b895846346c311f74177b6d3d9ec31ac086f6925c42a25c78e8ef"
+      ],
+      "value": true,
+      "expiresAt": 1792456107313
+    },
+    "[\"factor\",\"topic\",\"326b5afd487b895846346c311f74177b6d3d9ec31ac086f6925c42a25c78e8ef\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "326b5afd487b895846346c311f74177b6d3d9ec31ac086f6925c42a25c78e8ef"
+      ],
+      "value": {
+        "title": "▶️ РФ провела выборы в условиях СВО без помощи со стороны, в отличие от Украины, заявил в ",
+        "roots": [
+          "провел",
+          "выборы",
+          "услови",
+          "помощи",
+          "сторон",
+          "отличи",
+          "украин"
+        ]
+      },
+      "expiresAt": 1792456107314
+    },
+    "[\"factor\",\"texthash\",\"cbf9d826b5fbbac133534672057f898cc8258ee331b07c5b77d42607d2b2544e\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "cbf9d826b5fbbac133534672057f898cc8258ee331b07c5b77d42607d2b2544e"
+      ],
+      "value": true,
+      "expiresAt": 1792456107315
     }
   }
 }
