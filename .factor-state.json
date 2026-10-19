@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 709220,
+      "value": 836858,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792422067697,
+      "value": 1792423236265,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"566b76cf2a00f1fad66aaca96ead3a38c8e66c9d3431c4792ceaf4b0e77e6a56\"]": {
@@ -1330,6 +1330,46 @@
       ],
       "value": true,
       "expiresAt": 1792508890410
+    },
+    "[\"factor\",\"pub\",\"da29f5b7dfdb7ffb48e750cbc7657b4bb10ce4ac252119baf9367d72ee0db66e\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "da29f5b7dfdb7ffb48e750cbc7657b4bb10ce4ac252119baf9367d72ee0db66e"
+      ],
+      "value": true,
+      "expiresAt": 1792510576359
+    },
+    "[\"factor\",\"topic\",\"da29f5b7dfdb7ffb48e750cbc7657b4bb10ce4ac252119baf9367d72ee0db66e\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "da29f5b7dfdb7ffb48e750cbc7657b4bb10ce4ac252119baf9367d72ee0db66e"
+      ],
+      "value": {
+        "title": "⚛️ Игорь Курчатов — человек, который превратил энергию атома в технологию будущего  👤 Иго",
+        "roots": [
+          "игорь",
+          "курчат",
+          "челове",
+          "которы",
+          "превра",
+          "энерги",
+          "атома",
+          "технол",
+          "будуще"
+        ]
+      },
+      "expiresAt": 1792510576359
+    },
+    "[\"factor\",\"texthash\",\"ceedd28f83fa464b92c63ec064707b71ebd33b66c0bb57b47510db9a7501db38\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "ceedd28f83fa464b92c63ec064707b71ebd33b66c0bb57b47510db9a7501db38"
+      ],
+      "value": true,
+      "expiresAt": 1792510576360
     }
   }
 }
