@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 529629,
+      "value": 436134,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792406432931,
+      "value": 1792407033520,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"62811b8eb8863368df4298e9fbf8d837b446e35299c829673a7f664c2ab6ffe7\"]": {
@@ -871,6 +871,44 @@
       ],
       "value": true,
       "expiresAt": 1792493152059
+    },
+    "[\"factor\",\"pub\",\"c2f539b1b5f9b35b726f90243185d2267f931326160bfaf6ec9ff18a3f20faf1\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "c2f539b1b5f9b35b726f90243185d2267f931326160bfaf6ec9ff18a3f20faf1"
+      ],
+      "value": true,
+      "expiresAt": 1792493767098
+    },
+    "[\"factor\",\"topic\",\"c2f539b1b5f9b35b726f90243185d2267f931326160bfaf6ec9ff18a3f20faf1\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "c2f539b1b5f9b35b726f90243185d2267f931326160bfaf6ec9ff18a3f20faf1"
+      ],
+      "value": {
+        "title": "21-летнего школьного учителя задержали во Владивостоке — по подозрению в домогательстве к ",
+        "roots": [
+          "летнег",
+          "школьн",
+          "учител",
+          "задерж",
+          "владив",
+          "подозр",
+          "домога"
+        ]
+      },
+      "expiresAt": 1792493767099
+    },
+    "[\"factor\",\"texthash\",\"394c80bb9aa1b1f9b9eb21dfc4771c6b01c09f6dccde0e13313a88a29fe95467\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "394c80bb9aa1b1f9b9eb21dfc4771c6b01c09f6dccde0e13313a88a29fe95467"
+      ],
+      "value": true,
+      "expiresAt": 1792493767099
     }
   }
 }
