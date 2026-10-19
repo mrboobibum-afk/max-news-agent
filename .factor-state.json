@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 618545,
+      "value": 560386,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792428037002,
+      "value": 1792429263970,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"dffa8a5ae14fedd6c673f9c5b0ac46cc18137c68b3c76912af6e97dccb2fdff4\"]": {
@@ -1479,6 +1479,45 @@
       ],
       "value": true,
       "expiresAt": 1792514770557
+    },
+    "[\"factor\",\"pub\",\"8bae0ee253724619a56978be363918d1c96c93d3769c34eb9d3021be0a8fe1f3\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "8bae0ee253724619a56978be363918d1c96c93d3769c34eb9d3021be0a8fe1f3"
+      ],
+      "value": true,
+      "expiresAt": 1792515867591
+    },
+    "[\"factor\",\"topic\",\"8bae0ee253724619a56978be363918d1c96c93d3769c34eb9d3021be0a8fe1f3\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "8bae0ee253724619a56978be363918d1c96c93d3769c34eb9d3021be0a8fe1f3"
+      ],
+      "value": {
+        "title": "Иран заинтересован в расширении сотрудничества с Россией Первый вице-президент Ирана Мохам",
+        "roots": [
+          "заинте",
+          "расшир",
+          "сотруд",
+          "россие",
+          "первый",
+          "презид",
+          "ирана",
+          "мохам"
+        ]
+      },
+      "expiresAt": 1792515867592
+    },
+    "[\"factor\",\"texthash\",\"fd42f84184b346b56ce5040b7a7c50e1fc2075abe1207497efad65a1e2f06fa7\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "fd42f84184b346b56ce5040b7a7c50e1fc2075abe1207497efad65a1e2f06fa7"
+      ],
+      "value": true,
+      "expiresAt": 1792515867593
     }
   }
 }
