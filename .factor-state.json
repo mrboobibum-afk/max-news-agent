@@ -17,44 +17,6 @@
       "value": 1792374684303,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"3fea93e38ad1035bf7e5118a9efc8322f88083a79c79a853eb1b0fd5278e29f0\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "3fea93e38ad1035bf7e5118a9efc8322f88083a79c79a853eb1b0fd5278e29f0"
-      ],
-      "value": true,
-      "expiresAt": 1792380109601
-    },
-    "[\"factor\",\"topic\",\"3fea93e38ad1035bf7e5118a9efc8322f88083a79c79a853eb1b0fd5278e29f0\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "3fea93e38ad1035bf7e5118a9efc8322f88083a79c79a853eb1b0fd5278e29f0"
-      ],
-      "value": {
-        "title": "✈️ Пассажиры и сотрудники аэропорта Пулково переведены в безопасные места, сообщили в авиа",
-        "roots": [
-          "пассаж",
-          "сотруд",
-          "аэропо",
-          "пулков",
-          "переве",
-          "безопа",
-          "места"
-        ]
-      },
-      "expiresAt": 1792380109602
-    },
-    "[\"factor\",\"texthash\",\"ec0ee8c51f24a893d9a7f388f7474f6498713726e0bd4756cf79e2c27bdc129d\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "ec0ee8c51f24a893d9a7f388f7474f6498713726e0bd4756cf79e2c27bdc129d"
-      ],
-      "value": true,
-      "expiresAt": 1792380109603
-    },
     "[\"factor\",\"pub\",\"6ba3e79d39eaca2fcc6ef560fd5f1940d5df78716db0f0b09c12510f7940b197\"]": {
       "key": [
         "factor",
