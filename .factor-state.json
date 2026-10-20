@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 797000,
+      "value": 894750,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792468234169,
+      "value": 1792469434477,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"0f31d6dab8d3a7515b503c8107e409ffcd8e537eef2e64add184cf1e9aab64c8\"]": {
@@ -2583,6 +2583,45 @@
       ],
       "value": true,
       "expiresAt": 1792554976993
+    },
+    "[\"factor\",\"pub\",\"4ba08a3f76e9ed71016113934341f3a6b734fd9bf4032697f6500b9be9537796\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4ba08a3f76e9ed71016113934341f3a6b734fd9bf4032697f6500b9be9537796"
+      ],
+      "value": true,
+      "expiresAt": 1792556389037
+    },
+    "[\"factor\",\"topic\",\"4ba08a3f76e9ed71016113934341f3a6b734fd9bf4032697f6500b9be9537796\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4ba08a3f76e9ed71016113934341f3a6b734fd9bf4032697f6500b9be9537796"
+      ],
+      "value": {
+        "title": "📃 Польша и Литва поругались из-за появления украинского БПЛА, пишет Polsat News Польша во",
+        "roots": [
+          "польша",
+          "литва",
+          "поруга",
+          "появле",
+          "украин",
+          "пишет",
+          "polsat",
+          "польша"
+        ]
+      },
+      "expiresAt": 1792556389038
+    },
+    "[\"factor\",\"texthash\",\"84f40dbe909ce525751cf559f40c185141beed149d54111d7c93512809450c3a\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "84f40dbe909ce525751cf559f40c185141beed149d54111d7c93512809450c3a"
+      ],
+      "value": true,
+      "expiresAt": 1792556389039
     }
   }
 }
