@@ -17,43 +17,6 @@
       "value": 1792519834648,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"ee0c2ecc40e58d0c81e674e8d57460bd102ed1f9d51cc7b6dbded5fc56f389c1\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "ee0c2ecc40e58d0c81e674e8d57460bd102ed1f9d51cc7b6dbded5fc56f389c1"
-      ],
-      "value": true,
-      "expiresAt": 1792520137935
-    },
-    "[\"factor\",\"topic\",\"ee0c2ecc40e58d0c81e674e8d57460bd102ed1f9d51cc7b6dbded5fc56f389c1\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "ee0c2ecc40e58d0c81e674e8d57460bd102ed1f9d51cc7b6dbded5fc56f389c1"
-      ],
-      "value": {
-        "title": "Россия представит на COP31 климатические решения для устойчивого развития",
-        "roots": [
-          "предст",
-          "cop31",
-          "климат",
-          "решени",
-          "устойч",
-          "развит"
-        ]
-      },
-      "expiresAt": 1792520137936
-    },
-    "[\"factor\",\"texthash\",\"05fa926f07934ccaf69da5bfa257fe9571c20f994672a781a82fc1694b6e330f\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "05fa926f07934ccaf69da5bfa257fe9571c20f994672a781a82fc1694b6e330f"
-      ],
-      "value": true,
-      "expiresAt": 1792520137937
-    },
     "[\"factor\",\"pub\",\"410718d80647c4966c51670470e5f210c65adaf13fa08661b7f8e2b5c4cf5ccc\"]": {
       "key": [
         "factor",
