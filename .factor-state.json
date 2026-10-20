@@ -17,45 +17,6 @@
       "value": 1792526163002,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"fdcd0a7c945800e41872276eae24605eaa113632bbf02afb368b87692e272c27\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "fdcd0a7c945800e41872276eae24605eaa113632bbf02afb368b87692e272c27"
-      ],
-      "value": true,
-      "expiresAt": 1792526850881
-    },
-    "[\"factor\",\"topic\",\"fdcd0a7c945800e41872276eae24605eaa113632bbf02afb368b87692e272c27\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "fdcd0a7c945800e41872276eae24605eaa113632bbf02afb368b87692e272c27"
-      ],
-      "value": {
-        "title": "Экипировали сборную России на IV летние юношеские Олимпийские игры, которые пройдут в Сене",
-        "roots": [
-          "экипир",
-          "сборну",
-          "россии",
-          "летние",
-          "юношес",
-          "олимпи",
-          "которы",
-          "пройду"
-        ]
-      },
-      "expiresAt": 1792526850882
-    },
-    "[\"factor\",\"texthash\",\"c36dc2baa3ea688e23ee9d2174d3329578da8172b0823e45b58d63c8b26f95a5\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "c36dc2baa3ea688e23ee9d2174d3329578da8172b0823e45b58d63c8b26f95a5"
-      ],
-      "value": true,
-      "expiresAt": 1792526850883
-    },
     "[\"factor\",\"pub\",\"3e37c65f8ab60985f5714de0ca11bc35aee29761b0c60398eca7fcf477de375b\"]": {
       "key": [
         "factor",
