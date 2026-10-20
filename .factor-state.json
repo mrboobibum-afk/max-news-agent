@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 526883,
+      "value": 406066,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792462235807,
+      "value": 1792462834876,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"f366f96fc76379bc91c7e541176001564f246189ed81396084bb357fc396bc11\"]": {
@@ -2317,6 +2317,43 @@
       ],
       "value": true,
       "expiresAt": 1792548815115
+    },
+    "[\"factor\",\"pub\",\"de3a30c7c907aa7024d4ab60181dd25fe12807a1799a1b2f54a80026abff189e\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "de3a30c7c907aa7024d4ab60181dd25fe12807a1799a1b2f54a80026abff189e"
+      ],
+      "value": true,
+      "expiresAt": 1792549783826
+    },
+    "[\"factor\",\"topic\",\"de3a30c7c907aa7024d4ab60181dd25fe12807a1799a1b2f54a80026abff189e\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "de3a30c7c907aa7024d4ab60181dd25fe12807a1799a1b2f54a80026abff189e"
+      ],
+      "value": {
+        "title": "📃 Кадры боевой работы подразделений БпС в ходе освобождения Доброполья",
+        "roots": [
+          "кадры",
+          "боевой",
+          "работы",
+          "подраз",
+          "освобо",
+          "доброп"
+        ]
+      },
+      "expiresAt": 1792549783827
+    },
+    "[\"factor\",\"texthash\",\"251502d43430738f005a496cd4e5454ba05ddfacf2527d97a4f2114f261e43aa\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "251502d43430738f005a496cd4e5454ba05ddfacf2527d97a4f2114f261e43aa"
+      ],
+      "value": true,
+      "expiresAt": 1792549783828
     }
   }
 }
