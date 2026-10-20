@@ -17,44 +17,6 @@
       "value": 1792498422800,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"fb089e90b851386430c3dbb39557fbe605da3e0c6a00ce1198a6a43f2ca0bfb7\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "fb089e90b851386430c3dbb39557fbe605da3e0c6a00ce1198a6a43f2ca0bfb7"
-      ],
-      "value": true,
-      "expiresAt": 1792499072268
-    },
-    "[\"factor\",\"topic\",\"fb089e90b851386430c3dbb39557fbe605da3e0c6a00ce1198a6a43f2ca0bfb7\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "fb089e90b851386430c3dbb39557fbe605da3e0c6a00ce1198a6a43f2ca0bfb7"
-      ],
-      "value": {
-        "title": "Коммунальный хоррор настиг жительницу Башкортостана — ей начислили 12,7 млн рублей за ЖКХ",
-        "roots": [
-          "коммун",
-          "хоррор",
-          "настиг",
-          "житель",
-          "башкор",
-          "начисл",
-          "рублей"
-        ]
-      },
-      "expiresAt": 1792499072268
-    },
-    "[\"factor\",\"texthash\",\"3bbb484611595e0a4ed62d4d2b6d864c10f50f856b5e53611a7e29c3434f1654\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "3bbb484611595e0a4ed62d4d2b6d864c10f50f856b5e53611a7e29c3434f1654"
-      ],
-      "value": true,
-      "expiresAt": 1792499072269
-    },
     "[\"factor\",\"pub\",\"4124987ea2fa4a02e927d9835ce638171c0cb3191250ed86257fecc916d72a34\"]": {
       "key": [
         "factor",
