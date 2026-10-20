@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 425544,
+      "value": 450265,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,49 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792473885067,
+      "value": 1792475953098,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"0f31d6dab8d3a7515b503c8107e409ffcd8e537eef2e64add184cf1e9aab64c8\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "0f31d6dab8d3a7515b503c8107e409ffcd8e537eef2e64add184cf1e9aab64c8"
-      ],
-      "value": true,
-      "expiresAt": 1792474678197
-    },
-    "[\"factor\",\"topic\",\"0f31d6dab8d3a7515b503c8107e409ffcd8e537eef2e64add184cf1e9aab64c8\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "0f31d6dab8d3a7515b503c8107e409ffcd8e537eef2e64add184cf1e9aab64c8"
-      ],
-      "value": {
-        "title": "Превращают iPhone в кирпичи под видом установки ChatGPT — мошенники придумали новую схему ",
-        "roots": [
-          "превра",
-          "iphone",
-          "кирпич",
-          "видом",
-          "устано",
-          "chatgp",
-          "мошенн",
-          "придум",
-          "новую",
-          "схему"
-        ]
-      },
-      "expiresAt": 1792474678198
-    },
-    "[\"factor\",\"texthash\",\"81a2996c32a5b18de38c52e0394451a96d8fa7cbccda38189744cc1896061606\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "81a2996c32a5b18de38c52e0394451a96d8fa7cbccda38189744cc1896061606"
-      ],
-      "value": true,
-      "expiresAt": 1792474678198
     },
     "[\"factor\",\"pub\",\"bb2c8dcfaaf0e711114140e15df8c2e963b29aa49fd8fcea8a09c934ce58b7b9\"]": {
       "key": [
@@ -2763,6 +2722,51 @@
       ],
       "value": true,
       "expiresAt": 1792560587655
+    },
+    "[\"factor\",\"pub\",\"50212eecd3bf65c57978fac3f832c03a1be5ffaaaf07ad9b79749e9c8b224865\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "50212eecd3bf65c57978fac3f832c03a1be5ffaaaf07ad9b79749e9c8b224865"
+      ],
+      "value": true,
+      "expiresAt": 1792563091153
+    },
+    "[\"factor\",\"topic\",\"50212eecd3bf65c57978fac3f832c03a1be5ffaaaf07ad9b79749e9c8b224865\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "50212eecd3bf65c57978fac3f832c03a1be5ffaaaf07ad9b79749e9c8b224865"
+      ],
+      "value": {
+        "title": "Памятник Солженицыну демонтировали из центра Владивостока",
+        "roots": [
+          "памятн",
+          "солжен",
+          "демонт",
+          "центра",
+          "владив"
+        ]
+      },
+      "expiresAt": 1792563091155
+    },
+    "[\"factor\",\"texthash\",\"f33d4198ee481f4efdac88241d92ae34aed15c24f9d37b3dfb04fe2892701d33\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "f33d4198ee481f4efdac88241d92ae34aed15c24f9d37b3dfb04fe2892701d33"
+      ],
+      "value": true,
+      "expiresAt": 1792563091156
+    },
+    "[\"factor\",\"content\",\"fdb3067c18ee6accb31c6c6820e930679690d8354d9ef004eecb49c9c35e905e\"]": {
+      "key": [
+        "factor",
+        "content",
+        "fdb3067c18ee6accb31c6c6820e930679690d8354d9ef004eecb49c9c35e905e"
+      ],
+      "value": true,
+      "expiresAt": 1792563091157
     }
   }
 }
