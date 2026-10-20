@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 662371,
+      "value": 880282,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792482237503,
+      "value": 1792483698433,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"7415a6273440184c638cbb8d3f1847a7ec41e0bc77f54870a11a3072fe0bb5b1\"]": {
@@ -2827,6 +2827,55 @@
       ],
       "value": true,
       "expiresAt": 1792569370934
+    },
+    "[\"factor\",\"pub\",\"5c9388fea5d6f44b6bd2ba4e82102f710d0085345557b2235c7be7472661b21a\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "5c9388fea5d6f44b6bd2ba4e82102f710d0085345557b2235c7be7472661b21a"
+      ],
+      "value": true,
+      "expiresAt": 1792570339779
+    },
+    "[\"factor\",\"topic\",\"5c9388fea5d6f44b6bd2ba4e82102f710d0085345557b2235c7be7472661b21a\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "5c9388fea5d6f44b6bd2ba4e82102f710d0085345557b2235c7be7472661b21a"
+      ],
+      "value": {
+        "title": "Поджёг машину полиции по указке кураторов В Волгоградской области задержан 17-летний парен",
+        "roots": [
+          "машину",
+          "полици",
+          "указке",
+          "курато",
+          "волгог",
+          "област",
+          "задерж",
+          "летний",
+          "парен"
+        ]
+      },
+      "expiresAt": 1792570339780
+    },
+    "[\"factor\",\"texthash\",\"f061df6ffb61d58bd430cac00b802634bb917a4627e38e327d1e7f4161389d09\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "f061df6ffb61d58bd430cac00b802634bb917a4627e38e327d1e7f4161389d09"
+      ],
+      "value": true,
+      "expiresAt": 1792570339872
+    },
+    "[\"factor\",\"content\",\"2a575244c90db85b123dfe081f17e90e4bdc3fa5ae61994723a90901b10753bb\"]": {
+      "key": [
+        "factor",
+        "content",
+        "2a575244c90db85b123dfe081f17e90e4bdc3fa5ae61994723a90901b10753bb"
+      ],
+      "value": true,
+      "expiresAt": 1792570339874
     }
   }
 }
