@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 444833,
+      "value": 1400240,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,121 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792492835313,
+      "value": 1792495399892,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"a91a0a06acb29fc059b7dc0ad184ba9459c18a388a361cb6c5966d9cc99e05a0\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "a91a0a06acb29fc059b7dc0ad184ba9459c18a388a361cb6c5966d9cc99e05a0"
-      ],
-      "value": true,
-      "expiresAt": 1792493152057
-    },
-    "[\"factor\",\"topic\",\"a91a0a06acb29fc059b7dc0ad184ba9459c18a388a361cb6c5966d9cc99e05a0\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "a91a0a06acb29fc059b7dc0ad184ba9459c18a388a361cb6c5966d9cc99e05a0"
-      ],
-      "value": {
-        "title": "Премиум-класс побьет «китайцев»",
-        "roots": [
-          "премиу",
-          "класс",
-          "побьет",
-          "китайц"
-        ]
-      },
-      "expiresAt": 1792493152058
-    },
-    "[\"factor\",\"texthash\",\"a72592dc79a0307774ab0f13313f7cad209b90a96edf446a227cc46d28a3de6b\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "a72592dc79a0307774ab0f13313f7cad209b90a96edf446a227cc46d28a3de6b"
-      ],
-      "value": true,
-      "expiresAt": 1792493152059
-    },
-    "[\"factor\",\"pub\",\"c2f539b1b5f9b35b726f90243185d2267f931326160bfaf6ec9ff18a3f20faf1\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c2f539b1b5f9b35b726f90243185d2267f931326160bfaf6ec9ff18a3f20faf1"
-      ],
-      "value": true,
-      "expiresAt": 1792493767098
-    },
-    "[\"factor\",\"topic\",\"c2f539b1b5f9b35b726f90243185d2267f931326160bfaf6ec9ff18a3f20faf1\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c2f539b1b5f9b35b726f90243185d2267f931326160bfaf6ec9ff18a3f20faf1"
-      ],
-      "value": {
-        "title": "21-летнего школьного учителя задержали во Владивостоке — по подозрению в домогательстве к ",
-        "roots": [
-          "летнег",
-          "школьн",
-          "учител",
-          "задерж",
-          "владив",
-          "подозр",
-          "домога"
-        ]
-      },
-      "expiresAt": 1792493767099
-    },
-    "[\"factor\",\"texthash\",\"394c80bb9aa1b1f9b9eb21dfc4771c6b01c09f6dccde0e13313a88a29fe95467\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "394c80bb9aa1b1f9b9eb21dfc4771c6b01c09f6dccde0e13313a88a29fe95467"
-      ],
-      "value": true,
-      "expiresAt": 1792493767099
-    },
-    "[\"factor\",\"pub\",\"dd8e46a2ab0ac7971f9b5a8e34a698545f9e17dbdb6809b298fbb8bbe83d94d6\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "dd8e46a2ab0ac7971f9b5a8e34a698545f9e17dbdb6809b298fbb8bbe83d94d6"
-      ],
-      "value": true,
-      "expiresAt": 1792494275563
-    },
-    "[\"factor\",\"topic\",\"dd8e46a2ab0ac7971f9b5a8e34a698545f9e17dbdb6809b298fbb8bbe83d94d6\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "dd8e46a2ab0ac7971f9b5a8e34a698545f9e17dbdb6809b298fbb8bbe83d94d6"
-      ],
-      "value": {
-        "title": "Туристка из России сорвалась с шестиметровой высоты в районе водопада Куршунлу в турецкой ",
-        "roots": [
-          "турист",
-          "россии",
-          "сорвал",
-          "шестим",
-          "высоты",
-          "районе",
-          "водопа",
-          "куршун",
-          "турецк"
-        ]
-      },
-      "expiresAt": 1792494275564
-    },
-    "[\"factor\",\"texthash\",\"005274310ae8edcda7e731184c2f3fd11f64f870b9f60117e77545915c84412f\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "005274310ae8edcda7e731184c2f3fd11f64f870b9f60117e77545915c84412f"
-      ],
-      "value": true,
-      "expiresAt": 1792494275564
     },
     "[\"factor\",\"pub\",\"94f3506269c394c830fd365935ca4db582fd80ac546e675da6233faab34b4851\"]": {
       "key": [
@@ -3117,6 +3004,65 @@
       ],
       "value": true,
       "expiresAt": 1792579709271
+    },
+    "[\"factor\",\"pub\",\"731c24a7eadebab6363e9af4552a24a1080affaa19d893038dde6e78a56c67d5\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "731c24a7eadebab6363e9af4552a24a1080affaa19d893038dde6e78a56c67d5"
+      ],
+      "value": true,
+      "expiresAt": 1792581912125
+    },
+    "[\"factor\",\"topic\",\"731c24a7eadebab6363e9af4552a24a1080affaa19d893038dde6e78a56c67d5\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "731c24a7eadebab6363e9af4552a24a1080affaa19d893038dde6e78a56c67d5"
+      ],
+      "value": {
+        "title": "Президент провёл встречу с Министром спорта Михаилом Дегтярёвым Главе государства доложено",
+        "roots": [
+          "презид",
+          "встреч",
+          "минист",
+          "спорта",
+          "михаил",
+          "дегтяр",
+          "главе",
+          "госуда",
+          "доложе"
+        ]
+      },
+      "expiresAt": 1792581912126
+    },
+    "[\"factor\",\"texthash\",\"654f488b84b214543d4abd91448e80ce262cebb2a104d8dfaa22c40fee7ddc42\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "654f488b84b214543d4abd91448e80ce262cebb2a104d8dfaa22c40fee7ddc42"
+      ],
+      "value": true,
+      "expiresAt": 1792581912127
+    },
+    "[\"factor\",\"content\",\"3654d65411bf6b8c22fd25e0ab56848bbf51c4346b12705a8caae9590f16291f\"]": {
+      "key": [
+        "factor",
+        "content",
+        "3654d65411bf6b8c22fd25e0ab56848bbf51c4346b12705a8caae9590f16291f"
+      ],
+      "value": true,
+      "expiresAt": 1792581912129
+    },
+    "[\"factor\",\"recent_descs\"]": {
+      "key": [
+        "factor",
+        "recent_descs"
+      ],
+      "value": [
+        "Президент провёл встречу с Министром спорта Михаилом Дегтярёвым Главе государства доложено об организации единой экосистемы в сфере спорта, а также о финансировании отрасли, в том числе через созданный по поручению Владимира Путина Российский спортивный фонд. Отдельное внимание уделено международным соревнованиям и подготовке российских спортсменов к участию в Юношеских Олимпийских играх в Дакаре и Олимпийских играх в Лос-Анджелесе. Подробнее – на сайте Кремля . Полное видео – в «VK видео» и на RUTUBE"
+      ],
+      "expiresAt": 1792581912130
     }
   }
 }
