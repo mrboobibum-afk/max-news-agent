@@ -17,44 +17,6 @@
       "value": 1792495399892,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"94f3506269c394c830fd365935ca4db582fd80ac546e675da6233faab34b4851\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "94f3506269c394c830fd365935ca4db582fd80ac546e675da6233faab34b4851"
-      ],
-      "value": true,
-      "expiresAt": 1792496191148
-    },
-    "[\"factor\",\"topic\",\"94f3506269c394c830fd365935ca4db582fd80ac546e675da6233faab34b4851\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "94f3506269c394c830fd365935ca4db582fd80ac546e675da6233faab34b4851"
-      ],
-      "value": {
-        "title": "Разрушительный шторм «Дана Адам» обрушился на Испанию: два человека погибли, в школах отме",
-        "roots": [
-          "разруш",
-          "шторм",
-          "обруши",
-          "испани",
-          "челове",
-          "погибл",
-          "школах"
-        ]
-      },
-      "expiresAt": 1792496191149
-    },
-    "[\"factor\",\"texthash\",\"227227b7243cb6d9def2b5d3d394e0d0df92a6606f253674d8a5de4f100d2de2\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "227227b7243cb6d9def2b5d3d394e0d0df92a6606f253674d8a5de4f100d2de2"
-      ],
-      "value": true,
-      "expiresAt": 1792496191149
-    },
     "[\"factor\",\"pub\",\"600fe2f9abd2ad16ea043487ff98d2c2d8564b2a4cacafe2bf2805a55c483ac3\"]": {
       "key": [
         "factor",
