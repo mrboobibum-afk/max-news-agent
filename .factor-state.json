@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 521653,
+      "value": 606370,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792465262733,
+      "value": 1792465836644,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"f366f96fc76379bc91c7e541176001564f246189ed81396084bb357fc396bc11\"]": {
@@ -2472,6 +2472,44 @@
       ],
       "value": true,
       "expiresAt": 1792551895598
+    },
+    "[\"factor\",\"pub\",\"a12732796590a45e6463cc882614b17af5afd1955a219a267cbe1abf5850fd4b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "a12732796590a45e6463cc882614b17af5afd1955a219a267cbe1abf5850fd4b"
+      ],
+      "value": true,
+      "expiresAt": 1792552588497
+    },
+    "[\"factor\",\"topic\",\"a12732796590a45e6463cc882614b17af5afd1955a219a267cbe1abf5850fd4b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "a12732796590a45e6463cc882614b17af5afd1955a219a267cbe1abf5850fd4b"
+      ],
+      "value": {
+        "title": "📃 Трамп заявил о преследовании на Украине критикующей Зеленского женщины Президент США До",
+        "roots": [
+          "трамп",
+          "пресле",
+          "украин",
+          "критик",
+          "зеленс",
+          "женщин",
+          "презид"
+        ]
+      },
+      "expiresAt": 1792552588498
+    },
+    "[\"factor\",\"texthash\",\"27255ae4c7a02a16410a37a5b848a0719dc434c64d546976a4f4258dc6e92b13\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "27255ae4c7a02a16410a37a5b848a0719dc434c64d546976a4f4258dc6e92b13"
+      ],
+      "value": true,
+      "expiresAt": 1792552588499
     }
   }
 }
