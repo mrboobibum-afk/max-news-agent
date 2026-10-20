@@ -17,41 +17,6 @@
       "value": 1792530482899,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"c73afb085890e7e3d3846c396a2d96de044778ad4b442402e7de63959d2f3399\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c73afb085890e7e3d3846c396a2d96de044778ad4b442402e7de63959d2f3399"
-      ],
-      "value": true,
-      "expiresAt": 1792530971192
-    },
-    "[\"factor\",\"topic\",\"c73afb085890e7e3d3846c396a2d96de044778ad4b442402e7de63959d2f3399\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c73afb085890e7e3d3846c396a2d96de044778ad4b442402e7de63959d2f3399"
-      ],
-      "value": {
-        "title": "Без связи нет управления, а без управления – нет победы",
-        "roots": [
-          "связи",
-          "управл",
-          "управл",
-          "победы"
-        ]
-      },
-      "expiresAt": 1792530971193
-    },
-    "[\"factor\",\"texthash\",\"37db8a5642bfa5387e560d9a52d50a3beef4372cefa2b1e356821057e9e2b748\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "37db8a5642bfa5387e560d9a52d50a3beef4372cefa2b1e356821057e9e2b748"
-      ],
-      "value": true,
-      "expiresAt": 1792530971194
-    },
     "[\"factor\",\"pub\",\"acd8c552c5ce797a1cea69e4e55964b06cd10b1b2231a63a0005b51cdf8b2912\"]": {
       "key": [
         "factor",
