@@ -3028,51 +3028,50 @@
       ],
       "expiresAt": 1792585140498
     },
-    "[\"factor\",\"pub\",\"b5d9a7abfd2c5bad2d819e2c1d87d084e6a8ecc5b358cb7ff0a12d402ca70ad4\"]": {
+    "[\"factor\",\"pub\",\"8bb57a9851904dac82fde81dbb9b4f16f4c036fcd10225a00dac181e3326c95e\"]": {
       "key": [
         "factor",
         "pub",
-        "b5d9a7abfd2c5bad2d819e2c1d87d084e6a8ecc5b358cb7ff0a12d402ca70ad4"
+        "8bb57a9851904dac82fde81dbb9b4f16f4c036fcd10225a00dac181e3326c95e"
       ],
       "value": true,
-      "expiresAt": 1792584114207
+      "expiresAt": 1792584776211
     },
-    "[\"factor\",\"topic\",\"b5d9a7abfd2c5bad2d819e2c1d87d084e6a8ecc5b358cb7ff0a12d402ca70ad4\"]": {
+    "[\"factor\",\"topic\",\"8bb57a9851904dac82fde81dbb9b4f16f4c036fcd10225a00dac181e3326c95e\"]": {
       "key": [
         "factor",
         "topic",
-        "b5d9a7abfd2c5bad2d819e2c1d87d084e6a8ecc5b358cb7ff0a12d402ca70ad4"
+        "8bb57a9851904dac82fde81dbb9b4f16f4c036fcd10225a00dac181e3326c95e"
       ],
       "value": {
-        "title": "Председатель Совета Федерации Валентина Матвиенко в ходе рабочей поездки в Хакасию подвела",
+        "title": "Москва надеется, что встречу Путина с Уиткоффом удастся организовать в ближайшее время, со",
         "roots": [
-          "предсе",
-          "совета",
-          "федера",
-          "валент",
-          "матвие",
-          "рабоче",
-          "поездк",
-          "хакаси",
-          "подвел"
+          "надеет",
+          "встреч",
+          "путина",
+          "уиткоф",
+          "удастс",
+          "органи",
+          "ближай",
+          "время"
         ]
       },
-      "expiresAt": 1792584114209
+      "expiresAt": 1792584776212
     },
-    "[\"factor\",\"texthash\",\"276f6fccdf8e86d5c5509d81429fe5708318e7fb03d3516ebead5107cbc7149c\"]": {
+    "[\"factor\",\"texthash\",\"86f43c57ce16292b6003595f01a789fa795ea96b6642d589423f068fbe6f6753\"]": {
       "key": [
         "factor",
         "texthash",
-        "276f6fccdf8e86d5c5509d81429fe5708318e7fb03d3516ebead5107cbc7149c"
+        "86f43c57ce16292b6003595f01a789fa795ea96b6642d589423f068fbe6f6753"
       ],
       "value": true,
-      "expiresAt": 1792584114209
+      "expiresAt": 1792584776213
     },
-    "[\"factor\",\"content\",\"422ef90d63e1f3096e4f216a7ec79aae232454bb08050eef49173b8fbf96cf9f\"]": {
+    "[\"factor\",\"content\",\"cd76ce9b6b85c88d92d640ebd9f0230cc486e7c1049f707c3eaf6e998fd0f8a7\"]": {
       "key": [
         "factor",
         "content",
-        "422ef90d63e1f3096e4f216a7ec79aae232454bb08050eef49173b8fbf96cf9f"
+        "cd76ce9b6b85c88d92d640ebd9f0230cc486e7c1049f707c3eaf6e998fd0f8a7"
       ],
       "value": true,
       "expiresAt": 1792584114210
