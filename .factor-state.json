@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 606370,
+      "value": 553045,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792465836644,
+      "value": 1792467050506,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"f366f96fc76379bc91c7e541176001564f246189ed81396084bb357fc396bc11\"]": {
@@ -2510,6 +2510,45 @@
       ],
       "value": true,
       "expiresAt": 1792552588499
+    },
+    "[\"factor\",\"pub\",\"83e9013eb5d0cdc1ad26af4e5634a1870f0eff827812a39db0dedae23794dd0a\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "83e9013eb5d0cdc1ad26af4e5634a1870f0eff827812a39db0dedae23794dd0a"
+      ],
+      "value": true,
+      "expiresAt": 1792553695142
+    },
+    "[\"factor\",\"topic\",\"83e9013eb5d0cdc1ad26af4e5634a1870f0eff827812a39db0dedae23794dd0a\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "83e9013eb5d0cdc1ad26af4e5634a1870f0eff827812a39db0dedae23794dd0a"
+      ],
+      "value": {
+        "title": "▶️ Ответственность врачей за осложнения при лечении нужно заменить с уголовной на гражданс",
+        "roots": [
+          "ответс",
+          "врачей",
+          "осложн",
+          "лечени",
+          "нужно",
+          "замени",
+          "уголов",
+          "гражда"
+        ]
+      },
+      "expiresAt": 1792553695143
+    },
+    "[\"factor\",\"texthash\",\"1942b528ce110948c0ed0655cfff2c18b2d70a9934535ffa4708e3b96c91ab87\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "1942b528ce110948c0ed0655cfff2c18b2d70a9934535ffa4708e3b96c91ab87"
+      ],
+      "value": true,
+      "expiresAt": 1792553695144
     }
   }
 }
