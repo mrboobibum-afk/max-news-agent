@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 752855,
+      "value": 843601,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792471829740,
+      "value": 1792473030287,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"0f31d6dab8d3a7515b503c8107e409ffcd8e537eef2e64add184cf1e9aab64c8\"]": {
@@ -2721,6 +2721,53 @@
       ],
       "value": true,
       "expiresAt": 1792558423772
+    },
+    "[\"factor\",\"pub\",\"d970f778a9d55250d256de8c23d1bda304e7922ab730fb14014a433e08db514f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d970f778a9d55250d256de8c23d1bda304e7922ab730fb14014a433e08db514f"
+      ],
+      "value": true,
+      "expiresAt": 1792560254007
+    },
+    "[\"factor\",\"topic\",\"d970f778a9d55250d256de8c23d1bda304e7922ab730fb14014a433e08db514f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d970f778a9d55250d256de8c23d1bda304e7922ab730fb14014a433e08db514f"
+      ],
+      "value": {
+        "title": "Главные новости к этому часу: ▪️ Уиткофф планирует посетить РФ после встречи с Зеленским, ",
+        "roots": [
+          "главны",
+          "этому",
+          "уиткоф",
+          "планир",
+          "посети",
+          "встреч",
+          "зеленс"
+        ]
+      },
+      "expiresAt": 1792560254008
+    },
+    "[\"factor\",\"texthash\",\"d365939081bb5c4c1c3dc9c349deaaf0c42dab4378a187c2a9fc8fd782aaa0f2\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "d365939081bb5c4c1c3dc9c349deaaf0c42dab4378a187c2a9fc8fd782aaa0f2"
+      ],
+      "value": true,
+      "expiresAt": 1792560254009
+    },
+    "[\"factor\",\"content\",\"308d3fa385383940cf1a2116914395e8c1877ba49aee9b4085f856f321206fbf\"]": {
+      "key": [
+        "factor",
+        "content",
+        "308d3fa385383940cf1a2116914395e8c1877ba49aee9b4085f856f321206fbf"
+      ],
+      "value": true,
+      "expiresAt": 1792560254009
     }
   }
 }
