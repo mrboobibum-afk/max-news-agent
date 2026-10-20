@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 805047,
+      "value": 526883,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792461030446,
+      "value": 1792462235807,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"f366f96fc76379bc91c7e541176001564f246189ed81396084bb357fc396bc11\"]": {
@@ -2278,6 +2278,45 @@
       ],
       "value": true,
       "expiresAt": 1792547783249
+    },
+    "[\"factor\",\"pub\",\"dbf2b500df30ce97e96c6bd174c4783c82dfa1456a3a40027427c3b23354a019\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "dbf2b500df30ce97e96c6bd174c4783c82dfa1456a3a40027427c3b23354a019"
+      ],
+      "value": true,
+      "expiresAt": 1792548815113
+    },
+    "[\"factor\",\"topic\",\"dbf2b500df30ce97e96c6bd174c4783c82dfa1456a3a40027427c3b23354a019\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "dbf2b500df30ce97e96c6bd174c4783c82dfa1456a3a40027427c3b23354a019"
+      ],
+      "value": {
+        "title": "▶️ Программа переезда в Донецк доступна для уехавших в Европу из оккупированной ВСУ части ",
+        "roots": [
+          "програ",
+          "переез",
+          "донецк",
+          "доступ",
+          "уехавш",
+          "европу",
+          "оккупи",
+          "части"
+        ]
+      },
+      "expiresAt": 1792548815114
+    },
+    "[\"factor\",\"texthash\",\"4b898be427cb2b615eace7ce9545433af7a4e35c4cd06250bc7b242f13938d8d\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "4b898be427cb2b615eace7ce9545433af7a4e35c4cd06250bc7b242f13938d8d"
+      ],
+      "value": true,
+      "expiresAt": 1792548815115
     }
   }
 }
