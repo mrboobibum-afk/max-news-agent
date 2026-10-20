@@ -17,46 +17,6 @@
       "value": 1792489833677,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"277e59d8cad4bbdf9000fe29b671d8c84346cf80bc18a4c0306c4a4a5facdf90\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "277e59d8cad4bbdf9000fe29b671d8c84346cf80bc18a4c0306c4a4a5facdf90"
-      ],
-      "value": true,
-      "expiresAt": 1792490117776
-    },
-    "[\"factor\",\"topic\",\"277e59d8cad4bbdf9000fe29b671d8c84346cf80bc18a4c0306c4a4a5facdf90\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "277e59d8cad4bbdf9000fe29b671d8c84346cf80bc18a4c0306c4a4a5facdf90"
-      ],
-      "value": {
-        "title": "Восемь породистых собак ши‑тцу погибли в страшном пожаре в Москве Как выяснил SHOT, трагед",
-        "roots": [
-          "восемь",
-          "породи",
-          "собак",
-          "погибл",
-          "страшн",
-          "пожаре",
-          "москве",
-          "выясни",
-          "трагед"
-        ]
-      },
-      "expiresAt": 1792490117777
-    },
-    "[\"factor\",\"texthash\",\"84efa0b44722db749d686f9c4365e9f8ef103b9543bdf1f07208f254e58fbab5\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "84efa0b44722db749d686f9c4365e9f8ef103b9543bdf1f07208f254e58fbab5"
-      ],
-      "value": true,
-      "expiresAt": 1792490117777
-    },
     "[\"factor\",\"pub\",\"fa5db9f33b6d172fb1e50acd1918b349035abceabe34bf08a01c0c440b7f84ed\"]": {
       "key": [
         "factor",
