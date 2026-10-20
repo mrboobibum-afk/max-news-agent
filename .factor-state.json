@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 789555,
+      "value": 335743,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,48 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792491034616,
+      "value": 1792492247898,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"69665daf15ab48da614e7adcbdfc069650e0793d451b194cf9e2d0ecbae3c3be\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "69665daf15ab48da614e7adcbdfc069650e0793d451b194cf9e2d0ecbae3c3be"
-      ],
-      "value": true,
-      "expiresAt": 1792492018059
-    },
-    "[\"factor\",\"topic\",\"69665daf15ab48da614e7adcbdfc069650e0793d451b194cf9e2d0ecbae3c3be\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "69665daf15ab48da614e7adcbdfc069650e0793d451b194cf9e2d0ecbae3c3be"
-      ],
-      "value": {
-        "title": "Спасатель бесследно пропал в горах Алтая, где из-за медведей введён режим повышенной готов",
-        "roots": [
-          "спасат",
-          "бессле",
-          "пропал",
-          "горах",
-          "алтая",
-          "медвед",
-          "режим",
-          "повыше",
-          "готов"
-        ]
-      },
-      "expiresAt": 1792492018061
-    },
-    "[\"factor\",\"texthash\",\"de88c48f1e840560fe69d1f0f26104f8ca702735282b5a8bfb3b1649e07bac5b\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "de88c48f1e840560fe69d1f0f26104f8ca702735282b5a8bfb3b1649e07bac5b"
-      ],
-      "value": true,
-      "expiresAt": 1792492018063
     },
     "[\"factor\",\"pub\",\"5f524537873f8a052a047b6cab10d938638b80a064772c64767cd3b18bfd5e81\"]": {
       "key": [
@@ -3102,6 +3062,52 @@
       ],
       "value": true,
       "expiresAt": 1792577787805
+    },
+    "[\"factor\",\"pub\",\"71a5a9832da2bc1def0aa8cb9540bc6fcaf20056288b7bef95ff28b7fbc1e158\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "71a5a9832da2bc1def0aa8cb9540bc6fcaf20056288b7bef95ff28b7fbc1e158"
+      ],
+      "value": true,
+      "expiresAt": 1792579184642
+    },
+    "[\"factor\",\"topic\",\"71a5a9832da2bc1def0aa8cb9540bc6fcaf20056288b7bef95ff28b7fbc1e158\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "71a5a9832da2bc1def0aa8cb9540bc6fcaf20056288b7bef95ff28b7fbc1e158"
+      ],
+      "value": {
+        "title": "Нашествие медуз на Пхукете – туристов призывают быть осторожнее",
+        "roots": [
+          "нашест",
+          "медуз",
+          "пхукет",
+          "турист",
+          "призыв",
+          "осторо"
+        ]
+      },
+      "expiresAt": 1792579184643
+    },
+    "[\"factor\",\"texthash\",\"08ef7ecfaf366f75ea62796ca9c1576aa5f82533fb0368fc60ae4cb4a3215145\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "08ef7ecfaf366f75ea62796ca9c1576aa5f82533fb0368fc60ae4cb4a3215145"
+      ],
+      "value": true,
+      "expiresAt": 1792579184644
+    },
+    "[\"factor\",\"content\",\"93ed0594639cde234a689b0099d8bf2e10e50301f07d824892ad06e938c65427\"]": {
+      "key": [
+        "factor",
+        "content",
+        "93ed0594639cde234a689b0099d8bf2e10e50301f07d824892ad06e938c65427"
+      ],
+      "value": true,
+      "expiresAt": 1792579184645
     }
   }
 }
