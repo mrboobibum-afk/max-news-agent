@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 673306,
+      "value": 331911,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792485048639,
+      "value": 1792486236506,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"dce141ebc065f1fa07c8e45739741787d0288b933b25c682e45b49ab86e66006\"]": {
@@ -2934,6 +2934,55 @@
       ],
       "value": true,
       "expiresAt": 1792571744928
+    },
+    "[\"factor\",\"pub\",\"ace50e2863771e9617314c3fd31bb4e39b3790b438aeb12ca8a6892c6266aefd\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "ace50e2863771e9617314c3fd31bb4e39b3790b438aeb12ca8a6892c6266aefd"
+      ],
+      "value": true,
+      "expiresAt": 1792573002132
+    },
+    "[\"factor\",\"topic\",\"ace50e2863771e9617314c3fd31bb4e39b3790b438aeb12ca8a6892c6266aefd\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "ace50e2863771e9617314c3fd31bb4e39b3790b438aeb12ca8a6892c6266aefd"
+      ],
+      "value": {
+        "title": "♻️ Ученые предложили способ переработки старых солнечных панелей Специалисты Томского поли",
+        "roots": [
+          "ученые",
+          "предло",
+          "способ",
+          "перера",
+          "старых",
+          "солнеч",
+          "панеле",
+          "специа",
+          "томско"
+        ]
+      },
+      "expiresAt": 1792573002134
+    },
+    "[\"factor\",\"texthash\",\"b4d74dc30569fdf907c175771fc47c3d5e065a2faeddaea50277c510eddc4791\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "b4d74dc30569fdf907c175771fc47c3d5e065a2faeddaea50277c510eddc4791"
+      ],
+      "value": true,
+      "expiresAt": 1792573002135
+    },
+    "[\"factor\",\"content\",\"8c9ecc78b77b1bcffb2ac673012af757febda5fdc733cf4f6c98e0b11bc37c31\"]": {
+      "key": [
+        "factor",
+        "content",
+        "8c9ecc78b77b1bcffb2ac673012af757febda5fdc733cf4f6c98e0b11bc37c31"
+      ],
+      "value": true,
+      "expiresAt": 1792573002136
     }
   }
 }
