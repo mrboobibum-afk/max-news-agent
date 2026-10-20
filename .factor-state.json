@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 494830,
+      "value": 469578,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792457760584,
+      "value": 1792458666381,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"5f16341d8f15a958d645ac653138c77a498d9a01e157598bbe3695fcd4f0644f\"]": {
@@ -2118,6 +2118,45 @@
       ],
       "value": true,
       "expiresAt": 1792544786387
+    },
+    "[\"factor\",\"pub\",\"593d846dc95b9fdc232712be855cf1fb0d705e4ca55a220045f63a45097109ed\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "593d846dc95b9fdc232712be855cf1fb0d705e4ca55a220045f63a45097109ed"
+      ],
+      "value": true,
+      "expiresAt": 1792545296549
+    },
+    "[\"factor\",\"topic\",\"593d846dc95b9fdc232712be855cf1fb0d705e4ca55a220045f63a45097109ed\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "593d846dc95b9fdc232712be855cf1fb0d705e4ca55a220045f63a45097109ed"
+      ],
+      "value": {
+        "title": "📹 Центр изучения ИИ в школах создадут на  Института содержания и методов образования, соо",
+        "roots": [
+          "центр",
+          "изучен",
+          "школах",
+          "создад",
+          "инстит",
+          "содерж",
+          "методо",
+          "образо"
+        ]
+      },
+      "expiresAt": 1792545296550
+    },
+    "[\"factor\",\"texthash\",\"429d27222c829456d50275bf93b50012d3b374228e1adbd98be9727bae117117\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "429d27222c829456d50275bf93b50012d3b374228e1adbd98be9727bae117117"
+      ],
+      "value": true,
+      "expiresAt": 1792545296550
     }
   }
 }
