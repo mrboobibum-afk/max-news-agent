@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 469578,
+      "value": 382638,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792458666381,
+      "value": 1792459230503,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"5f16341d8f15a958d645ac653138c77a498d9a01e157598bbe3695fcd4f0644f\"]": {
@@ -2157,6 +2157,47 @@
       ],
       "value": true,
       "expiresAt": 1792545296550
+    },
+    "[\"factor\",\"pub\",\"7b83c4335f1f147aaafaadd9adf635f6f2103421d9ea884e38d1951f82470e44\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "7b83c4335f1f147aaafaadd9adf635f6f2103421d9ea884e38d1951f82470e44"
+      ],
+      "value": true,
+      "expiresAt": 1792545852283
+    },
+    "[\"factor\",\"topic\",\"7b83c4335f1f147aaafaadd9adf635f6f2103421d9ea884e38d1951f82470e44\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "7b83c4335f1f147aaafaadd9adf635f6f2103421d9ea884e38d1951f82470e44"
+      ],
+      "value": {
+        "title": "Убийца 11 человек отсудил у Почты России компенсацию за задержку письма в пермскую колонию",
+        "roots": [
+          "убийца",
+          "челове",
+          "отсуди",
+          "почты",
+          "россии",
+          "компен",
+          "задерж",
+          "письма",
+          "пермск",
+          "колони"
+        ]
+      },
+      "expiresAt": 1792545852284
+    },
+    "[\"factor\",\"texthash\",\"5fe57ef36ab86a04a79d06d74b639230b3d5d04e21b1911e7e3e53617adc5ef4\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "5fe57ef36ab86a04a79d06d74b639230b3d5d04e21b1911e7e3e53617adc5ef4"
+      ],
+      "value": true,
+      "expiresAt": 1792545852285
     }
   }
 }
