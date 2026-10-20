@@ -17,45 +17,6 @@
       "value": 1792461030446,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"5f16341d8f15a958d645ac653138c77a498d9a01e157598bbe3695fcd4f0644f\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "5f16341d8f15a958d645ac653138c77a498d9a01e157598bbe3695fcd4f0644f"
-      ],
-      "value": true,
-      "expiresAt": 1792461358065
-    },
-    "[\"factor\",\"topic\",\"5f16341d8f15a958d645ac653138c77a498d9a01e157598bbe3695fcd4f0644f\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "5f16341d8f15a958d645ac653138c77a498d9a01e157598bbe3695fcd4f0644f"
-      ],
-      "value": {
-        "title": "Из носа Зеленского во время видеообращения к украинцам вылетел шарик белого цвета",
-        "roots": [
-          "зеленс",
-          "время",
-          "видеоо",
-          "украин",
-          "вылете",
-          "шарик",
-          "белого",
-          "цвета"
-        ]
-      },
-      "expiresAt": 1792461358066
-    },
-    "[\"factor\",\"texthash\",\"703471b42dcd9428afe94388e6baf8ecac4b3ad524bc7d11dde77c6457d27b72\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "703471b42dcd9428afe94388e6baf8ecac4b3ad524bc7d11dde77c6457d27b72"
-      ],
-      "value": true,
-      "expiresAt": 1792461358066
-    },
     "[\"factor\",\"pub\",\"f366f96fc76379bc91c7e541176001564f246189ed81396084bb357fc396bc11\"]": {
       "key": [
         "factor",
