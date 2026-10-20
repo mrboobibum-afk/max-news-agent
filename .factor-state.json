@@ -2403,46 +2403,51 @@
       "value": true,
       "expiresAt": 1792613001335
     },
-    "[\"factor\",\"pub\",\"1d1c30a309e9f4f45ba81c07698dd48ee954660fba761575a69f36cc1e400863\"]": {
+    "[\"factor\",\"pub\",\"e722b9e472402e16e4e15a2f9a4609d32e1d9b683dbb5743a765dda344ac14d8\"]": {
       "key": [
         "factor",
         "pub",
-        "1d1c30a309e9f4f45ba81c07698dd48ee954660fba761575a69f36cc1e400863"
+        "e722b9e472402e16e4e15a2f9a4609d32e1d9b683dbb5743a765dda344ac14d8"
       ],
       "value": true,
-      "expiresAt": 1792616859911
+      "expiresAt": 1792617342552
     },
-    "[\"factor\",\"topic\",\"1d1c30a309e9f4f45ba81c07698dd48ee954660fba761575a69f36cc1e400863\"]": {
+    "[\"factor\",\"topic\",\"e722b9e472402e16e4e15a2f9a4609d32e1d9b683dbb5743a765dda344ac14d8\"]": {
       "key": [
         "factor",
         "topic",
-        "1d1c30a309e9f4f45ba81c07698dd48ee954660fba761575a69f36cc1e400863"
+        "e722b9e472402e16e4e15a2f9a4609d32e1d9b683dbb5743a765dda344ac14d8"
       ],
       "value": {
-        "title": "Цена двух букв // Подсчитаны потери Армении от перехода из ЕАЭС в ЕС",
+        "title": "Украина атакует США - киевские власти стараются помочь американским демократам победить ре",
         "roots": [
-          "подсчи",
-          "потери",
-          "армени",
-          "перехо"
+          "украин",
+          "атакуе",
+          "киевск",
+          "власти",
+          "стараю",
+          "помочь",
+          "америк",
+          "демокр",
+          "победи"
         ]
       },
-      "expiresAt": 1792616859912
+      "expiresAt": 1792617342553
     },
-    "[\"factor\",\"texthash\",\"2de1b8e3a19bdb905bd1ea2df3b3bc8a88d1b41e276ff0ea5b5c0abe4b048950\"]": {
+    "[\"factor\",\"texthash\",\"dc16c05e03ab7df1f25af128387c914bde5e3e7e21ce81cf598afc80c1586861\"]": {
       "key": [
         "factor",
         "texthash",
-        "2de1b8e3a19bdb905bd1ea2df3b3bc8a88d1b41e276ff0ea5b5c0abe4b048950"
+        "dc16c05e03ab7df1f25af128387c914bde5e3e7e21ce81cf598afc80c1586861"
       ],
       "value": true,
-      "expiresAt": 1792616859913
+      "expiresAt": 1792617342554
     },
-    "[\"factor\",\"content\",\"ff19518b62d17fcd8b6e1a2f601d81166f7e47404b8f46b4416357aae2c5f401\"]": {
+    "[\"factor\",\"content\",\"6a83615504900df7290799706ba934657e992d75dd4eefccc997acf044a1ef12\"]": {
       "key": [
         "factor",
         "content",
-        "ff19518b62d17fcd8b6e1a2f601d81166f7e47404b8f46b4416357aae2c5f401"
+        "6a83615504900df7290799706ba934657e992d75dd4eefccc997acf044a1ef12"
       ],
       "value": true,
       "expiresAt": 1792616859913
