@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 376251,
+      "value": 797000,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,47 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792467635634,
+      "value": 1792468234169,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"f366f96fc76379bc91c7e541176001564f246189ed81396084bb357fc396bc11\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "f366f96fc76379bc91c7e541176001564f246189ed81396084bb357fc396bc11"
-      ],
-      "value": true,
-      "expiresAt": 1792467859851
-    },
-    "[\"factor\",\"topic\",\"f366f96fc76379bc91c7e541176001564f246189ed81396084bb357fc396bc11\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "f366f96fc76379bc91c7e541176001564f246189ed81396084bb357fc396bc11"
-      ],
-      "value": {
-        "title": "▶️ Московская полиция составила алгоритм действий после разговора с телефонными мошенникам",
-        "roots": [
-          "москов",
-          "полици",
-          "состав",
-          "алгори",
-          "действ",
-          "разгов",
-          "телефо",
-          "мошенн"
-        ]
-      },
-      "expiresAt": 1792467859852
-    },
-    "[\"factor\",\"texthash\",\"6808d56f81bebd22de6305b55fc6c23e21d8409f03ac2fc890ea38be0b150af7\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "6808d56f81bebd22de6305b55fc6c23e21d8409f03ac2fc890ea38be0b150af7"
-      ],
-      "value": true,
-      "expiresAt": 1792467859852
     },
     "[\"factor\",\"pub\",\"0f31d6dab8d3a7515b503c8107e409ffcd8e537eef2e64add184cf1e9aab64c8\"]": {
       "key": [
@@ -2588,6 +2549,40 @@
       ],
       "value": true,
       "expiresAt": 1792554299368
+    },
+    "[\"factor\",\"pub\",\"6bd23a9b6f75038e2deef7863d96d7e77537d3958828ddb40bcef64193e4ebb4\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "6bd23a9b6f75038e2deef7863d96d7e77537d3958828ddb40bcef64193e4ebb4"
+      ],
+      "value": true,
+      "expiresAt": 1792554976991
+    },
+    "[\"factor\",\"topic\",\"6bd23a9b6f75038e2deef7863d96d7e77537d3958828ddb40bcef64193e4ebb4\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "6bd23a9b6f75038e2deef7863d96d7e77537d3958828ddb40bcef64193e4ebb4"
+      ],
+      "value": {
+        "title": "🔤 🔤 🔤 🔤 👿 Лишение свободы на срок до двадцати лет ",
+        "roots": [
+          "лишени",
+          "свобод",
+          "двадца"
+        ]
+      },
+      "expiresAt": 1792554976992
+    },
+    "[\"factor\",\"texthash\",\"88850913e872f289b10783d50bfbf2e8beee8c10885a1a0a80ee95f5eafc62dd\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "88850913e872f289b10783d50bfbf2e8beee8c10885a1a0a80ee95f5eafc62dd"
+      ],
+      "value": true,
+      "expiresAt": 1792554976993
     }
   }
 }
