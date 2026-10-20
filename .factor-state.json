@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 521495,
+      "value": 673306,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,47 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792483983319,
+      "value": 1792485048639,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"7415a6273440184c638cbb8d3f1847a7ec41e0bc77f54870a11a3072fe0bb5b1\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "7415a6273440184c638cbb8d3f1847a7ec41e0bc77f54870a11a3072fe0bb5b1"
-      ],
-      "value": true,
-      "expiresAt": 1792484740062
-    },
-    "[\"factor\",\"topic\",\"7415a6273440184c638cbb8d3f1847a7ec41e0bc77f54870a11a3072fe0bb5b1\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "7415a6273440184c638cbb8d3f1847a7ec41e0bc77f54870a11a3072fe0bb5b1"
-      ],
-      "value": {
-        "title": "Крупнейший украинский дата-центр полностью уничтожен в Киеве — восстановить его уже невозм",
-        "roots": [
-          "крупне",
-          "украин",
-          "центр",
-          "полнос",
-          "уничто",
-          "киеве",
-          "восста",
-          "невозм"
-        ]
-      },
-      "expiresAt": 1792484740063
-    },
-    "[\"factor\",\"texthash\",\"8a386d822da45487e271b081b7476c46cc1943bee617ccc68dbf43891b55487a\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "8a386d822da45487e271b081b7476c46cc1943bee617ccc68dbf43891b55487a"
-      ],
-      "value": true,
-      "expiresAt": 1792484740063
     },
     "[\"factor\",\"pub\",\"dce141ebc065f1fa07c8e45739741787d0288b933b25c682e45b49ab86e66006\"]": {
       "key": [
@@ -2924,6 +2885,55 @@
       ],
       "value": true,
       "expiresAt": 1792570776218
+    },
+    "[\"factor\",\"pub\",\"fbc0ebcc8831f267a2aef903db029bcb376021df95bd6543bc484d14929a2a03\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "fbc0ebcc8831f267a2aef903db029bcb376021df95bd6543bc484d14929a2a03"
+      ],
+      "value": true,
+      "expiresAt": 1792571744923
+    },
+    "[\"factor\",\"topic\",\"fbc0ebcc8831f267a2aef903db029bcb376021df95bd6543bc484d14929a2a03\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "fbc0ebcc8831f267a2aef903db029bcb376021df95bd6543bc484d14929a2a03"
+      ],
+      "value": {
+        "title": "Отказ российским гимнасткам в визах является намеренной попыткой ослабить команду РФ, заяв",
+        "roots": [
+          "отказ",
+          "россий",
+          "гимнас",
+          "визах",
+          "являет",
+          "намере",
+          "попытк",
+          "ослаби",
+          "команд"
+        ]
+      },
+      "expiresAt": 1792571744925
+    },
+    "[\"factor\",\"texthash\",\"3088213a73bfbc251c0c7e374efdb0568569561db6adc184350ff0ad52343eaf\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "3088213a73bfbc251c0c7e374efdb0568569561db6adc184350ff0ad52343eaf"
+      ],
+      "value": true,
+      "expiresAt": 1792571744926
+    },
+    "[\"factor\",\"content\",\"74109bb9d5aa22bb9cf48bee83c32002fd2282178cb115df2d7a1bd47adcf507\"]": {
+      "key": [
+        "factor",
+        "content",
+        "74109bb9d5aa22bb9cf48bee83c32002fd2282178cb115df2d7a1bd47adcf507"
+      ],
+      "value": true,
+      "expiresAt": 1792571744928
     }
   }
 }
