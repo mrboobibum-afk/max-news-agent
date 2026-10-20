@@ -17,46 +17,6 @@
       "value": 1792513552842,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"be7334db4a1d59867c152bfe7c2d25906f633c6c80f86ffaa96dc8347ffa136c\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "be7334db4a1d59867c152bfe7c2d25906f633c6c80f86ffaa96dc8347ffa136c"
-      ],
-      "value": true,
-      "expiresAt": 1792514371270
-    },
-    "[\"factor\",\"topic\",\"be7334db4a1d59867c152bfe7c2d25906f633c6c80f86ffaa96dc8347ffa136c\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "be7334db4a1d59867c152bfe7c2d25906f633c6c80f86ffaa96dc8347ffa136c"
-      ],
-      "value": {
-        "title": "Александр Новак встретился с министром энергетики Казахстана Ерланом Аккенженовым «Россию ",
-        "roots": [
-          "алекса",
-          "новак",
-          "встрет",
-          "минист",
-          "энерге",
-          "казахс",
-          "ерлано",
-          "аккенж",
-          "россию"
-        ]
-      },
-      "expiresAt": 1792514371271
-    },
-    "[\"factor\",\"texthash\",\"dc02b74e6160230ed49e0c7aacd449b2af2687a99b5625e95946c8920f040d97\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "dc02b74e6160230ed49e0c7aacd449b2af2687a99b5625e95946c8920f040d97"
-      ],
-      "value": true,
-      "expiresAt": 1792514371271
-    },
     "[\"factor\",\"pub\",\"dde1bab24d0d4ca50112cff5e7cf02b5b4d56bab9a84716611332cbf4c5ce3e7\"]": {
       "key": [
         "factor",
