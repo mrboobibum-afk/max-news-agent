@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 331911,
+      "value": 680959,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792486236506,
+      "value": 1792486862172,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"dce141ebc065f1fa07c8e45739741787d0288b933b25c682e45b49ab86e66006\"]": {
@@ -2983,6 +2983,53 @@
       ],
       "value": true,
       "expiresAt": 1792573002136
+    },
+    "[\"factor\",\"pub\",\"55fe4ad1d0f41314a0729dc3c09c763f544a282e1b5487b63e17322b3dcf516b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "55fe4ad1d0f41314a0729dc3c09c763f544a282e1b5487b63e17322b3dcf516b"
+      ],
+      "value": true,
+      "expiresAt": 1792573662439
+    },
+    "[\"factor\",\"topic\",\"55fe4ad1d0f41314a0729dc3c09c763f544a282e1b5487b63e17322b3dcf516b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "55fe4ad1d0f41314a0729dc3c09c763f544a282e1b5487b63e17322b3dcf516b"
+      ],
+      "value": {
+        "title": "НЕ ПОСПОРИШЬ: КРИМИНАЛИСТЫ ВОССТАНАВЛИВАЮТ ИСТИНУ ▪️ Как по фрагментам боеприпасов и харак",
+        "roots": [
+          "поспор",
+          "кримин",
+          "восста",
+          "истину",
+          "фрагме",
+          "боепри",
+          "харак"
+        ]
+      },
+      "expiresAt": 1792573662440
+    },
+    "[\"factor\",\"texthash\",\"676311d67dc21d050bfa02cffe9489bceb7e643b7d90058a90a27a8f9b0d0a2f\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "676311d67dc21d050bfa02cffe9489bceb7e643b7d90058a90a27a8f9b0d0a2f"
+      ],
+      "value": true,
+      "expiresAt": 1792573662441
+    },
+    "[\"factor\",\"content\",\"c8a956910f10cae6550f442def4b4631abfd6e844409f3598b6ab0cf9cea7a8b\"]": {
+      "key": [
+        "factor",
+        "content",
+        "c8a956910f10cae6550f442def4b4631abfd6e844409f3598b6ab0cf9cea7a8b"
+      ],
+      "value": true,
+      "expiresAt": 1792573662442
     }
   }
 }
