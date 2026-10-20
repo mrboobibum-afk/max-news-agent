@@ -17,43 +17,6 @@
       "value": 1792522284720,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"afcddc026965157764bbdc25bf7aed1562d95cbe887bdfb9420d4c273f3538a2\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "afcddc026965157764bbdc25bf7aed1562d95cbe887bdfb9420d4c273f3538a2"
-      ],
-      "value": true,
-      "expiresAt": 1792523215468
-    },
-    "[\"factor\",\"topic\",\"afcddc026965157764bbdc25bf7aed1562d95cbe887bdfb9420d4c273f3538a2\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "afcddc026965157764bbdc25bf7aed1562d95cbe887bdfb9420d4c273f3538a2"
-      ],
-      "value": {
-        "title": "🏛 🎉 Сегодня, 19 октября 2026 года, Российский духовно-культурный православный центр в Па",
-        "roots": [
-          "октябр",
-          "россий",
-          "духовн",
-          "культу",
-          "правос",
-          "центр"
-        ]
-      },
-      "expiresAt": 1792523215469
-    },
-    "[\"factor\",\"texthash\",\"d3a61ea8f0eea000f87ff8e1fb1d30dc85cbf440df97d68b9728e59d2d1b87ea\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "d3a61ea8f0eea000f87ff8e1fb1d30dc85cbf440df97d68b9728e59d2d1b87ea"
-      ],
-      "value": true,
-      "expiresAt": 1792523215470
-    },
     "[\"factor\",\"pub\",\"77f74887be5221f721f4596bf260623837ad78bb5ace3eb12457bd998619ee38\"]": {
       "key": [
         "factor",
