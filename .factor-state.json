@@ -2598,47 +2598,51 @@
       "value": true,
       "expiresAt": 1792606526733
     },
-    "[\"factor\",\"pub\",\"4d6a47d70d8ae0b389f5cdcca1c7adbc8a019b8a60955491d60c6336bbfabf4b\"]": {
+    "[\"factor\",\"pub\",\"8238bb58680f924899b52e30bf887397ea488d78be1049299c6c9365b7e2413b\"]": {
       "key": [
         "factor",
         "pub",
-        "4d6a47d70d8ae0b389f5cdcca1c7adbc8a019b8a60955491d60c6336bbfabf4b"
+        "8238bb58680f924899b52e30bf887397ea488d78be1049299c6c9365b7e2413b"
       ],
       "value": true,
-      "expiresAt": 1792608659911
+      "expiresAt": 1792609494733
     },
-    "[\"factor\",\"topic\",\"4d6a47d70d8ae0b389f5cdcca1c7adbc8a019b8a60955491d60c6336bbfabf4b\"]": {
+    "[\"factor\",\"topic\",\"8238bb58680f924899b52e30bf887397ea488d78be1049299c6c9365b7e2413b\"]": {
       "key": [
         "factor",
         "topic",
-        "4d6a47d70d8ae0b389f5cdcca1c7adbc8a019b8a60955491d60c6336bbfabf4b"
+        "8238bb58680f924899b52e30bf887397ea488d78be1049299c6c9365b7e2413b"
       ],
       "value": {
-        "title": "🚨 ВСУ при помощи БПЛА атаковали автобус ЗАЭС, пострадавших нет, сообщили на станции",
+        "title": "‌ 📃 Внучка Роберта Кеннеди умерла на 43-м году жизни Внучка бывшего генерального прокурор",
         "roots": [
-          "помощи",
-          "атаков",
-          "автобу",
-          "постра",
-          "станци"
+          "внучка",
+          "роберт",
+          "кеннед",
+          "умерла",
+          "жизни",
+          "внучка",
+          "бывшег",
+          "генера",
+          "прокур"
         ]
       },
-      "expiresAt": 1792608659912
+      "expiresAt": 1792609494735
     },
-    "[\"factor\",\"texthash\",\"f9885e4db0b97e867cb74eecec81c8962fd1f7eafb836d4750f3c41e4d61d36f\"]": {
+    "[\"factor\",\"texthash\",\"3b78876c2f5500f79005d63b5ec1d62483d9ec56941ca191be1b9f307dff426f\"]": {
       "key": [
         "factor",
         "texthash",
-        "f9885e4db0b97e867cb74eecec81c8962fd1f7eafb836d4750f3c41e4d61d36f"
+        "3b78876c2f5500f79005d63b5ec1d62483d9ec56941ca191be1b9f307dff426f"
       ],
       "value": true,
-      "expiresAt": 1792608659967
+      "expiresAt": 1792609494736
     },
-    "[\"factor\",\"content\",\"f9885e4db0b97e867cb74eecec81c8962fd1f7eafb836d4750f3c41e4d61d36f\"]": {
+    "[\"factor\",\"content\",\"5d663ceb95d482e6cac934bc41979748d9de677d147f2873215a52dbd7c45bd7\"]": {
       "key": [
         "factor",
         "content",
-        "f9885e4db0b97e867cb74eecec81c8962fd1f7eafb836d4750f3c41e4d61d36f"
+        "5d663ceb95d482e6cac934bc41979748d9de677d147f2873215a52dbd7c45bd7"
       ],
       "value": true,
       "expiresAt": 1792608659968
