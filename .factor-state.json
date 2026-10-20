@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 319268,
+      "value": 638373,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792488032258,
+      "value": 1792488649303,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"277e59d8cad4bbdf9000fe29b671d8c84346cf80bc18a4c0306c4a4a5facdf90\"]": {
@@ -3038,6 +3038,53 @@
       ],
       "value": true,
       "expiresAt": 1792574698349
+    },
+    "[\"factor\",\"pub\",\"e11d13445dc8a8f476a4de4d98e86091d29516f1fb34838ed48b301f206458bd\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "e11d13445dc8a8f476a4de4d98e86091d29516f1fb34838ed48b301f206458bd"
+      ],
+      "value": true,
+      "expiresAt": 1792575273035
+    },
+    "[\"factor\",\"topic\",\"e11d13445dc8a8f476a4de4d98e86091d29516f1fb34838ed48b301f206458bd\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "e11d13445dc8a8f476a4de4d98e86091d29516f1fb34838ed48b301f206458bd"
+      ],
+      "value": {
+        "title": "📚 \"Харампурнефтегаз\" выплатит турецкой Tekfen около 530 млн рублей 19 октября",
+        "roots": [
+          "харамп",
+          "выплат",
+          "турецк",
+          "tekfen",
+          "около",
+          "рублей",
+          "октябр"
+        ]
+      },
+      "expiresAt": 1792575273036
+    },
+    "[\"factor\",\"texthash\",\"d5f6eb606ade48f573649ebfb675cf997d4fca0458923adf4ea222e0737c7f9d\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "d5f6eb606ade48f573649ebfb675cf997d4fca0458923adf4ea222e0737c7f9d"
+      ],
+      "value": true,
+      "expiresAt": 1792575273037
+    },
+    "[\"factor\",\"content\",\"986d63c82ab7cf38a83bc878daa597659fe42a304d9fad4574df2174fac252b9\"]": {
+      "key": [
+        "factor",
+        "content",
+        "986d63c82ab7cf38a83bc878daa597659fe42a304d9fad4574df2174fac252b9"
+      ],
+      "value": true,
+      "expiresAt": 1792575273039
     }
   }
 }
