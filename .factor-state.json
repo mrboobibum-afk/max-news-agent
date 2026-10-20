@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 894750,
+      "value": 554092,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792469434477,
+      "value": 1792470742655,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"0f31d6dab8d3a7515b503c8107e409ffcd8e537eef2e64add184cf1e9aab64c8\"]": {
@@ -2622,6 +2622,55 @@
       ],
       "value": true,
       "expiresAt": 1792556389039
+    },
+    "[\"factor\",\"pub\",\"8928cd37302731816b56ed980f872c38c37ad9a6c72b7673630445a9c34068fa\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "8928cd37302731816b56ed980f872c38c37ad9a6c72b7673630445a9c34068fa"
+      ],
+      "value": true,
+      "expiresAt": 1792557555146
+    },
+    "[\"factor\",\"topic\",\"8928cd37302731816b56ed980f872c38c37ad9a6c72b7673630445a9c34068fa\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "8928cd37302731816b56ed980f872c38c37ad9a6c72b7673630445a9c34068fa"
+      ],
+      "value": {
+        "title": "Паразиты не делают медведей более агрессивными, сообщила ТАСС доцент кафедры биоразнообраз",
+        "roots": [
+          "парази",
+          "делают",
+          "медвед",
+          "более",
+          "агресс",
+          "сообщи",
+          "доцент",
+          "кафедр",
+          "биораз"
+        ]
+      },
+      "expiresAt": 1792557555147
+    },
+    "[\"factor\",\"texthash\",\"e09c30f530422caf0ccf22e53d12fc6ebcef50beb26d59f6264f015b1b8a076f\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "e09c30f530422caf0ccf22e53d12fc6ebcef50beb26d59f6264f015b1b8a076f"
+      ],
+      "value": true,
+      "expiresAt": 1792557555148
+    },
+    "[\"factor\",\"content\",\"8fd94a038903f1e0f062991348a3dfbfb11a4090937704c826b8ff1e07bd4e2a\"]": {
+      "key": [
+        "factor",
+        "content",
+        "8fd94a038903f1e0f062991348a3dfbfb11a4090937704c826b8ff1e07bd4e2a"
+      ],
+      "value": true,
+      "expiresAt": 1792557555148
     }
   }
 }
