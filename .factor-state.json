@@ -17,42 +17,6 @@
       "value": 1792533035254,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"e5ba4b8c2a47da72fec616ae51c3d215b95e71a3f7b8db75808d754155a06b45\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "e5ba4b8c2a47da72fec616ae51c3d215b95e71a3f7b8db75808d754155a06b45"
-      ],
-      "value": true,
-      "expiresAt": 1792534044818
-    },
-    "[\"factor\",\"topic\",\"e5ba4b8c2a47da72fec616ae51c3d215b95e71a3f7b8db75808d754155a06b45\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "e5ba4b8c2a47da72fec616ae51c3d215b95e71a3f7b8db75808d754155a06b45"
-      ],
-      "value": {
-        "title": "Трамп хочет переименовать штат Нью-Мексико в Нью-Америка",
-        "roots": [
-          "трамп",
-          "хочет",
-          "переим",
-          "мексик",
-          "америк"
-        ]
-      },
-      "expiresAt": 1792534044819
-    },
-    "[\"factor\",\"texthash\",\"b7e7377f29dac5332bc94c909a33c676cc66ac1f5bdd5548d3d79483a2b8d160\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "b7e7377f29dac5332bc94c909a33c676cc66ac1f5bdd5548d3d79483a2b8d160"
-      ],
-      "value": true,
-      "expiresAt": 1792534044820
-    },
     "[\"factor\",\"pub\",\"08701e38d83edaaadd2248fa8eda3c8f90713dedf499ed354e8759b2d6ae8204\"]": {
       "key": [
         "factor",
