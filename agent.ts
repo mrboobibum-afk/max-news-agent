@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Official Clean Edition v63)
+// MAX NEWS AGENT — «ФАКТОР» (Official Clean Edition v65)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -53,7 +53,7 @@ async function initMaxHttpClient() {
     return maxHttpClient;
 }
 
-// 🏛️ ОФИЦИАЛЬНЫЕ TELEGRAM-КАНАЛЫ (БЕЗ ЖЕЛТУХИ)
+// 🏛️ ОФИЦИАЛЬНЫЕ TELEGRAM-КАНАЛЫ
 const TG_LIVE_CHANNELS = [
     "government_rus", "news_kremlin", "kremlinpress",
     "mod_russia", "mchs_official", "mediamvd", "MID_Russia", "sledcom_press",
@@ -235,6 +235,13 @@ async function isDuplicate(title: string, desc?: string): Promise<boolean> {
     return false;
 }
 
+async function getContentHash(text: string): Promise<string> {
+    const clean = text.toLowerCase().replace(/[^a-zа-я0-9]/gi, "").slice(0, 150);
+    if (!clean) return "";
+    const hashBuffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(clean));
+    return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
 async function getTextHash(text: string): Promise<string> {
     const normalized = text.toLowerCase().replace(/[^a-zа-я0-9]/gi, "").trim();
     const hashBuffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(normalized));
@@ -319,20 +326,35 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
     return null;
 }
 
-// 🧹 ЖЕСТКАЯ ОЧИСТКА: УДАЛЯЕМ ВСЕ ХЭШТЕГИ, РЕКЛАМУ И ПРОМО-ХВОСТЫ
+function fixBrandNames(text: string): string {
+    return text
+        .replace(/Старшилд/gi, "Старлинк")
+        .replace(/Starshield/gi, "Starlink");
+}
+
+// 🛡️ ВАЛИДАТОР ЗАГОЛОВКОВ: Проверяет на обрезки, ошибки и мусор
+function validateHeadline(llmHead: string, fallbackHead: string): string {
+    let h = (llmHead || "").trim();
+    
+    // Если заголовок пустой, слишком короткий или явно обрезан
+    if (h.length < 10 || h.endsWith("-") || h.endsWith(",") || h.includes("...")) {
+        return fallbackHead;
+    }
+    // Если остались только знаки препинания или мусор
+    if (!/[a-zA-Zа-яА-Я0-9]/.test(h)) return fallbackHead;
+    
+    // Делаем первую букву заглавной, если она строчная
+    h = h.charAt(0).toUpperCase() + h.slice(1);
+    return fixBrandNames(h);
+}
+
 function sanitizeRawText(raw: string): string {
     let t = cleanText(raw);
 
-    // 1. Вырезаем фразы со ссылками на любые источники
     t = t.replace(/(?:Как выяснил|Как выяснила|Как узнал|Как узнала|Как рассказал|Как рассказали|По данным|Об этом сообщает|Об этом сообщило|Об этом пишет)\s*[«"']?(?:SHOT|Mash|База|Баз[ыуе]|Readovka|ТАСС|РИА Новости|Интерфакс|Минобороны России)[»"']?/gi, "");
-    
-    // 2. Убираем любые остатки упоминаний желтых пабликов
     t = t.replace(/[«"']?(?:SHOT|Mash|База|Баз[ыуе]|Readovka)[»"']?/gi, "");
-    
-    // 3. Удаляем ВСЕ хэштеги из текста (мы добавим свой в конце)
     t = t.replace(/#[a-zA-Zа-яА-Я0-9_]+/g, "");
 
-    // 4. Отрезаем ВСЁ, что начинается с промо-маркеров (подписки, реклама каналов)
     const markers = [
         "Подписаться", "Подпишись", "Подписывайтесь", "Мы в Максе", 'Мы в "Максе"', "Мы в «Максе»", 
         "Наш канал в Максе", "Читайте нас в Максе", "Читайте в Максе", "Канал Минобороны", 
@@ -342,20 +364,14 @@ function sanitizeRawText(raw: string): string {
     
     for (const m of markers) {
         const idx = t.toLowerCase().indexOf(m.toLowerCase());
-        // Если маркер найден не в самом начале текста (чтобы не обрезать суть), режем всё после него
-        if (idx > 10) { 
-            t = t.slice(0, idx); 
-            break; 
-        }
+        if (idx > 10) { t = t.slice(0, idx); break; }
     }
 
     t = t.replace(/📢\s*Прямой Эфир/gi, "");
     t = t.replace(/⚡\s*ФАКТОР/gi, "");
-    
-    // Убираем лишние символы и пробелы в конце
     t = t.replace(/[\s◆♦●○■▪▫▶➡⬛⬜⭐✔☑«»"'.,;:!?/\-–—]+$/g, "");
 
-    return t.trim();
+    return fixBrandNames(t.trim());
 }
 
 async function applyBrandOverlay(bytes: Uint8Array): Promise<Uint8Array> {
@@ -495,6 +511,8 @@ ${cleanDesc}
 ЗАДАЧИ:
 1. headline — заголовок до 7 слов, отражает суть события. Одно эмодзи по смыслу (⚡ 🔥 🚨 💥 ⚠️ 📉 📈 🏆 🎯 💰 🌍 🛡️ ⚔️).
    СТРОГО ЗАПРЕЩЕНО менять цифры, возраст, имена, даты, названия городов и организаций. Только то, что есть в тексте.
+   ВНИМАНИЕ: ЗАПРЕЩЕНО менять названия компаний и технологий! Если в тексте написано «Старлинк» (Starlink), пиши «Старлинк». Не заменяй его на «Старшилд» (Starshield)!
+   ЗАГОЛОВОК ДОЛЖЕН БЫТЬ ЗАКОНЧЕННЫМ. Не обрывай слова на середине!
 
 2. body — НЕ НУЖНО. Тело поста уже взято дословно из источника.
 
@@ -546,10 +564,13 @@ ${cleanDesc}
     }
 
     if (llmResult && llmResult.headline) {
+        // 🔥 ИСПОЛЬЗУЕМ ВАЛИДАТОР ЗАГОЛОВКОВ
+        const finalHeadline = validateHeadline(llmResult.headline, fallbackHeadline);
+        
         return {
-            headline: String(llmResult.headline).trim(),
-            body: bodyText,
-            insight: String(llmResult.insight || "").trim(),
+            headline: finalHeadline,
+            body: fixBrandNames(bodyText),
+            insight: fixBrandNames(String(llmResult.insight || "").trim()),
             importance: Number(llmResult.importance) || 5,
             is_ad: !!llmResult.is_ad,
         };
@@ -614,7 +635,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v63: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v65: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -666,6 +687,12 @@ async function run() {
 
         if ((await kv.get(["factor", "pub", hash])).value) { skippedDup++; continue; }
         if (await isDuplicate(item.title, item.desc)) { skippedDup++; continue; }
+
+        const contentHash = await getContentHash(item.desc);
+        if (contentHash && (await kv.get(["factor", "content", contentHash])).value) {
+            skippedDup++;
+            continue;
+        }
 
         console.log("\nОбработка: " + item.title);
 
@@ -727,9 +754,14 @@ async function run() {
         const sent = await sendPostToMax(postHtml, uploaded);
         if (sent) {
             console.log("🔥 ОПУБЛИКОВАНО: " + post.headline);
+            published++;
+            
             await kv.set(["factor", "pub", hash], true, { expireIn: HISTORY_TTL_MS });
             await kv.set(["factor", "topic", hash], { title: item.title, roots: getRoots(item.title) }, { expireIn: HISTORY_TTL_MS });
             await kv.set(["factor", "texthash", textHash], true, { expireIn: HISTORY_TTL_MS });
+            if (contentHash) {
+                await kv.set(["factor", "content", contentHash], true, { expireIn: HISTORY_TTL_MS });
+            }
 
             const nextDelay = Math.floor(REGULAR_MIN_INTERVAL_MS + Math.random() * (REGULAR_MAX_INTERVAL_MS - REGULAR_MIN_INTERVAL_MS + 1));
             await kv.set(["factor", "next_regular_delay"], nextDelay);
