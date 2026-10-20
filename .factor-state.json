@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 832493,
+      "value": 789555,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792489833677,
+      "value": 1792491034616,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"fa5db9f33b6d172fb1e50acd1918b349035abceabe34bf08a01c0c440b7f84ed\"]": {
@@ -3093,6 +3093,54 @@
       ],
       "value": true,
       "expiresAt": 1792576609323
+    },
+    "[\"factor\",\"pub\",\"25b5aa7e4d1c55721a4fbe1db84f6fb121fdbe3876566c08f069192c4d238221\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "25b5aa7e4d1c55721a4fbe1db84f6fb121fdbe3876566c08f069192c4d238221"
+      ],
+      "value": true,
+      "expiresAt": 1792577787802
+    },
+    "[\"factor\",\"topic\",\"25b5aa7e4d1c55721a4fbe1db84f6fb121fdbe3876566c08f069192c4d238221\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "25b5aa7e4d1c55721a4fbe1db84f6fb121fdbe3876566c08f069192c4d238221"
+      ],
+      "value": {
+        "title": "Финансовая поддержка Украины оказывает огромную нагрузку на бюджеты стран ЕС, заявил Мерц ",
+        "roots": [
+          "финанс",
+          "поддер",
+          "украин",
+          "оказыв",
+          "огромн",
+          "нагруз",
+          "бюджет",
+          "стран"
+        ]
+      },
+      "expiresAt": 1792577787803
+    },
+    "[\"factor\",\"texthash\",\"61025c67d2e0b82245b2d70ac46d479ee901b859c5697ca578c3933c0f7fd8b9\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "61025c67d2e0b82245b2d70ac46d479ee901b859c5697ca578c3933c0f7fd8b9"
+      ],
+      "value": true,
+      "expiresAt": 1792577787804
+    },
+    "[\"factor\",\"content\",\"61025c67d2e0b82245b2d70ac46d479ee901b859c5697ca578c3933c0f7fd8b9\"]": {
+      "key": [
+        "factor",
+        "content",
+        "61025c67d2e0b82245b2d70ac46d479ee901b859c5697ca578c3933c0f7fd8b9"
+      ],
+      "value": true,
+      "expiresAt": 1792577787805
     }
   }
 }
