@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 410781,
+      "value": 805047,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792460610069,
+      "value": 1792461030446,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"5f16341d8f15a958d645ac653138c77a498d9a01e157598bbe3695fcd4f0644f\"]": {
@@ -2277,6 +2277,46 @@
       ],
       "value": true,
       "expiresAt": 1792547336696
+    },
+    "[\"factor\",\"pub\",\"4ac4b51a6d3b45060bd58eb634db9ea7d2ef5aaa7e01aa048304e76304f17017\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "4ac4b51a6d3b45060bd58eb634db9ea7d2ef5aaa7e01aa048304e76304f17017"
+      ],
+      "value": true,
+      "expiresAt": 1792547783248
+    },
+    "[\"factor\",\"topic\",\"4ac4b51a6d3b45060bd58eb634db9ea7d2ef5aaa7e01aa048304e76304f17017\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "4ac4b51a6d3b45060bd58eb634db9ea7d2ef5aaa7e01aa048304e76304f17017"
+      ],
+      "value": {
+        "title": "📃 Ученые раскрыли связь глубокого сна с выработкой гормона роста Сон необходим не только ",
+        "roots": [
+          "ученые",
+          "раскры",
+          "связь",
+          "глубок",
+          "вырабо",
+          "гормон",
+          "роста",
+          "необхо",
+          "только"
+        ]
+      },
+      "expiresAt": 1792547783249
+    },
+    "[\"factor\",\"texthash\",\"5e7c6c395ebc99d2310fb3ebffaa6bf493513249e5f33fbbad5503acbc886823\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "5e7c6c395ebc99d2310fb3ebffaa6bf493513249e5f33fbbad5503acbc886823"
+      ],
+      "value": true,
+      "expiresAt": 1792547783249
     }
   }
 }
