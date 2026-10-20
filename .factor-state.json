@@ -17,44 +17,6 @@
       "value": 1792486862172,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"dce141ebc065f1fa07c8e45739741787d0288b933b25c682e45b49ab86e66006\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "dce141ebc065f1fa07c8e45739741787d0288b933b25c682e45b49ab86e66006"
-      ],
-      "value": true,
-      "expiresAt": 1792487180947
-    },
-    "[\"factor\",\"topic\",\"dce141ebc065f1fa07c8e45739741787d0288b933b25c682e45b49ab86e66006\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "dce141ebc065f1fa07c8e45739741787d0288b933b25c682e45b49ab86e66006"
-      ],
-      "value": {
-        "title": "12‑летняя девочка‑вундеркинд пропала после турнира по шахматам в Екатеринбурге — она на эм",
-        "roots": [
-          "летняя",
-          "девочк",
-          "вундер",
-          "пропал",
-          "турнир",
-          "шахмат",
-          "екатер"
-        ]
-      },
-      "expiresAt": 1792487180947
-    },
-    "[\"factor\",\"texthash\",\"c5f2b505b0a5da5317fccf59b93758f0ef10b46f995bbeb680d8fcf394af0488\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "c5f2b505b0a5da5317fccf59b93758f0ef10b46f995bbeb680d8fcf394af0488"
-      ],
-      "value": true,
-      "expiresAt": 1792487180948
-    },
     "[\"factor\",\"pub\",\"277e59d8cad4bbdf9000fe29b671d8c84346cf80bc18a4c0306c4a4a5facdf90\"]": {
       "key": [
         "factor",
