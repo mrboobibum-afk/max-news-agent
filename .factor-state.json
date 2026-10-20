@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 444833,
+      "value": 1492896,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,121 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792492835313,
+      "value": 1792494796187,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"a91a0a06acb29fc059b7dc0ad184ba9459c18a388a361cb6c5966d9cc99e05a0\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "a91a0a06acb29fc059b7dc0ad184ba9459c18a388a361cb6c5966d9cc99e05a0"
-      ],
-      "value": true,
-      "expiresAt": 1792493152057
-    },
-    "[\"factor\",\"topic\",\"a91a0a06acb29fc059b7dc0ad184ba9459c18a388a361cb6c5966d9cc99e05a0\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "a91a0a06acb29fc059b7dc0ad184ba9459c18a388a361cb6c5966d9cc99e05a0"
-      ],
-      "value": {
-        "title": "Премиум-класс побьет «китайцев»",
-        "roots": [
-          "премиу",
-          "класс",
-          "побьет",
-          "китайц"
-        ]
-      },
-      "expiresAt": 1792493152058
-    },
-    "[\"factor\",\"texthash\",\"a72592dc79a0307774ab0f13313f7cad209b90a96edf446a227cc46d28a3de6b\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "a72592dc79a0307774ab0f13313f7cad209b90a96edf446a227cc46d28a3de6b"
-      ],
-      "value": true,
-      "expiresAt": 1792493152059
-    },
-    "[\"factor\",\"pub\",\"c2f539b1b5f9b35b726f90243185d2267f931326160bfaf6ec9ff18a3f20faf1\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c2f539b1b5f9b35b726f90243185d2267f931326160bfaf6ec9ff18a3f20faf1"
-      ],
-      "value": true,
-      "expiresAt": 1792493767098
-    },
-    "[\"factor\",\"topic\",\"c2f539b1b5f9b35b726f90243185d2267f931326160bfaf6ec9ff18a3f20faf1\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c2f539b1b5f9b35b726f90243185d2267f931326160bfaf6ec9ff18a3f20faf1"
-      ],
-      "value": {
-        "title": "21-летнего школьного учителя задержали во Владивостоке — по подозрению в домогательстве к ",
-        "roots": [
-          "летнег",
-          "школьн",
-          "учител",
-          "задерж",
-          "владив",
-          "подозр",
-          "домога"
-        ]
-      },
-      "expiresAt": 1792493767099
-    },
-    "[\"factor\",\"texthash\",\"394c80bb9aa1b1f9b9eb21dfc4771c6b01c09f6dccde0e13313a88a29fe95467\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "394c80bb9aa1b1f9b9eb21dfc4771c6b01c09f6dccde0e13313a88a29fe95467"
-      ],
-      "value": true,
-      "expiresAt": 1792493767099
-    },
-    "[\"factor\",\"pub\",\"dd8e46a2ab0ac7971f9b5a8e34a698545f9e17dbdb6809b298fbb8bbe83d94d6\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "dd8e46a2ab0ac7971f9b5a8e34a698545f9e17dbdb6809b298fbb8bbe83d94d6"
-      ],
-      "value": true,
-      "expiresAt": 1792494275563
-    },
-    "[\"factor\",\"topic\",\"dd8e46a2ab0ac7971f9b5a8e34a698545f9e17dbdb6809b298fbb8bbe83d94d6\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "dd8e46a2ab0ac7971f9b5a8e34a698545f9e17dbdb6809b298fbb8bbe83d94d6"
-      ],
-      "value": {
-        "title": "Туристка из России сорвалась с шестиметровой высоты в районе водопада Куршунлу в турецкой ",
-        "roots": [
-          "турист",
-          "россии",
-          "сорвал",
-          "шестим",
-          "высоты",
-          "районе",
-          "водопа",
-          "куршун",
-          "турецк"
-        ]
-      },
-      "expiresAt": 1792494275564
-    },
-    "[\"factor\",\"texthash\",\"005274310ae8edcda7e731184c2f3fd11f64f870b9f60117e77545915c84412f\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "005274310ae8edcda7e731184c2f3fd11f64f870b9f60117e77545915c84412f"
-      ],
-      "value": true,
-      "expiresAt": 1792494275564
     },
     "[\"factor\",\"pub\",\"94f3506269c394c830fd365935ca4db582fd80ac546e675da6233faab34b4851\"]": {
       "key": [
@@ -3117,6 +3004,64 @@
       ],
       "value": true,
       "expiresAt": 1792579709271
+    },
+    "[\"factor\",\"pub\",\"5b2f4be767bc35032ec8dc335ebaa9cbc021cb732d4a306480747f89a9e0ab57\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "5b2f4be767bc35032ec8dc335ebaa9cbc021cb732d4a306480747f89a9e0ab57"
+      ],
+      "value": true,
+      "expiresAt": 1792581775741
+    },
+    "[\"factor\",\"topic\",\"5b2f4be767bc35032ec8dc335ebaa9cbc021cb732d4a306480747f89a9e0ab57\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "5b2f4be767bc35032ec8dc335ebaa9cbc021cb732d4a306480747f89a9e0ab57"
+      ],
+      "value": {
+        "title": "▶️ Возвращение россиян на международную арену является главной целью Минспорта РФ, заявил ",
+        "roots": [
+          "возвра",
+          "россия",
+          "междун",
+          "арену",
+          "являет",
+          "главно",
+          "целью",
+          "минспо"
+        ]
+      },
+      "expiresAt": 1792581775743
+    },
+    "[\"factor\",\"texthash\",\"5f3b0b7a62d5b22e58ba4c34c00119692d44fe27070028f822b12d8d4e3c27d2\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "5f3b0b7a62d5b22e58ba4c34c00119692d44fe27070028f822b12d8d4e3c27d2"
+      ],
+      "value": true,
+      "expiresAt": 1792581775743
+    },
+    "[\"factor\",\"content\",\"7c523e8ea7528350c26f3826a467cee20b4c967a4f83df9af2d881b20a736cb0\"]": {
+      "key": [
+        "factor",
+        "content",
+        "7c523e8ea7528350c26f3826a467cee20b4c967a4f83df9af2d881b20a736cb0"
+      ],
+      "value": true,
+      "expiresAt": 1792581775745
+    },
+    "[\"factor\",\"recent_descs\"]": {
+      "key": [
+        "factor",
+        "recent_descs"
+      ],
+      "value": [
+        "▶️ Возвращение россиян на международную арену является главной целью Минспорта РФ, заявил на встрече с Путиным Дегтярев. Видео: Kremlin. ru ✔️"
+      ],
+      "expiresAt": 1792581775745
     }
   }
 }
