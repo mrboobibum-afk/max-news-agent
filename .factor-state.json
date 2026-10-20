@@ -2080,42 +2080,41 @@
       "value": true,
       "expiresAt": 1792542166204
     },
-    "[\"factor\",\"pub\",\"9a5de5b86a792b019fb8798b3bf05be4ad0132e3e89954601f20ff2fece56183\"]": {
+    "[\"factor\",\"pub\",\"e4a64b4043f9a5d42ccf21fd27b7ded05dd29648828dfd997dbfb38457c271e3\"]": {
       "key": [
         "factor",
         "pub",
-        "9a5de5b86a792b019fb8798b3bf05be4ad0132e3e89954601f20ff2fece56183"
+        "e4a64b4043f9a5d42ccf21fd27b7ded05dd29648828dfd997dbfb38457c271e3"
       ],
       "value": true,
-      "expiresAt": 1792544133595
+      "expiresAt": 1792544786385
     },
-    "[\"factor\",\"topic\",\"9a5de5b86a792b019fb8798b3bf05be4ad0132e3e89954601f20ff2fece56183\"]": {
+    "[\"factor\",\"topic\",\"e4a64b4043f9a5d42ccf21fd27b7ded05dd29648828dfd997dbfb38457c271e3\"]": {
       "key": [
         "factor",
         "topic",
-        "9a5de5b86a792b019fb8798b3bf05be4ad0132e3e89954601f20ff2fece56183"
+        "e4a64b4043f9a5d42ccf21fd27b7ded05dd29648828dfd997dbfb38457c271e3"
       ],
       "value": {
-        "title": "📃 Басков поблагодарил Путина за поздравление с 50-летним юбилеем Народный артист России Н",
+        "title": "Валютный долг для своих // «Цифра брокер» размещает валютные бонды под 9,5% годовых",
         "roots": [
-          "басков",
-          "поблаг",
-          "путина",
-          "поздра",
-          "летним",
-          "юбилее",
-          "народн",
-          "артист",
-          "россии"
+          "валютн",
+          "своих",
+          "цифра",
+          "брокер",
+          "размещ",
+          "валютн",
+          "бонды",
+          "годовы"
         ]
       },
-      "expiresAt": 1792544133597
+      "expiresAt": 1792544786386
     },
-    "[\"factor\",\"texthash\",\"94b5e434b049130fa121e86d0deef5d2d28f7dbce95090471a4397033088d643\"]": {
+    "[\"factor\",\"texthash\",\"7ec61a2bcc58b075de5d0828342dd42fded1dbf4bf5cdb6f3ecdbb3990ff05a7\"]": {
       "key": [
         "factor",
         "texthash",
-        "94b5e434b049130fa121e86d0deef5d2d28f7dbce95090471a4397033088d643"
+        "7ec61a2bcc58b075de5d0828342dd42fded1dbf4bf5cdb6f3ecdbb3990ff05a7"
       ],
       "value": true,
       "expiresAt": 1792544133597
