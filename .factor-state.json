@@ -17,44 +17,6 @@
       "value": 1792507434503,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"d9b9354bfec61029df2038a3452deb6f13b1bb2f7d6d3b91e78707344740a1ab\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "d9b9354bfec61029df2038a3452deb6f13b1bb2f7d6d3b91e78707344740a1ab"
-      ],
-      "value": true,
-      "expiresAt": 1792508120297
-    },
-    "[\"factor\",\"topic\",\"d9b9354bfec61029df2038a3452deb6f13b1bb2f7d6d3b91e78707344740a1ab\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "d9b9354bfec61029df2038a3452deb6f13b1bb2f7d6d3b91e78707344740a1ab"
-      ],
-      "value": {
-        "title": "▶️ Пленный военнослужащий ВСУ Виталий Юрчишин рассказал о провальной подготовке на полигон",
-        "roots": [
-          "пленны",
-          "военно",
-          "витали",
-          "юрчиши",
-          "провал",
-          "подгот",
-          "полиго"
-        ]
-      },
-      "expiresAt": 1792508120298
-    },
-    "[\"factor\",\"texthash\",\"aa518636233629918cf02e42d851f0e68ff5dfe241ee0658f283a35c4a500149\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "aa518636233629918cf02e42d851f0e68ff5dfe241ee0658f283a35c4a500149"
-      ],
-      "value": true,
-      "expiresAt": 1792508120298
-    },
     "[\"factor\",\"pub\",\"84868f343f4936b9ab0555c475b030ccd87c2a773d12253aad076a34c9372e44\"]": {
       "key": [
         "factor",
