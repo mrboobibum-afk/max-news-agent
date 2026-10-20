@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 517213,
+      "value": 662371,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792480326061,
+      "value": 1792482237503,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"7415a6273440184c638cbb8d3f1847a7ec41e0bc77f54870a11a3072fe0bb5b1\"]": {
@@ -2778,6 +2778,55 @@
       ],
       "value": true,
       "expiresAt": 1792567027425
+    },
+    "[\"factor\",\"pub\",\"451c330ee07ba630b2e558efac94c629f141e1445d70deed09cd4ed8f20a72a0\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "451c330ee07ba630b2e558efac94c629f141e1445d70deed09cd4ed8f20a72a0"
+      ],
+      "value": true,
+      "expiresAt": 1792569370931
+    },
+    "[\"factor\",\"topic\",\"451c330ee07ba630b2e558efac94c629f141e1445d70deed09cd4ed8f20a72a0\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "451c330ee07ba630b2e558efac94c629f141e1445d70deed09cd4ed8f20a72a0"
+      ],
+      "value": {
+        "title": "🚑 В Оренбургскую область поступили 42 машины скорой медицинской помощи 42 новые машины по",
+        "roots": [
+          "оренбу",
+          "област",
+          "поступ",
+          "машины",
+          "скорой",
+          "медици",
+          "помощи",
+          "новые",
+          "машины"
+        ]
+      },
+      "expiresAt": 1792569370932
+    },
+    "[\"factor\",\"texthash\",\"30169741aa19c8a7402fc24800e4a38bfe96118ec37481f0e4a4cdc6fc72c7db\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "30169741aa19c8a7402fc24800e4a38bfe96118ec37481f0e4a4cdc6fc72c7db"
+      ],
+      "value": true,
+      "expiresAt": 1792569370933
+    },
+    "[\"factor\",\"content\",\"5157f6f4961c7c5851d4ff9a119aedf4a7a9c477bc72a86a5a576cfb8a0e7816\"]": {
+      "key": [
+        "factor",
+        "content",
+        "5157f6f4961c7c5851d4ff9a119aedf4a7a9c477bc72a86a5a576cfb8a0e7816"
+      ],
+      "value": true,
+      "expiresAt": 1792569370934
     }
   }
 }
