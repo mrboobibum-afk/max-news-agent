@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 680959,
+      "value": 319268,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792486862172,
+      "value": 1792488032258,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"277e59d8cad4bbdf9000fe29b671d8c84346cf80bc18a4c0306c4a4a5facdf90\"]": {
@@ -2992,6 +2992,52 @@
       ],
       "value": true,
       "expiresAt": 1792573662442
+    },
+    "[\"factor\",\"pub\",\"dc668bc7bbc256d6b686e42086c81d770766b4e3e16590f6160aa1af810ab60f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "dc668bc7bbc256d6b686e42086c81d770766b4e3e16590f6160aa1af810ab60f"
+      ],
+      "value": true,
+      "expiresAt": 1792574698345
+    },
+    "[\"factor\",\"topic\",\"dc668bc7bbc256d6b686e42086c81d770766b4e3e16590f6160aa1af810ab60f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "dc668bc7bbc256d6b686e42086c81d770766b4e3e16590f6160aa1af810ab60f"
+      ],
+      "value": {
+        "title": "С пылу с жару для наших парней 🥘 🤝 Сегодня, в Международный день повара, бойцы материаль",
+        "roots": [
+          "наших",
+          "парней",
+          "междун",
+          "повара",
+          "бойцы",
+          "матери"
+        ]
+      },
+      "expiresAt": 1792574698346
+    },
+    "[\"factor\",\"texthash\",\"71c31cb5b244469318b387bbc3d78fb6d4cb4cbc91a672657cd3499d7bda12df\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "71c31cb5b244469318b387bbc3d78fb6d4cb4cbc91a672657cd3499d7bda12df"
+      ],
+      "value": true,
+      "expiresAt": 1792574698348
+    },
+    "[\"factor\",\"content\",\"7cea161d22d04c39dd8670818b9e624c6a7b96613d83801c0f74d59c6830a947\"]": {
+      "key": [
+        "factor",
+        "content",
+        "7cea161d22d04c39dd8670818b9e624c6a7b96613d83801c0f74d59c6830a947"
+      ],
+      "value": true,
+      "expiresAt": 1792574698349
     }
   }
 }
