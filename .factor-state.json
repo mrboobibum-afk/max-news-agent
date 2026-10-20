@@ -17,44 +17,6 @@
       "value": 1792503635206,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"569cb19645654ff95286f37e3243f99219ba7dff9f316e99504137dd18d56fec\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "569cb19645654ff95286f37e3243f99219ba7dff9f316e99504137dd18d56fec"
-      ],
-      "value": true,
-      "expiresAt": 1792504043235
-    },
-    "[\"factor\",\"topic\",\"569cb19645654ff95286f37e3243f99219ba7dff9f316e99504137dd18d56fec\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "569cb19645654ff95286f37e3243f99219ba7dff9f316e99504137dd18d56fec"
-      ],
-      "value": {
-        "title": "🎥 Росгвардейцы отработали эвакуацию и ремонт бронетехники на учении под Петербургом 🚩 В ",
-        "roots": [
-          "росгва",
-          "отрабо",
-          "эвакуа",
-          "ремонт",
-          "бронет",
-          "учении",
-          "петерб"
-        ]
-      },
-      "expiresAt": 1792504043235
-    },
-    "[\"factor\",\"texthash\",\"ad0f6ccec4ebdf4cadaa370340c5cc5e08ef612fddd178835b72805b262e242a\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "ad0f6ccec4ebdf4cadaa370340c5cc5e08ef612fddd178835b72805b262e242a"
-      ],
-      "value": true,
-      "expiresAt": 1792504043236
-    },
     "[\"factor\",\"pub\",\"8c9c3b6b96b22bd502a065e270b4fc9eec1ae0418f5b51db8de4a27e4836a448\"]": {
       "key": [
         "factor",
