@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 335743,
+      "value": 444833,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,48 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792492247898,
+      "value": 1792492835313,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"5f524537873f8a052a047b6cab10d938638b80a064772c64767cd3b18bfd5e81\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "5f524537873f8a052a047b6cab10d938638b80a064772c64767cd3b18bfd5e81"
-      ],
-      "value": true,
-      "expiresAt": 1792492620950
-    },
-    "[\"factor\",\"topic\",\"5f524537873f8a052a047b6cab10d938638b80a064772c64767cd3b18bfd5e81\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "5f524537873f8a052a047b6cab10d938638b80a064772c64767cd3b18bfd5e81"
-      ],
-      "value": {
-        "title": "Путин одобрил кадровые перестановки в правительстве Премьер-министр РФ Михаил Мишустин нап",
-        "roots": [
-          "путин",
-          "одобри",
-          "кадров",
-          "перест",
-          "правит",
-          "премье",
-          "минист",
-          "михаил",
-          "мишуст"
-        ]
-      },
-      "expiresAt": 1792492620951
-    },
-    "[\"factor\",\"texthash\",\"8a564c2b8cb8d2aa8396a22773236c6baf7ce58a9e570f430ce87692fb31bfe6\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "8a564c2b8cb8d2aa8396a22773236c6baf7ce58a9e570f430ce87692fb31bfe6"
-      ],
-      "value": true,
-      "expiresAt": 1792492620951
     },
     "[\"factor\",\"pub\",\"a91a0a06acb29fc059b7dc0ad184ba9459c18a388a361cb6c5966d9cc99e05a0\"]": {
       "key": [
@@ -3108,6 +3068,55 @@
       ],
       "value": true,
       "expiresAt": 1792579184645
+    },
+    "[\"factor\",\"pub\",\"5682bfd547f07bfc77c1ce1142e343e830e12b9cde40c4d59254657a0d14ad0b\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "5682bfd547f07bfc77c1ce1142e343e830e12b9cde40c4d59254657a0d14ad0b"
+      ],
+      "value": true,
+      "expiresAt": 1792579709267
+    },
+    "[\"factor\",\"topic\",\"5682bfd547f07bfc77c1ce1142e343e830e12b9cde40c4d59254657a0d14ad0b\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "5682bfd547f07bfc77c1ce1142e343e830e12b9cde40c4d59254657a0d14ad0b"
+      ],
+      "value": {
+        "title": "🏥 В Тверской области открыли три новых фельдшерско-акушерских пункта В рамках модернизаци",
+        "roots": [
+          "тверск",
+          "област",
+          "открыл",
+          "новых",
+          "фельдш",
+          "акушер",
+          "пункта",
+          "рамках",
+          "модерн"
+        ]
+      },
+      "expiresAt": 1792579709268
+    },
+    "[\"factor\",\"texthash\",\"ff07e2a6335038e8f7d776c1305350d3d9f846a018decec43dfdcf308b09ac59\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "ff07e2a6335038e8f7d776c1305350d3d9f846a018decec43dfdcf308b09ac59"
+      ],
+      "value": true,
+      "expiresAt": 1792579709269
+    },
+    "[\"factor\",\"content\",\"5828900f8cc2d0a0646f097e5172972abba6ba395b98054aa3dbad08af282d95\"]": {
+      "key": [
+        "factor",
+        "content",
+        "5828900f8cc2d0a0646f097e5172972abba6ba395b98054aa3dbad08af282d95"
+      ],
+      "value": true,
+      "expiresAt": 1792579709271
     }
   }
 }
