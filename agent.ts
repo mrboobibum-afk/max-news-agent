@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Official Clean Edition v65)
+// MAX NEWS AGENT — «ФАКТОР» (Official Clean Edition v66)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -218,6 +218,26 @@ function getRoots(str: string): string[] {
         .map(w => w.slice(0, 6));
 }
 
+// 🧠 ЯДЕРНЫЙ ДЕДУПЛИКАТОР: Сравнение текстов на схожесть слов
+function getWordSet(text: string): Set<string> {
+    const words = text.toLowerCase().replace(/[^a-zа-я0-9]/gi, " ").split(" ").filter(w => w.length >= 4);
+    return new Set(words);
+}
+
+function isSimilar(text1: string, text2: string): boolean {
+    const set1 = getWordSet(text1);
+    const set2 = getWordSet(text2);
+    if (set1.size === 0 || set2.size === 0) return false;
+    
+    let intersectionSize = 0;
+    for (const w of set1) {
+        if (set2.has(w)) intersectionSize++;
+    }
+    // Если совпадает больше 60% уникальных слов — это одна и та же новость
+    const similarity = intersectionSize / Math.min(set1.size, set2.size);
+    return similarity > 0.6;
+}
+
 async function isDuplicate(title: string, desc?: string): Promise<boolean> {
     const titleRoots = getRoots(title);
     const allRoots = [...new Set([...titleRoots, ...(desc ? getRoots(desc) : [])])];
@@ -332,18 +352,12 @@ function fixBrandNames(text: string): string {
         .replace(/Starshield/gi, "Starlink");
 }
 
-// 🛡️ ВАЛИДАТОР ЗАГОЛОВКОВ: Проверяет на обрезки, ошибки и мусор
 function validateHeadline(llmHead: string, fallbackHead: string): string {
     let h = (llmHead || "").trim();
-    
-    // Если заголовок пустой, слишком короткий или явно обрезан
     if (h.length < 10 || h.endsWith("-") || h.endsWith(",") || h.includes("...")) {
         return fallbackHead;
     }
-    // Если остались только знаки препинания или мусор
     if (!/[a-zA-Zа-яА-Я0-9]/.test(h)) return fallbackHead;
-    
-    // Делаем первую букву заглавной, если она строчная
     h = h.charAt(0).toUpperCase() + h.slice(1);
     return fixBrandNames(h);
 }
@@ -564,7 +578,6 @@ ${cleanDesc}
     }
 
     if (llmResult && llmResult.headline) {
-        // 🔥 ИСПОЛЬЗУЕМ ВАЛИДАТОР ЗАГОЛОВКОВ
         const finalHeadline = validateHeadline(llmResult.headline, fallbackHeadline);
         
         return {
@@ -635,7 +648,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v65: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v66: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -681,6 +694,9 @@ async function run() {
 
     let skippedDup = 0, skippedImportance = 0, skippedNoMedia = 0, published = 0;
 
+    // Получаем историю недавних текстов для глубокого сравнения
+    const recentDescs: string[] = (await kv.get(["factor", "recent_descs"])).value || [];
+
     for (const item of uniqueCandidates) {
         const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(item.title))))
             .map(b => b.toString(16).padStart(2, "0")).join("");
@@ -690,6 +706,20 @@ async function run() {
 
         const contentHash = await getContentHash(item.desc);
         if (contentHash && (await kv.get(["factor", "content", contentHash])).value) {
+            skippedDup++;
+            continue;
+        }
+
+        // 🧠 ЯДЕРНАЯ ПРОВЕРКА НА СХОЖЕСТЬ СЛОВ
+        let isSimilarFound = false;
+        for (const pastDesc of recentDescs) {
+            if (isSimilar(item.desc, pastDesc)) {
+                isSimilarFound = true;
+                break;
+            }
+        }
+        if (isSimilarFound) {
+            console.log(`❌ Пропуск: текст на 60%+ похож на недавно опубликованный.`);
             skippedDup++;
             continue;
         }
@@ -762,6 +792,11 @@ async function run() {
             if (contentHash) {
                 await kv.set(["factor", "content", contentHash], true, { expireIn: HISTORY_TTL_MS });
             }
+
+            // Сохраняем текст в историю для сверки схожести
+            recentDescs.push(item.desc);
+            if (recentDescs.length > 20) recentDescs.shift();
+            await kv.set(["factor", "recent_descs"], recentDescs, { expireIn: HISTORY_TTL_MS });
 
             const nextDelay = Math.floor(REGULAR_MIN_INTERVAL_MS + Math.random() * (REGULAR_MAX_INTERVAL_MS - REGULAR_MIN_INTERVAL_MS + 1));
             await kv.set(["factor", "next_regular_delay"], nextDelay);
