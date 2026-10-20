@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 598751,
+      "value": 521653,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792464635694,
+      "value": 1792465262733,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"f366f96fc76379bc91c7e541176001564f246189ed81396084bb357fc396bc11\"]": {
@@ -2432,6 +2432,46 @@
       ],
       "value": true,
       "expiresAt": 1792551532057
+    },
+    "[\"factor\",\"pub\",\"08d4090216dd8a243abbe754249a175b22e1bf7851af563f91f685e21e48d213\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "08d4090216dd8a243abbe754249a175b22e1bf7851af563f91f685e21e48d213"
+      ],
+      "value": true,
+      "expiresAt": 1792551895596
+    },
+    "[\"factor\",\"topic\",\"08d4090216dd8a243abbe754249a175b22e1bf7851af563f91f685e21e48d213\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "08d4090216dd8a243abbe754249a175b22e1bf7851af563f91f685e21e48d213"
+      ],
+      "value": {
+        "title": "📃 «Черная смерть» в средневековой Европе привела к сокращению разнообразия растений Челов",
+        "roots": [
+          "черная",
+          "смерть",
+          "средне",
+          "европе",
+          "привел",
+          "сокращ",
+          "разноо",
+          "растен",
+          "челов"
+        ]
+      },
+      "expiresAt": 1792551895597
+    },
+    "[\"factor\",\"texthash\",\"7b6dbcd2eee3d051370d53d6d9492bc3f1d1f51a6a57a82d6965397403cc34a9\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "7b6dbcd2eee3d051370d53d6d9492bc3f1d1f51a6a57a82d6965397403cc34a9"
+      ],
+      "value": true,
+      "expiresAt": 1792551895598
     }
   }
 }
