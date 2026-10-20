@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 425544,
+      "value": 668669,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,49 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792473885067,
+      "value": 1792474833555,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"0f31d6dab8d3a7515b503c8107e409ffcd8e537eef2e64add184cf1e9aab64c8\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "0f31d6dab8d3a7515b503c8107e409ffcd8e537eef2e64add184cf1e9aab64c8"
-      ],
-      "value": true,
-      "expiresAt": 1792474678197
-    },
-    "[\"factor\",\"topic\",\"0f31d6dab8d3a7515b503c8107e409ffcd8e537eef2e64add184cf1e9aab64c8\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "0f31d6dab8d3a7515b503c8107e409ffcd8e537eef2e64add184cf1e9aab64c8"
-      ],
-      "value": {
-        "title": "Превращают iPhone в кирпичи под видом установки ChatGPT — мошенники придумали новую схему ",
-        "roots": [
-          "превра",
-          "iphone",
-          "кирпич",
-          "видом",
-          "устано",
-          "chatgp",
-          "мошенн",
-          "придум",
-          "новую",
-          "схему"
-        ]
-      },
-      "expiresAt": 1792474678198
-    },
-    "[\"factor\",\"texthash\",\"81a2996c32a5b18de38c52e0394451a96d8fa7cbccda38189744cc1896061606\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "81a2996c32a5b18de38c52e0394451a96d8fa7cbccda38189744cc1896061606"
-      ],
-      "value": true,
-      "expiresAt": 1792474678198
     },
     "[\"factor\",\"pub\",\"bb2c8dcfaaf0e711114140e15df8c2e963b29aa49fd8fcea8a09c934ce58b7b9\"]": {
       "key": [
@@ -2763,6 +2722,53 @@
       ],
       "value": true,
       "expiresAt": 1792560587655
+    },
+    "[\"factor\",\"pub\",\"d970f778a9d55250d256de8c23d1bda304e7922ab730fb14014a433e08db514f\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "d970f778a9d55250d256de8c23d1bda304e7922ab730fb14014a433e08db514f"
+      ],
+      "value": true,
+      "expiresAt": 1792562327921
+    },
+    "[\"factor\",\"topic\",\"d970f778a9d55250d256de8c23d1bda304e7922ab730fb14014a433e08db514f\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "d970f778a9d55250d256de8c23d1bda304e7922ab730fb14014a433e08db514f"
+      ],
+      "value": {
+        "title": "Главные новости к этому часу: ▪️ Уиткофф планирует посетить РФ после встречи с Зеленским, ",
+        "roots": [
+          "главны",
+          "этому",
+          "уиткоф",
+          "планир",
+          "посети",
+          "встреч",
+          "зеленс"
+        ]
+      },
+      "expiresAt": 1792562327923
+    },
+    "[\"factor\",\"texthash\",\"d365939081bb5c4c1c3dc9c349deaaf0c42dab4378a187c2a9fc8fd782aaa0f2\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "d365939081bb5c4c1c3dc9c349deaaf0c42dab4378a187c2a9fc8fd782aaa0f2"
+      ],
+      "value": true,
+      "expiresAt": 1792562327923
+    },
+    "[\"factor\",\"content\",\"308d3fa385383940cf1a2116914395e8c1877ba49aee9b4085f856f321206fbf\"]": {
+      "key": [
+        "factor",
+        "content",
+        "308d3fa385383940cf1a2116914395e8c1877ba49aee9b4085f856f321206fbf"
+      ],
+      "value": true,
+      "expiresAt": 1792562327924
     }
   }
 }
