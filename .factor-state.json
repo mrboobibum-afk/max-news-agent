@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 406066,
+      "value": 725054,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792462834876,
+      "value": 1792463448153,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"f366f96fc76379bc91c7e541176001564f246189ed81396084bb357fc396bc11\"]": {
@@ -2354,6 +2354,45 @@
       ],
       "value": true,
       "expiresAt": 1792549783828
+    },
+    "[\"factor\",\"pub\",\"709b0e587725a3c88aa77ef49acabb9729449aaf23e6d4eab7c12e058f1f04d6\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "709b0e587725a3c88aa77ef49acabb9729449aaf23e6d4eab7c12e058f1f04d6"
+      ],
+      "value": true,
+      "expiresAt": 1792550077922
+    },
+    "[\"factor\",\"topic\",\"709b0e587725a3c88aa77ef49acabb9729449aaf23e6d4eab7c12e058f1f04d6\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "709b0e587725a3c88aa77ef49acabb9729449aaf23e6d4eab7c12e058f1f04d6"
+      ],
+      "value": {
+        "title": "Дроноводы «Востока» в деле 👊 Разведка группировки засекла артиллерийские позиции и склад ",
+        "roots": [
+          "дронов",
+          "восток",
+          "развед",
+          "группи",
+          "засекл",
+          "артилл",
+          "позици",
+          "склад"
+        ]
+      },
+      "expiresAt": 1792550077923
+    },
+    "[\"factor\",\"texthash\",\"cdd4a6783d4835213771c0c36bc364aeb04c6351efd88c12ee9f8f9c04b865e7\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "cdd4a6783d4835213771c0c36bc364aeb04c6351efd88c12ee9f8f9c04b865e7"
+      ],
+      "value": true,
+      "expiresAt": 1792550077924
     }
   }
 }
