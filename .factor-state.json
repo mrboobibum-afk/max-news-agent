@@ -17,44 +17,6 @@
       "value": 1792455634636,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"326b5afd487b895846346c311f74177b6d3d9ec31ac086f6925c42a25c78e8ef\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "326b5afd487b895846346c311f74177b6d3d9ec31ac086f6925c42a25c78e8ef"
-      ],
-      "value": true,
-      "expiresAt": 1792456107313
-    },
-    "[\"factor\",\"topic\",\"326b5afd487b895846346c311f74177b6d3d9ec31ac086f6925c42a25c78e8ef\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "326b5afd487b895846346c311f74177b6d3d9ec31ac086f6925c42a25c78e8ef"
-      ],
-      "value": {
-        "title": "▶️ РФ провела выборы в условиях СВО без помощи со стороны, в отличие от Украины, заявил в ",
-        "roots": [
-          "провел",
-          "выборы",
-          "услови",
-          "помощи",
-          "сторон",
-          "отличи",
-          "украин"
-        ]
-      },
-      "expiresAt": 1792456107314
-    },
-    "[\"factor\",\"texthash\",\"cbf9d826b5fbbac133534672057f898cc8258ee331b07c5b77d42607d2b2544e\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "cbf9d826b5fbbac133534672057f898cc8258ee331b07c5b77d42607d2b2544e"
-      ],
-      "value": true,
-      "expiresAt": 1792456107315
-    },
     "[\"factor\",\"pub\",\"5f16341d8f15a958d645ac653138c77a498d9a01e157598bbe3695fcd4f0644f\"]": {
       "key": [
         "factor",
