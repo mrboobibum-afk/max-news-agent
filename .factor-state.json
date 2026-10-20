@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 450265,
+      "value": 746331,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,46 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792475953098,
+      "value": 1792479203837,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"bb2c8dcfaaf0e711114140e15df8c2e963b29aa49fd8fcea8a09c934ce58b7b9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "bb2c8dcfaaf0e711114140e15df8c2e963b29aa49fd8fcea8a09c934ce58b7b9"
-      ],
-      "value": true,
-      "expiresAt": 1792477596718
-    },
-    "[\"factor\",\"topic\",\"bb2c8dcfaaf0e711114140e15df8c2e963b29aa49fd8fcea8a09c934ce58b7b9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "bb2c8dcfaaf0e711114140e15df8c2e963b29aa49fd8fcea8a09c934ce58b7b9"
-      ],
-      "value": {
-        "title": "«Зомби‑пожары» могут накрыть Россию весной из‑за аномально тёплой зимы",
-        "roots": [
-          "зомби",
-          "пожары",
-          "могут",
-          "накрыт",
-          "россию",
-          "весной",
-          "аномал"
-        ]
-      },
-      "expiresAt": 1792477596719
-    },
-    "[\"factor\",\"texthash\",\"1043ff3c859a39c14998552cb225d2d476ff9ba4c4bd2cf559d6183f5e434614\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "1043ff3c859a39c14998552cb225d2d476ff9ba4c4bd2cf559d6183f5e434614"
-      ],
-      "value": true,
-      "expiresAt": 1792477596720
     },
     "[\"factor\",\"pub\",\"7415a6273440184c638cbb8d3f1847a7ec41e0bc77f54870a11a3072fe0bb5b1\"]": {
       "key": [
@@ -2767,6 +2729,55 @@
       ],
       "value": true,
       "expiresAt": 1792563091157
+    },
+    "[\"factor\",\"pub\",\"451c330ee07ba630b2e558efac94c629f141e1445d70deed09cd4ed8f20a72a0\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "451c330ee07ba630b2e558efac94c629f141e1445d70deed09cd4ed8f20a72a0"
+      ],
+      "value": true,
+      "expiresAt": 1792566335025
+    },
+    "[\"factor\",\"topic\",\"451c330ee07ba630b2e558efac94c629f141e1445d70deed09cd4ed8f20a72a0\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "451c330ee07ba630b2e558efac94c629f141e1445d70deed09cd4ed8f20a72a0"
+      ],
+      "value": {
+        "title": "🚑 В Оренбургскую область поступили 42 машины скорой медицинской помощи 42 новые машины по",
+        "roots": [
+          "оренбу",
+          "област",
+          "поступ",
+          "машины",
+          "скорой",
+          "медици",
+          "помощи",
+          "новые",
+          "машины"
+        ]
+      },
+      "expiresAt": 1792566335027
+    },
+    "[\"factor\",\"texthash\",\"30169741aa19c8a7402fc24800e4a38bfe96118ec37481f0e4a4cdc6fc72c7db\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "30169741aa19c8a7402fc24800e4a38bfe96118ec37481f0e4a4cdc6fc72c7db"
+      ],
+      "value": true,
+      "expiresAt": 1792566335028
+    },
+    "[\"factor\",\"content\",\"5157f6f4961c7c5851d4ff9a119aedf4a7a9c477bc72a86a5a576cfb8a0e7816\"]": {
+      "key": [
+        "factor",
+        "content",
+        "5157f6f4961c7c5851d4ff9a119aedf4a7a9c477bc72a86a5a576cfb8a0e7816"
+      ],
+      "value": true,
+      "expiresAt": 1792566335029
     }
   }
 }
