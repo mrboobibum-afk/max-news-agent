@@ -2737,55 +2737,6 @@
         "dce9218556eca27d1564fb60bee962c0afd770b34b0158c836c9ed70025e0404"
       ],
       "value": true,
-      "expiresAt": 1792566702384
-    },
-    "[\"factor\",\"topic\",\"dce9218556eca27d1564fb60bee962c0afd770b34b0158c836c9ed70025e0404\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "dce9218556eca27d1564fb60bee962c0afd770b34b0158c836c9ed70025e0404"
-      ],
-      "value": {
-        "title": "Главы делегаций государств – членов ШОС обсудили с Эмомали Рахмоном углубление сотрудничес",
-        "roots": [
-          "главы",
-          "делега",
-          "госуда",
-          "членов",
-          "обсуди",
-          "эмомал",
-          "рахмон",
-          "углубл",
-          "сотруд"
-        ]
-      },
-      "expiresAt": 1792566702386
-    },
-    "[\"factor\",\"texthash\",\"dfb6a08358c2c6c74c277fb05c55712e5d85316cbbc8020781b705bf7d06fabf\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "dfb6a08358c2c6c74c277fb05c55712e5d85316cbbc8020781b705bf7d06fabf"
-      ],
-      "value": true,
-      "expiresAt": 1792566702387
-    },
-    "[\"factor\",\"content\",\"ec982110bea6c72cb832be40679d303ab9debad17dea000b449c5da6b08ace07\"]": {
-      "key": [
-        "factor",
-        "content",
-        "ec982110bea6c72cb832be40679d303ab9debad17dea000b449c5da6b08ace07"
-      ],
-      "value": true,
-      "expiresAt": 1792566335029
-    },
-    "[\"factor\",\"pub\",\"dce9218556eca27d1564fb60bee962c0afd770b34b0158c836c9ed70025e0404\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "dce9218556eca27d1564fb60bee962c0afd770b34b0158c836c9ed70025e0404"
-      ],
-      "value": true,
       "expiresAt": 1792567027422
     },
     "[\"factor\",\"topic\",\"dce9218556eca27d1564fb60bee962c0afd770b34b0158c836c9ed70025e0404\"]": {
