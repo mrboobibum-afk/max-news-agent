@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Official Clean Edition v66)
+// MAX NEWS AGENT — «ФАКТОР» (Strict Quality Edition v67)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -12,13 +12,15 @@ const DASHSCOPE_API_KEY = Deno.env.get("DASHSCOPE_API_KEY") ?? "";
 const QWEN_MODEL = Deno.env.get("QWEN_MODEL") ?? "qwen3.8-max";
 const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyuncs.com/compatible-mode/v1";
 
-const REGULAR_MIN_INTERVAL_MS = 5 * 60 * 1000;
-const REGULAR_MAX_INTERVAL_MS = 15 * 60 * 1000;
-const HARD_MIN_INTERVAL_MS = 5 * 60 * 1000;
+// ⏱ УВЕЛИЧЕН ИНТЕРВАЛ: От 15 до 30 минут
+const REGULAR_MIN_INTERVAL_MS = 15 * 60 * 1000;
+const REGULAR_MAX_INTERVAL_MS = 30 * 60 * 1000;
+const HARD_MIN_INTERVAL_MS = 10 * 60 * 1000;
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000;
 
 const MEDIA_PACKET_MAX = 6;
-const MIN_IMPORTANCE = 6;
+// 📈 ПОДНЯТА ПЛАНКА ВАЖНОСТИ: Теперь только 7 и выше
+const MIN_IMPORTANCE = 7;
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
 const STATE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
@@ -31,7 +33,7 @@ const MIN_VIDEO_BYTES = 50 * 1024;
 const MAX_VIDEO_BYTES = 30 * 1024 * 1024;
 
 const MAX_BODY_LEN = 600;
-const MIN_INSIGHT_IMPORTANCE = 6;
+const MIN_INSIGHT_IMPORTANCE = 7;
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
 
@@ -53,7 +55,6 @@ async function initMaxHttpClient() {
     return maxHttpClient;
 }
 
-// 🏛️ ОФИЦИАЛЬНЫЕ TELEGRAM-КАНАЛЫ
 const TG_LIVE_CHANNELS = [
     "government_rus", "news_kremlin", "kremlinpress",
     "mod_russia", "mchs_official", "mediamvd", "MID_Russia", "sledcom_press",
@@ -67,7 +68,6 @@ const TG_LIVE_CHANNELS = [
     "1tv_news", "ntvru", "izvestya", "rgru_news"
 ];
 
-// 📰 ЧИСТЫЕ RSS-ЛЕНТЫ
 const NEWS_FEEDS = [
     { name: "ТАСС", url: "https://tass.ru/rss/v2.xml" },
     { name: "РИА Новости", url: "https://ria.ru/export/rss2/archive/index.xml" },
@@ -94,6 +94,7 @@ const NEWS_FEEDS = [
     { name: "Правда.ру", url: "https://www.pravda.ru/export.xml" },
 ];
 
+// 🚨 УСИЛЕННЫЙ ЧЕРНЫЙ СПИСОК (Добавлена бытовуха, местные ЧП и звезды)
 const BORING_TOPICS = [
     /(?:сесси[яи]|форум|круглый\s+стол|конференци[яи]|совещани[ея]|заседани[ея]|брифинг)/i,
     /(?:рэц|экспортер|клиентск|госуслуг|росреестр|минфин|ведомств)/i,
@@ -107,11 +108,13 @@ const BORING_TOPICS = [
     /спецпредложени/i,
     /реклама\s*[.:!]/i,
     /партнёрск(?:ий|ого)\s+материал/i,
+    // 🚫 ЖЕЛТУХА И МЕСТНЫЕ ЧП
     /(?:собак|кошк|котят|щенят|ши-тцу|животн|питомц|зоозащит)/i,
     /(?:пылесос|розетк|бытов|квартир[аеу].*пожар|пожар.*квартир|кухн[яе].*пожар|закурил|уснул\s+с\s+сигарет)/i,
     /(?:гороскоп|астролог|экстрасенс|таролог|гадан)/i,
     /(?:измен[аи]|изменил|любовн|скандал.*звезд|инстаграм|тикток)/i,
     /(?:спасение\s+(?:кота|собаки|животного))/i,
+    /(?:турист|учител|коммунальн|ЖКХ|убийц|отсудил|полици[яи].*задерж|Макаревич|Пугачев|Киркоров|Бузова)/i
 ];
 
 class FileKV {
@@ -218,7 +221,6 @@ function getRoots(str: string): string[] {
         .map(w => w.slice(0, 6));
 }
 
-// 🧠 ЯДЕРНЫЙ ДЕДУПЛИКАТОР: Сравнение текстов на схожесть слов
 function getWordSet(text: string): Set<string> {
     const words = text.toLowerCase().replace(/[^a-zа-я0-9]/gi, " ").split(" ").filter(w => w.length >= 4);
     return new Set(words);
@@ -233,7 +235,6 @@ function isSimilar(text1: string, text2: string): boolean {
     for (const w of set1) {
         if (set2.has(w)) intersectionSize++;
     }
-    // Если совпадает больше 60% уникальных слов — это одна и та же новость
     const similarity = intersectionSize / Math.min(set1.size, set2.size);
     return similarity > 0.6;
 }
@@ -352,12 +353,24 @@ function fixBrandNames(text: string): string {
         .replace(/Starshield/gi, "Starlink");
 }
 
+// 🛡️ УМНЫЙ ВАЛИДАТОР ЗАГОЛОВКОВ
 function validateHeadline(llmHead: string, fallbackHead: string): string {
     let h = (llmHead || "").trim();
+    
+    // 1. Слишком короткий или обрезанный
     if (h.length < 10 || h.endsWith("-") || h.endsWith(",") || h.includes("...")) {
         return fallbackHead;
     }
+    
+    // 2. Проверка на "тупые" абстрактные заголовки без конкретики
+    const words = h.split(/\s+/).filter(w => w.length > 2);
+    if (words.length < 3) return fallbackHead;
+    
+    const vaguePhrases = ["работа сделана", "дело тонкое", "к ответу", "на частоте", "всем известно", "без комментариев"];
+    if (vaguePhrases.some(p => h.toLowerCase().includes(p))) return fallbackHead;
+
     if (!/[a-zA-Zа-яА-Я0-9]/.test(h)) return fallbackHead;
+    
     h = h.charAt(0).toUpperCase() + h.slice(1);
     return fixBrandNames(h);
 }
@@ -526,7 +539,7 @@ ${cleanDesc}
 1. headline — заголовок до 7 слов, отражает суть события. Одно эмодзи по смыслу (⚡ 🔥 🚨 💥 ⚠️ 📉 📈 🏆 🎯 💰 🌍 🛡️ ⚔️).
    СТРОГО ЗАПРЕЩЕНО менять цифры, возраст, имена, даты, названия городов и организаций. Только то, что есть в тексте.
    ВНИМАНИЕ: ЗАПРЕЩЕНО менять названия компаний и технологий! Если в тексте написано «Старлинк» (Starlink), пиши «Старлинк». Не заменяй его на «Старшилд» (Starshield)!
-   ЗАГОЛОВОК ДОЛЖЕН БЫТЬ ЗАКОНЧЕННЫМ. Не обрывай слова на середине!
+   ЗАГОЛОВОК ДОЛЖЕН БЫТЬ КОНКРЕТНЫМ И ЗАКОНЧЕННЫМ. Не пиши абстракции вроде «Работа сделана» или «Восток - дело тонкое».
 
 2. body — НЕ НУЖНО. Тело поста уже взято дословно из источника.
 
@@ -538,7 +551,7 @@ ${cleanDesc}
    7 — важно (политика, экономика).
    6 — заметно (международка, бизнес).
    4-5 — средне (региональное ЧП).
-   1-3 — НЕ ВАЖНО (бытовуха, ДТП, локальные пожары, происшествия с животными, курьёзы). Если новость про животных или бытовой случай — ставь 1-3.
+   1-3 — НЕ ВАЖНО (бытовуха, ДТП, локальные пожары, происшествия с животными, курьёзы, туристы, учителя, ЖКХ). Если новость про животных, бытовой случай или местную бытовуху — ставь 1-3.
 
 5. is_ad — true, если это реклама, промо-пост.
 
@@ -648,7 +661,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v66: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v67: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -694,7 +707,6 @@ async function run() {
 
     let skippedDup = 0, skippedImportance = 0, skippedNoMedia = 0, published = 0;
 
-    // Получаем историю недавних текстов для глубокого сравнения
     const recentDescs: string[] = (await kv.get(["factor", "recent_descs"])).value || [];
 
     for (const item of uniqueCandidates) {
@@ -710,7 +722,6 @@ async function run() {
             continue;
         }
 
-        // 🧠 ЯДЕРНАЯ ПРОВЕРКА НА СХОЖЕСТЬ СЛОВ
         let isSimilarFound = false;
         for (const pastDesc of recentDescs) {
             if (isSimilar(item.desc, pastDesc)) {
@@ -793,7 +804,6 @@ async function run() {
                 await kv.set(["factor", "content", contentHash], true, { expireIn: HISTORY_TTL_MS });
             }
 
-            // Сохраняем текст в историю для сверки схожести
             recentDescs.push(item.desc);
             if (recentDescs.length > 20) recentDescs.shift();
             await kv.set(["factor", "recent_descs"], recentDescs, { expireIn: HISTORY_TTL_MS });
