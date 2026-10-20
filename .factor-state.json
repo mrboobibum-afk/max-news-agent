@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 638373,
+      "value": 832493,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792488649303,
+      "value": 1792489833677,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"277e59d8cad4bbdf9000fe29b671d8c84346cf80bc18a4c0306c4a4a5facdf90\"]": {
@@ -3085,6 +3085,54 @@
       ],
       "value": true,
       "expiresAt": 1792575273039
+    },
+    "[\"factor\",\"pub\",\"8bface678af6de303e5e74890705160f0fbc7e66eaea222fc6976424267998b1\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "8bface678af6de303e5e74890705160f0fbc7e66eaea222fc6976424267998b1"
+      ],
+      "value": true,
+      "expiresAt": 1792576609319
+    },
+    "[\"factor\",\"topic\",\"8bface678af6de303e5e74890705160f0fbc7e66eaea222fc6976424267998b1\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "8bface678af6de303e5e74890705160f0fbc7e66eaea222fc6976424267998b1"
+      ],
+      "value": {
+        "title": "🌐 Росатом Из архива: Белоярская АЭС — одна из старейших атомных станций России, расположе",
+        "roots": [
+          "росато",
+          "архива",
+          "белояр",
+          "старей",
+          "атомны",
+          "станци",
+          "россии",
+          "распол"
+        ]
+      },
+      "expiresAt": 1792576609321
+    },
+    "[\"factor\",\"texthash\",\"630735d83cc6b13056c31c9a2bb7d907cafe4e0ebd6a681b14956c792899e4d4\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "630735d83cc6b13056c31c9a2bb7d907cafe4e0ebd6a681b14956c792899e4d4"
+      ],
+      "value": true,
+      "expiresAt": 1792576609322
+    },
+    "[\"factor\",\"content\",\"26d8bdbbde3b9a8ff06178906ad671194c288fff1377c1937dd81b7bc21be90b\"]": {
+      "key": [
+        "factor",
+        "content",
+        "26d8bdbbde3b9a8ff06178906ad671194c288fff1377c1937dd81b7bc21be90b"
+      ],
+      "value": true,
+      "expiresAt": 1792576609323
     }
   }
 }
