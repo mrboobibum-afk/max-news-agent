@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 766236,
+      "value": 872876,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,7 +14,7 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792454472072,
+      "value": 1792455634636,
       "expiresAt": null
     },
     "[\"factor\",\"pub\",\"326b5afd487b895846346c311f74177b6d3d9ec31ac086f6925c42a25c78e8ef\"]": {
@@ -2077,6 +2077,46 @@
       ],
       "value": true,
       "expiresAt": 1792540959714
+    },
+    "[\"factor\",\"pub\",\"200c1aa92523487568482595d1c73e39eea774b331a3a884f0c6e46294c1439e\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "200c1aa92523487568482595d1c73e39eea774b331a3a884f0c6e46294c1439e"
+      ],
+      "value": true,
+      "expiresAt": 1792542166202
+    },
+    "[\"factor\",\"topic\",\"200c1aa92523487568482595d1c73e39eea774b331a3a884f0c6e46294c1439e\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "200c1aa92523487568482595d1c73e39eea774b331a3a884f0c6e46294c1439e"
+      ],
+      "value": {
+        "title": "📃 Reuters сообщило о планах Уиткоффа встретиться с Путиным в России Спецпосланник америка",
+        "roots": [
+          "reuter",
+          "сообщи",
+          "планах",
+          "уиткоф",
+          "встрет",
+          "путины",
+          "россии",
+          "спецпо",
+          "америк"
+        ]
+      },
+      "expiresAt": 1792542166203
+    },
+    "[\"factor\",\"texthash\",\"a6bb1e3aed6d37bf3bdf91900545833761807965f4da9c80d2ee65baeedb924a\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "a6bb1e3aed6d37bf3bdf91900545833761807965f4da9c80d2ee65baeedb924a"
+      ],
+      "value": true,
+      "expiresAt": 1792542166204
     }
   }
 }
