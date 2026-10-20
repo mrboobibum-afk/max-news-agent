@@ -6,7 +6,7 @@
         "factor",
         "next_regular_delay"
       ],
-      "value": 609934,
+      "value": 766236,
       "expiresAt": null
     },
     "[\"factor\",\"last_regular\"]": {
@@ -14,48 +14,8 @@
         "factor",
         "last_regular"
       ],
-      "value": 1792452454582,
+      "value": 1792454472072,
       "expiresAt": null
-    },
-    "[\"factor\",\"pub\",\"4d8e8871852015dfa4b9ac28eb44fdf9199280555672405820bf5159e6ad8fe6\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "4d8e8871852015dfa4b9ac28eb44fdf9199280555672405820bf5159e6ad8fe6"
-      ],
-      "value": true,
-      "expiresAt": 1792453866844
-    },
-    "[\"factor\",\"topic\",\"4d8e8871852015dfa4b9ac28eb44fdf9199280555672405820bf5159e6ad8fe6\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "4d8e8871852015dfa4b9ac28eb44fdf9199280555672405820bf5159e6ad8fe6"
-      ],
-      "value": {
-        "title": "Блэкаут в Киеве — встали поезда и часть метро, в городе отключилось электричество",
-        "roots": [
-          "блэкау",
-          "киеве",
-          "встали",
-          "поезда",
-          "часть",
-          "метро",
-          "городе",
-          "отключ",
-          "электр"
-        ]
-      },
-      "expiresAt": 1792453866845
-    },
-    "[\"factor\",\"texthash\",\"649c1a2de2ce4c995248ab63bfd90563816bdf63cee8d219a866e6b4ec34b0f6\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "649c1a2de2ce4c995248ab63bfd90563816bdf63cee8d219a866e6b4ec34b0f6"
-      ],
-      "value": true,
-      "expiresAt": 1792453866846
     },
     "[\"factor\",\"pub\",\"326b5afd487b895846346c311f74177b6d3d9ec31ac086f6925c42a25c78e8ef\"]": {
       "key": [
@@ -2078,6 +2038,45 @@
       ],
       "value": true,
       "expiresAt": 1792539348642
+    },
+    "[\"factor\",\"pub\",\"9e44de0add8ea942858c86ef1a26aafeb67499b14015280427c42b52fe692af7\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "9e44de0add8ea942858c86ef1a26aafeb67499b14015280427c42b52fe692af7"
+      ],
+      "value": true,
+      "expiresAt": 1792540959712
+    },
+    "[\"factor\",\"topic\",\"9e44de0add8ea942858c86ef1a26aafeb67499b14015280427c42b52fe692af7\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "9e44de0add8ea942858c86ef1a26aafeb67499b14015280427c42b52fe692af7"
+      ],
+      "value": {
+        "title": "Пока нет понимания, когда будет следующий визит Си Цзиньпина в Россию, сообщил ТАСС Песков",
+        "roots": [
+          "понима",
+          "когда",
+          "будет",
+          "следую",
+          "визит",
+          "цзиньп",
+          "россию",
+          "песков"
+        ]
+      },
+      "expiresAt": 1792540959713
+    },
+    "[\"factor\",\"texthash\",\"29a6556f11e47463b1c12d26c9242e0f4e7febeab35aa7776efedb96b4ae2d58\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "29a6556f11e47463b1c12d26c9242e0f4e7febeab35aa7776efedb96b4ae2d58"
+      ],
+      "value": true,
+      "expiresAt": 1792540959714
     }
   }
 }
