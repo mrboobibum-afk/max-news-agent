@@ -17,45 +17,6 @@
       "value": 1792515036216,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"8bae0ee253724619a56978be363918d1c96c93d3769c34eb9d3021be0a8fe1f3\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "8bae0ee253724619a56978be363918d1c96c93d3769c34eb9d3021be0a8fe1f3"
-      ],
-      "value": true,
-      "expiresAt": 1792515867591
-    },
-    "[\"factor\",\"topic\",\"8bae0ee253724619a56978be363918d1c96c93d3769c34eb9d3021be0a8fe1f3\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "8bae0ee253724619a56978be363918d1c96c93d3769c34eb9d3021be0a8fe1f3"
-      ],
-      "value": {
-        "title": "Иран заинтересован в расширении сотрудничества с Россией Первый вице-президент Ирана Мохам",
-        "roots": [
-          "заинте",
-          "расшир",
-          "сотруд",
-          "россие",
-          "первый",
-          "презид",
-          "ирана",
-          "мохам"
-        ]
-      },
-      "expiresAt": 1792515867592
-    },
-    "[\"factor\",\"texthash\",\"fd42f84184b346b56ce5040b7a7c50e1fc2075abe1207497efad65a1e2f06fa7\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "fd42f84184b346b56ce5040b7a7c50e1fc2075abe1207497efad65a1e2f06fa7"
-      ],
-      "value": true,
-      "expiresAt": 1792515867593
-    },
     "[\"factor\",\"pub\",\"037f908d8e551e6098b40d3edd48010177d6a5efbdcc66ff87b2d321e186a5bb\"]": {
       "key": [
         "factor",
