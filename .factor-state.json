@@ -17,55 +17,6 @@
       "value": 1792578120046,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"5682bfd547f07bfc77c1ce1142e343e830e12b9cde40c4d59254657a0d14ad0b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "5682bfd547f07bfc77c1ce1142e343e830e12b9cde40c4d59254657a0d14ad0b"
-      ],
-      "value": true,
-      "expiresAt": 1792579709267
-    },
-    "[\"factor\",\"topic\",\"5682bfd547f07bfc77c1ce1142e343e830e12b9cde40c4d59254657a0d14ad0b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "5682bfd547f07bfc77c1ce1142e343e830e12b9cde40c4d59254657a0d14ad0b"
-      ],
-      "value": {
-        "title": "🏥 В Тверской области открыли три новых фельдшерско-акушерских пункта В рамках модернизаци",
-        "roots": [
-          "тверск",
-          "област",
-          "открыл",
-          "новых",
-          "фельдш",
-          "акушер",
-          "пункта",
-          "рамках",
-          "модерн"
-        ]
-      },
-      "expiresAt": 1792579709268
-    },
-    "[\"factor\",\"texthash\",\"ff07e2a6335038e8f7d776c1305350d3d9f846a018decec43dfdcf308b09ac59\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "ff07e2a6335038e8f7d776c1305350d3d9f846a018decec43dfdcf308b09ac59"
-      ],
-      "value": true,
-      "expiresAt": 1792579709269
-    },
-    "[\"factor\",\"content\",\"5828900f8cc2d0a0646f097e5172972abba6ba395b98054aa3dbad08af282d95\"]": {
-      "key": [
-        "factor",
-        "content",
-        "5828900f8cc2d0a0646f097e5172972abba6ba395b98054aa3dbad08af282d95"
-      ],
-      "value": true,
-      "expiresAt": 1792579709271
-    },
     "[\"factor\",\"pub\",\"731c24a7eadebab6363e9af4552a24a1080affaa19d893038dde6e78a56c67d5\"]": {
       "key": [
         "factor",
