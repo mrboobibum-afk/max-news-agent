@@ -46,54 +46,6 @@
       ],
       "expiresAt": 1792673702344
     },
-    "[\"factor\",\"pub\",\"1629bdda1ffbd3059a4d7b790cbdebf7fc2fa33c9c4c12fef2dcaed0cc9b7e10\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "1629bdda1ffbd3059a4d7b790cbdebf7fc2fa33c9c4c12fef2dcaed0cc9b7e10"
-      ],
-      "value": true,
-      "expiresAt": 1792587159003
-    },
-    "[\"factor\",\"topic\",\"1629bdda1ffbd3059a4d7b790cbdebf7fc2fa33c9c4c12fef2dcaed0cc9b7e10\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "1629bdda1ffbd3059a4d7b790cbdebf7fc2fa33c9c4c12fef2dcaed0cc9b7e10"
-      ],
-      "value": {
-        "title": "Максим Решетников: Торговля России со странами ШОС набирает обороты Сегодня на долю стран ",
-        "roots": [
-          "максим",
-          "решетн",
-          "торгов",
-          "россии",
-          "страна",
-          "набира",
-          "оборот",
-          "стран"
-        ]
-      },
-      "expiresAt": 1792587159004
-    },
-    "[\"factor\",\"texthash\",\"ce32468b37c516eb15aa6ab1175be8d5da43bbdc6712100b076fc606653554da\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "ce32468b37c516eb15aa6ab1175be8d5da43bbdc6712100b076fc606653554da"
-      ],
-      "value": true,
-      "expiresAt": 1792587159005
-    },
-    "[\"factor\",\"content\",\"207236c1fea65baa57b6cbeb68efa9c98e206ead1d1167ae18f899c25c64976c\"]": {
-      "key": [
-        "factor",
-        "content",
-        "207236c1fea65baa57b6cbeb68efa9c98e206ead1d1167ae18f899c25c64976c"
-      ],
-      "value": true,
-      "expiresAt": 1792587159006
-    },
     "[\"factor\",\"pub\",\"c5828cf336207ee19db2e4ad5ad881424876fceac2fe6239d29336c8e739a905\"]": {
       "key": [
         "factor",
