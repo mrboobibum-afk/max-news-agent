@@ -17,45 +17,6 @@
       "value": 1792545181556,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"593d846dc95b9fdc232712be855cf1fb0d705e4ca55a220045f63a45097109ed\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "593d846dc95b9fdc232712be855cf1fb0d705e4ca55a220045f63a45097109ed"
-      ],
-      "value": true,
-      "expiresAt": 1792545296549
-    },
-    "[\"factor\",\"topic\",\"593d846dc95b9fdc232712be855cf1fb0d705e4ca55a220045f63a45097109ed\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "593d846dc95b9fdc232712be855cf1fb0d705e4ca55a220045f63a45097109ed"
-      ],
-      "value": {
-        "title": "📹 Центр изучения ИИ в школах создадут на  Института содержания и методов образования, соо",
-        "roots": [
-          "центр",
-          "изучен",
-          "школах",
-          "создад",
-          "инстит",
-          "содерж",
-          "методо",
-          "образо"
-        ]
-      },
-      "expiresAt": 1792545296550
-    },
-    "[\"factor\",\"texthash\",\"429d27222c829456d50275bf93b50012d3b374228e1adbd98be9727bae117117\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "429d27222c829456d50275bf93b50012d3b374228e1adbd98be9727bae117117"
-      ],
-      "value": true,
-      "expiresAt": 1792545296550
-    },
     "[\"factor\",\"pub\",\"7b83c4335f1f147aaafaadd9adf635f6f2103421d9ea884e38d1951f82470e44\"]": {
       "key": [
         "factor",
