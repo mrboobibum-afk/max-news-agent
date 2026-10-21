@@ -2414,48 +2414,48 @@
       "value": true,
       "expiresAt": 1792629405549
     },
-    "[\"factor\",\"pub\",\"e2b049b0bf356639f985e6ecd48211a32a04254db08d87b4a80781175a9131aa\"]": {
+    "[\"factor\",\"pub\",\"171fd0fc0bd86002fa364b86b90465645a7c6b7201e7155ce9fa077d318dcd54\"]": {
       "key": [
         "factor",
         "pub",
-        "e2b049b0bf356639f985e6ecd48211a32a04254db08d87b4a80781175a9131aa"
+        "171fd0fc0bd86002fa364b86b90465645a7c6b7201e7155ce9fa077d318dcd54"
       ],
       "value": true,
-      "expiresAt": 1792631227059
+      "expiresAt": 1792631558489
     },
-    "[\"factor\",\"topic\",\"e2b049b0bf356639f985e6ecd48211a32a04254db08d87b4a80781175a9131aa\"]": {
+    "[\"factor\",\"topic\",\"171fd0fc0bd86002fa364b86b90465645a7c6b7201e7155ce9fa077d318dcd54\"]": {
       "key": [
         "factor",
         "topic",
-        "e2b049b0bf356639f985e6ecd48211a32a04254db08d87b4a80781175a9131aa"
+        "171fd0fc0bd86002fa364b86b90465645a7c6b7201e7155ce9fa077d318dcd54"
       ],
       "value": {
-        "title": "В трёх городах Украины на фоне воздушной тревоги прогремели взрывы",
+        "title": "📃 Правительство РФ одобрило законопроект об ужесточении штрафов за езду без прав Комиссия",
         "roots": [
-          "города",
-          "украин",
-          "воздуш",
-          "тревог",
-          "прогре",
-          "взрывы"
+          "правит",
+          "одобри",
+          "законо",
+          "ужесто",
+          "штрафо",
+          "комисс"
         ]
       },
-      "expiresAt": 1792631227061
+      "expiresAt": 1792631558493
     },
-    "[\"factor\",\"texthash\",\"d0ca31ec193d91c3e46ff372be55fa7269c1beafc61a8c5fd8aa8b8ef15b22c4\"]": {
+    "[\"factor\",\"texthash\",\"c0f15107ed130d7da16dedf1df5d7e35fb98b9fbb7f1f7af887b56eba4892ea0\"]": {
       "key": [
         "factor",
         "texthash",
-        "d0ca31ec193d91c3e46ff372be55fa7269c1beafc61a8c5fd8aa8b8ef15b22c4"
+        "c0f15107ed130d7da16dedf1df5d7e35fb98b9fbb7f1f7af887b56eba4892ea0"
       ],
       "value": true,
-      "expiresAt": 1792631227062
+      "expiresAt": 1792631558494
     },
-    "[\"factor\",\"content\",\"d0ca31ec193d91c3e46ff372be55fa7269c1beafc61a8c5fd8aa8b8ef15b22c4\"]": {
+    "[\"factor\",\"content\",\"7de092c820e32f0a4bcbc1f3348dec3f0a4d639f12dd28512ef326b0c5809850\"]": {
       "key": [
         "factor",
         "content",
-        "d0ca31ec193d91c3e46ff372be55fa7269c1beafc61a8c5fd8aa8b8ef15b22c4"
+        "7de092c820e32f0a4bcbc1f3348dec3f0a4d639f12dd28512ef326b0c5809850"
       ],
       "value": true,
       "expiresAt": 1792631227063
