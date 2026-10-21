@@ -1726,50 +1726,50 @@
       "value": true,
       "expiresAt": 1792661760209
     },
-    "[\"factor\",\"pub\",\"6c70775f7188e400bf06593148800ccbcbea98a7c1baa5b2f4a05b4fd1076798\"]": {
+    "[\"factor\",\"pub\",\"2f3b151c8b5c5c24b9ce04c71dcf7bbed3109ec8824be1a2c84c888753c7f905\"]": {
       "key": [
         "factor",
         "pub",
-        "6c70775f7188e400bf06593148800ccbcbea98a7c1baa5b2f4a05b4fd1076798"
+        "2f3b151c8b5c5c24b9ce04c71dcf7bbed3109ec8824be1a2c84c888753c7f905"
       ],
       "value": true,
-      "expiresAt": 1792663986370
+      "expiresAt": 1792664496688
     },
-    "[\"factor\",\"topic\",\"6c70775f7188e400bf06593148800ccbcbea98a7c1baa5b2f4a05b4fd1076798\"]": {
+    "[\"factor\",\"topic\",\"2f3b151c8b5c5c24b9ce04c71dcf7bbed3109ec8824be1a2c84c888753c7f905\"]": {
       "key": [
         "factor",
         "topic",
-        "6c70775f7188e400bf06593148800ccbcbea98a7c1baa5b2f4a05b4fd1076798"
+        "2f3b151c8b5c5c24b9ce04c71dcf7bbed3109ec8824be1a2c84c888753c7f905"
       ],
       "value": {
-        "title": "⚡️ Парламентское Собрание Союза Беларуси и России проводит видеомост Москва – Минск к 80-л",
+        "title": "Ростех От ракет до космодромов: цистерны с особой миссией В начале 1950-х Уралвагонзавод (",
         "roots": [
-          "парлам",
-          "собран",
-          "союза",
-          "белару",
-          "россии",
-          "провод",
-          "видеом",
-          "минск"
+          "ростех",
+          "ракет",
+          "космод",
+          "цистер",
+          "особой",
+          "миссие",
+          "начале",
+          "уралва"
         ]
       },
-      "expiresAt": 1792663986371
+      "expiresAt": 1792664496689
     },
-    "[\"factor\",\"texthash\",\"a646be603c004fd15fd3f7b0ef9a472a32d6a089ce15996a9e664c9396cd36e6\"]": {
+    "[\"factor\",\"texthash\",\"a94c3d3c99a83d8f6ab79c44402c1d89feb2789bd8d4783778e38234e5f9c773\"]": {
       "key": [
         "factor",
         "texthash",
-        "a646be603c004fd15fd3f7b0ef9a472a32d6a089ce15996a9e664c9396cd36e6"
+        "a94c3d3c99a83d8f6ab79c44402c1d89feb2789bd8d4783778e38234e5f9c773"
       ],
       "value": true,
-      "expiresAt": 1792663986371
+      "expiresAt": 1792664496691
     },
-    "[\"factor\",\"content\",\"a9d7647d7501bd8a8b82635f0dd7e446ad1b29f85d7478877db16da789544ada\"]": {
+    "[\"factor\",\"content\",\"c6e6515ec44427bff55296b34d2b95213723447356597208f8d8903c39c0e60a\"]": {
       "key": [
         "factor",
         "content",
-        "a9d7647d7501bd8a8b82635f0dd7e446ad1b29f85d7478877db16da789544ada"
+        "c6e6515ec44427bff55296b34d2b95213723447356597208f8d8903c39c0e60a"
       ],
       "value": true,
       "expiresAt": 1792663986372
