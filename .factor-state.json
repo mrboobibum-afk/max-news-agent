@@ -46,51 +46,6 @@
       ],
       "expiresAt": 1792679090408
     },
-    "[\"factor\",\"pub\",\"8388d0236f3a7c6b378cf96c015bfb5b8d7de2c23b9a95dcb1edde6a81207659\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "8388d0236f3a7c6b378cf96c015bfb5b8d7de2c23b9a95dcb1edde6a81207659"
-      ],
-      "value": true,
-      "expiresAt": 1792592576486
-    },
-    "[\"factor\",\"topic\",\"8388d0236f3a7c6b378cf96c015bfb5b8d7de2c23b9a95dcb1edde6a81207659\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "8388d0236f3a7c6b378cf96c015bfb5b8d7de2c23b9a95dcb1edde6a81207659"
-      ],
-      "value": {
-        "title": "📃 Переселение по реновации в Москве затронуло более 300 тыс",
-        "roots": [
-          "пересе",
-          "ренова",
-          "москве",
-          "затрон",
-          "более"
-        ]
-      },
-      "expiresAt": 1792592576487
-    },
-    "[\"factor\",\"texthash\",\"14de153f8aaf028e4bbadc1e03ce6c989c2d8b7096b02c7175d314165df8336e\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "14de153f8aaf028e4bbadc1e03ce6c989c2d8b7096b02c7175d314165df8336e"
-      ],
-      "value": true,
-      "expiresAt": 1792592576488
-    },
-    "[\"factor\",\"content\",\"36ae893cb1962f4cfb45992d8fbceb369228e2c814cd5daab7f500383b65b166\"]": {
-      "key": [
-        "factor",
-        "content",
-        "36ae893cb1962f4cfb45992d8fbceb369228e2c814cd5daab7f500383b65b166"
-      ],
-      "value": true,
-      "expiresAt": 1792592576489
-    },
     "[\"factor\",\"pub\",\"fa14b019338cf82499afcd634473177ac7260245b20e15ad15c5f9aef9912153\"]": {
       "key": [
         "factor",
