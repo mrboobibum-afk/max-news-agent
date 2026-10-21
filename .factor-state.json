@@ -46,50 +46,6 @@
       ],
       "expiresAt": 1792692408237
     },
-    "[\"factor\",\"pub\",\"f34db3cc250443827bfe331f7c0120ad8aa64babce8170919f35b9fb7c620744\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "f34db3cc250443827bfe331f7c0120ad8aa64babce8170919f35b9fb7c620744"
-      ],
-      "value": true,
-      "expiresAt": 1792606526730
-    },
-    "[\"factor\",\"topic\",\"f34db3cc250443827bfe331f7c0120ad8aa64babce8170919f35b9fb7c620744\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "f34db3cc250443827bfe331f7c0120ad8aa64babce8170919f35b9fb7c620744"
-      ],
-      "value": {
-        "title": "Для наших бойцов нет непреодолимых рубежей ▫️  🔹",
-        "roots": [
-          "наших",
-          "бойцов",
-          "непрео",
-          "рубеже"
-        ]
-      },
-      "expiresAt": 1792606526732
-    },
-    "[\"factor\",\"texthash\",\"61778fcdc60930758d084420497429e4e47ac02339e247220a615a89ea4b0604\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "61778fcdc60930758d084420497429e4e47ac02339e247220a615a89ea4b0604"
-      ],
-      "value": true,
-      "expiresAt": 1792606526732
-    },
-    "[\"factor\",\"content\",\"61778fcdc60930758d084420497429e4e47ac02339e247220a615a89ea4b0604\"]": {
-      "key": [
-        "factor",
-        "content",
-        "61778fcdc60930758d084420497429e4e47ac02339e247220a615a89ea4b0604"
-      ],
-      "value": true,
-      "expiresAt": 1792606526733
-    },
     "[\"factor\",\"pub\",\"8238bb58680f924899b52e30bf887397ea488d78be1049299c6c9365b7e2413b\"]": {
       "key": [
         "factor",
