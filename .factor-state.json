@@ -46,52 +46,6 @@
       ],
       "expiresAt": 1792686996765
     },
-    "[\"factor\",\"pub\",\"edefbb02bf33ba387faf84b082f3cc142de708c67f609e23c2c35472147c0061\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "edefbb02bf33ba387faf84b082f3cc142de708c67f609e23c2c35472147c0061"
-      ],
-      "value": true,
-      "expiresAt": 1792600649625
-    },
-    "[\"factor\",\"topic\",\"edefbb02bf33ba387faf84b082f3cc142de708c67f609e23c2c35472147c0061\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "edefbb02bf33ba387faf84b082f3cc142de708c67f609e23c2c35472147c0061"
-      ],
-      "value": {
-        "title": "📃 Экс-главу АСВ Мельникова приговорили к 4,5 года колонии за мошенничество Пресненский ра",
-        "roots": [
-          "главу",
-          "мельни",
-          "пригов",
-          "колони",
-          "мошенн",
-          "пресне"
-        ]
-      },
-      "expiresAt": 1792600649627
-    },
-    "[\"factor\",\"texthash\",\"10abeee8692b3b7b2a7928483609728c376609b3a597eb2073a299f21f81c35f\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "10abeee8692b3b7b2a7928483609728c376609b3a597eb2073a299f21f81c35f"
-      ],
-      "value": true,
-      "expiresAt": 1792600649632
-    },
-    "[\"factor\",\"content\",\"6a7e4173147e81b3f735e742ca0e7d4a0d758d13896e978be27e95b9f29ea026\"]": {
-      "key": [
-        "factor",
-        "content",
-        "6a7e4173147e81b3f735e742ca0e7d4a0d758d13896e978be27e95b9f29ea026"
-      ],
-      "value": true,
-      "expiresAt": 1792600649633
-    },
     "[\"factor\",\"pub\",\"829dcb50a8c993d6200716dd6fd5a1933ec0d686c656666eebe0b093167bc729\"]": {
       "key": [
         "factor",
