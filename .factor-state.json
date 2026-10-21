@@ -17,47 +17,6 @@
       "value": 1792545181556,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"7b83c4335f1f147aaafaadd9adf635f6f2103421d9ea884e38d1951f82470e44\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "7b83c4335f1f147aaafaadd9adf635f6f2103421d9ea884e38d1951f82470e44"
-      ],
-      "value": true,
-      "expiresAt": 1792545852283
-    },
-    "[\"factor\",\"topic\",\"7b83c4335f1f147aaafaadd9adf635f6f2103421d9ea884e38d1951f82470e44\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "7b83c4335f1f147aaafaadd9adf635f6f2103421d9ea884e38d1951f82470e44"
-      ],
-      "value": {
-        "title": "Убийца 11 человек отсудил у Почты России компенсацию за задержку письма в пермскую колонию",
-        "roots": [
-          "убийца",
-          "челове",
-          "отсуди",
-          "почты",
-          "россии",
-          "компен",
-          "задерж",
-          "письма",
-          "пермск",
-          "колони"
-        ]
-      },
-      "expiresAt": 1792545852284
-    },
-    "[\"factor\",\"texthash\",\"5fe57ef36ab86a04a79d06d74b639230b3d5d04e21b1911e7e3e53617adc5ef4\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "5fe57ef36ab86a04a79d06d74b639230b3d5d04e21b1911e7e3e53617adc5ef4"
-      ],
-      "value": true,
-      "expiresAt": 1792545852285
-    },
     "[\"factor\",\"pub\",\"bec20948401fd15533c1268da67d14cafb458f24df0f31c82b135386c89783b7\"]": {
       "key": [
         "factor",
