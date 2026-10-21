@@ -1921,47 +1921,49 @@
       "value": true,
       "expiresAt": 1792640201397
     },
-    "[\"factor\",\"pub\",\"604d4387608842ce394164f56bc5e711aaf17c7b1942e3f1e649057a4f0b1c53\"]": {
+    "[\"factor\",\"pub\",\"de27a2a9459c563c2602f20520a3fea7f531b6f1247a1e2a500039e55a14f07b\"]": {
       "key": [
         "factor",
         "pub",
-        "604d4387608842ce394164f56bc5e711aaf17c7b1942e3f1e649057a4f0b1c53"
+        "de27a2a9459c563c2602f20520a3fea7f531b6f1247a1e2a500039e55a14f07b"
       ],
       "value": true,
-      "expiresAt": 1792644167300
+      "expiresAt": 1792645049604
     },
-    "[\"factor\",\"topic\",\"604d4387608842ce394164f56bc5e711aaf17c7b1942e3f1e649057a4f0b1c53\"]": {
+    "[\"factor\",\"topic\",\"de27a2a9459c563c2602f20520a3fea7f531b6f1247a1e2a500039e55a14f07b\"]": {
       "key": [
         "factor",
         "topic",
-        "604d4387608842ce394164f56bc5e711aaf17c7b1942e3f1e649057a4f0b1c53"
+        "de27a2a9459c563c2602f20520a3fea7f531b6f1247a1e2a500039e55a14f07b"
       ],
       "value": {
-        "title": "📃 Трамп и Зеленский продолжают публично ссориться",
+        "title": "Крупные банки начали повышать ставки по рыночной ипотеке",
         "roots": [
-          "трамп",
-          "зеленс",
-          "продол",
-          "публич",
-          "ссорит"
+          "крупны",
+          "банки",
+          "начали",
+          "повыша",
+          "ставки",
+          "рыночн",
+          "ипотек"
         ]
       },
-      "expiresAt": 1792644167301
+      "expiresAt": 1792645049605
     },
-    "[\"factor\",\"texthash\",\"d575c82b3438ab342952b5de3eb7f9d0e4ee4585b40ab856c13c096a38b2bebf\"]": {
+    "[\"factor\",\"texthash\",\"c42db26f04139cf6dfeaf14f919d00c470ef9f4e8ad2f8af89f719a540d474d9\"]": {
       "key": [
         "factor",
         "texthash",
-        "d575c82b3438ab342952b5de3eb7f9d0e4ee4585b40ab856c13c096a38b2bebf"
+        "c42db26f04139cf6dfeaf14f919d00c470ef9f4e8ad2f8af89f719a540d474d9"
       ],
       "value": true,
-      "expiresAt": 1792644167302
+      "expiresAt": 1792645049606
     },
-    "[\"factor\",\"content\",\"2b065f09c57424eb20e95a00875d0c403e3ea25f881b0225b579a050a5e87d16\"]": {
+    "[\"factor\",\"content\",\"b2c3f48f9ce9adb812767ab03f8629ec6330cbae06694539f5813b7b3ca3bfa0\"]": {
       "key": [
         "factor",
         "content",
-        "2b065f09c57424eb20e95a00875d0c403e3ea25f881b0225b579a050a5e87d16"
+        "b2c3f48f9ce9adb812767ab03f8629ec6330cbae06694539f5813b7b3ca3bfa0"
       ],
       "value": true,
       "expiresAt": 1792644167302
