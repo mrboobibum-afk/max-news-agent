@@ -17,45 +17,6 @@
       "value": 1792553471053,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"83e9013eb5d0cdc1ad26af4e5634a1870f0eff827812a39db0dedae23794dd0a\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "83e9013eb5d0cdc1ad26af4e5634a1870f0eff827812a39db0dedae23794dd0a"
-      ],
-      "value": true,
-      "expiresAt": 1792553695142
-    },
-    "[\"factor\",\"topic\",\"83e9013eb5d0cdc1ad26af4e5634a1870f0eff827812a39db0dedae23794dd0a\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "83e9013eb5d0cdc1ad26af4e5634a1870f0eff827812a39db0dedae23794dd0a"
-      ],
-      "value": {
-        "title": "▶️ Ответственность врачей за осложнения при лечении нужно заменить с уголовной на гражданс",
-        "roots": [
-          "ответс",
-          "врачей",
-          "осложн",
-          "лечени",
-          "нужно",
-          "замени",
-          "уголов",
-          "гражда"
-        ]
-      },
-      "expiresAt": 1792553695143
-    },
-    "[\"factor\",\"texthash\",\"1942b528ce110948c0ed0655cfff2c18b2d70a9934535ffa4708e3b96c91ab87\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "1942b528ce110948c0ed0655cfff2c18b2d70a9934535ffa4708e3b96c91ab87"
-      ],
-      "value": true,
-      "expiresAt": 1792553695144
-    },
     "[\"factor\",\"pub\",\"689ea65871e0bf8c5162bfbf2eef9d9433d372fbd6e0bf5261488345a5b84705\"]": {
       "key": [
         "factor",
