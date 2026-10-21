@@ -46,51 +46,6 @@
       ],
       "expiresAt": 1792690586119
     },
-    "[\"factor\",\"pub\",\"26360a86344b036adbd80a4fafa291c701c5dfe59bfe7d629fe0ee786465050a\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "26360a86344b036adbd80a4fafa291c701c5dfe59bfe7d629fe0ee786465050a"
-      ],
-      "value": true,
-      "expiresAt": 1792604843179
-    },
-    "[\"factor\",\"topic\",\"26360a86344b036adbd80a4fafa291c701c5dfe59bfe7d629fe0ee786465050a\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "26360a86344b036adbd80a4fafa291c701c5dfe59bfe7d629fe0ee786465050a"
-      ],
-      "value": {
-        "title": "США уже полтора года \"толкают\" Киев к капитуляции, заявила Каллас",
-        "roots": [
-          "полтор",
-          "толкаю",
-          "капиту",
-          "заявил",
-          "каллас"
-        ]
-      },
-      "expiresAt": 1792604843180
-    },
-    "[\"factor\",\"texthash\",\"aaaac2acb7a7462adc0f71999441f1f938df1f08462febc00ce36e2b9133e5b7\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "aaaac2acb7a7462adc0f71999441f1f938df1f08462febc00ce36e2b9133e5b7"
-      ],
-      "value": true,
-      "expiresAt": 1792604843180
-    },
-    "[\"factor\",\"content\",\"aaaac2acb7a7462adc0f71999441f1f938df1f08462febc00ce36e2b9133e5b7\"]": {
-      "key": [
-        "factor",
-        "content",
-        "aaaac2acb7a7462adc0f71999441f1f938df1f08462febc00ce36e2b9133e5b7"
-      ],
-      "value": true,
-      "expiresAt": 1792604843181
-    },
     "[\"factor\",\"pub\",\"f34db3cc250443827bfe331f7c0120ad8aa64babce8170919f35b9fb7c620744\"]": {
       "key": [
         "factor",
