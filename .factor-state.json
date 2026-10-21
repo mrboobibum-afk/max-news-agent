@@ -17,45 +17,6 @@
       "value": 1792550538186,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"87000921b9516a18a13b3e5268f3547c70feb257108b79fbda857570f3cb7846\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "87000921b9516a18a13b3e5268f3547c70feb257108b79fbda857570f3cb7846"
-      ],
-      "value": true,
-      "expiresAt": 1792551532055
-    },
-    "[\"factor\",\"topic\",\"87000921b9516a18a13b3e5268f3547c70feb257108b79fbda857570f3cb7846\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "87000921b9516a18a13b3e5268f3547c70feb257108b79fbda857570f3cb7846"
-      ],
-      "value": {
-        "title": "▶️ Оценку за поведение не планируется учитывать при поступлении в профильные классы, сообщ",
-        "roots": [
-          "оценку",
-          "поведе",
-          "планир",
-          "учитыв",
-          "поступ",
-          "профил",
-          "классы",
-          "сообщ"
-        ]
-      },
-      "expiresAt": 1792551532056
-    },
-    "[\"factor\",\"texthash\",\"95f3de1c2375071a6bda623d62d0b4fa35df8ecc2b2a4bc017edc9b9c4971388\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "95f3de1c2375071a6bda623d62d0b4fa35df8ecc2b2a4bc017edc9b9c4971388"
-      ],
-      "value": true,
-      "expiresAt": 1792551532057
-    },
     "[\"factor\",\"pub\",\"08d4090216dd8a243abbe754249a175b22e1bf7851af563f91f685e21e48d213\"]": {
       "key": [
         "factor",
