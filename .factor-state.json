@@ -17,52 +17,6 @@
       "value": 1792578120046,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"71a5a9832da2bc1def0aa8cb9540bc6fcaf20056288b7bef95ff28b7fbc1e158\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "71a5a9832da2bc1def0aa8cb9540bc6fcaf20056288b7bef95ff28b7fbc1e158"
-      ],
-      "value": true,
-      "expiresAt": 1792579184642
-    },
-    "[\"factor\",\"topic\",\"71a5a9832da2bc1def0aa8cb9540bc6fcaf20056288b7bef95ff28b7fbc1e158\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "71a5a9832da2bc1def0aa8cb9540bc6fcaf20056288b7bef95ff28b7fbc1e158"
-      ],
-      "value": {
-        "title": "Нашествие медуз на Пхукете – туристов призывают быть осторожнее",
-        "roots": [
-          "нашест",
-          "медуз",
-          "пхукет",
-          "турист",
-          "призыв",
-          "осторо"
-        ]
-      },
-      "expiresAt": 1792579184643
-    },
-    "[\"factor\",\"texthash\",\"08ef7ecfaf366f75ea62796ca9c1576aa5f82533fb0368fc60ae4cb4a3215145\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "08ef7ecfaf366f75ea62796ca9c1576aa5f82533fb0368fc60ae4cb4a3215145"
-      ],
-      "value": true,
-      "expiresAt": 1792579184644
-    },
-    "[\"factor\",\"content\",\"93ed0594639cde234a689b0099d8bf2e10e50301f07d824892ad06e938c65427\"]": {
-      "key": [
-        "factor",
-        "content",
-        "93ed0594639cde234a689b0099d8bf2e10e50301f07d824892ad06e938c65427"
-      ],
-      "value": true,
-      "expiresAt": 1792579184645
-    },
     "[\"factor\",\"pub\",\"5682bfd547f07bfc77c1ce1142e343e830e12b9cde40c4d59254657a0d14ad0b\"]": {
       "key": [
         "factor",
