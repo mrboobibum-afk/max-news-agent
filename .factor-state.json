@@ -46,54 +46,6 @@
       ],
       "expiresAt": 1792683967781
     },
-    "[\"factor\",\"pub\",\"9a3ecc559b220f3a369bcee956e7b56abe1687f357de162dc96ff58fd6d088c4\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "9a3ecc559b220f3a369bcee956e7b56abe1687f357de162dc96ff58fd6d088c4"
-      ],
-      "value": true,
-      "expiresAt": 1792598205799
-    },
-    "[\"factor\",\"topic\",\"9a3ecc559b220f3a369bcee956e7b56abe1687f357de162dc96ff58fd6d088c4\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "9a3ecc559b220f3a369bcee956e7b56abe1687f357de162dc96ff58fd6d088c4"
-      ],
-      "value": {
-        "title": "💬 О штурме из первых уст: бойцы «Востока» рассказали о боях за населенный пункт Омельник ",
-        "roots": [
-          "штурме",
-          "первых",
-          "бойцы",
-          "восток",
-          "расска",
-          "населе",
-          "пункт",
-          "омельн"
-        ]
-      },
-      "expiresAt": 1792598205801
-    },
-    "[\"factor\",\"texthash\",\"b3ef674d67d6f0d64e4337c7471a9af9a1220ec5b0fd2c029c8ca6c3f6945ed1\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "b3ef674d67d6f0d64e4337c7471a9af9a1220ec5b0fd2c029c8ca6c3f6945ed1"
-      ],
-      "value": true,
-      "expiresAt": 1792598205802
-    },
-    "[\"factor\",\"content\",\"909ff02a2f60296bc15d34074616dce1b505be35d510c7ff69f2281afffd4060\"]": {
-      "key": [
-        "factor",
-        "content",
-        "909ff02a2f60296bc15d34074616dce1b505be35d510c7ff69f2281afffd4060"
-      ],
-      "value": true,
-      "expiresAt": 1792598205803
-    },
     "[\"factor\",\"pub\",\"edefbb02bf33ba387faf84b082f3cc142de708c67f609e23c2c35472147c0061\"]": {
       "key": [
         "factor",
