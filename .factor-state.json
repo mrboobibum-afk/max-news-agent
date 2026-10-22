@@ -1681,50 +1681,46 @@
       "value": true,
       "expiresAt": 1792740244132
     },
-    "[\"factor\",\"pub\",\"531de996a607f0b0b5b78ab8078d89f0c975208af4dc6f3f642ce81dbbfc8987\"]": {
+    "[\"factor\",\"pub\",\"974c8a0d7ad5f39dc2b76fd1b920cf6412e990410d84d295a74399f03bc259bf\"]": {
       "key": [
         "factor",
         "pub",
-        "531de996a607f0b0b5b78ab8078d89f0c975208af4dc6f3f642ce81dbbfc8987"
+        "974c8a0d7ad5f39dc2b76fd1b920cf6412e990410d84d295a74399f03bc259bf"
       ],
       "value": true,
-      "expiresAt": 1792741998849
+      "expiresAt": 1792742484383
     },
-    "[\"factor\",\"topic\",\"531de996a607f0b0b5b78ab8078d89f0c975208af4dc6f3f642ce81dbbfc8987\"]": {
+    "[\"factor\",\"topic\",\"974c8a0d7ad5f39dc2b76fd1b920cf6412e990410d84d295a74399f03bc259bf\"]": {
       "key": [
         "factor",
         "topic",
-        "531de996a607f0b0b5b78ab8078d89f0c975208af4dc6f3f642ce81dbbfc8987"
+        "974c8a0d7ad5f39dc2b76fd1b920cf6412e990410d84d295a74399f03bc259bf"
       ],
       "value": {
-        "title": "Военнослужащие и сотрудники Росгвардии, выполняющие служебно-боевые задачи в зоне специаль",
+        "title": "ПВО за ночь уничтожила 808 дронов ВСУ, сообщило Минобороны",
         "roots": [
-          "военно",
-          "сотруд",
-          "росгва",
-          "выполн",
-          "служеб",
-          "боевые",
-          "задачи",
-          "специа"
+          "уничто",
+          "дронов",
+          "сообщи",
+          "минобо"
         ]
       },
-      "expiresAt": 1792741998850
+      "expiresAt": 1792742484384
     },
-    "[\"factor\",\"texthash\",\"d17d6a6df3c575d4006d8ac272707b4cb47d6a5c6c1705276e09b4496b291955\"]": {
+    "[\"factor\",\"texthash\",\"fba5c2a39479db6a40652c4dfbfe9d0937b7b7417858aae9513387f66c7ec2fd\"]": {
       "key": [
         "factor",
         "texthash",
-        "d17d6a6df3c575d4006d8ac272707b4cb47d6a5c6c1705276e09b4496b291955"
+        "fba5c2a39479db6a40652c4dfbfe9d0937b7b7417858aae9513387f66c7ec2fd"
       ],
       "value": true,
-      "expiresAt": 1792741998851
+      "expiresAt": 1792742484385
     },
-    "[\"factor\",\"content\",\"8e0f38253cca3bdb1a544f8aef9f40431fafd86453b96455df7a01c14f48e3fb\"]": {
+    "[\"factor\",\"content\",\"18cfe2a0bc9feb0fc030ea1ee5f958d8ccf861faca858ceb4bb74cd7e1a29f06\"]": {
       "key": [
         "factor",
         "content",
-        "8e0f38253cca3bdb1a544f8aef9f40431fafd86453b96455df7a01c14f48e3fb"
+        "18cfe2a0bc9feb0fc030ea1ee5f958d8ccf861faca858ceb4bb74cd7e1a29f06"
       ],
       "value": true,
       "expiresAt": 1792741998851
