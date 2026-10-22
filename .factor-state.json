@@ -46,53 +46,6 @@
       ],
       "expiresAt": 1792731522827
     },
-    "[\"factor\",\"pub\",\"de27a2a9459c563c2602f20520a3fea7f531b6f1247a1e2a500039e55a14f07b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "de27a2a9459c563c2602f20520a3fea7f531b6f1247a1e2a500039e55a14f07b"
-      ],
-      "value": true,
-      "expiresAt": 1792645049604
-    },
-    "[\"factor\",\"topic\",\"de27a2a9459c563c2602f20520a3fea7f531b6f1247a1e2a500039e55a14f07b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "de27a2a9459c563c2602f20520a3fea7f531b6f1247a1e2a500039e55a14f07b"
-      ],
-      "value": {
-        "title": "Крупные банки начали повышать ставки по рыночной ипотеке",
-        "roots": [
-          "крупны",
-          "банки",
-          "начали",
-          "повыша",
-          "ставки",
-          "рыночн",
-          "ипотек"
-        ]
-      },
-      "expiresAt": 1792645049605
-    },
-    "[\"factor\",\"texthash\",\"c42db26f04139cf6dfeaf14f919d00c470ef9f4e8ad2f8af89f719a540d474d9\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "c42db26f04139cf6dfeaf14f919d00c470ef9f4e8ad2f8af89f719a540d474d9"
-      ],
-      "value": true,
-      "expiresAt": 1792645049606
-    },
-    "[\"factor\",\"content\",\"b2c3f48f9ce9adb812767ab03f8629ec6330cbae06694539f5813b7b3ca3bfa0\"]": {
-      "key": [
-        "factor",
-        "content",
-        "b2c3f48f9ce9adb812767ab03f8629ec6330cbae06694539f5813b7b3ca3bfa0"
-      ],
-      "value": true,
-      "expiresAt": 1792645049607
-    },
     "[\"factor\",\"pub\",\"042ecd69af47e57be8fb8776159ffabdd9ca9466fe2e539b9e8c71a1b56f7482\"]": {
       "key": [
         "factor",
