@@ -46,52 +46,6 @@
       ],
       "expiresAt": 1792714911398
     },
-    "[\"factor\",\"pub\",\"7e09c138de6e2b4112e0457427add028e9d07dd69c513578319107737474837e\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "7e09c138de6e2b4112e0457427add028e9d07dd69c513578319107737474837e"
-      ],
-      "value": true,
-      "expiresAt": 1792629405546
-    },
-    "[\"factor\",\"topic\",\"7e09c138de6e2b4112e0457427add028e9d07dd69c513578319107737474837e\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "7e09c138de6e2b4112e0457427add028e9d07dd69c513578319107737474837e"
-      ],
-      "value": {
-        "title": "▶️ Развивать ветровую или солнечную генерацию на фоне атак ВСУ на энергетику ДНР не планир",
-        "roots": [
-          "развив",
-          "ветров",
-          "солнеч",
-          "генера",
-          "энерге",
-          "планир"
-        ]
-      },
-      "expiresAt": 1792629405547
-    },
-    "[\"factor\",\"texthash\",\"910f860d63ed97e9ffe1169ca5f95dd95c5d749087303d149721f7e165b3acff\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "910f860d63ed97e9ffe1169ca5f95dd95c5d749087303d149721f7e165b3acff"
-      ],
-      "value": true,
-      "expiresAt": 1792629405548
-    },
-    "[\"factor\",\"content\",\"b863f7b5022828fe6fb0c82b5d682bea318362060eaa7465ab6b3a009c1093e8\"]": {
-      "key": [
-        "factor",
-        "content",
-        "b863f7b5022828fe6fb0c82b5d682bea318362060eaa7465ab6b3a009c1093e8"
-      ],
-      "value": true,
-      "expiresAt": 1792629405549
-    },
     "[\"factor\",\"pub\",\"171fd0fc0bd86002fa364b86b90465645a7c6b7201e7155ce9fa077d318dcd54\"]": {
       "key": [
         "factor",
