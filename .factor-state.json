@@ -1919,49 +1919,43 @@
       "value": true,
       "expiresAt": 1792775222991
     },
-    "[\"factor\",\"pub\",\"b26cbe4884ccd532b1310a9f139d5fa6377fb7b77f124bf88f82ef09659ed994\"]": {
+    "[\"factor\",\"pub\",\"2ca0fa7d0b41c8ac5c6ad664b7ec4f4bafa10a8cb826505f6830d73aaa0bd27d\"]": {
       "key": [
         "factor",
         "pub",
-        "b26cbe4884ccd532b1310a9f139d5fa6377fb7b77f124bf88f82ef09659ed994"
+        "2ca0fa7d0b41c8ac5c6ad664b7ec4f4bafa10a8cb826505f6830d73aaa0bd27d"
       ],
       "value": true,
-      "expiresAt": 1792778029870
+      "expiresAt": 1792778560430
     },
-    "[\"factor\",\"topic\",\"b26cbe4884ccd532b1310a9f139d5fa6377fb7b77f124bf88f82ef09659ed994\"]": {
+    "[\"factor\",\"topic\",\"2ca0fa7d0b41c8ac5c6ad664b7ec4f4bafa10a8cb826505f6830d73aaa0bd27d\"]": {
       "key": [
         "factor",
         "topic",
-        "b26cbe4884ccd532b1310a9f139d5fa6377fb7b77f124bf88f82ef09659ed994"
+        "2ca0fa7d0b41c8ac5c6ad664b7ec4f4bafa10a8cb826505f6830d73aaa0bd27d"
       ],
       "value": {
-        "title": "Новак отметил положительную динамику на российском топливном рынке",
+        "title": "21 октября 2026 г",
         "roots": [
-          "новак",
-          "отмети",
-          "положи",
-          "динами",
-          "россий",
-          "топлив",
-          "рынке"
+          "октябр"
         ]
       },
-      "expiresAt": 1792778029871
+      "expiresAt": 1792778560431
     },
-    "[\"factor\",\"texthash\",\"41dc15f8af6fc3b147cef15fef951635c9757cfb822c37b82376b9f10f0c06ca\"]": {
+    "[\"factor\",\"texthash\",\"2becc62d069a1c1c5dd33b92492ab57fce738f76af5fc6a2a83e0af667641797\"]": {
       "key": [
         "factor",
         "texthash",
-        "41dc15f8af6fc3b147cef15fef951635c9757cfb822c37b82376b9f10f0c06ca"
+        "2becc62d069a1c1c5dd33b92492ab57fce738f76af5fc6a2a83e0af667641797"
       ],
       "value": true,
-      "expiresAt": 1792778029872
+      "expiresAt": 1792778560432
     },
-    "[\"factor\",\"content\",\"585f0b42c294e229ea7d7c3894659b3f5a8d4bf795bd1a1e40901962b9784853\"]": {
+    "[\"factor\",\"content\",\"56e47aea92eaee8bfb47950eb404790dc61c2a6cfcb99e9a658fcf0cd610a352\"]": {
       "key": [
         "factor",
         "content",
-        "585f0b42c294e229ea7d7c3894659b3f5a8d4bf795bd1a1e40901962b9784853"
+        "56e47aea92eaee8bfb47950eb404790dc61c2a6cfcb99e9a658fcf0cd610a352"
       ],
       "value": true,
       "expiresAt": 1792778029872
