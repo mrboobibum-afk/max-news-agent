@@ -1726,51 +1726,48 @@
       "value": true,
       "expiresAt": 1792758272285
     },
-    "[\"factor\",\"pub\",\"d02853096113b42ee47c353f4de640d72db7ab388f7e3c25f9f03bb9555f2b86\"]": {
+    "[\"factor\",\"pub\",\"ada464e761d87954cec82e0d37ce941805905ee2f17a96402bbd71a9273d23f3\"]": {
       "key": [
         "factor",
         "pub",
-        "d02853096113b42ee47c353f4de640d72db7ab388f7e3c25f9f03bb9555f2b86"
+        "ada464e761d87954cec82e0d37ce941805905ee2f17a96402bbd71a9273d23f3"
       ],
       "value": true,
-      "expiresAt": 1792760031658
+      "expiresAt": 1792760957832
     },
-    "[\"factor\",\"topic\",\"d02853096113b42ee47c353f4de640d72db7ab388f7e3c25f9f03bb9555f2b86\"]": {
+    "[\"factor\",\"topic\",\"ada464e761d87954cec82e0d37ce941805905ee2f17a96402bbd71a9273d23f3\"]": {
       "key": [
         "factor",
         "topic",
-        "d02853096113b42ee47c353f4de640d72db7ab388f7e3c25f9f03bb9555f2b86"
+        "ada464e761d87954cec82e0d37ce941805905ee2f17a96402bbd71a9273d23f3"
       ],
       "value": {
-        "title": "🏥 Врачи Клиники ЮУГМУ Минздрава России сохранили репродуктивное здоровье пациентке с опас",
+        "title": "❗️ В качестве площадки для трехсторонней встречи РФ, США и Украины пока рассматривается Аб",
         "roots": [
-          "врачи",
-          "клиник",
-          "юугму",
-          "минздр",
-          "россии",
-          "сохран",
-          "репрод",
-          "здоров",
-          "пациен"
+          "качест",
+          "площад",
+          "трехст",
+          "встреч",
+          "украин",
+          "рассма"
         ]
       },
-      "expiresAt": 1792760031659
+      "expiresAt": 1792760957833
     },
-    "[\"factor\",\"texthash\",\"5225545b15fc1e7bd5f6af561389b609fd54ed7cddedbc0086c72f0a958b308c\"]": {
+    "[\"factor\",\"texthash\",\"7e34de86158bc067f7ceaa0c4a4e05dab282c46667b7776d84b96462abd04a9f\"]": {
       "key": [
         "factor",
         "texthash",
-        "5225545b15fc1e7bd5f6af561389b609fd54ed7cddedbc0086c72f0a958b308c"
+        "7e34de86158bc067f7ceaa0c4a4e05dab282c46667b7776d84b96462abd04a9f"
       ],
       "value": true,
-      "expiresAt": 1792760031660
+      "expiresAt": 1792760957834
     },
-    "[\"factor\",\"content\",\"aea4f4c743a5cc6ea576ed40b71c471ebcdfbcbac53d3c2689212153e433b40d\"]": {
+    "[\"factor\",\"content\",\"8cfce88b44de6325db81137d00fa52b67edcc0a963b9ce367173fdeb294429f5\"]": {
       "key": [
         "factor",
         "content",
-        "aea4f4c743a5cc6ea576ed40b71c471ebcdfbcbac53d3c2689212153e433b40d"
+        "8cfce88b44de6325db81137d00fa52b67edcc0a963b9ce367173fdeb294429f5"
       ],
       "value": true,
       "expiresAt": 1792760031661
