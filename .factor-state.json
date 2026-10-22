@@ -1496,51 +1496,50 @@
       "value": true,
       "expiresAt": 1792714911397
     },
-    "[\"factor\",\"pub\",\"3aa8a7353f0cfe87d902e7cd12a27e0c91310cfad464030785fd240b413eff66\"]": {
+    "[\"factor\",\"pub\",\"0eb9f989e34fd836d26e3729b943e6f01f3efc0d6d770b121fdd38a6bf6bf037\"]": {
       "key": [
         "factor",
         "pub",
-        "3aa8a7353f0cfe87d902e7cd12a27e0c91310cfad464030785fd240b413eff66"
+        "0eb9f989e34fd836d26e3729b943e6f01f3efc0d6d770b121fdd38a6bf6bf037"
       ],
       "value": true,
-      "expiresAt": 1792717562831
+      "expiresAt": 1792718171954
     },
-    "[\"factor\",\"topic\",\"3aa8a7353f0cfe87d902e7cd12a27e0c91310cfad464030785fd240b413eff66\"]": {
+    "[\"factor\",\"topic\",\"0eb9f989e34fd836d26e3729b943e6f01f3efc0d6d770b121fdd38a6bf6bf037\"]": {
       "key": [
         "factor",
         "topic",
-        "3aa8a7353f0cfe87d902e7cd12a27e0c91310cfad464030785fd240b413eff66"
+        "0eb9f989e34fd836d26e3729b943e6f01f3efc0d6d770b121fdd38a6bf6bf037"
       ],
       "value": {
-        "title": "Юг России быстрее всех распробовал цифровой рубль: в чём секрет нового платёжного тренда",
+        "title": "📃 Сестра Ким Чен Ына предупредила Южную Корею о жестком ответе при угрозе Власти КНДР нам",
         "roots": [
-          "россии",
-          "быстре",
-          "распро",
-          "цифров",
-          "рубль",
-          "секрет",
-          "нового",
-          "жного",
-          "тренда"
+          "сестра",
+          "предуп",
+          "южную",
+          "корею",
+          "жестко",
+          "ответе",
+          "угрозе",
+          "власти"
         ]
       },
-      "expiresAt": 1792717562832
+      "expiresAt": 1792718171954
     },
-    "[\"factor\",\"texthash\",\"019099a6682c3fdce5e72757a14986c46473d94916b8b53da17e2f321c9de7c2\"]": {
+    "[\"factor\",\"texthash\",\"caef381d47ea50342747d334b55df9a929c087184a79a0d8623a5cccc388a252\"]": {
       "key": [
         "factor",
         "texthash",
-        "019099a6682c3fdce5e72757a14986c46473d94916b8b53da17e2f321c9de7c2"
+        "caef381d47ea50342747d334b55df9a929c087184a79a0d8623a5cccc388a252"
       ],
       "value": true,
-      "expiresAt": 1792717562833
+      "expiresAt": 1792718172079
     },
-    "[\"factor\",\"content\",\"a586c9197f1911c7c4a22d0a7a334e16636628dcdeeb4ff7a2e4bbac52516544\"]": {
+    "[\"factor\",\"content\",\"a6d41b8d1c1211ae8a9decdef37a2cd30ca218f23a20e6058a8b4bf263621c50\"]": {
       "key": [
         "factor",
         "content",
-        "a586c9197f1911c7c4a22d0a7a334e16636628dcdeeb4ff7a2e4bbac52516544"
+        "a6d41b8d1c1211ae8a9decdef37a2cd30ca218f23a20e6058a8b4bf263621c50"
       ],
       "value": true,
       "expiresAt": 1792717562834
