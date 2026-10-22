@@ -46,52 +46,6 @@
       ],
       "expiresAt": 1792778892766
     },
-    "[\"factor\",\"pub\",\"3caeb8bda5703c0c246a528ff61ba609980f1802931e8aeebb53439c5aea2ef0\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "3caeb8bda5703c0c246a528ff61ba609980f1802931e8aeebb53439c5aea2ef0"
-      ],
-      "value": true,
-      "expiresAt": 1792692408234
-    },
-    "[\"factor\",\"topic\",\"3caeb8bda5703c0c246a528ff61ba609980f1802931e8aeebb53439c5aea2ef0\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "3caeb8bda5703c0c246a528ff61ba609980f1802931e8aeebb53439c5aea2ef0"
-      ],
-      "value": {
-        "title": "Кушнер заявил, что на переговорах по Украине достигнут \"обнадеживающий прогресс\", есть шан",
-        "roots": [
-          "кушнер",
-          "перего",
-          "украин",
-          "достиг",
-          "обнаде",
-          "прогре"
-        ]
-      },
-      "expiresAt": 1792692408235
-    },
-    "[\"factor\",\"texthash\",\"41ee02c62c0378d984e61f52928a07eed16227086ddac38240d19fc851a4ee55\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "41ee02c62c0378d984e61f52928a07eed16227086ddac38240d19fc851a4ee55"
-      ],
-      "value": true,
-      "expiresAt": 1792692408236
-    },
-    "[\"factor\",\"content\",\"41ee02c62c0378d984e61f52928a07eed16227086ddac38240d19fc851a4ee55\"]": {
-      "key": [
-        "factor",
-        "content",
-        "41ee02c62c0378d984e61f52928a07eed16227086ddac38240d19fc851a4ee55"
-      ],
-      "value": true,
-      "expiresAt": 1792692408236
-    },
     "[\"factor\",\"pub\",\"2b329e72abf32f7186bc02da08fec9a862cc3fa2a6258770f50cb278a603d2ea\"]": {
       "key": [
         "factor",
