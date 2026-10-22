@@ -46,54 +46,6 @@
       ],
       "expiresAt": 1792748320653
     },
-    "[\"factor\",\"pub\",\"6902da7b3fdfe9e7bfb9f4b329118c33cdb8ea22a2c9d80c752d7d9671763fca\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "6902da7b3fdfe9e7bfb9f4b329118c33cdb8ea22a2c9d80c752d7d9671763fca"
-      ],
-      "value": true,
-      "expiresAt": 1792661760206
-    },
-    "[\"factor\",\"topic\",\"6902da7b3fdfe9e7bfb9f4b329118c33cdb8ea22a2c9d80c752d7d9671763fca\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "6902da7b3fdfe9e7bfb9f4b329118c33cdb8ea22a2c9d80c752d7d9671763fca"
-      ],
-      "value": {
-        "title": "Закрываем портовый трафик противника 💥 «Герани» поразили морские суда типа «сухогруз», ис",
-        "roots": [
-          "закрыв",
-          "портов",
-          "трафик",
-          "против",
-          "герани",
-          "порази",
-          "морски",
-          "сухогр"
-        ]
-      },
-      "expiresAt": 1792661760207
-    },
-    "[\"factor\",\"texthash\",\"e7b4094de1ca4d89f3448af705e804ee9afbf45783304c33ec6c5387c0c0b096\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "e7b4094de1ca4d89f3448af705e804ee9afbf45783304c33ec6c5387c0c0b096"
-      ],
-      "value": true,
-      "expiresAt": 1792661760208
-    },
-    "[\"factor\",\"content\",\"06cc5c380a7952f2f6624d5ef4e3be10447ee2e62f0257b88cbd5cc6a84ffeb6\"]": {
-      "key": [
-        "factor",
-        "content",
-        "06cc5c380a7952f2f6624d5ef4e3be10447ee2e62f0257b88cbd5cc6a84ffeb6"
-      ],
-      "value": true,
-      "expiresAt": 1792661760209
-    },
     "[\"factor\",\"pub\",\"2f3b151c8b5c5c24b9ce04c71dcf7bbed3109ec8824be1a2c84c888753c7f905\"]": {
       "key": [
         "factor",
