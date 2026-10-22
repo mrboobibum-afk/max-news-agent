@@ -1963,43 +1963,50 @@
       "value": true,
       "expiresAt": 1792778892764
     },
-    "[\"factor\",\"pub\",\"4166b5399721173450349544c21cf2dba26f6f769b360579bbae329580340a96\"]": {
+    "[\"factor\",\"pub\",\"1326e1b3ac10f0bd91b0ba5ebb2040bc0e0e93e15dc8541787d3f51a7e084739\"]": {
       "key": [
         "factor",
         "pub",
-        "4166b5399721173450349544c21cf2dba26f6f769b360579bbae329580340a96"
+        "1326e1b3ac10f0bd91b0ba5ebb2040bc0e0e93e15dc8541787d3f51a7e084739"
       ],
       "value": true,
-      "expiresAt": 1792780222478
+      "expiresAt": 1792780800678
     },
-    "[\"factor\",\"topic\",\"4166b5399721173450349544c21cf2dba26f6f769b360579bbae329580340a96\"]": {
+    "[\"factor\",\"topic\",\"1326e1b3ac10f0bd91b0ba5ebb2040bc0e0e93e15dc8541787d3f51a7e084739\"]": {
       "key": [
         "factor",
         "topic",
-        "4166b5399721173450349544c21cf2dba26f6f769b360579bbae329580340a96"
+        "1326e1b3ac10f0bd91b0ba5ebb2040bc0e0e93e15dc8541787d3f51a7e084739"
       ],
       "value": {
-        "title": "Спецоперация",
+        "title": "В России формируются запасы топлива, увеличилось его производство - Новак сообщил о положи",
         "roots": [
-          "спецоп"
+          "россии",
+          "формир",
+          "запасы",
+          "топлив",
+          "увелич",
+          "произв",
+          "новак",
+          "положи"
         ]
       },
-      "expiresAt": 1792780222480
+      "expiresAt": 1792780800680
     },
-    "[\"factor\",\"texthash\",\"cbb9390cb9c39836da0ccca3d5ba52a00de6c065d3c4b6caacf8b35da426aef4\"]": {
+    "[\"factor\",\"texthash\",\"c85af783924caaf163739e933df41497fb8fd8614c755660e48fc6061ad4db7d\"]": {
       "key": [
         "factor",
         "texthash",
-        "cbb9390cb9c39836da0ccca3d5ba52a00de6c065d3c4b6caacf8b35da426aef4"
+        "c85af783924caaf163739e933df41497fb8fd8614c755660e48fc6061ad4db7d"
       ],
       "value": true,
-      "expiresAt": 1792780222481
+      "expiresAt": 1792780800681
     },
-    "[\"factor\",\"content\",\"bf7d404a244470fcd9231b4973a8be6434ef0d6e7b2313967d37de1697cb5b03\"]": {
+    "[\"factor\",\"content\",\"170b9f8d676033605ae55362c3645151b9b4d7b7db81b0cd61e268eaa2de90e3\"]": {
       "key": [
         "factor",
         "content",
-        "bf7d404a244470fcd9231b4973a8be6434ef0d6e7b2313967d37de1697cb5b03"
+        "170b9f8d676033605ae55362c3645151b9b4d7b7db81b0cd61e268eaa2de90e3"
       ],
       "value": true,
       "expiresAt": 1792780222482
