@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Strict Quality Edition v67)
+// MAX NEWS AGENT — «ФАКТОР» (Direct Broadcast Style v69)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -12,15 +12,13 @@ const DASHSCOPE_API_KEY = Deno.env.get("DASHSCOPE_API_KEY") ?? "";
 const QWEN_MODEL = Deno.env.get("QWEN_MODEL") ?? "qwen3.8-max";
 const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyuncs.com/compatible-mode/v1";
 
-// ⏱ УВЕЛИЧЕН ИНТЕРВАЛ: От 15 до 30 минут
-const REGULAR_MIN_INTERVAL_MS = 15 * 60 * 1000;
-const REGULAR_MAX_INTERVAL_MS = 30 * 60 * 1000;
-const HARD_MIN_INTERVAL_MS = 10 * 60 * 1000;
+const REGULAR_MIN_INTERVAL_MS = 10 * 60 * 1000;
+const REGULAR_MAX_INTERVAL_MS = 20 * 60 * 1000;
+const HARD_MIN_INTERVAL_MS = 5 * 60 * 1000;
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000;
 
 const MEDIA_PACKET_MAX = 6;
-// 📈 ПОДНЯТА ПЛАНКА ВАЖНОСТИ: Теперь только 7 и выше
-const MIN_IMPORTANCE = 7;
+const MIN_IMPORTANCE = 7; // Только важные события (как у Прямого Эфира)
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
 const STATE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
@@ -32,7 +30,7 @@ const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
 const MIN_VIDEO_BYTES = 50 * 1024;
 const MAX_VIDEO_BYTES = 30 * 1024 * 1024;
 
-const MAX_BODY_LEN = 600;
+const MAX_BODY_LEN = 600; 
 const MIN_INSIGHT_IMPORTANCE = 7;
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
@@ -94,7 +92,7 @@ const NEWS_FEEDS = [
     { name: "Правда.ру", url: "https://www.pravda.ru/export.xml" },
 ];
 
-// 🚨 УСИЛЕННЫЙ ЧЕРНЫЙ СПИСОК (Добавлена бытовуха, местные ЧП и звезды)
+// 🚨 ЖЕСТКИЙ СТОП-ЛИСТ (Убиваем бюрократию, автобусы и желтуху)
 const BORING_TOPICS = [
     /(?:сесси[яи]|форум|круглый\s+стол|конференци[яи]|совещани[ея]|заседани[ея]|брифинг)/i,
     /(?:рэц|экспортер|клиентск|госуслуг|росреестр|минфин|ведомств)/i,
@@ -108,13 +106,15 @@ const BORING_TOPICS = [
     /спецпредложени/i,
     /реклама\s*[.:!]/i,
     /партнёрск(?:ий|ого)\s+материал/i,
-    // 🚫 ЖЕЛТУХА И МЕСТНЫЕ ЧП
+    // 🚫 ЖЕЛТУХА
     /(?:собак|кошк|котят|щенят|ши-тцу|животн|питомц|зоозащит)/i,
     /(?:пылесос|розетк|бытов|квартир[аеу].*пожар|пожар.*квартир|кухн[яе].*пожар|закурил|уснул\s+с\s+сигарет)/i,
     /(?:гороскоп|астролог|экстрасенс|таролог|гадан)/i,
     /(?:измен[аи]|изменил|любовн|скандал.*звезд|инстаграм|тикток)/i,
     /(?:спасение\s+(?:кота|собаки|животного))/i,
-    /(?:турист|учител|коммунальн|ЖКХ|убийц|отсудил|полици[яи].*задерж|Макаревич|Пугачев|Киркоров|Бузова)/i
+    /(?:турист|учител|коммунальн|ЖКХ|убийц|отсудил|полици[яи].*задерж|Макаревич|Пугачев|Киркоров|Бузова)/i,
+    // 🚫 СКУЧНАЯ БЮРОКРАТИЯ (Автобусы, штрафы, аренда, лицензии)
+    /(?:автобус|троллейбус|трамвай|штраф|аренд|гектар|Минсельхоз|Минтранс|господдержк|субсиди|льготн.*лизинг|теплич|лицензи|букмекер|урожай)/i
 ];
 
 class FileKV {
@@ -353,26 +353,15 @@ function fixBrandNames(text: string): string {
         .replace(/Starshield/gi, "Starlink");
 }
 
-// 🛡️ УМНЫЙ ВАЛИДАТОР ЗАГОЛОВКОВ
 function validateHeadline(llmHead: string, fallbackHead: string): string {
     let h = (llmHead || "").trim();
-    
-    // 1. Слишком короткий или обрезанный
-    if (h.length < 10 || h.endsWith("-") || h.endsWith(",") || h.includes("...")) {
-        return fallbackHead;
-    }
-    
-    // 2. Проверка на "тупые" абстрактные заголовки без конкретики
+    if (h.length < 10 || h.endsWith("-") || h.endsWith(",") || h.includes("...")) return fallbackHead;
     const words = h.split(/\s+/).filter(w => w.length > 2);
     if (words.length < 3) return fallbackHead;
-    
     const vaguePhrases = ["работа сделана", "дело тонкое", "к ответу", "на частоте", "всем известно", "без комментариев"];
     if (vaguePhrases.some(p => h.toLowerCase().includes(p))) return fallbackHead;
-
     if (!/[a-zA-Zа-яА-Я0-9]/.test(h)) return fallbackHead;
-    
-    h = h.charAt(0).toUpperCase() + h.slice(1);
-    return fixBrandNames(h);
+    return fixBrandNames(h.charAt(0).toUpperCase() + h.slice(1));
 }
 
 function sanitizeRawText(raw: string): string {
@@ -407,9 +396,7 @@ async function applyBrandOverlay(bytes: Uint8Array): Promise<Uint8Array> {
         const logo = await Image.decode(await Deno.readFile("./logo.png"));
         const logoW = Math.floor(img.width * 0.15);
         const logoH = Math.floor(logo.height * (logoW / logo.width));
-
         img.composite(logo.resize(logoW, logoH), img.width - logoW - 10, 10);
-
         return await img.encode();
     } catch {
         return bytes;
@@ -514,48 +501,40 @@ async function fetchRssFeeds(): Promise<any[]> {
     return items;
 }
 
-function cutBody(text: string, maxLen = MAX_BODY_LEN): string {
-    const trimmed = text.trim();
-    if (trimmed.length <= maxLen) return trimmed;
-    const sub = trimmed.slice(0, maxLen);
-    const lastPunct = Math.max(sub.lastIndexOf("."), sub.lastIndexOf("!"), sub.lastIndexOf("?"));
-    if (lastPunct > 80) return sub.slice(0, lastPunct + 1);
-    const lastSpace = sub.lastIndexOf(" ");
-    return (lastSpace > 0 ? sub.slice(0, lastSpace) : sub) + "...";
-}
-
 async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, body: string, insight: string, importance: number, is_ad: boolean }> {
     const cleanDesc = sanitizeRawText(desc);
-    const bodyText = cutBody(cleanDesc);
     const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 100);
+    const fallbackBody = cleanDesc.length > MAX_BODY_LEN ? cleanDesc.slice(0, MAX_BODY_LEN) + "..." : cleanDesc;
 
-    const prompt = `Ты редактор новостного канала «ФАКТОР». Девиз: события — причины — последствия.
-Ниже — исходный текст новости. Сделай из него структурированный пост.
+    // 🎨 ЖЕСТКИЙ ПРОМПТ В СТИЛЕ "ПРЯМОГО ЭФИРА"
+    const prompt = `Ты — главный редактор новостного канала «ФАКТОР». Твой стиль — копировать подачу каналов вроде «Прямой Эфир»: коротко, четко, структурно, с эмодзи. Никакого канцелярита.
 
 ИСХОДНЫЙ ТЕКСТ:
 ${cleanDesc}
 
 ЗАДАЧИ:
-1. headline — заголовок до 7 слов, отражает суть события. Одно эмодзи по смыслу (⚡ 🔥 🚨 💥 ⚠️ 📉 📈 🏆 🎯 💰 🌍 🛡️ ⚔️).
-   СТРОГО ЗАПРЕЩЕНО менять цифры, возраст, имена, даты, названия городов и организаций. Только то, что есть в тексте.
-   ВНИМАНИЕ: ЗАПРЕЩЕНО менять названия компаний и технологий! Если в тексте написано «Старлинк» (Starlink), пиши «Старлинк». Не заменяй его на «Старшилд» (Starshield)!
-   ЗАГОЛОВОК ДОЛЖЕН БЫТЬ КОНКРЕТНЫМ И ЗАКОНЧЕННЫМ. Не пиши абстракции вроде «Работа сделана» или «Восток - дело тонкое».
+1. headline — цепляющий, конкретный заголовок (до 7 слов) с ОДНИМ эмодзи (⚡ 🔥 🚨 💥 ⚠️ 📉 📈 🏆 🎯 💰 🌍 🛡️ ⚔️).
+   СТРОГО ЗАПРЕЩЕНО менять цифры, имена и названия. Никаких абстракций вроде "Работа сделана" или "Восток - дело тонкое".
+   Если текст на английском — ПЕРЕВЕДИ его на русский язык.
 
-2. body — НЕ НУЖНО. Тело поста уже взято дословно из источника.
+2. body — ПЕРЕПИШИ текст в стиле "Прямого Эфира":
+   - Разбей на 2-3 коротких абзаца.
+   - Убери весь канцелярит и воду.
+   - Если есть перечисление — используй маркеры: 🟢, 🔴, 🔥, 📌.
+   - Выдели самое главное.
+   - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Если оригинал английский — ОБЯЗАТЕЛЬНО переведи.
 
-3. insight — одна короткая фраза (до 12 слов) о том, что это значит / почему важно. Обязательно заполни.
+3. insight — короткая фраза (до 12 слов) о том, что это значит.
 
 4. importance — целое 1-10:
    10 — экстренно (война, теракт, катастрофа).
    8-9 — очень важно (крупное ЧП с жертвами).
-   7 — важно (политика, экономика).
-   6 — заметно (международка, бизнес).
-   4-5 — средне (региональное ЧП).
-   1-3 — НЕ ВАЖНО (бытовуха, ДТП, локальные пожары, происшествия с животными, курьёзы, туристы, учителя, ЖКХ). Если новость про животных, бытовой случай или местную бытовуху — ставь 1-3.
+   7 — важно (политика, экономика, геополитика, Трамп/Путин/Зеленский).
+   1-6 — НЕ ВАЖНО (бытовуха, ДТП, локальные пожары, бюрократия, скучные новости, штрафы, автобусы). Ставь низкую важность для скучных тем, чтобы бот их выкинул.
 
-5. is_ad — true, если это реклама, промо-пост.
+5. is_ad — true, если это реклама.
 
-Верни ТОЛЬКО JSON: {"headline": "...", "insight": "...", "importance": 6, "is_ad": false}`;
+Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 7, "is_ad": false}`;
 
     let llmResult: any = null;
 
@@ -565,7 +544,7 @@ ${cleanDesc}
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json" } }),
-                signal: AbortSignal.timeout(15000),
+                signal: AbortSignal.timeout(20000),
             });
             if (r.ok) {
                 const j = await r.json();
@@ -579,8 +558,8 @@ ${cleanDesc}
             const r = await fetch(`${QWEN_BASE_URL}/chat/completions`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json", "Authorization": `Bearer ${DASHSCOPE_API_KEY}` },
-                body: JSON.stringify({ model: QWEN_MODEL, messages: [{ role: "user", content: prompt }], temperature: 0.2 }),
-                signal: AbortSignal.timeout(15000),
+                body: JSON.stringify({ model: QWEN_MODEL, messages: [{ role: "user", content: prompt }], temperature: 0.3 }),
+                signal: AbortSignal.timeout(20000),
             });
             if (r.ok) {
                 const j = await r.json();
@@ -590,18 +569,23 @@ ${cleanDesc}
         } catch {}
     }
 
-    if (llmResult && llmResult.headline) {
-        const finalHeadline = validateHeadline(llmResult.headline, fallbackHeadline);
-        
+    if (llmResult && llmResult.headline && llmResult.body) {
+        // Проверка: если ИИ вернул англ. текст, а не перевод, на всякий случай кидаем в fallback
+        const isEnglish = (llmResult.body.match(/[a-zA-Z]/g) || []).length > (llmResult.body.match(/[а-яА-Я]/g) || []).length;
+        if (isEnglish) {
+            return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 5, is_ad: false };
+        }
+
         return {
-            headline: finalHeadline,
-            body: fixBrandNames(bodyText),
+            headline: validateHeadline(llmResult.headline, fallbackHeadline),
+            body: fixBrandNames(String(llmResult.body).trim()),
             insight: fixBrandNames(String(llmResult.insight || "").trim()),
             importance: Number(llmResult.importance) || 5,
             is_ad: !!llmResult.is_ad,
         };
     }
-    return { headline: fallbackHeadline, body: bodyText, insight: "", importance: 5, is_ad: false };
+    
+    return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 5, is_ad: false };
 }
 
 async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<string> {
@@ -661,7 +645,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v67: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v69: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
