@@ -46,53 +46,6 @@
       ],
       "expiresAt": 1792798532808
     },
-    "[\"factor\",\"pub\",\"5bfc37e00e9d473e4a7010d006eb67e0e348170ec27ec7b411b5a51afc1305d2\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "5bfc37e00e9d473e4a7010d006eb67e0e348170ec27ec7b411b5a51afc1305d2"
-      ],
-      "value": true,
-      "expiresAt": 1792712046211
-    },
-    "[\"factor\",\"topic\",\"5bfc37e00e9d473e4a7010d006eb67e0e348170ec27ec7b411b5a51afc1305d2\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "5bfc37e00e9d473e4a7010d006eb67e0e348170ec27ec7b411b5a51afc1305d2"
-      ],
-      "value": {
-        "title": "Глава Минпромторга оценил технологию «летающего» электромобиля Tesla",
-        "roots": [
-          "глава",
-          "минпро",
-          "оценил",
-          "технол",
-          "летающ",
-          "электр",
-          "tesla"
-        ]
-      },
-      "expiresAt": 1792712046212
-    },
-    "[\"factor\",\"texthash\",\"ddee0de7d703ac1650b678556846c0d68913da62c5f0e141c242fee89b3896e0\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "ddee0de7d703ac1650b678556846c0d68913da62c5f0e141c242fee89b3896e0"
-      ],
-      "value": true,
-      "expiresAt": 1792712046213
-    },
-    "[\"factor\",\"content\",\"d427a808753fe6faee2c3d9e7a17c3538143637ee54ff779f744820b43526ebc\"]": {
-      "key": [
-        "factor",
-        "content",
-        "d427a808753fe6faee2c3d9e7a17c3538143637ee54ff779f744820b43526ebc"
-      ],
-      "value": true,
-      "expiresAt": 1792712046213
-    },
     "[\"factor\",\"pub\",\"34345b1f6446121afc49fdaf7a4ecfeb713af400ae5a0efe68a02f08fa6b517d\"]": {
       "key": [
         "factor",
