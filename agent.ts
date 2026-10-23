@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Final Polish v83)
+// MAX NEWS AGENT — «ФАКТОР» (Bulletproof v84)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -521,7 +521,9 @@ async function fetchRssFeeds(): Promise<any[]> {
 async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, body: string, insight: string, importance: number, is_ad: boolean }> {
     const cleanDesc = sanitizeRawText(desc);
     const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 90);
-    const fallbackBody = cleanDesc.length > MAX_BODY_LEN ? "" : cleanDesc; 
+    
+    // 🛠 УМНЫЙ FALLBACK: Если ИИ упадет, возьмем первые 300 символов текста
+    const fallbackBody = cleanDesc.slice(0, 300) + (cleanDesc.length > 300 ? "..." : "");
 
     const prompt = `Ты — главный редактор новостного канала «ФАКТОР». Твой стиль — сухо, четко, структурно, с эмодзи. Никакой воды и канцелярита.
 
@@ -560,7 +562,10 @@ ${cleanDesc}
             });
             if (r.ok) {
                 const j = await r.json();
-                llmResult = JSON.parse(j?.candidates?.[0]?.content?.parts?.[0]?.text ?? "{}");
+                const text = j?.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+                // 🛠 ИСПРАВЛЕНО: Вытаскиваем JSON даже если ИИ обернул его в ```json
+                const match = text.match(/\{[\s\S]*\}/);
+                if (match) llmResult = JSON.parse(match[0]);
             }
         } catch {}
     }
@@ -575,13 +580,14 @@ ${cleanDesc}
             });
             if (r.ok) {
                 const j = await r.json();
-                const match = (j?.choices?.[0]?.message?.content ?? "").match(/\{[\s\S]*\}/);
+                const text = j?.choices?.[0]?.message?.content ?? "";
+                const match = text.match(/\{[\s\S]*\}/);
                 if (match) llmResult = JSON.parse(match[0]);
             }
         } catch {}
     }
 
-    if (llmResult && llmResult.headline && llmResult.body && llmResult.insight) {
+    if (llmResult && llmResult.headline && llmResult.body) {
         const isEnglish = (llmResult.body.match(/[a-zA-Z]/g) || []).length > (llmResult.body.match(/[а-яА-Я]/g) || []).length;
         if (isEnglish) {
             return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 6, is_ad: false };
@@ -596,6 +602,7 @@ ${cleanDesc}
         };
     }
     
+    // Если ИИ не ответил, возвращаем fallback (он не пустой!)
     return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 6, is_ad: false };
 }
 
@@ -666,7 +673,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v83: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v84: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -765,22 +772,16 @@ async function run() {
             continue;
         }
 
-        if (!post.body || post.body.length < 50 || !post.insight || post.insight.length < 10) {
-            console.log(`❌ Пропуск: ИИ не смог переписать текст (мусорный пост).`);
-            skippedNoMedia++;
-            continue;
-        }
-
-        const hasEfirMarkers = /(🟢|🔴|📌)/.test(post.body);
-        if (!hasEfirMarkers) {
-            console.log(`❌ Пропуск: ИИ не сделал список с маркерами (как в Прямом Эфире).`);
+        // 🛠 УБРАЛИ ЖЕСТКИЕ ПРОВЕРКИ НА ИНСАЙТ. Требуем только тело поста.
+        if (!post.body || post.body.length < 20) {
+            console.log(`❌ Пропуск: ИИ вернул пустой текст (мусорный пост).`);
             skippedNoMedia++;
             continue;
         }
 
         const cleanBody = post.body.toLowerCase().replace(/[^a-zа-я0-9]/g, "");
         const cleanHead = post.headline.toLowerCase().replace(/[^a-zа-я0-9]/g, "");
-        if (cleanBody.includes(cleanHead) && cleanBody.length < cleanHead.length + 30) {
+        if (cleanBody.includes(cleanHead) && cleanBody.length < cleanHead.length + 20) {
             console.log(`❌ Пропуск: тело поста дублирует заголовок.`);
             skippedNoMedia++;
             continue;
