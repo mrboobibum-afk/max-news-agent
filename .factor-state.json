@@ -46,45 +46,6 @@
       ],
       "expiresAt": 1792804624451
     },
-    "[\"factor\",\"pub\",\"0eb9f989e34fd836d26e3729b943e6f01f3efc0d6d770b121fdd38a6bf6bf037\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "0eb9f989e34fd836d26e3729b943e6f01f3efc0d6d770b121fdd38a6bf6bf037"
-      ],
-      "value": true,
-      "expiresAt": 1792718171954
-    },
-    "[\"factor\",\"topic\",\"0eb9f989e34fd836d26e3729b943e6f01f3efc0d6d770b121fdd38a6bf6bf037\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "0eb9f989e34fd836d26e3729b943e6f01f3efc0d6d770b121fdd38a6bf6bf037"
-      ],
-      "value": {
-        "title": "📃 Сестра Ким Чен Ына предупредила Южную Корею о жестком ответе при угрозе Власти КНДР нам",
-        "roots": [
-          "сестра",
-          "предуп",
-          "южную",
-          "корею",
-          "жестко",
-          "ответе",
-          "угрозе",
-          "власти"
-        ]
-      },
-      "expiresAt": 1792718171954
-    },
-    "[\"factor\",\"texthash\",\"caef381d47ea50342747d334b55df9a929c087184a79a0d8623a5cccc388a252\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "caef381d47ea50342747d334b55df9a929c087184a79a0d8623a5cccc388a252"
-      ],
-      "value": true,
-      "expiresAt": 1792718172079
-    },
     "[\"factor\",\"pub\",\"c37ed8c1352fbf508efab0ad63e886f7e59f04df11cddfb0ad5f7d7d9671704c\"]": {
       "key": [
         "factor",
