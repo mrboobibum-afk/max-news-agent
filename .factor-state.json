@@ -46,53 +46,6 @@
       ],
       "expiresAt": 1792826773907
     },
-    "[\"factor\",\"pub\",\"a0ec71ed6b6a2beb585701c892e7a93e9d93df0fd26436291d90f565e2940588\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "a0ec71ed6b6a2beb585701c892e7a93e9d93df0fd26436291d90f565e2940588"
-      ],
-      "value": true,
-      "expiresAt": 1792740244130
-    },
-    "[\"factor\",\"topic\",\"a0ec71ed6b6a2beb585701c892e7a93e9d93df0fd26436291d90f565e2940588\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "a0ec71ed6b6a2beb585701c892e7a93e9d93df0fd26436291d90f565e2940588"
-      ],
-      "value": {
-        "title": "🌐 Министерство транспорта РФ 70 автобусов поставлено в регионы по программам льготного ли",
-        "roots": [
-          "минист",
-          "трансп",
-          "автобу",
-          "постав",
-          "регион",
-          "програ",
-          "льготн"
-        ]
-      },
-      "expiresAt": 1792740244131
-    },
-    "[\"factor\",\"texthash\",\"46d972542fc9054a51420209e7680ebbd41f2f0424fff691baf0592aa73497ca\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "46d972542fc9054a51420209e7680ebbd41f2f0424fff691baf0592aa73497ca"
-      ],
-      "value": true,
-      "expiresAt": 1792740244132
-    },
-    "[\"factor\",\"content\",\"f58d83cc668c6b403e82cf888a6136da1b4d6bb779d70f58a934a2e8c3b29cb8\"]": {
-      "key": [
-        "factor",
-        "content",
-        "f58d83cc668c6b403e82cf888a6136da1b4d6bb779d70f58a934a2e8c3b29cb8"
-      ],
-      "value": true,
-      "expiresAt": 1792740244132
-    },
     "[\"factor\",\"pub\",\"974c8a0d7ad5f39dc2b76fd1b920cf6412e990410d84d295a74399f03bc259bf\"]": {
       "key": [
         "factor",
@@ -2467,54 +2420,6 @@
         "07c063129425471679545fb6991879b0249e65963e18a33c11366bcb68a9852e"
       ],
       "value": true,
-      "expiresAt": 1792826442099
-    },
-    "[\"factor\",\"topic\",\"07c063129425471679545fb6991879b0249e65963e18a33c11366bcb68a9852e\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "07c063129425471679545fb6991879b0249e65963e18a33c11366bcb68a9852e"
-      ],
-      "value": {
-        "title": "Засекли – посекли 💥 Операторы ударных БПЛА группировки «Восток» ликвидировали группы пехо",
-        "roots": [
-          "засекл",
-          "посекл",
-          "операт",
-          "ударны",
-          "группи",
-          "восток",
-          "ликвид",
-          "группы"
-        ]
-      },
-      "expiresAt": 1792826442100
-    },
-    "[\"factor\",\"texthash\",\"3489954027eb7d934edda283cc99d09acd6e0c79283d5f168ef87d2f132b15cf\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "3489954027eb7d934edda283cc99d09acd6e0c79283d5f168ef87d2f132b15cf"
-      ],
-      "value": true,
-      "expiresAt": 1792826442101
-    },
-    "[\"factor\",\"content\",\"22ed962cffa86724345d36f60effa216804f56105cdef19ba32c120754a555ba\"]": {
-      "key": [
-        "factor",
-        "content",
-        "22ed962cffa86724345d36f60effa216804f56105cdef19ba32c120754a555ba"
-      ],
-      "value": true,
-      "expiresAt": 1792826106559
-    },
-    "[\"factor\",\"pub\",\"07c063129425471679545fb6991879b0249e65963e18a33c11366bcb68a9852e\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "07c063129425471679545fb6991879b0249e65963e18a33c11366bcb68a9852e"
-      ],
-      "value": true,
       "expiresAt": 1792826773902
     },
     "[\"factor\",\"topic\",\"07c063129425471679545fb6991879b0249e65963e18a33c11366bcb68a9852e\"]": {
@@ -2538,20 +2443,29 @@
       },
       "expiresAt": 1792826773904
     },
-    "[\"factor\",\"texthash\",\"952b790b1b5364b68b6d9a2f4333ee63d3989f575483b68ecf0793b995f1691f\"]": {
+    "[\"factor\",\"texthash\",\"3489954027eb7d934edda283cc99d09acd6e0c79283d5f168ef87d2f132b15cf\"]": {
       "key": [
         "factor",
         "texthash",
-        "952b790b1b5364b68b6d9a2f4333ee63d3989f575483b68ecf0793b995f1691f"
+        "3489954027eb7d934edda283cc99d09acd6e0c79283d5f168ef87d2f132b15cf"
       ],
       "value": true,
-      "expiresAt": 1792826773905
+      "expiresAt": 1792826442101
     },
     "[\"factor\",\"content\",\"22ed962cffa86724345d36f60effa216804f56105cdef19ba32c120754a555ba\"]": {
       "key": [
         "factor",
         "content",
         "22ed962cffa86724345d36f60effa216804f56105cdef19ba32c120754a555ba"
+      ],
+      "value": true,
+      "expiresAt": 1792826773905
+    },
+    "[\"factor\",\"texthash\",\"952b790b1b5364b68b6d9a2f4333ee63d3989f575483b68ecf0793b995f1691f\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "952b790b1b5364b68b6d9a2f4333ee63d3989f575483b68ecf0793b995f1691f"
       ],
       "value": true,
       "expiresAt": 1792826773905
