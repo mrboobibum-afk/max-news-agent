@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Always Publish Edition v74)
+// MAX NEWS AGENT — «ФАКТОР» (SSL Fix & Text Fallback v75)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -18,7 +18,7 @@ const HARD_MIN_INTERVAL_MS = 5 * 60 * 1000;
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000;
 
 const MEDIA_PACKET_MAX = 6;
-const MIN_IMPORTANCE = 6; // Снизили до 6, чтобы важные новости точно проходили
+const MIN_IMPORTANCE = 6; 
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
 const STATE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
@@ -95,7 +95,6 @@ const NEWS_FEEDS = [
     { name: "Правда.ру", url: "https://www.pravda.ru/export.xml" },
 ];
 
-// Убрали Минтранс и прочее, чтобы не отсекать новости про аэропорты
 const BORING_TOPICS = [
     /(?:сесси[яи]|форум|круглый\s+стол|конференци[яи]|совещани[ея]|заседани[ея]|брифинг)/i,
     /(?:рэц|экспортер|клиентск|госуслуг|росреестр|минфин|ведомств)/i,
@@ -463,7 +462,7 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                             sourceName: ch, 
                             sourceType: "tg", 
                             postKey,
-                            postDate: postDate || 0 // Сохраняем дату для сортировки
+                            postDate: postDate || 0 
                         });
                     }
                     found++;
@@ -595,22 +594,33 @@ ${cleanDesc}
         };
     }
     
-    // Если ИИ упал, ставим 6 (чтобы новость прошла порог MIN_IMPORTANCE)
     return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 6, is_ad: false };
 }
 
 async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<string> {
     const client = await initMaxHttpClient();
+    
+    // Инициализация загрузки
     const upInit = await fetch(`${MAX_API}/uploads?type=${type}`, {
         method: "POST",
         headers: { "Authorization": MAX_BOT_TOKEN, "Accept": "application/json" },
         client: client ?? undefined,
     });
+    
     const initData = await upInit.json();
     if (!initData.url) throw new Error("Upload URL error");
+    
     const form = new FormData();
     form.append("data", new Blob([bytes], { type: type === "video" ? "video/mp4" : "image/jpeg" }), `file.${type === "video" ? "mp4" : "jpg"}`);
-    const res = await fetch(initData.url, { method: "POST", body: form, signal: AbortSignal.timeout(60000) });
+    
+    // Сама загрузка файла (ДОБАВИЛИ client: client ?? undefined)
+    const res = await fetch(initData.url, { 
+        method: "POST", 
+        body: form, 
+        client: client ?? undefined, 
+        signal: AbortSignal.timeout(60000) 
+    });
+    
     const text = await res.text();
     let json: any = {};
     try { json = JSON.parse(text); } catch {}
@@ -656,7 +666,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v74: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v75: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -690,7 +700,6 @@ async function run() {
     const candidates = [...tgCandidates, ...rssCandidates];
     console.log(`Всего кандидатов: ${candidates.length}`);
 
-    // Сортируем по дате (сначала самые свежие)
     candidates.sort((a, b) => b.postDate - a.postDate);
 
     const seenPostKeys = new Set<string>();
@@ -703,7 +712,6 @@ async function run() {
     }
     console.log(`Уникальных постов: ${uniqueCandidates.length}`);
 
-    // Берем самые свежие 25 новостей
     const topCandidates = uniqueCandidates.slice(0, 25);
     console.log(`К обработке принято: ${topCandidates.length}`);
 
@@ -791,6 +799,8 @@ async function run() {
         }
 
         const uploaded: Array<{ token: string, type: "image" | "video" }> = [];
+        let mediaFailed = false;
+        
         for (const media of mediaPacket) {
             let mediaBytes = await downloadBuffer(media.mediaUrl, media.mediaType === "video");
             if (!mediaBytes) continue;
@@ -802,12 +812,15 @@ async function run() {
             try {
                 const token = await uploadToMax(mediaBytes, media.mediaType);
                 if (token) uploaded.push({ token, type: media.mediaType });
-            } catch (e) { console.error("Ошибка загрузки медиа:", e); }
+            } catch (e) { 
+                console.error("Ошибка загрузки медиа:", e); 
+                mediaFailed = true;
+            }
             if (uploaded.length >= MEDIA_PACKET_MAX) break;
         }
 
         if (!uploaded.length) {
-            console.log(`❌ Пропуск: медиа было, но не скачалось.`);
+            console.log(`❌ Пропуск: медиа было, но не скачалось (или ошибка SSL).`);
             skippedNoMedia++;
             continue;
         }
