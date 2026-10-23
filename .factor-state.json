@@ -2369,49 +2369,48 @@
       "value": true,
       "expiresAt": 1792817846281
     },
-    "[\"factor\",\"pub\",\"384b3d64843b063437d8b9f4899b2298faeff8c283f80f93c160a2e722327226\"]": {
+    "[\"factor\",\"pub\",\"3c7298b8a3819c40c9ac93a9b42d5c632d947e88487e6e8a51636f4623b91236\"]": {
       "key": [
         "factor",
         "pub",
-        "384b3d64843b063437d8b9f4899b2298faeff8c283f80f93c160a2e722327226"
+        "3c7298b8a3819c40c9ac93a9b42d5c632d947e88487e6e8a51636f4623b91236"
       ],
       "value": true,
-      "expiresAt": 1792819700544
+      "expiresAt": 1792820428110
     },
-    "[\"factor\",\"topic\",\"384b3d64843b063437d8b9f4899b2298faeff8c283f80f93c160a2e722327226\"]": {
+    "[\"factor\",\"topic\",\"3c7298b8a3819c40c9ac93a9b42d5c632d947e88487e6e8a51636f4623b91236\"]": {
       "key": [
         "factor",
         "topic",
-        "384b3d64843b063437d8b9f4899b2298faeff8c283f80f93c160a2e722327226"
+        "3c7298b8a3819c40c9ac93a9b42d5c632d947e88487e6e8a51636f4623b91236"
       ],
       "value": {
-        "title": "📃 Средства ПВО за ночь сбили 33 беспилотника над Воронежем и областью Средства противовоз",
+        "title": "▶️ В РФ создали новейший робототехнический комплекс разминирования \"Титан\"",
         "roots": [
-          "средст",
-          "сбили",
-          "беспил",
-          "вороне",
-          "област",
-          "средст",
-          "против"
+          "создал",
+          "новейш",
+          "робото",
+          "компле",
+          "размин",
+          "титан"
         ]
       },
-      "expiresAt": 1792819700545
+      "expiresAt": 1792820428112
     },
-    "[\"factor\",\"texthash\",\"542cc7175a3a9afb7a824c474c2d5216d4a0cff35f8be1545680d6208bf722f0\"]": {
+    "[\"factor\",\"texthash\",\"0a30fa90766049e9274846b99c1bb7c3675fb4e8cb245475efa2c9f980a2a233\"]": {
       "key": [
         "factor",
         "texthash",
-        "542cc7175a3a9afb7a824c474c2d5216d4a0cff35f8be1545680d6208bf722f0"
+        "0a30fa90766049e9274846b99c1bb7c3675fb4e8cb245475efa2c9f980a2a233"
       ],
       "value": true,
-      "expiresAt": 1792819700546
+      "expiresAt": 1792820428112
     },
-    "[\"factor\",\"content\",\"5ea65ede5776b349aebb2b3e758962756f18352c5d6051da14c03f22fdfaf77b\"]": {
+    "[\"factor\",\"content\",\"22d6cc95a191b34817037c4aa037936cd15ef9de189e42ddb6397d673d4ff3cf\"]": {
       "key": [
         "factor",
         "content",
-        "5ea65ede5776b349aebb2b3e758962756f18352c5d6051da14c03f22fdfaf77b"
+        "22d6cc95a191b34817037c4aa037936cd15ef9de189e42ddb6397d673d4ff3cf"
       ],
       "value": true,
       "expiresAt": 1792819700547
