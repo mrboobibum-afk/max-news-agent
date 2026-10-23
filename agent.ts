@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Fast Media v85)
+// MAX NEWS AGENT — «ФАКТОР» (Bulletproof Text Fallback v87)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -33,11 +33,7 @@ const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
 const MIN_VIDEO_BYTES = 50 * 1024;
 const MAX_VIDEO_BYTES = 30 * 1024 * 1024;
 
-const MAX_BODY_LEN = 400; 
-const MIN_INSIGHT_IMPORTANCE = 6;
-
-// ⏱ УСКОРЯЕМ СКАЧИВАНИЕ
-const DOWNLOAD_TIMEOUT_MS = 10000; // 10 секунд
+const DOWNLOAD_TIMEOUT_MS = 10000; 
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
 
@@ -294,14 +290,12 @@ function isTrashUrl(url: string): boolean {
 
 function buildProxyUrls(url: string): string[] {
     const enc = encodeURIComponent(url);
-    // 🛠 ОСТАВЛЯЕМ ТОЛЬКО 1 ПРОКСИ И ОРИГИНАЛ, ЧТОБЫ НЕ ТРАТИТЬ ВРЕМЯ
     return [
         `https://corsproxy.io/?${enc}`,
         url,
     ];
 }
 
-// ⚡ УСКОРЕННОЕ СКАЧИВАНИЕ: 1 попытка, 10 секунд
 async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array | null> {
     if (!url || isTrashUrl(url)) return null;
 
@@ -338,7 +332,7 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
 
             return buf;
         } catch {
-            continue; // Если не вышло - идем к следующему
+            continue; 
         }
     }
     return null;
@@ -367,6 +361,10 @@ function sanitizeRawText(raw: string): string {
     t = t.replace(/(?:Как выяснил|Как выяснила|Как узнал|Как узнала|Как рассказал|Как рассказали|По данным|Об этом сообщает|Об этом сообщило|Об этом пишет)\s*[«"']?(?:SHOT|Mash|База|Баз[ыуе]|Readovka|ТАСС|РИА Новости|Интерфакс|Минобороны России)[»"']?/gi, "");
     t = t.replace(/[«"']?(?:SHOT|Mash|База|Баз[ыуе]|Readovka)[»"']?/gi, "");
     t = t.replace(/#[a-zA-Zа-яА-Я0-9_]+/g, "");
+    
+    t = t.replace(/Новость дополняется/gi, "");
+    t = t.replace(/Об этом сообщил[а-я]*/gi, "");
+    t = t.replace(/Об этом заявил[а-я]*/gi, "");
 
     const markers = [
         "Подписаться", "Подпишись", "Подписывайтесь", "Мы в Максе", 'Мы в "Максе"', "Мы в «Максе»", 
@@ -510,7 +508,8 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
     const cleanDesc = sanitizeRawText(desc);
     const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 90);
     
-    const fallbackBody = cleanDesc.slice(0, 300) + (cleanDesc.length > 300 ? "..." : "");
+    // 🛠 УМНЫЙ FALLBACK: Берем оригинальный текст, если ИИ не справится
+    const fallbackBody = cleanDesc.slice(0, 350) + (cleanDesc.length > 350 ? "..." : "");
 
     const prompt = `Ты — главный редактор новостного канала «ФАКТОР». Твой стиль — сухо, четко, структурно, с эмодзи. Никакой воды и канцелярита.
 
@@ -545,7 +544,7 @@ ${cleanDesc}
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json" } }),
-                signal: AbortSignal.timeout(20000),
+                signal: AbortSignal.timeout(15000),
             });
             if (r.ok) {
                 const j = await r.json();
@@ -562,7 +561,7 @@ ${cleanDesc}
                 method: "POST",
                 headers: { "Content-Type": "application/json", "Authorization": `Bearer ${DASHSCOPE_API_KEY}` },
                 body: JSON.stringify({ model: QWEN_MODEL, messages: [{ role: "user", content: prompt }], temperature: 0.3 }),
-                signal: AbortSignal.timeout(20000),
+                signal: AbortSignal.timeout(15000),
             });
             if (r.ok) {
                 const j = await r.json();
@@ -588,6 +587,7 @@ ${cleanDesc}
         };
     }
     
+    // 🛠 Возвращаем fallback (оригинальный текст), а не пустоту
     return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 6, is_ad: false };
 }
 
@@ -658,7 +658,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v85: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v87: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -742,11 +742,7 @@ async function run() {
         console.log("\nОбработка: " + item.title);
 
         const mediaPacket = getMediaPacket(item, candidates);
-        if (mediaPacket.length === 0) {
-            console.log(`❌ Пропуск: нет медиа в самом посте.`);
-            skippedNoMedia++;
-            continue;
-        }
+        // Если медиа вообще нет в посте, мы все равно пытаемся его обработать (текст опубликуем)
 
         const post = await formatNewsPost(item.title, item.desc);
 
@@ -757,8 +753,8 @@ async function run() {
             continue;
         }
 
-        if (!post.body || post.body.length < 20) {
-            console.log(`❌ Пропуск: ИИ вернул пустой текст (мусорный пост).`);
+        if (!post.headline || !post.body || post.body.length < 20) {
+            console.log(`❌ Пропуск: ИИ вернул пустой текст и нет фолбэка.`);
             skippedNoMedia++;
             continue;
         }
@@ -804,11 +800,11 @@ async function run() {
             continue;
         }
 
-        const uploaded: Array<{ token: string, type: "image" | "video" }> = [];
+        const uploaded: Array<{ token: string; type: "image" | "video" }> = [];
+        
         for (const media of mediaPacket) {
             let mediaBytes = await downloadBuffer(media.mediaUrl, media.mediaType === "video");
             
-            // 🛠 ФОЛБЭК: Если видео не скачалось, пробуем взять картинку из этого же поста
             if (!mediaBytes && media.mediaType === "video") {
                 const fallbackImg = candidates.find(c => c.postKey === item.postKey && c.mediaType === "image");
                 if (fallbackImg) {
@@ -831,15 +827,14 @@ async function run() {
             if (uploaded.length >= MEDIA_PACKET_MAX) break;
         }
 
+        // 🛠 ГЛАВНОЕ ИЗМЕНЕНИЕ: Если медиа не скачалось, мы НЕ ПРОПУСКАЕМ новость!
         if (!uploaded.length) {
-            console.log(`❌ Пропуск: медиа было, но не скачалось.`);
-            skippedNoMedia++;
-            continue;
+            console.log(`⚠️ Медиа не скачалось, публикуем только текст.`);
+        } else {
+            const videos = uploaded.filter(u => u.type === "video").length;
+            const images = uploaded.filter(u => u.type === "image").length;
+            console.log(`✅ Медиапакет: ${uploaded.length} (видео: ${videos}, фото: ${images})`);
         }
-
-        const videos = uploaded.filter(u => u.type === "video").length;
-        const images = uploaded.filter(u => u.type === "image").length;
-        console.log(`✅ Медиапакет: ${uploaded.length} (видео: ${videos}, фото: ${images})`);
 
         let postHtml = "<b>" + escapeHtml(post.headline) + "</b>\n\n" + post.body;
         if (post.insight && post.importance >= MIN_INSIGHT_IMPORTANCE) {
