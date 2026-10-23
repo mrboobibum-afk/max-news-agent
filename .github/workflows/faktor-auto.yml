@@ -2,7 +2,7 @@ name: FAKTOR Auto
 
 on:
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '*/20 * * * *' # Теперь каждые 20 минут
   workflow_dispatch:
 
 concurrency:
@@ -12,7 +12,7 @@ concurrency:
 jobs:
   run-faktor:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
 
     steps:
       - name: Checkout code
@@ -29,7 +29,6 @@ jobs:
           TARGET_CHAT_ID: ${{ secrets.TARGET_CHAT_ID }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
-        # ВОТ ТУТ ФЛАГ, КОТОРЫЙ ЛЕЧИТ СЕРТИФИКАТ:
         run: deno run -A --unsafely-ignore-certificate-errors=platform-api2.max.ru agent.ts
 
       - name: Commit state changes
