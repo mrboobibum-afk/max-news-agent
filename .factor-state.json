@@ -46,51 +46,6 @@
       ],
       "expiresAt": 1792799609475
     },
-    "[\"factor\",\"pub\",\"34345b1f6446121afc49fdaf7a4ecfeb713af400ae5a0efe68a02f08fa6b517d\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "34345b1f6446121afc49fdaf7a4ecfeb713af400ae5a0efe68a02f08fa6b517d"
-      ],
-      "value": true,
-      "expiresAt": 1792713613072
-    },
-    "[\"factor\",\"topic\",\"34345b1f6446121afc49fdaf7a4ecfeb713af400ae5a0efe68a02f08fa6b517d\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "34345b1f6446121afc49fdaf7a4ecfeb713af400ae5a0efe68a02f08fa6b517d"
-      ],
-      "value": {
-        "title": "▶️ Кадры освобождения Тимошевки в Запорожской области",
-        "roots": [
-          "кадры",
-          "освобо",
-          "тимоше",
-          "запоро",
-          "област"
-        ]
-      },
-      "expiresAt": 1792713613073
-    },
-    "[\"factor\",\"texthash\",\"b3bceefe674d6c87b988496ddf9123e4588eb76ff107f6dd03f0557cf3e17f3c\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "b3bceefe674d6c87b988496ddf9123e4588eb76ff107f6dd03f0557cf3e17f3c"
-      ],
-      "value": true,
-      "expiresAt": 1792713613073
-    },
-    "[\"factor\",\"content\",\"34b3ac1d42a0b16079917c4fbe267ef08cf9597d9b06dc53ab32e98f4936a949\"]": {
-      "key": [
-        "factor",
-        "content",
-        "34b3ac1d42a0b16079917c4fbe267ef08cf9597d9b06dc53ab32e98f4936a949"
-      ],
-      "value": true,
-      "expiresAt": 1792713613074
-    },
     "[\"factor\",\"pub\",\"d5bc4f335777c7a6f874573e5b12807b8ee6d4c2378e581b5dc98cd54f8759f9\"]": {
       "key": [
         "factor",
