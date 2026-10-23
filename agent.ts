@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Direct Broadcast Style v69)
+// MAX NEWS AGENT — «ФАКТОР» (Auto-Clean & Deep Dedup v71)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -18,12 +18,16 @@ const HARD_MIN_INTERVAL_MS = 5 * 60 * 1000;
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000;
 
 const MEDIA_PACKET_MAX = 6;
-const MIN_IMPORTANCE = 7; // Только важные события (как у Прямого Эфира)
+const MIN_IMPORTANCE = 7;
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
 const STATE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
 const STATE_MAX_ENTRIES = 300;
 const STATE_KEEP_ENTRIES = 100;
+
+// 🧠 АВТООЧИСТКА ПАМЯТИ: Храним последние 100 новостей
+const RECENT_HISTORY_LIMIT = 100;
+const SIMILARITY_THRESHOLD = 0.35; // 35% совпадения = дубликат
 
 const MIN_IMAGE_BYTES = 10 * 1024;
 const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
@@ -92,7 +96,6 @@ const NEWS_FEEDS = [
     { name: "Правда.ру", url: "https://www.pravda.ru/export.xml" },
 ];
 
-// 🚨 ЖЕСТКИЙ СТОП-ЛИСТ (Убиваем бюрократию, автобусы и желтуху)
 const BORING_TOPICS = [
     /(?:сесси[яи]|форум|круглый\s+стол|конференци[яи]|совещани[ея]|заседани[ея]|брифинг)/i,
     /(?:рэц|экспортер|клиентск|госуслуг|росреестр|минфин|ведомств)/i,
@@ -106,14 +109,12 @@ const BORING_TOPICS = [
     /спецпредложени/i,
     /реклама\s*[.:!]/i,
     /партнёрск(?:ий|ого)\s+материал/i,
-    // 🚫 ЖЕЛТУХА
     /(?:собак|кошк|котят|щенят|ши-тцу|животн|питомц|зоозащит)/i,
     /(?:пылесос|розетк|бытов|квартир[аеу].*пожар|пожар.*квартир|кухн[яе].*пожар|закурил|уснул\s+с\s+сигарет)/i,
     /(?:гороскоп|астролог|экстрасенс|таролог|гадан)/i,
     /(?:измен[аи]|изменил|любовн|скандал.*звезд|инстаграм|тикток)/i,
     /(?:спасение\s+(?:кота|собаки|животного))/i,
     /(?:турист|учител|коммунальн|ЖКХ|убийц|отсудил|полици[яи].*задерж|Макаревич|Пугачев|Киркоров|Бузова)/i,
-    // 🚫 СКУЧНАЯ БЮРОКРАТИЯ (Автобусы, штрафы, аренда, лицензии)
     /(?:автобус|троллейбус|трамвай|штраф|аренд|гектар|Минсельхоз|Минтранс|господдержк|субсиди|льготн.*лизинг|теплич|лицензи|букмекер|урожай)/i
 ];
 
@@ -157,6 +158,7 @@ class FileKV {
         return res;
     }
 
+    // 🧹 АВТООЧИСТКА: Удаляет просроченные записи и лишние хвосты
     async cleanup(): Promise<{ removedExpired: number; removedOld: number; removedOverflow: number; kept: number }> {
         const d = await this.load();
         const now = Date.now();
@@ -210,6 +212,10 @@ function cleanText(val: any): string {
     return t;
 }
 
+function sanitizeHtml(html: string): string {
+    return html.replace(/<(?!\/?(b|i|br)\b)[^>]*>/gi, "");
+}
+
 function escapeHtml(val: any): string {
     return String(val ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
@@ -226,6 +232,7 @@ function getWordSet(text: string): Set<string> {
     return new Set(words);
 }
 
+// 🧠 УМНЫЙ ДЕДУПЛИКАТОР
 function isSimilar(text1: string, text2: string): boolean {
     const set1 = getWordSet(text1);
     const set2 = getWordSet(text2);
@@ -236,7 +243,7 @@ function isSimilar(text1: string, text2: string): boolean {
         if (set2.has(w)) intersectionSize++;
     }
     const similarity = intersectionSize / Math.min(set1.size, set2.size);
-    return similarity > 0.6;
+    return similarity > SIMILARITY_THRESHOLD;
 }
 
 async function isDuplicate(title: string, desc?: string): Promise<boolean> {
@@ -358,7 +365,7 @@ function validateHeadline(llmHead: string, fallbackHead: string): string {
     if (h.length < 10 || h.endsWith("-") || h.endsWith(",") || h.includes("...")) return fallbackHead;
     const words = h.split(/\s+/).filter(w => w.length > 2);
     if (words.length < 3) return fallbackHead;
-    const vaguePhrases = ["работа сделана", "дело тонкое", "к ответу", "на частоте", "всем известно", "без комментариев"];
+    const vaguePhrases = ["работа сделана", "дело тонкое", "к ответу", "на частоте", "всем известно", "без комментариев", "шокирующая", "свершилось"];
     if (vaguePhrases.some(p => h.toLowerCase().includes(p))) return fallbackHead;
     if (!/[a-zA-Zа-яА-Я0-9]/.test(h)) return fallbackHead;
     return fixBrandNames(h.charAt(0).toUpperCase() + h.slice(1));
@@ -506,22 +513,21 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
     const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 100);
     const fallbackBody = cleanDesc.length > MAX_BODY_LEN ? cleanDesc.slice(0, MAX_BODY_LEN) + "..." : cleanDesc;
 
-    // 🎨 ЖЕСТКИЙ ПРОМПТ В СТИЛЕ "ПРЯМОГО ЭФИРА"
-    const prompt = `Ты — главный редактор новостного канала «ФАКТОР». Твой стиль — копировать подачу каналов вроде «Прямой Эфир»: коротко, четко, структурно, с эмодзи. Никакого канцелярита.
+    const prompt = `Ты — главный редактор новостного канала «ФАКТОР». Твой стиль — копировать подачу каналов вроде «Прямой Эфир»: сухо, четко, структурно, с эмодзи. НИКАКОГО КАНЦЕЛЯРИТА И ЖЕЛТИЗНЫ.
 
 ИСХОДНЫЙ ТЕКСТ:
 ${cleanDesc}
 
 ЗАДАЧИ:
 1. headline — цепляющий, конкретный заголовок (до 7 слов) с ОДНИМ эмодзи (⚡ 🔥 🚨 💥 ⚠️ 📉 📈 🏆 🎯 💰 🌍 🛡️ ⚔️).
-   СТРОГО ЗАПРЕЩЕНО менять цифры, имена и названия. Никаких абстракций вроде "Работа сделана" или "Восток - дело тонкое".
-   Если текст на английском — ПЕРЕВЕДИ его на русский язык.
+   СТРОГО ЗАПРЕЩЕНО менять цифры, имена и названия. Никаких абстракций вроде "Работа сделана".
+   ЗАПРЕЩЕНО использовать вводные слова вроде "Свершилось!", "Шокирующая новость", "Внимание!".
 
-2. body — ПЕРЕПИШИ текст в стиле "Прямого Эфира":
-   - Разбей на 2-3 коротких абзаца.
-   - Убери весь канцелярит и воду.
-   - Если есть перечисление — используй маркеры: 🟢, 🔴, 🔥, 📌.
-   - Выдели самое главное.
+2. body — ПЕРЕПИШИ текст в стиле "Прямого Эфира" (ИСПОЛЬЗУЙ HTML-ТЕГИ <b> и <i>):
+   - СРАЗУ ПЕРЕХОДИ К ДЕЛУ. Убери весь канцелярит и воду.
+   - Разбей на 2-3 коротких абзаца (разделяй символом переноса \n\n).
+   - Если есть перечисление — используй маркеры: 🟢, 🔴, 📌.
+   - Выдели самое главное тегами <b>жирный текст</b>.
    - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Если оригинал английский — ОБЯЗАТЕЛЬНО переведи.
 
 3. insight — короткая фраза (до 12 слов) о том, что это значит.
@@ -530,7 +536,7 @@ ${cleanDesc}
    10 — экстренно (война, теракт, катастрофа).
    8-9 — очень важно (крупное ЧП с жертвами).
    7 — важно (политика, экономика, геополитика, Трамп/Путин/Зеленский).
-   1-6 — НЕ ВАЖНО (бытовуха, ДТП, локальные пожары, бюрократия, скучные новости, штрафы, автобусы). Ставь низкую важность для скучных тем, чтобы бот их выкинул.
+   1-6 — НЕ ВАЖНО (бытовуха, ДТП, локальные пожары, бюрократия, скучные новости). Ставь низкую важность для скучных тем.
 
 5. is_ad — true, если это реклама.
 
@@ -570,7 +576,6 @@ ${cleanDesc}
     }
 
     if (llmResult && llmResult.headline && llmResult.body) {
-        // Проверка: если ИИ вернул англ. текст, а не перевод, на всякий случай кидаем в fallback
         const isEnglish = (llmResult.body.match(/[a-zA-Z]/g) || []).length > (llmResult.body.match(/[а-яА-Я]/g) || []).length;
         if (isEnglish) {
             return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 5, is_ad: false };
@@ -578,8 +583,8 @@ ${cleanDesc}
 
         return {
             headline: validateHeadline(llmResult.headline, fallbackHeadline),
-            body: fixBrandNames(String(llmResult.body).trim()),
-            insight: fixBrandNames(String(llmResult.insight || "").trim()),
+            body: sanitizeHtml(String(llmResult.body).trim()),
+            insight: sanitizeHtml(String(llmResult.insight || "").trim()),
             importance: Number(llmResult.importance) || 5,
             is_ad: !!llmResult.is_ad,
         };
@@ -645,7 +650,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v69: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v71: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -692,6 +697,8 @@ async function run() {
     let skippedDup = 0, skippedImportance = 0, skippedNoMedia = 0, published = 0;
 
     const recentDescs: string[] = (await kv.get(["factor", "recent_descs"])).value || [];
+    const recentBodies: string[] = (await kv.get(["factor", "recent_bodies"])).value || [];
+    const recentTitles: string[] = (await kv.get(["factor", "recent_titles"])).value || [];
 
     for (const item of uniqueCandidates) {
         const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(item.title))))
@@ -706,6 +713,7 @@ async function run() {
             continue;
         }
 
+        // Проверка на схожесть ИСХОДНОГО текста
         let isSimilarFound = false;
         for (const pastDesc of recentDescs) {
             if (isSimilar(item.desc, pastDesc)) {
@@ -714,7 +722,7 @@ async function run() {
             }
         }
         if (isSimilarFound) {
-            console.log(`❌ Пропуск: текст на 60%+ похож на недавно опубликованный.`);
+            console.log(`❌ Пропуск: исходный текст похож на недавний.`);
             skippedDup++;
             continue;
         }
@@ -734,6 +742,34 @@ async function run() {
         if (post.importance < MIN_IMPORTANCE) {
             console.log(`Пропуск: важность ${post.importance} < ${MIN_IMPORTANCE}`);
             skippedImportance++;
+            continue;
+        }
+
+        // Проверка сгенерированного ЗАГОЛОВКА
+        let isTitleSimilar = false;
+        for (const pastTitle of recentTitles) {
+            if (isSimilar(post.headline, pastTitle)) {
+                isTitleSimilar = true;
+                break;
+            }
+        }
+        if (isTitleSimilar) {
+            console.log(`❌ Пропуск: заголовок совпадает с недавним.`);
+            skippedDup++;
+            continue;
+        }
+
+        // Проверка сгенерированного ТЕКСТА
+        let isBodySimilar = false;
+        for (const pastBody of recentBodies) {
+            if (isSimilar(post.body, pastBody)) {
+                isBodySimilar = true;
+                break;
+            }
+        }
+        if (isBodySimilar) {
+            console.log(`❌ Пропуск: текст ИИ совпадает с недавним.`);
+            skippedDup++;
             continue;
         }
 
@@ -770,7 +806,7 @@ async function run() {
         const images = uploaded.filter(u => u.type === "image").length;
         console.log(`✅ Медиапакет: ${uploaded.length} (видео: ${videos}, фото: ${images})`);
 
-        let postHtml = "<b>" + escapeHtml(post.headline) + "</b>\n\n" + escapeHtml(post.body);
+        let postHtml = "<b>" + escapeHtml(post.headline) + "</b>\n\n" + post.body;
         if (post.insight && post.importance >= MIN_INSIGHT_IMPORTANCE) {
             postHtml += "\n\n💡 <i>Что это значит:</i> " + escapeHtml(post.insight);
         }
@@ -788,9 +824,18 @@ async function run() {
                 await kv.set(["factor", "content", contentHash], true, { expireIn: HISTORY_TTL_MS });
             }
 
+            // 🧠 АВТООЧИСТКА ПАМЯТИ (Держим лимит 100)
             recentDescs.push(item.desc);
-            if (recentDescs.length > 20) recentDescs.shift();
+            if (recentDescs.length > RECENT_HISTORY_LIMIT) recentDescs.shift();
             await kv.set(["factor", "recent_descs"], recentDescs, { expireIn: HISTORY_TTL_MS });
+
+            recentBodies.push(post.body);
+            if (recentBodies.length > RECENT_HISTORY_LIMIT) recentBodies.shift();
+            await kv.set(["factor", "recent_bodies"], recentBodies, { expireIn: HISTORY_TTL_MS });
+
+            recentTitles.push(post.headline);
+            if (recentTitles.length > RECENT_HISTORY_LIMIT) recentTitles.shift();
+            await kv.set(["factor", "recent_titles"], recentTitles, { expireIn: HISTORY_TTL_MS });
 
             const nextDelay = Math.floor(REGULAR_MIN_INTERVAL_MS + Math.random() * (REGULAR_MAX_INTERVAL_MS - REGULAR_MIN_INTERVAL_MS + 1));
             await kv.set(["factor", "next_regular_delay"], nextDelay);
@@ -800,7 +845,7 @@ async function run() {
     }
 
     console.log(`\nИтого: дублей ${skippedDup}, неважных ${skippedImportance}, без медиа ${skippedNoMedia}, опубликовано ${published}`);
-    console.log("Подходящих событий пока нет.");
+    console.log("Подходящих событий нет.");
 }
 
 await run();
