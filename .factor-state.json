@@ -46,54 +46,6 @@
       ],
       "expiresAt": 1792835639115
     },
-    "[\"factor\",\"pub\",\"aa5680bab0bdf8baaebdc82fae25423ba33a4168a48a173bccb12f443dca6a2f\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "aa5680bab0bdf8baaebdc82fae25423ba33a4168a48a173bccb12f443dca6a2f"
-      ],
-      "value": true,
-      "expiresAt": 1792749418152
-    },
-    "[\"factor\",\"topic\",\"aa5680bab0bdf8baaebdc82fae25423ba33a4168a48a173bccb12f443dca6a2f\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "aa5680bab0bdf8baaebdc82fae25423ba33a4168a48a173bccb12f443dca6a2f"
-      ],
-      "value": {
-        "title": "Где Варяги – там у врага напряги 💬 Штурмовики 55-й дивизии морской пехоты группировки «Во",
-        "roots": [
-          "варяги",
-          "врага",
-          "напряг",
-          "штурмо",
-          "дивизи",
-          "морско",
-          "пехоты",
-          "группи"
-        ]
-      },
-      "expiresAt": 1792749418153
-    },
-    "[\"factor\",\"texthash\",\"a87753d24603ae72d917bbbecd982d8cbcd911a672d395d3c1736465aeb7458a\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "a87753d24603ae72d917bbbecd982d8cbcd911a672d395d3c1736465aeb7458a"
-      ],
-      "value": true,
-      "expiresAt": 1792749418153
-    },
-    "[\"factor\",\"content\",\"c0c7f69a8a2626fb478bc1fc89468dc87456ec2dd2f1f7352b18fd2c2270c872\"]": {
-      "key": [
-        "factor",
-        "content",
-        "c0c7f69a8a2626fb478bc1fc89468dc87456ec2dd2f1f7352b18fd2c2270c872"
-      ],
-      "value": true,
-      "expiresAt": 1792749418154
-    },
     "[\"factor\",\"pub\",\"c60cc5d5a24236374fd3f3f1611a63626017fd21cb088e258a054aafd96af0f0\"]": {
       "key": [
         "factor",
