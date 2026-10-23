@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Balanced & Fast Edition v73)
+// MAX NEWS AGENT — «ФАКТОР» (Always Publish Edition v74)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -18,7 +18,7 @@ const HARD_MIN_INTERVAL_MS = 5 * 60 * 1000;
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000;
 
 const MEDIA_PACKET_MAX = 6;
-const MIN_IMPORTANCE = 7; // Отсекаем всё, что ниже 7
+const MIN_IMPORTANCE = 6; // Снизили до 6, чтобы важные новости точно проходили
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
 const STATE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
@@ -34,7 +34,7 @@ const MIN_VIDEO_BYTES = 50 * 1024;
 const MAX_VIDEO_BYTES = 30 * 1024 * 1024;
 
 const MAX_BODY_LEN = 600; 
-const MIN_INSIGHT_IMPORTANCE = 7;
+const MIN_INSIGHT_IMPORTANCE = 6;
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
 
@@ -95,6 +95,7 @@ const NEWS_FEEDS = [
     { name: "Правда.ру", url: "https://www.pravda.ru/export.xml" },
 ];
 
+// Убрали Минтранс и прочее, чтобы не отсекать новости про аэропорты
 const BORING_TOPICS = [
     /(?:сесси[яи]|форум|круглый\s+стол|конференци[яи]|совещани[ея]|заседани[ея]|брифинг)/i,
     /(?:рэц|экспортер|клиентск|госуслуг|росреестр|минфин|ведомств)/i,
@@ -114,7 +115,7 @@ const BORING_TOPICS = [
     /(?:измен[аи]|изменил|любовн|скандал.*звезд|инстаграм|тикток)/i,
     /(?:спасение\s+(?:кота|собаки|животного))/i,
     /(?:турист|учител|коммунальн|ЖКХ|убийц|отсудил|полици[яи].*задерж|Макаревич|Пугачев|Киркоров|Бузова)/i,
-    /(?:автобус|троллейбус|трамвай|штраф|аренд|гектар|Минсельхоз|Минтранс|господдержк|субсиди|льготн.*лизинг|теплич|лицензи|букмекер|урожай)/i
+    /(?:автобус|троллейбус|трамвай|штраф|аренд|гектар|Минсельхоз|господдержк|субсиди|льготн.*лизинг|теплич|букмекер|урожай)/i
 ];
 
 class FileKV {
@@ -454,7 +455,16 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
 
                 if (mediaUrls.length > 0) {
                     for (const media of mediaUrls) {
-                        liveItems.push({ title: firstSentence.slice(0, 90), desc: sanitized, mediaUrl: media.mediaUrl, mediaType: media.mediaType, sourceName: ch, sourceType: "tg", postKey });
+                        liveItems.push({ 
+                            title: firstSentence.slice(0, 90), 
+                            desc: sanitized, 
+                            mediaUrl: media.mediaUrl, 
+                            mediaType: media.mediaType, 
+                            sourceName: ch, 
+                            sourceType: "tg", 
+                            postKey,
+                            postDate: postDate || 0 // Сохраняем дату для сортировки
+                        });
                     }
                     found++;
                 }
@@ -492,7 +502,7 @@ async function fetchRssFeeds(): Promise<any[]> {
 
                 if (uniqueImages.length > 0) {
                     for (const img of uniqueImages) {
-                        items.push({ title, desc, mediaUrl: img, mediaType: "image", sourceName: feed.name, sourceType: "rss", postKey });
+                        items.push({ title, desc, mediaUrl: img, mediaType: "image", sourceName: feed.name, sourceType: "rss", postKey, postDate: 0 });
                     }
                     feedFound++;
                 }
@@ -510,35 +520,32 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
     const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 100);
     const fallbackBody = cleanDesc.length > MAX_BODY_LEN ? cleanDesc.slice(0, MAX_BODY_LEN) + "..." : cleanDesc;
 
-    // СБАЛАНСИРОВАННЫЙ ПРОМПТ: Без перекоса в военщину
-    const prompt = `Ты — главный редактор новостного канала «ФАКТОР». Твой стиль — копировать подачу каналов вроде «Прямой Эфир»: сухо, четко, структурно, с эмодзи.
+    const prompt = `Ты — главный редактор новостного канала «ФАКТОР». Твой стиль — сухо, четко, структурно, с эмодзи.
 
 ИСХОДНЫЙ ТЕКСТ:
 ${cleanDesc}
 
 ЗАДАЧИ:
-1. headline — цепляющий, конкретный заголовок (до 7 слов) с ОДНИМ эмодзи (⚡ 🔥 🚨 💥 ⚠️ 📉 📈 🏆 🎯 💰 🌍 🛡️ ⚔️).
-   СТРОГО ЗАПРЕЩЕНО менять цифры, имена и названия. Никаких абстракций вроде "Работа сделана".
+1. headline — конкретный заголовок (до 7 слов) с ОДНИМ эмодзи.
    ЗАПРЕЩЕНО использовать вводные слова вроде "Свершилось!", "Шокирующая новость", "Внимание!".
 
 2. body — ПЕРЕПИШИ текст в стиле "Прямого Эфира" (ИСПОЛЬЗУЙ HTML-ТЕГИ <b> и <i>):
-   - СРАЗУ ПЕРЕХОДИ К ДЕЛУ. Убери весь канцелярит и воду.
+   - СРАЗУ ПЕРЕХОДИ К ДЕЛУ.
    - Разбей на 2-3 коротких абзаца (разделяй символом переноса \n\n).
    - Если есть перечисление — используй маркеры: 🟢, 🔴, 📌.
    - Выдели самое главное тегами <b>жирный текст</b>.
-   - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Если оригинал английский — ОБЯЗАТЕЛЬНО переведи.
+   - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ.
 
 3. insight — короткая фраза (до 12 слов) о том, что это значит.
 
 4. importance — целое 1-10:
-   - 9-10: Экстренные события, угрожающие жизни (массированные атаки БПЛА, теракты, катастрофы).
-   - 7-8: Очень важные новости. Политика, экономика, международные отношения (Путин, Трамп, санкции, крупные решения ЦБ). Сюда же входят одиночные прилеты БПЛА и локальные ЧП с пострадавшими.
-   - 5-6: Заметные события, технологии, крупные спортивные события, важные региональные новости.
-   - 1-4: НЕ ВАЖНО (бытовуха, ДТП без жертв, локальные пожары, бюрократия, скучные новости). Ставь низкую важность для скучных тем.
+   - 8-10: Экстренные события. Атаки БПЛА, удары, эвакуации, закрытие аэропортов, теракты, ключевая ставка ЦБ, заявления Путина/Трампа/Зеленского.
+   - 6-7: Очень важные новости. Политика, экономика, крупные ЧП.
+   - 1-5: НЕ ВАЖНО (бытовуха, скучные новости, наука, локальные ДТП). Ставь низкую важность для скучных тем.
 
 5. is_ad — true, если это реклама.
 
-Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 7, "is_ad": false}`;
+Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false}`;
 
     let llmResult: any = null;
 
@@ -548,7 +555,7 @@ ${cleanDesc}
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json" } }),
-                signal: AbortSignal.timeout(15000),
+                signal: AbortSignal.timeout(20000),
             });
             if (r.ok) {
                 const j = await r.json();
@@ -563,7 +570,7 @@ ${cleanDesc}
                 method: "POST",
                 headers: { "Content-Type": "application/json", "Authorization": `Bearer ${DASHSCOPE_API_KEY}` },
                 body: JSON.stringify({ model: QWEN_MODEL, messages: [{ role: "user", content: prompt }], temperature: 0.3 }),
-                signal: AbortSignal.timeout(15000),
+                signal: AbortSignal.timeout(20000),
             });
             if (r.ok) {
                 const j = await r.json();
@@ -576,19 +583,20 @@ ${cleanDesc}
     if (llmResult && llmResult.headline && llmResult.body) {
         const isEnglish = (llmResult.body.match(/[a-zA-Z]/g) || []).length > (llmResult.body.match(/[а-яА-Я]/g) || []).length;
         if (isEnglish) {
-            return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 5, is_ad: false };
+            return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 6, is_ad: false };
         }
 
         return {
             headline: validateHeadline(llmResult.headline, fallbackHeadline),
             body: sanitizeHtml(String(llmResult.body).trim()),
             insight: sanitizeHtml(String(llmResult.insight || "").trim()),
-            importance: Number(llmResult.importance) || 5,
+            importance: Number(llmResult.importance) || 6,
             is_ad: !!llmResult.is_ad,
         };
     }
     
-    return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 5, is_ad: false };
+    // Если ИИ упал, ставим 6 (чтобы новость прошла порог MIN_IMPORTANCE)
+    return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 6, is_ad: false };
 }
 
 async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<string> {
@@ -648,7 +656,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v73: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v74: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -682,6 +690,9 @@ async function run() {
     const candidates = [...tgCandidates, ...rssCandidates];
     console.log(`Всего кандидатов: ${candidates.length}`);
 
+    // Сортируем по дате (сначала самые свежие)
+    candidates.sort((a, b) => b.postDate - a.postDate);
+
     const seenPostKeys = new Set<string>();
     const uniqueCandidates: any[] = [];
     for (const c of candidates) {
@@ -692,8 +703,8 @@ async function run() {
     }
     console.log(`Уникальных постов: ${uniqueCandidates.length}`);
 
-    // Берем только первые 15 новостей, чтобы не сработал таймаут GitHub
-    const topCandidates = uniqueCandidates.slice(0, 15);
+    // Берем самые свежие 25 новостей
+    const topCandidates = uniqueCandidates.slice(0, 25);
     console.log(`К обработке принято: ${topCandidates.length}`);
 
     let skippedDup = 0, skippedImportance = 0, skippedNoMedia = 0, published = 0;
