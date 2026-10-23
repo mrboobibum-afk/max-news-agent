@@ -46,54 +46,6 @@
       ],
       "expiresAt": 1792808174563
     },
-    "[\"factor\",\"pub\",\"6e06cc20d6ff4ea5fd0574b7f06aef8833b92bc0ce31e90f7c74a8be6ca8dc58\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "6e06cc20d6ff4ea5fd0574b7f06aef8833b92bc0ce31e90f7c74a8be6ca8dc58"
-      ],
-      "value": true,
-      "expiresAt": 1792721771680
-    },
-    "[\"factor\",\"topic\",\"6e06cc20d6ff4ea5fd0574b7f06aef8833b92bc0ce31e90f7c74a8be6ca8dc58\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "6e06cc20d6ff4ea5fd0574b7f06aef8833b92bc0ce31e90f7c74a8be6ca8dc58"
-      ],
-      "value": {
-        "title": "❗️ ПВО с вечера вторника сбила 163 дрона на подлете к Москве UPD: Два человека пострадали ",
-        "roots": [
-          "вечера",
-          "вторни",
-          "сбила",
-          "дрона",
-          "подлет",
-          "москве",
-          "челове",
-          "постра"
-        ]
-      },
-      "expiresAt": 1792721771681
-    },
-    "[\"factor\",\"texthash\",\"b442b8aee6cbe4b6b9401c93748c0beba67edfa566e0645ee38a8e497e6cb889\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "b442b8aee6cbe4b6b9401c93748c0beba67edfa566e0645ee38a8e497e6cb889"
-      ],
-      "value": true,
-      "expiresAt": 1792721771682
-    },
-    "[\"factor\",\"content\",\"b442b8aee6cbe4b6b9401c93748c0beba67edfa566e0645ee38a8e497e6cb889\"]": {
-      "key": [
-        "factor",
-        "content",
-        "b442b8aee6cbe4b6b9401c93748c0beba67edfa566e0645ee38a8e497e6cb889"
-      ],
-      "value": true,
-      "expiresAt": 1792721771682
-    },
     "[\"factor\",\"pub\",\"b02e0215b47de8f5f55b8f07b2c58cd187f10981c5a89e4c63a7b02b0bb2f93b\"]": {
       "key": [
         "factor",
