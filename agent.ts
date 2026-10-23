@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (True Pryamoy Efir Style v79)
+// MAX NEWS AGENT — «ФАКТОР» (Pryamoy Efir Enforcer v81)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -117,7 +117,8 @@ const BORING_TOPICS = [
     /(?:автобус|троллейбус|трамвай|штраф|аренд|гектар|Минсельхоз|господдержк|субсиди|льготн.*лизинг|теплич|букмекер|урожай)/i,
     /(?:автоваз|lada|ростех|пресс-релиз|интервью журналу|автомобиль.*комфорт|электронная.*карта)/i,
     /(?:главное в штурме|дождаться своего часа|когда на кону|действовать нужно с умом|пошли на хитрость|работали дроны противника)/i,
-    /(?:среди вернувшихся|обмене бойцов|предстоит лечение|сообщила Лантратова|реабилитация)/i
+    /(?:среди вернувшихся|обмене бойцов|предстоит лечение|сообщила Лантратова|реабилитация)/i,
+    /(?:трек|релиз|альбом|певец|музыкант|рэпер|клип|анонс|концерт|фестиваль|туры|билет|bones|исполнител)/i
 ];
 
 class FileKV {
@@ -213,8 +214,9 @@ function cleanText(val: any): string {
     return t;
 }
 
+// 🛠 ТЕПЕРЬ МЫ ВЫРЕЗАЕМ ВСЕ ТЕГИ ИЗ ИНСАЙТА, ЧТОБЫ НЕ БЫЛО <b>
 function sanitizeHtml(html: string): string {
-    return html.replace(/<(?!\/?(b|i|br)\b)[^>]*>/gi, "");
+    return html.replace(/<[^>]*>/g, ""); 
 }
 
 function escapeHtml(val: any): string {
@@ -450,7 +452,6 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 const firstSentence = sanitized.split(/[.!?]\s/)[0] || sanitized;
                 const postKey = "tg_" + simpleHash(sanitized);
 
-                // 🎥 ЕСЛИ ЕСТЬ ВИДЕО, БЕРЕМ ТОЛЬКО ВИДЕО
                 const mediaUrls = videoMatches.length > 0 
                     ? videoMatches.map(mediaUrl => ({ mediaUrl, mediaType: "video" }))
                     : imageMatches.map(mediaUrl => ({ mediaUrl, mediaType: "image" }));
@@ -522,11 +523,22 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
     const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 90);
     const fallbackBody = cleanDesc.length > MAX_BODY_LEN ? "" : cleanDesc; 
 
-    // 🎯 ПРОМПТ С ПРИМЕРОМ (Few-shot) В СТИЛЕ ПРЯМОГО ЭФИРА
-    const prompt = `Ты — главный редактор новостного канала «ФАКТОР». Твой стиль — сухо, четко, структурно, с эмодзи. Никакой воды и канцелярита.
+    // 🎯 ЖЕСТКИЙ ПРОМПТ ДЛЯ КОПИРОВАНИЯ СТИЛЯ "ПРЯМОЙ ЭФИР"
+    const prompt = `Ты — главный редактор новостного канала «ФАКТОР». Твоя задача — сделать пост в ТОЧНОСТИ как в канале «Прямой Эфир». 
 
 ИСХОДНЫЙ ТЕКСТ:
 ${cleanDesc}
+
+ТРЕБОВАНИЯ К ФОРМАТУ:
+1. headline — конкретный заголовок (до 7 слов) с ОДНИМ эмодзи (⚡ 🔥 🚨 💥 ⚠️ 📉 📈 🏆 🎯 💰 🌍 🛡️ ⚔️).
+2. body — ЭТО САМОЕ ВАЖНОЕ. Ты ОБЯЗАН разбить текст на короткие пункты с эмодзи.
+   - КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО писать сплошным текстом!
+   - Используй маркеры: 🟢, 🔴, 📌.
+   - Выделяй главное тегами <b>жирный текст</b>.
+   - Максимум 2-3 коротких предложения или списка.
+3. insight — ОБЪЯСНИ ПРОСТЫМ ЯЗЫКОМ (1-2 предложения, до 25 слов). БЕЗ ТЕГОВ HTML. Представь, что читает твоя жена или мама. Объясни: к чему это приведет, почему это важно и как это коснется их жизни?
+4. importance — целое 1-10 (8-10 экстренно, 6-7 важно, 1-5 скучно).
+5. is_ad — true, если это реклама.
 
 ПРИМЕР ИДЕАЛЬНОГО ПОСТА:
 Заголовок: ЦБ сохранил ключевую ставку на уровне 14% 📉
@@ -534,16 +546,6 @@ ${cleanDesc}
 🟢 Базовый сценарий предполагает среднюю ставку 12,5–13,5% в 2027 году.
 🟢 Годовая инфляция в России по итогам года сложится в диапазоне 7,1–7,6%.
 Что это значит: Высокая ставка сдержит рост цен, но кредиты и ипотека останутся дорогими для людей.
-
-ТВОИ ЗАДАЧИ:
-1. headline — конкретный заголовок (до 7 слов) с ОДНИМ эмодзи.
-2. body — ПЕРЕПИШИ текст КОРОТКО (максимум 2-3 абзаца). 
-   - СРАЗУ ПЕРЕХОДИ К СУТИ. НЕ ПОВТОРЯЙ заголовок в первом предложении.
-   - Если есть перечисления — используй маркеры: 🟢, 🔴, 📌.
-   - Выдели главное тегами <b>жирный текст</b>.
-3. insight — ОБЪЯСНИ ПРОСТЫМ ЯЗЫКОМ (1-2 предложения, до 25 слов). Представь, что читает обычный человек. Объясни: к чему это приведет, почему это важно и как это коснется их жизни?
-4. importance — целое 1-10 (8-10 экстренно, 6-7 важно, 1-5 скучно).
-5. is_ad — true, если это реклама.
 
 Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false}`;
 
@@ -588,8 +590,8 @@ ${cleanDesc}
 
         return {
             headline: validateHeadline(llmResult.headline, fallbackHeadline),
-            body: sanitizeHtml(String(llmResult.body).trim()),
-            insight: sanitizeHtml(String(llmResult.insight || "").trim()),
+            body: sanitizeHtml(String(llmResult.body).trim()), // Оставляем html для <b> в теле
+            insight: sanitizeHtml(String(llmResult.insight || "").trim()), // Вырезаем все теги из инсайта
             importance: Number(llmResult.importance) || 6,
             is_ad: !!llmResult.is_ad,
         };
@@ -665,7 +667,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v79: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v81: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -764,9 +766,16 @@ async function run() {
             continue;
         }
 
-        // 🚨 ЗАЩИТА ОТ МУСОРА
         if (!post.body || post.body.length < 50 || !post.insight || post.insight.length < 10) {
             console.log(`❌ Пропуск: ИИ не смог переписать текст (мусорный пост).`);
+            skippedNoMedia++;
+            continue;
+        }
+
+        // 🚨 ПРОВЕРКА: Есть ли в теле поста маркеры Прямого Эфира (🟢, 🔴, 📌)?
+        const hasEfirMarkers = /(🟢|🔴|📌)/.test(post.body);
+        if (!hasEfirMarkers) {
+            console.log(`❌ Пропуск: ИИ не сделал список с маркерами (как в Прямом Эфире).`);
             skippedNoMedia++;
             continue;
         }
@@ -842,7 +851,7 @@ async function run() {
 
         let postHtml = "<b>" + escapeHtml(post.headline) + "</b>\n\n" + post.body;
         if (post.insight && post.importance >= MIN_INSIGHT_IMPORTANCE) {
-            postHtml += "\n\n💡 <i>Что это значит:</i> " + escapeHtml(post.insight);
+            postHtml += "\n\n💡 <i>Что это значит:</i> " + post.insight;
         }
         postHtml += "\n\n⚡ <b>ФАКТОР</b>\n#ФАКТОР";
 
