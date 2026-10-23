@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Bulletproof v84)
+// MAX NEWS AGENT — «ФАКТОР» (Fast Media v85)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -12,9 +12,9 @@ const DASHSCOPE_API_KEY = Deno.env.get("DASHSCOPE_API_KEY") ?? "";
 const QWEN_MODEL = Deno.env.get("QWEN_MODEL") ?? "qwen3.8-max";
 const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyuncs.com/compatible-mode/v1";
 
-const REGULAR_MIN_INTERVAL_MS = 10 * 60 * 1000;
-const REGULAR_MAX_INTERVAL_MS = 20 * 60 * 1000;
-const HARD_MIN_INTERVAL_MS = 5 * 60 * 1000;
+const REGULAR_MIN_INTERVAL_MS = 15 * 60 * 1000;
+const REGULAR_MAX_INTERVAL_MS = 25 * 60 * 1000;
+const HARD_MIN_INTERVAL_MS = 10 * 60 * 1000;
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000;
 
 const MEDIA_PACKET_MAX = 6;
@@ -35,6 +35,9 @@ const MAX_VIDEO_BYTES = 30 * 1024 * 1024;
 
 const MAX_BODY_LEN = 400; 
 const MIN_INSIGHT_IMPORTANCE = 6;
+
+// ⏱ УСКОРЯЕМ СКАЧИВАНИЕ
+const DOWNLOAD_TIMEOUT_MS = 10000; // 10 секунд
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
 
@@ -291,66 +294,51 @@ function isTrashUrl(url: string): boolean {
 
 function buildProxyUrls(url: string): string[] {
     const enc = encodeURIComponent(url);
+    // 🛠 ОСТАВЛЯЕМ ТОЛЬКО 1 ПРОКСИ И ОРИГИНАЛ, ЧТОБЫ НЕ ТРАТИТЬ ВРЕМЯ
     return [
         `https://corsproxy.io/?${enc}`,
-        `https://api.allorigins.win/raw?url=${enc}`,
         url,
     ];
 }
 
+// ⚡ УСКОРЕННОЕ СКАЧИВАНИЕ: 1 попытка, 10 секунд
 async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array | null> {
     if (!url || isTrashUrl(url)) return null;
 
     const proxyUrls = buildProxyUrls(url);
-    const timeout = isVideo ? 60000 : 20000;
-    const maxRetries = 2;
+    const timeout = DOWNLOAD_TIMEOUT_MS;
 
     for (const candidateUrl of proxyUrls) {
-        for (let attempt = 0; attempt <= maxRetries; attempt++) {
-            try {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), timeout);
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), timeout);
 
-                const response = await fetch(candidateUrl, {
-                    method: "GET",
-                    headers: {
-                        "User-Agent": USER_AGENT,
-                        "Referer": "https://t.me/",
-                        "Accept": "*/*",
-                    },
-                    signal: controller.signal,
-                });
+            const response = await fetch(candidateUrl, {
+                method: "GET",
+                headers: {
+                    "User-Agent": USER_AGENT,
+                    "Referer": "https://t.me/",
+                    "Accept": "*/*",
+                },
+                signal: controller.signal,
+            });
 
-                clearTimeout(timeoutId);
+            clearTimeout(timeoutId);
 
-                if (!response.ok) {
-                    if (attempt < maxRetries) continue;
-                    break;
-                }
+            if (!response.ok) continue;
 
-                const buf = new Uint8Array(await response.arrayBuffer());
-                const min = isVideo ? MIN_VIDEO_BYTES : MIN_IMAGE_BYTES;
-                const max = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
+            const buf = new Uint8Array(await response.arrayBuffer());
+            const min = isVideo ? MIN_VIDEO_BYTES : MIN_IMAGE_BYTES;
+            const max = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
 
-                if (buf.byteLength < min || buf.byteLength > max) {
-                    if (attempt < maxRetries) continue;
-                    break;
-                }
+            if (buf.byteLength < min || buf.byteLength > max) continue;
 
-                const head = new TextDecoder().decode(buf.subarray(0, 30)).toLowerCase();
-                if (head.includes("<html") || head.includes("<!doctype") || head.includes("<?xml")) {
-                    if (attempt < maxRetries) continue;
-                    break;
-                }
+            const head = new TextDecoder().decode(buf.subarray(0, 30)).toLowerCase();
+            if (head.includes("<html") || head.includes("<!doctype") || head.includes("<?xml")) continue;
 
-                return buf;
-            } catch {
-                if (attempt < maxRetries) {
-                    await new Promise(r => setTimeout(r, 1000 * (attempt + 1)));
-                    continue;
-                }
-                break;
-            }
+            return buf;
+        } catch {
+            continue; // Если не вышло - идем к следующему
         }
     }
     return null;
@@ -522,7 +510,6 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
     const cleanDesc = sanitizeRawText(desc);
     const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 90);
     
-    // 🛠 УМНЫЙ FALLBACK: Если ИИ упадет, возьмем первые 300 символов текста
     const fallbackBody = cleanDesc.slice(0, 300) + (cleanDesc.length > 300 ? "..." : "");
 
     const prompt = `Ты — главный редактор новостного канала «ФАКТОР». Твой стиль — сухо, четко, структурно, с эмодзи. Никакой воды и канцелярита.
@@ -563,7 +550,6 @@ ${cleanDesc}
             if (r.ok) {
                 const j = await r.json();
                 const text = j?.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
-                // 🛠 ИСПРАВЛЕНО: Вытаскиваем JSON даже если ИИ обернул его в ```json
                 const match = text.match(/\{[\s\S]*\}/);
                 if (match) llmResult = JSON.parse(match[0]);
             }
@@ -602,7 +588,6 @@ ${cleanDesc}
         };
     }
     
-    // Если ИИ не ответил, возвращаем fallback (он не пустой!)
     return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 6, is_ad: false };
 }
 
@@ -673,7 +658,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v84: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v85: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -772,7 +757,6 @@ async function run() {
             continue;
         }
 
-        // 🛠 УБРАЛИ ЖЕСТКИЕ ПРОВЕРКИ НА ИНСАЙТ. Требуем только тело поста.
         if (!post.body || post.body.length < 20) {
             console.log(`❌ Пропуск: ИИ вернул пустой текст (мусорный пост).`);
             skippedNoMedia++;
@@ -823,6 +807,15 @@ async function run() {
         const uploaded: Array<{ token: string, type: "image" | "video" }> = [];
         for (const media of mediaPacket) {
             let mediaBytes = await downloadBuffer(media.mediaUrl, media.mediaType === "video");
+            
+            // 🛠 ФОЛБЭК: Если видео не скачалось, пробуем взять картинку из этого же поста
+            if (!mediaBytes && media.mediaType === "video") {
+                const fallbackImg = candidates.find(c => c.postKey === item.postKey && c.mediaType === "image");
+                if (fallbackImg) {
+                    mediaBytes = await downloadBuffer(fallbackImg.mediaUrl, false);
+                }
+            }
+            
             if (!mediaBytes) continue;
 
             if (media.mediaType === "image") {
