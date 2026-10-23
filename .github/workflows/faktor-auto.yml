@@ -29,7 +29,7 @@ jobs:
           TARGET_CHAT_ID: ${{ secrets.TARGET_CHAT_ID }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
-        run: deno run -A agent.ts
+        run: deno run -A --unsafely-ignore-certificate-errors=platform-api2.max.ru agent.ts
 
       - name: Commit state changes
         run: |
