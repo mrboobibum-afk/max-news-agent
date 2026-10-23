@@ -2460,43 +2460,50 @@
       "value": true,
       "expiresAt": 1792823757272
     },
-    "[\"factor\",\"pub\",\"db9c7f91ad2cef1dce2540d60b3647d21020a0bdb53216f090be21f6d6a5ee5c\"]": {
+    "[\"factor\",\"pub\",\"07c063129425471679545fb6991879b0249e65963e18a33c11366bcb68a9852e\"]": {
       "key": [
         "factor",
         "pub",
-        "db9c7f91ad2cef1dce2540d60b3647d21020a0bdb53216f090be21f6d6a5ee5c"
+        "07c063129425471679545fb6991879b0249e65963e18a33c11366bcb68a9852e"
       ],
       "value": true,
-      "expiresAt": 1792826106557
+      "expiresAt": 1792826442099
     },
-    "[\"factor\",\"topic\",\"db9c7f91ad2cef1dce2540d60b3647d21020a0bdb53216f090be21f6d6a5ee5c\"]": {
+    "[\"factor\",\"topic\",\"07c063129425471679545fb6991879b0249e65963e18a33c11366bcb68a9852e\"]": {
       "key": [
         "factor",
         "topic",
-        "db9c7f91ad2cef1dce2540d60b3647d21020a0bdb53216f090be21f6d6a5ee5c"
+        "07c063129425471679545fb6991879b0249e65963e18a33c11366bcb68a9852e"
       ],
       "value": {
-        "title": "\"Я не пожилой",
+        "title": "Засекли – посекли 💥 Операторы ударных БПЛА группировки «Восток» ликвидировали группы пехо",
         "roots": [
-          "пожило"
+          "засекл",
+          "посекл",
+          "операт",
+          "ударны",
+          "группи",
+          "восток",
+          "ликвид",
+          "группы"
         ]
       },
-      "expiresAt": 1792826106558
+      "expiresAt": 1792826442100
     },
-    "[\"factor\",\"texthash\",\"54acdb6a455741c074d256fb163209af6944039b596dce8cb4d0990a95036861\"]": {
+    "[\"factor\",\"texthash\",\"3489954027eb7d934edda283cc99d09acd6e0c79283d5f168ef87d2f132b15cf\"]": {
       "key": [
         "factor",
         "texthash",
-        "54acdb6a455741c074d256fb163209af6944039b596dce8cb4d0990a95036861"
+        "3489954027eb7d934edda283cc99d09acd6e0c79283d5f168ef87d2f132b15cf"
       ],
       "value": true,
-      "expiresAt": 1792826106558
+      "expiresAt": 1792826442101
     },
-    "[\"factor\",\"content\",\"2408e63c8765e091a94740236d01a57478ebbdcceedca2c8fe28f2bf72255bd3\"]": {
+    "[\"factor\",\"content\",\"22ed962cffa86724345d36f60effa216804f56105cdef19ba32c120754a555ba\"]": {
       "key": [
         "factor",
         "content",
-        "2408e63c8765e091a94740236d01a57478ebbdcceedca2c8fe28f2bf72255bd3"
+        "22ed962cffa86724345d36f60effa216804f56105cdef19ba32c120754a555ba"
       ],
       "value": true,
       "expiresAt": 1792826106559
