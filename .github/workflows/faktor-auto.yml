@@ -2,104 +2,39 @@ name: FAKTOR Auto
 
 on:
   schedule:
-    - cron: "*/5 * * * *"
-    - cron: "0 3 * * 0"
+    - cron: '*/15 * * * *' # Запуск каждые 15 минут
   workflow_dispatch:
-  push:
-    paths:
-      - ".github/workflows/faktor-auto.yml"
-      - "agent.ts"
-
-permissions:
-  contents: write
 
 concurrency:
-  group: faktor-pipeline-v2
-  cancel-in-progress: false
+  group: faktor-auto
+  cancel-in-progress: true # Отменяет старые запуски, если начался новый
 
 jobs:
-  run:
+  run-faktor:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 10 # Максимум 10 минут на работу
 
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Install yt-dlp & ffmpeg (Static)
-        run: |
-          sudo mkdir -p /usr/local/bin
-          sudo wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O /usr/local/bin/yt-dlp
-          sudo chmod a+rx /usr/local/bin/yt-dlp
-          wget https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linux64-gpl.tar.xz
-          tar -xJf ffmpeg-master-latest-linux64-gpl.tar.xz
-          sudo cp ffmpeg-master-latest-linux64-gpl/bin/ffmpeg /usr/local/bin/ffmpeg
-          sudo cp ffmpeg-master-latest-linux64-gpl/bin/ffprobe /usr/local/bin/ffprobe
-          sudo chmod a+rx /usr/local/bin/ffmpeg /usr/local/bin/ffprobe
-          rm -rf ffmpeg-master-latest-linux64-gpl ffmpeg-master-latest-linux64-gpl.tar.xz
 
       - name: Setup Deno
-        uses: denoland/setup-deno@v2
+        uses: denoland/setup-deno@v1
         with:
-          deno-version: v2.x
+          deno-version: v1.x
 
       - name: Run FAKTOR once
-        timeout-minutes: 20
         env:
-          GITHUB_ACTIONS: "true"
           MAX_BOT_TOKEN: ${{ secrets.MAX_BOT_TOKEN }}
           TARGET_CHAT_ID: ${{ secrets.TARGET_CHAT_ID }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          DASHSCOPE_API_KEY: ${{ secrets.ANYMODEL_API_KEY }}
-          QWEN_BASE_URL: "https://anymodel.org/v1"
-          QWEN_MODEL: "am/gpt-oss-20b"
-          MAX_VIDEO_MB: "30"
-          MAX_IMAGE_MB: "15"
+          DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
+        run: deno run -A agent.ts
+
+      - name: Commit state changes
         run: |
-          set -u
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          echo "=== Проверка публикации: $(date -u +%Y-%m-%dT%H:%M:%SZ) ==="
-          set +e
-          deno run \
-            --v8-flags=--max-old-space-size=6144 \
-            --allow-net \
-            --allow-env \
-            --allow-read \
-            --allow-write \
-            --allow-run \
-            agent.ts
-          agent_exit_code=$?
-          set -e
-
-          if [ -f .factor-state.json ]; then
-            git add .factor-state.json
-            if ! git diff --staged --quiet; then
-              git commit -m "chore: sync state [skip ci]" || true
-              git pull --no-rebase --no-edit -X ours origin main || true
-              git push origin HEAD:main || true
-            fi
-          fi
-
-          if [ "$agent_exit_code" -ne 0 ]; then
-            echo "::error::agent.ts завершился с кодом $agent_exit_code"
-            exit "$agent_exit_code"
-          fi
-
-      - name: Keepalive (weekly)
-        if: github.event.schedule == '0 3 * * 0'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          date -u > .keepalive
-          git add .keepalive
-          git commit -m "chore: keepalive [skip ci]" || true
-          git pull --no-rebase --no-edit -X ours origin main || true
-          git push origin HEAD:main || true
-
-      - name: Finish
-        if: ${{ always() }}
-        run: echo "Проверка публикации завершена."
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .factor-state.json
+          git commit -m "Update state [skip ci]" || echo "No changes to commit"
+          git push
