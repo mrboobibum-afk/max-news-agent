@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Bulletproof Text Fallback v87)
+// MAX NEWS AGENT — «ФАКТОР» (Smart Trim & No Duplicates v88)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -505,10 +505,16 @@ async function fetchRssFeeds(): Promise<any[]> {
 }
 
 async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, body: string, insight: string, importance: number, is_ad: boolean }> {
-    const cleanDesc = sanitizeRawText(desc);
+    let cleanDesc = sanitizeRawText(desc);
     const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 90);
     
-    // 🛠 УМНЫЙ FALLBACK: Берем оригинальный текст, если ИИ не справится
+    // 🛠 УМНАЯ ОБРЕЗКА: Если оригинальный текст начинается с заголовка, вырезаем его
+    if (cleanDesc.toLowerCase().startsWith(fallbackHeadline.toLowerCase())) {
+        cleanDesc = cleanDesc.slice(fallbackHeadline.length).trim();
+        cleanDesc = cleanDesc.replace(/^[-—:.\s]+/, ''); // Чистим знаки препинания после обрезки
+    }
+
+    // Фолбэк, если ИИ упадет (уже без дубляжа заголовка)
     const fallbackBody = cleanDesc.slice(0, 350) + (cleanDesc.length > 350 ? "..." : "");
 
     const prompt = `Ты — главный редактор новостного канала «ФАКТОР». Твой стиль — сухо, четко, структурно, с эмодзи. Никакой воды и канцелярита.
@@ -587,7 +593,6 @@ ${cleanDesc}
         };
     }
     
-    // 🛠 Возвращаем fallback (оригинальный текст), а не пустоту
     return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 6, is_ad: false };
 }
 
@@ -658,7 +663,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v87: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v88: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -742,7 +747,6 @@ async function run() {
         console.log("\nОбработка: " + item.title);
 
         const mediaPacket = getMediaPacket(item, candidates);
-        // Если медиа вообще нет в посте, мы все равно пытаемся его обработать (текст опубликуем)
 
         const post = await formatNewsPost(item.title, item.desc);
 
@@ -759,9 +763,11 @@ async function run() {
             continue;
         }
 
+        // 🛠 ЖЕСТКАЯ ПРОВЕРКА: Если тело поста начинается с заголовка
         const cleanBody = post.body.toLowerCase().replace(/[^a-zа-я0-9]/g, "");
         const cleanHead = post.headline.toLowerCase().replace(/[^a-zа-я0-9]/g, "");
-        if (cleanBody.includes(cleanHead) && cleanBody.length < cleanHead.length + 20) {
+        
+        if (cleanBody.startsWith(cleanHead.substring(0, 15))) {
             console.log(`❌ Пропуск: тело поста дублирует заголовок.`);
             skippedNoMedia++;
             continue;
@@ -827,7 +833,6 @@ async function run() {
             if (uploaded.length >= MEDIA_PACKET_MAX) break;
         }
 
-        // 🛠 ГЛАВНОЕ ИЗМЕНЕНИЕ: Если медиа не скачалось, мы НЕ ПРОПУСКАЕМ новость!
         if (!uploaded.length) {
             console.log(`⚠️ Медиа не скачалось, публикуем только текст.`);
         } else {
