@@ -46,52 +46,6 @@
       ],
       "expiresAt": 1792814194780
     },
-    "[\"factor\",\"pub\",\"2a1021eaa44e2028470437295a7676f5efe88b5bfd46508f3a8adc89d3a4eadf\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "2a1021eaa44e2028470437295a7676f5efe88b5bfd46508f3a8adc89d3a4eadf"
-      ],
-      "value": true,
-      "expiresAt": 1792727575072
-    },
-    "[\"factor\",\"topic\",\"2a1021eaa44e2028470437295a7676f5efe88b5bfd46508f3a8adc89d3a4eadf\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "2a1021eaa44e2028470437295a7676f5efe88b5bfd46508f3a8adc89d3a4eadf"
-      ],
-      "value": {
-        "title": "Зеленский опозорился в Осло: провокации Киева не сработали дважды",
-        "roots": [
-          "зеленс",
-          "опозор",
-          "провок",
-          "киева",
-          "сработ",
-          "дважды"
-        ]
-      },
-      "expiresAt": 1792727575074
-    },
-    "[\"factor\",\"texthash\",\"18672938ff7cc3f2e876ef25465905fa5b75cdc32f506d4b8122ef4ad23cbfc6\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "18672938ff7cc3f2e876ef25465905fa5b75cdc32f506d4b8122ef4ad23cbfc6"
-      ],
-      "value": true,
-      "expiresAt": 1792727575075
-    },
-    "[\"factor\",\"content\",\"18672938ff7cc3f2e876ef25465905fa5b75cdc32f506d4b8122ef4ad23cbfc6\"]": {
-      "key": [
-        "factor",
-        "content",
-        "18672938ff7cc3f2e876ef25465905fa5b75cdc32f506d4b8122ef4ad23cbfc6"
-      ],
-      "value": true,
-      "expiresAt": 1792727575075
-    },
     "[\"factor\",\"pub\",\"9ccd14ad272ad646a22cf34894434d992fa6fc289e00ef8cb4ec858540ef4e4e\"]": {
       "key": [
         "factor",
