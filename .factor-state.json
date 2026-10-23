@@ -2413,53 +2413,51 @@
         "22d6cc95a191b34817037c4aa037936cd15ef9de189e42ddb6397d673d4ff3cf"
       ],
       "value": true,
-      "expiresAt": 1792819700547
+      "expiresAt": 1792820428113
     },
-    "[\"factor\",\"pub\",\"dba8c79b72eed286941bfb7f0a3cf3abb9f0b0c8d636c09544d84e35aec56da3\"]": {
+    "[\"factor\",\"pub\",\"384b3d64843b063437d8b9f4899b2298faeff8c283f80f93c160a2e722327226\"]": {
       "key": [
         "factor",
         "pub",
-        "dba8c79b72eed286941bfb7f0a3cf3abb9f0b0c8d636c09544d84e35aec56da3"
+        "384b3d64843b063437d8b9f4899b2298faeff8c283f80f93c160a2e722327226"
       ],
       "value": true,
-      "expiresAt": 1792821277477
+      "expiresAt": 1792822089802
     },
-    "[\"factor\",\"topic\",\"dba8c79b72eed286941bfb7f0a3cf3abb9f0b0c8d636c09544d84e35aec56da3\"]": {
+    "[\"factor\",\"topic\",\"384b3d64843b063437d8b9f4899b2298faeff8c283f80f93c160a2e722327226\"]": {
       "key": [
         "factor",
         "topic",
-        "dba8c79b72eed286941bfb7f0a3cf3abb9f0b0c8d636c09544d84e35aec56da3"
+        "384b3d64843b063437d8b9f4899b2298faeff8c283f80f93c160a2e722327226"
       ],
       "value": {
-        "title": "📃 Чужой среди своИИх Эксперт по ИИ Александр Горный — о том, почему американский запрет D",
+        "title": "📃 Средства ПВО за ночь сбили 33 беспилотника над Воронежем и областью Средства противовоз",
         "roots": [
-          "чужой",
-          "среди",
-          "своиих",
-          "экспер",
-          "алекса",
-          "горный",
-          "почему",
-          "америк",
-          "запрет"
+          "средст",
+          "сбили",
+          "беспил",
+          "вороне",
+          "област",
+          "средст",
+          "против"
         ]
       },
-      "expiresAt": 1792821277478
+      "expiresAt": 1792822089804
     },
-    "[\"factor\",\"texthash\",\"a9062a809eeaec7da66ee6b6361f2d6d3b0833274144d3891843974e71e0bc64\"]": {
+    "[\"factor\",\"texthash\",\"fa9aa9c9c854f0a6aff451a52b682b633253f730e69208690ab95a491c988da7\"]": {
       "key": [
         "factor",
         "texthash",
-        "a9062a809eeaec7da66ee6b6361f2d6d3b0833274144d3891843974e71e0bc64"
+        "fa9aa9c9c854f0a6aff451a52b682b633253f730e69208690ab95a491c988da7"
       ],
       "value": true,
-      "expiresAt": 1792821277479
+      "expiresAt": 1792822089805
     },
-    "[\"factor\",\"content\",\"e821a562ec51b4dd0242ee0a84de1f624eb0a366382b98ebffb7dd38bec31135\"]": {
+    "[\"factor\",\"content\",\"5ea65ede5776b349aebb2b3e758962756f18352c5d6051da14c03f22fdfaf77b\"]": {
       "key": [
         "factor",
         "content",
-        "e821a562ec51b4dd0242ee0a84de1f624eb0a366382b98ebffb7dd38bec31135"
+        "5ea65ede5776b349aebb2b3e758962756f18352c5d6051da14c03f22fdfaf77b"
       ],
       "value": true,
       "expiresAt": 1792821277479
