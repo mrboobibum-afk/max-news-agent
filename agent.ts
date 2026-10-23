@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Auto-Clean & Deep Dedup v71)
+// MAX NEWS AGENT — «ФАКТОР» (No Timeout & Strict Military v72)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -25,9 +25,8 @@ const STATE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
 const STATE_MAX_ENTRIES = 300;
 const STATE_KEEP_ENTRIES = 100;
 
-// 🧠 АВТООЧИСТКА ПАМЯТИ: Храним последние 100 новостей
 const RECENT_HISTORY_LIMIT = 100;
-const SIMILARITY_THRESHOLD = 0.35; // 35% совпадения = дубликат
+const SIMILARITY_THRESHOLD = 0.35; 
 
 const MIN_IMAGE_BYTES = 10 * 1024;
 const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
@@ -158,7 +157,6 @@ class FileKV {
         return res;
     }
 
-    // 🧹 АВТООЧИСТКА: Удаляет просроченные записи и лишние хвосты
     async cleanup(): Promise<{ removedExpired: number; removedOld: number; removedOverflow: number; kept: number }> {
         const d = await this.load();
         const now = Date.now();
@@ -232,7 +230,6 @@ function getWordSet(text: string): Set<string> {
     return new Set(words);
 }
 
-// 🧠 УМНЫЙ ДЕДУПЛИКАТОР
 function isSimilar(text1: string, text2: string): boolean {
     const set1 = getWordSet(text1);
     const set2 = getWordSet(text2);
@@ -513,7 +510,8 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
     const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 100);
     const fallbackBody = cleanDesc.length > MAX_BODY_LEN ? cleanDesc.slice(0, MAX_BODY_LEN) + "..." : cleanDesc;
 
-    const prompt = `Ты — главный редактор новостного канала «ФАКТОР». Твой стиль — копировать подачу каналов вроде «Прямой Эфир»: сухо, четко, структурно, с эмодзи. НИКАКОГО КАНЦЕЛЯРИТА И ЖЕЛТИЗНЫ.
+    // 🚨 ЖЕСТКИЙ ПРОМПТ: Принудительно ставим высокую важность военным сводкам и БПЛА
+    const prompt = `Ты — главный редактор новостного канала «ФАКТОР». Твой стиль — копировать подачу каналов вроде «Прямой Эфир»: сухо, четко, структурно, с эмодзи.
 
 ИСХОДНЫЙ ТЕКСТ:
 ${cleanDesc}
@@ -533,14 +531,15 @@ ${cleanDesc}
 3. insight — короткая фраза (до 12 слов) о том, что это значит.
 
 4. importance — целое 1-10:
+   ВНИМАНИЕ: Если новость про БПЛА, ракетные удары, беспилотники, обстрелы, военные действия, политику, Путина, Трампа или Зеленского — СТАВЬ ВАЖНОСТЬ 8, 9 или 10! Это самые важные новости!
    10 — экстренно (война, теракт, катастрофа).
-   8-9 — очень важно (крупное ЧП с жертвами).
-   7 — важно (политика, экономика, геополитика, Трамп/Путин/Зеленский).
-   1-6 — НЕ ВАЖНО (бытовуха, ДТП, локальные пожары, бюрократия, скучные новости). Ставь низкую важность для скучных тем.
+   8-9 — очень важно (удары БПЛА, крупное ЧП с жертвами).
+   7 — важно (политика, экономика).
+   1-6 — НЕ ВАЖНО (бытовуха, ДТП, локальные пожары, бюрократия, скучные новости, наука). Ставь низкую важность для скучных тем.
 
 5. is_ad — true, если это реклама.
 
-Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 7, "is_ad": false}`;
+Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false}`;
 
     let llmResult: any = null;
 
@@ -550,7 +549,7 @@ ${cleanDesc}
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json" } }),
-                signal: AbortSignal.timeout(20000),
+                signal: AbortSignal.timeout(15000), // Уменьшили таймаут до 15 сек
             });
             if (r.ok) {
                 const j = await r.json();
@@ -565,7 +564,7 @@ ${cleanDesc}
                 method: "POST",
                 headers: { "Content-Type": "application/json", "Authorization": `Bearer ${DASHSCOPE_API_KEY}` },
                 body: JSON.stringify({ model: QWEN_MODEL, messages: [{ role: "user", content: prompt }], temperature: 0.3 }),
-                signal: AbortSignal.timeout(20000),
+                signal: AbortSignal.timeout(15000),
             });
             if (r.ok) {
                 const j = await r.json();
@@ -604,7 +603,7 @@ async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<
     if (!initData.url) throw new Error("Upload URL error");
     const form = new FormData();
     form.append("data", new Blob([bytes], { type: type === "video" ? "video/mp4" : "image/jpeg" }), `file.${type === "video" ? "mp4" : "jpg"}`);
-    const res = await fetch(initData.url, { method: "POST", body: form, signal: AbortSignal.timeout(120000) });
+    const res = await fetch(initData.url, { method: "POST", body: form, signal: AbortSignal.timeout(60000) }); // Уменьшили таймаут до 60 сек
     const text = await res.text();
     let json: any = {};
     try { json = JSON.parse(text); } catch {}
@@ -650,7 +649,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v71: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v72: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -694,13 +693,17 @@ async function run() {
     }
     console.log(`Уникальных постов: ${uniqueCandidates.length}`);
 
+    // 🚨 ОГРАНИЧЕНИЕ: Берем только первые 15 новостей, чтобы не сработал таймаут GitHub
+    const topCandidates = uniqueCandidates.slice(0, 15);
+    console.log(`К обработке принято: ${topCandidates.length}`);
+
     let skippedDup = 0, skippedImportance = 0, skippedNoMedia = 0, published = 0;
 
     const recentDescs: string[] = (await kv.get(["factor", "recent_descs"])).value || [];
     const recentBodies: string[] = (await kv.get(["factor", "recent_bodies"])).value || [];
     const recentTitles: string[] = (await kv.get(["factor", "recent_titles"])).value || [];
 
-    for (const item of uniqueCandidates) {
+    for (const item of topCandidates) {
         const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(item.title))))
             .map(b => b.toString(16).padStart(2, "0")).join("");
 
@@ -713,7 +716,6 @@ async function run() {
             continue;
         }
 
-        // Проверка на схожесть ИСХОДНОГО текста
         let isSimilarFound = false;
         for (const pastDesc of recentDescs) {
             if (isSimilar(item.desc, pastDesc)) {
@@ -745,7 +747,6 @@ async function run() {
             continue;
         }
 
-        // Проверка сгенерированного ЗАГОЛОВКА
         let isTitleSimilar = false;
         for (const pastTitle of recentTitles) {
             if (isSimilar(post.headline, pastTitle)) {
@@ -759,7 +760,6 @@ async function run() {
             continue;
         }
 
-        // Проверка сгенерированного ТЕКСТА
         let isBodySimilar = false;
         for (const pastBody of recentBodies) {
             if (isSimilar(post.body, pastBody)) {
@@ -824,7 +824,6 @@ async function run() {
                 await kv.set(["factor", "content", contentHash], true, { expireIn: HISTORY_TTL_MS });
             }
 
-            // 🧠 АВТООЧИСТКА ПАМЯТИ (Держим лимит 100)
             recentDescs.push(item.desc);
             if (recentDescs.length > RECENT_HISTORY_LIMIT) recentDescs.shift();
             await kv.set(["factor", "recent_descs"], recentDescs, { expireIn: HISTORY_TTL_MS });
@@ -840,7 +839,7 @@ async function run() {
             const nextDelay = Math.floor(REGULAR_MIN_INTERVAL_MS + Math.random() * (REGULAR_MAX_INTERVAL_MS - REGULAR_MIN_INTERVAL_MS + 1));
             await kv.set(["factor", "next_regular_delay"], nextDelay);
             await kv.set(["factor", "last_regular"], now);
-            return;
+            return; // Выходим сразу после публикации
         }
     }
 
