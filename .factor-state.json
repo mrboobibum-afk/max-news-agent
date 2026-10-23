@@ -46,49 +46,6 @@
       ],
       "expiresAt": 1792809520191
     },
-    "[\"factor\",\"pub\",\"b02e0215b47de8f5f55b8f07b2c58cd187f10981c5a89e4c63a7b02b0bb2f93b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "b02e0215b47de8f5f55b8f07b2c58cd187f10981c5a89e4c63a7b02b0bb2f93b"
-      ],
-      "value": true,
-      "expiresAt": 1792723178101
-    },
-    "[\"factor\",\"topic\",\"b02e0215b47de8f5f55b8f07b2c58cd187f10981c5a89e4c63a7b02b0bb2f93b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "b02e0215b47de8f5f55b8f07b2c58cd187f10981c5a89e4c63a7b02b0bb2f93b"
-      ],
-      "value": {
-        "title": "📃 Подробности освобождения Червоного Яра",
-        "roots": [
-          "подроб",
-          "освобо",
-          "червон"
-        ]
-      },
-      "expiresAt": 1792723178102
-    },
-    "[\"factor\",\"texthash\",\"24af277f352d8e604b45c18a697ac83f4cdc97e4ebf05b8d09445a636003379f\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "24af277f352d8e604b45c18a697ac83f4cdc97e4ebf05b8d09445a636003379f"
-      ],
-      "value": true,
-      "expiresAt": 1792723178103
-    },
-    "[\"factor\",\"content\",\"24af277f352d8e604b45c18a697ac83f4cdc97e4ebf05b8d09445a636003379f\"]": {
-      "key": [
-        "factor",
-        "content",
-        "24af277f352d8e604b45c18a697ac83f4cdc97e4ebf05b8d09445a636003379f"
-      ],
-      "value": true,
-      "expiresAt": 1792723178104
-    },
     "[\"factor\",\"pub\",\"031e27213bb1b910a74def076e0458c905491d73ebf8182dcd14e35a925686f2\"]": {
       "key": [
         "factor",
