@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Short & Clear v76)
+// MAX NEWS AGENT — «ФАКТОР» (Strict Media & No Truncation v77)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -33,8 +33,7 @@ const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
 const MIN_VIDEO_BYTES = 50 * 1024;
 const MAX_VIDEO_BYTES = 30 * 1024 * 1024;
 
-// 📉 УМЕНЬШИЛИ ДЛИНУ ПОСТА, ЧТОБЫ НЕ БЫЛО ПРОСТЫНЕЙ
-const MAX_BODY_LEN = 350; 
+const MAX_BODY_LEN = 400; 
 const MIN_INSIGHT_IMPORTANCE = 6;
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
@@ -116,8 +115,9 @@ const BORING_TOPICS = [
     /(?:спасение\s+(?:кота|собаки|животного))/i,
     /(?:турист|учител|коммунальн|ЖКХ|убийц|отсудил|полици[яи].*задерж|Макаревич|Пугачев|Киркоров|Бузова)/i,
     /(?:автобус|троллейбус|трамвай|штраф|аренд|гектар|Минсельхоз|господдержк|субсиди|льготн.*лизинг|теплич|букмекер|урожай)/i,
-    // 🚫 Убираем корпоративный пиар и рекламу
-    /(?:автоваз|lada|ростех|пресс-релиз|интервью журналу|автомобиль.*комфорт|электронная.*карта)/i
+    /(?:автоваз|lada|ростех|пресс-релиз|интервью журналу|автомобиль.*комфорт|электронная.*карта)/i,
+    // 🚫 ЖЕСТКИЙ ФИЛЬТР ПРОТИВ СУХИХ ВОЕННЫХ СВОДОК (без конкретики)
+    /(?:главное в штурме|дождаться своего часа|когда на кону|действовать нужно с умом|пошли на хитрость|работали дроны противника)/i
 ];
 
 class FileKV {
@@ -450,10 +450,10 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 const firstSentence = sanitized.split(/[.!?]\s/)[0] || sanitized;
                 const postKey = "tg_" + simpleHash(sanitized);
 
-                const mediaUrls = [
-                    ...videoMatches.map(mediaUrl => ({ mediaUrl, mediaType: "video" })),
-                    ...imageMatches.map(mediaUrl => ({ mediaUrl, mediaType: "image" })),
-                ];
+                // 🎥 ЕСЛИ ЕСТЬ ВИДЕО, БЕРЕМ ТОЛЬКО ВИДЕО (игнорируем превью-картинки)
+                const mediaUrls = videoMatches.length > 0 
+                    ? videoMatches.map(mediaUrl => ({ mediaUrl, mediaType: "video" }))
+                    : imageMatches.map(mediaUrl => ({ mediaUrl, mediaType: "image" }));
 
                 if (mediaUrls.length > 0) {
                     for (const media of mediaUrls) {
@@ -520,9 +520,10 @@ async function fetchRssFeeds(): Promise<any[]> {
 async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, body: string, insight: string, importance: number, is_ad: boolean }> {
     const cleanDesc = sanitizeRawText(desc);
     const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 100);
-    const fallbackBody = cleanDesc.length > MAX_BODY_LEN ? cleanDesc.slice(0, MAX_BODY_LEN) + "..." : cleanDesc;
+    
+    // Отсекаем слишком длинные сырые тексты, если ИИ упадет
+    const fallbackBody = cleanDesc.length > MAX_BODY_LEN ? "" : cleanDesc; 
 
-    // ✍️ ОБНОВЛЕННЫЙ ПРОМПТ (Коротко и с понятным объяснением)
     const prompt = `Ты — главный редактор новостного канала «ФАКТОР». Твой стиль: сухо, четко, без воды, с эмодзи.
 
 ИСХОДНЫЙ ТЕКСТ:
@@ -545,7 +546,7 @@ ${cleanDesc}
 4. importance — целое 1-10:
    8-10 — Экстренно (атаки БПЛА, эвакуации, теракты, ставка ЦБ, заявления первых лиц).
    6-7 — Важно (политика, экономика, крупные ЧП).
-   1-5 — НЕ ВАЖНО (бытовуха, скучные новости, наука).
+   1-5 — НЕ ВАЖНО (бытовуха, скучные новости, наука, сухие военные сводки без конкретики). Ставь 1-5, если это просто рассуждения или пиар.
 
 5. is_ad — true, если это реклама.
 
@@ -669,7 +670,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v76: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v77: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -765,6 +766,13 @@ async function run() {
         if (post.importance < MIN_IMPORTANCE) {
             console.log(`Пропуск: важность ${post.importance} < ${MIN_IMPORTANCE}`);
             skippedImportance++;
+            continue;
+        }
+
+        // 🚨 Если ИИ упал и вернул пустой текст (fallback), пропускаем, чтобы не публиковать обрубки
+        if (!post.body || post.body.length < 10) {
+            console.log(`❌ Пропуск: ИИ не смог переписать текст, а сырой обрезан.`);
+            skippedNoMedia++;
             continue;
         }
 
