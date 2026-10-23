@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Strict Media & No Truncation v77)
+// MAX NEWS AGENT — «ФАКТОР» (True Pryamoy Efir Style v79)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -116,8 +116,8 @@ const BORING_TOPICS = [
     /(?:турист|учител|коммунальн|ЖКХ|убийц|отсудил|полици[яи].*задерж|Макаревич|Пугачев|Киркоров|Бузова)/i,
     /(?:автобус|троллейбус|трамвай|штраф|аренд|гектар|Минсельхоз|господдержк|субсиди|льготн.*лизинг|теплич|букмекер|урожай)/i,
     /(?:автоваз|lada|ростех|пресс-релиз|интервью журналу|автомобиль.*комфорт|электронная.*карта)/i,
-    // 🚫 ЖЕСТКИЙ ФИЛЬТР ПРОТИВ СУХИХ ВОЕННЫХ СВОДОК (без конкретики)
-    /(?:главное в штурме|дождаться своего часа|когда на кону|действовать нужно с умом|пошли на хитрость|работали дроны противника)/i
+    /(?:главное в штурме|дождаться своего часа|когда на кону|действовать нужно с умом|пошли на хитрость|работали дроны противника)/i,
+    /(?:среди вернувшихся|обмене бойцов|предстоит лечение|сообщила Лантратова|реабилитация)/i
 ];
 
 class FileKV {
@@ -362,7 +362,7 @@ function fixBrandNames(text: string): string {
 
 function validateHeadline(llmHead: string, fallbackHead: string): string {
     let h = (llmHead || "").trim();
-    if (h.length < 10 || h.endsWith("-") || h.endsWith(",") || h.includes("...")) return fallbackHead;
+    if (h.length < 10 || h.endsWith("-") || h.endsWith(",") || h.endsWith("...")) return fallbackHead;
     const words = h.split(/\s+/).filter(w => w.length > 2);
     if (words.length < 3) return fallbackHead;
     const vaguePhrases = ["работа сделана", "дело тонкое", "к ответу", "на частоте", "всем известно", "без комментариев", "шокирующая", "свершилось"];
@@ -450,7 +450,7 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 const firstSentence = sanitized.split(/[.!?]\s/)[0] || sanitized;
                 const postKey = "tg_" + simpleHash(sanitized);
 
-                // 🎥 ЕСЛИ ЕСТЬ ВИДЕО, БЕРЕМ ТОЛЬКО ВИДЕО (игнорируем превью-картинки)
+                // 🎥 ЕСЛИ ЕСТЬ ВИДЕО, БЕРЕМ ТОЛЬКО ВИДЕО
                 const mediaUrls = videoMatches.length > 0 
                     ? videoMatches.map(mediaUrl => ({ mediaUrl, mediaType: "video" }))
                     : imageMatches.map(mediaUrl => ({ mediaUrl, mediaType: "image" }));
@@ -519,35 +519,30 @@ async function fetchRssFeeds(): Promise<any[]> {
 
 async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, body: string, insight: string, importance: number, is_ad: boolean }> {
     const cleanDesc = sanitizeRawText(desc);
-    const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 100);
-    
-    // Отсекаем слишком длинные сырые тексты, если ИИ упадет
+    const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 90);
     const fallbackBody = cleanDesc.length > MAX_BODY_LEN ? "" : cleanDesc; 
 
-    const prompt = `Ты — главный редактор новостного канала «ФАКТОР». Твой стиль: сухо, четко, без воды, с эмодзи.
+    // 🎯 ПРОМПТ С ПРИМЕРОМ (Few-shot) В СТИЛЕ ПРЯМОГО ЭФИРА
+    const prompt = `Ты — главный редактор новостного канала «ФАКТОР». Твой стиль — сухо, четко, структурно, с эмодзи. Никакой воды и канцелярита.
 
 ИСХОДНЫЙ ТЕКСТ:
 ${cleanDesc}
 
-ЗАДАЧИ:
-1. headline — конкретный заголовок (до 7 слов) с ОДНИМ эмодзи (⚡ 🔥 🚨 💥 ⚠️ 📉 📈 🏆 🎯 💰 🌍 🛡️ ⚔️).
-   ЗАПРЕЩЕНО использовать вводные слова вроде "Свершилось!", "Шокирующая новость", "Внимание!".
+ПРИМЕР ИДЕАЛЬНОГО ПОСТА:
+Заголовок: ЦБ сохранил ключевую ставку на уровне 14% 📉
+Текст: Банк России принял решение сохранить ключевую ставку на уровне <b>14%</b> второй раз подряд. Это решение было ожидаемым для рынка.
+🟢 Базовый сценарий предполагает среднюю ставку 12,5–13,5% в 2027 году.
+🟢 Годовая инфляция в России по итогам года сложится в диапазоне 7,1–7,6%.
+Что это значит: Высокая ставка сдержит рост цен, но кредиты и ипотека останутся дорогими для людей.
 
+ТВОИ ЗАДАЧИ:
+1. headline — конкретный заголовок (до 7 слов) с ОДНИМ эмодзи.
 2. body — ПЕРЕПИШИ текст КОРОТКО (максимум 2-3 абзаца). 
    - СРАЗУ ПЕРЕХОДИ К СУТИ. НЕ ПОВТОРЯЙ заголовок в первом предложении.
-   - Убери весь канцелярит и воду.
-   - Если есть перечисление — используй маркеры: 🟢, 🔴, 📌.
+   - Если есть перечисления — используй маркеры: 🟢, 🔴, 📌.
    - Выдели главное тегами <b>жирный текст</b>.
-   - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ.
-
-3. insight — ОБЪЯСНИ ПРОСТЫМ ЯЗЫКОМ (1-2 предложения, до 25 слов). 
-   Представь, что читает твоя жена или мама. Объясни: к чему это приведет, почему это важно для обычного человека и как это коснется их жизни?
-
-4. importance — целое 1-10:
-   8-10 — Экстренно (атаки БПЛА, эвакуации, теракты, ставка ЦБ, заявления первых лиц).
-   6-7 — Важно (политика, экономика, крупные ЧП).
-   1-5 — НЕ ВАЖНО (бытовуха, скучные новости, наука, сухие военные сводки без конкретики). Ставь 1-5, если это просто рассуждения или пиар.
-
+3. insight — ОБЪЯСНИ ПРОСТЫМ ЯЗЫКОМ (1-2 предложения, до 25 слов). Представь, что читает обычный человек. Объясни: к чему это приведет, почему это важно и как это коснется их жизни?
+4. importance — целое 1-10 (8-10 экстренно, 6-7 важно, 1-5 скучно).
 5. is_ad — true, если это реклама.
 
 Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false}`;
@@ -585,7 +580,7 @@ ${cleanDesc}
         } catch {}
     }
 
-    if (llmResult && llmResult.headline && llmResult.body) {
+    if (llmResult && llmResult.headline && llmResult.body && llmResult.insight) {
         const isEnglish = (llmResult.body.match(/[a-zA-Z]/g) || []).length > (llmResult.body.match(/[а-яА-Я]/g) || []).length;
         if (isEnglish) {
             return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 6, is_ad: false };
@@ -670,7 +665,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v77: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v79: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -769,9 +764,17 @@ async function run() {
             continue;
         }
 
-        // 🚨 Если ИИ упал и вернул пустой текст (fallback), пропускаем, чтобы не публиковать обрубки
-        if (!post.body || post.body.length < 10) {
-            console.log(`❌ Пропуск: ИИ не смог переписать текст, а сырой обрезан.`);
+        // 🚨 ЗАЩИТА ОТ МУСОРА
+        if (!post.body || post.body.length < 50 || !post.insight || post.insight.length < 10) {
+            console.log(`❌ Пропуск: ИИ не смог переписать текст (мусорный пост).`);
+            skippedNoMedia++;
+            continue;
+        }
+
+        const cleanBody = post.body.toLowerCase().replace(/[^a-zа-я0-9]/g, "");
+        const cleanHead = post.headline.toLowerCase().replace(/[^a-zа-я0-9]/g, "");
+        if (cleanBody.includes(cleanHead) && cleanBody.length < cleanHead.length + 30) {
+            console.log(`❌ Пропуск: тело поста дублирует заголовок.`);
             skippedNoMedia++;
             continue;
         }
@@ -828,7 +831,7 @@ async function run() {
         }
 
         if (!uploaded.length) {
-            console.log(`❌ Пропуск: медиа было, но не скачалось (ошибка SSL).`);
+            console.log(`❌ Пропуск: медиа было, но не скачалось.`);
             skippedNoMedia++;
             continue;
         }
