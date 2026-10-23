@@ -46,54 +46,6 @@
       ],
       "expiresAt": 1792834660800
     },
-    "[\"factor\",\"pub\",\"937643625487e56118167c02344679d125866bf78ef223abe4185da1449fc569\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "937643625487e56118167c02344679d125866bf78ef223abe4185da1449fc569"
-      ],
-      "value": true,
-      "expiresAt": 1792748320649
-    },
-    "[\"factor\",\"topic\",\"937643625487e56118167c02344679d125866bf78ef223abe4185da1449fc569\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "937643625487e56118167c02344679d125866bf78ef223abe4185da1449fc569"
-      ],
-      "value": {
-        "title": "Суд отпустил под домашний арест генерала МВД Малькова, обвиняемого в хищении топлива у под",
-        "roots": [
-          "отпуст",
-          "домашн",
-          "арест",
-          "генера",
-          "малько",
-          "обвиня",
-          "хищени",
-          "топлив"
-        ]
-      },
-      "expiresAt": 1792748320650
-    },
-    "[\"factor\",\"texthash\",\"b0231ff1dc796063da886511262ba43ceeac3a972f7a61519ee72318a5dc7d47\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "b0231ff1dc796063da886511262ba43ceeac3a972f7a61519ee72318a5dc7d47"
-      ],
-      "value": true,
-      "expiresAt": 1792748320652
-    },
-    "[\"factor\",\"content\",\"fad51f493b45abd459329404acbc96b823268339a79e33f7d7ad3a8471dea813\"]": {
-      "key": [
-        "factor",
-        "content",
-        "fad51f493b45abd459329404acbc96b823268339a79e33f7d7ad3a8471dea813"
-      ],
-      "value": true,
-      "expiresAt": 1792748320652
-    },
     "[\"factor\",\"pub\",\"aa5680bab0bdf8baaebdc82fae25423ba33a4168a48a173bccb12f443dca6a2f\"]": {
       "key": [
         "factor",
