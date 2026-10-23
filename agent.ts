@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (No Timeout & Strict Military v72)
+// MAX NEWS AGENT — «ФАКТОР» (Balanced & Fast Edition v73)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -18,7 +18,7 @@ const HARD_MIN_INTERVAL_MS = 5 * 60 * 1000;
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000;
 
 const MEDIA_PACKET_MAX = 6;
-const MIN_IMPORTANCE = 7;
+const MIN_IMPORTANCE = 7; // Отсекаем всё, что ниже 7
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
 const STATE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
@@ -510,7 +510,7 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
     const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 100);
     const fallbackBody = cleanDesc.length > MAX_BODY_LEN ? cleanDesc.slice(0, MAX_BODY_LEN) + "..." : cleanDesc;
 
-    // 🚨 ЖЕСТКИЙ ПРОМПТ: Принудительно ставим высокую важность военным сводкам и БПЛА
+    // СБАЛАНСИРОВАННЫЙ ПРОМПТ: Без перекоса в военщину
     const prompt = `Ты — главный редактор новостного канала «ФАКТОР». Твой стиль — копировать подачу каналов вроде «Прямой Эфир»: сухо, четко, структурно, с эмодзи.
 
 ИСХОДНЫЙ ТЕКСТ:
@@ -531,15 +531,14 @@ ${cleanDesc}
 3. insight — короткая фраза (до 12 слов) о том, что это значит.
 
 4. importance — целое 1-10:
-   ВНИМАНИЕ: Если новость про БПЛА, ракетные удары, беспилотники, обстрелы, военные действия, политику, Путина, Трампа или Зеленского — СТАВЬ ВАЖНОСТЬ 8, 9 или 10! Это самые важные новости!
-   10 — экстренно (война, теракт, катастрофа).
-   8-9 — очень важно (удары БПЛА, крупное ЧП с жертвами).
-   7 — важно (политика, экономика).
-   1-6 — НЕ ВАЖНО (бытовуха, ДТП, локальные пожары, бюрократия, скучные новости, наука). Ставь низкую важность для скучных тем.
+   - 9-10: Экстренные события, угрожающие жизни (массированные атаки БПЛА, теракты, катастрофы).
+   - 7-8: Очень важные новости. Политика, экономика, международные отношения (Путин, Трамп, санкции, крупные решения ЦБ). Сюда же входят одиночные прилеты БПЛА и локальные ЧП с пострадавшими.
+   - 5-6: Заметные события, технологии, крупные спортивные события, важные региональные новости.
+   - 1-4: НЕ ВАЖНО (бытовуха, ДТП без жертв, локальные пожары, бюрократия, скучные новости). Ставь низкую важность для скучных тем.
 
 5. is_ad — true, если это реклама.
 
-Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false}`;
+Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 7, "is_ad": false}`;
 
     let llmResult: any = null;
 
@@ -549,7 +548,7 @@ ${cleanDesc}
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json" } }),
-                signal: AbortSignal.timeout(15000), // Уменьшили таймаут до 15 сек
+                signal: AbortSignal.timeout(15000),
             });
             if (r.ok) {
                 const j = await r.json();
@@ -603,7 +602,7 @@ async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<
     if (!initData.url) throw new Error("Upload URL error");
     const form = new FormData();
     form.append("data", new Blob([bytes], { type: type === "video" ? "video/mp4" : "image/jpeg" }), `file.${type === "video" ? "mp4" : "jpg"}`);
-    const res = await fetch(initData.url, { method: "POST", body: form, signal: AbortSignal.timeout(60000) }); // Уменьшили таймаут до 60 сек
+    const res = await fetch(initData.url, { method: "POST", body: form, signal: AbortSignal.timeout(60000) });
     const text = await res.text();
     let json: any = {};
     try { json = JSON.parse(text); } catch {}
@@ -649,7 +648,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v72: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v73: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -693,7 +692,7 @@ async function run() {
     }
     console.log(`Уникальных постов: ${uniqueCandidates.length}`);
 
-    // 🚨 ОГРАНИЧЕНИЕ: Берем только первые 15 новостей, чтобы не сработал таймаут GitHub
+    // Берем только первые 15 новостей, чтобы не сработал таймаут GitHub
     const topCandidates = uniqueCandidates.slice(0, 15);
     console.log(`К обработке принято: ${topCandidates.length}`);
 
@@ -839,7 +838,7 @@ async function run() {
             const nextDelay = Math.floor(REGULAR_MIN_INTERVAL_MS + Math.random() * (REGULAR_MAX_INTERVAL_MS - REGULAR_MIN_INTERVAL_MS + 1));
             await kv.set(["factor", "next_regular_delay"], nextDelay);
             await kv.set(["factor", "last_regular"], now);
-            return; // Выходим сразу после публикации
+            return;
         }
     }
 
