@@ -46,53 +46,6 @@
       ],
       "expiresAt": 1792817846282
     },
-    "[\"factor\",\"pub\",\"565d2de842bf8ffd77fb285a54c682999033cc8f4218a722f0dbc0e9d158a45e\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "565d2de842bf8ffd77fb285a54c682999033cc8f4218a722f0dbc0e9d158a45e"
-      ],
-      "value": true,
-      "expiresAt": 1792731522824
-    },
-    "[\"factor\",\"topic\",\"565d2de842bf8ffd77fb285a54c682999033cc8f4218a722f0dbc0e9d158a45e\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "565d2de842bf8ffd77fb285a54c682999033cc8f4218a722f0dbc0e9d158a45e"
-      ],
-      "value": {
-        "title": "📃 В ГД поддержали идею повышения штрафов для водителей без прав В России могут существенн",
-        "roots": [
-          "поддер",
-          "повыше",
-          "штрафо",
-          "водите",
-          "россии",
-          "могут",
-          "сущест"
-        ]
-      },
-      "expiresAt": 1792731522825
-    },
-    "[\"factor\",\"texthash\",\"832274ec4fee9a6b67fa10440d4d24f87af8f7c6f87cd05e4d68665fe17e4139\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "832274ec4fee9a6b67fa10440d4d24f87af8f7c6f87cd05e4d68665fe17e4139"
-      ],
-      "value": true,
-      "expiresAt": 1792731522826
-    },
-    "[\"factor\",\"content\",\"d9433f152bfac0f56dcae0bc76b2659f3a4ea1b04b67c9e473d2a07de515cf6f\"]": {
-      "key": [
-        "factor",
-        "content",
-        "d9433f152bfac0f56dcae0bc76b2659f3a4ea1b04b67c9e473d2a07de515cf6f"
-      ],
-      "value": true,
-      "expiresAt": 1792731522826
-    },
     "[\"factor\",\"pub\",\"acdfc26e7d3fb6b33037932e68ea805bd8156e97ca92987c6de2fcaf8b540a49\"]": {
       "key": [
         "factor",
