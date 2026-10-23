@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (SSL Fix & Text Fallback v75)
+// MAX NEWS AGENT — «ФАКТОР» (Short & Clear v76)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -33,7 +33,8 @@ const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
 const MIN_VIDEO_BYTES = 50 * 1024;
 const MAX_VIDEO_BYTES = 30 * 1024 * 1024;
 
-const MAX_BODY_LEN = 600; 
+// 📉 УМЕНЬШИЛИ ДЛИНУ ПОСТА, ЧТОБЫ НЕ БЫЛО ПРОСТЫНЕЙ
+const MAX_BODY_LEN = 350; 
 const MIN_INSIGHT_IMPORTANCE = 6;
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
@@ -114,7 +115,9 @@ const BORING_TOPICS = [
     /(?:измен[аи]|изменил|любовн|скандал.*звезд|инстаграм|тикток)/i,
     /(?:спасение\s+(?:кота|собаки|животного))/i,
     /(?:турист|учител|коммунальн|ЖКХ|убийц|отсудил|полици[яи].*задерж|Макаревич|Пугачев|Киркоров|Бузова)/i,
-    /(?:автобус|троллейбус|трамвай|штраф|аренд|гектар|Минсельхоз|господдержк|субсиди|льготн.*лизинг|теплич|букмекер|урожай)/i
+    /(?:автобус|троллейбус|трамвай|штраф|аренд|гектар|Минсельхоз|господдержк|субсиди|льготн.*лизинг|теплич|букмекер|урожай)/i,
+    // 🚫 Убираем корпоративный пиар и рекламу
+    /(?:автоваз|lada|ростех|пресс-релиз|интервью журналу|автомобиль.*комфорт|электронная.*карта)/i
 ];
 
 class FileKV {
@@ -519,28 +522,30 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
     const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 100);
     const fallbackBody = cleanDesc.length > MAX_BODY_LEN ? cleanDesc.slice(0, MAX_BODY_LEN) + "..." : cleanDesc;
 
-    const prompt = `Ты — главный редактор новостного канала «ФАКТОР». Твой стиль — сухо, четко, структурно, с эмодзи.
+    // ✍️ ОБНОВЛЕННЫЙ ПРОМПТ (Коротко и с понятным объяснением)
+    const prompt = `Ты — главный редактор новостного канала «ФАКТОР». Твой стиль: сухо, четко, без воды, с эмодзи.
 
 ИСХОДНЫЙ ТЕКСТ:
 ${cleanDesc}
 
 ЗАДАЧИ:
-1. headline — конкретный заголовок (до 7 слов) с ОДНИМ эмодзи.
+1. headline — конкретный заголовок (до 7 слов) с ОДНИМ эмодзи (⚡ 🔥 🚨 💥 ⚠️ 📉 📈 🏆 🎯 💰 🌍 🛡️ ⚔️).
    ЗАПРЕЩЕНО использовать вводные слова вроде "Свершилось!", "Шокирующая новость", "Внимание!".
 
-2. body — ПЕРЕПИШИ текст в стиле "Прямого Эфира" (ИСПОЛЬЗУЙ HTML-ТЕГИ <b> и <i>):
-   - СРАЗУ ПЕРЕХОДИ К ДЕЛУ.
-   - Разбей на 2-3 коротких абзаца (разделяй символом переноса \n\n).
+2. body — ПЕРЕПИШИ текст КОРОТКО (максимум 2-3 абзаца). 
+   - СРАЗУ ПЕРЕХОДИ К СУТИ. НЕ ПОВТОРЯЙ заголовок в первом предложении.
+   - Убери весь канцелярит и воду.
    - Если есть перечисление — используй маркеры: 🟢, 🔴, 📌.
-   - Выдели самое главное тегами <b>жирный текст</b>.
+   - Выдели главное тегами <b>жирный текст</b>.
    - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ.
 
-3. insight — короткая фраза (до 12 слов) о том, что это значит.
+3. insight — ОБЪЯСНИ ПРОСТЫМ ЯЗЫКОМ (1-2 предложения, до 25 слов). 
+   Представь, что читает твоя жена или мама. Объясни: к чему это приведет, почему это важно для обычного человека и как это коснется их жизни?
 
 4. importance — целое 1-10:
-   - 8-10: Экстренные события. Атаки БПЛА, удары, эвакуации, закрытие аэропортов, теракты, ключевая ставка ЦБ, заявления Путина/Трампа/Зеленского.
-   - 6-7: Очень важные новости. Политика, экономика, крупные ЧП.
-   - 1-5: НЕ ВАЖНО (бытовуха, скучные новости, наука, локальные ДТП). Ставь низкую важность для скучных тем.
+   8-10 — Экстренно (атаки БПЛА, эвакуации, теракты, ставка ЦБ, заявления первых лиц).
+   6-7 — Важно (политика, экономика, крупные ЧП).
+   1-5 — НЕ ВАЖНО (бытовуха, скучные новости, наука).
 
 5. is_ad — true, если это реклама.
 
@@ -600,7 +605,6 @@ ${cleanDesc}
 async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<string> {
     const client = await initMaxHttpClient();
     
-    // Инициализация загрузки
     const upInit = await fetch(`${MAX_API}/uploads?type=${type}`, {
         method: "POST",
         headers: { "Authorization": MAX_BOT_TOKEN, "Accept": "application/json" },
@@ -613,7 +617,6 @@ async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<
     const form = new FormData();
     form.append("data", new Blob([bytes], { type: type === "video" ? "video/mp4" : "image/jpeg" }), `file.${type === "video" ? "mp4" : "jpg"}`);
     
-    // Сама загрузка файла (ДОБАВИЛИ client: client ?? undefined)
     const res = await fetch(initData.url, { 
         method: "POST", 
         body: form, 
@@ -666,7 +669,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v75: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v76: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -799,8 +802,6 @@ async function run() {
         }
 
         const uploaded: Array<{ token: string, type: "image" | "video" }> = [];
-        let mediaFailed = false;
-        
         for (const media of mediaPacket) {
             let mediaBytes = await downloadBuffer(media.mediaUrl, media.mediaType === "video");
             if (!mediaBytes) continue;
@@ -814,13 +815,12 @@ async function run() {
                 if (token) uploaded.push({ token, type: media.mediaType });
             } catch (e) { 
                 console.error("Ошибка загрузки медиа:", e); 
-                mediaFailed = true;
             }
             if (uploaded.length >= MEDIA_PACKET_MAX) break;
         }
 
         if (!uploaded.length) {
-            console.log(`❌ Пропуск: медиа было, но не скачалось (или ошибка SSL).`);
+            console.log(`❌ Пропуск: медиа было, но не скачалось (ошибка SSL).`);
             skippedNoMedia++;
             continue;
         }
