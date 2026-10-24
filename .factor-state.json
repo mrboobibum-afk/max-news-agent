@@ -275,55 +275,6 @@
       "value": 1792885223096,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"08d0dcfda2c15eb280a78f9ab33f627153e841fe255ad2b3df98a020d224e4f6\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "08d0dcfda2c15eb280a78f9ab33f627153e841fe255ad2b3df98a020d224e4f6"
-      ],
-      "value": true,
-      "expiresAt": 1792885242474
-    },
-    "[\"factor\",\"topic\",\"08d0dcfda2c15eb280a78f9ab33f627153e841fe255ad2b3df98a020d224e4f6\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "08d0dcfda2c15eb280a78f9ab33f627153e841fe255ad2b3df98a020d224e4f6"
-      ],
-      "value": {
-        "title": "📃 Политолог оценил вероятность досрочных выборов в Армении В Армении активно применяются ",
-        "roots": [
-          "полито",
-          "оценил",
-          "вероят",
-          "досроч",
-          "выборо",
-          "армени",
-          "армени",
-          "активн",
-          "примен"
-        ]
-      },
-      "expiresAt": 1792885242475
-    },
-    "[\"factor\",\"texthash\",\"bc24ce9a3ca20ef659d0c14024a991f7190f3dda60a4b8c17495806cb738efcf\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "bc24ce9a3ca20ef659d0c14024a991f7190f3dda60a4b8c17495806cb738efcf"
-      ],
-      "value": true,
-      "expiresAt": 1792885242476
-    },
-    "[\"factor\",\"content\",\"beb1f64002a77e42c515b8d522e1d6404d33bad7bfc2da63c81b79e22bd5eab2\"]": {
-      "key": [
-        "factor",
-        "content",
-        "beb1f64002a77e42c515b8d522e1d6404d33bad7bfc2da63c81b79e22bd5eab2"
-      ],
-      "value": true,
-      "expiresAt": 1792885242476
-    },
     "[\"factor\",\"pub\",\"6209aae95ba6caee9fec8bcfd6cb82ce87c2a56779d082299070f6a3db6362f8\"]": {
       "key": [
         "factor",
