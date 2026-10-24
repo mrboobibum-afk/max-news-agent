@@ -206,55 +206,6 @@
       "value": 1792844425586,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"ec33242bea34477de2a2e01789ad97ad0bd69af27448603b04d447f9f3ff5dbc\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "ec33242bea34477de2a2e01789ad97ad0bd69af27448603b04d447f9f3ff5dbc"
-      ],
-      "value": true,
-      "expiresAt": 1792845306469
-    },
-    "[\"factor\",\"topic\",\"ec33242bea34477de2a2e01789ad97ad0bd69af27448603b04d447f9f3ff5dbc\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "ec33242bea34477de2a2e01789ad97ad0bd69af27448603b04d447f9f3ff5dbc"
-      ],
-      "value": {
-        "title": "🧑‍🏫 Физики предложили решение для систем устойчивой квантовой памяти Ученые Казанского (",
-        "roots": [
-          "физики",
-          "предло",
-          "решени",
-          "систем",
-          "устойч",
-          "кванто",
-          "памяти",
-          "ученые",
-          "казанс"
-        ]
-      },
-      "expiresAt": 1792845306470
-    },
-    "[\"factor\",\"texthash\",\"288cef4d43a44141a7ac573dbd086dbb5746809ef84888f5e16e70612abe4713\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "288cef4d43a44141a7ac573dbd086dbb5746809ef84888f5e16e70612abe4713"
-      ],
-      "value": true,
-      "expiresAt": 1792845306470
-    },
-    "[\"factor\",\"content\",\"5d1e840026821a33ff6773a29d861a51c511ba0e4aca4664ac21370825215255\"]": {
-      "key": [
-        "factor",
-        "content",
-        "5d1e840026821a33ff6773a29d861a51c511ba0e4aca4664ac21370825215255"
-      ],
-      "value": true,
-      "expiresAt": 1792845306471
-    },
     "[\"factor\",\"pub\",\"da9769fbf50272e0b122ca5359602736bc412e9681b2b44c6c5aabb948e9c004\"]": {
       "key": [
         "factor",
