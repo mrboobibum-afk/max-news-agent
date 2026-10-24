@@ -221,55 +221,6 @@
       "value": 1792852826456,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"c68b4b1f98dddcec6617d9e4ce4cd42095286181e1abfa0344f91cbaa17fa6a8\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c68b4b1f98dddcec6617d9e4ce4cd42095286181e1abfa0344f91cbaa17fa6a8"
-      ],
-      "value": true,
-      "expiresAt": 1792853115595
-    },
-    "[\"factor\",\"topic\",\"c68b4b1f98dddcec6617d9e4ce4cd42095286181e1abfa0344f91cbaa17fa6a8\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c68b4b1f98dddcec6617d9e4ce4cd42095286181e1abfa0344f91cbaa17fa6a8"
-      ],
-      "value": {
-        "title": "Главное в штурме – дождаться своего часа ⏱️ Когда на кону стоит продвижение целой группиро",
-        "roots": [
-          "главно",
-          "штурме",
-          "дождат",
-          "своего",
-          "когда",
-          "стоит",
-          "продви",
-          "целой",
-          "группи"
-        ]
-      },
-      "expiresAt": 1792853115595
-    },
-    "[\"factor\",\"texthash\",\"16f155ea8fc5dba9b8cc5140d9a22c03dec44594a46fe1537585493f856a69e0\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "16f155ea8fc5dba9b8cc5140d9a22c03dec44594a46fe1537585493f856a69e0"
-      ],
-      "value": true,
-      "expiresAt": 1792853115595
-    },
-    "[\"factor\",\"content\",\"b0ca41d92d3f7d823288b75e6ee741cb2c8dae1a784b241bd9e8fe4f60f4bc4c\"]": {
-      "key": [
-        "factor",
-        "content",
-        "b0ca41d92d3f7d823288b75e6ee741cb2c8dae1a784b241bd9e8fe4f60f4bc4c"
-      ],
-      "value": true,
-      "expiresAt": 1792853115644
-    },
     "[\"factor\",\"pub\",\"970eba8c56124c45e9b6479a128a89cc31bdd05383e6fb7d9e5b1aa1a258eb88\"]": {
       "key": [
         "factor",
