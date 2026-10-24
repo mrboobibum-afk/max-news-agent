@@ -218,54 +218,6 @@
       "value": 1792851624631,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"dc59aeda747772acaf840e29ab99412dd2533e7fa73978b088c7ce37ec9da121\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "dc59aeda747772acaf840e29ab99412dd2533e7fa73978b088c7ce37ec9da121"
-      ],
-      "value": true,
-      "expiresAt": 1792851950842
-    },
-    "[\"factor\",\"topic\",\"dc59aeda747772acaf840e29ab99412dd2533e7fa73978b088c7ce37ec9da121\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "dc59aeda747772acaf840e29ab99412dd2533e7fa73978b088c7ce37ec9da121"
-      ],
-      "value": {
-        "title": "🚨 Неизвестные вооруженные лица открыли огонь внутри одной из церквей в провинции Эль-Кара",
-        "roots": [
-          "неизве",
-          "вооруж",
-          "открыл",
-          "огонь",
-          "внутри",
-          "одной",
-          "церкве",
-          "провин"
-        ]
-      },
-      "expiresAt": 1792851950843
-    },
-    "[\"factor\",\"texthash\",\"16475c4ed6633abb85dded4a6cc4117072c2d88e91a78f46527b7937c428e4a6\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "16475c4ed6633abb85dded4a6cc4117072c2d88e91a78f46527b7937c428e4a6"
-      ],
-      "value": true,
-      "expiresAt": 1792851950844
-    },
-    "[\"factor\",\"content\",\"99f6d96915ce555705eb7cd4e097663e0074ca179873891fab396fcceb5d99af\"]": {
-      "key": [
-        "factor",
-        "content",
-        "99f6d96915ce555705eb7cd4e097663e0074ca179873891fab396fcceb5d99af"
-      ],
-      "value": true,
-      "expiresAt": 1792851950844
-    },
     "[\"factor\",\"pub\",\"c68b4b1f98dddcec6617d9e4ce4cd42095286181e1abfa0344f91cbaa17fa6a8\"]": {
       "key": [
         "factor",
