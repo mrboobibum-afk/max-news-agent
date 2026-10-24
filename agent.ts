@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Clean Text & No Fake Insights v91)
+// MAX NEWS AGENT — «ФАКТОР» (Analytical & Strict v93)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -12,13 +12,13 @@ const DASHSCOPE_API_KEY = Deno.env.get("DASHSCOPE_API_KEY") ?? "";
 const QWEN_MODEL = Deno.env.get("QWEN_MODEL") ?? "qwen3.8-max";
 const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyuncs.com/compatible-mode/v1";
 
-const REGULAR_MIN_INTERVAL_MS = 15 * 60 * 1000;
-const REGULAR_MAX_INTERVAL_MS = 25 * 60 * 1000;
-const HARD_MIN_INTERVAL_MS = 10 * 60 * 1000;
+const REGULAR_MIN_INTERVAL_MS = 10 * 60 * 1000;
+const REGULAR_MAX_INTERVAL_MS = 15 * 60 * 1000;
+const HARD_MIN_INTERVAL_MS = 5 * 60 * 1000;
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000;
 
-const MEDIA_PACKET_MAX = 3; 
-const MIN_IMPORTANCE = 6; 
+const MEDIA_PACKET_MAX = 1; 
+const MIN_IMPORTANCE = 7; // Оставляем важные новости (политика, экономика, экстренные)
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
 const STATE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
@@ -120,8 +120,10 @@ const BORING_TOPICS = [
     /(?:трек|релиз|альбом|певец|музыкант|рэпер|клип|анонс|концерт|фестиваль|туры|билет|bones|исполнител)/i,
     /(?:пятница|пятницу|13 населенных|освободили|наша территория|фортуна|отворачивается|свои готовы)/i,
     /(?:илон маск|маск|илона маска)/i,
-    // 🚫 Блокируем тупые заглушки
-    /(?:ситуация требует внимания|следим за развитием событий|ситуация подчеркивает)/i
+    /(?:ситуация требует внимания|следим за развитием событий|ситуация подчеркивает)/i,
+    /(?:туристка|умерла|скончалась|потеряла равновесие|упала с высоты|сорвалась)/i,
+    /(?:чемпионат|соревновани[яе]|турнир|учени[яе]|тактика дронов|эк-министр|финансовый спор)/i,
+    /(?:внутренние разногласия|внешние угрозы|разобщенность властей)/i
 ];
 
 class FileKV {
@@ -430,7 +432,8 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
 
                 const videoMatches = [
                     ...post.matchAll(/https?:\/\/[^"'<>\s]+?\.(?:mp4)(?:\?[^"'<>\s]*)?/gi),
-                    ...post.matchAll(/<video[^>]+src=["']([^"']+?)["']/gi)
+                    ...post.matchAll(/<video[^>]+src=["']([^"']+?)["']/gi),
+                    ...post.matchAll(/<a[^>]+href=["']([^"']+?\.mp4)["']/gi)
                 ].map(m => m[0].startsWith("http") ? m[0] : m[1]);
 
                 const bgImages = [...post.matchAll(/background-image:url\('([^']+)'\)/gi)].map(m => m[1]);
@@ -516,7 +519,6 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
         cleanDesc = cleanDesc.replace(/^[-—:.\s]+/, ''); 
     }
 
-    // 🛠 УМНЫЙ ФОЛБЭК (Ищем нормальные предложения)
     let fallbackBody = "";
     const sentences = cleanDesc.match(/[A-ZА-ЯЁ][^.!?]+[.!?]+/g) || []; 
     if (sentences.length > 0) {
@@ -525,17 +527,21 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
         fallbackBody = cleanDesc.length > 100 ? cleanDesc.slice(0, 250) + "..." : cleanDesc;
     }
 
-    const prompt = `Ты — аналитический редактор канала «ФАКТОР». Твой стиль — как у Bloomberg: четко, плотно, только факты и суть.
+    // 🎨 НОВЫЙ СТРОГИЙ ПРОМПТ (Аналитический стиль)
+    const prompt = `Ты — главный редактор аналитического канала «ФАКТОР». Твой стиль — как у Bloomberg или Коммерсанта: строго, информативно, с фактами, цифрами и без воды. Канал пишет про политику, мировую экономику, новости России и важные события.
 
 ИСХОДНЫЙ ТЕКСТ:
 ${cleanDesc}
 
 ТВОИ ЗАДАЧИ:
-1. headline — заголовок (до 7 слов) с 1 эмодзи (⚡ 🔥 🚨 💥 ⚠️ 📉 📈 🏆 🎯 💰 🌍 🛡️ ⚔️).
-2. body — ОДИН плотный абзац (максимум 3-4 предложения). Только суть события. Никаких повторов заголовка.
-3. insight — 1 предложение (до 15 слов). Объясни простым языком, почему это важно.
-4. importance — целое 1-10.
-   ВНИМАНИЕ: Если из текста непонятно, В ЧЕМ СУТЬ (за что задержали, что случилось) или текст обрывается на полуслове — СТАВЬ ВАЖНОСТЬ 1.
+1. headline — конкретный, информативный заголовок (до 8 слов) с 1 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨).
+2. body — Всесторонний, но емкий текст (максимум 3-4 предложения). 
+   - Включи ВСЕ ключевые факты: кто, что, где, когда, цифры (если есть).
+   - Разбей текст на маркеры, используя символ ▪️ (в начале каждой строки).
+   - Выдели главные акценты (цифры, имена, суммы) тегами <b>жирный шрифт</b>.
+   - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ.
+3. insight — 1-2 предложения (до 20 слов). Оцени последствия: как это повлияет на экономику, политику или обычных людей. БЕЗ ТЕГОВ HTML.
+4. importance — целое 1-10. Ставь 8-10 только для войн, терактов, атак БПЛА, ставки ЦБ, санкций, заявлений первых лиц.
 5. is_ad — true, если это реклама.
 
 Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false}`;
@@ -576,23 +582,22 @@ ${cleanDesc}
         } catch {}
     }
 
-    if (llmResult && llmResult.headline && llmResult.body) {
+    if (llmResult && llmResult.headline && llmResult.body && llmResult.insight) {
         const isEnglish = (llmResult.body.match(/[a-zA-Z]/g) || []).length > (llmResult.body.match(/[а-яА-Я]/g) || []).length;
         if (isEnglish) {
-            return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 6, is_ad: false };
+            return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 1, is_ad: false };
         }
 
         return {
             headline: validateHeadline(llmResult.headline, fallbackHeadline),
-            body: String(llmResult.body).replace(/<[^>]*>/g, "").trim(), 
-            insight: String(llmResult.insight || "").replace(/<[^>]*>/g, "").trim(),
-            importance: Number(llmResult.importance) || 6,
+            body: String(llmResult.body).trim(), // Сохраняем HTML теги <b> и маркеры ▪️
+            insight: String(llmResult.insight).replace(/<[^>]*>/g, "").trim(),
+            importance: Number(llmResult.importance) || 1,
             is_ad: !!llmResult.is_ad,
         };
     }
     
-    // Если ИИ упал, возвращаем фолбэк БЕЗ тупого инсайта
-    return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 6, is_ad: false };
+    return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 1, is_ad: false };
 }
 
 async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<string> {
@@ -645,10 +650,11 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
     if (!item.postKey) return [];
 
     const samePost = candidates.filter(c => c.postKey === item.postKey);
-    const ordered = [
-        ...samePost.filter(c => c.mediaType === "video"),
-        ...samePost.filter(c => c.mediaType === "image"),
-    ];
+    // 🎯 Берем только видео, если оно есть. Картинки игнорируем.
+    const videos = samePost.filter(c => c.mediaType === "video");
+    const images = samePost.filter(c => c.mediaType === "image");
+    
+    const ordered = videos.length > 0 ? videos : images;
 
     for (const c of ordered) {
         if (!c.mediaUrl || isTrashUrl(c.mediaUrl)) continue;
@@ -662,7 +668,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v91: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v93: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -785,14 +791,6 @@ async function run() {
         
         for (const media of mediaPacket) {
             let mediaBytes = await downloadBuffer(media.mediaUrl, media.mediaType === "video");
-            
-            if (!mediaBytes && media.mediaType === "video") {
-                const fallbackImg = candidates.find(c => c.postKey === item.postKey && c.mediaType === "image");
-                if (fallbackImg) {
-                    mediaBytes = await downloadBuffer(fallbackImg.mediaUrl, false);
-                }
-            }
-            
             if (!mediaBytes) continue;
 
             if (media.mediaType === "image") {
@@ -816,15 +814,15 @@ async function run() {
             console.log(`✅ Медиапакет: ${uploaded.length} (видео: ${videos}, фото: ${images})`);
         }
 
+        // 🎨 НОВЫЙ ФОРМАТ ПОСТА
         let postHtml = `<b>${escapeHtml(post.headline)}</b>\n\n`;
         postHtml += `${post.body}\n\n`;
         
-        // Добавляем инсайт только если он есть
         if (post.insight) {
-            postHtml += `💡 <b>Фактор:</b> ${escapeHtml(post.insight)}\n\n`;
+            postHtml += `💡 <b>Почему это важно:</b>\n${escapeHtml(post.insight)}\n\n`;
         }
         
-        postHtml += `⚡ <b>ФАКТОР</b>\n#ФАКТОР`;
+        postHtml += `⚡️ <b>ФАКТОР</b> | #ФАКТОР`;
 
         const sent = await sendPostToMax(postHtml, uploaded);
         if (sent) {
