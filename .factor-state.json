@@ -266,54 +266,6 @@
       "value": 1792879823030,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"b654f2160adddcbc27f96eeaec4aa6a3453d022032be46df01e42dc758ad1da3\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "b654f2160adddcbc27f96eeaec4aa6a3453d022032be46df01e42dc758ad1da3"
-      ],
-      "value": true,
-      "expiresAt": 1792880456958
-    },
-    "[\"factor\",\"topic\",\"b654f2160adddcbc27f96eeaec4aa6a3453d022032be46df01e42dc758ad1da3\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "b654f2160adddcbc27f96eeaec4aa6a3453d022032be46df01e42dc758ad1da3"
-      ],
-      "value": {
-        "title": "📃 Дмитриев поддержал слова Маска о заработке украинских элит на конфликте Спецпредставите",
-        "roots": [
-          "дмитри",
-          "поддер",
-          "слова",
-          "маска",
-          "зарабо",
-          "украин",
-          "конфли",
-          "спецпр"
-        ]
-      },
-      "expiresAt": 1792880456959
-    },
-    "[\"factor\",\"texthash\",\"40da37189dbeae4d646c6b42c98049819da0d7a375c63bcbd0a15179a94609a2\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "40da37189dbeae4d646c6b42c98049819da0d7a375c63bcbd0a15179a94609a2"
-      ],
-      "value": true,
-      "expiresAt": 1792880456960
-    },
-    "[\"factor\",\"content\",\"3e1220d6e3b63aa1251c4f3a617d8539480de686cb723725ef8e310a28856993\"]": {
-      "key": [
-        "factor",
-        "content",
-        "3e1220d6e3b63aa1251c4f3a617d8539480de686cb723725ef8e310a28856993"
-      ],
-      "value": true,
-      "expiresAt": 1792880456960
-    },
     "[\"factor\",\"pub\",\"14cf4c72bbc4f030f9e4645c8a48957e17929f0bc890d4a284670bf4fb002fe4\"]": {
       "key": [
         "factor",
