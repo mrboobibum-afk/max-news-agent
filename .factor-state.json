@@ -263,56 +263,6 @@
       "value": 1792875022430,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"4d448f455fa5cd2e4fe2533b34f64f72e4a376f68a418d9f9a7aaa74b2b7f066\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "4d448f455fa5cd2e4fe2533b34f64f72e4a376f68a418d9f9a7aaa74b2b7f066"
-      ],
-      "value": true,
-      "expiresAt": 1792878052920
-    },
-    "[\"factor\",\"topic\",\"4d448f455fa5cd2e4fe2533b34f64f72e4a376f68a418d9f9a7aaa74b2b7f066\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "4d448f455fa5cd2e4fe2533b34f64f72e4a376f68a418d9f9a7aaa74b2b7f066"
-      ],
-      "value": {
-        "title": "📃 Макрон назвал теракт в пригороде Парижа переломным моментом для Франции Франция столкну",
-        "roots": [
-          "макрон",
-          "назвал",
-          "теракт",
-          "пригор",
-          "парижа",
-          "перело",
-          "момент",
-          "франци",
-          "франци",
-          "столкн"
-        ]
-      },
-      "expiresAt": 1792878052921
-    },
-    "[\"factor\",\"texthash\",\"c3a15c4f83788f854f2c54b0978d92ec0e9ad47790b03fb5cd46e3cec8e769fa\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "c3a15c4f83788f854f2c54b0978d92ec0e9ad47790b03fb5cd46e3cec8e769fa"
-      ],
-      "value": true,
-      "expiresAt": 1792878052922
-    },
-    "[\"factor\",\"content\",\"67a4fbb207af8685d1d97b8173013db9fc95fe33ceeed91c54a8506004aa32e9\"]": {
-      "key": [
-        "factor",
-        "content",
-        "67a4fbb207af8685d1d97b8173013db9fc95fe33ceeed91c54a8506004aa32e9"
-      ],
-      "value": true,
-      "expiresAt": 1792878052922
-    },
     "[\"factor\",\"pub\",\"6ef27f48dfdc7526cf438625a37b68ef6d7682f11eb7eb3c0db742c00c68462c\"]": {
       "key": [
         "factor",
