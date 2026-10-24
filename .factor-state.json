@@ -263,55 +263,6 @@
       "value": 1792875022430,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"2219be3be1b0578275e1fd9940b5d9af8700e4e984dd80cb05269e7a2f2feef0\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "2219be3be1b0578275e1fd9940b5d9af8700e4e984dd80cb05269e7a2f2feef0"
-      ],
-      "value": true,
-      "expiresAt": 1792875689122
-    },
-    "[\"factor\",\"topic\",\"2219be3be1b0578275e1fd9940b5d9af8700e4e984dd80cb05269e7a2f2feef0\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "2219be3be1b0578275e1fd9940b5d9af8700e4e984dd80cb05269e7a2f2feef0"
-      ],
-      "value": {
-        "title": "📹 Россиянка Людмила Рощина стала серебряным призером чемпионата мира по спортивной гимнас",
-        "roots": [
-          "россия",
-          "людмил",
-          "рощина",
-          "стала",
-          "серебр",
-          "призер",
-          "чемпио",
-          "спорти",
-          "гимнас"
-        ]
-      },
-      "expiresAt": 1792875689123
-    },
-    "[\"factor\",\"texthash\",\"270680ccf6a35841446107576d626acdfe2503c4b0043b7d8a04ff2051785c2f\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "270680ccf6a35841446107576d626acdfe2503c4b0043b7d8a04ff2051785c2f"
-      ],
-      "value": true,
-      "expiresAt": 1792875689123
-    },
-    "[\"factor\",\"content\",\"281d18106b1cc7a44fda1135cc9398425873e4096875dae4fb71a14463412609\"]": {
-      "key": [
-        "factor",
-        "content",
-        "281d18106b1cc7a44fda1135cc9398425873e4096875dae4fb71a14463412609"
-      ],
-      "value": true,
-      "expiresAt": 1792875689141
-    },
     "[\"factor\",\"pub\",\"565bc9aeb964610709a4ab95ca71794c82215de7f471d0afc91d5ff7f443172a\"]": {
       "key": [
         "factor",
