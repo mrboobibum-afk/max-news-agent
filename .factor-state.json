@@ -230,55 +230,6 @@
       "value": 1792857023350,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"db79e8ac0be0ad74533bcc78c4827a284447fc10593fa52f31938405a77d0da9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "db79e8ac0be0ad74533bcc78c4827a284447fc10593fa52f31938405a77d0da9"
-      ],
-      "value": true,
-      "expiresAt": 1792857192900
-    },
-    "[\"factor\",\"topic\",\"db79e8ac0be0ad74533bcc78c4827a284447fc10593fa52f31938405a77d0da9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "db79e8ac0be0ad74533bcc78c4827a284447fc10593fa52f31938405a77d0da9"
-      ],
-      "value": {
-        "title": "Музыкальная группа актера Райана Гослинга объявила о возвращении после 17-летнего перерыва",
-        "roots": [
-          "музыка",
-          "группа",
-          "актера",
-          "райана",
-          "гослин",
-          "объяви",
-          "возвра",
-          "летнег",
-          "переры"
-        ]
-      },
-      "expiresAt": 1792857192900
-    },
-    "[\"factor\",\"texthash\",\"c8218a039bdcd04e364c69c4e1a58c28cb9de06585220954fe8ba4ee6e2f7c73\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "c8218a039bdcd04e364c69c4e1a58c28cb9de06585220954fe8ba4ee6e2f7c73"
-      ],
-      "value": true,
-      "expiresAt": 1792857192901
-    },
-    "[\"factor\",\"content\",\"f32d8d61271be33384d84e22d7055c7c5fe47ad5a4bdd3e5f6a1ede306ad8b57\"]": {
-      "key": [
-        "factor",
-        "content",
-        "f32d8d61271be33384d84e22d7055c7c5fe47ad5a4bdd3e5f6a1ede306ad8b57"
-      ],
-      "value": true,
-      "expiresAt": 1792857192901
-    },
     "[\"factor\",\"pub\",\"223b44215702ca539e60b08e56aa6d18df082b9e7664c80f5f6c21718f1eca5b\"]": {
       "key": [
         "factor",
