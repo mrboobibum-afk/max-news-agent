@@ -257,49 +257,6 @@
       "value": 1792872050180,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"0bce2ebf25cbbf167af38dae9061ec6b2ea59a57364c4dea8fbaad5f1cf4f18b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "0bce2ebf25cbbf167af38dae9061ec6b2ea59a57364c4dea8fbaad5f1cf4f18b"
-      ],
-      "value": true,
-      "expiresAt": 1792872078536
-    },
-    "[\"factor\",\"topic\",\"0bce2ebf25cbbf167af38dae9061ec6b2ea59a57364c4dea8fbaad5f1cf4f18b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "0bce2ebf25cbbf167af38dae9061ec6b2ea59a57364c4dea8fbaad5f1cf4f18b"
-      ],
-      "value": {
-        "title": "Главные новости к вечеру 23 октября",
-        "roots": [
-          "главны",
-          "вечеру",
-          "октябр"
-        ]
-      },
-      "expiresAt": 1792872078537
-    },
-    "[\"factor\",\"texthash\",\"408341e5ba8e192a701d19b6bd909632b713650a5e3d84f9aa7f41771329b471\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "408341e5ba8e192a701d19b6bd909632b713650a5e3d84f9aa7f41771329b471"
-      ],
-      "value": true,
-      "expiresAt": 1792872078537
-    },
-    "[\"factor\",\"content\",\"4916a4ff06ed8c14ef9918f130fd228467d1c3c7d43eaf08a7edba186b1f68c9\"]": {
-      "key": [
-        "factor",
-        "content",
-        "4916a4ff06ed8c14ef9918f130fd228467d1c3c7d43eaf08a7edba186b1f68c9"
-      ],
-      "value": true,
-      "expiresAt": 1792872078538
-    },
     "[\"factor\",\"pub\",\"8a57b0df3652a49eafc072d6a2c711cf9144a607f74bbac298150f53a6c8f385\"]": {
       "key": [
         "factor",
