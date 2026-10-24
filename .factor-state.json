@@ -197,53 +197,6 @@
       "value": 1792839024780,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"5c8626db2815fe233f4bdc8c0465c603124d4deb9092e3287a4b2fa3afc6b813\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "5c8626db2815fe233f4bdc8c0465c603124d4deb9092e3287a4b2fa3afc6b813"
-      ],
-      "value": true,
-      "expiresAt": 1792839617292
-    },
-    "[\"factor\",\"topic\",\"5c8626db2815fe233f4bdc8c0465c603124d4deb9092e3287a4b2fa3afc6b813\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "5c8626db2815fe233f4bdc8c0465c603124d4deb9092e3287a4b2fa3afc6b813"
-      ],
-      "value": {
-        "title": "❗️ С 17 по 23 октября Вооруженными Силами Российской Федерации нанесены три массированных ",
-        "roots": [
-          "октябр",
-          "вооруж",
-          "силами",
-          "россий",
-          "федера",
-          "нанесе",
-          "массир"
-        ]
-      },
-      "expiresAt": 1792839617293
-    },
-    "[\"factor\",\"texthash\",\"d31e1ed1cf07f592a61fa9b14642f79c4572a5d70a76427198b8c4b1e23497b6\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "d31e1ed1cf07f592a61fa9b14642f79c4572a5d70a76427198b8c4b1e23497b6"
-      ],
-      "value": true,
-      "expiresAt": 1792839617293
-    },
-    "[\"factor\",\"content\",\"6a6e9a24d169a54c28d06013a1ebe4e6bb43263083fab93ea724c267b32299b5\"]": {
-      "key": [
-        "factor",
-        "content",
-        "6a6e9a24d169a54c28d06013a1ebe4e6bb43263083fab93ea724c267b32299b5"
-      ],
-      "value": true,
-      "expiresAt": 1792839617293
-    },
     "[\"factor\",\"pub\",\"ec33242bea34477de2a2e01789ad97ad0bd69af27448603b04d447f9f3ff5dbc\"]": {
       "key": [
         "factor",
