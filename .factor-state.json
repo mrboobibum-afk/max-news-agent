@@ -209,53 +209,6 @@
       "value": 1792846225728,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"da9769fbf50272e0b122ca5359602736bc412e9681b2b44c6c5aabb948e9c004\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "da9769fbf50272e0b122ca5359602736bc412e9681b2b44c6c5aabb948e9c004"
-      ],
-      "value": true,
-      "expiresAt": 1792846797434
-    },
-    "[\"factor\",\"topic\",\"da9769fbf50272e0b122ca5359602736bc412e9681b2b44c6c5aabb948e9c004\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "da9769fbf50272e0b122ca5359602736bc412e9681b2b44c6c5aabb948e9c004"
-      ],
-      "value": {
-        "title": "Тыл противника шатается 💥 «Герани» ударили по двум локомотивам в районе Харькова",
-        "roots": [
-          "против",
-          "шатает",
-          "герани",
-          "ударил",
-          "локомо",
-          "районе",
-          "харько"
-        ]
-      },
-      "expiresAt": 1792846797434
-    },
-    "[\"factor\",\"texthash\",\"8964a8eb4b35e66cf7802faa06c991834956cc4cc069b7c8c204890258ed8882\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "8964a8eb4b35e66cf7802faa06c991834956cc4cc069b7c8c204890258ed8882"
-      ],
-      "value": true,
-      "expiresAt": 1792846797435
-    },
-    "[\"factor\",\"content\",\"b155b3a9b225877d30400dd602fe4d69bba22871a8eff0a3a17a80150465a16f\"]": {
-      "key": [
-        "factor",
-        "content",
-        "b155b3a9b225877d30400dd602fe4d69bba22871a8eff0a3a17a80150465a16f"
-      ],
-      "value": true,
-      "expiresAt": 1792846797435
-    },
     "[\"factor\",\"pub\",\"8da419736447c70caea5ea8804c96a9d052d42c16b984490bacf2aa69ef17223\"]": {
       "key": [
         "factor",
