@@ -227,54 +227,6 @@
       "value": 1792855842460,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"a25550f5533b997c8b7fe35ea56084bbfc0caf1db4c7d76d9f133f11d4b82abe\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "a25550f5533b997c8b7fe35ea56084bbfc0caf1db4c7d76d9f133f11d4b82abe"
-      ],
-      "value": true,
-      "expiresAt": 1792856174098
-    },
-    "[\"factor\",\"topic\",\"a25550f5533b997c8b7fe35ea56084bbfc0caf1db4c7d76d9f133f11d4b82abe\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "a25550f5533b997c8b7fe35ea56084bbfc0caf1db4c7d76d9f133f11d4b82abe"
-      ],
-      "value": {
-        "title": "❗️ Среди вернувшихся в РФ в ходе обмена бойцов есть раненые, им предстоит лечение и реабил",
-        "roots": [
-          "среди",
-          "вернув",
-          "обмена",
-          "бойцов",
-          "ранены",
-          "предст",
-          "лечени",
-          "реабил"
-        ]
-      },
-      "expiresAt": 1792856174099
-    },
-    "[\"factor\",\"texthash\",\"134ac4d06b9f673014da4737e2f3ab4e28de7c68e4500aa5d4802283393f403c\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "134ac4d06b9f673014da4737e2f3ab4e28de7c68e4500aa5d4802283393f403c"
-      ],
-      "value": true,
-      "expiresAt": 1792856174099
-    },
-    "[\"factor\",\"content\",\"134ac4d06b9f673014da4737e2f3ab4e28de7c68e4500aa5d4802283393f403c\"]": {
-      "key": [
-        "factor",
-        "content",
-        "134ac4d06b9f673014da4737e2f3ab4e28de7c68e4500aa5d4802283393f403c"
-      ],
-      "value": true,
-      "expiresAt": 1792856174099
-    },
     "[\"factor\",\"pub\",\"db79e8ac0be0ad74533bcc78c4827a284447fc10593fa52f31938405a77d0da9\"]": {
       "key": [
         "factor",
