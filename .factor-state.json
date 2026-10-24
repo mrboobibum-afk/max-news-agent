@@ -251,54 +251,6 @@
       "value": 1792869611530,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"4c9b59d544504c9eefa2d9bc277ef96fc458c0478fce6320b0aab1adf2302a19\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "4c9b59d544504c9eefa2d9bc277ef96fc458c0478fce6320b0aab1adf2302a19"
-      ],
-      "value": true,
-      "expiresAt": 1792869649013
-    },
-    "[\"factor\",\"topic\",\"4c9b59d544504c9eefa2d9bc277ef96fc458c0478fce6320b0aab1adf2302a19\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "4c9b59d544504c9eefa2d9bc277ef96fc458c0478fce6320b0aab1adf2302a19"
-      ],
-      "value": {
-        "title": "Первые 3 танкера с российским дизелем уже находятся в пути в сторону восточного побережья ",
-        "roots": [
-          "первые",
-          "танкер",
-          "россий",
-          "дизеле",
-          "находя",
-          "сторон",
-          "восточ",
-          "побере"
-        ]
-      },
-      "expiresAt": 1792869649014
-    },
-    "[\"factor\",\"texthash\",\"b3cee8bb103d0c81fc9e42e0abab38716861468e3b1392362cb56a2ff0749587\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "b3cee8bb103d0c81fc9e42e0abab38716861468e3b1392362cb56a2ff0749587"
-      ],
-      "value": true,
-      "expiresAt": 1792869649014
-    },
-    "[\"factor\",\"content\",\"b3cee8bb103d0c81fc9e42e0abab38716861468e3b1392362cb56a2ff0749587\"]": {
-      "key": [
-        "factor",
-        "content",
-        "b3cee8bb103d0c81fc9e42e0abab38716861468e3b1392362cb56a2ff0749587"
-      ],
-      "value": true,
-      "expiresAt": 1792869649017
-    },
     "[\"factor\",\"pub\",\"afdf9d1e169127999cd47fd35623dccc1be26e19c580ea06c4703f7a31fb2329\"]": {
       "key": [
         "factor",
