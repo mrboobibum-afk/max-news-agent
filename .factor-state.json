@@ -236,53 +236,6 @@
       "value": 1792858822620,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"463c4c208f9e29d3cfdc5efe09d2bf5921bcf343d883b89a3c21e20669dbb416\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "463c4c208f9e29d3cfdc5efe09d2bf5921bcf343d883b89a3c21e20669dbb416"
-      ],
-      "value": true,
-      "expiresAt": 1792860350636
-    },
-    "[\"factor\",\"topic\",\"463c4c208f9e29d3cfdc5efe09d2bf5921bcf343d883b89a3c21e20669dbb416\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "463c4c208f9e29d3cfdc5efe09d2bf5921bcf343d883b89a3c21e20669dbb416"
-      ],
-      "value": {
-        "title": "📃 «Трактор» обыграл «Ак Барс» и впервые за месяц выиграл домашний матч в КХЛ Челябинский ",
-        "roots": [
-          "тракто",
-          "обыгра",
-          "впервы",
-          "месяц",
-          "выигра",
-          "домашн",
-          "челяби"
-        ]
-      },
-      "expiresAt": 1792860350637
-    },
-    "[\"factor\",\"texthash\",\"5a2923b6c8e0a8d53fb3994d72517e7600dfef18b5139f46597be17fa502dd9c\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "5a2923b6c8e0a8d53fb3994d72517e7600dfef18b5139f46597be17fa502dd9c"
-      ],
-      "value": true,
-      "expiresAt": 1792860350637
-    },
-    "[\"factor\",\"content\",\"af9b01a41e2fedd41568f24490078c223bf397b2fdec1ba342b300799898e039\"]": {
-      "key": [
-        "factor",
-        "content",
-        "af9b01a41e2fedd41568f24490078c223bf397b2fdec1ba342b300799898e039"
-      ],
-      "value": true,
-      "expiresAt": 1792860350638
-    },
     "[\"factor\",\"pub\",\"ae7aabcb1c4061e254aa8985aba5feeb19c5b53b14eebf5cbfcf64136f1a0e26\"]": {
       "key": [
         "factor",
