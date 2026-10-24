@@ -260,53 +260,6 @@
       "value": 1792873225095,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"8a57b0df3652a49eafc072d6a2c711cf9144a607f74bbac298150f53a6c8f385\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "8a57b0df3652a49eafc072d6a2c711cf9144a607f74bbac298150f53a6c8f385"
-      ],
-      "value": true,
-      "expiresAt": 1792873248895
-    },
-    "[\"factor\",\"topic\",\"8a57b0df3652a49eafc072d6a2c711cf9144a607f74bbac298150f53a6c8f385\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "8a57b0df3652a49eafc072d6a2c711cf9144a607f74bbac298150f53a6c8f385"
-      ],
-      "value": {
-        "title": "За 8 месяцев 2026 года продажи электромобилей и гибридов в России увеличились примерно в 2",
-        "roots": [
-          "месяце",
-          "продаж",
-          "электр",
-          "гибрид",
-          "россии",
-          "увелич",
-          "пример"
-        ]
-      },
-      "expiresAt": 1792873248896
-    },
-    "[\"factor\",\"texthash\",\"79d166014c3321db004508bccf7052fb0f827112f6480c974f15d108a629af2b\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "79d166014c3321db004508bccf7052fb0f827112f6480c974f15d108a629af2b"
-      ],
-      "value": true,
-      "expiresAt": 1792873248896
-    },
-    "[\"factor\",\"content\",\"5091cc89ab8765bee893bac51b7245e03e678752e06e54e886d8ebc502a173b6\"]": {
-      "key": [
-        "factor",
-        "content",
-        "5091cc89ab8765bee893bac51b7245e03e678752e06e54e886d8ebc502a173b6"
-      ],
-      "value": true,
-      "expiresAt": 1792873248897
-    },
     "[\"factor\",\"pub\",\"2219be3be1b0578275e1fd9940b5d9af8700e4e984dd80cb05269e7a2f2feef0\"]": {
       "key": [
         "factor",
