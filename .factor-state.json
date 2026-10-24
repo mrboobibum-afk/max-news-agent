@@ -254,54 +254,6 @@
       "value": 1792870823502,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"afdf9d1e169127999cd47fd35623dccc1be26e19c580ea06c4703f7a31fb2329\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "afdf9d1e169127999cd47fd35623dccc1be26e19c580ea06c4703f7a31fb2329"
-      ],
-      "value": true,
-      "expiresAt": 1792870853284
-    },
-    "[\"factor\",\"topic\",\"afdf9d1e169127999cd47fd35623dccc1be26e19c580ea06c4703f7a31fb2329\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "afdf9d1e169127999cd47fd35623dccc1be26e19c580ea06c4703f7a31fb2329"
-      ],
-      "value": {
-        "title": "📃 Армия России поразила доставлявший в порт Одессы грузы для ВСУ сухогруз Вооруженные сил",
-        "roots": [
-          "армия",
-          "россии",
-          "порази",
-          "достав",
-          "одессы",
-          "грузы",
-          "сухогр",
-          "вооруж"
-        ]
-      },
-      "expiresAt": 1792870853285
-    },
-    "[\"factor\",\"texthash\",\"ebb4bec84c11f90e0369b855709bd46d4bc5d6e4db5d9c6fdd577892ddfbc818\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "ebb4bec84c11f90e0369b855709bd46d4bc5d6e4db5d9c6fdd577892ddfbc818"
-      ],
-      "value": true,
-      "expiresAt": 1792870853286
-    },
-    "[\"factor\",\"content\",\"6c92934ed10a7d6b970bc516fce0de7b8e4e18ff9856cbd19c779ef1a85eba0d\"]": {
-      "key": [
-        "factor",
-        "content",
-        "6c92934ed10a7d6b970bc516fce0de7b8e4e18ff9856cbd19c779ef1a85eba0d"
-      ],
-      "value": true,
-      "expiresAt": 1792870853287
-    },
     "[\"factor\",\"pub\",\"0bce2ebf25cbbf167af38dae9061ec6b2ea59a57364c4dea8fbaad5f1cf4f18b\"]": {
       "key": [
         "factor",
