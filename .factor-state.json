@@ -9,54 +9,6 @@
       "value": 1168645,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"e7be27709341ba737aaa3587bf9b4c79003076964e93b35715556377288ec755\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "e7be27709341ba737aaa3587bf9b4c79003076964e93b35715556377288ec755"
-      ],
-      "value": true,
-      "expiresAt": 1792837899859
-    },
-    "[\"factor\",\"topic\",\"e7be27709341ba737aaa3587bf9b4c79003076964e93b35715556377288ec755\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "e7be27709341ba737aaa3587bf9b4c79003076964e93b35715556377288ec755"
-      ],
-      "value": {
-        "title": "В утиль с разгона 💥 Операторы FPV-перехватчиков группировки «Запад» сбили БПЛА самолетног",
-        "roots": [
-          "утиль",
-          "разгон",
-          "операт",
-          "перехв",
-          "группи",
-          "запад",
-          "сбили",
-          "самоле"
-        ]
-      },
-      "expiresAt": 1792837899859
-    },
-    "[\"factor\",\"texthash\",\"71f799d650a7986f6507ba049581605e983114020f2e887af0f5882a90670d96\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "71f799d650a7986f6507ba049581605e983114020f2e887af0f5882a90670d96"
-      ],
-      "value": true,
-      "expiresAt": 1792837899859
-    },
-    "[\"factor\",\"content\",\"6acfd3e1e3793dfdb4dfe929186a7a1faaed79e3474e8a7dc89440ee4c03cf89\"]": {
-      "key": [
-        "factor",
-        "content",
-        "6acfd3e1e3793dfdb4dfe929186a7a1faaed79e3474e8a7dc89440ee4c03cf89"
-      ],
-      "value": true,
-      "expiresAt": 1792837899860
-    },
     "[\"factor\",\"recent_descs\"]": {
       "key": [
         "factor",
