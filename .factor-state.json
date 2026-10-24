@@ -236,52 +236,6 @@
       "value": 1792858822620,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"223b44215702ca539e60b08e56aa6d18df082b9e7664c80f5f6c21718f1eca5b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "223b44215702ca539e60b08e56aa6d18df082b9e7664c80f5f6c21718f1eca5b"
-      ],
-      "value": true,
-      "expiresAt": 1792859101108
-    },
-    "[\"factor\",\"topic\",\"223b44215702ca539e60b08e56aa6d18df082b9e7664c80f5f6c21718f1eca5b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "223b44215702ca539e60b08e56aa6d18df082b9e7664c80f5f6c21718f1eca5b"
-      ],
-      "value": {
-        "title": "▶️ В Кении обрушилось строящееся многоэтажное здание, сообщает The Star",
-        "roots": [
-          "кении",
-          "обруши",
-          "строящ",
-          "многоэ",
-          "здание",
-          "сообща"
-        ]
-      },
-      "expiresAt": 1792859101109
-    },
-    "[\"factor\",\"texthash\",\"cbf23d62b756159cab0c108533b5b8bded5104b0f21dead33c960f2238ed3018\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "cbf23d62b756159cab0c108533b5b8bded5104b0f21dead33c960f2238ed3018"
-      ],
-      "value": true,
-      "expiresAt": 1792859101111
-    },
-    "[\"factor\",\"content\",\"922819bc31901bb5a19dfedb3499efe8bb229c3c15b3bb326c69872313c3e0a6\"]": {
-      "key": [
-        "factor",
-        "content",
-        "922819bc31901bb5a19dfedb3499efe8bb229c3c15b3bb326c69872313c3e0a6"
-      ],
-      "value": true,
-      "expiresAt": 1792859101112
-    },
     "[\"factor\",\"pub\",\"463c4c208f9e29d3cfdc5efe09d2bf5921bcf343d883b89a3c21e20669dbb416\"]": {
       "key": [
         "factor",
