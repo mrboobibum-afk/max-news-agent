@@ -236,54 +236,6 @@
       "value": 1792858822620,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"ae7aabcb1c4061e254aa8985aba5feeb19c5b53b14eebf5cbfcf64136f1a0e26\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "ae7aabcb1c4061e254aa8985aba5feeb19c5b53b14eebf5cbfcf64136f1a0e26"
-      ],
-      "value": true,
-      "expiresAt": 1792862816297
-    },
-    "[\"factor\",\"topic\",\"ae7aabcb1c4061e254aa8985aba5feeb19c5b53b14eebf5cbfcf64136f1a0e26\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "ae7aabcb1c4061e254aa8985aba5feeb19c5b53b14eebf5cbfcf64136f1a0e26"
-      ],
-      "value": {
-        "title": "Высокое напряжение, высокое мастерство ⚡️ В Волгоградской области завершился федеральный э",
-        "roots": [
-          "высоко",
-          "напряж",
-          "высоко",
-          "мастер",
-          "волгог",
-          "област",
-          "заверш",
-          "федера"
-        ]
-      },
-      "expiresAt": 1792862816298
-    },
-    "[\"factor\",\"texthash\",\"a53fa11ac94d7ce999d126efa8e264d10c89966431dd446786e66430fd6e85e2\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "a53fa11ac94d7ce999d126efa8e264d10c89966431dd446786e66430fd6e85e2"
-      ],
-      "value": true,
-      "expiresAt": 1792862816299
-    },
-    "[\"factor\",\"content\",\"c22446b944bdd6687b3bd6161b53af65104986a8fa9e00a946c1f70e8ba269ee\"]": {
-      "key": [
-        "factor",
-        "content",
-        "c22446b944bdd6687b3bd6161b53af65104986a8fa9e00a946c1f70e8ba269ee"
-      ],
-      "value": true,
-      "expiresAt": 1792862816299
-    },
     "[\"factor\",\"pub\",\"d69ebc4d785abba22c0558ac1c4a74d939f6e4cad41594191eefb39672337d49\"]": {
       "key": [
         "factor",
