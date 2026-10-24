@@ -8,11 +8,14 @@ on:
 jobs:
   delete-runs:
     runs-on: ubuntu-latest
+    permissions:
+      actions: write   # Право удалять запуски (чтобы не было ошибки 403)
+      contents: read   # Право читать содержимое репозитория
     steps:
       - name: Delete old workflow runs
         uses: Mattraks/delete-workflow-runs@v2
         with:
-          token: ${{ github.token }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
-          retain_days: 1
-          keep_minimum_runs: 5
+          retain_days: 0 # Удаляем всё, независимо от того, когда они были запущены
+          keep_minimum_runs: 3 # Оставляем ровно 3 последних запуска для каждого workflow
