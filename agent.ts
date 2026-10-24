@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (No Cut-offs & Real Fallback v90)
+// MAX NEWS AGENT — «ФАКТОР» (Clean Text & No Fake Insights v91)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -119,7 +119,9 @@ const BORING_TOPICS = [
     /(?:среди вернувшихся|обмене бойцов|предстоит лечение|сообщила Лантратова|реабилитация)/i,
     /(?:трек|релиз|альбом|певец|музыкант|рэпер|клип|анонс|концерт|фестиваль|туры|билет|bones|исполнител)/i,
     /(?:пятница|пятницу|13 населенных|освободили|наша территория|фортуна|отворачивается|свои готовы)/i,
-    /(?:илон маск|маск|илона маска)/i
+    /(?:илон маск|маск|илона маска)/i,
+    // 🚫 Блокируем тупые заглушки
+    /(?:ситуация требует внимания|следим за развитием событий|ситуация подчеркивает)/i
 ];
 
 class FileKV {
@@ -514,16 +516,16 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
         cleanDesc = cleanDesc.replace(/^[-—:.\s]+/, ''); 
     }
 
-    // 🛠 УМНЫЙ ФОЛБЭК: Ищем нормальные предложения, чтобы не было обрубков
+    // 🛠 УМНЫЙ ФОЛБЭК (Ищем нормальные предложения)
     let fallbackBody = "";
-    const sentences = cleanDesc.match(/[A-ZА-ЯЁ][^.!?]+[.!?]+/g) || []; // Ищем предложения, начинающиеся с заглавной буквы
+    const sentences = cleanDesc.match(/[A-ZА-ЯЁ][^.!?]+[.!?]+/g) || []; 
     if (sentences.length > 0) {
-        fallbackBody = sentences.slice(0, 3).join(" ").trim(); // Берем первые 3 целых предложения
+        fallbackBody = sentences.slice(0, 3).join(" ").trim(); 
     } else {
         fallbackBody = cleanDesc.length > 100 ? cleanDesc.slice(0, 250) + "..." : cleanDesc;
     }
 
-    const prompt = `Ты — аналитический редактор канала «ФАКТОР». Твой стиль — как у Bloomberg или Reuters: четко, плотно, без воды, только суть и факты.
+    const prompt = `Ты — аналитический редактор канала «ФАКТОР». Твой стиль — как у Bloomberg: четко, плотно, только факты и суть.
 
 ИСХОДНЫЙ ТЕКСТ:
 ${cleanDesc}
@@ -531,8 +533,9 @@ ${cleanDesc}
 ТВОИ ЗАДАЧИ:
 1. headline — заголовок (до 7 слов) с 1 эмодзи (⚡ 🔥 🚨 💥 ⚠️ 📉 📈 🏆 🎯 💰 🌍 🛡️ ⚔️).
 2. body — ОДИН плотный абзац (максимум 3-4 предложения). Только суть события. Никаких повторов заголовка.
-3. insight — 1 предложение (до 15 слов). Объясни простым языком, почему это важно для обычного человека (что будет с ценами, безопасностью, жизнью).
-4. importance — целое 1-10 (8-10 экстренно, 6-7 важно, 1-5 скучно).
+3. insight — 1 предложение (до 15 слов). Объясни простым языком, почему это важно.
+4. importance — целое 1-10.
+   ВНИМАНИЕ: Если из текста непонятно, В ЧЕМ СУТЬ (за что задержали, что случилось) или текст обрывается на полуслове — СТАВЬ ВАЖНОСТЬ 1.
 5. is_ad — true, если это реклама.
 
 Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false}`;
@@ -573,23 +576,22 @@ ${cleanDesc}
         } catch {}
     }
 
-    if (llmResult && llmResult.headline && llmResult.body && llmResult.insight) {
+    if (llmResult && llmResult.headline && llmResult.body) {
         const isEnglish = (llmResult.body.match(/[a-zA-Z]/g) || []).length > (llmResult.body.match(/[а-яА-Я]/g) || []).length;
         if (isEnglish) {
-            // Если нейросеть вернула английский, используем фолбэк
             return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 6, is_ad: false };
         }
 
         return {
             headline: validateHeadline(llmResult.headline, fallbackHeadline),
             body: String(llmResult.body).replace(/<[^>]*>/g, "").trim(), 
-            insight: String(llmResult.insight).replace(/<[^>]*>/g, "").trim(),
+            insight: String(llmResult.insight || "").replace(/<[^>]*>/g, "").trim(),
             importance: Number(llmResult.importance) || 6,
             is_ad: !!llmResult.is_ad,
         };
     }
     
-    // 🛠 Если ИИ упал, возвращаем фолбэк без тупого инсайта
+    // Если ИИ упал, возвращаем фолбэк БЕЗ тупого инсайта
     return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 6, is_ad: false };
 }
 
@@ -660,7 +662,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v90: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v91: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
