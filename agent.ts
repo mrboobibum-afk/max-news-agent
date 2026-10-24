@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Unique Style & Strict Fallback v89)
+// MAX NEWS AGENT — «ФАКТОР» (No Cut-offs & Real Fallback v90)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -17,7 +17,7 @@ const REGULAR_MAX_INTERVAL_MS = 25 * 60 * 1000;
 const HARD_MIN_INTERVAL_MS = 10 * 60 * 1000;
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000;
 
-const MEDIA_PACKET_MAX = 3; // Уменьшили, чтобы быстрее отправлялось
+const MEDIA_PACKET_MAX = 3; 
 const MIN_IMPORTANCE = 6; 
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
@@ -119,7 +119,7 @@ const BORING_TOPICS = [
     /(?:среди вернувшихся|обмене бойцов|предстоит лечение|сообщила Лантратова|реабилитация)/i,
     /(?:трек|релиз|альбом|певец|музыкант|рэпер|клип|анонс|концерт|фестиваль|туры|билет|bones|исполнител)/i,
     /(?:пятница|пятницу|13 населенных|освободили|наша территория|фортуна|отворачивается|свои готовы)/i,
-    /(?:илон маск|маск|илона маска)/i // Убираем срачи про Маска
+    /(?:илон маск|маск|илона маска)/i
 ];
 
 class FileKV {
@@ -426,7 +426,6 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 if (!textRaw || textRaw.length < 30 || textRaw.length > 2000) continue;
                 if (BORING_TOPICS.some(r => r.test(textRaw))) continue;
 
-                // 🎥 УЛУЧШЕННЫЙ ПОИСК ВИДЕО (Ищем и .mp4, и тег <video>)
                 const videoMatches = [
                     ...post.matchAll(/https?:\/\/[^"'<>\s]+?\.(?:mp4)(?:\?[^"'<>\s]*)?/gi),
                     ...post.matchAll(/<video[^>]+src=["']([^"']+?)["']/gi)
@@ -440,7 +439,6 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 const firstSentence = sanitized.split(/[.!?]\s/)[0] || sanitized;
                 const postKey = "tg_" + simpleHash(sanitized);
 
-                // Приоритет видео
                 const mediaUrls = videoMatches.length > 0 
                     ? videoMatches.map(mediaUrl => ({ mediaUrl, mediaType: "video" }))
                     : imageMatches.map(mediaUrl => ({ mediaUrl, mediaType: "image" }));
@@ -507,21 +505,23 @@ async function fetchRssFeeds(): Promise<any[]> {
     return items;
 }
 
-// 🎨 НОВЫЙ СТИЛЬ «ФАКТОР» + ЖЕЛЕЗОБЕТОННЫЙ ФОЛБЭК
 async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, body: string, insight: string, importance: number, is_ad: boolean }> {
     let cleanDesc = sanitizeRawText(desc);
     const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 90);
     
-    // Обрезаем заголовок из текста, если он там дублируется
     if (cleanDesc.toLowerCase().startsWith(fallbackHeadline.toLowerCase())) {
         cleanDesc = cleanDesc.slice(fallbackHeadline.length).trim();
         cleanDesc = cleanDesc.replace(/^[-—:.\s]+/, ''); 
     }
 
-    // Умный фолбэк (берет первые 3 предложения, чтобы не было обрубков)
-    const sentences = cleanDesc.match(/[^.!?]+[.!?]+/g) || [];
-    const fallbackBody = sentences.slice(0, 3).join(" ").trim() || cleanDesc.slice(0, 300) + "...";
-    const fallbackInsight = "Ситуация требует внимания. Следим за развитием событий.";
+    // 🛠 УМНЫЙ ФОЛБЭК: Ищем нормальные предложения, чтобы не было обрубков
+    let fallbackBody = "";
+    const sentences = cleanDesc.match(/[A-ZА-ЯЁ][^.!?]+[.!?]+/g) || []; // Ищем предложения, начинающиеся с заглавной буквы
+    if (sentences.length > 0) {
+        fallbackBody = sentences.slice(0, 3).join(" ").trim(); // Берем первые 3 целых предложения
+    } else {
+        fallbackBody = cleanDesc.length > 100 ? cleanDesc.slice(0, 250) + "..." : cleanDesc;
+    }
 
     const prompt = `Ты — аналитический редактор канала «ФАКТОР». Твой стиль — как у Bloomberg или Reuters: четко, плотно, без воды, только суть и факты.
 
@@ -530,7 +530,7 @@ ${cleanDesc}
 
 ТВОИ ЗАДАЧИ:
 1. headline — заголовок (до 7 слов) с 1 эмодзи (⚡ 🔥 🚨 💥 ⚠️ 📉 📈 🏆 🎯 💰 🌍 🛡️ ⚔️).
-2. body — ОДИН плотный абзац (максимум 3-4 предложения). Только суть события. Никаких повторов заголовка в первом предложении. Выдели главное тегами <b>жирный текст</b>.
+2. body — ОДИН плотный абзац (максимум 3-4 предложения). Только суть события. Никаких повторов заголовка.
 3. insight — 1 предложение (до 15 слов). Объясни простым языком, почему это важно для обычного человека (что будет с ценами, безопасностью, жизнью).
 4. importance — целое 1-10 (8-10 экстренно, 6-7 важно, 1-5 скучно).
 5. is_ad — true, если это реклама.
@@ -573,23 +573,24 @@ ${cleanDesc}
         } catch {}
     }
 
-    if (llmResult && llmResult.headline && llmResult.body) {
+    if (llmResult && llmResult.headline && llmResult.body && llmResult.insight) {
         const isEnglish = (llmResult.body.match(/[a-zA-Z]/g) || []).length > (llmResult.body.match(/[а-яА-Я]/g) || []).length;
         if (isEnglish) {
-            return { headline: fallbackHeadline, body: fallbackBody, insight: fallbackInsight, importance: 6, is_ad: false };
+            // Если нейросеть вернула английский, используем фолбэк
+            return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 6, is_ad: false };
         }
 
         return {
             headline: validateHeadline(llmResult.headline, fallbackHeadline),
             body: String(llmResult.body).replace(/<[^>]*>/g, "").trim(), 
-            insight: String(llmResult.insight || fallbackInsight).replace(/<[^>]*>/g, "").trim(),
+            insight: String(llmResult.insight).replace(/<[^>]*>/g, "").trim(),
             importance: Number(llmResult.importance) || 6,
             is_ad: !!llmResult.is_ad,
         };
     }
     
-    // Если ИИ упал, возвращаем умный фолбэк
-    return { headline: fallbackHeadline, body: fallbackBody, insight: fallbackInsight, importance: 6, is_ad: false };
+    // 🛠 Если ИИ упал, возвращаем фолбэк без тупого инсайта
+    return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 6, is_ad: false };
 }
 
 async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<string> {
@@ -659,7 +660,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v89: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v90: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -752,9 +753,8 @@ async function run() {
             continue;
         }
 
-        // Убираем лишние проверки, фолбэк уже чистый
-        if (!post.body || post.body.length < 30) {
-            console.log(`❌ Пропуск: текст слишком короткий.`);
+        if (!post.body || post.body.length < 40) {
+            console.log(`❌ Пропуск: текст слишком короткий или пустой.`);
             skippedNoMedia++;
             continue;
         }
@@ -814,10 +814,14 @@ async function run() {
             console.log(`✅ Медиапакет: ${uploaded.length} (видео: ${videos}, фото: ${images})`);
         }
 
-        // 🎨 ФОРМАТИРОВАНИЕ В НОВОМ СТИЛЕ
         let postHtml = `<b>${escapeHtml(post.headline)}</b>\n\n`;
         postHtml += `${post.body}\n\n`;
-        postHtml += `💡 <b>Фактор:</b> ${escapeHtml(post.insight)}\n\n`;
+        
+        // Добавляем инсайт только если он есть
+        if (post.insight) {
+            postHtml += `💡 <b>Фактор:</b> ${escapeHtml(post.insight)}\n\n`;
+        }
+        
         postHtml += `⚡ <b>ФАКТОР</b>\n#ФАКТОР`;
 
         const sent = await sendPostToMax(postHtml, uploaded);
