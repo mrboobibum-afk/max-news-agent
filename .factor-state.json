@@ -263,53 +263,6 @@
       "value": 1792875022430,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"565bc9aeb964610709a4ab95ca71794c82215de7f471d0afc91d5ff7f443172a\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "565bc9aeb964610709a4ab95ca71794c82215de7f471d0afc91d5ff7f443172a"
-      ],
-      "value": true,
-      "expiresAt": 1792876861853
-    },
-    "[\"factor\",\"topic\",\"565bc9aeb964610709a4ab95ca71794c82215de7f471d0afc91d5ff7f443172a\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "565bc9aeb964610709a4ab95ca71794c82215de7f471d0afc91d5ff7f443172a"
-      ],
-      "value": {
-        "title": "Metro прокомментировало пожертвование от российского подразделения движению «Народный фрон",
-        "roots": [
-          "metro",
-          "проком",
-          "пожерт",
-          "россий",
-          "подраз",
-          "движен",
-          "народн"
-        ]
-      },
-      "expiresAt": 1792876861854
-    },
-    "[\"factor\",\"texthash\",\"f3b9882805d831901b431ada4b18fbc8bf99e48006bc361bdb28cba5179d96a3\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "f3b9882805d831901b431ada4b18fbc8bf99e48006bc361bdb28cba5179d96a3"
-      ],
-      "value": true,
-      "expiresAt": 1792876861855
-    },
-    "[\"factor\",\"content\",\"86c2a90b636ef31891b26c8d9d904fdcdba06f968b3f29efe916e05e64762950\"]": {
-      "key": [
-        "factor",
-        "content",
-        "86c2a90b636ef31891b26c8d9d904fdcdba06f968b3f29efe916e05e64762950"
-      ],
-      "value": true,
-      "expiresAt": 1792876861855
-    },
     "[\"factor\",\"pub\",\"4d448f455fa5cd2e4fe2533b34f64f72e4a376f68a418d9f9a7aaa74b2b7f066\"]": {
       "key": [
         "factor",
