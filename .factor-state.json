@@ -215,56 +215,6 @@
       "value": 1792849825860,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"8da419736447c70caea5ea8804c96a9d052d42c16b984490bacf2aa69ef17223\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "8da419736447c70caea5ea8804c96a9d052d42c16b984490bacf2aa69ef17223"
-      ],
-      "value": true,
-      "expiresAt": 1792850843134
-    },
-    "[\"factor\",\"topic\",\"8da419736447c70caea5ea8804c96a9d052d42c16b984490bacf2aa69ef17223\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "8da419736447c70caea5ea8804c96a9d052d42c16b984490bacf2aa69ef17223"
-      ],
-      "value": {
-        "title": "Ростех LADA Azimut: главное от главы Ростеха Сергея Чемезова К 60-летию нашего АВТОВАЗа жу",
-        "roots": [
-          "ростех",
-          "azimut",
-          "главно",
-          "главы",
-          "ростех",
-          "сергея",
-          "чемезо",
-          "летию",
-          "нашего",
-          "автова"
-        ]
-      },
-      "expiresAt": 1792850843134
-    },
-    "[\"factor\",\"texthash\",\"01b9cb6bb3be1c10489f17e0dfdaf9f32f88e84ab721f07b57ebbf8155d1279f\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "01b9cb6bb3be1c10489f17e0dfdaf9f32f88e84ab721f07b57ebbf8155d1279f"
-      ],
-      "value": true,
-      "expiresAt": 1792850843135
-    },
-    "[\"factor\",\"content\",\"f5e83d6a8e26fa9828af82c7d5f9db366db0ca0da4d8a0d42e03c4c6674dfebe\"]": {
-      "key": [
-        "factor",
-        "content",
-        "f5e83d6a8e26fa9828af82c7d5f9db366db0ca0da4d8a0d42e03c4c6674dfebe"
-      ],
-      "value": true,
-      "expiresAt": 1792850843135
-    },
     "[\"factor\",\"pub\",\"dc59aeda747772acaf840e29ab99412dd2533e7fa73978b088c7ce37ec9da121\"]": {
       "key": [
         "factor",
