@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Perfect Posts Only v113)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v114)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -12,9 +12,7 @@ const DASHSCOPE_API_KEY = Deno.env.get("DASHSCOPE_API_KEY") ?? "";
 const QWEN_MODEL = Deno.env.get("QWEN_MODEL") ?? "qwen3.8-max";
 const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyuncs.com/compatible-mode/v1";
 
-const REGULAR_MIN_INTERVAL_MS = 5 * 60 * 1000;
-const REGULAR_MAX_INTERVAL_MS = 10 * 60 * 1000;
-const HARD_MIN_INTERVAL_MS = 3 * 60 * 1000;
+const LOOP_SLEEP_MS = 5 * 60 * 1000; // Спим 5 минут внутри цикла
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
 
 const MEDIA_PACKET_MAX = 6; 
@@ -34,7 +32,7 @@ const MIN_VIDEO_BYTES = 50 * 1024;
 const MAX_VIDEO_BYTES = 50 * 1024 * 1024; 
 
 const DOWNLOAD_TIMEOUT_MS = 60000; 
-const LLM_TIMEOUT_MS = 40000; // 🛠 УВЕЛИЧИЛИ ТАЙМАУТ ДО 40 СЕКУНД
+const LLM_TIMEOUT_MS = 40000; 
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
 
@@ -544,7 +542,6 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
         cleanDesc = cleanDesc.replace(/^[-—:.\s]+/, ''); 
     }
 
-    // 🛠 УМНАЯ ОБРЕЗКА: Берем только ЦЕЛЫЕ предложения
     let fallbackBody = "";
     const sentences = cleanDesc.match(/[A-ZА-ЯЁ][^.!?]+[.!?]+/g) || []; 
     if (sentences.length > 0) {
@@ -553,7 +550,6 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
         fallbackBody = cleanDesc.length > 100 ? cleanDesc.slice(0, 250) + "..." : cleanDesc;
     }
 
-    // 🛠 ЗАЩИТА ОТ МУСОРА: Если в тексте есть слова длиннее 18 символов (склейки), отменяем пост
     const wordsInDesc = cleanDesc.split(/\s+/);
     if (wordsInDesc.some(w => w.length > 18)) {
         return { headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
@@ -640,7 +636,6 @@ ${cleanDesc}
         };
     }
     
-    // 🛠 ЖЕСТКИЙ ОТКАЗ: Если ИИ упал, мы НЕ публикуем сырой текст. Отменяем новость.
     return { headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
 }
 
@@ -711,29 +706,12 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v113: Запуск отбора событий ===");
-    const now = Date.now();
-
+    console.log("=== ФАКТОР v114: Запуск отбора событий ===");
+    
     try {
         const stat = await kv.cleanup();
         console.log(`Очистка state: удалено просроченных ${stat.removedExpired}, старых ${stat.removedOld}, лишних ${stat.removedOverflow}; оставлено ${stat.kept}`);
     } catch (e) { console.log("Очистка state не удалась:", String(e)); }
-
-    const lastRegular = (await kv.get(["factor", "last_regular"])).value ?? 0;
-    if (now - lastRegular < HARD_MIN_INTERVAL_MS) {
-        console.log(`Жёсткий интервал: ждём ещё ${Math.ceil((HARD_MIN_INTERVAL_MS - (now - lastRegular)) / 1000)} сек.`);
-        return;
-    }
-
-    let nextDelay = (await kv.get(["factor", "next_regular_delay"])).value;
-    if (!nextDelay || nextDelay > REGULAR_MAX_INTERVAL_MS) {
-        nextDelay = REGULAR_MIN_INTERVAL_MS;
-        await kv.set(["factor", "next_regular_delay"], nextDelay);
-    }
-    if (now - lastRegular < nextDelay) {
-        console.log("Пауза вещания активна: следующая публикация примерно через " + Math.ceil((nextDelay - (now - lastRegular)) / 60000) + " мин.");
-        return;
-    }
 
     console.log("\nИсточники (Telegram):");
     const tgCandidates = await fetchTelegramLiveFeed();
@@ -806,7 +784,6 @@ async function run() {
 
         if (post.is_ad) { skippedImportance++; continue; }
 
-        // 🛠 ЖЕСТКИЙ ОТКАЗ: Если ИИ вернул пустоту, мы не публикуем
         if (!post.headline || !post.body || post.body.length < 60) {
             console.log(`❌ Пропуск: ИИ не смог сделать идеальный пост (отмена).`);
             skippedNoMedia++;
@@ -906,10 +883,7 @@ async function run() {
             if (recentTitles.length > RECENT_HISTORY_LIMIT) recentTitles.shift();
             await kv.set(["factor", "recent_titles"], recentTitles, { expireIn: HISTORY_TTL_MS });
 
-            const nextDelay = Math.floor(REGULAR_MIN_INTERVAL_MS + Math.random() * (REGULAR_MAX_INTERVAL_MS - REGULAR_MIN_INTERVAL_MS + 1));
-            await kv.set(["factor", "next_regular_delay"], nextDelay);
-            await kv.set(["factor", "last_regular"], now);
-            return;
+            return; // Выходим из функции run(), чтобы цикл сделал паузу
         }
     }
 
@@ -917,4 +891,12 @@ async function run() {
     console.log("Подходящих событий нет.");
 }
 
-await run();
+// 🚀 ЗАПУСКАЕМ ЦИКЛ НА 5.5 ЧАСОВ
+const MAX_RUNTIME_MS = 5.5 * 60 * 60 * 1000; 
+const startTime = Date.now();
+
+while (Date.now() - startTime < MAX_RUNTIME_MS) {
+    await run();
+    console.log(`\n💤 Ожидание 5 минут перед следующим запуском...`);
+    await new Promise(r => setTimeout(r, LOOP_SLEEP_MS));
+}
