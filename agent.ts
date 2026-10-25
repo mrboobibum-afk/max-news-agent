@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Video Hunter v109)
+// MAX NEWS AGENT — «ФАКТОР» (Smart Analysis Style v111)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -31,9 +31,9 @@ const SIMILARITY_THRESHOLD = 0.35;
 const MIN_IMAGE_BYTES = 10 * 1024;
 const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
 const MIN_VIDEO_BYTES = 50 * 1024;
-const MAX_VIDEO_BYTES = 50 * 1024 * 1024; // 🎥 УВЕЛИЧИЛИ МАКСИМАЛЬНЫЙ РАЗМЕР ВИДЕО ДО 50 МБ
+const MAX_VIDEO_BYTES = 50 * 1024 * 1024; 
 
-const DOWNLOAD_TIMEOUT_MS = 60000; // 🎥 УВЕЛИЧИЛИ ТАЙМАУТ ДО 60 СЕК
+const DOWNLOAD_TIMEOUT_MS = 60000; 
 const LLM_TIMEOUT_MS = 25000; 
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
@@ -56,7 +56,6 @@ async function initMaxHttpClient() {
     return maxHttpClient;
 }
 
-// 🎥 ДОБАВЛЕНЫ КАНАЛЫ С ЭКСКЛЮЗИВНЫМ ВИДЕО
 const TG_LIVE_CHANNELS = [
     "government_rus", "news_kremlin", "kremlinpress",
     "mod_russia", "mchs_official", "mediamvd", "MID_Russia", "sledcom_press",
@@ -68,7 +67,7 @@ const TG_LIVE_CHANNELS = [
     "rostecnews", "rosatominfo", "rzdtg", "GazpromNews", "rosneftinfo",
     "rian_ru", "tass_agency", "rbc_news", "vesti_news", "rt_russian",
     "1tv_news", "ntvru", "izvestya", "rgru_news",
-    "readovkanews", "bazabazon", "shot_shot", "mash" // <- Вернули для видео
+    "readovkanews", "bazabazon", "shot_shot", "mash"
 ];
 
 const NEWS_FEEDS = [
@@ -283,9 +282,7 @@ async function getTextHash(text: string): Promise<string> {
 
 function isTrashUrl(url: string): boolean {
     const low = url.toLowerCase();
-    // 🎥 Если это видео (.mp4), мы НЕ считаем его мусором, даже если в ссылке есть странные символы
     if (low.includes(".mp4")) return false;
-
     return (
         low.includes("/card") || low.includes("textcard") || low.includes("share") ||
         low.includes("logo") || low.includes("avatar") || low.includes("stub") ||
@@ -446,7 +443,6 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 const postIdMatch = post.match(/data-post=["']([^"']+)["']/i);
                 const postKey = postIdMatch ? postIdMatch[1] : "tg_" + simpleHash(sanitized);
 
-                // 🎥 АГРЕССИВНЫЙ ПОИСК ВИДЕО (Ищем .mp4 в любых тегах)
                 const videos = [
                     ...post.matchAll(/https?:\/\/[^"'\s>]+?\.mp4(?:\?[^"'\s>]*)?/gi),
                     ...post.matchAll(/<video[^>]+src=["']([^"']+)["']/gi)
@@ -536,12 +532,12 @@ async function fetchRssFeeds(): Promise<any[]> {
     return items;
 }
 
-async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, body: string, insight: string, importance: number, is_ad: boolean }> {
+async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, body: string, insight: string, importance: number, is_ad: boolean, hashtag: string }> {
     let cleanDesc = sanitizeRawText(desc);
     const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 90);
     
     if (cleanDesc.includes("�")) {
-        return { headline: "", body: "", insight: "", importance: 0, is_ad: false };
+        return { headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
     }
 
     if (cleanDesc.toLowerCase().startsWith(fallbackHeadline.toLowerCase())) {
@@ -557,33 +553,30 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
         fallbackBody = cleanDesc.length > 100 ? cleanDesc.slice(0, 250) + "..." : cleanDesc;
     }
 
-    const prompt = `Ты — главный редактор аналитического канала «ФАКТОР». Твоя цель — давать сбалансированную картину мира: политика, экономика, международные отношения, технологии и важные события в России. Твой стиль — строго, информативно, с фактами.
+    // 🎨 НОВЫЙ ПРОМПТ С ФИРМЕННЫМ СТИЛЕМ
+    const prompt = `Ты — главный редактор аналитического канала «ФАКТОР». Твой стиль — Bloomberg или Ведомости: строго, информативно, с фактами. Твоя цель — дать читателю суть и заставить его задуматься.
 
 ИСХОДНЫЙ ТЕКСТ:
 ${cleanDesc}
 
 ТВОИ ЗАДАЧИ:
 1. headline — заголовок (до 8 слов) с 1 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨).
-   ВАЖНО: Если в тексте упоминается губернатор, мэр или чиновник, но НЕ указан регион/город — ОБЯЗАТЕЛЬНО добавь его, используя свои знания.
-2. body — Всесторонний текст (максимум 3-4 предложения). 
-   - Включи ВСЕ ключевые факты: кто, что, где, когда, цифры.
-   - Разбей текст на маркеры, используя символ ▪️ (в начале каждой строки).
-   - Выдели главные акценты (цифры, имена, суммы) тегами <b>жирный шрифт</b>.
-3. insight — 1-2 предложения (до 20 слов). Оцени последствия. БЕЗ ТЕГОВ HTML.
-   КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО писать общие фразы типа «Ситуация требует внимания».
-4. importance — целое 1-10. 
-   ТВОЯ ШКАЛА ВАЖНОСТИ:
-   - 9-10: Экстренные события. Атаки БПЛА на мирные города, теракты, крупные катастрофы, заявления Путина/Трампа/Зеленского.
-   - 8-9: Важная политика и экономика. Ключевая ставка ЦБ, санкции, новые законы, крупные сделки, инфляция, саммиты.
-   - 7: Заметные события. Технологии, наука, значимые региональные события.
-   - 1-6: НЕ ВАЖНО. Бытовуха, ДТП, туристы, спорт, светские новости.
+   ВАЖНО: Если в тексте упоминается губернатор, мэр или чиновник без региона — ОБЯЗАТЕЛЬНО добавь его.
+2. body — Оформи текст как список из 3-4 пунктов. 
+   - Каждый пункт начинай с маркера ▪️.
+   - Включи ВСЕ ключевые факты: цифры, имена, даты.
+   - Выдели главные акценты (суммы, цифры, имена) тегами <b>жирный шрифт</b>.
+   - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ.
+3. insight — (Взгляд ФАКТОРА) — 1-2 предложения (до 20 слов). Оцени последствия для обычного человека: что будет с ценами, безопасностью или экономикой. БЕЗ ТЕГОВ HTML.
+4. importance — целое 1-10. (9-10 экстренно, 7-8 политика/экономика, 1-6 бытовуха).
 5. is_ad — true, если это реклама.
+6. hashtag — выбери один тег по теме: #Политика, #Экономика, #Мир, #Происшествия, #Технологии, #Россия.
 
 ВНИМАНИЕ, ЖЕСТКИЕ ПРАВИЛА:
 - КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО выдумывать "инсайдерские данные", "закрытые заседания", "строгие директивы".
 - ЗАПРЕЩЕНО использовать шаблоны вроде [текущая дата]. Если в тексте есть дата, используй её.
 
-Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false}`;
+Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false, "hashtag": "#Политика"}`;
 
     let llmResult: any = null;
 
@@ -624,12 +617,12 @@ ${cleanDesc}
     if (llmResult && llmResult.headline && llmResult.body && llmResult.insight) {
         const isEnglish = (llmResult.body.match(/[a-zA-Z]/g) || []).length > (llmResult.body.match(/[а-яА-Я]/g) || []).length;
         if (isEnglish) {
-            return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 1, is_ad: false };
+            return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 1, is_ad: false, hashtag: "#Новости" };
         }
 
         const fullText = (llmResult.headline + " " + llmResult.body + " " + llmResult.insight).toLowerCase();
         if (fullText.includes("[текущая дата]") || fullText.includes("инсайдерск") || fullText.includes("ни слова больше")) {
-            return { headline: "", body: "", insight: "", importance: 0, is_ad: false };
+            return { headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
         }
 
         return {
@@ -638,10 +631,11 @@ ${cleanDesc}
             insight: String(llmResult.insight).replace(/<[^>]*>/g, "").trim(),
             importance: Number(llmResult.importance) || 1,
             is_ad: !!llmResult.is_ad,
+            hashtag: llmResult.hashtag || "#Новости"
         };
     }
     
-    return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 1, is_ad: false };
+    return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 1, is_ad: false, hashtag: "#Новости" };
 }
 
 async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<string> {
@@ -663,7 +657,7 @@ async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<
         method: "POST", 
         body: form, 
         client: client ?? undefined, 
-        signal: AbortSignal.timeout(120000) // Увеличили таймаут на загрузку в Max
+        signal: AbortSignal.timeout(120000)
     });
     
     const text = await res.text();
@@ -694,7 +688,6 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
     if (!item.postKey) return [];
 
     const samePost = candidates.filter(c => c.postKey === item.postKey);
-    // 🎥 ЖЕСТКИЙ ПРИОРИТЕТ ВИДЕО
     const ordered = [
         ...samePost.filter(c => c.mediaType === "video"),
         ...samePost.filter(c => c.mediaType === "image"),
@@ -712,7 +705,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v109: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v111: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -873,14 +866,15 @@ async function run() {
             console.log(`✅ Медиапакет: ${uploaded.length} (видео: ${videos}, фото: ${images})`);
         }
 
+        // 🎨 ФОРМАТИРОВАНИЕ В НОВОМ СТИЛЕ
         let postHtml = `<b>${escapeHtml(post.headline)}</b>\n\n`;
         postHtml += `${post.body}\n\n`;
         
         if (post.insight) {
-            postHtml += `💡 <b>Почему это важно:</b>\n${escapeHtml(post.insight)}\n\n`;
+            postHtml += `💡 <b>Взгляд ФАКТОРА:</b>\n${escapeHtml(post.insight)}\n\n`;
         }
         
-        postHtml += `⚡️ <b>ФАКТОР</b> | #ФАКТОР`;
+        postHtml += `⚡️ <b>ФАКТОР</b> | ${post.hashtag}`;
 
         const sent = await sendPostToMax(postHtml, uploaded);
         if (sent) {
