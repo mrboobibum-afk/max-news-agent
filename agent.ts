@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Strict Text Fixer v112)
+// MAX NEWS AGENT — «ФАКТОР» (Perfect Posts Only v113)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -34,7 +34,7 @@ const MIN_VIDEO_BYTES = 50 * 1024;
 const MAX_VIDEO_BYTES = 50 * 1024 * 1024; 
 
 const DOWNLOAD_TIMEOUT_MS = 60000; 
-const LLM_TIMEOUT_MS = 30000; 
+const LLM_TIMEOUT_MS = 40000; // 🛠 УВЕЛИЧИЛИ ТАЙМАУТ ДО 40 СЕКУНД
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
 
@@ -218,7 +218,6 @@ function cleanText(val: any): string {
     t = decodeHtmlEntities(t); t = decodeHtmlEntities(t);
     t = t.replace(/<[^>]+>/g, " ");
     t = t.replace(/\s+/g, " ").trim();
-    // 🛠 ЛЕЧИМ СЛИПШИЕСЯ СЛОВА (ПрезидентСША -> Президент США)
     t = t.replace(/([а-я])([А-Я])/g, "$1 $2");
     return t;
 }
@@ -641,11 +640,8 @@ ${cleanDesc}
         };
     }
     
-    // 🛠 АВАРИЙНЫЙ РЕЖИМ: Если ИИ упал, делаем хотя бы нормальный список
-    const fallbackInsight = "";
-    const fallbackFormattedBody = fallbackBody.split(/(?<=[.!?])\s+/).map(s => "▪️ " + s).join("\n");
-    
-    return { headline: fallbackHeadline, body: fallbackFormattedBody, insight: fallbackInsight, importance: 1, is_ad: false, hashtag: "#Новости" };
+    // 🛠 ЖЕСТКИЙ ОТКАЗ: Если ИИ упал, мы НЕ публикуем сырой текст. Отменяем новость.
+    return { headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
 }
 
 async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<string> {
@@ -715,7 +711,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v112: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v113: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -810,6 +806,13 @@ async function run() {
 
         if (post.is_ad) { skippedImportance++; continue; }
 
+        // 🛠 ЖЕСТКИЙ ОТКАЗ: Если ИИ вернул пустоту, мы не публикуем
+        if (!post.headline || !post.body || post.body.length < 60) {
+            console.log(`❌ Пропуск: ИИ не смог сделать идеальный пост (отмена).`);
+            skippedNoMedia++;
+            continue;
+        }
+
         let finalImportance = post.importance;
         const rawTextLower = item.desc.toLowerCase();
         if (/(?:путин|трамп|зеленск|бпла|дрон|атака|удар|погиб|пострадавш|цб|ставка|санкци|госдума|ушаков|лавров|мишустин|набиуллин)/i.test(rawTextLower)) {
@@ -820,12 +823,6 @@ async function run() {
         if (finalImportance < MIN_IMPORTANCE) {
             console.log(`Пропуск: важность ${finalImportance} < ${MIN_IMPORTANCE}`);
             skippedImportance++;
-            continue;
-        }
-
-        if (!post.headline || !post.body || post.body.length < 40) {
-            console.log(`❌ Пропуск: текст слишком короткий или пустой.`);
-            skippedNoMedia++;
             continue;
         }
 
