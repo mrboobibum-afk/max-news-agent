@@ -275,55 +275,6 @@
       "value": 1792885223096,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"6209aae95ba6caee9fec8bcfd6cb82ce87c2a56779d082299070f6a3db6362f8\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "6209aae95ba6caee9fec8bcfd6cb82ce87c2a56779d082299070f6a3db6362f8"
-      ],
-      "value": true,
-      "expiresAt": 1792886474831
-    },
-    "[\"factor\",\"topic\",\"6209aae95ba6caee9fec8bcfd6cb82ce87c2a56779d082299070f6a3db6362f8\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "6209aae95ba6caee9fec8bcfd6cb82ce87c2a56779d082299070f6a3db6362f8"
-      ],
-      "value": {
-        "title": "ОБСЕ является \"передовым окопом\", через который Россию слышат в Европе , заявил постпред Р",
-        "roots": [
-          "являет",
-          "передо",
-          "окопом",
-          "через",
-          "которы",
-          "россию",
-          "слышат",
-          "европе",
-          "постпр"
-        ]
-      },
-      "expiresAt": 1792886474832
-    },
-    "[\"factor\",\"texthash\",\"54e909a69b0884e6cc40405906ac65bc95a5ace1c41afc7e7d725a06b976ec3e\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "54e909a69b0884e6cc40405906ac65bc95a5ace1c41afc7e7d725a06b976ec3e"
-      ],
-      "value": true,
-      "expiresAt": 1792886474833
-    },
-    "[\"factor\",\"content\",\"dc7b82757121097f0469a3009cd79414b8914ac4afa51776899b204c807c2c91\"]": {
-      "key": [
-        "factor",
-        "content",
-        "dc7b82757121097f0469a3009cd79414b8914ac4afa51776899b204c807c2c91"
-      ],
-      "value": true,
-      "expiresAt": 1792886474833
-    },
     "[\"factor\",\"pub\",\"1602ec04cb1f3e05c997cae27164f9f61717fea0eb17e5dad518c6150cd64a01\"]": {
       "key": [
         "factor",
