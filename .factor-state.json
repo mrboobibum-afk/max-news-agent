@@ -284,54 +284,6 @@
       "value": 1792897823617,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"22c81d9f0ff514e9e4fda4a3828ed86c7a7fd4ee7a4cac7e983dabef11c4e7a1\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "22c81d9f0ff514e9e4fda4a3828ed86c7a7fd4ee7a4cac7e983dabef11c4e7a1"
-      ],
-      "value": true,
-      "expiresAt": 1792899063971
-    },
-    "[\"factor\",\"topic\",\"22c81d9f0ff514e9e4fda4a3828ed86c7a7fd4ee7a4cac7e983dabef11c4e7a1\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "22c81d9f0ff514e9e4fda4a3828ed86c7a7fd4ee7a4cac7e983dabef11c4e7a1"
-      ],
-      "value": {
-        "title": "📃 Арестованный в Индии танкер Unity с россиянами отбуксировали к берегу Арестованный в Ин",
-        "roots": [
-          "аресто",
-          "индии",
-          "танкер",
-          "unity",
-          "россия",
-          "отбукс",
-          "берегу",
-          "аресто"
-        ]
-      },
-      "expiresAt": 1792899063972
-    },
-    "[\"factor\",\"texthash\",\"b355633fda9b729891b7b799e99ded0a0c2ab4d228a2f26e423314708296f746\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "b355633fda9b729891b7b799e99ded0a0c2ab4d228a2f26e423314708296f746"
-      ],
-      "value": true,
-      "expiresAt": 1792899063973
-    },
-    "[\"factor\",\"content\",\"246e2b25543aa54e7e40da4b74a773f1366cb03ff8e81ae79c055459842ecb30\"]": {
-      "key": [
-        "factor",
-        "content",
-        "246e2b25543aa54e7e40da4b74a773f1366cb03ff8e81ae79c055459842ecb30"
-      ],
-      "value": true,
-      "expiresAt": 1792899063974
-    },
     "[\"factor\",\"pub\",\"ce38c11f1a27cf1c0e80f0fce947eb5eef292971961302a0e62b22aefcba3901\"]": {
       "key": [
         "factor",
