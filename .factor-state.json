@@ -290,54 +290,6 @@
       "value": 1792902292668,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"c8b44cb8ecc99266286d980eeab1fe847af71e22d4984d8104cf288b81ae395a\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c8b44cb8ecc99266286d980eeab1fe847af71e22d4984d8104cf288b81ae395a"
-      ],
-      "value": true,
-      "expiresAt": 1792905646627
-    },
-    "[\"factor\",\"topic\",\"c8b44cb8ecc99266286d980eeab1fe847af71e22d4984d8104cf288b81ae395a\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c8b44cb8ecc99266286d980eeab1fe847af71e22d4984d8104cf288b81ae395a"
-      ],
-      "value": {
-        "title": "📃 На полную ставку Финансовый аналитик Наталья Мильчакова — о том, почему ЦБ второй раз п",
-        "roots": [
-          "полную",
-          "ставку",
-          "финанс",
-          "аналит",
-          "наталь",
-          "мильча",
-          "почему",
-          "второй"
-        ]
-      },
-      "expiresAt": 1792905646628
-    },
-    "[\"factor\",\"texthash\",\"8c61e8c47d2d02248d1da83f4ea8272043cc22d9400f70f52822dea116181ece\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "8c61e8c47d2d02248d1da83f4ea8272043cc22d9400f70f52822dea116181ece"
-      ],
-      "value": true,
-      "expiresAt": 1792905646629
-    },
-    "[\"factor\",\"content\",\"5be914ce74359991ab3862711620fe2994391687277f697bcb03472ad0eafab3\"]": {
-      "key": [
-        "factor",
-        "content",
-        "5be914ce74359991ab3862711620fe2994391687277f697bcb03472ad0eafab3"
-      ],
-      "value": true,
-      "expiresAt": 1792905646630
-    },
     "[\"factor\",\"pub\",\"b77a8f0c1760cb3b87121fb3203148987a59fe9a670272e5a58a15ac984f5728\"]": {
       "key": [
         "factor",
