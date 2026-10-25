@@ -275,54 +275,6 @@
       "value": 1792885223096,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"1602ec04cb1f3e05c997cae27164f9f61717fea0eb17e5dad518c6150cd64a01\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "1602ec04cb1f3e05c997cae27164f9f61717fea0eb17e5dad518c6150cd64a01"
-      ],
-      "value": true,
-      "expiresAt": 1792888264792
-    },
-    "[\"factor\",\"topic\",\"1602ec04cb1f3e05c997cae27164f9f61717fea0eb17e5dad518c6150cd64a01\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "1602ec04cb1f3e05c997cae27164f9f61717fea0eb17e5dad518c6150cd64a01"
-      ],
-      "value": {
-        "title": "Рождаемость на Украине за последние полгода упала на рекордные 17% по сравнению с аналогич",
-        "roots": [
-          "рождае",
-          "украин",
-          "послед",
-          "полгод",
-          "упала",
-          "рекорд",
-          "сравне",
-          "аналог"
-        ]
-      },
-      "expiresAt": 1792888264793
-    },
-    "[\"factor\",\"texthash\",\"80af561f72f029a7eb5e5230b87b11d808e938bb94af9d1ed48a26fad675608f\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "80af561f72f029a7eb5e5230b87b11d808e938bb94af9d1ed48a26fad675608f"
-      ],
-      "value": true,
-      "expiresAt": 1792888264793
-    },
-    "[\"factor\",\"content\",\"348e4e6b73444f5014e3a6aac8dc0871f7344207dea14ff85e3b5b7131ea5577\"]": {
-      "key": [
-        "factor",
-        "content",
-        "348e4e6b73444f5014e3a6aac8dc0871f7344207dea14ff85e3b5b7131ea5577"
-      ],
-      "value": true,
-      "expiresAt": 1792888264794
-    },
     "[\"factor\",\"pub\",\"c6799505bba785514c76357a1875ff1a0f758d04968640e0cb0d8ac512a21870\"]": {
       "key": [
         "factor",
