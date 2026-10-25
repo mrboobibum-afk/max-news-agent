@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Smart Analysis Style v111)
+// MAX NEWS AGENT — «ФАКТОР» (Strict Text Fixer v112)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -34,7 +34,7 @@ const MIN_VIDEO_BYTES = 50 * 1024;
 const MAX_VIDEO_BYTES = 50 * 1024 * 1024; 
 
 const DOWNLOAD_TIMEOUT_MS = 60000; 
-const LLM_TIMEOUT_MS = 25000; 
+const LLM_TIMEOUT_MS = 30000; 
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
 
@@ -218,6 +218,8 @@ function cleanText(val: any): string {
     t = decodeHtmlEntities(t); t = decodeHtmlEntities(t);
     t = t.replace(/<[^>]+>/g, " ");
     t = t.replace(/\s+/g, " ").trim();
+    // 🛠 ЛЕЧИМ СЛИПШИЕСЯ СЛОВА (ПрезидентСША -> Президент США)
+    t = t.replace(/([а-я])([А-Я])/g, "$1 $2");
     return t;
 }
 
@@ -386,8 +388,6 @@ function sanitizeRawText(raw: string): string {
     t = t.replace(/⚡\s*ФАКТОР/gi, "");
     t = t.replace(/[\s◆♦●○■▪▫▶➡⬛⬜⭐✔☑«»"'.,;:!?/\-–—]+$/g, "");
 
-    t = t.replace(/([а-яА-Яa-zA-Z])\s+([а-яА-Яa-zA-Z]{1,3})\s+/g, "$1$2 ");
-
     return fixBrandNames(t.trim());
 }
 
@@ -545,6 +545,7 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
         cleanDesc = cleanDesc.replace(/^[-—:.\s]+/, ''); 
     }
 
+    // 🛠 УМНАЯ ОБРЕЗКА: Берем только ЦЕЛЫЕ предложения
     let fallbackBody = "";
     const sentences = cleanDesc.match(/[A-ZА-ЯЁ][^.!?]+[.!?]+/g) || []; 
     if (sentences.length > 0) {
@@ -553,8 +554,13 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
         fallbackBody = cleanDesc.length > 100 ? cleanDesc.slice(0, 250) + "..." : cleanDesc;
     }
 
-    // 🎨 НОВЫЙ ПРОМПТ С ФИРМЕННЫМ СТИЛЕМ
-    const prompt = `Ты — главный редактор аналитического канала «ФАКТОР». Твой стиль — Bloomberg или Ведомости: строго, информативно, с фактами. Твоя цель — дать читателю суть и заставить его задуматься.
+    // 🛠 ЗАЩИТА ОТ МУСОРА: Если в тексте есть слова длиннее 18 символов (склейки), отменяем пост
+    const wordsInDesc = cleanDesc.split(/\s+/);
+    if (wordsInDesc.some(w => w.length > 18)) {
+        return { headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
+    }
+
+    const prompt = `Ты — главный редактор аналитического канала «ФАКТОР». Твоя цель — давать сбалансированную картину мира: политика, экономика, международные отношения, технологии и важные события в России. Твой стиль — строго, информативно, с фактами.
 
 ИСХОДНЫЙ ТЕКСТ:
 ${cleanDesc}
@@ -635,7 +641,11 @@ ${cleanDesc}
         };
     }
     
-    return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 1, is_ad: false, hashtag: "#Новости" };
+    // 🛠 АВАРИЙНЫЙ РЕЖИМ: Если ИИ упал, делаем хотя бы нормальный список
+    const fallbackInsight = "";
+    const fallbackFormattedBody = fallbackBody.split(/(?<=[.!?])\s+/).map(s => "▪️ " + s).join("\n");
+    
+    return { headline: fallbackHeadline, body: fallbackFormattedBody, insight: fallbackInsight, importance: 1, is_ad: false, hashtag: "#Новости" };
 }
 
 async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<string> {
@@ -705,7 +715,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v111: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v112: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -866,7 +876,6 @@ async function run() {
             console.log(`✅ Медиапакет: ${uploaded.length} (видео: ${videos}, фото: ${images})`);
         }
 
-        // 🎨 ФОРМАТИРОВАНИЕ В НОВОМ СТИЛЕ
         let postHtml = `<b>${escapeHtml(post.headline)}</b>\n\n`;
         postHtml += `${post.body}\n\n`;
         
