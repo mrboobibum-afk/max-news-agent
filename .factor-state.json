@@ -284,56 +284,6 @@
       "value": 1792897823617,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"35a1b4926dd04f66a4e68dc78e4ef83dce9bb80646da881f5381096f524f6d12\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "35a1b4926dd04f66a4e68dc78e4ef83dce9bb80646da881f5381096f524f6d12"
-      ],
-      "value": true,
-      "expiresAt": 1792897858283
-    },
-    "[\"factor\",\"topic\",\"35a1b4926dd04f66a4e68dc78e4ef83dce9bb80646da881f5381096f524f6d12\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "35a1b4926dd04f66a4e68dc78e4ef83dce9bb80646da881f5381096f524f6d12"
-      ],
-      "value": {
-        "title": "📃 В Германии призвали Мерца прекратить враждебную риторику в адрес России Депутат бундест",
-        "roots": [
-          "герман",
-          "призва",
-          "мерца",
-          "прекра",
-          "вражде",
-          "ритори",
-          "адрес",
-          "россии",
-          "депута",
-          "бундес"
-        ]
-      },
-      "expiresAt": 1792897858285
-    },
-    "[\"factor\",\"texthash\",\"06e18b877c202a6b52763c8c14aea9b03ce3e282d8e3597a2d6028fe81e62845\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "06e18b877c202a6b52763c8c14aea9b03ce3e282d8e3597a2d6028fe81e62845"
-      ],
-      "value": true,
-      "expiresAt": 1792897858286
-    },
-    "[\"factor\",\"content\",\"d92f5912c66cf73bbde5dea0420cc960d523a4a8d3a7493d3b2591d0c9bd729a\"]": {
-      "key": [
-        "factor",
-        "content",
-        "d92f5912c66cf73bbde5dea0420cc960d523a4a8d3a7493d3b2591d0c9bd729a"
-      ],
-      "value": true,
-      "expiresAt": 1792897858287
-    },
     "[\"factor\",\"pub\",\"22c81d9f0ff514e9e4fda4a3828ed86c7a7fd4ee7a4cac7e983dabef11c4e7a1\"]": {
       "key": [
         "factor",
