@@ -1,4 +1,100 @@
 {
   "version": 1,
-  "entries": {}
+  "entries": {
+    "[\"factor\",\"next_regular_delay\"]": {
+      "key": [
+        "factor",
+        "next_regular_delay"
+      ],
+      "value": 395149,
+      "expiresAt": null
+    },
+    "[\"factor\",\"pub\",\"1760e1c1ee1b92849a9dd19f2976dfa0f7cd37674148a244753da35c5ef4105c\"]": {
+      "key": [
+        "factor",
+        "pub",
+        "1760e1c1ee1b92849a9dd19f2976dfa0f7cd37674148a244753da35c5ef4105c"
+      ],
+      "value": true,
+      "expiresAt": 1793023850752
+    },
+    "[\"factor\",\"topic\",\"1760e1c1ee1b92849a9dd19f2976dfa0f7cd37674148a244753da35c5ef4105c\"]": {
+      "key": [
+        "factor",
+        "topic",
+        "1760e1c1ee1b92849a9dd19f2976dfa0f7cd37674148a244753da35c5ef4105c"
+      ],
+      "value": {
+        "title": "❗️ Сотрудник охраны одного из предприятий погиб в результате ракетного удара ВСУ по промыш",
+        "roots": [
+          "сотруд",
+          "охраны",
+          "одного",
+          "предпр",
+          "погиб",
+          "резуль",
+          "ракетн",
+          "удара",
+          "промыш"
+        ]
+      },
+      "expiresAt": 1793023850752
+    },
+    "[\"factor\",\"texthash\",\"36d9d28c0e86de6feda994ec7998118f96c5af1ef55bf9878aa5c572b02913ce\"]": {
+      "key": [
+        "factor",
+        "texthash",
+        "36d9d28c0e86de6feda994ec7998118f96c5af1ef55bf9878aa5c572b02913ce"
+      ],
+      "value": true,
+      "expiresAt": 1793023850752
+    },
+    "[\"factor\",\"content\",\"4f60938a6880530181bb022187e1f71f7c1784967e6de8f8a567aa442cd6d677\"]": {
+      "key": [
+        "factor",
+        "content",
+        "4f60938a6880530181bb022187e1f71f7c1784967e6de8f8a567aa442cd6d677"
+      ],
+      "value": true,
+      "expiresAt": 1793023850753
+    },
+    "[\"factor\",\"recent_descs\"]": {
+      "key": [
+        "factor",
+        "recent_descs"
+      ],
+      "value": [
+        "❗️ Сотрудник охраны одного из предприятий погиб в результате ракетного удара ВСУ по промышленной зоне в Ельце Липецкой области, сообщил губернатор"
+      ],
+      "expiresAt": 1793023850753
+    },
+    "[\"factor\",\"recent_bodies\"]": {
+      "key": [
+        "factor",
+        "recent_bodies"
+      ],
+      "value": [
+        "ленной зоне в Ельце Липецкой области, сообщил губернатор"
+      ],
+      "expiresAt": 1793023850753
+    },
+    "[\"factor\",\"recent_titles\"]": {
+      "key": [
+        "factor",
+        "recent_titles"
+      ],
+      "value": [
+        "❗️ Сотрудник охраны одного из предприятий погиб в результате ракетного удара ВСУ по промыш"
+      ],
+      "expiresAt": 1793023850754
+    },
+    "[\"factor\",\"last_regular\"]": {
+      "key": [
+        "factor",
+        "last_regular"
+      ],
+      "value": 1792937425541,
+      "expiresAt": null
+    }
+  }
 }
