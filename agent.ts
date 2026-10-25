@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Balanced Analytical v97)
+// MAX NEWS AGENT — «ФАКТОР» (Auto-Clean 20 Limit v100)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -12,20 +12,21 @@ const DASHSCOPE_API_KEY = Deno.env.get("DASHSCOPE_API_KEY") ?? "";
 const QWEN_MODEL = Deno.env.get("QWEN_MODEL") ?? "qwen3.8-max";
 const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyuncs.com/compatible-mode/v1";
 
-const REGULAR_MIN_INTERVAL_MS = 10 * 60 * 1000;
-const REGULAR_MAX_INTERVAL_MS = 15 * 60 * 1000;
-const HARD_MIN_INTERVAL_MS = 5 * 60 * 1000;
+const REGULAR_MIN_INTERVAL_MS = 5 * 60 * 1000;
+const REGULAR_MAX_INTERVAL_MS = 10 * 60 * 1000;
+const HARD_MIN_INTERVAL_MS = 3 * 60 * 1000;
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
 
 const MEDIA_PACKET_MAX = 6; 
-const MIN_IMPORTANCE = 7; // Пропускаем только важные новости (7+)
+const MIN_IMPORTANCE = 7; 
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
 const STATE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
 const STATE_MAX_ENTRIES = 300;
-const STATE_KEEP_ENTRIES = 100;
+const STATE_KEEP_ENTRIES = 50; // 🧹 Оставляем 50 записей в JSON для очистки
 
-const RECENT_HISTORY_LIMIT = 100;
+// 🧠 ХРАНИМ ТОЛЬКО 20 ПОСЛЕДНИХ НОВОСТЕЙ В ПАМЯТИ
+const RECENT_HISTORY_LIMIT = 20; 
 const SIMILARITY_THRESHOLD = 0.35; 
 
 const MIN_IMAGE_BYTES = 10 * 1024;
@@ -57,8 +58,8 @@ async function initMaxHttpClient() {
 
 const TG_LIVE_CHANNELS = [
     "government_rus", "news_kremlin", "kremlinpress",
-    "mod_russia", "mchs_official", "mediamvd", "MID_Russia", "sledcom_press",
-    "genprocru", "rosgvardofficial",
+    "mchs_official", "mediamvd", "MID_Russia", "sledcom_press",
+    "genprocru",
     "duma_gov_ru", "sovfedofficial", "centralbank_russia", "minfin", "minec_russia",
     "mintsifry", "minenergo_official", "minpromtorg_ru", "mcx_ru", "mintrudrf",
     "minstroyrf", "minzdrav_ru", "minobrnaukiofficial", "minsport_russia",
@@ -97,7 +98,6 @@ const NEWS_FEEDS = [
 
 const BORING_TOPICS = [
     /(?:сесси[яи]|форум|круглый\s+стол|конференци[яи]|совещани[ея]|заседани[ея]|брифинг)/i,
-    // 🛠 Убрали "минфин" и "ведомств", чтобы не блокировать экономику
     /(?:рэц|экспортер|клиентск|госуслуг|росреестр)/i, 
     /(?:гороскоп|погода|курс\s+валют|скидк|выходн)/i,
     /(?:запускаем|представляем)\s+(?:карту|сервис|бот|приложение|проект)/i,
@@ -125,7 +125,8 @@ const BORING_TOPICS = [
     /(?:ситуация требует внимания|следим за развитием событий|ситуация подчеркивает)/i,
     /(?:туристка|умерла|скончалась|потеряла равновесие|упала с высоты|сорвалась)/i,
     /(?:чемпионат|соревновани[яе]|турнир|учени[яе]|тактика дронов|эк-министр|финансовый спор)/i,
-    /(?:внутренние разногласия|внешние угрозы|разобщенность властей)/i
+    /(?:внутренние разногласия|внешние угрозы|разобщенность властей)/i,
+    /(?:нанесены удары|поражены объекты|уничтожены дроны|силы пво|сбили.*дрон|обмен пленными|продвижение войск|освободили населенный)/i
 ];
 
 class FileKV {
@@ -542,7 +543,6 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
         fallbackBody = cleanDesc.length > 100 ? cleanDesc.slice(0, 250) + "..." : cleanDesc;
     }
 
-    // 🎯 СБАЛАНСИРОВАННЫЙ ПРОМПТ
     const prompt = `Ты — главный редактор аналитического канала «ФАКТОР». Твоя цель — давать сбалансированную картину мира: политика, экономика, международные отношения, технологии и важные события в России. Твой стиль — строго, информативно, с фактами. Никакой желтухи.
 
 ИСХОДНЫЙ ТЕКСТ:
@@ -557,10 +557,10 @@ ${cleanDesc}
 3. insight — 1-2 предложения (до 20 слов). Оцени последствия. БЕЗ ТЕГОВ HTML.
 4. importance — целое 1-10. 
    ТВОЯ ШКАЛА ВАЖНОСТИ:
-   - 9-10: Экстренные события. Атаки БПЛА, теракты, крупные катастрофы, заявления Путина/Трампа/Зеленского.
-   - 7-8: Важная политика и экономика. Ключевая ставка ЦБ, санкции, новые законы, крупные сделки, инфляция, саммиты, важные международные события.
-   - 5-6: Технологии, наука, значимые региональные события, интересные общественные инициативы.
-   - 1-4: НЕ ВАЖНО. Бытовуха, ДТП, туристы, спорт, светские новости, скучные пресс-релизы ведомств.
+   - 9-10: Экстренные события. Атаки БПЛА на мирные города, теракты, крупные катастрофы, заявления Путина/Трампа/Зеленского.
+   - 8-9: Важная политика и экономика. Ключевая ставка ЦБ, санкции, новые законы, крупные сделки, инфляция, саммиты, важные международные события.
+   - 7: Заметные события. Технологии, наука, значимые региональные события, военные действия (без атак на мирных).
+   - 1-6: НЕ ВАЖНО. Бытовуха, ДТП, туристы, спорт, светские новости, скучные пресс-релизы ведомств, старые новости.
 5. is_ad — true, если это реклама.
 
 Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false}`;
@@ -686,7 +686,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v97: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v100: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -717,7 +717,6 @@ async function run() {
     console.log("\nИсточники (RSS):");
     const rssCandidates = await fetchRssFeeds();
 
-    // 🎯 СМЕШИВАЕМ ИСТОЧНИКИ
     tgCandidates.sort((a, b) => b.postDate - a.postDate);
     rssCandidates.sort((a, b) => b.postDate - a.postDate);
     
@@ -861,6 +860,7 @@ async function run() {
                 await kv.set(["factor", "content", contentHash], true, { expireIn: HISTORY_TTL_MS });
             }
 
+            // 🧠 ДЕРЖИМ В ПАМЯТИ ТОЛЬКО 20 ПОСЛЕДНИХ
             recentDescs.push(item.desc);
             if (recentDescs.length > RECENT_HISTORY_LIMIT) recentDescs.shift();
             await kv.set(["factor", "recent_descs"], recentDescs, { expireIn: HISTORY_TTL_MS });
