@@ -1,13 +1,4 @@
 {
   "version": 1,
-  "entries": {
-    "[\"factor\",\"next_regular_delay\"]": {
-      "key": [
-        "factor",
-        "next_regular_delay"
-      ],
-      "value": 300000,
-      "expiresAt": null
-    }
-  }
+  "entries": {}
 }
