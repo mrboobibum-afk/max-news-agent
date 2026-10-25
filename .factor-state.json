@@ -275,54 +275,6 @@
       "value": 1792885223096,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"c6799505bba785514c76357a1875ff1a0f758d04968640e0cb0d8ac512a21870\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c6799505bba785514c76357a1875ff1a0f758d04968640e0cb0d8ac512a21870"
-      ],
-      "value": true,
-      "expiresAt": 1792890080844
-    },
-    "[\"factor\",\"topic\",\"c6799505bba785514c76357a1875ff1a0f758d04968640e0cb0d8ac512a21870\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c6799505bba785514c76357a1875ff1a0f758d04968640e0cb0d8ac512a21870"
-      ],
-      "value": {
-        "title": "📹 Запись в поликлинику со временем полностью перейдет в онлайн-формат, сообщил в интервью",
-        "roots": [
-          "запись",
-          "поликл",
-          "времен",
-          "полнос",
-          "перейд",
-          "онлайн",
-          "формат",
-          "интерв"
-        ]
-      },
-      "expiresAt": 1792890080845
-    },
-    "[\"factor\",\"texthash\",\"cbfa86340a3f169da09c570cf293cfb32d0dc58ed1ff9e1913509ff94115f5be\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "cbfa86340a3f169da09c570cf293cfb32d0dc58ed1ff9e1913509ff94115f5be"
-      ],
-      "value": true,
-      "expiresAt": 1792890080847
-    },
-    "[\"factor\",\"content\",\"7e313a3b2e8bc4eb7e62120ca57608d811db6e48b03e775f247af010e4f11b85\"]": {
-      "key": [
-        "factor",
-        "content",
-        "7e313a3b2e8bc4eb7e62120ca57608d811db6e48b03e775f247af010e4f11b85"
-      ],
-      "value": true,
-      "expiresAt": 1792890080851
-    },
     "[\"factor\",\"pub\",\"eff31926309d152422cb7a03226f6091af674c5fe4f4dde5c2427978bdb852d9\"]": {
       "key": [
         "factor",
