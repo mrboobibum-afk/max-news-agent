@@ -275,55 +275,6 @@
       "value": 1792885223096,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"c31b76ef02b1040d2d722b12b91bde04da4e7c5a1725bcf2349820a3f39427dc\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "c31b76ef02b1040d2d722b12b91bde04da4e7c5a1725bcf2349820a3f39427dc"
-      ],
-      "value": true,
-      "expiresAt": 1792893671485
-    },
-    "[\"factor\",\"topic\",\"c31b76ef02b1040d2d722b12b91bde04da4e7c5a1725bcf2349820a3f39427dc\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "c31b76ef02b1040d2d722b12b91bde04da4e7c5a1725bcf2349820a3f39427dc"
-      ],
-      "value": {
-        "title": "▶️ Десантники \"Днепра\" доставили гуманитарную помощь жителям прифронтовых Алешек , которые",
-        "roots": [
-          "десант",
-          "днепра",
-          "достав",
-          "гумани",
-          "помощь",
-          "жителя",
-          "прифро",
-          "алешек",
-          "которы"
-        ]
-      },
-      "expiresAt": 1792893671486
-    },
-    "[\"factor\",\"texthash\",\"41f8515f44bbb528185bc2afe79f343fb4ed96328a57e8bd900f8efbb03884c2\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "41f8515f44bbb528185bc2afe79f343fb4ed96328a57e8bd900f8efbb03884c2"
-      ],
-      "value": true,
-      "expiresAt": 1792893671487
-    },
-    "[\"factor\",\"content\",\"756814ca55af08438527a6691614820c4f187dfc551476828e9b383f0955e543\"]": {
-      "key": [
-        "factor",
-        "content",
-        "756814ca55af08438527a6691614820c4f187dfc551476828e9b383f0955e543"
-      ],
-      "value": true,
-      "expiresAt": 1792893671488
-    },
     "[\"factor\",\"pub\",\"8cebda292655ed94043c2b9ef83edbba2b097ffb9961a06da45c0e5526caedbd\"]": {
       "key": [
         "factor",
