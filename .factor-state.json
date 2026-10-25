@@ -287,52 +287,6 @@
       "value": 1792900850541,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"ce38c11f1a27cf1c0e80f0fce947eb5eef292971961302a0e62b22aefcba3901\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "ce38c11f1a27cf1c0e80f0fce947eb5eef292971961302a0e62b22aefcba3901"
-      ],
-      "value": true,
-      "expiresAt": 1792900877280
-    },
-    "[\"factor\",\"topic\",\"ce38c11f1a27cf1c0e80f0fce947eb5eef292971961302a0e62b22aefcba3901\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "ce38c11f1a27cf1c0e80f0fce947eb5eef292971961302a0e62b22aefcba3901"
-      ],
-      "value": {
-        "title": "📹 Поиски пропавших людей в ряде регионов РФ приостанавливают из-за медведей, сообщил ТАСС",
-        "roots": [
-          "поиски",
-          "пропав",
-          "людей",
-          "регион",
-          "приост",
-          "медвед"
-        ]
-      },
-      "expiresAt": 1792900877281
-    },
-    "[\"factor\",\"texthash\",\"d716dec238156a8be102de4f2632f41ded89ef9b25751592c7ef8e3de0ae0539\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "d716dec238156a8be102de4f2632f41ded89ef9b25751592c7ef8e3de0ae0539"
-      ],
-      "value": true,
-      "expiresAt": 1792900877283
-    },
-    "[\"factor\",\"content\",\"eaca0f57a73de646ed0cd095a605c79cfef6cfb8f8ea0e1a642cba49ec867408\"]": {
-      "key": [
-        "factor",
-        "content",
-        "eaca0f57a73de646ed0cd095a605c79cfef6cfb8f8ea0e1a642cba49ec867408"
-      ],
-      "value": true,
-      "expiresAt": 1792900877284
-    },
     "[\"factor\",\"pub\",\"5cceaa8a98a9a69593496b42f6c72accb23d2290d0c57e85eea3c3e25e80b570\"]": {
       "key": [
         "factor",
