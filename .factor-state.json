@@ -293,53 +293,6 @@
       "value": 1792906822434,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"10b851cdbba21e8b7f25933ea82a7f7531d895e336c171ad1b3080fc3faedfe7\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "10b851cdbba21e8b7f25933ea82a7f7531d895e336c171ad1b3080fc3faedfe7"
-      ],
-      "value": true,
-      "expiresAt": 1792908086713
-    },
-    "[\"factor\",\"topic\",\"10b851cdbba21e8b7f25933ea82a7f7531d895e336c171ad1b3080fc3faedfe7\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "10b851cdbba21e8b7f25933ea82a7f7531d895e336c171ad1b3080fc3faedfe7"
-      ],
-      "value": {
-        "title": "📃 ВС РФ поразили цех по производству безэкипажных катеров в порту Черноморска Российские ",
-        "roots": [
-          "порази",
-          "произв",
-          "безэки",
-          "катеро",
-          "порту",
-          "черном",
-          "россий"
-        ]
-      },
-      "expiresAt": 1792908086715
-    },
-    "[\"factor\",\"texthash\",\"039b5fdbaf9980ffab656fafb1f324e8699360ccbfbdf2fd42c558d130303c11\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "039b5fdbaf9980ffab656fafb1f324e8699360ccbfbdf2fd42c558d130303c11"
-      ],
-      "value": true,
-      "expiresAt": 1792908086716
-    },
-    "[\"factor\",\"content\",\"17a3e278995e88b1c5b5e24fff346ad378f34494ef52c7af4ed47a66b1cdba5e\"]": {
-      "key": [
-        "factor",
-        "content",
-        "17a3e278995e88b1c5b5e24fff346ad378f34494ef52c7af4ed47a66b1cdba5e"
-      ],
-      "value": true,
-      "expiresAt": 1792908086717
-    },
     "[\"factor\",\"pub\",\"f8472f604a86b9e0853019a016e031d5276961e0e5e707f70d8856c8f34b9440\"]": {
       "key": [
         "factor",
