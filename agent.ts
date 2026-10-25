@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Auto-Clean 20 Limit v100)
+// MAX NEWS AGENT — «ФАКТОР» (Balanced Universal v102)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -23,9 +23,8 @@ const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
 const STATE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
 const STATE_MAX_ENTRIES = 300;
-const STATE_KEEP_ENTRIES = 50; // 🧹 Оставляем 50 записей в JSON для очистки
+const STATE_KEEP_ENTRIES = 50; 
 
-// 🧠 ХРАНИМ ТОЛЬКО 20 ПОСЛЕДНИХ НОВОСТЕЙ В ПАМЯТИ
 const RECENT_HISTORY_LIMIT = 20; 
 const SIMILARITY_THRESHOLD = 0.35; 
 
@@ -56,10 +55,11 @@ async function initMaxHttpClient() {
     return maxHttpClient;
 }
 
+// 🎯 Вернули все официальные источники, чтобы был баланс
 const TG_LIVE_CHANNELS = [
     "government_rus", "news_kremlin", "kremlinpress",
-    "mchs_official", "mediamvd", "MID_Russia", "sledcom_press",
-    "genprocru",
+    "mod_russia", "mchs_official", "mediamvd", "MID_Russia", "sledcom_press",
+    "genprocru", "rosgvardofficial",
     "duma_gov_ru", "sovfedofficial", "centralbank_russia", "minfin", "minec_russia",
     "mintsifry", "minenergo_official", "minpromtorg_ru", "mcx_ru", "mintrudrf",
     "minstroyrf", "minzdrav_ru", "minobrnaukiofficial", "minsport_russia",
@@ -126,7 +126,8 @@ const BORING_TOPICS = [
     /(?:туристка|умерла|скончалась|потеряла равновесие|упала с высоты|сорвалась)/i,
     /(?:чемпионат|соревновани[яе]|турнир|учени[яе]|тактика дронов|эк-министр|финансовый спор)/i,
     /(?:внутренние разногласия|внешние угрозы|разобщенность властей)/i,
-    /(?:нанесены удары|поражены объекты|уничтожены дроны|силы пво|сбили.*дрон|обмен пленными|продвижение войск|освободили населенный)/i
+    // 🚫 Блокируем ТОЛЬКО сухие военные сводки (без привязки к мирным)
+    /(?:нанесены удары|поражены объекты|уничтожены \d+ дронов|силы пво сбили|обмен пленными|продвижение войск)/i
 ];
 
 class FileKV {
@@ -530,6 +531,10 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
     let cleanDesc = sanitizeRawText(desc);
     const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 90);
     
+    if (cleanDesc.includes("�")) {
+        return { headline: "", body: "", insight: "", importance: 0, is_ad: false };
+    }
+
     if (cleanDesc.toLowerCase().startsWith(fallbackHeadline.toLowerCase())) {
         cleanDesc = cleanDesc.slice(fallbackHeadline.length).trim();
         cleanDesc = cleanDesc.replace(/^[-—:.\s]+/, ''); 
@@ -543,7 +548,8 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
         fallbackBody = cleanDesc.length > 100 ? cleanDesc.slice(0, 250) + "..." : cleanDesc;
     }
 
-    const prompt = `Ты — главный редактор аналитического канала «ФАКТОР». Твоя цель — давать сбалансированную картину мира: политика, экономика, международные отношения, технологии и важные события в России. Твой стиль — строго, информативно, с фактами. Никакой желтухи.
+    // 🎯 УНИВЕРСАЛЬНЫЙ ПРОМПТ ДЛЯ РАЗНОНАПРАВЛЕННОГО КАНАЛА
+    const prompt = `Ты — главный редактор аналитического канала «ФАКТОР». Твоя цель — давать сбалансированную картину мира: политика, экономика, международные отношения, технологии, важные события в России и значимые происшествия. Твой стиль — строго, информативно, с фактами. Никакой желтухи.
 
 ИСХОДНЫЙ ТЕКСТ:
 ${cleanDesc}
@@ -559,8 +565,8 @@ ${cleanDesc}
    ТВОЯ ШКАЛА ВАЖНОСТИ:
    - 9-10: Экстренные события. Атаки БПЛА на мирные города, теракты, крупные катастрофы, заявления Путина/Трампа/Зеленского.
    - 8-9: Важная политика и экономика. Ключевая ставка ЦБ, санкции, новые законы, крупные сделки, инфляция, саммиты, важные международные события.
-   - 7: Заметные события. Технологии, наука, значимые региональные события, военные действия (без атак на мирных).
-   - 1-6: НЕ ВАЖНО. Бытовуха, ДТП, туристы, спорт, светские новости, скучные пресс-релизы ведомств, старые новости.
+   - 7: Заметные события. Технологии, наука, значимые региональные события, важные военные действия (если они влияют на мирных жителей).
+   - 1-6: НЕ ВАЖНО. Бытовуха, ДТП, туристы, спорт, светские новости, скучные пресс-релизы ведомств, сухие военные сводки (без пострадавших).
 5. is_ad — true, если это реклама.
 
 Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false}`;
@@ -686,7 +692,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v100: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v102: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -780,13 +786,14 @@ async function run() {
         const post = await formatNewsPost(item.title, item.desc);
 
         if (post.is_ad) { skippedImportance++; continue; }
+
         if (post.importance < MIN_IMPORTANCE) {
             console.log(`Пропуск: важность ${post.importance} < ${MIN_IMPORTANCE}`);
             skippedImportance++;
             continue;
         }
 
-        if (!post.body || post.body.length < 40) {
+        if (!post.headline || !post.body || post.body.length < 40) {
             console.log(`❌ Пропуск: текст слишком короткий или пустой.`);
             skippedNoMedia++;
             continue;
@@ -860,7 +867,6 @@ async function run() {
                 await kv.set(["factor", "content", contentHash], true, { expireIn: HISTORY_TTL_MS });
             }
 
-            // 🧠 ДЕРЖИМ В ПАМЯТИ ТОЛЬКО 20 ПОСЛЕДНИХ
             recentDescs.push(item.desc);
             if (recentDescs.length > RECENT_HISTORY_LIMIT) recentDescs.shift();
             await kv.set(["factor", "recent_descs"], recentDescs, { expireIn: HISTORY_TTL_MS });
