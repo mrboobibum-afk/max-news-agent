@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Smart Mix & Fixed Importance v95)
+// MAX NEWS AGENT — «ФАКТОР» (Balanced Analytical v97)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -17,8 +17,8 @@ const REGULAR_MAX_INTERVAL_MS = 15 * 60 * 1000;
 const HARD_MIN_INTERVAL_MS = 5 * 60 * 1000;
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
 
-const MEDIA_PACKET_MAX = 1; 
-const MIN_IMPORTANCE = 7; 
+const MEDIA_PACKET_MAX = 6; 
+const MIN_IMPORTANCE = 7; // Пропускаем только важные новости (7+)
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
 const STATE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
@@ -65,7 +65,8 @@ const TG_LIVE_CHANNELS = [
     "mincultrussia", "mintransrussia", "prirodovedenie_rus", "minvostok",
     "rostecnews", "rosatominfo", "rzdtg", "GazpromNews", "rosneftinfo",
     "rian_ru", "tass_agency", "rbc_news", "vesti_news", "rt_russian",
-    "1tv_news", "ntvru", "izvestya", "rgru_news"
+    "1tv_news", "ntvru", "izvestya", "rgru_news",
+    "readovkanews", "bazabazon"
 ];
 
 const NEWS_FEEDS = [
@@ -96,7 +97,8 @@ const NEWS_FEEDS = [
 
 const BORING_TOPICS = [
     /(?:сесси[яи]|форум|круглый\s+стол|конференци[яи]|совещани[ея]|заседани[ея]|брифинг)/i,
-    /(?:рэц|экспортер|клиентск|госуслуг|росреестр|минфин|ведомств)/i,
+    // 🛠 Убрали "минфин" и "ведомств", чтобы не блокировать экономику
+    /(?:рэц|экспортер|клиентск|госуслуг|росреестр)/i, 
     /(?:гороскоп|погода|курс\s+валют|скидк|выходн)/i,
     /(?:запускаем|представляем)\s+(?:карту|сервис|бот|приложение|проект)/i,
     /(?:наш|этот)\s+(?:телеграм[- ]?канал|канал|проект)\s+(?:представля|запуска|открыва)/i,
@@ -431,29 +433,40 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 if (!textRaw || textRaw.length < 30 || textRaw.length > 2000) continue;
                 if (BORING_TOPICS.some(r => r.test(textRaw))) continue;
 
-                const videoWrap = post.match(/<a[^>]+class="tgme_widget_message_video_player[^"]*"[^>]+href="([^"]+)"/i) || post.match(/<video[^>]+src="([^"]+)"/i);
-                const videoUrl = videoWrap ? videoWrap[1] : null;
-
-                const photoWrap = post.match(/<a[^>]+class="tgme_widget_message_photo_wrap[^"]*"[^>]+style="[^"]*background-image:url\('([^']+)'\)/i);
-                const imageUrl = photoWrap ? photoWrap[1] : null;
-
                 const sanitized = sanitizeRawText(textRaw);
                 const firstSentence = sanitized.split(/[.!?]\s/)[0] || sanitized;
                 const postKey = "tg_" + simpleHash(sanitized);
 
-                const mediaUrl = videoUrl ? videoUrl : imageUrl;
-                const mediaType = videoUrl ? "video" : "image";
+                const videos = [
+                    ...post.matchAll(/<a[^>]+class="tgme_widget_message_video_player[^"]*"[^>]+href="([^"]+)"/gi),
+                    ...post.matchAll(/<video[^>]+src="([^"]+)"/gi)
+                ].map(m => m[1]);
 
-                if (mediaUrl && !isTrashUrl(mediaUrl)) {
-                    liveItems.push({ 
-                        title: firstSentence.slice(0, 90), 
-                        desc: sanitized, 
-                        mediaUrl: mediaUrl, 
-                        mediaType: mediaType, 
-                        sourceName: ch, 
-                        sourceType: "tg", 
-                        postKey,
-                        postDate: postDate || 0 
+                const images = [
+                    ...post.matchAll(/<a[^>]+class="tgme_widget_message_photo_wrap[^"]*"[^>]+style="[^"]*background-image:url\('([^']+)'\)/gi),
+                    ...post.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)
+                ].map(m => m[1]).filter(u => !isTrashUrl(u));
+
+                const mediaUrls: any[] = [];
+                if (videos.length > 0) {
+                    videos.forEach(url => mediaUrls.push({ mediaUrl: url, mediaType: "video" }));
+                } else {
+                    const uniqueImages = [...new Set(images)];
+                    uniqueImages.forEach(url => mediaUrls.push({ mediaUrl: url, mediaType: "image" }));
+                }
+
+                if (mediaUrls.length > 0) {
+                    mediaUrls.forEach(media => {
+                        liveItems.push({ 
+                            title: firstSentence.slice(0, 90), 
+                            desc: sanitized, 
+                            mediaUrl: media.mediaUrl, 
+                            mediaType: media.mediaType, 
+                            sourceName: ch, 
+                            sourceType: "tg", 
+                            postKey,
+                            postDate: postDate || 0 
+                        });
                     });
                     found++;
                 }
@@ -529,8 +542,8 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
         fallbackBody = cleanDesc.length > 100 ? cleanDesc.slice(0, 250) + "..." : cleanDesc;
     }
 
-    // 🚨 ЖЕСТКИЙ ПРОМПТ: Исправлена оценка БПЛА
-    const prompt = `Ты — главный редактор аналитического канала «ФАКТОР». Твой стиль — строго, информативно, с фактами.
+    // 🎯 СБАЛАНСИРОВАННЫЙ ПРОМПТ
+    const prompt = `Ты — главный редактор аналитического канала «ФАКТОР». Твоя цель — давать сбалансированную картину мира: политика, экономика, международные отношения, технологии и важные события в России. Твой стиль — строго, информативно, с фактами. Никакой желтухи.
 
 ИСХОДНЫЙ ТЕКСТ:
 ${cleanDesc}
@@ -543,9 +556,11 @@ ${cleanDesc}
    - Выдели главные акценты (цифры, имена, суммы) тегами <b>жирный шрифт</b>.
 3. insight — 1-2 предложения (до 20 слов). Оцени последствия. БЕЗ ТЕГОВ HTML.
 4. importance — целое 1-10. 
-   ВНИМАНИЕ: 
-   - Если это новость про БПЛА (беспилотники), атаки, обстрелы, пострадавших, взрывы, пожары, теракты, ставку ЦБ, санкции, заявления Путина/Трампа/Зеленского — СТАВЬ ВАЖНОСТЬ 8, 9 или 10. НИКОГДА не ставь меньше 8 для этих тем!
-   - Если это скучная бытовуха, туристы, спорт, экономические обзоры или старые новости (2024-2025 год) — ставь 1.
+   ТВОЯ ШКАЛА ВАЖНОСТИ:
+   - 9-10: Экстренные события. Атаки БПЛА, теракты, крупные катастрофы, заявления Путина/Трампа/Зеленского.
+   - 7-8: Важная политика и экономика. Ключевая ставка ЦБ, санкции, новые законы, крупные сделки, инфляция, саммиты, важные международные события.
+   - 5-6: Технологии, наука, значимые региональные события, интересные общественные инициативы.
+   - 1-4: НЕ ВАЖНО. Бытовуха, ДТП, туристы, спорт, светские новости, скучные пресс-релизы ведомств.
 5. is_ad — true, если это реклама.
 
 Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false}`;
@@ -671,7 +686,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v95: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v97: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -702,7 +717,7 @@ async function run() {
     console.log("\nИсточники (RSS):");
     const rssCandidates = await fetchRssFeeds();
 
-    // 🎯 СМЕШИВАЕМ ИСТОЧНИКИ (Берем по половине от TG и RSS)
+    // 🎯 СМЕШИВАЕМ ИСТОЧНИКИ
     tgCandidates.sort((a, b) => b.postDate - a.postDate);
     rssCandidates.sort((a, b) => b.postDate - a.postDate);
     
