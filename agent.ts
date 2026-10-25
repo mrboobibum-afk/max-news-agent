@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (No Hallucinations & Strict Media v103)
+// MAX NEWS AGENT — «ФАКТОР» (Strict Post ID & Anti-Old v105)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -124,9 +124,7 @@ const BORING_TOPICS = [
     /(?:ситуация требует внимания|следим за развитием событий|ситуация подчеркивает)/i,
     /(?:туристка|умерла|скончалась|потеряла равновесие|упала с высоты|сорвалась)/i,
     /(?:чемпионат|соревновани[яе]|турнир|учени[яе]|тактика дронов|эк-министр|финансовый спор)/i,
-    /(?:внутренние разногласия|внешние угрозы|разобщенность властей)/i,
-    // 🚫 Блокируем старые новости по годам
-    /(?:2023|2024|2025) год/i
+    /(?:внутренние разногласия|внешние угрозы|разобщенность властей)/i
 ];
 
 class FileKV {
@@ -436,7 +434,10 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
 
                 const sanitized = sanitizeRawText(textRaw);
                 const firstSentence = sanitized.split(/[.!?]\s/)[0] || sanitized;
-                const postKey = "tg_" + simpleHash(sanitized);
+                
+                // 🛠 ЖЕСТКАЯ ПРИВЯЗКА К ID ПОСТА
+                const postIdMatch = post.match(/data-post=["']([^"']+)["']/i);
+                const postKey = postIdMatch ? postIdMatch[1] : "tg_" + simpleHash(sanitized);
 
                 const videos = [
                     ...post.matchAll(/<a[^>]+class="tgme_widget_message_video_player[^"]*"[^>]+href="([^"]+)"/gi),
@@ -530,7 +531,13 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
     let cleanDesc = sanitizeRawText(desc);
     const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 90);
     
+    // 🚨 ПРОВЕРКА НА БИТУЮ КОДИРОВКУ
     if (cleanDesc.includes("�")) {
+        return { headline: "", body: "", insight: "", importance: 0, is_ad: false };
+    }
+
+    // 🚨 ФИЛЬТР СТАРЫХ НОВОСТЕЙ
+    if (/(?:202[345]) год/i.test(cleanDesc)) {
         return { headline: "", body: "", insight: "", importance: 0, is_ad: false };
     }
 
@@ -615,6 +622,12 @@ ${cleanDesc}
             return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 1, is_ad: false };
         }
 
+        // 🚨 ФИЛЬТР ГАЛЛЮЦИНАЦИЙ
+        const fullText = (llmResult.headline + " " + llmResult.body + " " + llmResult.insight).toLowerCase();
+        if (fullText.includes("[текущая дата]") || fullText.includes("инсайдерск") || fullText.includes("ни слова больше")) {
+            return { headline: "", body: "", insight: "", importance: 0, is_ad: false };
+        }
+
         return {
             headline: validateHeadline(llmResult.headline, fallbackHeadline),
             body: String(llmResult.body).trim(), 
@@ -694,7 +707,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v103: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v105: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
