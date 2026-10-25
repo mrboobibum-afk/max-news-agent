@@ -293,56 +293,6 @@
       "value": 1792906822434,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"b77a8f0c1760cb3b87121fb3203148987a59fe9a670272e5a58a15ac984f5728\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "b77a8f0c1760cb3b87121fb3203148987a59fe9a670272e5a58a15ac984f5728"
-      ],
-      "value": true,
-      "expiresAt": 1792906876937
-    },
-    "[\"factor\",\"topic\",\"b77a8f0c1760cb3b87121fb3203148987a59fe9a670272e5a58a15ac984f5728\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "b77a8f0c1760cb3b87121fb3203148987a59fe9a670272e5a58a15ac984f5728"
-      ],
-      "value": {
-        "title": "📃 Психолог назвал причину усталости зумеров от жизни Зумеры чувствуют усталость с детства",
-        "roots": [
-          "психол",
-          "назвал",
-          "причин",
-          "устало",
-          "зумеро",
-          "жизни",
-          "зумеры",
-          "чувств",
-          "устало",
-          "детств"
-        ]
-      },
-      "expiresAt": 1792906876938
-    },
-    "[\"factor\",\"texthash\",\"490d531a7aafb21016a83819deaa2da27a7f3eb95a354b03c375c0f94f50d015\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "490d531a7aafb21016a83819deaa2da27a7f3eb95a354b03c375c0f94f50d015"
-      ],
-      "value": true,
-      "expiresAt": 1792906876939
-    },
-    "[\"factor\",\"content\",\"39d138ad728e9b67868170ec408cd9b3485405f11f34a1be90d1e177f5654211\"]": {
-      "key": [
-        "factor",
-        "content",
-        "39d138ad728e9b67868170ec408cd9b3485405f11f34a1be90d1e177f5654211"
-      ],
-      "value": true,
-      "expiresAt": 1792906876940
-    },
     "[\"factor\",\"pub\",\"10b851cdbba21e8b7f25933ea82a7f7531d895e336c171ad1b3080fc3faedfe7\"]": {
       "key": [
         "factor",
