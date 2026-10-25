@@ -290,52 +290,6 @@
       "value": 1792902292668,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"5cceaa8a98a9a69593496b42f6c72accb23d2290d0c57e85eea3c3e25e80b570\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "5cceaa8a98a9a69593496b42f6c72accb23d2290d0c57e85eea3c3e25e80b570"
-      ],
-      "value": true,
-      "expiresAt": 1792902664228
-    },
-    "[\"factor\",\"topic\",\"5cceaa8a98a9a69593496b42f6c72accb23d2290d0c57e85eea3c3e25e80b570\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "5cceaa8a98a9a69593496b42f6c72accb23d2290d0c57e85eea3c3e25e80b570"
-      ],
-      "value": {
-        "title": "📃 Силы ПВО уничтожили два украинских дрона в небе над Тульской областью Силы противовозду",
-        "roots": [
-          "уничто",
-          "украин",
-          "дрона",
-          "тульск",
-          "област",
-          "против"
-        ]
-      },
-      "expiresAt": 1792902664230
-    },
-    "[\"factor\",\"texthash\",\"b67b68339401ddc3733895524f8e15edec7cbe48df0a831bc9c270f069682b78\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "b67b68339401ddc3733895524f8e15edec7cbe48df0a831bc9c270f069682b78"
-      ],
-      "value": true,
-      "expiresAt": 1792902664231
-    },
-    "[\"factor\",\"content\",\"4587ba7188b60d9bddf8fafeec52bc033612a7bb47d8a0fbda470bf282ada5cd\"]": {
-      "key": [
-        "factor",
-        "content",
-        "4587ba7188b60d9bddf8fafeec52bc033612a7bb47d8a0fbda470bf282ada5cd"
-      ],
-      "value": true,
-      "expiresAt": 1792902664232
-    },
     "[\"factor\",\"pub\",\"c8b44cb8ecc99266286d980eeab1fe847af71e22d4984d8104cf288b81ae395a\"]": {
       "key": [
         "factor",
