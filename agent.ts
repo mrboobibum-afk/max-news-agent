@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Strict Post ID & Anti-Old v105)
+// MAX NEWS AGENT — «ФАКТОР» (Context & Facts Only v106)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -435,7 +435,6 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 const sanitized = sanitizeRawText(textRaw);
                 const firstSentence = sanitized.split(/[.!?]\s/)[0] || sanitized;
                 
-                // 🛠 ЖЕСТКАЯ ПРИВЯЗКА К ID ПОСТА
                 const postIdMatch = post.match(/data-post=["']([^"']+)["']/i);
                 const postKey = postIdMatch ? postIdMatch[1] : "tg_" + simpleHash(sanitized);
 
@@ -531,13 +530,7 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
     let cleanDesc = sanitizeRawText(desc);
     const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 90);
     
-    // 🚨 ПРОВЕРКА НА БИТУЮ КОДИРОВКУ
     if (cleanDesc.includes("�")) {
-        return { headline: "", body: "", insight: "", importance: 0, is_ad: false };
-    }
-
-    // 🚨 ФИЛЬТР СТАРЫХ НОВОСТЕЙ
-    if (/(?:202[345]) год/i.test(cleanDesc)) {
         return { headline: "", body: "", insight: "", importance: 0, is_ad: false };
     }
 
@@ -561,11 +554,13 @@ ${cleanDesc}
 
 ТВОИ ЗАДАЧИ:
 1. headline — заголовок (до 8 слов) с 1 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨).
+   ВАЖНО: Если в тексте упоминается губернатор, мэр или чиновник, но НЕ указан регион/город — ОБЯЗАТЕЛЬНО добавь его (например, «Губернатор Липецкой области Артамонов»), используя свои знания.
 2. body — Всесторонний текст (максимум 3-4 предложения). 
    - Включи ВСЕ ключевые факты: кто, что, где, когда, цифры.
    - Разбей текст на маркеры, используя символ ▪️ (в начале каждой строки).
    - Выдели главные акценты (цифры, имена, суммы) тегами <b>жирный шрифт</b>.
 3. insight — 1-2 предложения (до 20 слов). Оцени последствия. БЕЗ ТЕГОВ HTML.
+   КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО писать общие фразы типа «Ситуация требует внимания», «Ситуация указывает на возможный инцидент». Пиши только конкретику: есть угроза жизням или нет, что будет с экономикой.
 4. importance — целое 1-10. 
    ТВОЯ ШКАЛА ВАЖНОСТИ:
    - 9-10: Экстренные события. Атаки БПЛА на мирные города, теракты, крупные катастрофы, заявления Путина/Трампа/Зеленского.
@@ -622,7 +617,6 @@ ${cleanDesc}
             return { headline: fallbackHeadline, body: fallbackBody, insight: "", importance: 1, is_ad: false };
         }
 
-        // 🚨 ФИЛЬТР ГАЛЛЮЦИНАЦИЙ
         const fullText = (llmResult.headline + " " + llmResult.body + " " + llmResult.insight).toLowerCase();
         if (fullText.includes("[текущая дата]") || fullText.includes("инсайдерск") || fullText.includes("ни слова больше")) {
             return { headline: "", body: "", insight: "", importance: 0, is_ad: false };
@@ -707,7 +701,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v105: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v106: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
