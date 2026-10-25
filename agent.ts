@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Hard Override & Balanced v107)
+// MAX NEWS AGENT — «ФАКТОР» (Video Hunter v109)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -18,7 +18,7 @@ const HARD_MIN_INTERVAL_MS = 3 * 60 * 1000;
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
 
 const MEDIA_PACKET_MAX = 6; 
-const MIN_IMPORTANCE = 6; // 📉 СНИЖАЕМ ПОРОГ ДО 6, чтобы нормальные новости проходили
+const MIN_IMPORTANCE = 6; 
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
 const STATE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
@@ -31,9 +31,10 @@ const SIMILARITY_THRESHOLD = 0.35;
 const MIN_IMAGE_BYTES = 10 * 1024;
 const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
 const MIN_VIDEO_BYTES = 50 * 1024;
-const MAX_VIDEO_BYTES = 30 * 1024 * 1024;
+const MAX_VIDEO_BYTES = 50 * 1024 * 1024; // 🎥 УВЕЛИЧИЛИ МАКСИМАЛЬНЫЙ РАЗМЕР ВИДЕО ДО 50 МБ
 
-const DOWNLOAD_TIMEOUT_MS = 15000; 
+const DOWNLOAD_TIMEOUT_MS = 60000; // 🎥 УВЕЛИЧИЛИ ТАЙМАУТ ДО 60 СЕК
+const LLM_TIMEOUT_MS = 25000; 
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
 
@@ -55,6 +56,7 @@ async function initMaxHttpClient() {
     return maxHttpClient;
 }
 
+// 🎥 ДОБАВЛЕНЫ КАНАЛЫ С ЭКСКЛЮЗИВНЫМ ВИДЕО
 const TG_LIVE_CHANNELS = [
     "government_rus", "news_kremlin", "kremlinpress",
     "mod_russia", "mchs_official", "mediamvd", "MID_Russia", "sledcom_press",
@@ -66,7 +68,7 @@ const TG_LIVE_CHANNELS = [
     "rostecnews", "rosatominfo", "rzdtg", "GazpromNews", "rosneftinfo",
     "rian_ru", "tass_agency", "rbc_news", "vesti_news", "rt_russian",
     "1tv_news", "ntvru", "izvestya", "rgru_news",
-    "readovkanews", "bazabazon"
+    "readovkanews", "bazabazon", "shot_shot", "mash" // <- Вернули для видео
 ];
 
 const NEWS_FEEDS = [
@@ -281,6 +283,9 @@ async function getTextHash(text: string): Promise<string> {
 
 function isTrashUrl(url: string): boolean {
     const low = url.toLowerCase();
+    // 🎥 Если это видео (.mp4), мы НЕ считаем его мусором, даже если в ссылке есть странные символы
+    if (low.includes(".mp4")) return false;
+
     return (
         low.includes("/card") || low.includes("textcard") || low.includes("share") ||
         low.includes("logo") || low.includes("avatar") || low.includes("stub") ||
@@ -384,6 +389,8 @@ function sanitizeRawText(raw: string): string {
     t = t.replace(/⚡\s*ФАКТОР/gi, "");
     t = t.replace(/[\s◆♦●○■▪▫▶➡⬛⬜⭐✔☑«»"'.,;:!?/\-–—]+$/g, "");
 
+    t = t.replace(/([а-яА-Яa-zA-Z])\s+([а-яА-Яa-zA-Z]{1,3})\s+/g, "$1$2 ");
+
     return fixBrandNames(t.trim());
 }
 
@@ -430,10 +437,7 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
 
                 const textRaw = cleanText(post.match(/<div class="tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/i)?.[1]);
                 if (!textRaw || textRaw.length < 30 || textRaw.length > 2000) continue;
-                
-                // 🛠 ЖЕСТКИЙ ФИЛЬТР БИТОЙ КОДИРОВКИ
                 if (textRaw.includes("�")) continue;
-                
                 if (BORING_TOPICS.some(r => r.test(textRaw))) continue;
 
                 const sanitized = sanitizeRawText(textRaw);
@@ -442,10 +446,11 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 const postIdMatch = post.match(/data-post=["']([^"']+)["']/i);
                 const postKey = postIdMatch ? postIdMatch[1] : "tg_" + simpleHash(sanitized);
 
+                // 🎥 АГРЕССИВНЫЙ ПОИСК ВИДЕО (Ищем .mp4 в любых тегах)
                 const videos = [
-                    ...post.matchAll(/<a[^>]+class="tgme_widget_message_video_player[^"]*"[^>]+href="([^"]+)"/gi),
-                    ...post.matchAll(/<video[^>]+src="([^"]+)"/gi)
-                ].map(m => m[1]);
+                    ...post.matchAll(/https?:\/\/[^"'\s>]+?\.mp4(?:\?[^"'\s>]*)?/gi),
+                    ...post.matchAll(/<video[^>]+src=["']([^"']+)["']/gi)
+                ].map(m => m[0].startsWith("http") ? m[0] : m[1]);
 
                 const images = [
                     ...post.matchAll(/<a[^>]+class="tgme_widget_message_photo_wrap[^"]*"[^>]+style="[^"]*background-image:url\('([^']+)'\)/gi),
@@ -454,7 +459,8 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
 
                 const mediaUrls: any[] = [];
                 if (videos.length > 0) {
-                    videos.forEach(url => mediaUrls.push({ mediaUrl: url, mediaType: "video" }));
+                    const uniqueVideos = [...new Set(videos)];
+                    uniqueVideos.forEach(url => mediaUrls.push({ mediaUrl: url, mediaType: "video" }));
                 } else {
                     const uniqueImages = [...new Set(images)];
                     uniqueImages.forEach(url => mediaUrls.push({ mediaUrl: url, mediaType: "image" }));
@@ -558,24 +564,24 @@ ${cleanDesc}
 
 ТВОИ ЗАДАЧИ:
 1. headline — заголовок (до 8 слов) с 1 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨).
-   ВАЖНО: Если в тексте упоминается губернатор, мэр или чиновник, но НЕ указан регион/город — ОБЯЗАТЕЛЬНО добавь его (например, «Губернатор Липецкой области Артамонов»), используя свои знания.
+   ВАЖНО: Если в тексте упоминается губернатор, мэр или чиновник, но НЕ указан регион/город — ОБЯЗАТЕЛЬНО добавь его, используя свои знания.
 2. body — Всесторонний текст (максимум 3-4 предложения). 
    - Включи ВСЕ ключевые факты: кто, что, где, когда, цифры.
    - Разбей текст на маркеры, используя символ ▪️ (в начале каждой строки).
    - Выдели главные акценты (цифры, имена, суммы) тегами <b>жирный шрифт</b>.
 3. insight — 1-2 предложения (до 20 слов). Оцени последствия. БЕЗ ТЕГОВ HTML.
-   КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО писать общие фразы типа «Ситуация требует внимания», «Ситуация указывает на возможный инцидент». Пиши только конкретику: есть угроза жизням или нет, что будет с экономикой.
+   КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО писать общие фразы типа «Ситуация требует внимания».
 4. importance — целое 1-10. 
    ТВОЯ ШКАЛА ВАЖНОСТИ:
    - 9-10: Экстренные события. Атаки БПЛА на мирные города, теракты, крупные катастрофы, заявления Путина/Трампа/Зеленского.
-   - 8-9: Важная политика и экономика. Ключевая ставка ЦБ, санкции, новые законы, крупные сделки, инфляция, саммиты, важные международные события.
-   - 7: Заметные события. Технологии, наука, значимые региональные события, важные военные действия (если они влияют на мирных жителей).
-   - 1-6: НЕ ВАЖНО. Бытовуха, ДТП, туристы, спорт, светские новости, скучные пресс-релизы ведомств, сухие военные сводки (без пострадавших).
+   - 8-9: Важная политика и экономика. Ключевая ставка ЦБ, санкции, новые законы, крупные сделки, инфляция, саммиты.
+   - 7: Заметные события. Технологии, наука, значимые региональные события.
+   - 1-6: НЕ ВАЖНО. Бытовуха, ДТП, туристы, спорт, светские новости.
 5. is_ad — true, если это реклама.
 
 ВНИМАНИЕ, ЖЕСТКИЕ ПРАВИЛА:
-- КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО выдумывать "инсайдерские данные", "закрытые заседания", "строгие директивы" или любые цитаты, которых НЕТ в исходном тексте.
-- ЗАПРЕЩЕНО использовать шаблоны вроде [текущая дата]. Если в тексте есть дата, используй её. Если нет — просто не пиши дату.
+- КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО выдумывать "инсайдерские данные", "закрытые заседания", "строгие директивы".
+- ЗАПРЕЩЕНО использовать шаблоны вроде [текущая дата]. Если в тексте есть дата, используй её.
 
 Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false}`;
 
@@ -587,7 +593,7 @@ ${cleanDesc}
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json" } }),
-                signal: AbortSignal.timeout(15000),
+                signal: AbortSignal.timeout(LLM_TIMEOUT_MS),
             });
             if (r.ok) {
                 const j = await r.json();
@@ -604,7 +610,7 @@ ${cleanDesc}
                 method: "POST",
                 headers: { "Content-Type": "application/json", "Authorization": `Bearer ${DASHSCOPE_API_KEY}` },
                 body: JSON.stringify({ model: QWEN_MODEL, messages: [{ role: "user", content: prompt }], temperature: 0.2 }),
-                signal: AbortSignal.timeout(15000),
+                signal: AbortSignal.timeout(LLM_TIMEOUT_MS),
             });
             if (r.ok) {
                 const j = await r.json();
@@ -657,7 +663,7 @@ async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<
         method: "POST", 
         body: form, 
         client: client ?? undefined, 
-        signal: AbortSignal.timeout(60000) 
+        signal: AbortSignal.timeout(120000) // Увеличили таймаут на загрузку в Max
     });
     
     const text = await res.text();
@@ -688,6 +694,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
     if (!item.postKey) return [];
 
     const samePost = candidates.filter(c => c.postKey === item.postKey);
+    // 🎥 ЖЕСТКИЙ ПРИОРИТЕТ ВИДЕО
     const ordered = [
         ...samePost.filter(c => c.mediaType === "video"),
         ...samePost.filter(c => c.mediaType === "image"),
@@ -705,7 +712,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v107: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v109: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -800,11 +807,10 @@ async function run() {
 
         if (post.is_ad) { skippedImportance++; continue; }
 
-        // 🛠 ПРИНУДИТЕЛЬНАЯ ПРОВЕРКА ВАЖНОСТИ (HARDCODED)
         let finalImportance = post.importance;
         const rawTextLower = item.desc.toLowerCase();
         if (/(?:путин|трамп|зеленск|бпла|дрон|атака|удар|погиб|пострадавш|цб|ставка|санкци|госдума|ушаков|лавров|мишустин|набиуллин)/i.test(rawTextLower)) {
-            finalImportance = 8; // Насильно ставим 8
+            finalImportance = 8; 
             console.log(`🔥 Принудительно повышена важность до 8 (триггерное слово).`);
         }
 
