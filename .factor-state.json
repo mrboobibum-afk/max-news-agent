@@ -275,56 +275,6 @@
       "value": 1792885223096,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"eff31926309d152422cb7a03226f6091af674c5fe4f4dde5c2427978bdb852d9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "eff31926309d152422cb7a03226f6091af674c5fe4f4dde5c2427978bdb852d9"
-      ],
-      "value": true,
-      "expiresAt": 1792892449526
-    },
-    "[\"factor\",\"topic\",\"eff31926309d152422cb7a03226f6091af674c5fe4f4dde5c2427978bdb852d9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "eff31926309d152422cb7a03226f6091af674c5fe4f4dde5c2427978bdb852d9"
-      ],
-      "value": {
-        "title": "Продюсер Разин, проигравший в российских судах права на песни группы \"Ласковый май\", иници",
-        "roots": [
-          "продюс",
-          "разин",
-          "проигр",
-          "россий",
-          "судах",
-          "права",
-          "песни",
-          "группы",
-          "ласков",
-          "иници"
-        ]
-      },
-      "expiresAt": 1792892449527
-    },
-    "[\"factor\",\"texthash\",\"623de0808346e3b6716d6f0408508b94ad204dfb85aa8c3b1dac20732a47aa25\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "623de0808346e3b6716d6f0408508b94ad204dfb85aa8c3b1dac20732a47aa25"
-      ],
-      "value": true,
-      "expiresAt": 1792892449573
-    },
-    "[\"factor\",\"content\",\"8f9fa0cca2946f60c200dc3085a0a7701d48b24ec666e7645ed20ea917e3e4e8\"]": {
-      "key": [
-        "factor",
-        "content",
-        "8f9fa0cca2946f60c200dc3085a0a7701d48b24ec666e7645ed20ea917e3e4e8"
-      ],
-      "value": true,
-      "expiresAt": 1792892449574
-    },
     "[\"factor\",\"pub\",\"c31b76ef02b1040d2d722b12b91bde04da4e7c5a1725bcf2349820a3f39427dc\"]": {
       "key": [
         "factor",
