@@ -281,55 +281,6 @@
       "value": 1792896022520,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"8cebda292655ed94043c2b9ef83edbba2b097ffb9961a06da45c0e5526caedbd\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "8cebda292655ed94043c2b9ef83edbba2b097ffb9961a06da45c0e5526caedbd"
-      ],
-      "value": true,
-      "expiresAt": 1792896049264
-    },
-    "[\"factor\",\"topic\",\"8cebda292655ed94043c2b9ef83edbba2b097ffb9961a06da45c0e5526caedbd\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "8cebda292655ed94043c2b9ef83edbba2b097ffb9961a06da45c0e5526caedbd"
-      ],
-      "value": {
-        "title": "Банк может принять за мошенничество снятие денег в течение суток после взятия кредита , со",
-        "roots": [
-          "может",
-          "принят",
-          "мошенн",
-          "снятие",
-          "денег",
-          "течени",
-          "суток",
-          "взятия",
-          "кредит"
-        ]
-      },
-      "expiresAt": 1792896049265
-    },
-    "[\"factor\",\"texthash\",\"03df96b6a0adcb2be74b2f4a589ac61c0a28588197ac10cf99d48eacd51d84a6\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "03df96b6a0adcb2be74b2f4a589ac61c0a28588197ac10cf99d48eacd51d84a6"
-      ],
-      "value": true,
-      "expiresAt": 1792896049266
-    },
-    "[\"factor\",\"content\",\"78ad1990f92699cd3e6bded965e73d05fd72742e0edcd689d51a4bb37daf4575\"]": {
-      "key": [
-        "factor",
-        "content",
-        "78ad1990f92699cd3e6bded965e73d05fd72742e0edcd689d51a4bb37daf4575"
-      ],
-      "value": true,
-      "expiresAt": 1792896049267
-    },
     "[\"factor\",\"pub\",\"35a1b4926dd04f66a4e68dc78e4ef83dce9bb80646da881f5381096f524f6d12\"]": {
       "key": [
         "factor",
