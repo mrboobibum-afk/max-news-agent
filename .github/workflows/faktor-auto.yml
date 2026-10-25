@@ -2,7 +2,7 @@ name: FAKTOR Auto
 
 on:
   schedule:
-    - cron: '*/20 * * * *' # Теперь каждые 20 минут
+    - cron: '0 */5 * * *' # 🚀 Запуск раз в 5 часов (чтобы уложиться в лимиты)
   workflow_dispatch:
 
 concurrency:
@@ -12,7 +12,7 @@ concurrency:
 jobs:
   run-faktor:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 350 # 🚀 Даем скрипту работать почти 6 часов
 
     steps:
       - name: Checkout code
