@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Analytical & Strict v93)
+// MAX NEWS AGENT — «ФАКТОР» (Smart Mix & Fixed Importance v95)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -15,10 +15,10 @@ const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyun
 const REGULAR_MIN_INTERVAL_MS = 10 * 60 * 1000;
 const REGULAR_MAX_INTERVAL_MS = 15 * 60 * 1000;
 const HARD_MIN_INTERVAL_MS = 5 * 60 * 1000;
-const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000;
+const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
 
 const MEDIA_PACKET_MAX = 1; 
-const MIN_IMPORTANCE = 7; // Оставляем важные новости (политика, экономика, экстренные)
+const MIN_IMPORTANCE = 7; 
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
 const STATE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
@@ -266,7 +266,7 @@ async function isDuplicate(title: string, desc?: string): Promise<boolean> {
 }
 
 async function getContentHash(text: string): Promise<string> {
-    const clean = text.toLowerCase().replace(/[^a-zа-я0-9]/gi, "").slice(0, 150);
+    const clean = text.toLowerCase().replace(/[^a-zа-я0-9]/gi, "").slice(0, 100);
     if (!clean) return "";
     const hashBuffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(clean));
     return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, "0")).join("");
@@ -422,6 +422,7 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
             if (!res.ok) { console.log(`  [${ch}] HTTP ${res.status}`); continue; }
             const html = await res.text();
             const posts = html.match(/<div class="tgme_widget_message_wrap[\s\S]*?(?=<div class="tgme_widget_message_wrap|$)/gi) ?? [];
+            
             for (const post of posts.slice(-15).reverse()) {
                 const postDate = extractPostDate(post);
                 if (postDate && (now - postDate) > MAX_POST_AGE_MS) continue;
@@ -430,37 +431,30 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 if (!textRaw || textRaw.length < 30 || textRaw.length > 2000) continue;
                 if (BORING_TOPICS.some(r => r.test(textRaw))) continue;
 
-                const videoMatches = [
-                    ...post.matchAll(/https?:\/\/[^"'<>\s]+?\.(?:mp4)(?:\?[^"'<>\s]*)?/gi),
-                    ...post.matchAll(/<video[^>]+src=["']([^"']+?)["']/gi),
-                    ...post.matchAll(/<a[^>]+href=["']([^"']+?\.mp4)["']/gi)
-                ].map(m => m[0].startsWith("http") ? m[0] : m[1]);
+                const videoWrap = post.match(/<a[^>]+class="tgme_widget_message_video_player[^"]*"[^>]+href="([^"]+)"/i) || post.match(/<video[^>]+src="([^"]+)"/i);
+                const videoUrl = videoWrap ? videoWrap[1] : null;
 
-                const bgImages = [...post.matchAll(/background-image:url\('([^']+)'\)/gi)].map(m => m[1]);
-                const imgTags = [...post.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)].map(m => m[1]);
-                const imageMatches = [...bgImages, ...imgTags].filter(u => !isTrashUrl(u));
+                const photoWrap = post.match(/<a[^>]+class="tgme_widget_message_photo_wrap[^"]*"[^>]+style="[^"]*background-image:url\('([^']+)'\)/i);
+                const imageUrl = photoWrap ? photoWrap[1] : null;
 
                 const sanitized = sanitizeRawText(textRaw);
                 const firstSentence = sanitized.split(/[.!?]\s/)[0] || sanitized;
                 const postKey = "tg_" + simpleHash(sanitized);
 
-                const mediaUrls = videoMatches.length > 0 
-                    ? videoMatches.map(mediaUrl => ({ mediaUrl, mediaType: "video" }))
-                    : imageMatches.map(mediaUrl => ({ mediaUrl, mediaType: "image" }));
+                const mediaUrl = videoUrl ? videoUrl : imageUrl;
+                const mediaType = videoUrl ? "video" : "image";
 
-                if (mediaUrls.length > 0) {
-                    for (const media of mediaUrls) {
-                        liveItems.push({ 
-                            title: firstSentence.slice(0, 90), 
-                            desc: sanitized, 
-                            mediaUrl: media.mediaUrl, 
-                            mediaType: media.mediaType, 
-                            sourceName: ch, 
-                            sourceType: "tg", 
-                            postKey,
-                            postDate: postDate || 0 
-                        });
-                    }
+                if (mediaUrl && !isTrashUrl(mediaUrl)) {
+                    liveItems.push({ 
+                        title: firstSentence.slice(0, 90), 
+                        desc: sanitized, 
+                        mediaUrl: mediaUrl, 
+                        mediaType: mediaType, 
+                        sourceName: ch, 
+                        sourceType: "tg", 
+                        postKey,
+                        postDate: postDate || 0 
+                    });
                     found++;
                 }
             }
@@ -473,6 +467,7 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
 async function fetchRssFeeds(): Promise<any[]> {
     const items: any[] = [];
     let totalFound = 0;
+    const now = Date.now();
     await Promise.all(NEWS_FEEDS.map(async (feed) => {
         try {
             const res = await fetch(feed.url, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(10000) });
@@ -480,6 +475,13 @@ async function fetchRssFeeds(): Promise<any[]> {
             const xml = await res.text();
             let feedFound = 0;
             for (const raw of (xml.match(/<item[\s\S]*?<\/item>/gi) ?? []).slice(0, 15)) {
+                
+                const pubDateMatch = raw.match(/<pubDate>([\s\S]*?)<\/pubDate>/i);
+                if (pubDateMatch) {
+                    const pubDate = Date.parse(pubDateMatch[1]);
+                    if (isNaN(pubDate) || (now - pubDate) > MAX_POST_AGE_MS) continue;
+                }
+
                 const title = sanitizeRawText(raw.match(/<title[\s\S]*?>([\s\S]*?)<\/title>/i)?.[1] ?? "");
                 const descHtml = raw.match(/<description[\s\S]*?>([\s\S]*?)<\/description>/i)?.[1] ?? "";
                 const desc = sanitizeRawText(descHtml);
@@ -497,7 +499,7 @@ async function fetchRssFeeds(): Promise<any[]> {
 
                 if (uniqueImages.length > 0) {
                     for (const img of uniqueImages) {
-                        items.push({ title, desc, mediaUrl: img, mediaType: "image", sourceName: feed.name, sourceType: "rss", postKey, postDate: 0 });
+                        items.push({ title, desc, mediaUrl: img, mediaType: "image", sourceName: feed.name, sourceType: "rss", postKey, postDate: pubDateMatch ? Date.parse(pubDateMatch[1]) : 0 });
                     }
                     feedFound++;
                 }
@@ -527,21 +529,23 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
         fallbackBody = cleanDesc.length > 100 ? cleanDesc.slice(0, 250) + "..." : cleanDesc;
     }
 
-    // 🎨 НОВЫЙ СТРОГИЙ ПРОМПТ (Аналитический стиль)
-    const prompt = `Ты — главный редактор аналитического канала «ФАКТОР». Твой стиль — как у Bloomberg или Коммерсанта: строго, информативно, с фактами, цифрами и без воды. Канал пишет про политику, мировую экономику, новости России и важные события.
+    // 🚨 ЖЕСТКИЙ ПРОМПТ: Исправлена оценка БПЛА
+    const prompt = `Ты — главный редактор аналитического канала «ФАКТОР». Твой стиль — строго, информативно, с фактами.
 
 ИСХОДНЫЙ ТЕКСТ:
 ${cleanDesc}
 
 ТВОИ ЗАДАЧИ:
-1. headline — конкретный, информативный заголовок (до 8 слов) с 1 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨).
-2. body — Всесторонний, но емкий текст (максимум 3-4 предложения). 
-   - Включи ВСЕ ключевые факты: кто, что, где, когда, цифры (если есть).
+1. headline — заголовок (до 8 слов) с 1 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨).
+2. body — Всесторонний текст (максимум 3-4 предложения). 
+   - Включи ВСЕ ключевые факты: кто, что, где, когда, цифры.
    - Разбей текст на маркеры, используя символ ▪️ (в начале каждой строки).
    - Выдели главные акценты (цифры, имена, суммы) тегами <b>жирный шрифт</b>.
-   - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ.
-3. insight — 1-2 предложения (до 20 слов). Оцени последствия: как это повлияет на экономику, политику или обычных людей. БЕЗ ТЕГОВ HTML.
-4. importance — целое 1-10. Ставь 8-10 только для войн, терактов, атак БПЛА, ставки ЦБ, санкций, заявлений первых лиц.
+3. insight — 1-2 предложения (до 20 слов). Оцени последствия. БЕЗ ТЕГОВ HTML.
+4. importance — целое 1-10. 
+   ВНИМАНИЕ: 
+   - Если это новость про БПЛА (беспилотники), атаки, обстрелы, пострадавших, взрывы, пожары, теракты, ставку ЦБ, санкции, заявления Путина/Трампа/Зеленского — СТАВЬ ВАЖНОСТЬ 8, 9 или 10. НИКОГДА не ставь меньше 8 для этих тем!
+   - Если это скучная бытовуха, туристы, спорт, экономические обзоры или старые новости (2024-2025 год) — ставь 1.
 5. is_ad — true, если это реклама.
 
 Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false}`;
@@ -590,7 +594,7 @@ ${cleanDesc}
 
         return {
             headline: validateHeadline(llmResult.headline, fallbackHeadline),
-            body: String(llmResult.body).trim(), // Сохраняем HTML теги <b> и маркеры ▪️
+            body: String(llmResult.body).trim(), 
             insight: String(llmResult.insight).replace(/<[^>]*>/g, "").trim(),
             importance: Number(llmResult.importance) || 1,
             is_ad: !!llmResult.is_ad,
@@ -650,11 +654,10 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
     if (!item.postKey) return [];
 
     const samePost = candidates.filter(c => c.postKey === item.postKey);
-    // 🎯 Берем только видео, если оно есть. Картинки игнорируем.
-    const videos = samePost.filter(c => c.mediaType === "video");
-    const images = samePost.filter(c => c.mediaType === "image");
-    
-    const ordered = videos.length > 0 ? videos : images;
+    const ordered = [
+        ...samePost.filter(c => c.mediaType === "video"),
+        ...samePost.filter(c => c.mediaType === "image"),
+    ];
 
     for (const c of ordered) {
         if (!c.mediaUrl || isTrashUrl(c.mediaUrl)) continue;
@@ -668,7 +671,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v93: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v95: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -699,14 +702,22 @@ async function run() {
     console.log("\nИсточники (RSS):");
     const rssCandidates = await fetchRssFeeds();
 
-    const candidates = [...tgCandidates, ...rssCandidates];
-    console.log(`Всего кандидатов: ${candidates.length}`);
+    // 🎯 СМЕШИВАЕМ ИСТОЧНИКИ (Берем по половине от TG и RSS)
+    tgCandidates.sort((a, b) => b.postDate - a.postDate);
+    rssCandidates.sort((a, b) => b.postDate - a.postDate);
+    
+    const mixedCandidates: any[] = [];
+    const maxLen = Math.max(tgCandidates.length, rssCandidates.length);
+    for (let i = 0; i < maxLen; i++) {
+        if (i < tgCandidates.length) mixedCandidates.push(tgCandidates[i]);
+        if (i < rssCandidates.length) mixedCandidates.push(rssCandidates[i]);
+    }
 
-    candidates.sort((a, b) => b.postDate - a.postDate);
+    console.log(`Всего кандидатов: ${mixedCandidates.length}`);
 
     const seenPostKeys = new Set<string>();
     const uniqueCandidates: any[] = [];
-    for (const c of candidates) {
+    for (const c of mixedCandidates) {
         const key = c.postKey || c.title;
         if (seenPostKeys.has(key)) continue;
         seenPostKeys.add(key);
@@ -751,7 +762,7 @@ async function run() {
 
         console.log("\nОбработка: " + item.title);
 
-        const mediaPacket = getMediaPacket(item, candidates);
+        const mediaPacket = getMediaPacket(item, mixedCandidates);
         const post = await formatNewsPost(item.title, item.desc);
 
         if (post.is_ad) { skippedImportance++; continue; }
@@ -814,7 +825,6 @@ async function run() {
             console.log(`✅ Медиапакет: ${uploaded.length} (видео: ${videos}, фото: ${images})`);
         }
 
-        // 🎨 НОВЫЙ ФОРМАТ ПОСТА
         let postHtml = `<b>${escapeHtml(post.headline)}</b>\n\n`;
         postHtml += `${post.body}\n\n`;
         
