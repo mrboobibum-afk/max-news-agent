@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Context & Facts Only v106)
+// MAX NEWS AGENT — «ФАКТОР» (Hard Override & Balanced v107)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -18,7 +18,7 @@ const HARD_MIN_INTERVAL_MS = 3 * 60 * 1000;
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
 
 const MEDIA_PACKET_MAX = 6; 
-const MIN_IMPORTANCE = 7; 
+const MIN_IMPORTANCE = 6; // 📉 СНИЖАЕМ ПОРОГ ДО 6, чтобы нормальные новости проходили
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
 const STATE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
@@ -430,6 +430,10 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
 
                 const textRaw = cleanText(post.match(/<div class="tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/i)?.[1]);
                 if (!textRaw || textRaw.length < 30 || textRaw.length > 2000) continue;
+                
+                // 🛠 ЖЕСТКИЙ ФИЛЬТР БИТОЙ КОДИРОВКИ
+                if (textRaw.includes("�")) continue;
+                
                 if (BORING_TOPICS.some(r => r.test(textRaw))) continue;
 
                 const sanitized = sanitizeRawText(textRaw);
@@ -701,7 +705,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
 }
 
 async function run() {
-    console.log("=== ФАКТОР v106: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v107: Запуск отбора событий ===");
     const now = Date.now();
 
     try {
@@ -796,8 +800,16 @@ async function run() {
 
         if (post.is_ad) { skippedImportance++; continue; }
 
-        if (post.importance < MIN_IMPORTANCE) {
-            console.log(`Пропуск: важность ${post.importance} < ${MIN_IMPORTANCE}`);
+        // 🛠 ПРИНУДИТЕЛЬНАЯ ПРОВЕРКА ВАЖНОСТИ (HARDCODED)
+        let finalImportance = post.importance;
+        const rawTextLower = item.desc.toLowerCase();
+        if (/(?:путин|трамп|зеленск|бпла|дрон|атака|удар|погиб|пострадавш|цб|ставка|санкци|госдума|ушаков|лавров|мишустин|набиуллин)/i.test(rawTextLower)) {
+            finalImportance = 8; // Насильно ставим 8
+            console.log(`🔥 Принудительно повышена важность до 8 (триггерное слово).`);
+        }
+
+        if (finalImportance < MIN_IMPORTANCE) {
+            console.log(`Пропуск: важность ${finalImportance} < ${MIN_IMPORTANCE}`);
             skippedImportance++;
             continue;
         }
