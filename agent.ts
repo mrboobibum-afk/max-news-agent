@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v118 - Smart Truncate)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v119 - Fix Cut Words)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -215,23 +215,20 @@ function isGibberish(text: string): boolean {
     return badChars > 5 || (badChars > 0 && badChars / text.length > 0.1);
 }
 
-// 🚀 Умная обрезка по словам, чтобы не рвать текст на полуслове
+// 🚀 Умная обрезка по словам (гарантированно не рвет слова)
 function truncateText(text: string, maxLength: number): string {
     if (!text) return "";
     if (text.length <= maxLength) return text;
     
-    // Обрезаем до лимита
     let truncated = text.slice(0, maxLength);
-    // Ищем последний пробел
     const lastSpace = truncated.lastIndexOf(" ");
     
-    // Если пробел есть и он не слишком далеко от начала (хотя бы 70% от лимита), обрезаем по нему
-    if (lastSpace > maxLength * 0.7) {
+    if (lastSpace > maxLength * 0.5) {
         truncated = truncated.slice(0, lastSpace);
     }
     
-    // Убираем лишние знаки препинания в конце и ставим троеточие
-    return truncated.replace(/[,.\-:;!?\s]+$/, "") + "…";
+    truncated = truncated.replace(/[\s\-–—,.;:!?]+$/, "");
+    return truncated + "…";
 }
 
 function decodeHtmlEntities(str: string): string {
@@ -377,14 +374,28 @@ function fixBrandNames(text: string): string {
         .replace(/Starshield/gi, "Starlink");
 }
 
+// 🚀 ЖЕСТКАЯ ПРОВЕРКА: не дает ИИ обрезать слова
 function validateHeadline(llmHead: string, fallbackHead: string): string {
     let h = (llmHead || "").trim();
+    
+    // Если ИИ написал слишком длинный заголовок, аккуратно обрезаем его по словам
+    if (h.length > 85) {
+        h = truncateText(h, 85);
+    }
+    
     if (h.length < 10 || h.endsWith("-") || h.endsWith(",") || h.endsWith("...")) return fallbackHead;
+    
     const words = h.split(/\s+/).filter(w => w.length > 2);
     if (words.length < 3) return fallbackHead;
     const vaguePhrases = ["работа сделана", "дело тонкое", "к ответу", "на частоте", "всем известно", "без комментариев", "шокирующая", "свершилось"];
     if (vaguePhrases.some(p => h.toLowerCase().includes(p))) return fallbackHead;
     if (!/[a-zA-Zа-яА-Я0-9]/.test(h)) return fallbackHead;
+    
+    // 🚀 Если ИИ всё равно оборвал слово на полуслове (нет точки/кавычки в конце), ставим троеточие
+    if (!/[.!?»"')\]]$/.test(h) && !h.endsWith("…")) {
+        h = h + "…";
+    }
+    
     return fixBrandNames(h.charAt(0).toUpperCase() + h.slice(1));
 }
 
@@ -466,7 +477,6 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 const sanitized = sanitizeRawText(textRaw);
                 const firstSentence = sanitized.split(/[.!?]\s/)[0] || sanitized;
                 
-                // 🚀 УМНАЯ ОБРЕЗКА ЗАГОЛОВКА
                 const truncatedTitle = truncateText(firstSentence, 90);
 
                 const postIdMatch = post.match(/data-post=["']([^"']+)["']/i);
@@ -513,7 +523,7 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 if (mediaUrls.length > 0) {
                     mediaUrls.forEach(media => {
                         liveItems.push({ 
-                            title: truncatedTitle, // 🚀 Используем обрезанный по уму заголовок
+                            title: truncatedTitle, 
                             desc: sanitized, 
                             mediaUrl: media.mediaUrl, 
                             mediaType: media.mediaType, 
@@ -579,7 +589,6 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
     try {
         let cleanDesc = sanitizeRawText(desc);
         
-        // 🚀 УМНАЯ ОБРЕЗКА FALLBACK-ЗАГОЛОВКА
         const fallbackHeadline = truncateText(sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, ""), 90);
         
         if (cleanDesc.toLowerCase().startsWith(fallbackHeadline.toLowerCase())) {
@@ -592,7 +601,6 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
         if (sentences.length > 0) {
             fallbackBody = sentences.slice(0, 3).join(" ").trim(); 
         } else {
-            // 🚀 УМНАЯ ОБРЕЗКА FALLBACK-ТЕКСТА
             fallbackBody = cleanDesc.length > 250 ? truncateText(cleanDesc, 250) : cleanDesc;
         }
 
@@ -602,7 +610,7 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
 ${cleanDesc}
 
 ТВОИ ЗАДАЧИ:
-1. headline — заголовок (до 8 слов) с 1 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨).
+1. headline — заголовок (до 8 слов) с 1 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨). КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО обрывать слова на полуслове. Если не влезаешь в лимит — сократи текст, но оставь слова целыми.
 2. body — Оформи текст как список из 3-4 пунктов. 
    - Каждый пункт начинай с маркера ▪️.
    - Включи ВСЕ ключевые факты: цифры, имена, даты.
@@ -793,7 +801,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v118: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v119: Запуск отбора событий ===");
     
     try {
         const stat = await kv.cleanup();
