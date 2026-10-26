@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v116 - Bulletproof)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v118 - Smart Truncate)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -15,6 +15,7 @@ const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyun
 const MAX_RUNTIME_MS = 4.5 * 60 * 60 * 1000; 
 const LOOP_SLEEP_MIN_MS = 4 * 60 * 1000; 
 const LOOP_SLEEP_MAX_MS = 6 * 60 * 1000; 
+const POST_COOLDOWN_MS = 25 * 60 * 1000; // 🚀 Пауза 25 минут после успешного поста
 
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
 const MEDIA_PACKET_MAX = 6; 
@@ -214,6 +215,25 @@ function isGibberish(text: string): boolean {
     return badChars > 5 || (badChars > 0 && badChars / text.length > 0.1);
 }
 
+// 🚀 Умная обрезка по словам, чтобы не рвать текст на полуслове
+function truncateText(text: string, maxLength: number): string {
+    if (!text) return "";
+    if (text.length <= maxLength) return text;
+    
+    // Обрезаем до лимита
+    let truncated = text.slice(0, maxLength);
+    // Ищем последний пробел
+    const lastSpace = truncated.lastIndexOf(" ");
+    
+    // Если пробел есть и он не слишком далеко от начала (хотя бы 70% от лимита), обрезаем по нему
+    if (lastSpace > maxLength * 0.7) {
+        truncated = truncated.slice(0, lastSpace);
+    }
+    
+    // Убираем лишние знаки препинания в конце и ставим троеточие
+    return truncated.replace(/[,.\-:;!?\s]+$/, "") + "…";
+}
+
 function decodeHtmlEntities(str: string): string {
     return str
         .replace(/&lt;/gi, "<").replace(/&gt;/gi, ">")
@@ -296,7 +316,7 @@ async function getTextHash(text: string): Promise<string> {
 
 function isTrashUrl(url: string): boolean {
     const low = url.toLowerCase();
-    if (low.includes(".mp4")) return false;
+    if (low.includes(".mp4") || low.includes("telegram-cdn.org")) return false;
     return (
         low.includes("/card") || low.includes("textcard") || low.includes("share") ||
         low.includes("logo") || low.includes("avatar") || low.includes("stub") ||
@@ -306,19 +326,14 @@ function isTrashUrl(url: string): boolean {
     );
 }
 
-function buildProxyUrls(url: string): string[] {
-    const enc = encodeURIComponent(url);
-    return [
-        `https://corsproxy.io/?${enc}`,
-        url,
-    ];
-}
-
 async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array | null> {
     if (!url || isTrashUrl(url)) return null;
 
-    const proxyUrls = buildProxyUrls(url);
-    const timeout = DOWNLOAD_TIMEOUT_MS;
+    const proxyUrls = isVideo 
+        ? [url, `https://corsproxy.io/?${encodeURIComponent(url)}`]
+        : [`https://corsproxy.io/?${encodeURIComponent(url)}`, url];
+        
+    const timeout = isVideo ? 120000 : DOWNLOAD_TIMEOUT_MS;
 
     for (const candidateUrl of proxyUrls) {
         try {
@@ -451,13 +466,35 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 const sanitized = sanitizeRawText(textRaw);
                 const firstSentence = sanitized.split(/[.!?]\s/)[0] || sanitized;
                 
+                // 🚀 УМНАЯ ОБРЕЗКА ЗАГОЛОВКА
+                const truncatedTitle = truncateText(firstSentence, 90);
+
                 const postIdMatch = post.match(/data-post=["']([^"']+)["']/i);
                 const postKey = postIdMatch ? postIdMatch[1] : "tg_" + simpleHash(sanitized);
 
-                const videos = [
-                    ...post.matchAll(/https?:\/\/[^"'\s>]+?\.mp4(?:\?[^"'\s>]*)?/gi),
-                    ...post.matchAll(/<video[^>]+src=["']([^"']+)["']/gi)
-                ].map(m => m[0].startsWith("http") ? m[0] : m[1]);
+                const postLinkMatch = post.match(/<a class="tgme_widget_message_date"[^>]+href="([^"]+)"/i);
+                const postLink = postLinkMatch ? postLinkMatch[1] : null;
+                const hasVideo = post.includes("tgme_widget_message_video_player") || post.includes("tgme_widget_message_roundvideo");
+
+                let videos: string[] = [];
+                
+                if (hasVideo && postLink) {
+                    try {
+                        const vRes = await fetch(postLink, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(8000) });
+                        if (vRes.ok) {
+                            const vHtml = await vRes.text();
+                            const vMatch = vHtml.match(/<video[^>]+src=["']([^"']+)["']/i) || vHtml.match(/<source[^>]+src=["']([^"']+)["']/i);
+                            if (vMatch) videos.push(vMatch[1]);
+                        }
+                    } catch(e) {}
+                }
+
+                if (videos.length === 0) {
+                    videos = [
+                        ...post.matchAll(/https?:\/\/[^"'\s>]+?\.mp4(?:\?[^"'\s>]*)?/gi),
+                        ...post.matchAll(/<video[^>]+src=["']([^"']+)["']/gi)
+                    ].map(m => m[0].startsWith("http") ? m[0] : m[1]);
+                }
 
                 const images = [
                     ...post.matchAll(/<a[^>]+class="tgme_widget_message_photo_wrap[^"]*"[^>]+style="[^"]*background-image:url\('([^']+)'\)/gi),
@@ -476,7 +513,7 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 if (mediaUrls.length > 0) {
                     mediaUrls.forEach(media => {
                         liveItems.push({ 
-                            title: firstSentence.slice(0, 90), 
+                            title: truncatedTitle, // 🚀 Используем обрезанный по уму заголовок
                             desc: sanitized, 
                             mediaUrl: media.mediaUrl, 
                             mediaType: media.mediaType, 
@@ -518,6 +555,7 @@ async function fetchRssFeeds(): Promise<any[]> {
                 if (BORING_TOPICS.some(r => r.test(`${title} ${desc}`))) continue;
                 if (!title) continue;
 
+                const truncatedTitle = truncateText(title, 90);
                 const postKey = `${feed.name.toLowerCase()}_${simpleHash(title + (link || ""))}`;
                 const enclosureImg = raw.match(/<enclosure[^>]+url=["']([^"']+)["'][^>]+type=["']image/i)?.[1];
                 const mediaContent = raw.match(/<media:content[^>]+url=["']([^"']+)["']/i)?.[1];
@@ -528,7 +566,7 @@ async function fetchRssFeeds(): Promise<any[]> {
 
                 if (uniqueImages.length > 0) {
                     for (const img of uniqueImages) {
-                        items.push({ title, desc, mediaUrl: img, mediaType: "image", sourceName: feed.name, sourceType: "rss", postKey, postDate: pubDateMatch ? Date.parse(pubDateMatch[1]) : 0 });
+                        items.push({ title: truncatedTitle, desc, mediaUrl: img, mediaType: "image", sourceName: feed.name, sourceType: "rss", postKey, postDate: pubDateMatch ? Date.parse(pubDateMatch[1]) : 0 });
                     }
                 }
             }
@@ -537,11 +575,12 @@ async function fetchRssFeeds(): Promise<any[]> {
     return items;
 }
 
-// 🚀 ГЛАВНАЯ ФУНКЦИЯ ОБРАБОТКИ (ЗАЩИЩЕНА ОТ ВСЕХ ОШИБОК)
 async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, body: string, insight: string, importance: number, is_ad: boolean, hashtag: string }> {
     try {
         let cleanDesc = sanitizeRawText(desc);
-        const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 90);
+        
+        // 🚀 УМНАЯ ОБРЕЗКА FALLBACK-ЗАГОЛОВКА
+        const fallbackHeadline = truncateText(sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, ""), 90);
         
         if (cleanDesc.toLowerCase().startsWith(fallbackHeadline.toLowerCase())) {
             cleanDesc = cleanDesc.slice(fallbackHeadline.length).trim();
@@ -553,7 +592,8 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
         if (sentences.length > 0) {
             fallbackBody = sentences.slice(0, 3).join(" ").trim(); 
         } else {
-            fallbackBody = cleanDesc.length > 100 ? cleanDesc.slice(0, 250) + "..." : cleanDesc;
+            // 🚀 УМНАЯ ОБРЕЗКА FALLBACK-ТЕКСТА
+            fallbackBody = cleanDesc.length > 250 ? truncateText(cleanDesc, 250) : cleanDesc;
         }
 
         const prompt = `Ты — главный редактор аналитического канала «ФАКТОР». Твоя цель — давать сбалансированную картину мира: политика, экономика, международные отношения, технологии и важные события в России. Твой стиль — строго, информативно, с фактами.
@@ -613,12 +653,10 @@ ${cleanDesc}
             } catch (e) {}
         }
 
-        // 🛡️ ЖЕЛЕЗОБЕТОННАЯ ПРОВЕРКА ОТВЕТА ИИ
         if (llmResult) {
             let headlineStr = String(llmResult.headline || "").trim();
             let bodyStr = llmResult.body;
             
-            // Если ИИ вернул массив вместо строки (это и убивало бота)
             if (Array.isArray(bodyStr)) {
                 bodyStr = bodyStr.map((b: any) => String(b).replace(/^[-*▪️\s]+/, "").trim()).join("\n▪️ ");
                 if (bodyStr) bodyStr = "▪️ " + bodyStr;
@@ -631,7 +669,6 @@ ${cleanDesc}
             if (headlineStr && bodyStr) {
                 const isEnglish = (bodyStr.match(/[a-zA-Z]/g) || []).length > (bodyStr.match(/[а-яА-Я]/g) || []).length;
                 
-                // Если вдруг ИИ вернул английский текст (баг модели), используем сырой русский текст
                 if (!isEnglish) {
                     return {
                         headline: validateHeadline(headlineStr, fallbackHeadline),
@@ -645,7 +682,6 @@ ${cleanDesc}
             }
         }
 
-        // Если ИИ упал или выдал бред, мы формируем пост вручную из сырого текста
         if (fallbackBody.length >= 60) {
             return {
                 headline: fallbackHeadline,
@@ -739,7 +775,7 @@ async function commitStateToGit() {
         
         await runGit(["add", ".factor-state.json"]);
         const diff = await runGit(["diff", "--cached", "--quiet"]);
-        if (diff.success) return; // Нет изменений
+        if (diff.success) return; 
 
         await runGit(["config", "user.name", "github-actions[bot]"]);
         await runGit(["config", "user.email", "github-actions[bot]@users.noreply.github.com"]);
@@ -756,8 +792,8 @@ async function commitStateToGit() {
     }
 }
 
-async function run() {
-    console.log("=== ФАКТОР v116: Запуск отбора событий ===");
+async function run(): Promise<boolean> {
+    console.log("=== ФАКТОР v118: Запуск отбора событий ===");
     
     try {
         const stat = await kv.cleanup();
@@ -890,20 +926,22 @@ async function run() {
                 recentTitles.push(post.headline); if (recentTitles.length > RECENT_HISTORY_LIMIT) recentTitles.shift();
                 await kv.set(["factor", "recent_titles"], recentTitles, { expireIn: HISTORY_TTL_MS });
 
-                return; // Выходим из run() чтобы цикл подождал
+                return true; 
             }
         } catch (itemError) {
             console.error("Ошибка при обработке новости:", itemError);
         }
     }
     console.log(`\nИтого: дублей ${skippedDup}, неважных ${skippedImportance}, без медиа ${skippedNoMedia}, опубликовано ${published}`);
+    return false;
 }
 
 const startTime = Date.now();
 
 while (Date.now() - startTime < MAX_RUNTIME_MS) {
+    let posted = false;
     try {
-        await run();
+        posted = await run();
     } catch (globalError) {
         console.error("🚨 ГЛОБАЛЬНАЯ ОШИБКА ЦИКЛА:", globalError);
     }
@@ -913,9 +951,14 @@ while (Date.now() - startTime < MAX_RUNTIME_MS) {
         publishesSinceCommit = 0;
     }
 
-    const sleepMs = LOOP_SLEEP_MIN_MS + Math.random() * (LOOP_SLEEP_MAX_MS - LOOP_SLEEP_MIN_MS);
-    console.log(`\n💤 Ожидание ${Math.round(sleepMs / 60000)} мин перед следующим запуском...`);
-    await new Promise(r => setTimeout(r, sleepMs));
+    if (posted) {
+        console.log(`\n😴 Пост опубликован. Ждем 25 минут, чтобы не спамить...`);
+        await new Promise(r => setTimeout(r, POST_COOLDOWN_MS));
+    } else {
+        const sleepMs = LOOP_SLEEP_MIN_MS + Math.random() * (LOOP_SLEEP_MAX_MS - LOOP_SLEEP_MIN_MS);
+        console.log(`\n💤 Новых новостей нет. Ожидание ${Math.round(sleepMs / 60000)} мин...`);
+        await new Promise(r => setTimeout(r, sleepMs));
+    }
 }
 
 await commitStateToGit();
