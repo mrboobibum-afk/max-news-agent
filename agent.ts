@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v114)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v115 - Armored)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -12,7 +12,11 @@ const DASHSCOPE_API_KEY = Deno.env.get("DASHSCOPE_API_KEY") ?? "";
 const QWEN_MODEL = Deno.env.get("QWEN_MODEL") ?? "qwen3.8-max";
 const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyuncs.com/compatible-mode/v1";
 
-const LOOP_SLEEP_MS = 5 * 60 * 1000; // Спим 5 минут внутри цикла
+// 🚀 Время работы: 4.5 часа. GitHub даст 5 часов до следующего запуска. Запас 30 мин.
+const MAX_RUNTIME_MS = 4.5 * 60 * 60 * 1000; 
+const LOOP_SLEEP_MIN_MS = 4 * 60 * 1000; // 4 минуты
+const LOOP_SLEEP_MAX_MS = 6 * 60 * 1000; // 6 минут (случайный разброс от блокировок)
+
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
 
 const MEDIA_PACKET_MAX = 6; 
@@ -50,7 +54,9 @@ async function initMaxHttpClient() {
         if (r1.ok && r2.ok) {
             maxHttpClient = Deno.createHttpClient({ caCerts: [await r1.text(), await r2.text()] });
         }
-    } catch {}
+    } catch (e) {
+        console.error("CA Init Error:", e);
+    }
     return maxHttpClient;
 }
 
@@ -151,7 +157,9 @@ class FileKV {
             key, value,
             expiresAt: options?.expireIn ? Date.now() + options.expireIn : null,
         };
-        await Deno.writeTextFile(this.file, JSON.stringify(d, null, 2) + "\n");
+        try {
+            await Deno.writeTextFile(this.file, JSON.stringify(d, null, 2) + "\n");
+        } catch (e) { console.error("Ошибка записи state:", e); }
     }
 
     async getAllTopics() {
@@ -167,33 +175,38 @@ class FileKV {
     }
 
     async cleanup(): Promise<{ removedExpired: number; removedOld: number; removedOverflow: number; kept: number }> {
-        const d = await this.load();
-        const now = Date.now();
-        const entries = d.entries as Record<string, any>;
-        let removedExpired = 0, removedOld = 0;
-        const survivors: Array<{ key: string; entry: any }> = [];
+        try {
+            const d = await this.load();
+            const now = Date.now();
+            const entries = d.entries as Record<string, any>;
+            let removedExpired = 0, removedOld = 0;
+            const survivors: Array<{ key: string; entry: any }> = [];
 
-        for (const [k, v] of Object.entries<any>(entries)) {
-            if (v?.expiresAt && v.expiresAt < now) { removedExpired++; continue; }
-            const ts = v?.expiresAt ? v.expiresAt - HISTORY_TTL_MS : null;
-            if (ts && (now - ts) > STATE_MAX_AGE_MS) { removedOld++; continue; }
-            survivors.push({ key: k, entry: v });
+            for (const [k, v] of Object.entries<any>(entries)) {
+                if (v?.expiresAt && v.expiresAt < now) { removedExpired++; continue; }
+                const ts = v?.expiresAt ? v.expiresAt - HISTORY_TTL_MS : null;
+                if (ts && (now - ts) > STATE_MAX_AGE_MS) { removedOld++; continue; }
+                survivors.push({ key: k, entry: v });
+            }
+
+            let removedOverflow = 0;
+            if (survivors.length > STATE_MAX_ENTRIES) {
+                survivors.sort((a, b) => (b.entry?.expiresAt ?? 0) - (a.entry?.expiresAt ?? 0));
+                removedOverflow = survivors.slice(STATE_KEEP_ENTRIES).length;
+                const keep = survivors.slice(0, STATE_KEEP_ENTRIES);
+                d.entries = {};
+                for (const { key, entry } of keep) d.entries[key] = entry;
+            } else {
+                d.entries = {};
+                for (const { key, entry } of survivors) d.entries[key] = entry;
+            }
+
+            await Deno.writeTextFile(this.file, JSON.stringify(d, null, 2) + "\n");
+            return { removedExpired, removedOld, removedOverflow, kept: Object.keys(d.entries).length };
+        } catch (e) {
+            console.error("Cleanup error:", e);
+            return { removedExpired: 0, removedOld: 0, removedOverflow: 0, kept: 0 };
         }
-
-        let removedOverflow = 0;
-        if (survivors.length > STATE_MAX_ENTRIES) {
-            survivors.sort((a, b) => (b.entry?.expiresAt ?? 0) - (a.entry?.expiresAt ?? 0));
-            removedOverflow = survivors.slice(STATE_KEEP_ENTRIES).length;
-            const keep = survivors.slice(0, STATE_KEEP_ENTRIES);
-            d.entries = {};
-            for (const { key, entry } of keep) d.entries[key] = entry;
-        } else {
-            d.entries = {};
-            for (const { key, entry } of survivors) d.entries[key] = entry;
-        }
-
-        await Deno.writeTextFile(this.file, JSON.stringify(d, null, 2) + "\n");
-        return { removedExpired, removedOld, removedOverflow, kept: Object.keys(d.entries).length };
     }
 }
 
@@ -421,7 +434,7 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
         let found = 0;
         try {
             const res = await fetch(`https://t.me/s/${ch}`, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(10000) });
-            if (!res.ok) { console.log(`  [${ch}] HTTP ${res.status}`); continue; }
+            if (!res.ok) { continue; }
             const html = await res.text();
             const posts = html.match(/<div class="tgme_widget_message_wrap[\s\S]*?(?=<div class="tgme_widget_message_wrap|$)/gi) ?? [];
             
@@ -475,22 +488,19 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                     found++;
                 }
             }
-            console.log(`  [${ch}] постов с медиа: ${found}`);
-        } catch (e) { console.log(`  [${ch}] ошибка: ${String(e)}`); }
+        } catch (e) { }
     }
     return liveItems;
 }
 
 async function fetchRssFeeds(): Promise<any[]> {
     const items: any[] = [];
-    let totalFound = 0;
     const now = Date.now();
     await Promise.all(NEWS_FEEDS.map(async (feed) => {
         try {
             const res = await fetch(feed.url, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(10000) });
-            if (!res.ok) { console.log(`  [RSS: ${feed.name}] HTTP ${res.status}`); return; }
+            if (!res.ok) return;
             const xml = await res.text();
-            let feedFound = 0;
             for (const raw of (xml.match(/<item[\s\S]*?<\/item>/gi) ?? []).slice(0, 15)) {
                 
                 const pubDateMatch = raw.match(/<pubDate>([\s\S]*?)<\/pubDate>/i);
@@ -518,14 +528,10 @@ async function fetchRssFeeds(): Promise<any[]> {
                     for (const img of uniqueImages) {
                         items.push({ title, desc, mediaUrl: img, mediaType: "image", sourceName: feed.name, sourceType: "rss", postKey, postDate: pubDateMatch ? Date.parse(pubDateMatch[1]) : 0 });
                     }
-                    feedFound++;
                 }
             }
-            console.log(`  [RSS: ${feed.name}] постов с медиа: ${feedFound}`);
-            totalFound += feedFound;
-        } catch (e) { console.log(`  [RSS: ${feed.name}] ошибка: ${String(e)}`); }
+        } catch (e) { }
     }));
-    console.log(`RSS-источники: собрано ${totalFound} постов с медиа`);
     return items;
 }
 
@@ -685,7 +691,6 @@ async function sendPostToMax(text: string, media: Array<{ token: string, type: "
 function getMediaPacket(item: any, candidates: any[]): any[] {
     const packet: any[] = [];
     const seen = new Set<string>();
-
     if (!item.postKey) return [];
 
     const samePost = candidates.filter(c => c.postKey === item.postKey);
@@ -701,17 +706,41 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
         packet.push(c);
         if (packet.length >= MEDIA_PACKET_MAX) break;
     }
-
     return packet;
 }
 
+// Глобальные переменные для коммита
+let publishesSinceCommit = 0;
+
+async function commitStateToGit() {
+    try {
+        const runGit = async (args: string[]) => {
+            const p = new Deno.Command("git", { args, stdout: "piped", stderr: "piped" });
+            return await p.output();
+        };
+        
+        await runGit(["add", ".factor-state.json"]);
+        const diff = await runGit(["diff", "--cached", "--quiet"]);
+        if (diff.success) return; // Нет изменений
+
+        await runGit(["config", "user.name", "github-actions[bot]"]);
+        await runGit(["config", "user.email", "github-actions[bot]@users.noreply.github.com"]);
+        await runGit(["commit", "-m", "Update state [skip ci]"]);
+        await runGit(["pull", "--rebase", "origin", "main"]);
+        await runGit(["push", "origin", "main"]);
+        console.log("💾 Прогресс сохранен в GitHub");
+    } catch (e) {
+        console.error("Ошибка коммита:", e);
+    }
+}
+
 async function run() {
-    console.log("=== ФАКТОР v114: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v115: Запуск отбора событий ===");
     
     try {
         const stat = await kv.cleanup();
-        console.log(`Очистка state: удалено просроченных ${stat.removedExpired}, старых ${stat.removedOld}, лишних ${stat.removedOverflow}; оставлено ${stat.kept}`);
-    } catch (e) { console.log("Очистка state не удалась:", String(e)); }
+        console.log(`Очистка state: удалено ${stat.removedExpired} просроченных, ${stat.removedOld} старых, ${stat.removedOverflow} лишних; оставлено ${stat.kept}`);
+    } catch (e) { console.log("Очистка state не удалась, пропускаем..."); }
 
     console.log("\nИсточники (Telegram):");
     const tgCandidates = await fetchTelegramLiveFeed();
@@ -719,6 +748,7 @@ async function run() {
 
     console.log("\nИсточники (RSS):");
     const rssCandidates = await fetchRssFeeds();
+    console.log(`Всего кандидатов из RSS: ${rssCandidates.length}`);
 
     tgCandidates.sort((a, b) => b.postDate - a.postDate);
     rssCandidates.sort((a, b) => b.postDate - a.postDate);
@@ -730,8 +760,6 @@ async function run() {
         if (i < rssCandidates.length) mixedCandidates.push(rssCandidates[i]);
     }
 
-    console.log(`Всего кандидатов: ${mixedCandidates.length}`);
-
     const seenPostKeys = new Set<string>();
     const uniqueCandidates: any[] = [];
     for (const c of mixedCandidates) {
@@ -740,10 +768,9 @@ async function run() {
         seenPostKeys.add(key);
         uniqueCandidates.push(c);
     }
-    console.log(`Уникальных постов: ${uniqueCandidates.length}`);
 
+    console.log(`Всего уникальных кандидатов: ${uniqueCandidates.length}`);
     const topCandidates = uniqueCandidates.slice(0, 25);
-    console.log(`К обработке принято: ${topCandidates.length}`);
 
     let skippedDup = 0, skippedImportance = 0, skippedNoMedia = 0, published = 0;
 
@@ -752,151 +779,128 @@ async function run() {
     const recentTitles: string[] = (await kv.get(["factor", "recent_titles"])).value || [];
 
     for (const item of topCandidates) {
-        const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(item.title))))
-            .map(b => b.toString(16).padStart(2, "0")).join("");
+        try {
+            const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(item.title))))
+                .map(b => b.toString(16).padStart(2, "0")).join("");
 
-        if ((await kv.get(["factor", "pub", hash])).value) { skippedDup++; continue; }
-        if (await isDuplicate(item.title, item.desc)) { skippedDup++; continue; }
+            if ((await kv.get(["factor", "pub", hash])).value) { skippedDup++; continue; }
+            if (await isDuplicate(item.title, item.desc)) { skippedDup++; continue; }
 
-        const contentHash = await getContentHash(item.desc);
-        if (contentHash && (await kv.get(["factor", "content", contentHash])).value) {
-            skippedDup++;
-            continue;
-        }
+            const contentHash = await getContentHash(item.desc);
+            if (contentHash && (await kv.get(["factor", "content", contentHash])).value) { skippedDup++; continue; }
 
-        let isSimilarFound = false;
-        for (const pastDesc of recentDescs) {
-            if (isSimilar(item.desc, pastDesc)) {
-                isSimilarFound = true;
-                break;
+            let isSimilarFound = false;
+            for (const pastDesc of recentDescs) {
+                if (isSimilar(item.desc, pastDesc)) { isSimilarFound = true; break; }
             }
-        }
-        if (isSimilarFound) {
-            console.log(`❌ Пропуск: исходный текст похож на недавний.`);
-            skippedDup++;
-            continue;
-        }
+            if (isSimilarFound) { skippedDup++; continue; }
 
-        console.log("\nОбработка: " + item.title);
+            console.log("\nОбработка: " + item.title);
 
-        const mediaPacket = getMediaPacket(item, mixedCandidates);
-        const post = await formatNewsPost(item.title, item.desc);
+            const mediaPacket = getMediaPacket(item, mixedCandidates);
+            const post = await formatNewsPost(item.title, item.desc);
 
-        if (post.is_ad) { skippedImportance++; continue; }
+            if (post.is_ad) { skippedImportance++; continue; }
 
-        if (!post.headline || !post.body || post.body.length < 60) {
-            console.log(`❌ Пропуск: ИИ не смог сделать идеальный пост (отмена).`);
-            skippedNoMedia++;
-            continue;
-        }
-
-        let finalImportance = post.importance;
-        const rawTextLower = item.desc.toLowerCase();
-        if (/(?:путин|трамп|зеленск|бпла|дрон|атака|удар|погиб|пострадавш|цб|ставка|санкци|госдума|ушаков|лавров|мишустин|набиуллин)/i.test(rawTextLower)) {
-            finalImportance = 8; 
-            console.log(`🔥 Принудительно повышена важность до 8 (триггерное слово).`);
-        }
-
-        if (finalImportance < MIN_IMPORTANCE) {
-            console.log(`Пропуск: важность ${finalImportance} < ${MIN_IMPORTANCE}`);
-            skippedImportance++;
-            continue;
-        }
-
-        let isTitleSimilar = false;
-        for (const pastTitle of recentTitles) {
-            if (isSimilar(post.headline, pastTitle)) {
-                isTitleSimilar = true;
-                break;
-            }
-        }
-        if (isTitleSimilar) {
-            console.log(`❌ Пропуск: заголовок совпадает с недавним.`);
-            skippedDup++;
-            continue;
-        }
-
-        const textHash = await getTextHash(post.body);
-        if ((await kv.get(["factor", "texthash", textHash])).value) {
-            console.log(`❌ Пропуск: такой текст уже был опубликован.`);
-            skippedDup++;
-            continue;
-        }
-
-        const uploaded: Array<{ token: string; type: "image" | "video" }> = [];
-        
-        for (const media of mediaPacket) {
-            let mediaBytes = await downloadBuffer(media.mediaUrl, media.mediaType === "video");
-            if (!mediaBytes) continue;
-
-            if (media.mediaType === "image") {
-                mediaBytes = await applyBrandOverlay(mediaBytes);
+            if (!post.headline || !post.body || post.body.length < 60) {
+                console.log(`❌ Пропуск: ИИ не смог сделать идеальный пост.`);
+                skippedNoMedia++;
+                continue;
             }
 
-            try {
-                const token = await uploadToMax(mediaBytes, media.mediaType);
-                if (token) uploaded.push({ token, type: media.mediaType });
-            } catch (e) { 
-                console.error("Ошибка загрузки медиа:", e); 
+            let finalImportance = post.importance;
+            const rawTextLower = item.desc.toLowerCase();
+            if (/(?:путин|трамп|зеленск|бпла|дрон|атака|удар|погиб|пострадавш|цб|ставка|санкци|госдума|ушаков|лавров|мишустин|набиуллин)/i.test(rawTextLower)) {
+                finalImportance = 8; 
             }
-            if (uploaded.length >= MEDIA_PACKET_MAX) break;
-        }
 
-        if (!uploaded.length) {
-            console.log(`⚠️ Медиа не скачалось, публикуем только текст.`);
-        } else {
-            const videos = uploaded.filter(u => u.type === "video").length;
-            const images = uploaded.filter(u => u.type === "image").length;
-            console.log(`✅ Медиапакет: ${uploaded.length} (видео: ${videos}, фото: ${images})`);
-        }
+            if (finalImportance < MIN_IMPORTANCE) { skippedImportance++; continue; }
 
-        let postHtml = `<b>${escapeHtml(post.headline)}</b>\n\n`;
-        postHtml += `${post.body}\n\n`;
-        
-        if (post.insight) {
-            postHtml += `💡 <b>Взгляд ФАКТОРА:</b>\n${escapeHtml(post.insight)}\n\n`;
-        }
-        
-        postHtml += `⚡️ <b>ФАКТОР</b> | ${post.hashtag}`;
+            let isTitleSimilar = false;
+            for (const pastTitle of recentTitles) {
+                if (isSimilar(post.headline, pastTitle)) { isTitleSimilar = true; break; }
+            }
+            if (isTitleSimilar) { skippedDup++; continue; }
 
-        const sent = await sendPostToMax(postHtml, uploaded);
-        if (sent) {
-            console.log("🔥 ОПУБЛИКОВАНО: " + post.headline);
-            published++;
+            const textHash = await getTextHash(post.body);
+            if ((await kv.get(["factor", "texthash", textHash])).value) { skippedDup++; continue; }
+
+            const uploaded: Array<{ token: string; type: "image" | "video" }> = [];
             
-            await kv.set(["factor", "pub", hash], true, { expireIn: HISTORY_TTL_MS });
-            await kv.set(["factor", "topic", hash], { title: item.title, roots: getRoots(item.title) }, { expireIn: HISTORY_TTL_MS });
-            await kv.set(["factor", "texthash", textHash], true, { expireIn: HISTORY_TTL_MS });
-            if (contentHash) {
-                await kv.set(["factor", "content", contentHash], true, { expireIn: HISTORY_TTL_MS });
+            for (const media of mediaPacket) {
+                let mediaBytes = await downloadBuffer(media.mediaUrl, media.mediaType === "video");
+                if (!mediaBytes) continue;
+
+                if (media.mediaType === "image") {
+                    mediaBytes = await applyBrandOverlay(mediaBytes);
+                }
+
+                try {
+                    const token = await uploadToMax(mediaBytes, media.mediaType);
+                    if (token) uploaded.push({ token, type: media.mediaType });
+                } catch (e) { console.error("Ошибка загрузки медиа:", e); }
+                if (uploaded.length >= MEDIA_PACKET_MAX) break;
             }
 
-            recentDescs.push(item.desc);
-            if (recentDescs.length > RECENT_HISTORY_LIMIT) recentDescs.shift();
-            await kv.set(["factor", "recent_descs"], recentDescs, { expireIn: HISTORY_TTL_MS });
+            if (!uploaded.length) console.log(`⚠️ Медиа не скачалось, публикуем только текст.`);
 
-            recentBodies.push(post.body);
-            if (recentBodies.length > RECENT_HISTORY_LIMIT) recentBodies.shift();
-            await kv.set(["factor", "recent_bodies"], recentBodies, { expireIn: HISTORY_TTL_MS });
+            let postHtml = `<b>${escapeHtml(post.headline)}</b>\n\n`;
+            postHtml += `${post.body}\n\n`;
+            
+            if (post.insight) postHtml += `💡 <b>Взгляд ФАКТОРА:</b>\n${escapeHtml(post.insight)}\n\n`;
+            
+            postHtml += `⚡️ <b>ФАКТОР</b> | ${post.hashtag}`;
 
-            recentTitles.push(post.headline);
-            if (recentTitles.length > RECENT_HISTORY_LIMIT) recentTitles.shift();
-            await kv.set(["factor", "recent_titles"], recentTitles, { expireIn: HISTORY_TTL_MS });
+            const sent = await sendPostToMax(postHtml, uploaded);
+            if (sent) {
+                console.log("🔥 ОПУБЛИКОВАНО: " + post.headline);
+                published++;
+                publishesSinceCommit++;
+                
+                await kv.set(["factor", "pub", hash], true, { expireIn: HISTORY_TTL_MS });
+                await kv.set(["factor", "topic", hash], { title: item.title, roots: getRoots(item.title) }, { expireIn: HISTORY_TTL_MS });
+                await kv.set(["factor", "texthash", textHash], true, { expireIn: HISTORY_TTL_MS });
+                if (contentHash) await kv.set(["factor", "content", contentHash], true, { expireIn: HISTORY_TTL_MS });
 
-            return; // Выходим из функции run(), чтобы цикл сделал паузу
+                recentDescs.push(item.desc); if (recentDescs.length > RECENT_HISTORY_LIMIT) recentDescs.shift();
+                await kv.set(["factor", "recent_descs"], recentDescs, { expireIn: HISTORY_TTL_MS });
+
+                recentBodies.push(post.body); if (recentBodies.length > RECENT_HISTORY_LIMIT) recentBodies.shift();
+                await kv.set(["factor", "recent_bodies"], recentBodies, { expireIn: HISTORY_TTL_MS });
+
+                recentTitles.push(post.headline); if (recentTitles.length > RECENT_HISTORY_LIMIT) recentTitles.shift();
+                await kv.set(["factor", "recent_titles"], recentTitles, { expireIn: HISTORY_TTL_MS });
+
+                return; // Выходим из run() чтобы цикл подождал
+            }
+        } catch (itemError) {
+            console.error("Ошибка при обработке новости:", itemError);
         }
     }
-
     console.log(`\nИтого: дублей ${skippedDup}, неважных ${skippedImportance}, без медиа ${skippedNoMedia}, опубликовано ${published}`);
-    console.log("Подходящих событий нет.");
 }
 
-// 🚀 ЗАПУСКАЕМ ЦИКЛ НА 5.5 ЧАСОВ
-const MAX_RUNTIME_MS = 5.5 * 60 * 60 * 1000; 
+// 🚀 БРОНИРОВАННЫЙ ЦИКЛ
 const startTime = Date.now();
 
 while (Date.now() - startTime < MAX_RUNTIME_MS) {
-    await run();
-    console.log(`\n💤 Ожидание 5 минут перед следующим запуском...`);
-    await new Promise(r => setTimeout(r, LOOP_SLEEP_MS));
+    try {
+        await run();
+    } catch (globalError) {
+        console.error("🚨 ГЛОБАЛЬНАЯ ОШИБКА ЦИКЛА:", globalError);
+    }
+
+    if (publishesSinceCommit >= 3) { // Коммитим каждые 3 поста, чтобы не потерять при сбое
+        await commitStateToGit();
+        publishesSinceCommit = 0;
+    }
+
+    const sleepMs = LOOP_SLEEP_MIN_MS + Math.random() * (LOOP_SLEEP_MAX_MS - LOOP_SLEEP_MIN_MS);
+    console.log(`\n💤 Ожидание ${Math.round(sleepMs / 60000)} мин перед следующим запуском...`);
+    await new Promise(r => setTimeout(r, sleepMs));
 }
+
+// Финальный коммит перед выходом
+await commitStateToGit();
+console.log("=== Время работы цикла истекло. Завершаем. ===");
+Deno.exit(0);
