@@ -2,28 +2,30 @@ name: FAKTOR Auto
 
 on:
   schedule:
-    - cron: '0 */5 * * *' # 🚀 Запуск раз в 5 часов (чтобы уложиться в лимиты)
+    - cron: '0 */5 * * *' # Запуск каждые 5 часов
   workflow_dispatch:
 
 concurrency:
   group: faktor-auto
-  cancel-in-progress: true
+  cancel-in-progress: false # 🚀 НЕ убиваем старый процесс, если он еще работает
 
 jobs:
   run-faktor:
     runs-on: ubuntu-latest
-    timeout-minutes: 350 # 🚀 Даем скрипту работать почти 6 часов
+    timeout-minutes: 290 # 4 часа 50 минут (запас до 5-часового цикла)
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Нужно для корректного git pull
 
       - name: Setup Deno
         uses: denoland/setup-deno@v1
         with:
           deno-version: v1.x
 
-      - name: Run FAKTOR once
+      - name: Run FAKTOR (Long Loop)
         env:
           MAX_BOT_TOKEN: ${{ secrets.MAX_BOT_TOKEN }}
           TARGET_CHAT_ID: ${{ secrets.TARGET_CHAT_ID }}
@@ -31,11 +33,12 @@ jobs:
           DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
         run: deno run -A --unsafely-ignore-certificate-errors=platform-api2.max.ru agent.ts
 
-      - name: Commit state changes
+      - name: Commit final state
+        if: always() # Сохраняем даже если процесс упал
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git pull origin main --rebase || echo "Pull failed, continuing..."
-          git add .factor-state.json
-          git commit -m "Update state [skip ci]" || echo "No changes to commit"
-          git push
+          git pull --rebase origin main || echo "Pull failed"
+          git add .factor-state.json || echo "No state file"
+          git commit -m "Update state [skip ci]" || echo "No changes"
+          git push || echo "Push failed"
