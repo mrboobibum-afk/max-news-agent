@@ -7,18 +7,18 @@ on:
 
 concurrency:
   group: faktor-auto
-  cancel-in-progress: false # 🚀 НЕ убиваем старый процесс, если он еще работает
+  cancel-in-progress: false # 🚀 Не убиваем текущий процесс
 
 jobs:
   run-faktor:
     runs-on: ubuntu-latest
-    timeout-minutes: 290 # 4 часа 50 минут (запас до 5-часового цикла)
+    timeout-minutes: 290 # 4 часа 50 минут
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Нужно для корректного git pull
+          fetch-depth: 0
 
       - name: Setup Deno
         uses: denoland/setup-deno@v1
@@ -34,7 +34,7 @@ jobs:
         run: deno run -A --unsafely-ignore-certificate-errors=platform-api2.max.ru agent.ts
 
       - name: Commit final state
-        if: always() # Сохраняем даже если процесс упал
+        if: always()
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
