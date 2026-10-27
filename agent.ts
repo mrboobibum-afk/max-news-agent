@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v133 - Fast & Video Focus)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v135 - Deep Web Proxy)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -13,11 +13,11 @@ const ANYMODEL_API_KEY = Deno.env.get("ANYMODEL_API_KEY") ?? "";
 const MAX_RUNTIME_MS = 4.5 * 60 * 60 * 1000; 
 const LOOP_SLEEP_MIN_MS = 4 * 60 * 1000; 
 const LOOP_SLEEP_MAX_MS = 6 * 60 * 1000; 
-const POST_COOLDOWN_MS = 15 * 60 * 1000; // 🚀 УМЕНЬШИЛИ ПАУЗУ ДО 15 МИНУТ
+const POST_COOLDOWN_MS = 15 * 60 * 1000; // 15 минут
 
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
 const MEDIA_PACKET_MAX = 10; 
-const MIN_IMPORTANCE = 7; // 🚀 ПОДНЯЛИ ВАЖНОСТЬ ДО 7 (только важное)
+const MIN_IMPORTANCE = 7; 
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
 const STATE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
@@ -32,7 +32,7 @@ const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
 const MIN_VIDEO_BYTES = 50 * 1024;
 const MAX_VIDEO_BYTES = 50 * 1024 * 1024; 
 
-const DOWNLOAD_TIMEOUT_MS = 60000; 
+const DOWNLOAD_TIMEOUT_MS = 180000; 
 const LLM_TIMEOUT_MS = 40000; 
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
@@ -287,16 +287,22 @@ function isTrashUrl(url: string): boolean {
     );
 }
 
+// 🚀 МОЩНЫЙ ЗАГРУЗЧИК МЕДИА С 3 ПРОКСИ
 async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array | null> {
     if (!url || isTrashUrl(url)) return null;
 
-    const proxyUrls = isVideo 
-        ? [url, `https://corsproxy.io/?${encodeURIComponent(url)}`]
-        : [`https://corsproxy.io/?${encodeURIComponent(url)}`, url];
-        
-    const timeout = isVideo ? 120000 : DOWNLOAD_TIMEOUT_MS;
+    const proxies = [
+        `https://corsproxy.io/?${encodeURIComponent(url)}`,
+        `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+        `https://proxy.cors.sh/${url}`
+    ];
+    
+    if (url.includes("telegram-cdn.org")) proxies.push(url);
 
-    for (const candidateUrl of proxyUrls) {
+    const timeout = isVideo ? 180000 : DOWNLOAD_TIMEOUT_MS; 
+
+    for (let i = 0; i < proxies.length; i++) {
+        const candidateUrl = proxies[i];
         try {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), timeout);
@@ -306,6 +312,7 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
                 headers: {
                     "User-Agent": USER_AGENT,
                     "Referer": "https://t.me/",
+                    "Origin": "https://web.telegram.org",
                     "Accept": "*/*",
                 },
                 signal: controller.signal,
@@ -313,19 +320,29 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
 
             clearTimeout(timeoutId);
 
-            if (!response.ok) continue;
+            if (!response.ok) {
+                console.log(`  ⚠️ Прокси ${i+1} вернул HTTP ${response.status}`);
+                continue;
+            }
 
             const buf = new Uint8Array(await response.arrayBuffer());
             const min = isVideo ? MIN_VIDEO_BYTES : MIN_IMAGE_BYTES;
             const max = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
 
-            if (buf.byteLength < min || buf.byteLength > max) continue;
+            if (buf.byteLength < min || buf.byteLength > max) {
+                console.log(`  ⚠️ Файл ${buf.byteLength} байт не прошел (min ${min}, max ${max})`);
+                continue;
+            }
 
             const head = new TextDecoder().decode(buf.subarray(0, 30)).toLowerCase();
-            if (head.includes("<html") || head.includes("<!doctype") || head.includes("<?xml")) continue;
+            if (head.includes("<html") || head.includes("<!doctype") || head.includes("<?xml")) {
+                console.log(`  ⚠️ Прокси вернул HTML вместо файла`);
+                continue;
+            }
 
             return buf;
-        } catch {
+        } catch (e: any) {
+            console.log(`  ⚠️ Ошибка прокси ${i+1}: ${e.message}`);
             continue; 
         }
     }
@@ -404,31 +421,47 @@ function simpleHash(str: string): string {
     return Math.abs(h).toString(36);
 }
 
-// 🚀 УЛУЧШЕННЫЙ ГЛУБОКИЙ ПАРСИНГ (Ищем видео везде)
+// 🚀 ГЛУБОКИЙ ПАРСИНГ САЙТОВ С ИСПОЛЬЗОВАНИЕМ ПРОКСИ
 async function extractMediaFromUrl(url: string): Promise<{ video: string[], image: string[] }> {
     const res = { video: [] as string[], image: [] as string[] };
     if (!url) return res;
-    try {
-        const r = await fetch(url, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(10000) });
-        if (!r.ok) return res;
-        const html = await r.text();
+    
+    const proxies = [
+        `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+        `https://corsproxy.io/?${encodeURIComponent(url)}`,
+        url 
+    ];
 
-        const vMatches = [
-            ...html.matchAll(/https?:\/\/[^"'\s>]+?\.mp4(?:\?[^"'\s>]*)?/gi),
-            ...html.matchAll(/<video[^>]+src=["']([^"']+)["']/gi),
-            ...html.matchAll(/<source[^>]+src=["']([^"']+)["']/gi),
-            ...html.matchAll(/<meta[^>]+property=["']og:video["'][^>]+content=["']([^"']+)["']/gi),
-            ...html.matchAll(/<meta[^>]+property=["']og:video:url["'][^>]+content=["']([^"']+)["']/gi),
-            ...html.matchAll(/<meta[^>]+property=["']og:video:secure_url["'][^>]+content=["']([^"']+)["']/gi)
-        ].map(m => m[1] || m[0]);
-        res.video = [...new Set(vMatches)].filter(u => !isTrashUrl(u));
+    for (const fetchUrl of proxies) {
+        try {
+            console.log(`  🔍 Сканируем сайт: ${url.slice(0, 40)}...`);
+            const r = await fetch(fetchUrl, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(15000) });
+            if (!r.ok) continue;
+            const html = await r.text();
 
-        const imgMatches = [
-            ...html.matchAll(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/gi),
-            ...html.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)
-        ].map(m => m[1]);
-        res.image = [...new Set(imgMatches)].filter(u => !isTrashUrl(u));
-    } catch(e) {}
+            const vMatches = [
+                ...html.matchAll(/https?:\/\/[^"'\s>]+?\.mp4(?:\?[^"'\s>]*)?/gi),
+                ...html.matchAll(/<video[^>]+src=["']([^"']+)["']/gi),
+                ...html.matchAll(/<source[^>]+src=["']([^"']+)["']/gi),
+                ...html.matchAll(/<meta[^>]+property=["']og:video["'][^>]+content=["']([^"']+)["']/gi),
+                ...html.matchAll(/<meta[^>]+property=["']og:video:url["'][^>]+content=["']([^"']+)["']/gi)
+            ].map(m => m[1] || m[0]);
+            res.video = [...new Set(vMatches)].filter(u => !isTrashUrl(u));
+
+            const imgMatches = [
+                ...html.matchAll(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/gi),
+                ...html.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)
+            ].map(m => m[1]);
+            res.image = [...new Set(imgMatches)].filter(u => !isTrashUrl(u));
+
+            if (res.video.length > 0 || res.image.length > 0) {
+                console.log(`  🎯 Найдено на сайте: видео ${res.video.length}, фото ${res.image.length}`);
+                break;
+            }
+        } catch (e) {
+            // Игнорируем ошибку и пробуем следующий прокси
+        }
+    }
     return res;
 }
 
@@ -597,53 +630,11 @@ ${cleanDesc}
 Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false, "hashtag": "#Политика"}`;
 
         const aiProviders = [
-            {
-                name: "Официальный Gemini",
-                url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`,
-                type: "google"
-            },
-            {
-                name: "AnyModel (Free Auto Router)",
-                url: `https://anymodel.org/v1/chat/completions`,
-                key: ANYMODEL_API_KEY,
-                model: "am/free",
-                type: "openai"
-            },
-            {
-                name: "AnyModel (GPT-OSS 20B)",
-                url: `https://anymodel.org/v1/chat/completions`,
-                key: ANYMODEL_API_KEY,
-                model: "am/gpt-oss-20b",
-                type: "openai"
-            },
-            {
-                name: "AnyModel (Llama 3.2)",
-                url: `https://anymodel.org/v1/chat/completions`,
-                key: ANYMODEL_API_KEY,
-                model: "am/llama-3.2-11b-vision-instruct",
-                type: "openai"
-            },
-            {
-                name: "AnyModel (Nemotron 3.5)",
-                url: `https://anymodel.org/v1/chat/completions`,
-                key: ANYMODEL_API_KEY,
-                model: "am/nemotron-3.5-lightning-30b-a3b",
-                type: "openai"
-            },
-            {
-                name: "AnyModel (Nemotron 3 Ultra)",
-                url: `https://anymodel.org/v1/chat/completions`,
-                key: ANYMODEL_API_KEY,
-                model: "am/nemotron-3-ultra-550b-a55b",
-                type: "openai"
-            },
-            {
-                name: "AnyModel (DeepSeek V4 Flash)",
-                url: `https://anymodel.org/v1/chat/completions`,
-                key: ANYMODEL_API_KEY,
-                model: "ds/deepseek-v4-flash",
-                type: "openai"
-            }
+            { name: "Официальный Gemini", url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`, type: "google" },
+            { name: "AnyModel (Free)", url: `https://anymodel.org/v1/chat/completions`, key: ANYMODEL_API_KEY, model: "am/free", type: "openai" },
+            { name: "AnyModel (GPT)", url: `https://anymodel.org/v1/chat/completions`, key: ANYMODEL_API_KEY, model: "am/gpt-oss-20b", type: "openai" },
+            { name: "AnyModel (Llama)", url: `https://anymodel.org/v1/chat/completions`, key: ANYMODEL_API_KEY, model: "am/llama-3.2-11b-vision-instruct", type: "openai" },
+            { name: "AnyModel (DeepSeek)", url: `https://anymodel.org/v1/chat/completions`, key: ANYMODEL_API_KEY, model: "ds/deepseek-v4-flash", type: "openai" }
         ];
 
         let llmResult: any = null;
@@ -662,23 +653,11 @@ ${cleanDesc}
                     bodyPayload = { model: provider.model, messages: [{ role: "user", content: prompt }], temperature: 0.2 };
                 }
 
-                const r = await fetch(provider.url, {
-                    method: "POST",
-                    headers: headers,
-                    body: JSON.stringify(bodyPayload),
-                    signal: AbortSignal.timeout(LLM_TIMEOUT_MS),
-                });
+                const r = await fetch(provider.url, { method: "POST", headers: headers, body: JSON.stringify(bodyPayload), signal: AbortSignal.timeout(LLM_TIMEOUT_MS) });
 
                 if (r.ok) {
                     const j = await r.json();
-                    let text = "";
-                    
-                    if (provider.type === "google") {
-                        text = j?.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
-                    } else {
-                        text = j?.choices?.[0]?.message?.content ?? "";
-                    }
-                    
+                    let text = provider.type === "google" ? j?.candidates?.[0]?.content?.parts?.[0]?.text ?? "" : j?.choices?.[0]?.message?.content ?? "";
                     text = text.replace(/```json/gi, "").replace(/```/g, "").trim();
                     const match = text.match(/\{[\s\S]*\}/);
                     if (match) {
@@ -687,30 +666,26 @@ ${cleanDesc}
                         break; 
                     }
                 } else {
-                    const errorText = await r.text();
-                    console.log(`⚠️ Ошибка ${provider.name} (${r.status}). Ответ: ${errorText.slice(0, 80)}...`);
+                    console.log(`⚠️ Ошибка ${provider.name} (${r.status}).`);
                 }
             } catch (e) {
-                console.log(`⚠️ Сбой сети ${provider.name}. Переключаемся...`);
+                console.log(`⚠️ Сбой сети ${provider.name}.`);
             }
         }
 
         if (llmResult) {
             let headlineStr = String(llmResult.headline || "").trim();
             let bodyStr = llmResult.body;
-            
             if (Array.isArray(bodyStr)) {
                 bodyStr = bodyStr.map((b: any) => String(b).replace(/^[-*▪️\s]+/, "").trim()).join("\n▪️ ");
                 if (bodyStr) bodyStr = "▪️ " + bodyStr;
             } else {
                 bodyStr = String(bodyStr || "").trim();
             }
-            
             const insightStr = String(llmResult.insight || "").replace(/<[^>]*>/g, "").trim();
 
             if (headlineStr && bodyStr) {
                 const isEnglish = (bodyStr.match(/[a-zA-Z]/g) || []).length > (bodyStr.match(/[а-яА-Я]/g) || []).length;
-                
                 if (!isEnglish) {
                     return {
                         headline: validateHeadline(headlineStr, fallbackHeadline),
@@ -724,38 +699,21 @@ ${cleanDesc}
             }
         }
 
-        console.log("⚠️ ВСЕ нейросети упали. Используем резервный текст.");
-        return {
-            headline: fallbackHeadline,
-            body: `▪️ ${fallbackBody}`,
-            insight: "",
-            importance: 5, 
-            is_ad: false,
-            hashtag: "#Новости"
-        };
+        return { headline: fallbackHeadline, body: `▪️ ${fallbackBody}`, insight: "", importance: 5, is_ad: false, hashtag: "#Новости" };
     } catch (e) {
         return { headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
     }
 }
 
 async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<string> {
-    const upInit = await fetch(`${MAX_API}/uploads?type=${type}`, {
-        method: "POST",
-        headers: { "Authorization": MAX_BOT_TOKEN, "Accept": "application/json" },
-    });
-    
+    const upInit = await fetch(`${MAX_API}/uploads?type=${type}`, { method: "POST", headers: { "Authorization": MAX_BOT_TOKEN, "Accept": "application/json" } });
     const initData = await upInit.json();
     if (!initData.url) throw new Error("Upload URL error");
     
     const form = new FormData();
     form.append("data", new Blob([bytes], { type: type === "video" ? "video/mp4" : "image/jpeg" }), `file.${type === "video" ? "mp4" : "jpg"}`);
     
-    const res = await fetch(initData.url, { 
-        method: "POST", 
-        body: form, 
-        signal: AbortSignal.timeout(120000)
-    });
-    
+    const res = await fetch(initData.url, { method: "POST", body: form, signal: AbortSignal.timeout(120000) });
     const text = await res.text();
     let json: any = {};
     try { json = JSON.parse(text); } catch {}
@@ -763,15 +721,8 @@ async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<
 }
 
 async function sendPostToMax(text: string, media: Array<{ token: string, type: "image" | "video" }>) {
-    const body: any = {
-        text, format: "html", notify: true, disable_link_preview: true,
-        attachments: media.map(item => ({ type: item.type, payload: { token: item.token } }))
-    };
-    const res = await fetch(MAX_API + "/messages?chat_id=" + encodeURIComponent(TARGET_CHAT_ID), {
-        method: "POST",
-        headers: { "Authorization": MAX_BOT_TOKEN, "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-    });
+    const body: any = { text, format: "html", notify: true, disable_link_preview: true, attachments: media.map(item => ({ type: item.type, payload: { token: item.token } })) };
+    const res = await fetch(MAX_API + "/messages?chat_id=" + encodeURIComponent(TARGET_CHAT_ID), { method: "POST", headers: { "Authorization": MAX_BOT_TOKEN, "Content-Type": "application/json" }, body: JSON.stringify(body) });
     return res.ok;
 }
 
@@ -779,13 +730,8 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
     const packet: any[] = [];
     const seen = new Set<string>();
     if (!item.postKey) return [];
-
     const samePost = candidates.filter(c => c.postKey === item.postKey);
-    const ordered = [
-        ...samePost.filter(c => c.mediaType === "video"),
-        ...samePost.filter(c => c.mediaType === "image"),
-    ];
-
+    const ordered = [...samePost.filter(c => c.mediaType === "video"), ...samePost.filter(c => c.mediaType === "image")];
     for (const c of ordered) {
         if (!c.mediaUrl || isTrashUrl(c.mediaUrl)) continue;
         if (seen.has(c.mediaUrl)) continue;
@@ -800,11 +746,7 @@ let publishesSinceCommit = 0;
 
 async function commitStateToGit() {
     try {
-        const runGit = async (args: string[]) => {
-            const p = new Deno.Command("git", { args, stdout: "piped", stderr: "piped" });
-            return await p.output();
-        };
-        
+        const runGit = async (args: string[]) => { const p = new Deno.Command("git", { args, stdout: "piped", stderr: "piped" }); return await p.output(); };
         await runGit(["add", ".factor-state.json"]);
         const diff = await runGit(["diff", "--cached", "--quiet"]);
         if (diff.success) return; 
@@ -819,27 +761,24 @@ async function commitStateToGit() {
         const push = await runGit(["push", "origin", "main"]);
         if (!push.success) console.error("Git push failed:", new TextDecoder().decode(push.stderr));
         else console.log("💾 Прогресс сохранен в GitHub");
-    } catch (e) {
-        console.error("Ошибка коммита:", e);
-    }
+    } catch (e) { console.error("Ошибка коммита:", e); }
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v133: Запуск отбора событий (Fast & Video) ===");
+    console.log("=== ФАКТОР v135: Запуск (Deep Web Proxy) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
-    
     if (timeSinceLastPost < POST_COOLDOWN_MS) {
         const waitMin = Math.round((POST_COOLDOWN_MS - timeSinceLastPost) / 60000);
-        console.log(`⏳ Замок активен. Прошло ${Math.round(timeSinceLastPost/60000)} мин. Ждем еще ${waitMin} мин.`);
+        console.log(`⏳ Замок активен. Ждем ${waitMin} мин.`);
         return false;
     }
 
     try {
         const stat = await kv.cleanup();
-        console.log(`Очистка state: удалено ${stat.removedExpired} просроченных, ${stat.removedOld} старых, ${stat.removedOverflow} лишних; оставлено ${stat.kept}`);
-    } catch (e) { console.log("Очистка state не удалась, пропускаем..."); }
+        console.log(`Очистка state: оставлено ${stat.kept}`);
+    } catch (e) { }
 
     const tgCandidates = await fetchTelegramLiveFeed();
     const rssCandidates = await fetchRssFeeds();
@@ -865,9 +804,7 @@ async function run(): Promise<boolean> {
     }
 
     const topCandidates = uniqueCandidates.slice(0, 25);
-
     let skippedDup = 0, skippedImportance = 0, skippedNoMedia = 0, published = 0;
-
     const recentDescs: string[] = (await kv.get(["factor", "recent_descs"])).value || [];
     const recentBodies: string[] = (await kv.get(["factor", "recent_bodies"])).value || [];
     const recentTitles: string[] = (await kv.get(["factor", "recent_titles"])).value || [];
@@ -875,20 +812,14 @@ async function run(): Promise<boolean> {
     for (const item of topCandidates) {
         try {
             if (isGibberish(item.title) || isGibberish(item.desc)) { skippedDup++; continue; }
-
-            const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(item.title))))
-                .map(b => b.toString(16).padStart(2, "0")).join("");
-
+            const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(item.title)))).map(b => b.toString(16).padStart(2, "0")).join("");
             if ((await kv.get(["factor", "pub", hash])).value) { skippedDup++; continue; }
             if (await isDuplicate(item.title, item.desc)) { skippedDup++; continue; }
-
             const contentHash = await getContentHash(item.desc);
             if (contentHash && (await kv.get(["factor", "content", contentHash])).value) { skippedDup++; continue; }
 
             let isSimilarFound = false;
-            for (const pastDesc of recentDescs) {
-                if (isSimilar(item.desc, pastDesc)) { isSimilarFound = true; break; }
-            }
+            for (const pastDesc of recentDescs) { if (isSimilar(item.desc, pastDesc)) { isSimilarFound = true; break; } }
             if (isSimilarFound) { skippedDup++; continue; }
 
             console.log("\nОбработка: " + item.title);
@@ -897,63 +828,44 @@ async function run(): Promise<boolean> {
             const post = await formatNewsPost(item.title, item.desc);
 
             if (post.is_ad) { skippedImportance++; continue; }
-
-            if (!post.headline || !post.body || post.body.length < 30) {
-                console.log(`❌ Пропуск: пустой пост.`);
-                skippedNoMedia++;
-                continue;
-            }
+            if (!post.headline || !post.body || post.body.length < 30) { skippedNoMedia++; continue; }
 
             let finalImportance = post.importance;
             const rawTextLower = item.desc.toLowerCase();
-            if (/(?:путин|трамп|зеленск|бпла|дрон|атака|удар|погиб|пострадавш|цб|ставка|санкци|госдума|ушаков|лавров|мишустин|набиуллин)/i.test(rawTextLower)) {
-                finalImportance = 8; 
-            }
+            if (/(?:путин|трамп|зеленск|бпла|дрон|атака|удар|погиб|пострадавш|цб|ставка|санкци|госдума|ушаков|лавров|мишустин|набиуллин)/i.test(rawTextLower)) finalImportance = 8;
 
-            // 🚀 УМНОЕ ПРАВИЛО: Если нет медиа, публикуем ТОЛЬКО если новость архиважная (8+)
             if (mediaPacket.length === 0 && finalImportance < 8) {
-                console.log(`❌ Пропуск: нет медиа, и новость не экстренная (важность ${finalImportance}).`);
+                console.log(`❌ Пропуск: нет медиа, важность ${finalImportance}.`);
                 skippedNoMedia++;
                 continue;
             }
-
             if (finalImportance < MIN_IMPORTANCE) { skippedImportance++; continue; }
 
             let isTitleSimilar = false;
-            for (const pastTitle of recentTitles) {
-                if (isSimilar(post.headline, pastTitle)) { isTitleSimilar = true; break; }
-            }
+            for (const pastTitle of recentTitles) { if (isSimilar(post.headline, pastTitle)) { isTitleSimilar = true; break; } }
             if (isTitleSimilar) { skippedDup++; continue; }
 
             const textHash = await getTextHash(post.body);
             if ((await kv.get(["factor", "texthash", textHash])).value) { skippedDup++; continue; }
 
             const uploaded: Array<{ token: string; type: "image" | "video" }> = [];
-            
             for (const media of mediaPacket) {
                 let mediaBytes = await downloadBuffer(media.mediaUrl, media.mediaType === "video");
                 if (!mediaBytes) continue;
-
-                if (media.mediaType === "image") {
-                    mediaBytes = await applyBrandOverlay(mediaBytes);
-                }
-
+                if (media.mediaType === "image") mediaBytes = await applyBrandOverlay(mediaBytes);
                 try {
                     const token = await uploadToMax(mediaBytes, media.mediaType);
                     if (token) uploaded.push({ token, type: media.mediaType });
-                } catch (e) { console.error("Ошибка загрузки медиа:", e); }
+                } catch (e) { }
                 if (uploaded.length >= MEDIA_PACKET_MAX) break;
             }
 
             if (uploaded.length === 0 && mediaPacket.length > 0) {
-                console.log(`⚠️ Медиа было, но не скачалось. Публикуем без него (важность ${finalImportance}).`);
+                console.log(`⚠️ Медиа не скачалось. Публикуем без него.`);
             }
 
-            let postHtml = `<b>${escapeHtml(post.headline)}</b>\n\n`;
-            postHtml += `${post.body}\n\n`;
-            
+            let postHtml = `<b>${escapeHtml(post.headline)}</b>\n\n${post.body}\n\n`;
             if (post.insight) postHtml += `💡 <b>Взгляд ФАКТОРА:</b>\n${escapeHtml(post.insight)}\n\n`;
-            
             postHtml += `⚡️ <b>ФАКТОР</b> | ${post.hashtag}`;
 
             const sent = await sendPostToMax(postHtml, uploaded);
@@ -963,7 +875,6 @@ async function run(): Promise<boolean> {
                 publishesSinceCommit++;
                 
                 await kv.set(["factor", "last_post_time"], Date.now());
-
                 await kv.set(["factor", "pub", hash], true, { expireIn: HISTORY_TTL_MS });
                 await kv.set(["factor", "topic", hash], { title: item.title, roots: getRoots(item.title) }, { expireIn: HISTORY_TTL_MS });
                 await kv.set(["factor", "texthash", textHash], true, { expireIn: HISTORY_TTL_MS });
@@ -971,43 +882,28 @@ async function run(): Promise<boolean> {
 
                 recentDescs.push(item.desc); if (recentDescs.length > RECENT_HISTORY_LIMIT) recentDescs.shift();
                 await kv.set(["factor", "recent_descs"], recentDescs, { expireIn: HISTORY_TTL_MS });
-
                 recentBodies.push(post.body); if (recentBodies.length > RECENT_HISTORY_LIMIT) recentBodies.shift();
                 await kv.set(["factor", "recent_bodies"], recentBodies, { expireIn: HISTORY_TTL_MS });
-
                 recentTitles.push(post.headline); if (recentTitles.length > RECENT_HISTORY_LIMIT) recentTitles.shift();
                 await kv.set(["factor", "recent_titles"], recentTitles, { expireIn: HISTORY_TTL_MS });
 
                 await commitStateToGit();
                 publishesSinceCommit = 0;
-
                 return true; 
             }
-        } catch (itemError) {
-            console.error("Ошибка при обработке новости:", itemError);
-        }
+        } catch (itemError) { console.error("Ошибка при обработке:", itemError); }
     }
     console.log(`\nИтого: дублей ${skippedDup}, неважных ${skippedImportance}, без медиа ${skippedNoMedia}, опубликовано ${published}`);
     return false;
 }
 
 const startTime = Date.now();
-
 while (Date.now() - startTime < MAX_RUNTIME_MS) {
     let posted = false;
-    try {
-        posted = await run();
-    } catch (globalError) {
-        console.error("🚨 ГЛОБАЛЬНАЯ ОШИБКА ЦИКЛА:", globalError);
-    }
-
-    if (publishesSinceCommit >= 3) {
-        await commitStateToGit();
-        publishesSinceCommit = 0;
-    }
-
+    try { posted = await run(); } catch (globalError) { console.error("🚨 ГЛОБАЛЬНАЯ ОШИБКА:", globalError); }
+    if (publishesSinceCommit >= 3) { await commitStateToGit(); publishesSinceCommit = 0; }
     if (posted) {
-        console.log(`\n😴 Пост опубликован. Ждем 15 минут перед следующим...`);
+        console.log(`\n😴 Ждем 15 минут...`);
         await new Promise(r => setTimeout(r, LOOP_SLEEP_MIN_MS));
     } else {
         const sleepMs = LOOP_SLEEP_MIN_MS + Math.random() * (LOOP_SLEEP_MAX_MS - LOOP_SLEEP_MIN_MS);
@@ -1015,7 +911,6 @@ while (Date.now() - startTime < MAX_RUNTIME_MS) {
         await new Promise(r => setTimeout(r, sleepMs));
     }
 }
-
 await commitStateToGit();
-console.log("=== Время работы цикла истекло. Завершаем. ===");
+console.log("=== Время истекло. ===");
 Deno.exit(0);
