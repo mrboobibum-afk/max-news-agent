@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v127 - No Deno Errors)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v128 - AnyModel Ready)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -8,9 +8,11 @@ const MAX_API = "https://platform-api2.max.ru";
 const MAX_BOT_TOKEN = Deno.env.get("MAX_BOT_TOKEN") ?? "";
 const TARGET_CHAT_ID = Deno.env.get("TARGET_CHAT_ID") ?? "";
 const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? "";
-const DASHSCOPE_API_KEY = Deno.env.get("DASHSCOPE_API_KEY") ?? "";
-const QWEN_MODEL = Deno.env.get("QWEN_MODEL") ?? "qwen3.8-max";
-const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyuncs.com/compatible-mode/v1";
+
+// 🚀 НАСТРОЙКИ ANYMODEL
+const ANYMODEL_API_KEY = Deno.env.get("ANYMODEL_API_KEY") ?? "";
+const ANYMODEL_BASE_URL = "https://anymodel.org/v1";
+const ANYMODEL_MODEL = "google/gemini-2.5-flash"; // Можешь поменять на openai/gpt-4o-mini, anthropic/claude-3-haiku и т.д.
 
 const MAX_RUNTIME_MS = 4.5 * 60 * 60 * 1000; 
 const LOOP_SLEEP_MIN_MS = 4 * 60 * 1000; 
@@ -603,6 +605,7 @@ ${cleanDesc}
 
         let llmResult: any = null;
 
+        // 1. Пытаемся через Gemini (бесплатный)
         if (GEMINI_API_KEY) {
             try {
                 const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`, {
@@ -623,12 +626,13 @@ ${cleanDesc}
             } catch (e) { console.error("⚠️ Gemini Network Error:", e); }
         }
 
-        if (!llmResult && DASHSCOPE_API_KEY) {
+        // 2. Если Gemini упал, идем в AnyModel
+        if (!llmResult && ANYMODEL_API_KEY) {
             try {
-                const r = await fetch(`${QWEN_BASE_URL}/chat/completions`, {
+                const r = await fetch(`${ANYMODEL_BASE_URL}/chat/completions`, {
                     method: "POST",
-                    headers: { "Content-Type": "application/json", "Authorization": `Bearer ${DASHSCOPE_API_KEY}` },
-                    body: JSON.stringify({ model: QWEN_MODEL, messages: [{ role: "user", content: prompt }], temperature: 0.2 }),
+                    headers: { "Content-Type": "application/json", "Authorization": `Bearer ${ANYMODEL_API_KEY}` },
+                    body: JSON.stringify({ model: ANYMODEL_MODEL, messages: [{ role: "user", content: prompt }], temperature: 0.2 }),
                     signal: AbortSignal.timeout(LLM_TIMEOUT_MS),
                 });
                 if (r.ok) {
@@ -638,9 +642,9 @@ ${cleanDesc}
                     const match = text.match(/\{[\s\S]*\}/);
                     if (match) llmResult = JSON.parse(match[0]);
                 } else {
-                    console.error(`⚠️ Qwen API Error (${r.status}):`, await r.text());
+                    console.error(`⚠️ AnyModel API Error (${r.status}):`, await r.text());
                 }
-            } catch (e) { console.error("⚠️ Qwen Network Error:", e); }
+            } catch (e) { console.error("⚠️ AnyModel Network Error:", e); }
         }
 
         if (llmResult) {
@@ -773,7 +777,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v127: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v128: Запуск отбора событий (AnyModel Ready) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
