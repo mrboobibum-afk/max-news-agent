@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v129 - Multi-Model Cascade)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v131 - Free Models)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -556,7 +556,6 @@ async function fetchRssFeeds(): Promise<any[]> {
     return items;
 }
 
-// 🚀 КАСКАДНАЯ СИСТЕМА НЕЙРОСЕТЕЙ
 async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, body: string, insight: string, importance: number, is_ad: boolean, hashtag: string }> {
     try {
         let cleanDesc = sanitizeRawText(desc);
@@ -594,7 +593,7 @@ ${cleanDesc}
 
 Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false, "hashtag": "#Политика"}`;
 
-        // СПИСОК НЕЙРОСЕТЕЙ ДЛЯ КАСКАДА
+        // 🚀 ЖЕСТКО ПРОПИСЫВАЕМ ТВОИ БЕСПЛАТНЫЕ МОДЕЛИ ИЗ ANYMODEL
         const aiProviders = [
             {
                 name: "Официальный Gemini",
@@ -602,31 +601,37 @@ ${cleanDesc}
                 type: "google"
             },
             {
-                name: "AnyModel (Gemini)",
+                name: "AnyModel (GPT-OSS 20B)",
                 url: `https://anymodel.org/v1/chat/completions`,
                 key: ANYMODEL_API_KEY,
-                model: "google/gemini-2.5-flash",
+                model: "am/gpt-oss-20b",
                 type: "openai"
             },
             {
-                name: "AnyModel (Claude)",
+                name: "AnyModel (Llama 3.2)",
                 url: `https://anymodel.org/v1/chat/completions`,
                 key: ANYMODEL_API_KEY,
-                model: "anthropic/claude-3-haiku", 
+                model: "am/llama-3.2-11b-vision-instruct",
                 type: "openai"
             },
             {
-                name: "AnyModel (GPT-4o-mini)",
+                name: "AnyModel (Nemotron 3.5)",
                 url: `https://anymodel.org/v1/chat/completions`,
                 key: ANYMODEL_API_KEY,
-                model: "openai/gpt-4o-mini",
+                model: "am/nemotron-3.5-lightning-30b-a3b",
+                type: "openai"
+            },
+            {
+                name: "AnyModel (DeepSeek V4 Flash)",
+                url: `https://anymodel.org/v1/chat/completions`,
+                key: ANYMODEL_API_KEY,
+                model: "ds/deepseek-v4-flash",
                 type: "openai"
             }
         ];
 
         let llmResult: any = null;
 
-        // Перебираем нейросети по очереди
         for (const provider of aiProviders) {
             if (!provider.url || (provider.type === "google" && !GEMINI_API_KEY) || (provider.type === "openai" && !ANYMODEL_API_KEY)) continue;
 
@@ -663,13 +668,14 @@ ${cleanDesc}
                     if (match) {
                         llmResult = JSON.parse(match[0]);
                         console.log(`✅ Успешный ответ от: ${provider.name}`);
-                        break; // Успех! Прерываем цикл
+                        break; 
                     }
                 } else {
-                    console.log(`⚠️ Ошибка ${provider.name} (${r.status}). Переключаемся на следующую...`);
+                    const errorText = await r.text();
+                    console.log(`⚠️ Ошибка ${provider.name} (${r.status}). Ответ: ${errorText.slice(0, 80)}...`);
                 }
             } catch (e) {
-                console.log(`⚠️ Сбой сети ${provider.name}. Переключаемся на следующую...`);
+                console.log(`⚠️ Сбой сети ${provider.name}. Переключаемся...`);
             }
         }
 
@@ -803,7 +809,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v129: Запуск отбора событий (Multi-Model) ===");
+    console.log("=== ФАКТОР v131: Запуск отбора событий (Free Models) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
