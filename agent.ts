@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v137 - Video Hunter)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v138 - Direct Download)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -16,7 +16,7 @@ const LOOP_SLEEP_MAX_MS = 6 * 60 * 1000;
 const POST_COOLDOWN_MS = 15 * 60 * 1000; // 15 минут
 
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
-const MEDIA_PACKET_MAX = 6; // Максимум 6 медиафайлов
+const MEDIA_PACKET_MAX = 6; 
 const MIN_IMPORTANCE = 7; 
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
@@ -30,9 +30,9 @@ const SIMILARITY_THRESHOLD = 0.25;
 const MIN_IMAGE_BYTES = 10 * 1024;
 const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
 const MIN_VIDEO_BYTES = 50 * 1024;
-const MAX_VIDEO_BYTES = 100 * 1024 * 1024; // 🚀 Увеличили лимит до 100 МБ (MAX поддерживает)
+const MAX_VIDEO_BYTES = 100 * 1024 * 1024; 
 
-const DOWNLOAD_TIMEOUT_MS = 300000; // 🚀 5 МИНУТ НА СКАЧИВАНИЕ ВИДЕО!
+const DOWNLOAD_TIMEOUT_MS = 300000; // 5 минут
 const LLM_TIMEOUT_MS = 40000; 
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
@@ -294,21 +294,22 @@ function isTrashUrl(url: string): boolean {
     );
 }
 
-// 🚀 МОЩНЫЙ ЗАГРУЗЧИК С ПРОВЕРКОЙ CONTENT-TYPE
+// 🚀 СКАЧИВАНИЕ: Сначала напрямую, потом через прокси
 async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array | null> {
     if (!url || isTrashUrl(url)) return null;
 
-    const proxies = [
+    const urlsToTry = [
+        url, // 🚀 Сначала пробуем НАПРЯМУЮ
         `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
         `https://corsproxy.io/?${encodeURIComponent(url)}`
     ];
-    
-    if (url.includes("telegram-cdn.org")) proxies.push(url);
 
     const timeout = isVideo ? 300000 : DOWNLOAD_TIMEOUT_MS; 
 
-    for (let i = 0; i < proxies.length; i++) {
-        const candidateUrl = proxies[i];
+    for (let i = 0; i < urlsToTry.length; i++) {
+        const candidateUrl = urlsToTry[i];
+        const methodName = i === 0 ? "Прямой запрос" : `Прокси ${i}`;
+        
         try {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), timeout);
@@ -319,23 +320,23 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
                     "User-Agent": USER_AGENT,
                     "Referer": "https://t.me/",
                     "Origin": "https://web.telegram.org",
-                    "Accept": isVideo ? "video/mp4,video/*;q=0.9,*/*;q=0.8" : "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+                    "Accept": "*/*",
                 },
                 signal: controller.signal,
             });
 
             clearTimeout(timeoutId);
 
-            if (!response.ok) continue;
-
-            // 🚀 Проверяем, что сервер реально отдает видео/картинку, а не HTML-заглушку
-            const contentType = response.headers.get("content-type") || "";
-            if (isVideo && !contentType.includes("video") && !contentType.includes("application/octet-stream")) {
-                console.log(`  ⚠️ Сервер прислал ${contentType} вместо видео`);
+            if (!response.ok) {
+                console.log(`  ⚠️ ${methodName}: HTTP ${response.status}`);
                 continue;
             }
-            if (!isVideo && !contentType.includes("image")) {
-                console.log(`  ⚠️ Сервер прислал ${contentType} вместо картинки`);
+
+            const contentType = (response.headers.get("content-type") || "").toLowerCase();
+            
+            // Если сервер вернул HTML, значит это ошибка или капча
+            if (contentType.includes("text/html") || contentType.includes("application/json")) {
+                console.log(`  ⚠️ ${methodName}: Сервер отдал HTML/JSON вместо файла`);
                 continue;
             }
 
@@ -343,10 +344,19 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
             const min = isVideo ? MIN_VIDEO_BYTES : MIN_IMAGE_BYTES;
             const max = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
 
-            if (buf.byteLength < min || buf.byteLength > max) continue;
+            if (buf.byteLength < min) {
+                console.log(`  ⚠️ ${methodName}: Файл слишком маленький (${buf.byteLength} байт)`);
+                continue;
+            }
+            if (buf.byteLength > max) {
+                console.log(`  ⚠️ ${methodName}: Файл слишком большой (${buf.byteLength} байт)`);
+                continue;
+            }
 
+            console.log(`  ✅ Скачано успешно (${methodName}): ${Math.round(buf.byteLength / 1024)} КБ`);
             return buf;
         } catch (e: any) {
+            console.log(`  ⚠️ ${methodName}: Ошибка (${e.message})`);
             continue; 
         }
     }
@@ -425,7 +435,7 @@ function simpleHash(str: string): string {
     return Math.abs(h).toString(36);
 }
 
-// 🚀 ГЛУБОКИЙ ПАРСИНГ САЙТОВ (Ищем iframe с видео)
+// 🚀 ГЛУБОКИЙ ПАРСИНГ САЙТОВ
 async function extractMediaFromUrl(url: string): Promise<{ video: string[], image: string[] }> {
     const res = { video: [] as string[], image: [] as string[] };
     if (!url) return res;
@@ -442,7 +452,6 @@ async function extractMediaFromUrl(url: string): Promise<{ video: string[], imag
             if (!r.ok) continue;
             const html = await r.text();
 
-            // 1. Ищем прямые ссылки на mp4 или теги video
             const vMatches = [
                 ...html.matchAll(/https?:\/\/[^"'\s>]+?\.mp4(?:\?[^"'\s>]*)?/gi),
                 ...html.matchAll(/<video[^>]+src=["']([^"']+)["']/gi),
@@ -450,14 +459,11 @@ async function extractMediaFromUrl(url: string): Promise<{ video: string[], imag
                 ...html.matchAll(/<meta[^>]+property=["']og:video["'][^>]+content=["']([^"']+)["']/gi)
             ].map(m => m[1] || m[0]);
             
-            // 2. Если прямых нет, ищем iframe с плеерами (Rutube, VK, YouTube)
             const iframes = [...html.matchAll(/<iframe[^>]+src=["']([^"']+)["']/gi)].map(m => m[1]);
             for (const iframe of iframes) {
                 if (iframe.includes("rutube") || iframe.includes("vk.com") || iframe.includes("youtube")) {
-                    // Пытаемся вытащить ID видео из ссылки плеера
                     const videoIdMatch = iframe.match(/(?:video|embed|video_id=)([a-zA-Z0-9_-]+)/i);
                     if (videoIdMatch && videoIdMatch[1]) {
-                        // Добавляем прямую ссылку на скачивание для Rutube (если это Rutube)
                         if (iframe.includes("rutube")) {
                             res.video.push(`https://rutube.ru/api/play/options/${videoIdMatch[1]}/?format=mp4`);
                         }
@@ -778,7 +784,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v137: Запуск (Video Hunter) ===");
+    console.log("=== ФАКТОР v138: Запуск (Direct Download) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
