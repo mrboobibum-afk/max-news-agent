@@ -5,9 +5,10 @@ on:
     - cron: '0 */5 * * *' # Запуск каждые 5 часов
   workflow_dispatch:
 
+# 🚀 УБИРАЕМ ОЧЕРЕДЬ: Каждый запуск получает уникальный ID и работает независимо
 concurrency:
-  group: faktor-auto
-  cancel-in-progress: false # 🚀 ВАЖНО: Ставим false, чтобы процессы не убивали друг друга. Код сам разберется.
+  group: faktor-auto-${{ github.run_id }}
+  cancel-in-progress: false
 
 jobs:
   run-faktor:
