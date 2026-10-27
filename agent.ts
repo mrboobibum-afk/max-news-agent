@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v128 - AnyModel Ready)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v129 - Multi-Model Cascade)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -8,11 +8,7 @@ const MAX_API = "https://platform-api2.max.ru";
 const MAX_BOT_TOKEN = Deno.env.get("MAX_BOT_TOKEN") ?? "";
 const TARGET_CHAT_ID = Deno.env.get("TARGET_CHAT_ID") ?? "";
 const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? "";
-
-// 🚀 НАСТРОЙКИ ANYMODEL
 const ANYMODEL_API_KEY = Deno.env.get("ANYMODEL_API_KEY") ?? "";
-const ANYMODEL_BASE_URL = "https://anymodel.org/v1";
-const ANYMODEL_MODEL = "google/gemini-2.5-flash"; // Можешь поменять на openai/gpt-4o-mini, anthropic/claude-3-haiku и т.д.
 
 const MAX_RUNTIME_MS = 4.5 * 60 * 60 * 1000; 
 const LOOP_SLEEP_MIN_MS = 4 * 60 * 1000; 
@@ -344,27 +340,21 @@ function fixBrandNames(text: string): string {
 
 function validateHeadline(llmHead: string, fallbackHead: string): string {
     let h = (llmHead || "").trim();
-    
     h = h.replace(/\.+$/, "").replace(/…$/, "");
-
     if (h.length < 10 || h.endsWith("-") || h.endsWith(",")) return fallbackHead;
-    
     const words = h.split(/\s+/).filter(w => w.length > 2);
     if (words.length < 3) return fallbackHead;
     const vaguePhrases = ["работа сделана", "дело тонкое", "к ответу", "на частоте", "всем известно", "без комментариев", "шокирующая", "свершилось"];
     if (vaguePhrases.some(p => h.toLowerCase().includes(p))) return fallbackHead;
     if (!/[a-zA-Zа-яА-Я0-9]/.test(h)) return fallbackHead;
-    
     return fixBrandNames(h.charAt(0).toUpperCase() + h.slice(1));
 }
 
 function sanitizeRawText(raw: string): string {
     let t = cleanText(raw);
-
     t = t.replace(/(?:Как выяснил|Как выяснила|Как узнал|Как узнала|Как рассказал|Как рассказали|По данным|Об этом сообщает|Об этом сообщило|Об этом пишет)\s*[«"']?(?:SHOT|Mash|База|Баз[ыуе]|Readovka|ТАСС|РИА Новости|Интерфакс|Минобороны России)[»"']?/gi, "");
     t = t.replace(/[«"']?(?:SHOT|Mash|База|Баз[ыуе]|Readovka)[»"']?/gi, "");
     t = t.replace(/#[a-zA-Zа-яА-Я0-9_]+/g, "");
-    
     t = t.replace(/Новость дополняется/gi, "");
     t = t.replace(/Об этом сообщил[а-я]*/gi, "");
     t = t.replace(/Об этом заявил[а-я]*/gi, "");
@@ -566,6 +556,7 @@ async function fetchRssFeeds(): Promise<any[]> {
     return items;
 }
 
+// 🚀 КАСКАДНАЯ СИСТЕМА НЕЙРОСЕТЕЙ
 async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, body: string, insight: string, importance: number, is_ad: boolean, hashtag: string }> {
     try {
         let cleanDesc = sanitizeRawText(desc);
@@ -603,48 +594,83 @@ ${cleanDesc}
 
 Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false, "hashtag": "#Политика"}`;
 
+        // СПИСОК НЕЙРОСЕТЕЙ ДЛЯ КАСКАДА
+        const aiProviders = [
+            {
+                name: "Официальный Gemini",
+                url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`,
+                type: "google"
+            },
+            {
+                name: "AnyModel (Gemini)",
+                url: `https://anymodel.org/v1/chat/completions`,
+                key: ANYMODEL_API_KEY,
+                model: "google/gemini-2.5-flash",
+                type: "openai"
+            },
+            {
+                name: "AnyModel (Claude)",
+                url: `https://anymodel.org/v1/chat/completions`,
+                key: ANYMODEL_API_KEY,
+                model: "anthropic/claude-3-haiku", 
+                type: "openai"
+            },
+            {
+                name: "AnyModel (GPT-4o-mini)",
+                url: `https://anymodel.org/v1/chat/completions`,
+                key: ANYMODEL_API_KEY,
+                model: "openai/gpt-4o-mini",
+                type: "openai"
+            }
+        ];
+
         let llmResult: any = null;
 
-        // 1. Пытаемся через Gemini (бесплатный)
-        if (GEMINI_API_KEY) {
-            try {
-                const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json" } }),
-                    signal: AbortSignal.timeout(LLM_TIMEOUT_MS),
-                });
-                if (r.ok) {
-                    const j = await r.json();
-                    let text = j?.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
-                    text = text.replace(/```json/gi, "").replace(/```/g, "").trim();
-                    const match = text.match(/\{[\s\S]*\}/);
-                    if (match) llmResult = JSON.parse(match[0]);
-                } else {
-                    console.error(`⚠️ Gemini API Error (${r.status}):`, await r.text());
-                }
-            } catch (e) { console.error("⚠️ Gemini Network Error:", e); }
-        }
+        // Перебираем нейросети по очереди
+        for (const provider of aiProviders) {
+            if (!provider.url || (provider.type === "google" && !GEMINI_API_KEY) || (provider.type === "openai" && !ANYMODEL_API_KEY)) continue;
 
-        // 2. Если Gemini упал, идем в AnyModel
-        if (!llmResult && ANYMODEL_API_KEY) {
             try {
-                const r = await fetch(`${ANYMODEL_BASE_URL}/chat/completions`, {
+                let bodyPayload: any;
+                let headers: any = { "Content-Type": "application/json" };
+
+                if (provider.type === "google") {
+                    bodyPayload = { contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json" } };
+                } else {
+                    headers["Authorization"] = `Bearer ${provider.key}`;
+                    bodyPayload = { model: provider.model, messages: [{ role: "user", content: prompt }], temperature: 0.2 };
+                }
+
+                const r = await fetch(provider.url, {
                     method: "POST",
-                    headers: { "Content-Type": "application/json", "Authorization": `Bearer ${ANYMODEL_API_KEY}` },
-                    body: JSON.stringify({ model: ANYMODEL_MODEL, messages: [{ role: "user", content: prompt }], temperature: 0.2 }),
+                    headers: headers,
+                    body: JSON.stringify(bodyPayload),
                     signal: AbortSignal.timeout(LLM_TIMEOUT_MS),
                 });
+
                 if (r.ok) {
                     const j = await r.json();
-                    let text = j?.choices?.[0]?.message?.content ?? "";
+                    let text = "";
+                    
+                    if (provider.type === "google") {
+                        text = j?.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+                    } else {
+                        text = j?.choices?.[0]?.message?.content ?? "";
+                    }
+                    
                     text = text.replace(/```json/gi, "").replace(/```/g, "").trim();
                     const match = text.match(/\{[\s\S]*\}/);
-                    if (match) llmResult = JSON.parse(match[0]);
+                    if (match) {
+                        llmResult = JSON.parse(match[0]);
+                        console.log(`✅ Успешный ответ от: ${provider.name}`);
+                        break; // Успех! Прерываем цикл
+                    }
                 } else {
-                    console.error(`⚠️ AnyModel API Error (${r.status}):`, await r.text());
+                    console.log(`⚠️ Ошибка ${provider.name} (${r.status}). Переключаемся на следующую...`);
                 }
-            } catch (e) { console.error("⚠️ AnyModel Network Error:", e); }
+            } catch (e) {
+                console.log(`⚠️ Сбой сети ${provider.name}. Переключаемся на следующую...`);
+            }
         }
 
         if (llmResult) {
@@ -676,7 +702,7 @@ ${cleanDesc}
             }
         }
 
-        console.log("⚠️ Используем резервный текст, так как ИИ не ответил.");
+        console.log("⚠️ ВСЕ нейросети упали. Используем резервный текст.");
         return {
             headline: fallbackHeadline,
             body: `▪️ ${fallbackBody}`,
@@ -777,7 +803,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v128: Запуск отбора событий (AnyModel Ready) ===");
+    console.log("=== ФАКТОР v129: Запуск отбора событий (Multi-Model) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
