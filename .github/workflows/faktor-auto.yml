@@ -7,7 +7,7 @@ on:
 
 concurrency:
   group: faktor-auto
-  cancel-in-progress: true # 🚀 ГЛАВНОЕ ИСПРАВЛЕНИЕ: Убиваем старые процессы и очищаем очередь!
+  cancel-in-progress: false # 🚀 ВАЖНО: Ставим false, чтобы процессы не убивали друг друга. Код сам разберется.
 
 jobs:
   run-faktor:
