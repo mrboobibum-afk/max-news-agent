@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v120 - Global Lock & No Spam)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v121 - Strict Quality & Media)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -15,7 +15,7 @@ const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyun
 const MAX_RUNTIME_MS = 4.5 * 60 * 60 * 1000; 
 const LOOP_SLEEP_MIN_MS = 4 * 60 * 1000; 
 const LOOP_SLEEP_MAX_MS = 6 * 60 * 1000; 
-const POST_COOLDOWN_MS = 40 * 60 * 1000; // 🚀 Увеличили паузу до 40 минут!
+const POST_COOLDOWN_MS = 40 * 60 * 1000; 
 
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
 const MEDIA_PACKET_MAX = 6; 
@@ -27,7 +27,7 @@ const STATE_MAX_ENTRIES = 300;
 const STATE_KEEP_ENTRIES = 50; 
 
 const RECENT_HISTORY_LIMIT = 20; 
-const SIMILARITY_THRESHOLD = 0.25; // 🚀 Снизили порог, чтобы лучше ловить дубликаты
+const SIMILARITY_THRESHOLD = 0.25;
 
 const MIN_IMAGE_BYTES = 10 * 1024;
 const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
@@ -361,7 +361,6 @@ function fixBrandNames(text: string): string {
 function validateHeadline(llmHead: string, fallbackHead: string): string {
     let h = (llmHead || "").trim();
     
-    // Убираем многоточия в конце, если они есть
     h = h.replace(/\.+$/, "").replace(/…$/, "");
 
     if (h.length < 10 || h.endsWith("-") || h.endsWith(",")) return fallbackHead;
@@ -446,12 +445,11 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 if (postDate && (now - postDate) > MAX_POST_AGE_MS) continue;
 
                 const textRaw = cleanText(post.match(/<div class="tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/i)?.[1]);
-                if (!textRaw || textRaw.length < 30 || textRaw.length > 2000) continue;
+                if (!textRaw || textRaw.length < 50 || textRaw.length > 2000) continue;
                 if (isGibberish(textRaw)) continue;
                 if (BORING_TOPICS.some(r => r.test(textRaw))) continue;
 
                 const sanitized = sanitizeRawText(textRaw);
-                // Берем первое предложение для заголовка
                 const firstSentence = sanitized.split(/[.!?]\s/)[0] || sanitized;
                 const truncatedTitle = firstSentence.slice(0, 90); 
 
@@ -539,8 +537,8 @@ async function fetchRssFeeds(): Promise<any[]> {
                 
                 if (isGibberish(title) || isGibberish(desc)) continue;
                 if (BORING_TOPICS.some(r => r.test(`${title} ${desc}`))) continue;
-                // 🚀 Отсеиваем обрезанные новости
-                if (!title || desc.endsWith("...") || desc.endsWith("…") || desc.length < 60) continue;
+                // 🚀 Отсеиваем короткие заглушки из RSS (анонсы)
+                if (!title || desc.endsWith("...") || desc.endsWith("…") || desc.length < 200) continue;
 
                 const truncatedTitle = title.slice(0, 90);
                 const postKey = `${feed.name.toLowerCase()}_${simpleHash(title + (link || ""))}`;
@@ -562,7 +560,7 @@ async function fetchRssFeeds(): Promise<any[]> {
     return items;
 }
 
-async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, body: string, insight: string, importance: number, is_ad: boolean, hashtag: string }> {
+async function formatNewsPost(title: string, desc: string): Promise<{ is_valid: boolean, headline: string, body: string, insight: string, importance: number, is_ad: boolean, hashtag: string }> {
     try {
         let cleanDesc = sanitizeRawText(desc);
         const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 90);
@@ -572,32 +570,24 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
             cleanDesc = cleanDesc.replace(/^[-—:.\s]+/, ''); 
         }
 
-        let fallbackBody = "";
-        const sentences = cleanDesc.match(/[A-ZА-ЯЁ][^.!?]+[.!?]+/g) || []; 
-        if (sentences.length > 0) {
-            fallbackBody = sentences.slice(0, 3).join(" ").trim(); 
-        } else {
-            fallbackBody = cleanDesc; // Без обрезки!
-        }
-
         const prompt = `Ты — главный редактор аналитического канала «ФАКТОР». Твоя цель — давать сбалансированную картину мира: политика, экономика, международные отношения, технологии и важные события в России. Твой стиль — строго, информативно, с фактами.
 
 ИСХОДНЫЙ ТЕКСТ:
 ${cleanDesc}
 
 ТВОИ ЗАДАЧИ:
-1. headline — заголовок (до 8 слов) с 1 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨). НИКАКИХ МНОГОТОЧИЙ. Дай законченный заголовок.
-2. body — Оформи текст как список из 3-4 пунктов. 
+1. is_valid — true, если новость содержит КОНКРЕТИКУ (названия компаний, имена чиновников, конкретные цифры, места). Если в тексте написано просто "компания", "эксперт", "источник", и из-за этого непонятно, о ком речь — верни false.
+2. headline — заголовок (до 8 слов) с 1 эмодзи. КАТЕГОРИЧЕСКИ БЕЗ МНОГОТОЧИЙ.
+3. body — Оформи текст как список из 2-3 КОРОТКИХ пунктов (до 15 слов каждый). 
    - Каждый пункт начинай с маркера ▪️.
-   - Включи ВСЕ ключевые факты: цифры, имена, даты.
+   - Включи ТОЛЬКО ключевые факты.
    - Выдели главные акценты (суммы, цифры, имена) тегами <b>жирный шрифт</b>.
-   - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Верни ОДНУ СТРОКУ с переносами \n. ТЕКСТ ДОЛЖЕН БЫТЬ ЗАКОНЧЕННЫМ, НЕ ОБРЫВАЙ ПРЕДЛОЖЕНИЯ.
-3. insight — (Взгляд ФАКТОРА) — 1-2 предложения (до 20 слов). Оцени последствия для обычного человека: что будет с ценами, безопасностью или экономикой. БЕЗ ТЕГОВ HTML.
-4. importance — целое 1-10. (9-10 экстренно, 7-8 политика/экономика, 1-6 бытовуха).
-5. is_ad — true, если это реклама.
-6. hashtag — выбери один тег по теме: #Политика, #Экономика, #Мир, #Происшествия, #Технологии, #Россия.
+4. insight — (Взгляд ФАКТОРА) — 1-2 предложения (до 20 слов). Оцени последствия для обычного человека: что будет с ценами, безопасностью или экономикой. БЕЗ ТЕГОВ HTML.
+5. importance — целое 1-10. (9-10 экстренно, 7-8 политика/экономика, 1-6 бытовуха).
+6. is_ad — true, если это реклама.
+7. hashtag — выбери один тег по теме: #Политика, #Экономика, #Мир, #Происшествия, #Технологии, #Россия.
 
-Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false, "hashtag": "#Политика"}`;
+Верни ТОЛЬКО JSON: {"is_valid": true, "headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false, "hashtag": "#Политика"}`;
 
         let llmResult: any = null;
 
@@ -638,6 +628,10 @@ ${cleanDesc}
         }
 
         if (llmResult) {
+            if (llmResult.is_valid === false) {
+                return { is_valid: false, headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
+            }
+            
             let headlineStr = String(llmResult.headline || "").trim();
             let bodyStr = llmResult.body;
             
@@ -655,6 +649,7 @@ ${cleanDesc}
                 
                 if (!isEnglish) {
                     return {
+                        is_valid: true,
                         headline: validateHeadline(headlineStr, fallbackHeadline),
                         body: bodyStr,
                         insight: insightStr,
@@ -666,21 +661,9 @@ ${cleanDesc}
             }
         }
 
-        if (fallbackBody.length >= 60) {
-            return {
-                headline: fallbackHeadline,
-                body: `▪️ ${fallbackBody}`,
-                insight: "",
-                importance: 5,
-                is_ad: false,
-                hashtag: "#Новости"
-            };
-        }
-
-        return { headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
+        return { is_valid: false, headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
     } catch (e) {
-        console.error("Критическая ошибка в formatNewsPost:", e);
-        return { headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
+        return { is_valid: false, headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
     }
 }
 
@@ -777,10 +760,8 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v120: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v121: Запуск отбора событий (Strict Quality) ===");
     
-    // 🚀 ГЛОБАЛЬНЫЙ ЗАМОК (Анти-спам)
-    // Проверяем, когда бот последний раз публиковал новость
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
     
@@ -820,7 +801,7 @@ async function run(): Promise<boolean> {
 
     const topCandidates = uniqueCandidates.slice(0, 25);
 
-    let skippedDup = 0, skippedImportance = 0, skippedNoMedia = 0, published = 0;
+    let skippedDup = 0, skippedImportance = 0, skippedNoMedia = 0, skippedInvalid = 0, published = 0;
 
     const recentDescs: string[] = (await kv.get(["factor", "recent_descs"])).value || [];
     const recentBodies: string[] = (await kv.get(["factor", "recent_bodies"])).value || [];
@@ -848,11 +829,23 @@ async function run(): Promise<boolean> {
             console.log("\nОбработка: " + item.title);
 
             const mediaPacket = getMediaPacket(item, mixedCandidates);
+            // 🚀 Если нет медиа - даже не дергаем ИИ
+            if (mediaPacket.length === 0) {
+                console.log(`❌ Пропуск: нет медиа (видео/фото).`);
+                skippedNoMedia++;
+                continue;
+            }
+
             const post = await formatNewsPost(item.title, item.desc);
 
+            if (!post.is_valid) { 
+                console.log(`❌ Пропуск: ИИ отклонил новость (нет конкретики).`);
+                skippedInvalid++; 
+                continue; 
+            }
             if (post.is_ad) { skippedImportance++; continue; }
 
-            if (!post.headline || !post.body || post.body.length < 50) {
+            if (!post.headline || !post.body || post.body.length < 30) {
                 console.log(`❌ Пропуск: ИИ не смог сделать идеальный пост.`);
                 skippedNoMedia++;
                 continue;
@@ -892,7 +885,11 @@ async function run(): Promise<boolean> {
                 if (uploaded.length >= MEDIA_PACKET_MAX) break;
             }
 
-            if (!uploaded.length) console.log(`⚠️ Медиа не скачалось, публикуем только текст.`);
+            if (!uploaded.length) {
+                console.log(`❌ Пропуск: медиа не скачалось.`);
+                skippedNoMedia++;
+                continue;
+            }
 
             let postHtml = `<b>${escapeHtml(post.headline)}</b>\n\n`;
             postHtml += `${post.body}\n\n`;
@@ -907,7 +904,6 @@ async function run(): Promise<boolean> {
                 published++;
                 publishesSinceCommit++;
                 
-                // 🚀 СТАВИМ ЗАМОК
                 await kv.set(["factor", "last_post_time"], Date.now());
 
                 await kv.set(["factor", "pub", hash], true, { expireIn: HISTORY_TTL_MS });
@@ -924,7 +920,6 @@ async function run(): Promise<boolean> {
                 recentTitles.push(post.headline); if (recentTitles.length > RECENT_HISTORY_LIMIT) recentTitles.shift();
                 await kv.set(["factor", "recent_titles"], recentTitles, { expireIn: HISTORY_TTL_MS });
 
-                // Сразу сохраняем состояние в Git, чтобы другие параллельные процессы увидели замок
                 await commitStateToGit();
                 publishesSinceCommit = 0;
 
@@ -934,7 +929,7 @@ async function run(): Promise<boolean> {
             console.error("Ошибка при обработке новости:", itemError);
         }
     }
-    console.log(`\nИтого: дублей ${skippedDup}, неважных ${skippedImportance}, без медиа ${skippedNoMedia}, опубликовано ${published}`);
+    console.log(`\nИтого: дублей ${skippedDup}, неважных ${skippedImportance}, отклонено ИИ ${skippedInvalid}, без медиа ${skippedNoMedia}, опубликовано ${published}`);
     return false;
 }
 
@@ -953,7 +948,6 @@ while (Date.now() - startTime < MAX_RUNTIME_MS) {
         publishesSinceCommit = 0;
     }
 
-    // Если был пост, цикл просто идет на следующую итерацию, а там сработает проверка "last_post_time" (Замок)
     if (posted) {
         console.log(`\n😴 Пост опубликован. Ждем завершения таймера (40 мин)...`);
         await new Promise(r => setTimeout(r, LOOP_SLEEP_MIN_MS));
