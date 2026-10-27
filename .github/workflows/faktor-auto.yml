@@ -5,10 +5,9 @@ on:
     - cron: '0 */5 * * *' # Запуск каждые 5 часов
   workflow_dispatch:
 
-# 🚀 УБИРАЕМ ОЧЕРЕДЬ: Каждый запуск получает уникальный ID и работает независимо
 concurrency:
-  group: faktor-auto-${{ github.run_id }}
-  cancel-in-progress: false
+  group: faktor-auto
+  cancel-in-progress: true # Убиваем старый процесс, запускаем только один новый
 
 jobs:
   run-faktor:
@@ -31,7 +30,7 @@ jobs:
           MAX_BOT_TOKEN: ${{ secrets.MAX_BOT_TOKEN }}
           TARGET_CHAT_ID: ${{ secrets.TARGET_CHAT_ID }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
+          ANYMODEL_API_KEY: ${{ secrets.ANYMODEL_API_KEY }} # 🚀 ПОДКЛЮЧАЕМ ТВОЙ КЛЮЧ
         run: deno run -A --unsafely-ignore-certificate-errors=platform-api2.max.ru agent.ts
 
       - name: Commit final state
