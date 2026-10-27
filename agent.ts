@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v126 - Fallback & Debug)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v127 - No Deno Errors)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -38,24 +38,6 @@ const DOWNLOAD_TIMEOUT_MS = 60000;
 const LLM_TIMEOUT_MS = 40000; 
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
-
-const MAX_ROOT_CA_URL = "https://gu-st.ru/content/lending/russian_trusted_root_ca_pem.crt";
-const MAX_SUB_CA_URL = "https://gu-st.ru/content/lending/russian_trusted_sub_ca_pem.crt";
-let maxHttpClient: Deno.HttpClient | null = null;
-
-async function initMaxHttpClient() {
-    if (maxHttpClient) return maxHttpClient;
-    try {
-        const [r1, r2] = await Promise.all([
-            fetch(MAX_ROOT_CA_URL, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(10000) }),
-            fetch(MAX_SUB_CA_URL, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(10000) }),
-        ]);
-        if (r1.ok && r2.ok) {
-            maxHttpClient = Deno.createHttpClient({ caCerts: [await r1.text(), await r2.text()] });
-        }
-    } catch (e) { console.error("CA Init Error:", e); }
-    return maxHttpClient;
-}
 
 const TG_LIVE_CHANNELS = [
     "government_rus", "news_kremlin", "kremlinpress",
@@ -690,13 +672,12 @@ ${cleanDesc}
             }
         }
 
-        // Если ИИ упал или вернул бред, используем резервный текст (Fallback)
         console.log("⚠️ Используем резервный текст, так как ИИ не ответил.");
         return {
             headline: fallbackHeadline,
             body: `▪️ ${fallbackBody}`,
             insight: "",
-            importance: 5, // Ставим среднюю важность
+            importance: 5, 
             is_ad: false,
             hashtag: "#Новости"
         };
@@ -706,12 +687,9 @@ ${cleanDesc}
 }
 
 async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<string> {
-    const client = await initMaxHttpClient();
-    
     const upInit = await fetch(`${MAX_API}/uploads?type=${type}`, {
         method: "POST",
         headers: { "Authorization": MAX_BOT_TOKEN, "Accept": "application/json" },
-        client: client ?? undefined,
     });
     
     const initData = await upInit.json();
@@ -723,7 +701,6 @@ async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<
     const res = await fetch(initData.url, { 
         method: "POST", 
         body: form, 
-        client: client ?? undefined, 
         signal: AbortSignal.timeout(120000)
     });
     
@@ -734,7 +711,6 @@ async function uploadToMax(bytes: Uint8Array, type: "image" | "video"): Promise<
 }
 
 async function sendPostToMax(text: string, media: Array<{ token: string, type: "image" | "video" }>) {
-    const client = await initMaxHttpClient();
     const body: any = {
         text, format: "html", notify: true, disable_link_preview: true,
         attachments: media.map(item => ({ type: item.type, payload: { token: item.token } }))
@@ -743,7 +719,6 @@ async function sendPostToMax(text: string, media: Array<{ token: string, type: "
         method: "POST",
         headers: { "Authorization": MAX_BOT_TOKEN, "Content-Type": "application/json" },
         body: JSON.stringify(body),
-        client: client ?? undefined,
     });
     return res.ok;
 }
@@ -798,7 +773,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v126: Запуск отбора событий (Fallback & Debug) ===");
+    console.log("=== ФАКТОР v127: Запуск отбора событий ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
