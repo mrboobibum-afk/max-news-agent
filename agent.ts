@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v125 - Fixed AI Filter)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v126 - Fallback & Debug)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -592,6 +592,14 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
             cleanDesc = cleanDesc.replace(/^[-—:.\s]+/, ''); 
         }
 
+        let fallbackBody = "";
+        const sentences = cleanDesc.match(/[A-ZА-ЯЁ][^.!?]+[.!?]+/g) || []; 
+        if (sentences.length > 0) {
+            fallbackBody = sentences.slice(0, 3).join(" ").trim(); 
+        } else {
+            fallbackBody = cleanDesc; 
+        }
+
         const prompt = `Ты — главный редактор аналитического канала «ФАКТОР». Твоя цель — давать сбалансированную картину мира: политика, экономика, международные отношения, технологии и важные события в России. Твой стиль — строго, информативно, с фактами. Пиши так же четко и по делу, как канал «Прямой Эфир».
 
 ИСХОДНЫЙ ТЕКСТ:
@@ -627,8 +635,10 @@ ${cleanDesc}
                     text = text.replace(/```json/gi, "").replace(/```/g, "").trim();
                     const match = text.match(/\{[\s\S]*\}/);
                     if (match) llmResult = JSON.parse(match[0]);
+                } else {
+                    console.error(`⚠️ Gemini API Error (${r.status}):`, await r.text());
                 }
-            } catch (e) {}
+            } catch (e) { console.error("⚠️ Gemini Network Error:", e); }
         }
 
         if (!llmResult && DASHSCOPE_API_KEY) {
@@ -645,8 +655,10 @@ ${cleanDesc}
                     text = text.replace(/```json/gi, "").replace(/```/g, "").trim();
                     const match = text.match(/\{[\s\S]*\}/);
                     if (match) llmResult = JSON.parse(match[0]);
+                } else {
+                    console.error(`⚠️ Qwen API Error (${r.status}):`, await r.text());
                 }
-            } catch (e) {}
+            } catch (e) { console.error("⚠️ Qwen Network Error:", e); }
         }
 
         if (llmResult) {
@@ -678,7 +690,16 @@ ${cleanDesc}
             }
         }
 
-        return { headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
+        // Если ИИ упал или вернул бред, используем резервный текст (Fallback)
+        console.log("⚠️ Используем резервный текст, так как ИИ не ответил.");
+        return {
+            headline: fallbackHeadline,
+            body: `▪️ ${fallbackBody}`,
+            insight: "",
+            importance: 5, // Ставим среднюю важность
+            is_ad: false,
+            hashtag: "#Новости"
+        };
     } catch (e) {
         return { headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
     }
@@ -777,7 +798,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v125: Запуск отбора событий (Fixed AI) ===");
+    console.log("=== ФАКТОР v126: Запуск отбора событий (Fallback & Debug) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
@@ -851,7 +872,7 @@ async function run(): Promise<boolean> {
             if (post.is_ad) { skippedImportance++; continue; }
 
             if (!post.headline || !post.body || post.body.length < 30) {
-                console.log(`❌ Пропуск: ИИ не смог сделать идеальный пост.`);
+                console.log(`❌ Пропуск: пустой пост.`);
                 skippedNoMedia++;
                 continue;
             }
@@ -862,7 +883,6 @@ async function run(): Promise<boolean> {
                 finalImportance = 8; 
             }
 
-            // 🚀 УМНОЕ ПРАВИЛО МЕДИА: Если нет медиа, публикуем ТОЛЬКО если новость архиважная (8+)
             if (mediaPacket.length === 0 && finalImportance < 8) {
                 console.log(`❌ Пропуск: нет медиа, и новость не экстренная (важность ${finalImportance}).`);
                 skippedNoMedia++;
