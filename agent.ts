@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v140 - Bulletproof Media)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v141 - Final Media Bypass)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -13,10 +13,10 @@ const ANYMODEL_API_KEY = Deno.env.get("ANYMODEL_API_KEY") ?? "";
 const MAX_RUNTIME_MS = 4.5 * 60 * 60 * 1000; 
 const LOOP_SLEEP_MIN_MS = 4 * 60 * 1000; 
 const LOOP_SLEEP_MAX_MS = 6 * 60 * 1000; 
-const POST_COOLDOWN_MS = 15 * 60 * 1000; // Пауза между постами 15 минут
+const POST_COOLDOWN_MS = 15 * 60 * 1000; 
 
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
-const MEDIA_PACKET_MAX = 6; // До 6 медиафайлов на пост
+const MEDIA_PACKET_MAX = 6; 
 const MIN_IMPORTANCE = 7; 
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
@@ -30,9 +30,9 @@ const SIMILARITY_THRESHOLD = 0.25;
 const MIN_IMAGE_BYTES = 10 * 1024;
 const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
 const MIN_VIDEO_BYTES = 50 * 1024;
-const MAX_VIDEO_BYTES = 100 * 1024 * 1024; // До 100 МБ
+const MAX_VIDEO_BYTES = 100 * 1024 * 1024; 
 
-const DOWNLOAD_TIMEOUT_MS = 300000; // 5 минут таймаут
+const DOWNLOAD_TIMEOUT_MS = 300000; 
 const LLM_TIMEOUT_MS = 40000; 
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
@@ -277,11 +277,8 @@ async function getTextHash(text: string): Promise<string> {
 
 function isTrashUrl(url: string): boolean {
     const low = url.toLowerCase();
-    
-    // Разрешаем CDN телеграма и прямые ссылки на медиа
     if (low.includes("telegram-cdn.org") || low.includes("telesco.pe")) return false;
 
-    // Блокируем счетчики, аналитику, иконки и SVG
     if (
         low.includes("yandex") || low.includes("yadro") || low.includes("google-analytics") || 
         low.includes("mc.yandex") || low.includes("counter") || low.includes("pixel") || 
@@ -293,11 +290,10 @@ function isTrashUrl(url: string): boolean {
     ) {
         return true;
     }
-
     return false;
 }
 
-// 🚀 СКАЧИВАНИЕ: Умный перебор (Прямой -> Прокси -> Прокси)
+// 🚀 УЛЬТИМАТИВНОЕ СКАЧИВАНИЕ (Прямой -> WSrv.nl -> Прокси)
 async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array | null> {
     if (!url || isTrashUrl(url)) return null;
 
@@ -305,7 +301,8 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
     try { referer = new URL(url).origin; } catch(e) {}
 
     const urlsToTry = [
-        url,
+        url, // 1. Прямой
+        `https://wsrv.nl/?url=${encodeURIComponent(url)}`, // 2. Чудо-прокси для картинок
         `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
         `https://corsproxy.io/?${encodeURIComponent(url)}`
     ];
@@ -314,7 +311,7 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
 
     for (let i = 0; i < urlsToTry.length; i++) {
         const candidateUrl = urlsToTry[i];
-        const methodName = i === 0 ? "Прямой" : `Прокси ${i}`;
+        const methodName = i === 0 ? "Прямой" : (i === 1 ? "WSrv.nl" : `Прокси ${i-1}`);
         
         try {
             const controller = new AbortController();
@@ -333,19 +330,30 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
             clearTimeout(timeoutId);
 
             if (!response.ok) {
-                console.log(`      ⚠️ ${methodName} вернул HTTP ${response.status}`);
+                console.log(`      ⚠️ ${methodName} HTTP ${response.status}`);
                 continue;
             }
 
             const contentType = (response.headers.get("content-type") || "").toLowerCase();
-            
-            // 🚀 Защита от HTML-капчи
             if (contentType.includes("text/html") || contentType.includes("application/json")) {
-                console.log(`      ⚠️ ${methodName} вернул HTML вместо файла`);
+                console.log(`      ⚠️ ${methodName} вернул HTML`);
                 continue;
             }
 
             const buf = new Uint8Array(await response.arrayBuffer());
+            
+            // 🚀 ПРОВЕРКА МАГИЧЕСКИХ БАЙТОВ
+            const head = new Uint8Array(buf.subarray(0, 4));
+            const isJpeg = head[0] === 0xFF && head[1] === 0xD8 && head[2] === 0xFF;
+            const isPng = head[0] === 0x89 && head[1] === 0x50 && head[2] === 0x4E && head[3] === 0x47;
+            const isWebp = head[0] === 0x52 && head[1] === 0x49 && head[2] === 0x46 && head[3] === 0x46; // RIFF
+            const isMp4 = head[0] === 0x66 && head[1] === 0x74 && head[2] === 0x79 && head[3] === 0x70; // ftyp
+
+            if (!isVideo && !isJpeg && !isPng && !isWebp) {
+                console.log(`      ⚠️ ${methodName}: это не картинка (размер ${Math.round(buf.byteLength/1024)}КБ)`);
+                continue;
+            }
+
             const min = isVideo ? MIN_VIDEO_BYTES : MIN_IMAGE_BYTES;
             const max = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
 
@@ -357,7 +365,7 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
             console.log(`      ✅ Скачано (${methodName}): ${Math.round(buf.byteLength / 1024)} КБ`);
             return buf;
         } catch (e: any) {
-            console.log(`      ⚠️ ${methodName}: Ошибка сети (${e.message.slice(0, 30)})`);
+            console.log(`      ⚠️ ${methodName}: Ошибка (${e.message.slice(0, 30)})`);
             continue; 
         }
     }
@@ -436,7 +444,6 @@ function simpleHash(str: string): string {
     return Math.abs(h).toString(36);
 }
 
-// 🚀 ПАРСИНГ САЙТОВ (Ищем все картинки и прямые ссылки на видео)
 async function extractMediaFromUrl(url: string): Promise<{ video: string[], image: string[] }> {
     const res = { video: [] as string[], image: [] as string[] };
     if (!url) return res;
@@ -453,7 +460,6 @@ async function extractMediaFromUrl(url: string): Promise<{ video: string[], imag
             if (!r.ok) continue;
             const html = await r.text();
 
-            // Видео ищем только в тегах video или og:video (без iframe)
             const vMatches = [
                 ...html.matchAll(/<video[^>]+src=["']([^"']+)["']/gi),
                 ...html.matchAll(/<source[^>]+src=["']([^"']+)["']/gi),
@@ -462,7 +468,6 @@ async function extractMediaFromUrl(url: string): Promise<{ video: string[], imag
             
             res.video = [...new Set(vMatches)].filter(u => !isTrashUrl(u));
 
-            // Фото: og:image и все картинки
             const imgMatches = [
                 ...html.matchAll(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/gi),
                 ...html.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)
@@ -471,7 +476,7 @@ async function extractMediaFromUrl(url: string): Promise<{ video: string[], imag
             res.image = [...new Set(imgMatches)].filter(u => !isTrashUrl(u)).slice(0, 4);
 
             if (res.video.length > 0 || res.image.length > 0) {
-                console.log(`  🎯 Найдено на сайте: видео ${res.video.length}, фото ${res.image.length}`);
+                console.log(`  🎯 Найдено: видео ${res.video.length}, фото ${res.image.length}`);
                 break;
             }
         } catch (e) { }
@@ -741,6 +746,7 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
     const seen = new Set<string>();
     if (!item.postKey) return [];
     const samePost = candidates.filter(c => c.postKey === item.postKey);
+    // 🚀 ВИДЕО В ПРИОРИТЕТЕ
     const ordered = [...samePost.filter(c => c.mediaType === "video"), ...samePost.filter(c => c.mediaType === "image")];
     for (const c of ordered) {
         if (!c.mediaUrl || isTrashUrl(c.mediaUrl)) continue;
@@ -775,7 +781,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v140: Запуск (Bulletproof Media) ===");
+    console.log("=== ФАКТОР v141: Запуск (Final Media Bypass) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
@@ -813,6 +819,14 @@ async function run(): Promise<boolean> {
         uniqueCandidates.push(c);
     }
 
+    // 🚀 СОРТИРОВКА: Сначала те, у кого есть ВИДЕО, потом те, у кого ФОТО, потом пустые
+    uniqueCandidates.sort((a, b) => {
+        const aScore = a.mediaType === "video" ? 2 : (a.mediaType === "image" ? 1 : 0);
+        const bScore = b.mediaType === "video" ? 2 : (b.mediaType === "image" ? 1 : 0);
+        if (aScore !== bScore) return bScore - aScore;
+        return b.postDate - a.postDate; // Если медиа одинаковые, берем свежие
+    });
+
     const topCandidates = uniqueCandidates.slice(0, 25);
     let skippedDup = 0, skippedImportance = 0, skippedNoMedia = 0, published = 0;
     const recentDescs: string[] = (await kv.get(["factor", "recent_descs"])).value || [];
@@ -834,7 +848,7 @@ async function run(): Promise<boolean> {
 
             console.log("\nОбработка: " + item.title);
 
-            const mediaPacket = getMediaPacket(item, mixedCandidates);
+            const mediaPacket = getMediaPacket(item, uniqueCandidates);
             const post = await formatNewsPost(item.title, item.desc);
 
             if (post.is_ad) { skippedImportance++; continue; }
@@ -873,7 +887,7 @@ async function run(): Promise<boolean> {
 
             if (uploaded.length === 0 && mediaPacket.length > 0) {
                 console.log(`⚠️ Медиа не скачалось. Публикуем без него.`);
-            } else {
+            } else if (uploaded.length > 0) {
                 console.log(`✅ Успешно загружено медиа: ${uploaded.length}`);
             }
 
