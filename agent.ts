@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v135 - Deep Web Proxy)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v136 - Clean Media)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -16,7 +16,7 @@ const LOOP_SLEEP_MAX_MS = 6 * 60 * 1000;
 const POST_COOLDOWN_MS = 15 * 60 * 1000; // 15 минут
 
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
-const MEDIA_PACKET_MAX = 10; 
+const MEDIA_PACKET_MAX = 4; // 🚀 Максимум 4 медиафайла на пост, чтобы не тянуть мусор
 const MIN_IMPORTANCE = 7; 
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
@@ -275,26 +275,35 @@ async function getTextHash(text: string): Promise<string> {
     return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
+// 🚀 ЖЕСТКИЙ ФИЛЬТР МУСОРА
 function isTrashUrl(url: string): boolean {
     const low = url.toLowerCase();
-    if (low.includes(".mp4") || low.includes("telegram-cdn.org")) return false;
+    
+    // Разрешаем только нормальные расширения или прямые ссылки телеграма
+    const isValidMedia = low.includes(".mp4") || low.includes(".jpg") || low.includes(".jpeg") || low.includes(".png") || low.includes(".webp") || low.includes("telegram-cdn.org");
+    
+    if (!isValidMedia) return true; // Все, что без расширения — в топку (метрики, скрипты)
+
+    // Блокируем известные счетчики и трекеры
+    if (low.includes("yandex") || low.includes("yadro") || low.includes("google-analytics") || low.includes("mc.yandex") || low.includes("counter") || low.includes("pixel") || low.includes("banner")) {
+        return true;
+    }
+
     return (
         low.includes("/card") || low.includes("textcard") || low.includes("share") ||
         low.includes("logo") || low.includes("avatar") || low.includes("stub") ||
-        low.includes("1x1") || low.includes("pixel") || low.includes(".svg") ||
+        low.includes("1x1") || low.includes(".svg") ||
         low.includes("google.com") || low.includes("interfax.ru/ftproot") ||
         low.includes("data:image") || low.includes("base64,")
     );
 }
 
-// 🚀 МОЩНЫЙ ЗАГРУЗЧИК МЕДИА С 3 ПРОКСИ
 async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array | null> {
     if (!url || isTrashUrl(url)) return null;
 
     const proxies = [
-        `https://corsproxy.io/?${encodeURIComponent(url)}`,
         `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-        `https://proxy.cors.sh/${url}`
+        `https://corsproxy.io/?${encodeURIComponent(url)}`
     ];
     
     if (url.includes("telegram-cdn.org")) proxies.push(url);
@@ -321,7 +330,6 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
             clearTimeout(timeoutId);
 
             if (!response.ok) {
-                console.log(`  ⚠️ Прокси ${i+1} вернул HTTP ${response.status}`);
                 continue;
             }
 
@@ -330,19 +338,16 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
             const max = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
 
             if (buf.byteLength < min || buf.byteLength > max) {
-                console.log(`  ⚠️ Файл ${buf.byteLength} байт не прошел (min ${min}, max ${max})`);
                 continue;
             }
 
             const head = new TextDecoder().decode(buf.subarray(0, 30)).toLowerCase();
             if (head.includes("<html") || head.includes("<!doctype") || head.includes("<?xml")) {
-                console.log(`  ⚠️ Прокси вернул HTML вместо файла`);
                 continue;
             }
 
             return buf;
-        } catch (e: any) {
-            console.log(`  ⚠️ Ошибка прокси ${i+1}: ${e.message}`);
+        } catch (e) {
             continue; 
         }
     }
@@ -421,7 +426,7 @@ function simpleHash(str: string): string {
     return Math.abs(h).toString(36);
 }
 
-// 🚀 ГЛУБОКИЙ ПАРСИНГ САЙТОВ С ИСПОЛЬЗОВАНИЕМ ПРОКСИ
+// 🚀 ГЛУБОКИЙ ПАРСИНГ САЙТОВ (Только реальные фото/видео)
 async function extractMediaFromUrl(url: string): Promise<{ video: string[], image: string[] }> {
     const res = { video: [] as string[], image: [] as string[] };
     if (!url) return res;
@@ -434,7 +439,6 @@ async function extractMediaFromUrl(url: string): Promise<{ video: string[], imag
 
     for (const fetchUrl of proxies) {
         try {
-            console.log(`  🔍 Сканируем сайт: ${url.slice(0, 40)}...`);
             const r = await fetch(fetchUrl, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(15000) });
             if (!r.ok) continue;
             const html = await r.text();
@@ -443,8 +447,7 @@ async function extractMediaFromUrl(url: string): Promise<{ video: string[], imag
                 ...html.matchAll(/https?:\/\/[^"'\s>]+?\.mp4(?:\?[^"'\s>]*)?/gi),
                 ...html.matchAll(/<video[^>]+src=["']([^"']+)["']/gi),
                 ...html.matchAll(/<source[^>]+src=["']([^"']+)["']/gi),
-                ...html.matchAll(/<meta[^>]+property=["']og:video["'][^>]+content=["']([^"']+)["']/gi),
-                ...html.matchAll(/<meta[^>]+property=["']og:video:url["'][^>]+content=["']([^"']+)["']/gi)
+                ...html.matchAll(/<meta[^>]+property=["']og:video["'][^>]+content=["']([^"']+)["']/gi)
             ].map(m => m[1] || m[0]);
             res.video = [...new Set(vMatches)].filter(u => !isTrashUrl(u));
 
@@ -452,15 +455,14 @@ async function extractMediaFromUrl(url: string): Promise<{ video: string[], imag
                 ...html.matchAll(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/gi),
                 ...html.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)
             ].map(m => m[1]);
-            res.image = [...new Set(imgMatches)].filter(u => !isTrashUrl(u));
+            // 🚀 Берем максимум 4 картинки, чтобы не сдохнуть от мусора
+            res.image = [...new Set(imgMatches)].filter(u => !isTrashUrl(u)).slice(0, 4);
 
             if (res.video.length > 0 || res.image.length > 0) {
                 console.log(`  🎯 Найдено на сайте: видео ${res.video.length}, фото ${res.image.length}`);
                 break;
             }
-        } catch (e) {
-            // Игнорируем ошибку и пробуем следующий прокси
-        }
+        } catch (e) { }
     }
     return res;
 }
@@ -566,13 +568,13 @@ async function fetchRssFeeds(): Promise<any[]> {
                 const mediaThumbnail = raw.match(/<media:thumbnail[^>]+url=["']([^"']+)["']/i)?.[1];
                 const imgMatches = [...descHtml.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)].map(m => m[1]);
                 
-                let uniqueImages = [...new Set([enclosureImg, mediaContent, mediaThumbnail, ...imgMatches].filter(Boolean).filter(u => !isTrashUrl(u)))];
+                let uniqueImages = [...new Set([enclosureImg, mediaContent, mediaThumbnail, ...imgMatches].filter(Boolean).filter(u => !isTrashUrl(u)))].slice(0, 4);
                 let uniqueVideos: string[] = [];
 
                 if (link) {
                     const deepMedia = await extractMediaFromUrl(link);
                     if (deepMedia.video.length > 0) uniqueVideos = deepMedia.video;
-                    if (uniqueImages.length === 0 && deepMedia.image.length > 0) uniqueImages = deepMedia.image.slice(0, 5);
+                    if (uniqueImages.length === 0 && deepMedia.image.length > 0) uniqueImages = deepMedia.image;
                 }
 
                 const mediaUrls: any[] = [];
@@ -665,12 +667,8 @@ ${cleanDesc}
                         console.log(`✅ Успешный ответ от: ${provider.name}`);
                         break; 
                     }
-                } else {
-                    console.log(`⚠️ Ошибка ${provider.name} (${r.status}).`);
                 }
-            } catch (e) {
-                console.log(`⚠️ Сбой сети ${provider.name}.`);
-            }
+            } catch (e) { }
         }
 
         if (llmResult) {
@@ -765,7 +763,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v135: Запуск (Deep Web Proxy) ===");
+    console.log("=== ФАКТОР v136: Запуск (Clean Media) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
