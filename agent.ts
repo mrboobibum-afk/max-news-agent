@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v124 - Direct Line Style)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v125 - Fixed AI Filter)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -430,7 +430,6 @@ function simpleHash(str: string): string {
     return Math.abs(h).toString(36);
 }
 
-// 🚀 ГЛУБОКИЙ ПАРСИНГ САЙТОВ (Вытаскивает видео и фото со страниц статей)
 async function extractMediaFromUrl(url: string): Promise<{ video: string[], image: string[] }> {
     const res = { video: [] as string[], image: [] as string[] };
     if (!url) return res;
@@ -511,13 +510,11 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 uniqueVideos.forEach(url => mediaUrls.push({ mediaUrl: url, mediaType: "video" }));
                 uniqueImages.forEach(url => mediaUrls.push({ mediaUrl: url, mediaType: "image" }));
 
-                // Если медиа нет, все равно добавляем в пул (текстовая новость)
                 if (mediaUrls.length > 0) {
                     mediaUrls.forEach(media => {
                         liveItems.push({ title: truncatedTitle, desc: sanitized, mediaUrl: media.mediaUrl, mediaType: media.mediaType, sourceName: ch, sourceType: "tg", postKey, postDate: postDate || 0 });
                     });
                 } else {
-                    // Текстовая новость
                     liveItems.push({ title: truncatedTitle, desc: sanitized, mediaUrl: null, mediaType: "none", sourceName: ch, sourceType: "tg", postKey, postDate: postDate || 0 });
                 }
             }
@@ -562,7 +559,6 @@ async function fetchRssFeeds(): Promise<any[]> {
                 let uniqueImages = [...new Set([enclosureImg, mediaContent, mediaThumbnail, ...imgMatches].filter(Boolean).filter(u => !isTrashUrl(u)))];
                 let uniqueVideos: string[] = [];
 
-                // Глубокий парсинг сайта
                 if (link) {
                     const deepMedia = await extractMediaFromUrl(link);
                     if (deepMedia.video.length > 0) uniqueVideos = deepMedia.video;
@@ -586,7 +582,7 @@ async function fetchRssFeeds(): Promise<any[]> {
     return items;
 }
 
-async function formatNewsPost(title: string, desc: string): Promise<{ is_valid: boolean, headline: string, body: string, insight: string, importance: number, is_ad: boolean, hashtag: string }> {
+async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, body: string, insight: string, importance: number, is_ad: boolean, hashtag: string }> {
     try {
         let cleanDesc = sanitizeRawText(desc);
         const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 90);
@@ -602,19 +598,18 @@ async function formatNewsPost(title: string, desc: string): Promise<{ is_valid: 
 ${cleanDesc}
 
 ТВОИ ЗАДАЧИ:
-1. is_valid — true, если новость содержит КОНКРЕТИКУ (названия компаний, имена чиновников, конкретные цифры, места). Если в тексте написано просто "компания", "эксперт", "источник", и из-за этого непонятно, о ком речь — верни false.
-2. headline — заголовок (до 8 слов) с 1 эмодзи. КАТЕГОРИЧЕСКИ БЕЗ МНОГОТОЧИЙ. Ярко и точно.
-3. body — Оформи текст как список из 2-3 КОРОТКИХ пунктов (до 15 слов каждый). 
+1. headline — заголовок (до 8 слов) с 1 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨). КАТЕГОРИЧЕСКИ БЕЗ МНОГОТОЧИЙ. Ярко и точно.
+2. body — Оформи текст как список из 2-3 КОРОТКИХ пунктов (до 15 слов каждый). 
    - Каждый пункт начинай с маркера ▪️.
-   - Включи ТОЛЬКО ключевые факты.
-   - Выдели главные акценты (суммы, цифры, имена) тегами <b>жирный шрифт</b>.
-   - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Верни ОДНУ СТРОКУ с переносами \n. ТЕКСТ ДОЛЖЕН БЫТЬ ЗАКОНЧЕННЫМ, НЕ ОБРЫВАЙ ПРЕДЛОЖЕНИЯ.
-4. insight — (Взгляд ФАКТОРА) — 1-2 предложения (до 20 слов). Оцени последствия для обычного человека: что будет с ценами, безопасностью или экономикой. БЕЗ ТЕГОВ HTML.
-5. importance — целое 1-10. (9-10 экстренно, 7-8 политика/экономика, 1-6 бытовуха).
-6. is_ad — true, если это реклама.
-7. hashtag — выбери один тег по теме: #Политика, #Экономика, #Мир, #Происшествия, #Технологии, #Россия.
+   - Включи ТОЛЬКО ключевые факты (имена, цифры).
+   - Выдели главные акценты тегами <b>жирный шрифт</b>.
+   - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Верни ОДНУ СТРОКУ с переносами \n. НЕ ОБРЫВАЙ ПРЕДЛОЖЕНИЯ.
+3. insight — (Взгляд ФАКТОРА) — 1-2 предложения (до 20 слов). Оцени последствия для обычного человека: что будет с ценами, безопасностью или экономикой. БЕЗ ТЕГОВ HTML.
+4. importance — целое 1-10. (9-10 экстренно, 7-8 политика/экономика, 1-6 бытовуха).
+5. is_ad — true, если это реклама.
+6. hashtag — выбери один тег по теме: #Политика, #Экономика, #Мир, #Происшествия, #Технологии, #Россия.
 
-Верни ТОЛЬКО JSON: {"is_valid": true, "headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false, "hashtag": "#Политика"}`;
+Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false, "hashtag": "#Политика"}`;
 
         let llmResult: any = null;
 
@@ -655,10 +650,6 @@ ${cleanDesc}
         }
 
         if (llmResult) {
-            if (llmResult.is_valid === false) {
-                return { is_valid: false, headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
-            }
-            
             let headlineStr = String(llmResult.headline || "").trim();
             let bodyStr = llmResult.body;
             
@@ -676,7 +667,6 @@ ${cleanDesc}
                 
                 if (!isEnglish) {
                     return {
-                        is_valid: true,
                         headline: validateHeadline(headlineStr, fallbackHeadline),
                         body: bodyStr,
                         insight: insightStr,
@@ -688,9 +678,9 @@ ${cleanDesc}
             }
         }
 
-        return { is_valid: false, headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
+        return { headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
     } catch (e) {
-        return { is_valid: false, headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
+        return { headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
     }
 }
 
@@ -787,7 +777,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v124: Запуск отбора событий (Balanced) ===");
+    console.log("=== ФАКТОР v125: Запуск отбора событий (Fixed AI) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
@@ -828,7 +818,7 @@ async function run(): Promise<boolean> {
 
     const topCandidates = uniqueCandidates.slice(0, 25);
 
-    let skippedDup = 0, skippedImportance = 0, skippedNoMedia = 0, skippedInvalid = 0, published = 0;
+    let skippedDup = 0, skippedImportance = 0, skippedNoMedia = 0, published = 0;
 
     const recentDescs: string[] = (await kv.get(["factor", "recent_descs"])).value || [];
     const recentBodies: string[] = (await kv.get(["factor", "recent_bodies"])).value || [];
@@ -858,11 +848,6 @@ async function run(): Promise<boolean> {
             const mediaPacket = getMediaPacket(item, mixedCandidates);
             const post = await formatNewsPost(item.title, item.desc);
 
-            if (!post.is_valid) { 
-                console.log(`❌ Пропуск: ИИ отклонил новость (нет конкретики).`);
-                skippedInvalid++; 
-                continue; 
-            }
             if (post.is_ad) { skippedImportance++; continue; }
 
             if (!post.headline || !post.body || post.body.length < 30) {
@@ -954,7 +939,7 @@ async function run(): Promise<boolean> {
             console.error("Ошибка при обработке новости:", itemError);
         }
     }
-    console.log(`\nИтого: дублей ${skippedDup}, неважных ${skippedImportance}, отклонено ИИ ${skippedInvalid}, без медиа ${skippedNoMedia}, опубликовано ${published}`);
+    console.log(`\nИтого: дублей ${skippedDup}, неважных ${skippedImportance}, без медиа ${skippedNoMedia}, опубликовано ${published}`);
     return false;
 }
 
