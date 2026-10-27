@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v131 - Free Models)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v133 - Fast & Video Focus)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -13,11 +13,11 @@ const ANYMODEL_API_KEY = Deno.env.get("ANYMODEL_API_KEY") ?? "";
 const MAX_RUNTIME_MS = 4.5 * 60 * 60 * 1000; 
 const LOOP_SLEEP_MIN_MS = 4 * 60 * 1000; 
 const LOOP_SLEEP_MAX_MS = 6 * 60 * 1000; 
-const POST_COOLDOWN_MS = 40 * 60 * 1000; 
+const POST_COOLDOWN_MS = 15 * 60 * 1000; // 🚀 УМЕНЬШИЛИ ПАУЗУ ДО 15 МИНУТ
 
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
 const MEDIA_PACKET_MAX = 10; 
-const MIN_IMPORTANCE = 6; 
+const MIN_IMPORTANCE = 7; // 🚀 ПОДНЯЛИ ВАЖНОСТЬ ДО 7 (только важное)
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
 const STATE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
@@ -404,6 +404,7 @@ function simpleHash(str: string): string {
     return Math.abs(h).toString(36);
 }
 
+// 🚀 УЛУЧШЕННЫЙ ГЛУБОКИЙ ПАРСИНГ (Ищем видео везде)
 async function extractMediaFromUrl(url: string): Promise<{ video: string[], image: string[] }> {
     const res = { video: [] as string[], image: [] as string[] };
     if (!url) return res;
@@ -416,7 +417,9 @@ async function extractMediaFromUrl(url: string): Promise<{ video: string[], imag
             ...html.matchAll(/https?:\/\/[^"'\s>]+?\.mp4(?:\?[^"'\s>]*)?/gi),
             ...html.matchAll(/<video[^>]+src=["']([^"']+)["']/gi),
             ...html.matchAll(/<source[^>]+src=["']([^"']+)["']/gi),
-            ...html.matchAll(/<meta[^>]+property=["']og:video["'][^>]+content=["']([^"']+)["']/gi)
+            ...html.matchAll(/<meta[^>]+property=["']og:video["'][^>]+content=["']([^"']+)["']/gi),
+            ...html.matchAll(/<meta[^>]+property=["']og:video:url["'][^>]+content=["']([^"']+)["']/gi),
+            ...html.matchAll(/<meta[^>]+property=["']og:video:secure_url["'][^>]+content=["']([^"']+)["']/gi)
         ].map(m => m[1] || m[0]);
         res.video = [...new Set(vMatches)].filter(u => !isTrashUrl(u));
 
@@ -593,12 +596,18 @@ ${cleanDesc}
 
 Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false, "hashtag": "#Политика"}`;
 
-        // 🚀 ЖЕСТКО ПРОПИСЫВАЕМ ТВОИ БЕСПЛАТНЫЕ МОДЕЛИ ИЗ ANYMODEL
         const aiProviders = [
             {
                 name: "Официальный Gemini",
                 url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`,
                 type: "google"
+            },
+            {
+                name: "AnyModel (Free Auto Router)",
+                url: `https://anymodel.org/v1/chat/completions`,
+                key: ANYMODEL_API_KEY,
+                model: "am/free",
+                type: "openai"
             },
             {
                 name: "AnyModel (GPT-OSS 20B)",
@@ -619,6 +628,13 @@ ${cleanDesc}
                 url: `https://anymodel.org/v1/chat/completions`,
                 key: ANYMODEL_API_KEY,
                 model: "am/nemotron-3.5-lightning-30b-a3b",
+                type: "openai"
+            },
+            {
+                name: "AnyModel (Nemotron 3 Ultra)",
+                url: `https://anymodel.org/v1/chat/completions`,
+                key: ANYMODEL_API_KEY,
+                model: "am/nemotron-3-ultra-550b-a55b",
                 type: "openai"
             },
             {
@@ -809,7 +825,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v131: Запуск отбора событий (Free Models) ===");
+    console.log("=== ФАКТОР v133: Запуск отбора событий (Fast & Video) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
@@ -894,6 +910,7 @@ async function run(): Promise<boolean> {
                 finalImportance = 8; 
             }
 
+            // 🚀 УМНОЕ ПРАВИЛО: Если нет медиа, публикуем ТОЛЬКО если новость архиважная (8+)
             if (mediaPacket.length === 0 && finalImportance < 8) {
                 console.log(`❌ Пропуск: нет медиа, и новость не экстренная (важность ${finalImportance}).`);
                 skippedNoMedia++;
@@ -990,7 +1007,7 @@ while (Date.now() - startTime < MAX_RUNTIME_MS) {
     }
 
     if (posted) {
-        console.log(`\n😴 Пост опубликован. Ждем завершения таймера (40 мин)...`);
+        console.log(`\n😴 Пост опубликован. Ждем 15 минут перед следующим...`);
         await new Promise(r => setTimeout(r, LOOP_SLEEP_MIN_MS));
     } else {
         const sleepMs = LOOP_SLEEP_MIN_MS + Math.random() * (LOOP_SLEEP_MAX_MS - LOOP_SLEEP_MIN_MS);
