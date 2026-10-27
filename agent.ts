@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v138 - Direct Download)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v140 - Bulletproof Media)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -13,10 +13,10 @@ const ANYMODEL_API_KEY = Deno.env.get("ANYMODEL_API_KEY") ?? "";
 const MAX_RUNTIME_MS = 4.5 * 60 * 60 * 1000; 
 const LOOP_SLEEP_MIN_MS = 4 * 60 * 1000; 
 const LOOP_SLEEP_MAX_MS = 6 * 60 * 1000; 
-const POST_COOLDOWN_MS = 15 * 60 * 1000; // 15 минут
+const POST_COOLDOWN_MS = 15 * 60 * 1000; // Пауза между постами 15 минут
 
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
-const MEDIA_PACKET_MAX = 6; 
+const MEDIA_PACKET_MAX = 6; // До 6 медиафайлов на пост
 const MIN_IMPORTANCE = 7; 
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
@@ -30,9 +30,9 @@ const SIMILARITY_THRESHOLD = 0.25;
 const MIN_IMAGE_BYTES = 10 * 1024;
 const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
 const MIN_VIDEO_BYTES = 50 * 1024;
-const MAX_VIDEO_BYTES = 100 * 1024 * 1024; 
+const MAX_VIDEO_BYTES = 100 * 1024 * 1024; // До 100 МБ
 
-const DOWNLOAD_TIMEOUT_MS = 300000; // 5 минут
+const DOWNLOAD_TIMEOUT_MS = 300000; // 5 минут таймаут
 const LLM_TIMEOUT_MS = 40000; 
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
@@ -278,28 +278,34 @@ async function getTextHash(text: string): Promise<string> {
 function isTrashUrl(url: string): boolean {
     const low = url.toLowerCase();
     
-    const isValidMedia = low.includes(".mp4") || low.includes(".jpg") || low.includes(".jpeg") || low.includes(".png") || low.includes(".webp") || low.includes("telegram-cdn.org");
-    if (!isValidMedia) return true;
+    // Разрешаем CDN телеграма и прямые ссылки на медиа
+    if (low.includes("telegram-cdn.org") || low.includes("telesco.pe")) return false;
 
-    if (low.includes("yandex") || low.includes("yadro") || low.includes("google-analytics") || low.includes("mc.yandex") || low.includes("counter") || low.includes("pixel") || low.includes("banner")) {
+    // Блокируем счетчики, аналитику, иконки и SVG
+    if (
+        low.includes("yandex") || low.includes("yadro") || low.includes("google-analytics") || 
+        low.includes("mc.yandex") || low.includes("counter") || low.includes("pixel") || 
+        low.includes("banner") || low.includes("/card") || low.includes("textcard") || 
+        low.includes("share") || low.includes("logo") || low.includes("avatar") || 
+        low.includes("stub") || low.includes("1x1") || low.includes(".svg") ||
+        low.includes("google.com") || low.includes("interfax.ru/ftproot") ||
+        low.includes("data:image") || low.includes("base64,")
+    ) {
         return true;
     }
 
-    return (
-        low.includes("/card") || low.includes("textcard") || low.includes("share") ||
-        low.includes("logo") || low.includes("avatar") || low.includes("stub") ||
-        low.includes("1x1") || low.includes(".svg") ||
-        low.includes("google.com") || low.includes("interfax.ru/ftproot") ||
-        low.includes("data:image") || low.includes("base64,")
-    );
+    return false;
 }
 
-// 🚀 СКАЧИВАНИЕ: Сначала напрямую, потом через прокси
+// 🚀 СКАЧИВАНИЕ: Умный перебор (Прямой -> Прокси -> Прокси)
 async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array | null> {
     if (!url || isTrashUrl(url)) return null;
 
+    let referer = "https://t.me/";
+    try { referer = new URL(url).origin; } catch(e) {}
+
     const urlsToTry = [
-        url, // 🚀 Сначала пробуем НАПРЯМУЮ
+        url,
         `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
         `https://corsproxy.io/?${encodeURIComponent(url)}`
     ];
@@ -308,7 +314,7 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
 
     for (let i = 0; i < urlsToTry.length; i++) {
         const candidateUrl = urlsToTry[i];
-        const methodName = i === 0 ? "Прямой запрос" : `Прокси ${i}`;
+        const methodName = i === 0 ? "Прямой" : `Прокси ${i}`;
         
         try {
             const controller = new AbortController();
@@ -318,9 +324,8 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
                 method: "GET",
                 headers: {
                     "User-Agent": USER_AGENT,
-                    "Referer": "https://t.me/",
-                    "Origin": "https://web.telegram.org",
-                    "Accept": "*/*",
+                    "Referer": referer,
+                    "Accept": isVideo ? "video/mp4,video/*;q=0.9,*/*;q=0.8" : "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
                 },
                 signal: controller.signal,
             });
@@ -328,15 +333,15 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
             clearTimeout(timeoutId);
 
             if (!response.ok) {
-                console.log(`  ⚠️ ${methodName}: HTTP ${response.status}`);
+                console.log(`      ⚠️ ${methodName} вернул HTTP ${response.status}`);
                 continue;
             }
 
             const contentType = (response.headers.get("content-type") || "").toLowerCase();
             
-            // Если сервер вернул HTML, значит это ошибка или капча
+            // 🚀 Защита от HTML-капчи
             if (contentType.includes("text/html") || contentType.includes("application/json")) {
-                console.log(`  ⚠️ ${methodName}: Сервер отдал HTML/JSON вместо файла`);
+                console.log(`      ⚠️ ${methodName} вернул HTML вместо файла`);
                 continue;
             }
 
@@ -344,19 +349,15 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
             const min = isVideo ? MIN_VIDEO_BYTES : MIN_IMAGE_BYTES;
             const max = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
 
-            if (buf.byteLength < min) {
-                console.log(`  ⚠️ ${methodName}: Файл слишком маленький (${buf.byteLength} байт)`);
-                continue;
-            }
-            if (buf.byteLength > max) {
-                console.log(`  ⚠️ ${methodName}: Файл слишком большой (${buf.byteLength} байт)`);
+            if (buf.byteLength < min || buf.byteLength > max) {
+                console.log(`      ⚠️ ${methodName}: размер ${Math.round(buf.byteLength/1024)}КБ не подходит`);
                 continue;
             }
 
-            console.log(`  ✅ Скачано успешно (${methodName}): ${Math.round(buf.byteLength / 1024)} КБ`);
+            console.log(`      ✅ Скачано (${methodName}): ${Math.round(buf.byteLength / 1024)} КБ`);
             return buf;
         } catch (e: any) {
-            console.log(`  ⚠️ ${methodName}: Ошибка (${e.message})`);
+            console.log(`      ⚠️ ${methodName}: Ошибка сети (${e.message.slice(0, 30)})`);
             continue; 
         }
     }
@@ -435,7 +436,7 @@ function simpleHash(str: string): string {
     return Math.abs(h).toString(36);
 }
 
-// 🚀 ГЛУБОКИЙ ПАРСИНГ САЙТОВ
+// 🚀 ПАРСИНГ САЙТОВ (Ищем все картинки и прямые ссылки на видео)
 async function extractMediaFromUrl(url: string): Promise<{ video: string[], image: string[] }> {
     const res = { video: [] as string[], image: [] as string[] };
     if (!url) return res;
@@ -452,31 +453,21 @@ async function extractMediaFromUrl(url: string): Promise<{ video: string[], imag
             if (!r.ok) continue;
             const html = await r.text();
 
+            // Видео ищем только в тегах video или og:video (без iframe)
             const vMatches = [
-                ...html.matchAll(/https?:\/\/[^"'\s>]+?\.mp4(?:\?[^"'\s>]*)?/gi),
                 ...html.matchAll(/<video[^>]+src=["']([^"']+)["']/gi),
                 ...html.matchAll(/<source[^>]+src=["']([^"']+)["']/gi),
                 ...html.matchAll(/<meta[^>]+property=["']og:video["'][^>]+content=["']([^"']+)["']/gi)
-            ].map(m => m[1] || m[0]);
+            ].map(m => m[1]);
             
-            const iframes = [...html.matchAll(/<iframe[^>]+src=["']([^"']+)["']/gi)].map(m => m[1]);
-            for (const iframe of iframes) {
-                if (iframe.includes("rutube") || iframe.includes("vk.com") || iframe.includes("youtube")) {
-                    const videoIdMatch = iframe.match(/(?:video|embed|video_id=)([a-zA-Z0-9_-]+)/i);
-                    if (videoIdMatch && videoIdMatch[1]) {
-                        if (iframe.includes("rutube")) {
-                            res.video.push(`https://rutube.ru/api/play/options/${videoIdMatch[1]}/?format=mp4`);
-                        }
-                    }
-                }
-            }
+            res.video = [...new Set(vMatches)].filter(u => !isTrashUrl(u));
 
-            res.video = [...new Set([...res.video, ...vMatches])].filter(u => !isTrashUrl(u));
-
+            // Фото: og:image и все картинки
             const imgMatches = [
                 ...html.matchAll(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/gi),
                 ...html.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)
             ].map(m => m[1]);
+            
             res.image = [...new Set(imgMatches)].filter(u => !isTrashUrl(u)).slice(0, 4);
 
             if (res.video.length > 0 || res.image.length > 0) {
@@ -784,7 +775,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v138: Запуск (Direct Download) ===");
+    console.log("=== ФАКТОР v140: Запуск (Bulletproof Media) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
@@ -869,6 +860,7 @@ async function run(): Promise<boolean> {
 
             const uploaded: Array<{ token: string; type: "image" | "video" }> = [];
             for (const media of mediaPacket) {
+                console.log(`  📥 Скачиваем ${media.mediaType}...`);
                 let mediaBytes = await downloadBuffer(media.mediaUrl, media.mediaType === "video");
                 if (!mediaBytes) continue;
                 if (media.mediaType === "image") mediaBytes = await applyBrandOverlay(mediaBytes);
@@ -881,6 +873,8 @@ async function run(): Promise<boolean> {
 
             if (uploaded.length === 0 && mediaPacket.length > 0) {
                 console.log(`⚠️ Медиа не скачалось. Публикуем без него.`);
+            } else {
+                console.log(`✅ Успешно загружено медиа: ${uploaded.length}`);
             }
 
             let postHtml = `<b>${escapeHtml(post.headline)}</b>\n\n${post.body}\n\n`;
