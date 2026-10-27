@@ -1,50 +1,6 @@
 {
   "version": 1,
   "entries": {
-    "[\"factor\",\"pub\",\"57534673bd3ff89b8af34782710dfe920f573942fb5fdf15c2d9ec29f0c47ba9\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "57534673bd3ff89b8af34782710dfe920f573942fb5fdf15c2d9ec29f0c47ba9"
-      ],
-      "value": true,
-      "expiresAt": 1793124106932
-    },
-    "[\"factor\",\"topic\",\"57534673bd3ff89b8af34782710dfe920f573942fb5fdf15c2d9ec29f0c47ba9\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "57534673bd3ff89b8af34782710dfe920f573942fb5fdf15c2d9ec29f0c47ba9"
-      ],
-      "value": {
-        "title": "Военная операция на Украине. Онлайн",
-        "roots": [
-          "военна",
-          "операц",
-          "украин",
-          "онлайн"
-        ]
-      },
-      "expiresAt": 1793124106933
-    },
-    "[\"factor\",\"texthash\",\"fad4e446cb1238f159259287eaf2f06c1d5a8df1ba925c40d2171a932a807052\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "fad4e446cb1238f159259287eaf2f06c1d5a8df1ba925c40d2171a932a807052"
-      ],
-      "value": true,
-      "expiresAt": 1793124106935
-    },
-    "[\"factor\",\"content\",\"5a5beb80f725ba58d26b5896fd6bf6c1ebb2fb59aa3d9e48b8b8ebebe0bac7b5\"]": {
-      "key": [
-        "factor",
-        "content",
-        "5a5beb80f725ba58d26b5896fd6bf6c1ebb2fb59aa3d9e48b8b8ebebe0bac7b5"
-      ],
-      "value": true,
-      "expiresAt": 1793124106936
-    },
     "[\"factor\",\"recent_descs\"]": {
       "key": [
         "factor",
