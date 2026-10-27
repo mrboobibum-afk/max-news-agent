@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v136 - Clean Media)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v137 - Video Hunter)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -16,7 +16,7 @@ const LOOP_SLEEP_MAX_MS = 6 * 60 * 1000;
 const POST_COOLDOWN_MS = 15 * 60 * 1000; // 15 минут
 
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
-const MEDIA_PACKET_MAX = 4; // 🚀 Максимум 4 медиафайла на пост, чтобы не тянуть мусор
+const MEDIA_PACKET_MAX = 6; // Максимум 6 медиафайлов
 const MIN_IMPORTANCE = 7; 
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
@@ -30,9 +30,9 @@ const SIMILARITY_THRESHOLD = 0.25;
 const MIN_IMAGE_BYTES = 10 * 1024;
 const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
 const MIN_VIDEO_BYTES = 50 * 1024;
-const MAX_VIDEO_BYTES = 50 * 1024 * 1024; 
+const MAX_VIDEO_BYTES = 100 * 1024 * 1024; // 🚀 Увеличили лимит до 100 МБ (MAX поддерживает)
 
-const DOWNLOAD_TIMEOUT_MS = 180000; 
+const DOWNLOAD_TIMEOUT_MS = 300000; // 🚀 5 МИНУТ НА СКАЧИВАНИЕ ВИДЕО!
 const LLM_TIMEOUT_MS = 40000; 
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
@@ -275,16 +275,12 @@ async function getTextHash(text: string): Promise<string> {
     return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
-// 🚀 ЖЕСТКИЙ ФИЛЬТР МУСОРА
 function isTrashUrl(url: string): boolean {
     const low = url.toLowerCase();
     
-    // Разрешаем только нормальные расширения или прямые ссылки телеграма
     const isValidMedia = low.includes(".mp4") || low.includes(".jpg") || low.includes(".jpeg") || low.includes(".png") || low.includes(".webp") || low.includes("telegram-cdn.org");
-    
-    if (!isValidMedia) return true; // Все, что без расширения — в топку (метрики, скрипты)
+    if (!isValidMedia) return true;
 
-    // Блокируем известные счетчики и трекеры
     if (low.includes("yandex") || low.includes("yadro") || low.includes("google-analytics") || low.includes("mc.yandex") || low.includes("counter") || low.includes("pixel") || low.includes("banner")) {
         return true;
     }
@@ -298,6 +294,7 @@ function isTrashUrl(url: string): boolean {
     );
 }
 
+// 🚀 МОЩНЫЙ ЗАГРУЗЧИК С ПРОВЕРКОЙ CONTENT-TYPE
 async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array | null> {
     if (!url || isTrashUrl(url)) return null;
 
@@ -308,7 +305,7 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
     
     if (url.includes("telegram-cdn.org")) proxies.push(url);
 
-    const timeout = isVideo ? 180000 : DOWNLOAD_TIMEOUT_MS; 
+    const timeout = isVideo ? 300000 : DOWNLOAD_TIMEOUT_MS; 
 
     for (let i = 0; i < proxies.length; i++) {
         const candidateUrl = proxies[i];
@@ -322,14 +319,23 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
                     "User-Agent": USER_AGENT,
                     "Referer": "https://t.me/",
                     "Origin": "https://web.telegram.org",
-                    "Accept": "*/*",
+                    "Accept": isVideo ? "video/mp4,video/*;q=0.9,*/*;q=0.8" : "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
                 },
                 signal: controller.signal,
             });
 
             clearTimeout(timeoutId);
 
-            if (!response.ok) {
+            if (!response.ok) continue;
+
+            // 🚀 Проверяем, что сервер реально отдает видео/картинку, а не HTML-заглушку
+            const contentType = response.headers.get("content-type") || "";
+            if (isVideo && !contentType.includes("video") && !contentType.includes("application/octet-stream")) {
+                console.log(`  ⚠️ Сервер прислал ${contentType} вместо видео`);
+                continue;
+            }
+            if (!isVideo && !contentType.includes("image")) {
+                console.log(`  ⚠️ Сервер прислал ${contentType} вместо картинки`);
                 continue;
             }
 
@@ -337,17 +343,10 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
             const min = isVideo ? MIN_VIDEO_BYTES : MIN_IMAGE_BYTES;
             const max = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
 
-            if (buf.byteLength < min || buf.byteLength > max) {
-                continue;
-            }
-
-            const head = new TextDecoder().decode(buf.subarray(0, 30)).toLowerCase();
-            if (head.includes("<html") || head.includes("<!doctype") || head.includes("<?xml")) {
-                continue;
-            }
+            if (buf.byteLength < min || buf.byteLength > max) continue;
 
             return buf;
-        } catch (e) {
+        } catch (e: any) {
             continue; 
         }
     }
@@ -426,7 +425,7 @@ function simpleHash(str: string): string {
     return Math.abs(h).toString(36);
 }
 
-// 🚀 ГЛУБОКИЙ ПАРСИНГ САЙТОВ (Только реальные фото/видео)
+// 🚀 ГЛУБОКИЙ ПАРСИНГ САЙТОВ (Ищем iframe с видео)
 async function extractMediaFromUrl(url: string): Promise<{ video: string[], image: string[] }> {
     const res = { video: [] as string[], image: [] as string[] };
     if (!url) return res;
@@ -443,19 +442,35 @@ async function extractMediaFromUrl(url: string): Promise<{ video: string[], imag
             if (!r.ok) continue;
             const html = await r.text();
 
+            // 1. Ищем прямые ссылки на mp4 или теги video
             const vMatches = [
                 ...html.matchAll(/https?:\/\/[^"'\s>]+?\.mp4(?:\?[^"'\s>]*)?/gi),
                 ...html.matchAll(/<video[^>]+src=["']([^"']+)["']/gi),
                 ...html.matchAll(/<source[^>]+src=["']([^"']+)["']/gi),
                 ...html.matchAll(/<meta[^>]+property=["']og:video["'][^>]+content=["']([^"']+)["']/gi)
             ].map(m => m[1] || m[0]);
-            res.video = [...new Set(vMatches)].filter(u => !isTrashUrl(u));
+            
+            // 2. Если прямых нет, ищем iframe с плеерами (Rutube, VK, YouTube)
+            const iframes = [...html.matchAll(/<iframe[^>]+src=["']([^"']+)["']/gi)].map(m => m[1]);
+            for (const iframe of iframes) {
+                if (iframe.includes("rutube") || iframe.includes("vk.com") || iframe.includes("youtube")) {
+                    // Пытаемся вытащить ID видео из ссылки плеера
+                    const videoIdMatch = iframe.match(/(?:video|embed|video_id=)([a-zA-Z0-9_-]+)/i);
+                    if (videoIdMatch && videoIdMatch[1]) {
+                        // Добавляем прямую ссылку на скачивание для Rutube (если это Rutube)
+                        if (iframe.includes("rutube")) {
+                            res.video.push(`https://rutube.ru/api/play/options/${videoIdMatch[1]}/?format=mp4`);
+                        }
+                    }
+                }
+            }
+
+            res.video = [...new Set([...res.video, ...vMatches])].filter(u => !isTrashUrl(u));
 
             const imgMatches = [
                 ...html.matchAll(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/gi),
                 ...html.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)
             ].map(m => m[1]);
-            // 🚀 Берем максимум 4 картинки, чтобы не сдохнуть от мусора
             res.image = [...new Set(imgMatches)].filter(u => !isTrashUrl(u)).slice(0, 4);
 
             if (res.video.length > 0 || res.image.length > 0) {
@@ -763,7 +778,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v136: Запуск (Clean Media) ===");
+    console.log("=== ФАКТОР v137: Запуск (Video Hunter) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
