@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v119 - Fix Cut Words)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v120 - Global Lock & No Spam)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -15,7 +15,7 @@ const QWEN_BASE_URL = Deno.env.get("QWEN_BASE_URL") ?? "https://dashscope.aliyun
 const MAX_RUNTIME_MS = 4.5 * 60 * 60 * 1000; 
 const LOOP_SLEEP_MIN_MS = 4 * 60 * 1000; 
 const LOOP_SLEEP_MAX_MS = 6 * 60 * 1000; 
-const POST_COOLDOWN_MS = 25 * 60 * 1000; // 🚀 Пауза 25 минут после успешного поста
+const POST_COOLDOWN_MS = 40 * 60 * 1000; // 🚀 Увеличили паузу до 40 минут!
 
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
 const MEDIA_PACKET_MAX = 6; 
@@ -27,7 +27,7 @@ const STATE_MAX_ENTRIES = 300;
 const STATE_KEEP_ENTRIES = 50; 
 
 const RECENT_HISTORY_LIMIT = 20; 
-const SIMILARITY_THRESHOLD = 0.35; 
+const SIMILARITY_THRESHOLD = 0.25; // 🚀 Снизили порог, чтобы лучше ловить дубликаты
 
 const MIN_IMAGE_BYTES = 10 * 1024;
 const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
@@ -215,22 +215,6 @@ function isGibberish(text: string): boolean {
     return badChars > 5 || (badChars > 0 && badChars / text.length > 0.1);
 }
 
-// 🚀 Умная обрезка по словам (гарантированно не рвет слова)
-function truncateText(text: string, maxLength: number): string {
-    if (!text) return "";
-    if (text.length <= maxLength) return text;
-    
-    let truncated = text.slice(0, maxLength);
-    const lastSpace = truncated.lastIndexOf(" ");
-    
-    if (lastSpace > maxLength * 0.5) {
-        truncated = truncated.slice(0, lastSpace);
-    }
-    
-    truncated = truncated.replace(/[\s\-–—,.;:!?]+$/, "");
-    return truncated + "…";
-}
-
 function decodeHtmlEntities(str: string): string {
     return str
         .replace(/&lt;/gi, "<").replace(/&gt;/gi, ">")
@@ -293,7 +277,7 @@ async function isDuplicate(title: string, desc?: string): Promise<boolean> {
         if (tm >= 2) return true;
         let fm = 0;
         for (const r of allRoots) if (set.has(r)) fm++;
-        if (fm >= 4 && titleRoots.length > 0) return true;
+        if (fm >= 3 && titleRoots.length > 0) return true; 
     }
     return false;
 }
@@ -374,27 +358,19 @@ function fixBrandNames(text: string): string {
         .replace(/Starshield/gi, "Starlink");
 }
 
-// 🚀 ЖЕСТКАЯ ПРОВЕРКА: не дает ИИ обрезать слова
 function validateHeadline(llmHead: string, fallbackHead: string): string {
     let h = (llmHead || "").trim();
     
-    // Если ИИ написал слишком длинный заголовок, аккуратно обрезаем его по словам
-    if (h.length > 85) {
-        h = truncateText(h, 85);
-    }
-    
-    if (h.length < 10 || h.endsWith("-") || h.endsWith(",") || h.endsWith("...")) return fallbackHead;
+    // Убираем многоточия в конце, если они есть
+    h = h.replace(/\.+$/, "").replace(/…$/, "");
+
+    if (h.length < 10 || h.endsWith("-") || h.endsWith(",")) return fallbackHead;
     
     const words = h.split(/\s+/).filter(w => w.length > 2);
     if (words.length < 3) return fallbackHead;
     const vaguePhrases = ["работа сделана", "дело тонкое", "к ответу", "на частоте", "всем известно", "без комментариев", "шокирующая", "свершилось"];
     if (vaguePhrases.some(p => h.toLowerCase().includes(p))) return fallbackHead;
     if (!/[a-zA-Zа-яА-Я0-9]/.test(h)) return fallbackHead;
-    
-    // 🚀 Если ИИ всё равно оборвал слово на полуслове (нет точки/кавычки в конце), ставим троеточие
-    if (!/[.!?»"')\]]$/.test(h) && !h.endsWith("…")) {
-        h = h + "…";
-    }
     
     return fixBrandNames(h.charAt(0).toUpperCase() + h.slice(1));
 }
@@ -475,9 +451,9 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 if (BORING_TOPICS.some(r => r.test(textRaw))) continue;
 
                 const sanitized = sanitizeRawText(textRaw);
+                // Берем первое предложение для заголовка
                 const firstSentence = sanitized.split(/[.!?]\s/)[0] || sanitized;
-                
-                const truncatedTitle = truncateText(firstSentence, 90);
+                const truncatedTitle = firstSentence.slice(0, 90); 
 
                 const postIdMatch = post.match(/data-post=["']([^"']+)["']/i);
                 const postKey = postIdMatch ? postIdMatch[1] : "tg_" + simpleHash(sanitized);
@@ -563,9 +539,10 @@ async function fetchRssFeeds(): Promise<any[]> {
                 
                 if (isGibberish(title) || isGibberish(desc)) continue;
                 if (BORING_TOPICS.some(r => r.test(`${title} ${desc}`))) continue;
-                if (!title) continue;
+                // 🚀 Отсеиваем обрезанные новости
+                if (!title || desc.endsWith("...") || desc.endsWith("…") || desc.length < 60) continue;
 
-                const truncatedTitle = truncateText(title, 90);
+                const truncatedTitle = title.slice(0, 90);
                 const postKey = `${feed.name.toLowerCase()}_${simpleHash(title + (link || ""))}`;
                 const enclosureImg = raw.match(/<enclosure[^>]+url=["']([^"']+)["'][^>]+type=["']image/i)?.[1];
                 const mediaContent = raw.match(/<media:content[^>]+url=["']([^"']+)["']/i)?.[1];
@@ -588,8 +565,7 @@ async function fetchRssFeeds(): Promise<any[]> {
 async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, body: string, insight: string, importance: number, is_ad: boolean, hashtag: string }> {
     try {
         let cleanDesc = sanitizeRawText(desc);
-        
-        const fallbackHeadline = truncateText(sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, ""), 90);
+        const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 90);
         
         if (cleanDesc.toLowerCase().startsWith(fallbackHeadline.toLowerCase())) {
             cleanDesc = cleanDesc.slice(fallbackHeadline.length).trim();
@@ -601,7 +577,7 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
         if (sentences.length > 0) {
             fallbackBody = sentences.slice(0, 3).join(" ").trim(); 
         } else {
-            fallbackBody = cleanDesc.length > 250 ? truncateText(cleanDesc, 250) : cleanDesc;
+            fallbackBody = cleanDesc; // Без обрезки!
         }
 
         const prompt = `Ты — главный редактор аналитического канала «ФАКТОР». Твоя цель — давать сбалансированную картину мира: политика, экономика, международные отношения, технологии и важные события в России. Твой стиль — строго, информативно, с фактами.
@@ -610,12 +586,12 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
 ${cleanDesc}
 
 ТВОИ ЗАДАЧИ:
-1. headline — заголовок (до 8 слов) с 1 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨). КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО обрывать слова на полуслове. Если не влезаешь в лимит — сократи текст, но оставь слова целыми.
+1. headline — заголовок (до 8 слов) с 1 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨). НИКАКИХ МНОГОТОЧИЙ. Дай законченный заголовок.
 2. body — Оформи текст как список из 3-4 пунктов. 
    - Каждый пункт начинай с маркера ▪️.
    - Включи ВСЕ ключевые факты: цифры, имена, даты.
    - Выдели главные акценты (суммы, цифры, имена) тегами <b>жирный шрифт</b>.
-   - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Верни ОДНУ СТРОКУ с переносами \n.
+   - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Верни ОДНУ СТРОКУ с переносами \n. ТЕКСТ ДОЛЖЕН БЫТЬ ЗАКОНЧЕННЫМ, НЕ ОБРЫВАЙ ПРЕДЛОЖЕНИЯ.
 3. insight — (Взгляд ФАКТОРА) — 1-2 предложения (до 20 слов). Оцени последствия для обычного человека: что будет с ценами, безопасностью или экономикой. БЕЗ ТЕГОВ HTML.
 4. importance — целое 1-10. (9-10 экстренно, 7-8 политика/экономика, 1-6 бытовуха).
 5. is_ad — true, если это реклама.
@@ -801,8 +777,19 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v119: Запуск отбора событий ===");
+    console.log("=== ФАКТОР v120: Запуск отбора событий ===");
     
+    // 🚀 ГЛОБАЛЬНЫЙ ЗАМОК (Анти-спам)
+    // Проверяем, когда бот последний раз публиковал новость
+    const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
+    const timeSinceLastPost = Date.now() - lastPostTime;
+    
+    if (timeSinceLastPost < POST_COOLDOWN_MS) {
+        const waitMin = Math.round((POST_COOLDOWN_MS - timeSinceLastPost) / 60000);
+        console.log(`⏳ Замок активен. Прошло ${Math.round(timeSinceLastPost/60000)} мин. Ждем еще ${waitMin} мин.`);
+        return false;
+    }
+
     try {
         const stat = await kv.cleanup();
         console.log(`Очистка state: удалено ${stat.removedExpired} просроченных, ${stat.removedOld} старых, ${stat.removedOverflow} лишних; оставлено ${stat.kept}`);
@@ -920,6 +907,9 @@ async function run(): Promise<boolean> {
                 published++;
                 publishesSinceCommit++;
                 
+                // 🚀 СТАВИМ ЗАМОК
+                await kv.set(["factor", "last_post_time"], Date.now());
+
                 await kv.set(["factor", "pub", hash], true, { expireIn: HISTORY_TTL_MS });
                 await kv.set(["factor", "topic", hash], { title: item.title, roots: getRoots(item.title) }, { expireIn: HISTORY_TTL_MS });
                 await kv.set(["factor", "texthash", textHash], true, { expireIn: HISTORY_TTL_MS });
@@ -933,6 +923,10 @@ async function run(): Promise<boolean> {
 
                 recentTitles.push(post.headline); if (recentTitles.length > RECENT_HISTORY_LIMIT) recentTitles.shift();
                 await kv.set(["factor", "recent_titles"], recentTitles, { expireIn: HISTORY_TTL_MS });
+
+                // Сразу сохраняем состояние в Git, чтобы другие параллельные процессы увидели замок
+                await commitStateToGit();
+                publishesSinceCommit = 0;
 
                 return true; 
             }
@@ -959,9 +953,10 @@ while (Date.now() - startTime < MAX_RUNTIME_MS) {
         publishesSinceCommit = 0;
     }
 
+    // Если был пост, цикл просто идет на следующую итерацию, а там сработает проверка "last_post_time" (Замок)
     if (posted) {
-        console.log(`\n😴 Пост опубликован. Ждем 25 минут, чтобы не спамить...`);
-        await new Promise(r => setTimeout(r, POST_COOLDOWN_MS));
+        console.log(`\n😴 Пост опубликован. Ждем завершения таймера (40 мин)...`);
+        await new Promise(r => setTimeout(r, LOOP_SLEEP_MIN_MS));
     } else {
         const sleepMs = LOOP_SLEEP_MIN_MS + Math.random() * (LOOP_SLEEP_MAX_MS - LOOP_SLEEP_MIN_MS);
         console.log(`\n💤 Новых новостей нет. Ожидание ${Math.round(sleepMs / 60000)} мин...`);
