@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v121 - Strict Quality & Media)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v124 - Direct Line Style)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -18,7 +18,7 @@ const LOOP_SLEEP_MAX_MS = 6 * 60 * 1000;
 const POST_COOLDOWN_MS = 40 * 60 * 1000; 
 
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
-const MEDIA_PACKET_MAX = 6; 
+const MEDIA_PACKET_MAX = 10; 
 const MIN_IMPORTANCE = 6; 
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
@@ -430,6 +430,32 @@ function simpleHash(str: string): string {
     return Math.abs(h).toString(36);
 }
 
+// 🚀 ГЛУБОКИЙ ПАРСИНГ САЙТОВ (Вытаскивает видео и фото со страниц статей)
+async function extractMediaFromUrl(url: string): Promise<{ video: string[], image: string[] }> {
+    const res = { video: [] as string[], image: [] as string[] };
+    if (!url) return res;
+    try {
+        const r = await fetch(url, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(10000) });
+        if (!r.ok) return res;
+        const html = await r.text();
+
+        const vMatches = [
+            ...html.matchAll(/https?:\/\/[^"'\s>]+?\.mp4(?:\?[^"'\s>]*)?/gi),
+            ...html.matchAll(/<video[^>]+src=["']([^"']+)["']/gi),
+            ...html.matchAll(/<source[^>]+src=["']([^"']+)["']/gi),
+            ...html.matchAll(/<meta[^>]+property=["']og:video["'][^>]+content=["']([^"']+)["']/gi)
+        ].map(m => m[1] || m[0]);
+        res.video = [...new Set(vMatches)].filter(u => !isTrashUrl(u));
+
+        const imgMatches = [
+            ...html.matchAll(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/gi),
+            ...html.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)
+        ].map(m => m[1]);
+        res.image = [...new Set(imgMatches)].filter(u => !isTrashUrl(u));
+    } catch(e) {}
+    return res;
+}
+
 async function fetchTelegramLiveFeed(): Promise<any[]> {
     const liveItems: any[] = [];
     const now = Date.now();
@@ -456,57 +482,43 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 const postIdMatch = post.match(/data-post=["']([^"']+)["']/i);
                 const postKey = postIdMatch ? postIdMatch[1] : "tg_" + simpleHash(sanitized);
 
-                const postLinkMatch = post.match(/<a class="tgme_widget_message_date"[^>]+href="([^"]+)"/i);
-                const postLink = postLinkMatch ? postLinkMatch[1] : null;
-                const hasVideo = post.includes("tgme_widget_message_video_player") || post.includes("tgme_widget_message_roundvideo");
-
-                let videos: string[] = [];
-                
-                if (hasVideo && postLink) {
-                    try {
-                        const vRes = await fetch(postLink, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(8000) });
-                        if (vRes.ok) {
-                            const vHtml = await vRes.text();
-                            const vMatch = vHtml.match(/<video[^>]+src=["']([^"']+)["']/i) || vHtml.match(/<source[^>]+src=["']([^"']+)["']/i);
-                            if (vMatch) videos.push(vMatch[1]);
-                        }
-                    } catch(e) {}
-                }
-
-                if (videos.length === 0) {
-                    videos = [
-                        ...post.matchAll(/https?:\/\/[^"'\s>]+?\.mp4(?:\?[^"'\s>]*)?/gi),
-                        ...post.matchAll(/<video[^>]+src=["']([^"']+)["']/gi)
-                    ].map(m => m[0].startsWith("http") ? m[0] : m[1]);
-                }
-
                 const images = [
                     ...post.matchAll(/<a[^>]+class="tgme_widget_message_photo_wrap[^"]*"[^>]+style="[^"]*background-image:url\('([^']+)'\)/gi),
                     ...post.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)
                 ].map(m => m[1]).filter(u => !isTrashUrl(u));
 
-                const mediaUrls: any[] = [];
-                if (videos.length > 0) {
-                    const uniqueVideos = [...new Set(videos)];
-                    uniqueVideos.forEach(url => mediaUrls.push({ mediaUrl: url, mediaType: "video" }));
-                } else {
-                    const uniqueImages = [...new Set(images)];
-                    uniqueImages.forEach(url => mediaUrls.push({ mediaUrl: url, mediaType: "image" }));
+                let videos: string[] = [];
+                const hasVideo = post.includes("tgme_widget_message_video_player") || post.includes("tgme_widget_message_roundvideo");
+
+                if (hasVideo && postKey) {
+                    try {
+                        const embedUrl = `https://t.me/${postKey}?embed=1&mode=tme`;
+                        const vRes = await fetch(embedUrl, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(8000) });
+                        if (vRes.ok) {
+                            const vHtml = await vRes.text();
+                            videos = [
+                                ...vHtml.matchAll(/<video[^>]+src=["']([^"']+)["']/gi),
+                                ...vHtml.matchAll(/<source[^>]+src=["']([^"']+)["']/gi)
+                            ].map(m => m[1]);
+                        }
+                    } catch(e) {}
                 }
 
+                const mediaUrls: any[] = [];
+                const uniqueVideos = [...new Set(videos)];
+                const uniqueImages = [...new Set(images)];
+
+                uniqueVideos.forEach(url => mediaUrls.push({ mediaUrl: url, mediaType: "video" }));
+                uniqueImages.forEach(url => mediaUrls.push({ mediaUrl: url, mediaType: "image" }));
+
+                // Если медиа нет, все равно добавляем в пул (текстовая новость)
                 if (mediaUrls.length > 0) {
                     mediaUrls.forEach(media => {
-                        liveItems.push({ 
-                            title: truncatedTitle, 
-                            desc: sanitized, 
-                            mediaUrl: media.mediaUrl, 
-                            mediaType: media.mediaType, 
-                            sourceName: ch, 
-                            sourceType: "tg", 
-                            postKey,
-                            postDate: postDate || 0 
-                        });
+                        liveItems.push({ title: truncatedTitle, desc: sanitized, mediaUrl: media.mediaUrl, mediaType: media.mediaType, sourceName: ch, sourceType: "tg", postKey, postDate: postDate || 0 });
                     });
+                } else {
+                    // Текстовая новость
+                    liveItems.push({ title: truncatedTitle, desc: sanitized, mediaUrl: null, mediaType: "none", sourceName: ch, sourceType: "tg", postKey, postDate: postDate || 0 });
                 }
             }
         } catch (e) { }
@@ -537,22 +549,36 @@ async function fetchRssFeeds(): Promise<any[]> {
                 
                 if (isGibberish(title) || isGibberish(desc)) continue;
                 if (BORING_TOPICS.some(r => r.test(`${title} ${desc}`))) continue;
-                // 🚀 Отсеиваем короткие заглушки из RSS (анонсы)
                 if (!title || desc.endsWith("...") || desc.endsWith("…") || desc.length < 200) continue;
 
                 const truncatedTitle = title.slice(0, 90);
                 const postKey = `${feed.name.toLowerCase()}_${simpleHash(title + (link || ""))}`;
+                
                 const enclosureImg = raw.match(/<enclosure[^>]+url=["']([^"']+)["'][^>]+type=["']image/i)?.[1];
                 const mediaContent = raw.match(/<media:content[^>]+url=["']([^"']+)["']/i)?.[1];
                 const mediaThumbnail = raw.match(/<media:thumbnail[^>]+url=["']([^"']+)["']/i)?.[1];
                 const imgMatches = [...descHtml.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)].map(m => m[1]);
-                const allImages = [enclosureImg, mediaContent, mediaThumbnail, ...imgMatches].filter(Boolean).filter(u => !isTrashUrl(u));
-                const uniqueImages = [...new Set(allImages)];
+                
+                let uniqueImages = [...new Set([enclosureImg, mediaContent, mediaThumbnail, ...imgMatches].filter(Boolean).filter(u => !isTrashUrl(u)))];
+                let uniqueVideos: string[] = [];
 
-                if (uniqueImages.length > 0) {
-                    for (const img of uniqueImages) {
-                        items.push({ title: truncatedTitle, desc, mediaUrl: img, mediaType: "image", sourceName: feed.name, sourceType: "rss", postKey, postDate: pubDateMatch ? Date.parse(pubDateMatch[1]) : 0 });
-                    }
+                // Глубокий парсинг сайта
+                if (link) {
+                    const deepMedia = await extractMediaFromUrl(link);
+                    if (deepMedia.video.length > 0) uniqueVideos = deepMedia.video;
+                    if (uniqueImages.length === 0 && deepMedia.image.length > 0) uniqueImages = deepMedia.image.slice(0, 5);
+                }
+
+                const mediaUrls: any[] = [];
+                uniqueVideos.forEach(v => mediaUrls.push({ mediaUrl: v, mediaType: "video" }));
+                uniqueImages.forEach(i => mediaUrls.push({ mediaUrl: i, mediaType: "image" }));
+
+                if (mediaUrls.length > 0) {
+                    mediaUrls.forEach(media => {
+                        items.push({ title: truncatedTitle, desc, mediaUrl: media.mediaUrl, mediaType: media.mediaType, sourceName: feed.name, sourceType: "rss", postKey, postDate: pubDateMatch ? Date.parse(pubDateMatch[1]) : 0 });
+                    });
+                } else {
+                    items.push({ title: truncatedTitle, desc, mediaUrl: null, mediaType: "none", sourceName: feed.name, sourceType: "rss", postKey, postDate: pubDateMatch ? Date.parse(pubDateMatch[1]) : 0 });
                 }
             }
         } catch (e) { }
@@ -570,18 +596,19 @@ async function formatNewsPost(title: string, desc: string): Promise<{ is_valid: 
             cleanDesc = cleanDesc.replace(/^[-—:.\s]+/, ''); 
         }
 
-        const prompt = `Ты — главный редактор аналитического канала «ФАКТОР». Твоя цель — давать сбалансированную картину мира: политика, экономика, международные отношения, технологии и важные события в России. Твой стиль — строго, информативно, с фактами.
+        const prompt = `Ты — главный редактор аналитического канала «ФАКТОР». Твоя цель — давать сбалансированную картину мира: политика, экономика, международные отношения, технологии и важные события в России. Твой стиль — строго, информативно, с фактами. Пиши так же четко и по делу, как канал «Прямой Эфир».
 
 ИСХОДНЫЙ ТЕКСТ:
 ${cleanDesc}
 
 ТВОИ ЗАДАЧИ:
 1. is_valid — true, если новость содержит КОНКРЕТИКУ (названия компаний, имена чиновников, конкретные цифры, места). Если в тексте написано просто "компания", "эксперт", "источник", и из-за этого непонятно, о ком речь — верни false.
-2. headline — заголовок (до 8 слов) с 1 эмодзи. КАТЕГОРИЧЕСКИ БЕЗ МНОГОТОЧИЙ.
+2. headline — заголовок (до 8 слов) с 1 эмодзи. КАТЕГОРИЧЕСКИ БЕЗ МНОГОТОЧИЙ. Ярко и точно.
 3. body — Оформи текст как список из 2-3 КОРОТКИХ пунктов (до 15 слов каждый). 
    - Каждый пункт начинай с маркера ▪️.
    - Включи ТОЛЬКО ключевые факты.
    - Выдели главные акценты (суммы, цифры, имена) тегами <b>жирный шрифт</b>.
+   - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Верни ОДНУ СТРОКУ с переносами \n. ТЕКСТ ДОЛЖЕН БЫТЬ ЗАКОНЧЕННЫМ, НЕ ОБРЫВАЙ ПРЕДЛОЖЕНИЯ.
 4. insight — (Взгляд ФАКТОРА) — 1-2 предложения (до 20 слов). Оцени последствия для обычного человека: что будет с ценами, безопасностью или экономикой. БЕЗ ТЕГОВ HTML.
 5. importance — целое 1-10. (9-10 экстренно, 7-8 политика/экономика, 1-6 бытовуха).
 6. is_ad — true, если это реклама.
@@ -760,7 +787,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v121: Запуск отбора событий (Strict Quality) ===");
+    console.log("=== ФАКТОР v124: Запуск отбора событий (Balanced) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
@@ -829,13 +856,6 @@ async function run(): Promise<boolean> {
             console.log("\nОбработка: " + item.title);
 
             const mediaPacket = getMediaPacket(item, mixedCandidates);
-            // 🚀 Если нет медиа - даже не дергаем ИИ
-            if (mediaPacket.length === 0) {
-                console.log(`❌ Пропуск: нет медиа (видео/фото).`);
-                skippedNoMedia++;
-                continue;
-            }
-
             const post = await formatNewsPost(item.title, item.desc);
 
             if (!post.is_valid) { 
@@ -855,6 +875,13 @@ async function run(): Promise<boolean> {
             const rawTextLower = item.desc.toLowerCase();
             if (/(?:путин|трамп|зеленск|бпла|дрон|атака|удар|погиб|пострадавш|цб|ставка|санкци|госдума|ушаков|лавров|мишустин|набиуллин)/i.test(rawTextLower)) {
                 finalImportance = 8; 
+            }
+
+            // 🚀 УМНОЕ ПРАВИЛО МЕДИА: Если нет медиа, публикуем ТОЛЬКО если новость архиважная (8+)
+            if (mediaPacket.length === 0 && finalImportance < 8) {
+                console.log(`❌ Пропуск: нет медиа, и новость не экстренная (важность ${finalImportance}).`);
+                skippedNoMedia++;
+                continue;
             }
 
             if (finalImportance < MIN_IMPORTANCE) { skippedImportance++; continue; }
@@ -885,10 +912,8 @@ async function run(): Promise<boolean> {
                 if (uploaded.length >= MEDIA_PACKET_MAX) break;
             }
 
-            if (!uploaded.length) {
-                console.log(`❌ Пропуск: медиа не скачалось.`);
-                skippedNoMedia++;
-                continue;
+            if (uploaded.length === 0 && mediaPacket.length > 0) {
+                console.log(`⚠️ Медиа было, но не скачалось. Публикуем без него (важность ${finalImportance}).`);
             }
 
             let postHtml = `<b>${escapeHtml(post.headline)}</b>\n\n`;
