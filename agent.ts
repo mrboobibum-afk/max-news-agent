@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v143 - Telegram Video Fix)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v144 - 4-Hour Cycle)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -10,7 +10,8 @@ const TARGET_CHAT_ID = Deno.env.get("TARGET_CHAT_ID") ?? "";
 const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? "";
 const ANYMODEL_API_KEY = Deno.env.get("ANYMODEL_API_KEY") ?? "";
 
-const MAX_RUNTIME_MS = 4.5 * 60 * 60 * 1000; 
+// 🚀 РАБОТАЕМ 3 ЧАСА 45 МИНУТ (чтобы успеть сохранить стейт до следующего пинга)
+const MAX_RUNTIME_MS = 3.75 * 60 * 60 * 1000; 
 const LOOP_SLEEP_MIN_MS = 4 * 60 * 1000; 
 const LOOP_SLEEP_MAX_MS = 6 * 60 * 1000; 
 const POST_COOLDOWN_MS = 15 * 60 * 1000; 
@@ -107,7 +108,7 @@ const BORING_TOPICS = [
     /(?:туристка|умерла|скончалась|потеряла равновесие|упала с высоты|сорвалась)/i,
     /(?:чемпионат|соревновани[яе]|турнир|учени[яе]|тактика дронов|эк-министр|финансовый спор)/i,
     /(?:внутренние разногласия|внешние угрозы|разобщенность властей)/i,
-    /(?:десантировать|парашют|рамп\s+предлагает|инопланетян|магия|колдун)/i // ФИЛЬТР БРЕДА
+    /(?:десантировать|парашют|рамп\s+предлагает|инопланетян|магия|колдун)/i 
 ];
 
 class FileKV {
@@ -509,7 +510,6 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                     ...post.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)
                 ].map(m => m[1]).filter(u => !isTrashUrl(u));
 
-                // 🚀 ИСПРАВЛЕННЫЙ ПОИСК ВИДЕО
                 let videos: string[] = [];
                 const hasVideo = post.includes("tgme_widget_message_video_player") || post.includes("tgme_widget_message_roundvideo");
 
@@ -519,7 +519,6 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                         const vRes = await fetch(embedUrl, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(8000) });
                         if (vRes.ok) {
                             const vHtml = await vRes.text();
-                            // Ищем прямые ссылки на CDN Telegram
                             const directVideoLinks = [...vHtml.matchAll(/https:\/\/cdn\d*\.telesco\.pe\/file\/[^\s"']+\.mp4[^\s"']*/gi)].map(m => m[0]);
                             const tagVideoLinks = [
                                 ...vHtml.matchAll(/<video[^>]+src=["']([^"']+)["']/gi),
@@ -530,7 +529,6 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                     } catch(e) {}
                 }
 
-                // Если не нашли в embed, пробуем вытащить из самого поста
                 if (videos.length === 0) {
                     const postVideoLinks = [...post.matchAll(/https:\/\/cdn\d*\.telesco\.pe\/file\/[^\s"']+\.mp4[^\s"']*/gi)].map(m => m[0]);
                     videos = postVideoLinks;
@@ -792,7 +790,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v143: Запуск (Telegram Video Fix) ===");
+    console.log("=== ФАКТОР v144: Запуск (4-Hour Cycle) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
