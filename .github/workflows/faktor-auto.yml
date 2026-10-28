@@ -1,18 +1,16 @@
 name: FAKTOR Auto
 
 on:
-  schedule:
-    - cron: '0 */5 * * *' # Запуск каждые 5 часов
-  workflow_dispatch:
+  workflow_dispatch: # Убираем cron GitHub, так как будить будет cron-job.org
 
 concurrency:
   group: faktor-auto
-  cancel-in-progress: true # Убиваем старый процесс, запускаем только один новый
+  cancel-in-progress: true # 🚀 Убиваем старый процесс, если cron-job.org дернет новый
 
 jobs:
   run-faktor:
     runs-on: ubuntu-latest
-    timeout-minutes: 290 # 4 часа 50 минут
+    timeout-minutes: 240 # Даем 4 часа максимум
 
     steps:
       - name: Checkout code
@@ -30,7 +28,7 @@ jobs:
           MAX_BOT_TOKEN: ${{ secrets.MAX_BOT_TOKEN }}
           TARGET_CHAT_ID: ${{ secrets.TARGET_CHAT_ID }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          ANYMODEL_API_KEY: ${{ secrets.ANYMODEL_API_KEY }} # 🚀 ПОДКЛЮЧАЕМ ТВОЙ КЛЮЧ
+          ANYMODEL_API_KEY: ${{ secrets.ANYMODEL_API_KEY }}
         run: deno run -A --unsafely-ignore-certificate-errors=platform-api2.max.ru agent.ts
 
       - name: Commit final state
