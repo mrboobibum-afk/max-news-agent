@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v141 - Final Media Bypass)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v142 - Anti-Hallucination)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -77,6 +77,7 @@ const NEWS_FEEDS = [
     { name: "Правда.ру", url: "https://www.pravda.ru/export.xml" },
 ];
 
+// 🚀 ДОБАВЛЕНЫ СЛОВА-ТРИГГЕРЫ БРЕДА
 const BORING_TOPICS = [
     /(?:сесси[яи]|форум|круглый\s+стол|конференци[яи]|совещани[ея]|заседани[ея]|брифинг)/i,
     /(?:рэц|экспортер|клиентск|госуслуг|росреестр)/i, 
@@ -106,7 +107,8 @@ const BORING_TOPICS = [
     /(?:ситуация требует внимания|следим за развитием событий|ситуация подчеркивает)/i,
     /(?:туристка|умерла|скончалась|потеряла равновесие|упала с высоты|сорвалась)/i,
     /(?:чемпионат|соревновани[яе]|турнир|учени[яе]|тактика дронов|эк-министр|финансовый спор)/i,
-    /(?:внутренние разногласия|внешние угрозы|разобщенность властей)/i
+    /(?:внутренние разногласия|внешние угрозы|разобщенность властей)/i,
+    /(?:десантировать|парашют|рамп\s+предлагает|инопланетян|магия|колдун)/i // 🚀 ФИЛЬТР БРЕДА
 ];
 
 class FileKV {
@@ -293,7 +295,6 @@ function isTrashUrl(url: string): boolean {
     return false;
 }
 
-// 🚀 УЛЬТИМАТИВНОЕ СКАЧИВАНИЕ (Прямой -> WSrv.nl -> Прокси)
 async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array | null> {
     if (!url || isTrashUrl(url)) return null;
 
@@ -301,8 +302,8 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
     try { referer = new URL(url).origin; } catch(e) {}
 
     const urlsToTry = [
-        url, // 1. Прямой
-        `https://wsrv.nl/?url=${encodeURIComponent(url)}`, // 2. Чудо-прокси для картинок
+        url,
+        `https://wsrv.nl/?url=${encodeURIComponent(url)}`,
         `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
         `https://corsproxy.io/?${encodeURIComponent(url)}`
     ];
@@ -330,27 +331,23 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
             clearTimeout(timeoutId);
 
             if (!response.ok) {
-                console.log(`      ⚠️ ${methodName} HTTP ${response.status}`);
                 continue;
             }
 
             const contentType = (response.headers.get("content-type") || "").toLowerCase();
             if (contentType.includes("text/html") || contentType.includes("application/json")) {
-                console.log(`      ⚠️ ${methodName} вернул HTML`);
                 continue;
             }
 
             const buf = new Uint8Array(await response.arrayBuffer());
             
-            // 🚀 ПРОВЕРКА МАГИЧЕСКИХ БАЙТОВ
             const head = new Uint8Array(buf.subarray(0, 4));
             const isJpeg = head[0] === 0xFF && head[1] === 0xD8 && head[2] === 0xFF;
             const isPng = head[0] === 0x89 && head[1] === 0x50 && head[2] === 0x4E && head[3] === 0x47;
-            const isWebp = head[0] === 0x52 && head[1] === 0x49 && head[2] === 0x46 && head[3] === 0x46; // RIFF
-            const isMp4 = head[0] === 0x66 && head[1] === 0x74 && head[2] === 0x79 && head[3] === 0x70; // ftyp
+            const isWebp = head[0] === 0x52 && head[1] === 0x49 && head[2] === 0x46 && head[3] === 0x46;
+            const isMp4 = head[0] === 0x66 && head[1] === 0x74 && head[2] === 0x79 && head[3] === 0x70;
 
             if (!isVideo && !isJpeg && !isPng && !isWebp) {
-                console.log(`      ⚠️ ${methodName}: это не картинка (размер ${Math.round(buf.byteLength/1024)}КБ)`);
                 continue;
             }
 
@@ -358,14 +355,12 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
             const max = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
 
             if (buf.byteLength < min || buf.byteLength > max) {
-                console.log(`      ⚠️ ${methodName}: размер ${Math.round(buf.byteLength/1024)}КБ не подходит`);
                 continue;
             }
 
             console.log(`      ✅ Скачано (${methodName}): ${Math.round(buf.byteLength / 1024)} КБ`);
             return buf;
         } catch (e: any) {
-            console.log(`      ⚠️ ${methodName}: Ошибка (${e.message.slice(0, 30)})`);
             continue; 
         }
     }
@@ -635,25 +630,29 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
 ${cleanDesc}
 
 ТВОИ ЗАДАЧИ:
-1. headline — заголовок (до 8 слов) с 1 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨). КАТЕГОРИЧЕСКИ БЕЗ МНОГОТОЧИЙ. Ярко и точно.
-2. body — Оформи текст как список из 2-3 КОРОТКИХ пунктов (до 15 слов каждый). 
+1. is_absurd — true, если текст является шуткой, сатирой, бредом или содержит фантастические события (например, десантирование с парашютом на Кубу). Если это нормальная новость — false.
+2. headline — заголовок (до 8 слов) с 1 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨). КАТЕГОРИЧЕСКИ БЕЗ МНОГОТОЧИЙ. Ярко и точно.
+3. body — Оформи текст как список из 2-3 КОРОТКИХ пунктов (до 15 слов каждый). 
    - Каждый пункт начинай с маркера ▪️.
    - Включи ТОЛЬКО ключевые факты (имена, цифры).
    - Выдели главные акценты тегами <b>жирный шрифт</b>.
    - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Верни ОДНУ СТРОКУ с переносами \n. НЕ ОБРЫВАЙ ПРЕДЛОЖЕНИЯ.
-3. insight — (Взгляд ФАКТОРА) — 1-2 предложения (до 20 слов). Оцени последствия для обычного человека: что будет с ценами, безопасностью или экономикой. БЕЗ ТЕГОВ HTML.
-4. importance — целое 1-10. (9-10 экстренно, 7-8 политика/экономика, 1-6 бытовуха).
-5. is_ad — true, если это реклама.
-6. hashtag — выбери один тег по теме: #Политика, #Экономика, #Мир, #Происшествия, #Технологии, #Россия.
+4. insight — (Взгляд ФАКТОРА) — 1-2 предложения (до 20 слов). Оцени последствия для обычного человека: что будет с ценами, безопасностью или экономикой. БЕЗ ТЕГОВ HTML.
+5. importance — целое 1-10. (9-10 экстренно, 7-8 политика/экономика, 1-6 бытовуха).
+6. is_ad — true, если это реклама.
+7. hashtag — выбери один тег по теме: #Политика, #Экономика, #Мир, #Происшествия, #Технологии, #Россия.
 
-Верни ТОЛЬКО JSON: {"headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false, "hashtag": "#Политика"}`;
+ВНИМАНИЕ, ЖЕСТКИЕ ПРАВИЛА:
+- КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО искажать имена (Трамп, Путин, Байден). Пиши так, как в тексте.
+- Если не уверен в факте — не пиши.
 
+Верни ТОЛЬКО JSON: {"is_absurd": false, "headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false, "hashtag": "#Политика"}`;
+
+        // 🚀 УМНЫЕ МОДЕЛИ В ПРИОРИТЕТЕ (DeepSeek понимает русский лучше бесплатных)
         const aiProviders = [
             { name: "Официальный Gemini", url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`, type: "google" },
-            { name: "AnyModel (Free)", url: `https://anymodel.org/v1/chat/completions`, key: ANYMODEL_API_KEY, model: "am/free", type: "openai" },
-            { name: "AnyModel (GPT)", url: `https://anymodel.org/v1/chat/completions`, key: ANYMODEL_API_KEY, model: "am/gpt-oss-20b", type: "openai" },
-            { name: "AnyModel (Llama)", url: `https://anymodel.org/v1/chat/completions`, key: ANYMODEL_API_KEY, model: "am/llama-3.2-11b-vision-instruct", type: "openai" },
-            { name: "AnyModel (DeepSeek)", url: `https://anymodel.org/v1/chat/completions`, key: ANYMODEL_API_KEY, model: "ds/deepseek-v4-flash", type: "openai" }
+            { name: "AnyModel (DeepSeek)", url: `https://anymodel.org/v1/chat/completions`, key: ANYMODEL_API_KEY, model: "ds/deepseek-v4-flash", type: "openai" },
+            { name: "AnyModel (Llama)", url: `https://anymodel.org/v1/chat/completions`, key: ANYMODEL_API_KEY, model: "am/llama-3.2-11b-vision-instruct", type: "openai" }
         ];
 
         let llmResult: any = null;
@@ -680,7 +679,12 @@ ${cleanDesc}
                     text = text.replace(/```json/gi, "").replace(/```/g, "").trim();
                     const match = text.match(/\{[\s\S]*\}/);
                     if (match) {
-                        llmResult = JSON.parse(match[0]);
+                        const parsed = JSON.parse(match[0]);
+                        if (parsed.is_absurd) {
+                            console.log(`❌ ИИ отклонил новость как бред (is_absurd).`);
+                            return { headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
+                        }
+                        llmResult = parsed;
                         console.log(`✅ Успешный ответ от: ${provider.name}`);
                         break; 
                     }
@@ -746,7 +750,6 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
     const seen = new Set<string>();
     if (!item.postKey) return [];
     const samePost = candidates.filter(c => c.postKey === item.postKey);
-    // 🚀 ВИДЕО В ПРИОРИТЕТЕ
     const ordered = [...samePost.filter(c => c.mediaType === "video"), ...samePost.filter(c => c.mediaType === "image")];
     for (const c of ordered) {
         if (!c.mediaUrl || isTrashUrl(c.mediaUrl)) continue;
@@ -781,7 +784,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v141: Запуск (Final Media Bypass) ===");
+    console.log("=== ФАКТОР v142: Запуск (Anti-Hallucination) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
@@ -819,12 +822,11 @@ async function run(): Promise<boolean> {
         uniqueCandidates.push(c);
     }
 
-    // 🚀 СОРТИРОВКА: Сначала те, у кого есть ВИДЕО, потом те, у кого ФОТО, потом пустые
     uniqueCandidates.sort((a, b) => {
         const aScore = a.mediaType === "video" ? 2 : (a.mediaType === "image" ? 1 : 0);
         const bScore = b.mediaType === "video" ? 2 : (b.mediaType === "image" ? 1 : 0);
         if (aScore !== bScore) return bScore - aScore;
-        return b.postDate - a.postDate; // Если медиа одинаковые, берем свежие
+        return b.postDate - a.postDate;
     });
 
     const topCandidates = uniqueCandidates.slice(0, 25);
@@ -851,8 +853,8 @@ async function run(): Promise<boolean> {
             const mediaPacket = getMediaPacket(item, uniqueCandidates);
             const post = await formatNewsPost(item.title, item.desc);
 
-            if (post.is_ad) { skippedImportance++; continue; }
             if (!post.headline || !post.body || post.body.length < 30) { skippedNoMedia++; continue; }
+            if (post.is_ad) { skippedImportance++; continue; }
 
             let finalImportance = post.importance;
             const rawTextLower = item.desc.toLowerCase();
