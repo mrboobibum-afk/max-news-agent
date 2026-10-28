@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v142 - Anti-Hallucination)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v143 - Telegram Video Fix)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -77,7 +77,6 @@ const NEWS_FEEDS = [
     { name: "Правда.ру", url: "https://www.pravda.ru/export.xml" },
 ];
 
-// 🚀 ДОБАВЛЕНЫ СЛОВА-ТРИГГЕРЫ БРЕДА
 const BORING_TOPICS = [
     /(?:сесси[яи]|форум|круглый\s+стол|конференци[яи]|совещани[ея]|заседани[ея]|брифинг)/i,
     /(?:рэц|экспортер|клиентск|госуслуг|росреестр)/i, 
@@ -108,7 +107,7 @@ const BORING_TOPICS = [
     /(?:туристка|умерла|скончалась|потеряла равновесие|упала с высоты|сорвалась)/i,
     /(?:чемпионат|соревновани[яе]|турнир|учени[яе]|тактика дронов|эк-министр|финансовый спор)/i,
     /(?:внутренние разногласия|внешние угрозы|разобщенность властей)/i,
-    /(?:десантировать|парашют|рамп\s+предлагает|инопланетян|магия|колдун)/i // 🚀 ФИЛЬТР БРЕДА
+    /(?:десантировать|парашют|рамп\s+предлагает|инопланетян|магия|колдун)/i // ФИЛЬТР БРЕДА
 ];
 
 class FileKV {
@@ -510,6 +509,7 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                     ...post.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)
                 ].map(m => m[1]).filter(u => !isTrashUrl(u));
 
+                // 🚀 ИСПРАВЛЕННЫЙ ПОИСК ВИДЕО
                 let videos: string[] = [];
                 const hasVideo = post.includes("tgme_widget_message_video_player") || post.includes("tgme_widget_message_roundvideo");
 
@@ -519,12 +519,21 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                         const vRes = await fetch(embedUrl, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(8000) });
                         if (vRes.ok) {
                             const vHtml = await vRes.text();
-                            videos = [
+                            // Ищем прямые ссылки на CDN Telegram
+                            const directVideoLinks = [...vHtml.matchAll(/https:\/\/cdn\d*\.telesco\.pe\/file\/[^\s"']+\.mp4[^\s"']*/gi)].map(m => m[0]);
+                            const tagVideoLinks = [
                                 ...vHtml.matchAll(/<video[^>]+src=["']([^"']+)["']/gi),
                                 ...vHtml.matchAll(/<source[^>]+src=["']([^"']+)["']/gi)
                             ].map(m => m[1]);
+                            videos = [...directVideoLinks, ...tagVideoLinks];
                         }
                     } catch(e) {}
+                }
+
+                // Если не нашли в embed, пробуем вытащить из самого поста
+                if (videos.length === 0) {
+                    const postVideoLinks = [...post.matchAll(/https:\/\/cdn\d*\.telesco\.pe\/file\/[^\s"']+\.mp4[^\s"']*/gi)].map(m => m[0]);
+                    videos = postVideoLinks;
                 }
 
                 const mediaUrls: any[] = [];
@@ -630,7 +639,7 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
 ${cleanDesc}
 
 ТВОИ ЗАДАЧИ:
-1. is_absurd — true, если текст является шуткой, сатирой, бредом или содержит фантастические события (например, десантирование с парашютом на Кубу). Если это нормальная новость — false.
+1. is_absurd — true, если текст является шуткой, сатирой, бредом или содержит фантастические события. Если это нормальная новость — false.
 2. headline — заголовок (до 8 слов) с 1 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨). КАТЕГОРИЧЕСКИ БЕЗ МНОГОТОЧИЙ. Ярко и точно.
 3. body — Оформи текст как список из 2-3 КОРОТКИХ пунктов (до 15 слов каждый). 
    - Каждый пункт начинай с маркера ▪️.
@@ -648,7 +657,6 @@ ${cleanDesc}
 
 Верни ТОЛЬКО JSON: {"is_absurd": false, "headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false, "hashtag": "#Политика"}`;
 
-        // 🚀 УМНЫЕ МОДЕЛИ В ПРИОРИТЕТЕ (DeepSeek понимает русский лучше бесплатных)
         const aiProviders = [
             { name: "Официальный Gemini", url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`, type: "google" },
             { name: "AnyModel (DeepSeek)", url: `https://anymodel.org/v1/chat/completions`, key: ANYMODEL_API_KEY, model: "ds/deepseek-v4-flash", type: "openai" },
@@ -784,7 +792,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v142: Запуск (Anti-Hallucination) ===");
+    console.log("=== ФАКТОР v143: Запуск (Telegram Video Fix) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
