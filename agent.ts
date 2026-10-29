@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v145 - True Video Priority)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v146 - Date Fix)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -10,7 +10,7 @@ const TARGET_CHAT_ID = Deno.env.get("TARGET_CHAT_ID") ?? "";
 const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? "";
 const ANYMODEL_API_KEY = Deno.env.get("ANYMODEL_API_KEY") ?? "";
 
-const MAX_RUNTIME_MS = 3.75 * 60 * 60 * 1000; // 3 часа 45 минут
+const MAX_RUNTIME_MS = 3.75 * 60 * 60 * 1000; 
 const LOOP_SLEEP_MIN_MS = 4 * 60 * 1000; 
 const LOOP_SLEEP_MAX_MS = 6 * 60 * 1000; 
 const POST_COOLDOWN_MS = 15 * 60 * 1000; 
@@ -34,6 +34,11 @@ const MAX_VIDEO_BYTES = 100 * 1024 * 1024;
 
 const DOWNLOAD_TIMEOUT_MS = 300000; 
 const LLM_TIMEOUT_MS = 40000; 
+
+// 🚀 ПОЛУЧАЕМ ТЕКУЩУЮ ДАТУ ДЛЯ ПРОМПТА
+const NOW = new Date();
+const TODAY_STR = NOW.toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' });
+const CURRENT_YEAR = NOW.getFullYear();
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
 
@@ -300,7 +305,6 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
     let referer = "https://t.me/";
     try { referer = new URL(url).origin; } catch(e) {}
 
-    // 🚀 Для видео НЕ используем wsrv.nl (он ломает видеофайлы)
     const urlsToTry = isVideo 
         ? [url, `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`, `https://corsproxy.io/?${encodeURIComponent(url)}`]
         : [url, `https://wsrv.nl/?url=${encodeURIComponent(url)}`, `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`, `https://corsproxy.io/?${encodeURIComponent(url)}`];
@@ -505,7 +509,6 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                     ...post.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)
                 ].map(m => m[1]).filter(u => !isTrashUrl(u));
 
-                // 🚀 РАСШИРЕННЫЙ ПОИСК ВИДЕО
                 let videos: string[] = [];
                 const hasVideoIndicator = post.includes("tgme_widget_message_video") || post.includes("telesco.pe") || post.includes(".mp4");
 
@@ -631,29 +634,34 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
             fallbackBody = cleanDesc; 
         }
 
+        // 🚀 ЖЕСТКИЙ ПРОМПТ С ТЕКУЩЕЙ ДАТОЙ
         const prompt = `Ты — главный редактор аналитического канала «ФАКТОР». Твоя цель — давать сбалансированную картину мира: политика, экономика, международные отношения, технологии и важные события в России. Твой стиль — строго, информативно, с фактами. Пиши так же четко и по делу, как канал «Прямой Эфир».
+
+СЕГОДНЯШНЯЯ ДАТА: ${TODAY_STR}. ТЕКУЩИЙ ГОД: ${CURRENT_YEAR}.
 
 ИСХОДНЫЙ ТЕКСТ:
 ${cleanDesc}
 
 ТВОИ ЗАДАЧИ:
 1. is_absurd — true, если текст является шуткой, сатирой, бредом или содержит фантастические события. Если это нормальная новость — false.
-2. headline — заголовок (до 8 слов) с 1 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨). КАТЕГОРИЧЕСКИ БЕЗ МНОГОТОЧИЙ. Ярко и точно.
-3. body — Оформи текст как список из 2-3 КОРОТКИХ пунктов (до 15 слов каждый). 
+2. is_old — true, если в тексте упоминаются события ДАВНО ПРОШЕДШИХ лет (например, 2022 или 2023 год), и это не историческая справка, а выдается за текущую новость. Если новость актуальна — false.
+3. headline — заголовок (до 8 слов) с 1 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨). КАТЕГОРИЧЕСКИ БЕЗ МНОГОТОЧИЙ. Ярко и точно.
+4. body — Оформи текст как список из 2-3 КОРОТКИХ пунктов (до 15 слов каждый). 
    - Каждый пункт начинай с маркера ▪️.
    - Включи ТОЛЬКО ключевые факты (имена, цифры).
    - Выдели главные акценты тегами <b>жирный шрифт</b>.
    - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Верни ОДНУ СТРОКУ с переносами \n. НЕ ОБРЫВАЙ ПРЕДЛОЖЕНИЯ.
-4. insight — (Взгляд ФАКТОРА) — 1-2 предложения (до 20 слов). Оцени последствия для обычного человека: что будет с ценами, безопасностью или экономикой. БЕЗ ТЕГОВ HTML.
-5. importance — целое 1-10. (9-10 экстренно, 7-8 политика/экономика, 1-6 бытовуха).
-6. is_ad — true, если это реклама.
-7. hashtag — выбери один тег по теме: #Политика, #Экономика, #Мир, #Происшествия, #Технологии, #Россия.
+5. insight — (Взгляд ФАКТОРА) — 1-2 предложения (до 20 слов). Оцени последствия для обычного человека: что будет с ценами, безопасностью или экономикой. БЕЗ ТЕГОВ HTML.
+6. importance — целое 1-10. (9-10 экстренно, 7-8 политика/экономика, 1-6 бытовуха).
+7. is_ad — true, если это реклама.
+8. hashtag — выбери один тег по теме: #Политика, #Экономика, #Мир, #Происшествия, #Технологии, #Россия.
 
 ВНИМАНИЕ, ЖЕСТКИЕ ПРАВИЛА:
 - КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО искажать имена (Трамп, Путин, Байден). Пиши так, как в тексте.
 - Если не уверен в факте — не пиши.
+- Если в тексте указан старый год (2023), но новость подается как "свежая", ставь is_old: true и отклоняй её.
 
-Верни ТОЛЬКО JSON: {"is_absurd": false, "headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false, "hashtag": "#Политика"}`;
+Верни ТОЛЬКО JSON: {"is_absurd": false, "is_old": false, "headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false, "hashtag": "#Политика"}`;
 
         const aiProviders = [
             { name: "Официальный Gemini", url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`, type: "google" },
@@ -688,6 +696,10 @@ ${cleanDesc}
                         const parsed = JSON.parse(match[0]);
                         if (parsed.is_absurd) {
                             console.log(`❌ ИИ отклонил новость как бред (is_absurd).`);
+                            return { headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
+                        }
+                        if (parsed.is_old) {
+                            console.log(`❌ ИИ отклонил новость как устаревшую (is_old).`);
                             return { headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
                         }
                         llmResult = parsed;
@@ -790,7 +802,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v145: Запуск (True Video Priority) ===");
+    console.log("=== ФАКТОР v146: Запуск (Date Fix) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
@@ -828,7 +840,6 @@ async function run(): Promise<boolean> {
         uniqueCandidates.push(c);
     }
 
-    // 🚀 ЖЕСТКИЙ ПРИОРИТЕТ ВИДЕО
     uniqueCandidates.sort((a, b) => {
         const aScore = a.mediaType === "video" ? 2 : (a.mediaType === "image" ? 1 : 0);
         const bScore = b.mediaType === "video" ? 2 : (b.mediaType === "image" ? 1 : 0);
