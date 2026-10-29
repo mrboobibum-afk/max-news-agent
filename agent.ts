@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v146 - Date Fix)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v147 - Full Media Group)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -16,7 +16,7 @@ const LOOP_SLEEP_MAX_MS = 6 * 60 * 1000;
 const POST_COOLDOWN_MS = 15 * 60 * 1000; 
 
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
-const MEDIA_PACKET_MAX = 6; 
+const MEDIA_PACKET_MAX = 6; // Максимум 6 файлов в одном посте (видео + фото)
 const MIN_IMPORTANCE = 7; 
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
@@ -35,7 +35,6 @@ const MAX_VIDEO_BYTES = 100 * 1024 * 1024;
 const DOWNLOAD_TIMEOUT_MS = 300000; 
 const LLM_TIMEOUT_MS = 40000; 
 
-// 🚀 ПОЛУЧАЕМ ТЕКУЩУЮ ДАТУ ДЛЯ ПРОМПТА
 const NOW = new Date();
 const TODAY_STR = NOW.toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' });
 const CURRENT_YEAR = NOW.getFullYear();
@@ -509,39 +508,42 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                     ...post.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)
                 ].map(m => m[1]).filter(u => !isTrashUrl(u));
 
+                // 🚀 ИСПРАВЛЕННЫЙ ПОИСК ВИДЕО (Собираем ВСЕ видео из поста)
                 let videos: string[] = [];
-                const hasVideoIndicator = post.includes("tgme_widget_message_video") || post.includes("telesco.pe") || post.includes(".mp4");
 
-                if (hasVideoIndicator && postKey) {
+                // 1. Ищем прямые ссылки на telesco.pe прямо в HTML поста
+                const postDirectVideos = [...post.matchAll(/https:\/\/cdn\d*\.telesco\.pe\/file\/[^\s"']+\.mp4[^\s"']*/gi)].map(m => m[0]);
+                videos.push(...postDirectVideos);
+
+                // 2. Парсим embed-версию для надежности (там могут быть дополнительные видео из альбома)
+                if (post.includes("tgme_widget_message_video") && postKey) {
                     try {
                         const embedUrl = `https://t.me/${postKey}?embed=1&mode=tme`;
                         const vRes = await fetch(embedUrl, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(8000) });
                         if (vRes.ok) {
                             const vHtml = await vRes.text();
-                            const directVideoLinks = [...vHtml.matchAll(/https:\/\/cdn\d*\.telesco\.pe\/file\/[^\s"']+\.mp4[^\s"']*/gi)].map(m => m[0]);
+                            const embedDirectLinks = [...vHtml.matchAll(/https:\/\/cdn\d*\.telesco\.pe\/file\/[^\s"']+\.mp4[^\s"']*/gi)].map(m => m[0]);
                             const tagVideoLinks = [
                                 ...vHtml.matchAll(/<video[^>]+src=["']([^"']+)["']/gi),
                                 ...vHtml.matchAll(/<source[^>]+src=["']([^"']+)["']/gi)
                             ].map(m => m[1]);
-                            videos = [...directVideoLinks, ...tagVideoLinks];
+                            videos.push(...embedDirectLinks, ...tagVideoLinks);
                         }
                     } catch(e) {}
                 }
-
-                if (videos.length === 0) {
-                    const postVideoLinks = [...post.matchAll(/https:\/\/cdn\d*\.telesco\.pe\/file\/[^\s"']+\.mp4[^\s"']*/gi)].map(m => m[0]);
-                    videos = postVideoLinks;
-                }
+                
+                // Очищаем от дубликатов
+                videos = [...new Set(videos)];
 
                 if (videos.length > 0) {
-                    console.log(`  🎬 Найдено видео в посте!`);
+                    console.log(`  🎬 Найдено видео в посте: ${videos.length} шт.`);
                 }
 
                 const mediaUrls: any[] = [];
-                const uniqueVideos = [...new Set(videos)];
                 const uniqueImages = [...new Set(images)];
 
-                uniqueVideos.forEach(url => mediaUrls.push({ mediaUrl: url, mediaType: "video" }));
+                // Сначала добавляем все видео, потом все фото
+                videos.forEach(url => mediaUrls.push({ mediaUrl: url, mediaType: "video" }));
                 uniqueImages.forEach(url => mediaUrls.push({ mediaUrl: url, mediaType: "image" }));
 
                 if (mediaUrls.length > 0) {
@@ -634,7 +636,6 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
             fallbackBody = cleanDesc; 
         }
 
-        // 🚀 ЖЕСТКИЙ ПРОМПТ С ТЕКУЩЕЙ ДАТОЙ
         const prompt = `Ты — главный редактор аналитического канала «ФАКТОР». Твоя цель — давать сбалансированную картину мира: политика, экономика, международные отношения, технологии и важные события в России. Твой стиль — строго, информативно, с фактами. Пиши так же четко и по делу, как канал «Прямой Эфир».
 
 СЕГОДНЯШНЯЯ ДАТА: ${TODAY_STR}. ТЕКУЩИЙ ГОД: ${CURRENT_YEAR}.
@@ -802,7 +803,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v146: Запуск (Date Fix) ===");
+    console.log("=== ФАКТОР v147: Запуск (Full Media Group) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
