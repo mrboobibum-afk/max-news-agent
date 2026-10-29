@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v144 - 4-Hour Cycle)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v145 - True Video Priority)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -10,8 +10,7 @@ const TARGET_CHAT_ID = Deno.env.get("TARGET_CHAT_ID") ?? "";
 const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? "";
 const ANYMODEL_API_KEY = Deno.env.get("ANYMODEL_API_KEY") ?? "";
 
-// 🚀 РАБОТАЕМ 3 ЧАСА 45 МИНУТ (чтобы успеть сохранить стейт до следующего пинга)
-const MAX_RUNTIME_MS = 3.75 * 60 * 60 * 1000; 
+const MAX_RUNTIME_MS = 3.75 * 60 * 60 * 1000; // 3 часа 45 минут
 const LOOP_SLEEP_MIN_MS = 4 * 60 * 1000; 
 const LOOP_SLEEP_MAX_MS = 6 * 60 * 1000; 
 const POST_COOLDOWN_MS = 15 * 60 * 1000; 
@@ -301,18 +300,16 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
     let referer = "https://t.me/";
     try { referer = new URL(url).origin; } catch(e) {}
 
-    const urlsToTry = [
-        url,
-        `https://wsrv.nl/?url=${encodeURIComponent(url)}`,
-        `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-        `https://corsproxy.io/?${encodeURIComponent(url)}`
-    ];
+    // 🚀 Для видео НЕ используем wsrv.nl (он ломает видеофайлы)
+    const urlsToTry = isVideo 
+        ? [url, `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`, `https://corsproxy.io/?${encodeURIComponent(url)}`]
+        : [url, `https://wsrv.nl/?url=${encodeURIComponent(url)}`, `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`, `https://corsproxy.io/?${encodeURIComponent(url)}`];
 
     const timeout = isVideo ? 300000 : DOWNLOAD_TIMEOUT_MS; 
 
     for (let i = 0; i < urlsToTry.length; i++) {
         const candidateUrl = urlsToTry[i];
-        const methodName = i === 0 ? "Прямой" : (i === 1 ? "WSrv.nl" : `Прокси ${i-1}`);
+        const methodName = i === 0 ? "Прямой" : (isVideo ? `Прокси ${i}` : (i === 1 ? "WSrv.nl" : `Прокси ${i-1}`));
         
         try {
             const controller = new AbortController();
@@ -345,7 +342,6 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
             const isJpeg = head[0] === 0xFF && head[1] === 0xD8 && head[2] === 0xFF;
             const isPng = head[0] === 0x89 && head[1] === 0x50 && head[2] === 0x4E && head[3] === 0x47;
             const isWebp = head[0] === 0x52 && head[1] === 0x49 && head[2] === 0x46 && head[3] === 0x46;
-            const isMp4 = head[0] === 0x66 && head[1] === 0x74 && head[2] === 0x79 && head[3] === 0x70;
 
             if (!isVideo && !isJpeg && !isPng && !isWebp) {
                 continue;
@@ -471,7 +467,6 @@ async function extractMediaFromUrl(url: string): Promise<{ video: string[], imag
             res.image = [...new Set(imgMatches)].filter(u => !isTrashUrl(u)).slice(0, 4);
 
             if (res.video.length > 0 || res.image.length > 0) {
-                console.log(`  🎯 Найдено: видео ${res.video.length}, фото ${res.image.length}`);
                 break;
             }
         } catch (e) { }
@@ -510,10 +505,11 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                     ...post.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)
                 ].map(m => m[1]).filter(u => !isTrashUrl(u));
 
+                // 🚀 РАСШИРЕННЫЙ ПОИСК ВИДЕО
                 let videos: string[] = [];
-                const hasVideo = post.includes("tgme_widget_message_video_player") || post.includes("tgme_widget_message_roundvideo");
+                const hasVideoIndicator = post.includes("tgme_widget_message_video") || post.includes("telesco.pe") || post.includes(".mp4");
 
-                if (hasVideo && postKey) {
+                if (hasVideoIndicator && postKey) {
                     try {
                         const embedUrl = `https://t.me/${postKey}?embed=1&mode=tme`;
                         const vRes = await fetch(embedUrl, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(8000) });
@@ -532,6 +528,10 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 if (videos.length === 0) {
                     const postVideoLinks = [...post.matchAll(/https:\/\/cdn\d*\.telesco\.pe\/file\/[^\s"']+\.mp4[^\s"']*/gi)].map(m => m[0]);
                     videos = postVideoLinks;
+                }
+
+                if (videos.length > 0) {
+                    console.log(`  🎬 Найдено видео в посте!`);
                 }
 
                 const mediaUrls: any[] = [];
@@ -790,7 +790,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v144: Запуск (4-Hour Cycle) ===");
+    console.log("=== ФАКТОР v145: Запуск (True Video Priority) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
@@ -828,6 +828,7 @@ async function run(): Promise<boolean> {
         uniqueCandidates.push(c);
     }
 
+    // 🚀 ЖЕСТКИЙ ПРИОРИТЕТ ВИДЕО
     uniqueCandidates.sort((a, b) => {
         const aScore = a.mediaType === "video" ? 2 : (a.mediaType === "image" ? 1 : 0);
         const bScore = b.mediaType === "video" ? 2 : (b.mediaType === "image" ? 1 : 0);
