@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v147 - Full Media Group)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v149 - True Media Group)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -16,7 +16,7 @@ const LOOP_SLEEP_MAX_MS = 6 * 60 * 1000;
 const POST_COOLDOWN_MS = 15 * 60 * 1000; 
 
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
-const MEDIA_PACKET_MAX = 6; // Максимум 6 файлов в одном посте (видео + фото)
+const MEDIA_PACKET_MAX = 6; // Максимум 6 файлов (видео+фото) в одном посте
 const MIN_IMPORTANCE = 7; 
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
@@ -111,7 +111,8 @@ const BORING_TOPICS = [
     /(?:туристка|умерла|скончалась|потеряла равновесие|упала с высоты|сорвалась)/i,
     /(?:чемпионат|соревновани[яе]|турнир|учени[яе]|тактика дронов|эк-министр|финансовый спор)/i,
     /(?:внутренние разногласия|внешние угрозы|разобщенность властей)/i,
-    /(?:десантировать|парашют|рамп\s+предлагает|инопланетян|магия|колдун)/i 
+    /(?:десантировать|парашют|рамп\s+предлагает|инопланетян|магия|колдун)/i,
+    /(?:пресс-служба|по\s+данным\s+источника|сообщили\s+в\s+ведомстве)/i 
 ];
 
 class FileKV {
@@ -497,6 +498,8 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 if (BORING_TOPICS.some(r => r.test(textRaw))) continue;
 
                 const sanitized = sanitizeRawText(textRaw);
+                if (sanitized.length < 100) continue;
+
                 const firstSentence = sanitized.split(/[.!?]\s/)[0] || sanitized;
                 const truncatedTitle = firstSentence.slice(0, 90); 
 
@@ -508,14 +511,10 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                     ...post.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)
                 ].map(m => m[1]).filter(u => !isTrashUrl(u));
 
-                // 🚀 ИСПРАВЛЕННЫЙ ПОИСК ВИДЕО (Собираем ВСЕ видео из поста)
                 let videos: string[] = [];
-
-                // 1. Ищем прямые ссылки на telesco.pe прямо в HTML поста
                 const postDirectVideos = [...post.matchAll(/https:\/\/cdn\d*\.telesco\.pe\/file\/[^\s"']+\.mp4[^\s"']*/gi)].map(m => m[0]);
                 videos.push(...postDirectVideos);
 
-                // 2. Парсим embed-версию для надежности (там могут быть дополнительные видео из альбома)
                 if (post.includes("tgme_widget_message_video") && postKey) {
                     try {
                         const embedUrl = `https://t.me/${postKey}?embed=1&mode=tme`;
@@ -532,7 +531,6 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                     } catch(e) {}
                 }
                 
-                // Очищаем от дубликатов
                 videos = [...new Set(videos)];
 
                 if (videos.length > 0) {
@@ -542,7 +540,6 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 const mediaUrls: any[] = [];
                 const uniqueImages = [...new Set(images)];
 
-                // Сначала добавляем все видео, потом все фото
                 videos.forEach(url => mediaUrls.push({ mediaUrl: url, mediaType: "video" }));
                 uniqueImages.forEach(url => mediaUrls.push({ mediaUrl: url, mediaType: "image" }));
 
@@ -583,6 +580,7 @@ async function fetchRssFeeds(): Promise<any[]> {
                 if (isGibberish(title) || isGibberish(desc)) continue;
                 if (BORING_TOPICS.some(r => r.test(`${title} ${desc}`))) continue;
                 if (!title || desc.endsWith("...") || desc.endsWith("…") || desc.length < 200) continue;
+                if (desc.length < 100) continue;
 
                 const truncatedTitle = title.slice(0, 90);
                 const postKey = `${feed.name.toLowerCase()}_${simpleHash(title + (link || ""))}`;
@@ -644,7 +642,7 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
 ${cleanDesc}
 
 ТВОИ ЗАДАЧИ:
-1. is_absurd — true, если текст является шуткой, сатирой, бредом или содержит фантастические события. Если это нормальная новость — false.
+1. is_absurd — true, если текст является шуткой, сатирой, бредом, фантастикой ИЛИ если в тексте НЕТ САМОГО СОБЫТИЯ (например, только подпись "пресс-служба" или обрывок фразы). Если это нормальная новость — false.
 2. is_old — true, если в тексте упоминаются события ДАВНО ПРОШЕДШИХ лет (например, 2022 или 2023 год), и это не историческая справка, а выдается за текущую новость. Если новость актуальна — false.
 3. headline — заголовок (до 8 слов) с 1 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨). КАТЕГОРИЧЕСКИ БЕЗ МНОГОТОЧИЙ. Ярко и точно.
 4. body — Оформи текст как список из 2-3 КОРОТКИХ пунктов (до 15 слов каждый). 
@@ -660,7 +658,7 @@ ${cleanDesc}
 ВНИМАНИЕ, ЖЕСТКИЕ ПРАВИЛА:
 - КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО искажать имена (Трамп, Путин, Байден). Пиши так, как в тексте.
 - Если не уверен в факте — не пиши.
-- Если в тексте указан старый год (2023), но новость подается как "свежая", ставь is_old: true и отклоняй её.
+- ЗАПРЕЩЕНО писать посты о том, что "в новости нет фактов". Если фактов нет — просто верни is_absurd: true.
 
 Верни ТОЛЬКО JSON: {"is_absurd": false, "is_old": false, "headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false, "hashtag": "#Политика"}`;
 
@@ -696,7 +694,7 @@ ${cleanDesc}
                     if (match) {
                         const parsed = JSON.parse(match[0]);
                         if (parsed.is_absurd) {
-                            console.log(`❌ ИИ отклонил новость как бред (is_absurd).`);
+                            console.log(`❌ ИИ отклонил новость как бред или пустышку.`);
                             return { headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
                         }
                         if (parsed.is_old) {
@@ -721,6 +719,12 @@ ${cleanDesc}
                 bodyStr = String(bodyStr || "").trim();
             }
             const insightStr = String(llmResult.insight || "").replace(/<[^>]*>/g, "").trim();
+
+            const metaPhrases = ["новость не подтверждена", "публикация невозможна", "отсутствуют детали", "нет фактов", "без первоисточника"];
+            if (metaPhrases.some(p => bodyStr.toLowerCase().includes(p))) {
+                console.log(`❌ Бот сгенерировал мета-комментарий. Пропускаем.`);
+                return { headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
+            }
 
             if (headlineStr && bodyStr) {
                 const isEnglish = (bodyStr.match(/[a-zA-Z]/g) || []).length > (bodyStr.match(/[а-яА-Я]/g) || []).length;
@@ -803,7 +807,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v147: Запуск (Full Media Group) ===");
+    console.log("=== ФАКТОР v149: Запуск (True Media Group) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
@@ -869,7 +873,8 @@ async function run(): Promise<boolean> {
 
             console.log("\nОбработка: " + item.title);
 
-            const mediaPacket = getMediaPacket(item, uniqueCandidates);
+            // 🚀 ИСПОЛЬЗУЕМ mixedCandidates ДЛЯ СБОРА ВСЕХ МЕДИА
+            const mediaPacket = getMediaPacket(item, mixedCandidates);
             const post = await formatNewsPost(item.title, item.desc);
 
             if (!post.headline || !post.body || post.body.length < 30) { skippedNoMedia++; continue; }
