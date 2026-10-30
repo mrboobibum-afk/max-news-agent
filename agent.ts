@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v149 - True Media Group)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v150 - Legal & Safe)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -16,7 +16,7 @@ const LOOP_SLEEP_MAX_MS = 6 * 60 * 1000;
 const POST_COOLDOWN_MS = 15 * 60 * 1000; 
 
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
-const MEDIA_PACKET_MAX = 6; // Максимум 6 файлов (видео+фото) в одном посте
+const MEDIA_PACKET_MAX = 6; 
 const MIN_IMPORTANCE = 7; 
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
@@ -41,6 +41,7 @@ const CURRENT_YEAR = NOW.getFullYear();
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
 
+// 🚀 УБРАЛИ BAZA ИЗ ИСТОЧНИКОВ
 const TG_LIVE_CHANNELS = [
     "government_rus", "news_kremlin", "kremlinpress",
     "mod_russia", "mchs_official", "mediamvd", "MID_Russia", "sledcom_press",
@@ -52,7 +53,7 @@ const TG_LIVE_CHANNELS = [
     "rostecnews", "rosatominfo", "rzdtg", "GazpromNews", "rosneftinfo",
     "rian_ru", "tass_agency", "rbc_news", "vesti_news", "rt_russian",
     "1tv_news", "ntvru", "izvestya", "rgru_news",
-    "readovkanews", "bazabazon", "shot_shot", "mash"
+    "readovkanews", "shot_shot", "mash" // Оставили лояльные или просто новостные
 ];
 
 const NEWS_FEEDS = [
@@ -654,13 +655,14 @@ ${cleanDesc}
 6. importance — целое 1-10. (9-10 экстренно, 7-8 политика/экономика, 1-6 бытовуха).
 7. is_ad — true, если это реклама.
 8. hashtag — выбери один тег по теме: #Политика, #Экономика, #Мир, #Происшествия, #Технологии, #Россия.
+9. disclaimer — если в тексте упоминаются СМИ или лица, признанные иностранными агентами в РФ (База, Новая газета, Маш, SHOT, Медуза и т.д.), ОБЯЗАТЕЛЬНО напиши: "⚠️ * Данная организация/лицо признано иностранным агентом на территории РФ." Если иноагентов нет — оставь пустую строку.
 
 ВНИМАНИЕ, ЖЕСТКИЕ ПРАВИЛА:
 - КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО искажать имена (Трамп, Путин, Байден). Пиши так, как в тексте.
 - Если не уверен в факте — не пиши.
 - ЗАПРЕЩЕНО писать посты о том, что "в новости нет фактов". Если фактов нет — просто верни is_absurd: true.
 
-Верни ТОЛЬКО JSON: {"is_absurd": false, "is_old": false, "headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false, "hashtag": "#Политика"}`;
+Верни ТОЛЬКО JSON: {"is_absurd": false, "is_old": false, "headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false, "hashtag": "#Политика", "disclaimer": ""}`;
 
         const aiProviders = [
             { name: "Официальный Gemini", url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`, type: "google" },
@@ -719,6 +721,7 @@ ${cleanDesc}
                 bodyStr = String(bodyStr || "").trim();
             }
             const insightStr = String(llmResult.insight || "").replace(/<[^>]*>/g, "").trim();
+            const disclaimerStr = String(llmResult.disclaimer || "").trim();
 
             const metaPhrases = ["новость не подтверждена", "публикация невозможна", "отсутствуют детали", "нет фактов", "без первоисточника"];
             if (metaPhrases.some(p => bodyStr.toLowerCase().includes(p))) {
@@ -733,6 +736,7 @@ ${cleanDesc}
                         headline: validateHeadline(headlineStr, fallbackHeadline),
                         body: bodyStr,
                         insight: insightStr,
+                        disclaimer: disclaimerStr,
                         importance: Number(llmResult.importance) || 5,
                         is_ad: !!llmResult.is_ad,
                         hashtag: llmResult.hashtag || "#Новости"
@@ -741,7 +745,7 @@ ${cleanDesc}
             }
         }
 
-        return { headline: fallbackHeadline, body: `▪️ ${fallbackBody}`, insight: "", importance: 5, is_ad: false, hashtag: "#Новости" };
+        return { headline: fallbackHeadline, body: `▪️ ${fallbackBody}`, insight: "", disclaimer: "", importance: 5, is_ad: false, hashtag: "#Новости" };
     } catch (e) {
         return { headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
     }
@@ -807,7 +811,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v149: Запуск (True Media Group) ===");
+    console.log("=== ФАКТОР v150: Запуск (Legal & Safe) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
@@ -873,7 +877,6 @@ async function run(): Promise<boolean> {
 
             console.log("\nОбработка: " + item.title);
 
-            // 🚀 ИСПОЛЬЗУЕМ mixedCandidates ДЛЯ СБОРА ВСЕХ МЕДИА
             const mediaPacket = getMediaPacket(item, mixedCandidates);
             const post = await formatNewsPost(item.title, item.desc);
 
@@ -920,6 +923,10 @@ async function run(): Promise<boolean> {
             let postHtml = `<b>${escapeHtml(post.headline)}</b>\n\n${post.body}\n\n`;
             if (post.insight) postHtml += `💡 <b>Взгляд ФАКТОРА:</b>\n${escapeHtml(post.insight)}\n\n`;
             postHtml += `⚡️ <b>ФАКТОР</b> | ${post.hashtag}`;
+            
+            if (post.disclaimer) {
+                postHtml += `\n\n${escapeHtml(post.disclaimer)}`;
+            }
 
             const sent = await sendPostToMax(postHtml, uploaded);
             if (sent) {
