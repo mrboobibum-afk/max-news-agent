@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v152 - Legal & Safe)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v153 - Strict Media & Context)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -39,8 +39,7 @@ const NOW = new Date();
 const TODAY_STR = NOW.toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' });
 const CURRENT_YEAR = NOW.getFullYear();
 
-// 🚀 РЕЕСТР ИНОАГЕНТОВ ДЛЯ ЖЕСТКОЙ ПРОВЕРКИ В КОДЕ
-const I_AGENTS_REGEX = /(база|baza|bazabazon|новая газета|новая|медуза|meduza|sota|сота|the bell|thebell|insider|инсайдер|dw|deutsche welle|радио свобода|радио «свобода»|svoboda|mozhem|можем объяснить|reuters|bloomberg|bbc|cnn|радио|голос америки|voa)/i;
+const I_AGENTS_REGEX = /(база|baza|bazabazon|новая газета|медуза|meduza|sota|сота|the bell|thebell|insider|инсайдер|dw|deutsche welle|радио свобода|svoboda|можем объяснить|reuters|bloomberg|bbc|cnn|голос америки|voa)/i;
 const I_AGENT_DISCLAIMER = "⚠️ * Данная организация/лицо признана иностранным агентом на территории РФ.";
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
@@ -300,6 +299,13 @@ function isTrashUrl(url: string): boolean {
     ) {
         return true;
     }
+    
+    // 🚀 ЖЕСТКИЙ ФИЛЬТР ЛОГОТИПОВ И БРЕНДОВ
+    if (
+        low.includes("rt") || low.includes("tass") || low.includes("ria") || 
+        low.includes("brand") || low.includes("icon") || low.includes("mockup")
+    ) return true;
+
     return false;
 }
 
@@ -443,6 +449,7 @@ function simpleHash(str: string): string {
     return Math.abs(h).toString(36);
 }
 
+// 🚀 ИЗМЕНЕННЫЙ ПАРСИНГ: Берем ТОЛЬКО главную картинку (og:image)
 async function extractMediaFromUrl(url: string): Promise<{ video: string[], image: string[] }> {
     const res = { video: [] as string[], image: [] as string[] };
     if (!url) return res;
@@ -467,12 +474,15 @@ async function extractMediaFromUrl(url: string): Promise<{ video: string[], imag
             
             res.video = [...new Set(vMatches)].filter(u => !isTrashUrl(u));
 
-            const imgMatches = [
-                ...html.matchAll(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/gi),
-                ...html.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)
-            ].map(m => m[1]);
-            
-            res.image = [...new Set(imgMatches)].filter(u => !isTrashUrl(u)).slice(0, 4);
+            // Берем только og:image
+            const mainImgMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/gi);
+            if (mainImgMatch) {
+                const imgs = mainImgMatch.map(m => {
+                    const match = m.match(/content=["']([^"']+)["']/i);
+                    return match ? match[1] : "";
+                }).filter(Boolean).filter(u => !isTrashUrl(u));
+                res.image = [...new Set(imgs)];
+            }
 
             if (res.video.length > 0 || res.image.length > 0) {
                 break;
@@ -593,9 +603,8 @@ async function fetchRssFeeds(): Promise<any[]> {
                 const enclosureImg = raw.match(/<enclosure[^>]+url=["']([^"']+)["'][^>]+type=["']image/i)?.[1];
                 const mediaContent = raw.match(/<media:content[^>]+url=["']([^"']+)["']/i)?.[1];
                 const mediaThumbnail = raw.match(/<media:thumbnail[^>]+url=["']([^"']+)["']/i)?.[1];
-                const imgMatches = [...descHtml.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)].map(m => m[1]);
                 
-                let uniqueImages = [...new Set([enclosureImg, mediaContent, mediaThumbnail, ...imgMatches].filter(Boolean).filter(u => !isTrashUrl(u)))].slice(0, 4);
+                let uniqueImages = [...new Set([enclosureImg, mediaContent, mediaThumbnail].filter(Boolean).filter(u => !isTrashUrl(u)))];
                 let uniqueVideos: string[] = [];
 
                 if (link) {
@@ -647,7 +656,7 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
 ${cleanDesc}
 
 ТВОИ ЗАДАЧИ:
-1. is_absurd — true, если текст является шуткой, сатирой, бредом, фантастикой ИЛИ если в тексте НЕТ САМОГО СОБЫТИЯ (например, только подпись "пресс-служба" или обрывок фразы). Если это нормальная новость — false.
+1. is_absurd — true, если текст является шуткой, сатирой, бредом, фантастикой ИЛИ если в тексте НЕТ САМОГО СОБЫТИЯ, ЛИБО если новость абстрактна (например: "Рост показателя до 43 млн" без указания ЧЕГО ИМЕННО). Если это нормальная новость с конкретикой — false.
 2. is_old — true, если в тексте упоминаются события ДАВНО ПРОШЕДШИХ лет (например, 2022 или 2023 год), и это не историческая справка, а выдается за текущую новость. Если новость актуальна — false.
 3. headline — заголовок (до 8 слов) с 1 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨). КАТЕГОРИЧЕСКИ БЕЗ МНОГОТОЧИЙ. Ярко и точно.
 4. body — Оформи текст как список из 3-4 КОРОТКИХ пунктов (до 25 слов каждый). 
@@ -815,7 +824,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v152: Запуск (Legal & Safe) ===");
+    console.log("=== ФАКТОР v153: Запуск (Strict Media & Context) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
@@ -905,7 +914,6 @@ async function run(): Promise<boolean> {
             const textHash = await getTextHash(post.body);
             if ((await kv.get(["factor", "texthash", textHash])).value) { skippedDup++; continue; }
 
-            // 🚀 ЖЕСТКАЯ ПРОВЕРКА НА ИНОАГЕНТОВ В КОДЕ (ДЛЯ СТРАХОВКИ)
             const combinedText = (post.headline + " " + post.body + " " + post.insight).toLowerCase();
             if (I_AGENTS_REGEX.test(combinedText) && !post.disclaimer) {
                 console.log(`⚠️ Найден иноагент в тексте, принудительно добавляем сноску.`);
