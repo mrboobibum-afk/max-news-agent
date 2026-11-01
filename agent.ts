@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v150 - Legal & Safe)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v152 - Legal & Safe)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -16,7 +16,7 @@ const LOOP_SLEEP_MAX_MS = 6 * 60 * 1000;
 const POST_COOLDOWN_MS = 15 * 60 * 1000; 
 
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
-const MEDIA_PACKET_MAX = 6; 
+const MEDIA_PACKET_MAX = 10; 
 const MIN_IMPORTANCE = 7; 
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
@@ -39,9 +39,12 @@ const NOW = new Date();
 const TODAY_STR = NOW.toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' });
 const CURRENT_YEAR = NOW.getFullYear();
 
+// 🚀 РЕЕСТР ИНОАГЕНТОВ ДЛЯ ЖЕСТКОЙ ПРОВЕРКИ В КОДЕ
+const I_AGENTS_REGEX = /(база|baza|bazabazon|новая газета|новая|медуза|meduza|sota|сота|the bell|thebell|insider|инсайдер|dw|deutsche welle|радио свобода|радио «свобода»|svoboda|mozhem|можем объяснить|reuters|bloomberg|bbc|cnn|радио|голос америки|voa)/i;
+const I_AGENT_DISCLAIMER = "⚠️ * Данная организация/лицо признана иностранным агентом на территории РФ.";
+
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
 
-// 🚀 УБРАЛИ BAZA ИЗ ИСТОЧНИКОВ
 const TG_LIVE_CHANNELS = [
     "government_rus", "news_kremlin", "kremlinpress",
     "mod_russia", "mchs_official", "mediamvd", "MID_Russia", "sledcom_press",
@@ -53,7 +56,7 @@ const TG_LIVE_CHANNELS = [
     "rostecnews", "rosatominfo", "rzdtg", "GazpromNews", "rosneftinfo",
     "rian_ru", "tass_agency", "rbc_news", "vesti_news", "rt_russian",
     "1tv_news", "ntvru", "izvestya", "rgru_news",
-    "readovkanews", "shot_shot", "mash" // Оставили лояльные или просто новостные
+    "readovkanews", "shot_shot", "mash"
 ];
 
 const NEWS_FEEDS = [
@@ -513,6 +516,7 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 ].map(m => m[1]).filter(u => !isTrashUrl(u));
 
                 let videos: string[] = [];
+                
                 const postDirectVideos = [...post.matchAll(/https:\/\/cdn\d*\.telesco\.pe\/file\/[^\s"']+\.mp4[^\s"']*/gi)].map(m => m[0]);
                 videos.push(...postDirectVideos);
 
@@ -617,7 +621,7 @@ async function fetchRssFeeds(): Promise<any[]> {
     return items;
 }
 
-async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, body: string, insight: string, importance: number, is_ad: boolean, hashtag: string }> {
+async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, body: string, insight: string, importance: number, is_ad: boolean, hashtag: string, disclaimer: string }> {
     try {
         let cleanDesc = sanitizeRawText(desc);
         const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 90);
@@ -646,16 +650,16 @@ ${cleanDesc}
 1. is_absurd — true, если текст является шуткой, сатирой, бредом, фантастикой ИЛИ если в тексте НЕТ САМОГО СОБЫТИЯ (например, только подпись "пресс-служба" или обрывок фразы). Если это нормальная новость — false.
 2. is_old — true, если в тексте упоминаются события ДАВНО ПРОШЕДШИХ лет (например, 2022 или 2023 год), и это не историческая справка, а выдается за текущую новость. Если новость актуальна — false.
 3. headline — заголовок (до 8 слов) с 1 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨). КАТЕГОРИЧЕСКИ БЕЗ МНОГОТОЧИЙ. Ярко и точно.
-4. body — Оформи текст как список из 2-3 КОРОТКИХ пунктов (до 15 слов каждый). 
+4. body — Оформи текст как список из 3-4 КОРОТКИХ пунктов (до 25 слов каждый). 
    - Каждый пункт начинай с маркера ▪️.
-   - Включи ТОЛЬКО ключевые факты (имена, цифры).
+   - Включи ТОЛЬКО ключевые факты (имена, цифры, детали, контекст).
    - Выдели главные акценты тегами <b>жирный шрифт</b>.
    - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Верни ОДНУ СТРОКУ с переносами \n. НЕ ОБРЫВАЙ ПРЕДЛОЖЕНИЯ.
 5. insight — (Взгляд ФАКТОРА) — 1-2 предложения (до 20 слов). Оцени последствия для обычного человека: что будет с ценами, безопасностью или экономикой. БЕЗ ТЕГОВ HTML.
 6. importance — целое 1-10. (9-10 экстренно, 7-8 политика/экономика, 1-6 бытовуха).
 7. is_ad — true, если это реклама.
 8. hashtag — выбери один тег по теме: #Политика, #Экономика, #Мир, #Происшествия, #Технологии, #Россия.
-9. disclaimer — если в тексте упоминаются СМИ или лица, признанные иностранными агентами в РФ (База, Новая газета, Маш, SHOT, Медуза и т.д.), ОБЯЗАТЕЛЬНО напиши: "⚠️ * Данная организация/лицо признано иностранным агентом на территории РФ." Если иноагентов нет — оставь пустую строку.
+9. disclaimer — если в тексте упоминаются СМИ или лица, признанные иностранными агентами в РФ (База, Новая газета, Медуза и т.д.), ОБЯЗАТЕЛЬНО напиши: "⚠️ * Данная организация/лицо признана иностранным агентом на территории РФ." Если иноагентов нет — оставь пустую строку.
 
 ВНИМАНИЕ, ЖЕСТКИЕ ПРАВИЛА:
 - КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО искажать имена (Трамп, Путин, Байден). Пиши так, как в тексте.
@@ -697,11 +701,11 @@ ${cleanDesc}
                         const parsed = JSON.parse(match[0]);
                         if (parsed.is_absurd) {
                             console.log(`❌ ИИ отклонил новость как бред или пустышку.`);
-                            return { headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
+                            return { headline: "", body: "", insight: "", disclaimer: "", importance: 0, is_ad: false, hashtag: "" };
                         }
                         if (parsed.is_old) {
                             console.log(`❌ ИИ отклонил новость как устаревшую (is_old).`);
-                            return { headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
+                            return { headline: "", body: "", insight: "", disclaimer: "", importance: 0, is_ad: false, hashtag: "" };
                         }
                         llmResult = parsed;
                         console.log(`✅ Успешный ответ от: ${provider.name}`);
@@ -721,12 +725,12 @@ ${cleanDesc}
                 bodyStr = String(bodyStr || "").trim();
             }
             const insightStr = String(llmResult.insight || "").replace(/<[^>]*>/g, "").trim();
-            const disclaimerStr = String(llmResult.disclaimer || "").trim();
+            let disclaimerStr = String(llmResult.disclaimer || "").trim();
 
             const metaPhrases = ["новость не подтверждена", "публикация невозможна", "отсутствуют детали", "нет фактов", "без первоисточника"];
             if (metaPhrases.some(p => bodyStr.toLowerCase().includes(p))) {
                 console.log(`❌ Бот сгенерировал мета-комментарий. Пропускаем.`);
-                return { headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
+                return { headline: "", body: "", insight: "", disclaimer: "", importance: 0, is_ad: false, hashtag: "" };
             }
 
             if (headlineStr && bodyStr) {
@@ -747,7 +751,7 @@ ${cleanDesc}
 
         return { headline: fallbackHeadline, body: `▪️ ${fallbackBody}`, insight: "", disclaimer: "", importance: 5, is_ad: false, hashtag: "#Новости" };
     } catch (e) {
-        return { headline: "", body: "", insight: "", importance: 0, is_ad: false, hashtag: "" };
+        return { headline: "", body: "", insight: "", disclaimer: "", importance: 0, is_ad: false, hashtag: "" };
     }
 }
 
@@ -811,7 +815,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v150: Запуск (Legal & Safe) ===");
+    console.log("=== ФАКТОР v152: Запуск (Legal & Safe) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
@@ -900,6 +904,13 @@ async function run(): Promise<boolean> {
 
             const textHash = await getTextHash(post.body);
             if ((await kv.get(["factor", "texthash", textHash])).value) { skippedDup++; continue; }
+
+            // 🚀 ЖЕСТКАЯ ПРОВЕРКА НА ИНОАГЕНТОВ В КОДЕ (ДЛЯ СТРАХОВКИ)
+            const combinedText = (post.headline + " " + post.body + " " + post.insight).toLowerCase();
+            if (I_AGENTS_REGEX.test(combinedText) && !post.disclaimer) {
+                console.log(`⚠️ Найден иноагент в тексте, принудительно добавляем сноску.`);
+                post.disclaimer = I_AGENT_DISCLAIMER;
+            }
 
             const uploaded: Array<{ token: string; type: "image" | "video" }> = [];
             for (const media of mediaPacket) {
