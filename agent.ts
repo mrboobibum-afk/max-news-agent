@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v153 - Strict Media & Context)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v155 - Final)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -16,7 +16,7 @@ const LOOP_SLEEP_MAX_MS = 6 * 60 * 1000;
 const POST_COOLDOWN_MS = 15 * 60 * 1000; 
 
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
-const MEDIA_PACKET_MAX = 10; 
+const MEDIA_PACKET_MAX = 10; // 10 файлов (технический лимит MAX)
 const MIN_IMPORTANCE = 7; 
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
@@ -39,7 +39,7 @@ const NOW = new Date();
 const TODAY_STR = NOW.toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' });
 const CURRENT_YEAR = NOW.getFullYear();
 
-const I_AGENTS_REGEX = /(база|baza|bazabazon|новая газета|медуза|meduza|sota|сота|the bell|thebell|insider|инсайдер|dw|deutsche welle|радио свобода|svoboda|можем объяснить|reuters|bloomberg|bbc|cnn|голос америки|voa)/i;
+const I_AGENTS_REGEX = /(база|baza|bazabazon|новая газета|медуза|meduza|sota|сота|the bell|thebell|insider|инсайдер|dw|deutsche welle|радио свобода|svoboda|можем объяснить|reuters|bloomberg|bbc|cnn|голос америки|voa|дудь|дудя|yurydud)/i;
 const I_AGENT_DISCLAIMER = "⚠️ * Данная организация/лицо признана иностранным агентом на территории РФ.";
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
@@ -300,7 +300,6 @@ function isTrashUrl(url: string): boolean {
         return true;
     }
     
-    // 🚀 ЖЕСТКИЙ ФИЛЬТР ЛОГОТИПОВ И БРЕНДОВ
     if (
         low.includes("rt") || low.includes("tass") || low.includes("ria") || 
         low.includes("brand") || low.includes("icon") || low.includes("mockup")
@@ -449,7 +448,6 @@ function simpleHash(str: string): string {
     return Math.abs(h).toString(36);
 }
 
-// 🚀 ИЗМЕНЕННЫЙ ПАРСИНГ: Берем ТОЛЬКО главную картинку (og:image)
 async function extractMediaFromUrl(url: string): Promise<{ video: string[], image: string[] }> {
     const res = { video: [] as string[], image: [] as string[] };
     if (!url) return res;
@@ -474,7 +472,6 @@ async function extractMediaFromUrl(url: string): Promise<{ video: string[], imag
             
             res.video = [...new Set(vMatches)].filter(u => !isTrashUrl(u));
 
-            // Берем только og:image
             const mainImgMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/gi);
             if (mainImgMatch) {
                 const imgs = mainImgMatch.map(m => {
@@ -668,7 +665,7 @@ ${cleanDesc}
 6. importance — целое 1-10. (9-10 экстренно, 7-8 политика/экономика, 1-6 бытовуха).
 7. is_ad — true, если это реклама.
 8. hashtag — выбери один тег по теме: #Политика, #Экономика, #Мир, #Происшествия, #Технологии, #Россия.
-9. disclaimer — если в тексте упоминаются СМИ или лица, признанные иностранными агентами в РФ (База, Новая газета, Медуза и т.д.), ОБЯЗАТЕЛЬНО напиши: "⚠️ * Данная организация/лицо признана иностранным агентом на территории РФ." Если иноагентов нет — оставь пустую строку.
+9. disclaimer — если в тексте упоминаются СМИ или лица, признанные иностранными агентами в РФ (База, Новая газета, Медуза, Дудь и т.д.), ОБЯЗАТЕЛЬНО напиши: "⚠️ * Данная организация/лицо признана иностранным агентом на территории РФ." Если иноагентов нет — оставь пустую строку.
 
 ВНИМАНИЕ, ЖЕСТКИЕ ПРАВИЛА:
 - КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО искажать имена (Трамп, Путин, Байден). Пиши так, как в тексте.
@@ -790,7 +787,12 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
     const seen = new Set<string>();
     if (!item.postKey) return [];
     const samePost = candidates.filter(c => c.postKey === item.postKey);
-    const ordered = [...samePost.filter(c => c.mediaType === "video"), ...samePost.filter(c => c.mediaType === "image")];
+    
+    // 🚀 БЕЗ ЛИМИТОВ: Берем все видео, потом все фото
+    const vids = samePost.filter(c => c.mediaType === "video");
+    const imgs = samePost.filter(c => c.mediaType === "image");
+    const ordered = [...vids, ...imgs];
+
     for (const c of ordered) {
         if (!c.mediaUrl || isTrashUrl(c.mediaUrl)) continue;
         if (seen.has(c.mediaUrl)) continue;
@@ -824,7 +826,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v153: Запуск (Strict Media & Context) ===");
+    console.log("=== ФАКТОР v155: Запуск (Full Media) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
