@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v155 - Final)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v157 - Anti-Empty-News)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -16,7 +16,7 @@ const LOOP_SLEEP_MAX_MS = 6 * 60 * 1000;
 const POST_COOLDOWN_MS = 15 * 60 * 1000; 
 
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
-const MEDIA_PACKET_MAX = 10; // 10 файлов (технический лимит MAX)
+const MEDIA_PACKET_MAX = 10; 
 const MIN_IMPORTANCE = 7; 
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
@@ -84,6 +84,7 @@ const NEWS_FEEDS = [
     { name: "Правда.ру", url: "https://www.pravda.ru/export.xml" },
 ];
 
+// 🚀 ДОБАВЛЕНЫ ПАТТЕРНЫ НА ПУСТЫШКИ
 const BORING_TOPICS = [
     /(?:сесси[яи]|форум|круглый\s+стол|конференци[яи]|совещани[ея]|заседани[ея]|брифинг)/i,
     /(?:рэц|экспортер|клиентск|госуслуг|росреестр)/i, 
@@ -115,7 +116,8 @@ const BORING_TOPICS = [
     /(?:чемпионат|соревновани[яе]|турнир|учени[яе]|тактика дронов|эк-министр|финансовый спор)/i,
     /(?:внутренние разногласия|внешние угрозы|разобщенность властей)/i,
     /(?:десантировать|парашют|рамп\s+предлагает|инопланетян|магия|колдун)/i,
-    /(?:пресс-служба|по\s+данным\s+источника|сообщили\s+в\s+ведомстве)/i 
+    /(?:пресс-служба|по\s+данным\s+источника|сообщили\s+в\s+ведомстве)/i,
+    /(?:неизвестн|не\s+установлен|уточняются|подробности\s+позже|информация\s+отсутствует|детали\s+неизвестны)/i // 🚀 ФИЛЬТР ПУСТЫШЕК
 ];
 
 class FileKV {
@@ -222,6 +224,10 @@ function cleanText(val: any): string {
     t = t.replace(/<[^>]+>/g, " ");
     t = t.replace(/\s+/g, " ").trim();
     t = t.replace(/([а-я])([А-Я])/g, "$1 $2");
+    
+    t = t.replace(/([a-zA-Z])\s+_([a-zA-Z])/g, "$1 $2");
+    t = t.replace(/([a-zA-Z])_([a-zA-Z])/g, "$1 $2");
+    
     return t;
 }
 
@@ -510,9 +516,16 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
 
                 const sanitized = sanitizeRawText(textRaw);
                 if (sanitized.length < 100) continue;
+                
+                // 🚀 ЖЕСТКИЙ ФИЛЬТР ПУСТЫШЕК
+                if (/(?:неизвестн|не\s+установлен|уточняются|подробности\s+позже|информация\s+отсутствует|детали\s+неизвестны)/i.test(sanitized)) {
+                    console.log(`  ❌ Пропуск (пустышка): ${sanitized.slice(0, 50)}...`);
+                    continue;
+                }
 
                 const firstSentence = sanitized.split(/[.!?]\s/)[0] || sanitized;
-                const truncatedTitle = firstSentence.slice(0, 90); 
+                
+                const truncatedTitle = firstSentence.length > 150 ? firstSentence.slice(0, 150) + "..." : firstSentence;
 
                 const postIdMatch = post.match(/data-post=["']([^"']+)["']/i);
                 const postKey = postIdMatch ? postIdMatch[1] : "tg_" + simpleHash(sanitized);
@@ -593,8 +606,14 @@ async function fetchRssFeeds(): Promise<any[]> {
                 if (BORING_TOPICS.some(r => r.test(`${title} ${desc}`))) continue;
                 if (!title || desc.endsWith("...") || desc.endsWith("…") || desc.length < 200) continue;
                 if (desc.length < 100) continue;
+                
+                // 🚀 ЖЕСТКИЙ ФИЛЬТР ПУСТЫШЕК
+                if (/(?:неизвестн|не\s+установлен|уточняются|подробности\s+позже|информация\s+отсутствует|детали\s+неизвестны)/i.test(`${title} ${desc}`)) {
+                    console.log(`  ❌ Пропуск (пустышка RSS): ${title.slice(0, 50)}...`);
+                    continue;
+                }
 
-                const truncatedTitle = title.slice(0, 90);
+                const truncatedTitle = title.length > 150 ? title.slice(0, 150) + "..." : title;
                 const postKey = `${feed.name.toLowerCase()}_${simpleHash(title + (link || ""))}`;
                 
                 const enclosureImg = raw.match(/<enclosure[^>]+url=["']([^"']+)["'][^>]+type=["']image/i)?.[1];
@@ -630,7 +649,7 @@ async function fetchRssFeeds(): Promise<any[]> {
 async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, body: string, insight: string, importance: number, is_ad: boolean, hashtag: string, disclaimer: string }> {
     try {
         let cleanDesc = sanitizeRawText(desc);
-        const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 90);
+        const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 150);
         
         if (cleanDesc.toLowerCase().startsWith(fallbackHeadline.toLowerCase())) {
             cleanDesc = cleanDesc.slice(fallbackHeadline.length).trim();
@@ -653,14 +672,14 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
 ${cleanDesc}
 
 ТВОИ ЗАДАЧИ:
-1. is_absurd — true, если текст является шуткой, сатирой, бредом, фантастикой ИЛИ если в тексте НЕТ САМОГО СОБЫТИЯ, ЛИБО если новость абстрактна (например: "Рост показателя до 43 млн" без указания ЧЕГО ИМЕННО). Если это нормальная новость с конкретикой — false.
+1. is_absurd — true, если текст является шуткой, сатирой, бредом, фантастикой ИЛИ если в тексте НЕТ САМОГО СОБЫТИЯ, ЛИБО если новость абстрактна (например: "Рост показателя до 43 млн" без указания ЧЕГО ИМЕННО), ЛИБО если в тексте явно не хватает фактов (например: "инцидент с самолетом, тип не установлен, пострадавшие неизвестны"). Если это нормальная новость с конкретикой — false.
 2. is_old — true, если в тексте упоминаются события ДАВНО ПРОШЕДШИХ лет (например, 2022 или 2023 год), и это не историческая справка, а выдается за текущую новость. Если новость актуальна — false.
 3. headline — заголовок (до 8 слов) с 1 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨). КАТЕГОРИЧЕСКИ БЕЗ МНОГОТОЧИЙ. Ярко и точно.
 4. body — Оформи текст как список из 3-4 КОРОТКИХ пунктов (до 25 слов каждый). 
    - Каждый пункт начинай с маркера ▪️.
    - Включи ТОЛЬКО ключевые факты (имена, цифры, детали, контекст).
    - Выдели главные акценты тегами <b>жирный шрифт</b>.
-   - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Верни ОДНУ СТРОКУ с переносами \n. НЕ ОБРЫВАЙ ПРЕДЛОЖЕНИЯ.
+   - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Верни ОДНУ СТРОКУ с переносами \n. НЕ ОБРЫВАЙ ПРЕДЛОЖЕНИЯ. Если предложение не влезает — переформулируй, но не обрывай.
 5. insight — (Взгляд ФАКТОРА) — 1-2 предложения (до 20 слов). Оцени последствия для обычного человека: что будет с ценами, безопасностью или экономикой. БЕЗ ТЕГОВ HTML.
 6. importance — целое 1-10. (9-10 экстренно, 7-8 политика/экономика, 1-6 бытовуха).
 7. is_ad — true, если это реклама.
@@ -670,7 +689,7 @@ ${cleanDesc}
 ВНИМАНИЕ, ЖЕСТКИЕ ПРАВИЛА:
 - КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО искажать имена (Трамп, Путин, Байден). Пиши так, как в тексте.
 - Если не уверен в факте — не пиши.
-- ЗАПРЕЩЕНО писать посты о том, что "в новости нет фактов". Если фактов нет — просто верни is_absurd: true.
+- ЗАПРЕЩЕНО писать посты о том, что "в новости нет фактов", "детали неизвестны", "уточняются". Если фактов нет — просто верни is_absurd: true.
 
 Верни ТОЛЬКО JSON: {"is_absurd": false, "is_old": false, "headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false, "hashtag": "#Политика", "disclaimer": ""}`;
 
@@ -706,7 +725,7 @@ ${cleanDesc}
                     if (match) {
                         const parsed = JSON.parse(match[0]);
                         if (parsed.is_absurd) {
-                            console.log(`❌ ИИ отклонил новость как бред или пустышку.`);
+                            console.log(`❌ ИИ отклонил новость как бред, пустышку или недостаток фактов.`);
                             return { headline: "", body: "", insight: "", disclaimer: "", importance: 0, is_ad: false, hashtag: "" };
                         }
                         if (parsed.is_old) {
@@ -733,9 +752,9 @@ ${cleanDesc}
             const insightStr = String(llmResult.insight || "").replace(/<[^>]*>/g, "").trim();
             let disclaimerStr = String(llmResult.disclaimer || "").trim();
 
-            const metaPhrases = ["новость не подтверждена", "публикация невозможна", "отсутствуют детали", "нет фактов", "без первоисточника"];
+            const metaPhrases = ["новость не подтверждена", "публикация невозможна", "отсутствуют детали", "нет фактов", "без первоисточника", "детали неизвестны", "подробности не раскрываются", "не установлен", "уточняются"];
             if (metaPhrases.some(p => bodyStr.toLowerCase().includes(p))) {
-                console.log(`❌ Бот сгенерировал мета-комментарий. Пропускаем.`);
+                console.log(`❌ Бот сгенерировал мета-комментарий (пустышку). Пропускаем.`);
                 return { headline: "", body: "", insight: "", disclaimer: "", importance: 0, is_ad: false, hashtag: "" };
             }
 
@@ -788,7 +807,6 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
     if (!item.postKey) return [];
     const samePost = candidates.filter(c => c.postKey === item.postKey);
     
-    // 🚀 БЕЗ ЛИМИТОВ: Берем все видео, потом все фото
     const vids = samePost.filter(c => c.mediaType === "video");
     const imgs = samePost.filter(c => c.mediaType === "image");
     const ordered = [...vids, ...imgs];
@@ -826,7 +844,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v155: Запуск (Full Media) ===");
+    console.log("=== ФАКТОР v157: Запуск (Anti-Empty-News) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
