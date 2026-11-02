@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v157 - Anti-Empty-News)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v158 - No Truncation)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -16,7 +16,7 @@ const LOOP_SLEEP_MAX_MS = 6 * 60 * 1000;
 const POST_COOLDOWN_MS = 15 * 60 * 1000; 
 
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
-const MEDIA_PACKET_MAX = 10; 
+const MEDIA_PACKET_MAX = 10; // 10 файлов (технический лимит MAX)
 const MIN_IMPORTANCE = 7; 
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
@@ -84,8 +84,9 @@ const NEWS_FEEDS = [
     { name: "Правда.ру", url: "https://www.pravda.ru/export.xml" },
 ];
 
-// 🚀 ДОБАВЛЕНЫ ПАТТЕРНЫ НА ПУСТЫШКИ
+// 🚀 ДОБАВЛЕНЫ ФИЛЬТРЫ НА РЕКЛАМУ ЭФИРОВ И ПУСТЫШКИ
 const BORING_TOPICS = [
+    /(?:прямо\s+сейчас|в\s+эфире|радио|трансляци|стрим|смотрите|включайте)/i,
     /(?:сесси[яи]|форум|круглый\s+стол|конференци[яи]|совещани[ея]|заседани[ея]|брифинг)/i,
     /(?:рэц|экспортер|клиентск|госуслуг|росреестр)/i, 
     /(?:гороскоп|погода|курс\s+валют|скидк|выходн)/i,
@@ -117,7 +118,7 @@ const BORING_TOPICS = [
     /(?:внутренние разногласия|внешние угрозы|разобщенность властей)/i,
     /(?:десантировать|парашют|рамп\s+предлагает|инопланетян|магия|колдун)/i,
     /(?:пресс-служба|по\s+данным\s+источника|сообщили\s+в\s+ведомстве)/i,
-    /(?:неизвестн|не\s+установлен|уточняются|подробности\s+позже|информация\s+отсутствует|детали\s+неизвестны)/i // 🚀 ФИЛЬТР ПУСТЫШЕК
+    /(?:неизвестн|не\s+установлен|уточняются|подробности\s+позже|информация\s+отсутствует|детали\s+неизвестны)/i
 ];
 
 class FileKV {
@@ -517,7 +518,6 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 const sanitized = sanitizeRawText(textRaw);
                 if (sanitized.length < 100) continue;
                 
-                // 🚀 ЖЕСТКИЙ ФИЛЬТР ПУСТЫШЕК
                 if (/(?:неизвестн|не\s+установлен|уточняются|подробности\s+позже|информация\s+отсутствует|детали\s+неизвестны)/i.test(sanitized)) {
                     console.log(`  ❌ Пропуск (пустышка): ${sanitized.slice(0, 50)}...`);
                     continue;
@@ -607,7 +607,6 @@ async function fetchRssFeeds(): Promise<any[]> {
                 if (!title || desc.endsWith("...") || desc.endsWith("…") || desc.length < 200) continue;
                 if (desc.length < 100) continue;
                 
-                // 🚀 ЖЕСТКИЙ ФИЛЬТР ПУСТЫШЕК
                 if (/(?:неизвестн|не\s+установлен|уточняются|подробности\s+позже|информация\s+отсутствует|детали\s+неизвестны)/i.test(`${title} ${desc}`)) {
                     console.log(`  ❌ Пропуск (пустышка RSS): ${title.slice(0, 50)}...`);
                     continue;
@@ -664,6 +663,7 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
             fallbackBody = cleanDesc; 
         }
 
+        // 🚀 УБРАНО ОГРАНИЧЕНИЕ ПО СЛОВАМ, ДОБАВЛЕН ЗАПРЕТ НА ОБРЫВ
         const prompt = `Ты — главный редактор аналитического канала «ФАКТОР». Твоя цель — давать сбалансированную картину мира: политика, экономика, международные отношения, технологии и важные события в России. Твой стиль — строго, информативно, с фактами. Пиши так же четко и по делу, как канал «Прямой Эфир».
 
 СЕГОДНЯШНЯЯ ДАТА: ${TODAY_STR}. ТЕКУЩИЙ ГОД: ${CURRENT_YEAR}.
@@ -675,11 +675,11 @@ ${cleanDesc}
 1. is_absurd — true, если текст является шуткой, сатирой, бредом, фантастикой ИЛИ если в тексте НЕТ САМОГО СОБЫТИЯ, ЛИБО если новость абстрактна (например: "Рост показателя до 43 млн" без указания ЧЕГО ИМЕННО), ЛИБО если в тексте явно не хватает фактов (например: "инцидент с самолетом, тип не установлен, пострадавшие неизвестны"). Если это нормальная новость с конкретикой — false.
 2. is_old — true, если в тексте упоминаются события ДАВНО ПРОШЕДШИХ лет (например, 2022 или 2023 год), и это не историческая справка, а выдается за текущую новость. Если новость актуальна — false.
 3. headline — заголовок (до 8 слов) с 1 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨). КАТЕГОРИЧЕСКИ БЕЗ МНОГОТОЧИЙ. Ярко и точно.
-4. body — Оформи текст как список из 3-4 КОРОТКИХ пунктов (до 25 слов каждый). 
+4. body — Оформи текст как список из 3-4 пунктов. 
    - Каждый пункт начинай с маркера ▪️.
    - Включи ТОЛЬКО ключевые факты (имена, цифры, детали, контекст).
    - Выдели главные акценты тегами <b>жирный шрифт</b>.
-   - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Верни ОДНУ СТРОКУ с переносами \n. НЕ ОБРЫВАЙ ПРЕДЛОЖЕНИЯ. Если предложение не влезает — переформулируй, но не обрывай.
+   - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Верни ОДНУ СТРОКУ с переносами \n. КАТЕГОРИЧЕСКИ НЕ ОБРЫВАЙ ПРЕДЛОЖЕНИЯ. Каждый пункт должен быть законченным по смыслу.
 5. insight — (Взгляд ФАКТОРА) — 1-2 предложения (до 20 слов). Оцени последствия для обычного человека: что будет с ценами, безопасностью или экономикой. БЕЗ ТЕГОВ HTML.
 6. importance — целое 1-10. (9-10 экстренно, 7-8 политика/экономика, 1-6 бытовуха).
 7. is_ad — true, если это реклама.
@@ -709,10 +709,10 @@ ${cleanDesc}
                 let headers: any = { "Content-Type": "application/json" };
 
                 if (provider.type === "google") {
-                    bodyPayload = { contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json" } };
+                    bodyPayload = { contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json", maxOutputTokens: 2500 } };
                 } else {
                     headers["Authorization"] = `Bearer ${provider.key}`;
-                    bodyPayload = { model: provider.model, messages: [{ role: "user", content: prompt }], temperature: 0.2 };
+                    bodyPayload = { model: provider.model, messages: [{ role: "user", content: prompt }], temperature: 0.2, max_tokens: 2500 };
                 }
 
                 const r = await fetch(provider.url, { method: "POST", headers: headers, body: JSON.stringify(bodyPayload), signal: AbortSignal.timeout(LLM_TIMEOUT_MS) });
@@ -844,7 +844,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v157: Запуск (Anti-Empty-News) ===");
+    console.log("=== ФАКТОР v158: Запуск (No Truncation) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
