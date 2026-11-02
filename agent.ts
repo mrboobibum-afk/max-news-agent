@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v158 - No Truncation)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v159 - Diverse & Balance)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -16,7 +16,7 @@ const LOOP_SLEEP_MAX_MS = 6 * 60 * 1000;
 const POST_COOLDOWN_MS = 15 * 60 * 1000; 
 
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
-const MEDIA_PACKET_MAX = 10; // 10 файлов (технический лимит MAX)
+const MEDIA_PACKET_MAX = 10; 
 const MIN_IMPORTANCE = 7; 
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
@@ -44,10 +44,9 @@ const I_AGENT_DISCLAIMER = "⚠️ * Данная организация/лиц�
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
 
+// Оставили базовые новостные каналы, но добавили разнообразия в RSS
 const TG_LIVE_CHANNELS = [
-    "government_rus", "news_kremlin", "kremlinpress",
-    "mod_russia", "mchs_official", "mediamvd", "MID_Russia", "sledcom_press",
-    "genprocru", "rosgvardofficial",
+    "government_rus", "news_kremlin",
     "duma_gov_ru", "sovfedofficial", "centralbank_russia", "minfin", "minec_russia",
     "mintsifry", "minenergo_official", "minpromtorg_ru", "mcx_ru", "mintrudrf",
     "minstroyrf", "minzdrav_ru", "minobrnaukiofficial", "minsport_russia",
@@ -55,7 +54,7 @@ const TG_LIVE_CHANNELS = [
     "rostecnews", "rosatominfo", "rzdtg", "GazpromNews", "rosneftinfo",
     "rian_ru", "tass_agency", "rbc_news", "vesti_news", "rt_russian",
     "1tv_news", "ntvru", "izvestya", "rgru_news",
-    "readovkanews", "shot_shot", "mash"
+    "readovkanews" // Оставили один из самых быстрых новостных
 ];
 
 const NEWS_FEEDS = [
@@ -82,9 +81,15 @@ const NEWS_FEEDS = [
     { name: "БФМ", url: "https://www.bfm.ru/rss.xml" },
     { name: "URA.ру", url: "https://ura.news/rss" },
     { name: "Правда.ру", url: "https://www.pravda.ru/export.xml" },
+    
+    // 🚀 ДОБАВЛЯЕМ МИРНЫЕ И ИНТЕРЕСНЫЕ ИСТОЧНИКИ
+    { name: "N+1", url: "https://nplus1.ru/rss" },
+    { name: "TechInsider", url: "https://techinsider.ru/rss/" },
+    { name: "Лайфхакер", url: "https://lifehacker.ru/feed/" },
+    { name: "Мотор", url: "https://motor.ru/rss/news" },
+    { name: "РБК Стиль", url: "https://style.rbc.ru/rss" }
 ];
 
-// 🚀 ДОБАВЛЕНЫ ФИЛЬТРЫ НА РЕКЛАМУ ЭФИРОВ И ПУСТЫШКИ
 const BORING_TOPICS = [
     /(?:прямо\s+сейчас|в\s+эфире|радио|трансляци|стрим|смотрите|включайте)/i,
     /(?:сесси[яи]|форум|круглый\s+стол|конференци[яи]|совещани[ея]|заседани[ея]|брифинг)/i,
@@ -524,7 +529,6 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 }
 
                 const firstSentence = sanitized.split(/[.!?]\s/)[0] || sanitized;
-                
                 const truncatedTitle = firstSentence.length > 150 ? firstSentence.slice(0, 150) + "..." : firstSentence;
 
                 const postIdMatch = post.match(/data-post=["']([^"']+)["']/i);
@@ -645,7 +649,7 @@ async function fetchRssFeeds(): Promise<any[]> {
     return items;
 }
 
-async function formatNewsPost(title: string, desc: string): Promise<{ headline: string, body: string, insight: string, importance: number, is_ad: boolean, hashtag: string, disclaimer: string }> {
+async function formatNewsPost(title: string, desc: string, lastTag: string): Promise<{ headline: string, body: string, insight: string, importance: number, is_ad: boolean, hashtag: string, disclaimer: string }> {
     try {
         let cleanDesc = sanitizeRawText(desc);
         const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 150);
@@ -663,8 +667,10 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
             fallbackBody = cleanDesc; 
         }
 
-        // 🚀 УБРАНО ОГРАНИЧЕНИЕ ПО СЛОВАМ, ДОБАВЛЕН ЗАПРЕТ НА ОБРЫВ
-        const prompt = `Ты — главный редактор аналитического канала «ФАКТОР». Твоя цель — давать сбалансированную картину мира: политика, экономика, международные отношения, технологии и важные события в России. Твой стиль — строго, информативно, с фактами. Пиши так же четко и по делу, как канал «Прямой Эфир».
+        // 🚀 ДОБАВЛЕНА ИНСТРУКЦИЯ О БАЛАНСЕ
+        const prompt = `Ты — главный редактор аналитического канала «ФАКТОР». Твоя цель — давать сбалансированную картину мира. 
+В прошлом посте ты публиковал новость с тегом: ${lastTag || "Нет данных"}. 
+Если прошлая новость была про военные действия или происшествия, СТАРАЙСЯ ВЫБРАТЬ другую тему (экономика, технологии, общество, наука), чтобы канал не был однобоким.
 
 СЕГОДНЯШНЯЯ ДАТА: ${TODAY_STR}. ТЕКУЩИЙ ГОД: ${CURRENT_YEAR}.
 
@@ -672,19 +678,19 @@ async function formatNewsPost(title: string, desc: string): Promise<{ headline: 
 ${cleanDesc}
 
 ТВОИ ЗАДАЧИ:
-1. is_absurd — true, если текст является шуткой, сатирой, бредом, фантастикой ИЛИ если в тексте НЕТ САМОГО СОБЫТИЯ, ЛИБО если новость абстрактна (например: "Рост показателя до 43 млн" без указания ЧЕГО ИМЕННО), ЛИБО если в тексте явно не хватает фактов (например: "инцидент с самолетом, тип не установлен, пострадавшие неизвестны"). Если это нормальная новость с конкретикой — false.
-2. is_old — true, если в тексте упоминаются события ДАВНО ПРОШЕДШИХ лет (например, 2022 или 2023 год), и это не историческая справка, а выдается за текущую новость. Если новость актуальна — false.
+1. is_absurd — true, если текст является шуткой, сатирой, бредом, фантастикой ИЛИ если в тексте НЕТ САМОГО СОБЫТИЯ, ЛИБО если новость абстрактна (например: "Рост показателя до 43 млн" без указания ЧЕГО ИМЕННО), ЛИБО если в тексте явно не хватает фактов. Если это нормальная новость с конкретикой — false.
+2. is_old — true, если в тексте упоминаются события ДАВНО ПРОШЕДШИХ лет. Если новость актуальна — false.
 3. headline — заголовок (до 8 слов) с 1 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨). КАТЕГОРИЧЕСКИ БЕЗ МНОГОТОЧИЙ. Ярко и точно.
 4. body — Оформи текст как список из 3-4 пунктов. 
    - Каждый пункт начинай с маркера ▪️.
    - Включи ТОЛЬКО ключевые факты (имена, цифры, детали, контекст).
    - Выдели главные акценты тегами <b>жирный шрифт</b>.
-   - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Верни ОДНУ СТРОКУ с переносами \n. КАТЕГОРИЧЕСКИ НЕ ОБРЫВАЙ ПРЕДЛОЖЕНИЯ. Каждый пункт должен быть законченным по смыслу.
+   - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Верни ОДНУ СТРОКУ с переносами \n. КАТЕГОРИЧЕСКИ НЕ ОБРЫВАЙ ПРЕДЛОЖЕНИЯ.
 5. insight — (Взгляд ФАКТОРА) — 1-2 предложения (до 20 слов). Оцени последствия для обычного человека: что будет с ценами, безопасностью или экономикой. БЕЗ ТЕГОВ HTML.
-6. importance — целое 1-10. (9-10 экстренно, 7-8 политика/экономика, 1-6 бытовуха).
+6. importance — целое 1-10. (9-10 экстренно, 7-8 политика/экономика, 1-6 бытовуха). Обычные сводки о дронах ставь 6-7, если нет жертв. 
 7. is_ad — true, если это реклама.
-8. hashtag — выбери один тег по теме: #Политика, #Экономика, #Мир, #Происшествия, #Технологии, #Россия.
-9. disclaimer — если в тексте упоминаются СМИ или лица, признанные иностранными агентами в РФ (База, Новая газета, Медуза, Дудь и т.д.), ОБЯЗАТЕЛЬНО напиши: "⚠️ * Данная организация/лицо признана иностранным агентом на территории РФ." Если иноагентов нет — оставь пустую строку.
+8. hashtag — выбери один тег по теме: #Политика, #Экономика, #Мир, #Происшествия, #Технологии, #Наука, #Общество, #Россия.
+9. disclaimer — если в тексте упоминаются СМИ или лица, признанные иностранными агентами в РФ, ОБЯЗАТЕЛЬНО напиши: "⚠️ * Данная организация/лицо признана иностранным агентом на территории РФ." Если иноагентов нет — оставь пустую строку.
 
 ВНИМАНИЕ, ЖЕСТКИЕ ПРАВИЛА:
 - КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО искажать имена (Трамп, Путин, Байден). Пиши так, как в тексте.
@@ -844,7 +850,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v158: Запуск (No Truncation) ===");
+    console.log("=== ФАКТОР v159: Запуск (Diverse & Balance) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
@@ -894,6 +900,7 @@ async function run(): Promise<boolean> {
     const recentDescs: string[] = (await kv.get(["factor", "recent_descs"])).value || [];
     const recentBodies: string[] = (await kv.get(["factor", "recent_bodies"])).value || [];
     const recentTitles: string[] = (await kv.get(["factor", "recent_titles"])).value || [];
+    const lastPublishedTag: string = (await kv.get(["factor", "last_tag"])).value || "";
 
     for (const item of topCandidates) {
         try {
@@ -911,14 +918,15 @@ async function run(): Promise<boolean> {
             console.log("\nОбработка: " + item.title);
 
             const mediaPacket = getMediaPacket(item, mixedCandidates);
-            const post = await formatNewsPost(item.title, item.desc);
+            const post = await formatNewsPost(item.title, item.desc, lastPublishedTag);
 
             if (!post.headline || !post.body || post.body.length < 30) { skippedNoMedia++; continue; }
             if (post.is_ad) { skippedImportance++; continue; }
 
             let finalImportance = post.importance;
             const rawTextLower = item.desc.toLowerCase();
-            if (/(?:путин|трамп|зеленск|бпла|дрон|атака|удар|погиб|пострадавш|цб|ставка|санкци|госдума|ушаков|лавров|мишустин|набиуллин)/i.test(rawTextLower)) finalImportance = 8;
+            
+            // 🚀 УБРАНА ЖЕСТКАЯ ПРИВЯЗКА К ВОЕННЫМ СЛОВАМ. Важность теперь оценивает только ИИ.
 
             if (mediaPacket.length === 0 && finalImportance < 8) {
                 console.log(`❌ Пропуск: нет медиа, важность ${finalImportance}.`);
@@ -974,6 +982,8 @@ async function run(): Promise<boolean> {
                 publishesSinceCommit++;
                 
                 await kv.set(["factor", "last_post_time"], Date.now());
+                await kv.set(["factor", "last_tag"], post.hashtag); // 🚀 ЗАПОМИНАЕМ ТЕГ
+                
                 await kv.set(["factor", "pub", hash], true, { expireIn: HISTORY_TTL_MS });
                 await kv.set(["factor", "topic", hash], { title: item.title, roots: getRoots(item.title) }, { expireIn: HISTORY_TTL_MS });
                 await kv.set(["factor", "texthash", textHash], true, { expireIn: HISTORY_TTL_MS });
