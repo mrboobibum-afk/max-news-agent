@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v165 - Gold Standard)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v167 - Ultimate Polish)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -16,8 +16,8 @@ const LOOP_SLEEP_MAX_MS = 6 * 60 * 1000;
 const POST_COOLDOWN_MS = 15 * 60 * 1000; 
 
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
-const MEDIA_PACKET_MAX = 10; // До 10 видео/фото
-const MIN_IMPORTANCE = 6; // 🚀 Защита от помойки: ниже 6 не берем
+const MEDIA_PACKET_MAX = 10; 
+const MIN_IMPORTANCE = 5; // 🚀 Базовый порог, чтобы не брать мусор
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
 const STATE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
@@ -39,11 +39,13 @@ const NOW = new Date();
 const TODAY_STR = NOW.toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' });
 const CURRENT_YEAR = NOW.getFullYear();
 
+// 🛡 РЕЕСТР ИНОАГЕНТОВ (Для закона)
 const I_AGENTS_REGEX = /(база|baza|bazabazon|новая газета|медуза|meduza|sota|сота|the bell|thebell|insider|инсайдер|dw|deutsche welle|радио свобода|svoboda|можем объяснить|reuters|bloomberg|bbc|cnn|голос америки|voa|дудь|дудя|yurydud|макфа|mcfc|проект|proekt)/i;
 const I_AGENT_DISCLAIMER = "⚠️ * Данная организация/лицо признана иностранным агентом на территории РФ.";
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
 
+// 🚀 РАСШИРЕННЫЙ СПИСОК ИСТОЧНИКОВ (включая украинские и научные)
 const TG_LIVE_CHANNELS = [
     "government_rus", "news_kremlin", "kremlinpress",
     "mod_russia", "mchs_official", "mediamvd", "MID_Russia", "sledcom_press",
@@ -697,7 +699,7 @@ async function formatNewsPost(title: string, desc: string, lastTag: string): Pro
 ${cleanDesc}
 
 ТВОИ ЗАДАЧИ:
-1. is_absurd — true, если текст является шуткой, сатирой, бредом, фантастикой ИЛИ если в тексте НЕТ САМОГО СОБЫТИЯ, ЛИБО если новость абстрактна. Реальные новости про войну, трагедии или катастрофы — это НЕ бред. Если это нормальная новость — false.
+1. is_absurd — верни true ТОЛЬКО если текст является откровенным бредом, шуткой, мемом или набором несвязных символов. НЕ отклоняй реальные новости (даже если они короткие или кажутся тебе странными). Если это нормальная новость — false.
 2. is_old — true, если в тексте упоминаются события ДАВНО ПРОШЕДШИХ лет. Если новость актуальна — false.
 3. headline — яркий и эпичный заголовок (до 9 слов) с 1-2 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨, 💥, 🔥). БЕЗ МНОГОТОЧИЙ. Точно передает суть.
 4. body — Оформи текст как структурированный список из 3-4 пунктов. 
@@ -706,7 +708,7 @@ ${cleanDesc}
    - Выдели главные акценты тегами <b>жирный шрифт</b>.
    - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Верни ОДНУ СТРОКУ с переносами \\n. КАТЕГОРИЧЕСКИ НЕ ОБРЫВАЙ ПРЕДЛОЖЕНИЯ.
 5. insight — (Взгляд ФАКТОРА) — 1-2 предложения (до 20 слов). Оцени последствия для обычного человека: что будет с ценами, безопасностью или экономикой. Начинай со слова "💡 Взгляд ФАКТОРА:".
-6. importance — целое 1-10. (9-10 БУНТЫ, ВОЙНЫ, ТЕРАКТЫ; 7-8 политика/экономика; 6 интересные факты; 1-5 мусор/бытовуха).
+6. importance — целое 1-10. (9-10 БУНТЫ, ВОЙНЫ, ТЕРАКТЫ; 7-8 политика/экономика; 5-6 интересные факты, технологии, общество; 1-4 мусор/бытовуха).
 7. is_ad — true, если это реклама.
 8. hashtag — выбери один тег по теме: #Политика, #Экономика, #Мир, #Происшествия, #Технологии, #Наука, #Общество, #Россия.
 9. disclaimer — если в тексте упоминаются СМИ или лица, признанные иностранными агентами в РФ, ОБЯЗАТЕЛЬНО напиши: "⚠️ * Данная организация/лицо признана иностранным агентом на территории РФ." Если иноагентов нет — оставь пустую строку.
@@ -714,7 +716,6 @@ ${cleanDesc}
 ВНИМАНИЕ, ЖЕСТКИЕ ПРАВИЛА:
 - КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО искажать имена (Трамп, Путин, Байден). Пиши так, как в тексте.
 - Если не уверен в факте — не пиши.
-- ЗАПРЕЩЕНО писать посты о том, что "в новости нет фактов", "детали неизвестны", "уточняются". Если фактов нет — просто верни is_absurd: true.
 
 Верни ТОЛЬКО JSON: {"is_absurd": false, "is_old": false, "headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false, "hashtag": "#Политика", "disclaimer": ""}`;
 
@@ -750,7 +751,7 @@ ${cleanDesc}
                     if (match) {
                         const parsed = JSON.parse(match[0]);
                         if (parsed.is_absurd) {
-                            console.log(`❌ ИИ отклонил новость как бред, пустышку или недостаток фактов.`);
+                            console.log(`❌ ИИ отклонил новость как бред или пустышку.`);
                             return { headline: "", body: "", insight: "", disclaimer: "", importance: 0, is_ad: false, hashtag: "" };
                         }
                         if (parsed.is_old) {
@@ -791,7 +792,7 @@ ${cleanDesc}
                         body: bodyStr,
                         insight: insightStr,
                         disclaimer: disclaimerStr,
-                        importance: Number(llmResult.importance) || 6,
+                        importance: Number(llmResult.importance) || 5,
                         is_ad: !!llmResult.is_ad,
                         hashtag: llmResult.hashtag || "#Новости"
                     };
@@ -869,7 +870,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v165: Запуск (Gold Standard) ===");
+    console.log("=== ФАКТОР v167: Запуск (Ultimate Polish) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
@@ -922,8 +923,13 @@ async function run(): Promise<boolean> {
     const recentTitles: string[] = (await kv.get(["factor", "recent_titles"])).value || [];
     const lastPublishedTag: string = (await kv.get(["factor", "last_tag"])).value || "";
 
+    const processedInThisCycle = new Set<string>();
+
     for (const item of topCandidates) {
         try {
+            if (processedInThisCycle.has(item.postKey)) { skippedDup++; continue; }
+            processedInThisCycle.add(item.postKey);
+
             if (isGibberish(item.title) || isGibberish(item.desc)) { skippedDup++; continue; }
             const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(item.title)))).map(b => b.toString(16).padStart(2, "0")).join("");
             if ((await kv.get(["factor", "pub", hash])).value) { skippedDup++; continue; }
@@ -946,25 +952,24 @@ async function run(): Promise<boolean> {
             let finalImportance = post.importance;
             const rawTextLower = item.desc.toLowerCase();
             
-            // 🚀 Принудительно 10 для БУНТОВ, ПРИЛЕТОВ И ТЕРАКТОВ
             if (/(?:бунт|восстание|переворот|концлагерь|массов.*беспорядк|бомбят|бомбежка|прилет|пво|сбили.*над москвой|атака.*на москву|теракт)/i.test(rawTextLower)) {
                 finalImportance = 10;
                 console.log("🔥 ЭПИЧЕСКАЯ НОВОСТЬ (Важность 10). Игнорируем задержки!");
             }
 
-            // 🚀 ЗАЩИТА ОТ ПОМОЙКИ: Если таймер активен и это не экстренная новость (меньше 9), пропускаем
             if (isCooldownActive && finalImportance < 9) {
                 console.log(`❌ Пропуск: кулдаун активен, важность ${finalImportance} < 9.`);
                 skippedImportance++;
                 continue;
             }
 
-            // 🚀 ЗАЩИТА ОТ ПОМОЙКИ: Если важность 6-7 и нет медиа - не публикуем!
-            if (mediaPacket.length === 0 && finalImportance < 9) {
-                console.log(`❌ Пропуск: нет медиа, важность ${finalImportance} < 9.`);
+            // 🚀 УМНАЯ ПРОВЕРКА МЕДИА: Если нет медиа, публикуем только если важность 7+
+            if (mediaPacket.length === 0 && finalImportance < 7) {
+                console.log(`❌ Пропуск: нет медиа, важность ${finalImportance} < 7.`);
                 skippedNoMedia++;
                 continue;
             }
+
             if (finalImportance < MIN_IMPORTANCE) { 
                 console.log(`❌ Пропуск: важность ${finalImportance} < ${MIN_IMPORTANCE}.`);
                 skippedImportance++; 
