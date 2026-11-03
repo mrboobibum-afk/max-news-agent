@@ -96,52 +96,6 @@
       "value": 1793680587220,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"13d2f3aea7ccfefc17ef34a008cd956513eeb348ea2877e97dc2ecd9a8a45df6\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "13d2f3aea7ccfefc17ef34a008cd956513eeb348ea2877e97dc2ecd9a8a45df6"
-      ],
-      "value": true,
-      "expiresAt": 1793680392451
-    },
-    "[\"factor\",\"topic\",\"13d2f3aea7ccfefc17ef34a008cd956513eeb348ea2877e97dc2ecd9a8a45df6\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "13d2f3aea7ccfefc17ef34a008cd956513eeb348ea2877e97dc2ecd9a8a45df6"
-      ],
-      "value": {
-        "title": "Карлсон заявил, что США хотят нанести ядерный удар по Ирану, и назвал его цель",
-        "roots": [
-          "карлсо",
-          "хотят",
-          "нанест",
-          "ядерны",
-          "ирану",
-          "назвал"
-        ]
-      },
-      "expiresAt": 1793680392452
-    },
-    "[\"factor\",\"texthash\",\"86d1eb0e0a13e2e33598edc6a8108fea4f3cb72ca8a881b039856430b33ad219\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "86d1eb0e0a13e2e33598edc6a8108fea4f3cb72ca8a881b039856430b33ad219"
-      ],
-      "value": true,
-      "expiresAt": 1793680392453
-    },
-    "[\"factor\",\"content\",\"907f8a67c684ae822b38f7f859815a436b127ebef5b9363e1c89ae49632931e6\"]": {
-      "key": [
-        "factor",
-        "content",
-        "907f8a67c684ae822b38f7f859815a436b127ebef5b9363e1c89ae49632931e6"
-      ],
-      "value": true,
-      "expiresAt": 1793680392453
-    },
     "[\"factor\",\"pub\",\"38d3d1e36ae71523118a159c7366cb5397dd08f8fa76c8e738cb05553786dffa\"]": {
       "key": [
         "factor",
