@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v163 - Breaking News)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v165 - Gold Standard)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -16,8 +16,8 @@ const LOOP_SLEEP_MAX_MS = 6 * 60 * 1000;
 const POST_COOLDOWN_MS = 15 * 60 * 1000; 
 
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
-const MEDIA_PACKET_MAX = 10; 
-const MIN_IMPORTANCE = 7; 
+const MEDIA_PACKET_MAX = 10; // До 10 видео/фото
+const MIN_IMPORTANCE = 6; // 🚀 Защита от помойки: ниже 6 не берем
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
 const STATE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
@@ -545,7 +545,11 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 }
 
                 const firstSentence = sanitized.split(/[.!?]\s/)[0] || sanitized;
-                const truncatedTitle = firstSentence.length > 150 ? firstSentence.slice(0, 150) + "..." : firstSentence;
+                
+                let truncatedTitle = firstSentence.length > 150 ? firstSentence.slice(0, 150) + "..." : firstSentence;
+                if (truncatedTitle.trim().length < 15) {
+                    truncatedTitle = sanitized.slice(0, 90) + "...";
+                }
 
                 const postIdMatch = post.match(/data-post=["']([^"']+)["']/i);
                 const postKey = postIdMatch ? postIdMatch[1] : "tg_" + simpleHash(sanitized);
@@ -693,7 +697,7 @@ async function formatNewsPost(title: string, desc: string, lastTag: string): Pro
 ${cleanDesc}
 
 ТВОИ ЗАДАЧИ:
-1. is_absurd — true, если текст является шуткой, сатирой, бредом, фантастикой ИЛИ если в тексте НЕТ САМОГО СОБЫТИЯ, ЛИБО если новость абстрактна (например: "Рост показателя до 43 млн" без указания ЧЕГО ИМЕННО), ЛИБО если в тексте явно не хватает фактов. Если это нормальная новость с конкретикой — false.
+1. is_absurd — true, если текст является шуткой, сатирой, бредом, фантастикой ИЛИ если в тексте НЕТ САМОГО СОБЫТИЯ, ЛИБО если новость абстрактна. Реальные новости про войну, трагедии или катастрофы — это НЕ бред. Если это нормальная новость — false.
 2. is_old — true, если в тексте упоминаются события ДАВНО ПРОШЕДШИХ лет. Если новость актуальна — false.
 3. headline — яркий и эпичный заголовок (до 9 слов) с 1-2 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨, 💥, 🔥). БЕЗ МНОГОТОЧИЙ. Точно передает суть.
 4. body — Оформи текст как структурированный список из 3-4 пунктов. 
@@ -702,7 +706,7 @@ ${cleanDesc}
    - Выдели главные акценты тегами <b>жирный шрифт</b>.
    - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Верни ОДНУ СТРОКУ с переносами \\n. КАТЕГОРИЧЕСКИ НЕ ОБРЫВАЙ ПРЕДЛОЖЕНИЯ.
 5. insight — (Взгляд ФАКТОРА) — 1-2 предложения (до 20 слов). Оцени последствия для обычного человека: что будет с ценами, безопасностью или экономикой. Начинай со слова "💡 Взгляд ФАКТОРА:".
-6. importance — целое 1-10. (9-10 ЭПИЧЕСКИЕ НОВОСТИ: бунты, массированные атаки, теракты, важные геополитические сдвиги; 7-8 политика/экономика; 1-6 бытовуха).
+6. importance — целое 1-10. (9-10 БУНТЫ, ВОЙНЫ, ТЕРАКТЫ; 7-8 политика/экономика; 6 интересные факты; 1-5 мусор/бытовуха).
 7. is_ad — true, если это реклама.
 8. hashtag — выбери один тег по теме: #Политика, #Экономика, #Мир, #Происшествия, #Технологии, #Наука, #Общество, #Россия.
 9. disclaimer — если в тексте упоминаются СМИ или лица, признанные иностранными агентами в РФ, ОБЯЗАТЕЛЬНО напиши: "⚠️ * Данная организация/лицо признана иностранным агентом на территории РФ." Если иноагентов нет — оставь пустую строку.
@@ -787,7 +791,7 @@ ${cleanDesc}
                         body: bodyStr,
                         insight: insightStr,
                         disclaimer: disclaimerStr,
-                        importance: Number(llmResult.importance) || 5,
+                        importance: Number(llmResult.importance) || 6,
                         is_ad: !!llmResult.is_ad,
                         hashtag: llmResult.hashtag || "#Новости"
                     };
@@ -865,7 +869,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v163: Запуск (Breaking News) ===");
+    console.log("=== ФАКТОР v165: Запуск (Gold Standard) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
@@ -873,7 +877,7 @@ async function run(): Promise<boolean> {
 
     if (isCooldownActive) {
         const waitMin = Math.round((POST_COOLDOWN_MS - timeSinceLastPost) / 60000);
-        console.log(`⏳ Замок активен. Ждем ${waitMin} мин. Но ищем экстренные новости (9-10)...`);
+        console.log(`⏳ Замок активен. Ждем ${waitMin} мин. Но ищем экстренные новости...`);
     }
 
     try {
@@ -942,26 +946,30 @@ async function run(): Promise<boolean> {
             let finalImportance = post.importance;
             const rawTextLower = item.desc.toLowerCase();
             
-            // 🚀 ТРИГГЕРЫ BREAKING NEWS (Принудительно 10)
+            // 🚀 Принудительно 10 для БУНТОВ, ПРИЛЕТОВ И ТЕРАКТОВ
             if (/(?:бунт|восстание|переворот|концлагерь|массов.*беспорядк|бомбят|бомбежка|прилет|пво|сбили.*над москвой|атака.*на москву|теракт)/i.test(rawTextLower)) {
                 finalImportance = 10;
                 console.log("🔥 ЭПИЧЕСКАЯ НОВОСТЬ (Важность 10). Игнорируем задержки!");
             }
 
-            // Если кулдаун активен и новость НЕ экстренная (меньше 9), пропускаем
+            // 🚀 ЗАЩИТА ОТ ПОМОЙКИ: Если таймер активен и это не экстренная новость (меньше 9), пропускаем
             if (isCooldownActive && finalImportance < 9) {
                 console.log(`❌ Пропуск: кулдаун активен, важность ${finalImportance} < 9.`);
                 skippedImportance++;
                 continue;
             }
 
-            // Для Breaking News (9-10) медиа необязательно, но желательно
+            // 🚀 ЗАЩИТА ОТ ПОМОЙКИ: Если важность 6-7 и нет медиа - не публикуем!
             if (mediaPacket.length === 0 && finalImportance < 9) {
-                console.log(`❌ Пропуск: нет медиа, важность ${finalImportance}.`);
+                console.log(`❌ Пропуск: нет медиа, важность ${finalImportance} < 9.`);
                 skippedNoMedia++;
                 continue;
             }
-            if (finalImportance < MIN_IMPORTANCE) { skippedImportance++; continue; }
+            if (finalImportance < MIN_IMPORTANCE) { 
+                console.log(`❌ Пропуск: важность ${finalImportance} < ${MIN_IMPORTANCE}.`);
+                skippedImportance++; 
+                continue; 
+            }
 
             let isTitleSimilar = false;
             for (const pastTitle of recentTitles) { if (isSimilar(post.headline, pastTitle)) { isTitleSimilar = true; break; } }
