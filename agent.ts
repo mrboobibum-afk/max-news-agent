@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v167 - Ultimate Polish)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v168 - Ultimate Clean)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -17,7 +17,7 @@ const POST_COOLDOWN_MS = 15 * 60 * 1000;
 
 const MAX_POST_AGE_MS = 3 * 60 * 60 * 1000; 
 const MEDIA_PACKET_MAX = 10; 
-const MIN_IMPORTANCE = 5; // 🚀 Базовый порог, чтобы не брать мусор
+const MIN_IMPORTANCE = 5; 
 const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
 const STATE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
@@ -39,13 +39,12 @@ const NOW = new Date();
 const TODAY_STR = NOW.toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' });
 const CURRENT_YEAR = NOW.getFullYear();
 
-// 🛡 РЕЕСТР ИНОАГЕНТОВ (Для закона)
-const I_AGENTS_REGEX = /(база|baza|bazabazon|новая газета|медуза|meduza|sota|сота|the bell|thebell|insider|инсайдер|dw|deutsche welle|радио свобода|svoboda|можем объяснить|reuters|bloomberg|bbc|cnn|голос америки|voa|дудь|дудя|yurydud|макфа|mcfc|проект|proekt)/i;
+// 🛡 РЕЕСТР ИНОАГЕНТОВ (Исправлено: убраны слишком общие слова вроде "проект" и "база")
+const I_AGENTS_REGEX = /(медуза|meduza|dw|deutsche welle|радио свобода|svoboda|можем объяснить|the bell|thebell|insider|инсайдер|новая газета|дудь|yurydud|сота|sota)/i;
 const I_AGENT_DISCLAIMER = "⚠️ * Данная организация/лицо признана иностранным агентом на территории РФ.";
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
 
-// 🚀 РАСШИРЕННЫЙ СПИСОК ИСТОЧНИКОВ (включая украинские и научные)
 const TG_LIVE_CHANNELS = [
     "government_rus", "news_kremlin", "kremlinpress",
     "mod_russia", "mchs_official", "mediamvd", "MID_Russia", "sledcom_press",
@@ -119,14 +118,18 @@ const BORING_TOPICS = [
     /(?:среди вернувшихся|обмене бойцов|предстоит лечение|сообщила Лантратова|реабилитация)/i,
     /(?:трек|релиз|альбом|певец|музыкант|рэпер|клип|анонс|концерт|фестиваль|туры|билет|bones|исполнител)/i,
     /(?:пятница|пятницу|13 населенных|освободили|наша территория|фортуна|отворачивается|свои готовы)/i,
-    /(?:илон маск|маск|илона маска)/i,
+    /(?:илон маск|илона маска)/i, // Убрано просто "маск", чтобы не ловить "маскировку"
     /(?:ситуация требует внимания|следим за развитием событий|ситуация подчеркивает)/i,
     /(?:туристка|умерла|скончалась|потеряла равновесие|упала с высоты|сорвалась)/i,
     /(?:чемпионат|соревновани[яе]|турнир|учени[яе]|тактика дронов|эк-министр|финансовый спор)/i,
     /(?:внутренние разногласия|внешние угрозы|разобщенность властей)/i,
     /(?:десантировать|парашют|рамп\s+предлагает|инопланетян|магия|колдун)/i,
     /(?:пресс-служба|по\s+данным\s+источника|сообщили\s+в\s+ведомстве)/i,
-    /(?:неизвестн|не\s+установлен|уточняются|подробности\s+позже|информация\s+отсутствует|детали\s+неизвестны)/i
+    /(?:неизвестн|не\s+установлен|уточняются|подробности\s+позже|информация\s+отсутствует|детали\s+неизвестны)/i,
+    // 🚀 Новые фильтры от мусора со скриншотов
+    /(?:сбор\s+на|собрано\s+всего|собрано\s+за|реквизиты\s+для|номер\s+карты|пожертвован)/i,
+    /(?:ремонт\s+авто|диагностика\s+на|рул[яе]|домкрат|замен[аы]\s+диск|колодк|двигател|вибраци)/i,
+    /(?:смотреть\s+на|смотреть\s+в|rutube|youtube|vk\.com\/video)/i
 ];
 
 class FileKV {
@@ -229,13 +232,17 @@ function decodeHtmlEntities(str: string): string {
 function cleanText(val: any): string {
     let t = String(val ?? "");
     t = t.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/gi, "$1");
+    t = t.replace(/<br\s*\/?>/gi, "\n"); // Сохраняем переносы строк
     t = decodeHtmlEntities(t); t = decodeHtmlEntities(t);
     t = t.replace(/<[^>]+>/g, " ");
-    t = t.replace(/\s+/g, " ").trim();
+    t = t.replace(/[ \t]+/g, " "); // Схлопываем пробелы, но оставляем \n
+    t = t.replace(/\n\s+/g, "\n"); // Убираем пробелы после переноса
+    t = t.replace(/\s+\n/g, "\n"); // Убираем пробелы перед переносом
+    t = t.replace(/\n{3,}/g, "\n\n"); // Максимум 2 переноса подряд
     t = t.replace(/([а-я])([А-Я])/g, "$1 $2");
     t = t.replace(/([a-zA-Z])\s+_([a-zA-Z])/g, "$1 $2");
     t = t.replace(/([a-zA-Z])_([a-zA-Z])/g, "$1 $2");
-    return t;
+    return t.trim();
 }
 
 function escapeHtml(val: any): string {
@@ -285,7 +292,7 @@ async function isDuplicate(title: string, desc?: string): Promise<boolean> {
 }
 
 async function getContentHash(text: string): Promise<string> {
-    const clean = text.toLowerCase().replace(/[^a-zа-я0-9]/gi, "").slice(0, 100);
+    const clean = text.toLowerCase().replace(/[^a-zа-я0-9]/gi, "").slice(0, 300); // Увеличено до 300
     if (!clean) return "";
     const hashBuffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(clean));
     return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, "0")).join("");
@@ -306,18 +313,14 @@ function isTrashUrl(url: string): boolean {
         low.includes("mc.yandex") || low.includes("counter") || low.includes("pixel") || 
         low.includes("banner") || low.includes("/card") || low.includes("textcard") || 
         low.includes("share") || low.includes("logo") || low.includes("avatar") || 
-        low.includes("stub") || low.includes("1x1") || low.includes(".svg") ||
+        low.includes("stub") || low.includes("1x1") || low.endsWith(".svg") ||
         low.includes("google.com") || low.includes("interfax.ru/ftproot") ||
-        low.includes("data:image") || low.includes("base64,")
+        low.includes("data:image") || low.includes("base64,") ||
+        /\b(?:rt\.com|tass\.ru|ria\.ru)\b/.test(low) || // Точечная проверка доменов
+        low.includes("brand") || low.includes("icon") || low.includes("mockup")
     ) {
         return true;
     }
-    
-    if (
-        low.includes("rt") || low.includes("tass") || low.includes("ria") || 
-        low.includes("brand") || low.includes("icon") || low.includes("mockup")
-    ) return true;
-
     return false;
 }
 
@@ -353,14 +356,10 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
 
             clearTimeout(timeoutId);
 
-            if (!response.ok) {
-                continue;
-            }
+            if (!response.ok) continue;
 
             const contentType = (response.headers.get("content-type") || "").toLowerCase();
-            if (contentType.includes("text/html") || contentType.includes("application/json")) {
-                continue;
-            }
+            if (contentType.includes("text/html") || contentType.includes("application/json")) continue;
 
             const buf = new Uint8Array(await response.arrayBuffer());
             
@@ -369,16 +368,12 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
             const isPng = head[0] === 0x89 && head[1] === 0x50 && head[2] === 0x4E && head[3] === 0x47;
             const isWebp = head[0] === 0x52 && head[1] === 0x49 && head[2] === 0x46 && head[3] === 0x46;
 
-            if (!isVideo && !isJpeg && !isPng && !isWebp) {
-                continue;
-            }
+            if (!isVideo && !isJpeg && !isPng && !isWebp) continue;
 
             const min = isVideo ? MIN_VIDEO_BYTES : MIN_IMAGE_BYTES;
             const max = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
 
-            if (buf.byteLength < min || buf.byteLength > max) {
-                continue;
-            }
+            if (buf.byteLength < min || buf.byteLength > max) continue;
 
             console.log(`      ✅ Скачано (${methodName}): ${Math.round(buf.byteLength / 1024)} КБ`);
             return buf;
@@ -389,10 +384,9 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
     return null;
 }
 
+// Удален неверный фикс Starshield -> Starlink (это разные вещи)
 function fixBrandNames(text: string): string {
-    return text
-        .replace(/Старшилд/gi, "Старлинк")
-        .replace(/Starshield/gi, "Starlink");
+    return text;
 }
 
 function validateHeadline(llmHead: string, fallbackHead: string): string {
@@ -415,6 +409,9 @@ function sanitizeRawText(raw: string): string {
     t = t.replace(/Новость дополняется/gi, "");
     t = t.replace(/Об этом сообщил[а-я]*/gi, "");
     t = t.replace(/Об этом заявил[а-я]*/gi, "");
+    t = t.replace(/Смотреть на RuTube/gi, "");
+    t = t.replace(/Смотреть в YouTube/gi, "");
+    t = t.replace(/https?:\/\/[^\s]+/g, "");
 
     const markers = [
         "Подписаться", "Подпишись", "Подписывайтесь", "Мы в Максе", 'Мы в "Максе"', "Мы в «Максе»", 
@@ -425,7 +422,15 @@ function sanitizeRawText(raw: string): string {
     
     for (const m of markers) {
         const idx = t.toLowerCase().indexOf(m.toLowerCase());
-        if (idx > 10) { t = t.slice(0, idx); break; }
+        if (idx > 10) { 
+            // Ищем последнюю точку перед маркером, чтобы не обрезать на полуслове
+            let cutIdx = idx;
+            const sub = t.slice(0, idx);
+            const lastPunct = Math.max(sub.lastIndexOf('.'), sub.lastIndexOf('!'), sub.lastIndexOf('?'));
+            if (lastPunct > 0) cutIdx = lastPunct + 1;
+            t = t.slice(0, cutIdx);
+            break; 
+        }
     }
 
     t = t.replace(/📢\s*Прямой Эфир/gi, "");
@@ -547,10 +552,10 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 }
 
                 const firstSentence = sanitized.split(/[.!?]\s/)[0] || sanitized;
+                let truncatedTitle = firstSentence; // Убрана жесткая обрезка до 150 символов
                 
-                let truncatedTitle = firstSentence.length > 150 ? firstSentence.slice(0, 150) + "..." : firstSentence;
                 if (truncatedTitle.trim().length < 15) {
-                    truncatedTitle = sanitized.slice(0, 90) + "...";
+                    truncatedTitle = sanitized; // Если первое предложение короткое, берем весь текст
                 }
 
                 const postIdMatch = post.match(/data-post=["']([^"']+)["']/i);
@@ -638,7 +643,7 @@ async function fetchRssFeeds(): Promise<any[]> {
                     continue;
                 }
 
-                const truncatedTitle = title.length > 150 ? title.slice(0, 150) + "..." : title;
+                const truncatedTitle = title; // Убрана обрезка
                 const postKey = `${feed.name.toLowerCase()}_${simpleHash(title + (link || ""))}`;
                 
                 const enclosureImg = raw.match(/<enclosure[^>]+url=["']([^"']+)["'][^>]+type=["']image/i)?.[1];
@@ -674,7 +679,7 @@ async function fetchRssFeeds(): Promise<any[]> {
 async function formatNewsPost(title: string, desc: string, lastTag: string): Promise<{ headline: string, body: string, insight: string, importance: number, is_ad: boolean, hashtag: string, disclaimer: string }> {
     try {
         let cleanDesc = sanitizeRawText(desc);
-        const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, "").slice(0, 150);
+        const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, ""); // Убрана обрезка
         
         if (cleanDesc.toLowerCase().startsWith(fallbackHeadline.toLowerCase())) {
             cleanDesc = cleanDesc.slice(fallbackHeadline.length).trim();
@@ -702,11 +707,13 @@ ${cleanDesc}
 1. is_absurd — верни true ТОЛЬКО если текст является откровенным бредом, шуткой, мемом или набором несвязных символов. НЕ отклоняй реальные новости (даже если они короткие или кажутся тебе странными). Если это нормальная новость — false.
 2. is_old — true, если в тексте упоминаются события ДАВНО ПРОШЕДШИХ лет. Если новость актуальна — false.
 3. headline — яркий и эпичный заголовок (до 9 слов) с 1-2 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨, 💥, 🔥). БЕЗ МНОГОТОЧИЙ. Точно передает суть.
-4. body — Оформи текст как структурированный список из 3-4 пунктов. 
-   - Каждый пункт начинай с эмодзи-маркера в зависимости от темы (📍 факт, 📊 цифры, 💰 деньги, ⚡️ срочно, 🛡 безопасность).
+4. body — Оформи текст как структурированный список из 2-4 пунктов. 
+   - КАЖДЫЙ ПУНКТ начинай с одного из этих эмодзи: 📍 (факт), 📊 (цифры), 💰 (деньги), ⚡️ (срочно), 🛡 (безопасность). 
+   - КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО использовать черные квадраты (▪️, ■, ⬛) и маркеры списка (-, *). Только эмодзи!
    - Включи ТОЛЬКО ключевые факты (имена, цифры, детали, контекст).
    - Выдели главные акценты тегами <b>жирный шрифт</b>.
-   - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Верни ОДНУ СТРОКУ с переносами \\n. КАТЕГОРИЧЕСКИ НЕ ОБРЫВАЙ ПРЕДЛОЖЕНИЯ.
+   - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Верни ОДНУ СТРОКУ с переносами \\n. 
+   - КАТЕГОРИЧЕСКИ НЕ ОБРЫВАЙ ПРЕДЛОЖЕНИЯ. Каждая мысль должна быть закончена. Никаких "..." в конце.
 5. insight — (Взгляд ФАКТОРА) — 1-2 предложения (до 20 слов). Оцени последствия для обычного человека: что будет с ценами, безопасностью или экономикой. Начинай со слова "💡 Взгляд ФАКТОРА:".
 6. importance — целое 1-10. (9-10 БУНТЫ, ВОЙНЫ, ТЕРАКТЫ; 7-8 политика/экономика; 5-6 интересные факты, технологии, общество; 1-4 мусор/бытовуха).
 7. is_ad — true, если это реклама.
@@ -769,12 +776,14 @@ ${cleanDesc}
         if (llmResult) {
             let headlineStr = String(llmResult.headline || "").trim();
             let bodyStr = llmResult.body;
+            
+            // Очистка от квадратов и лишних маркеров, если ИИ ослушался
             if (Array.isArray(bodyStr)) {
-                bodyStr = bodyStr.map((b: any) => String(b).replace(/^[-*▪️\s]+/, "").trim()).join("\n▪️ ");
-                if (bodyStr) bodyStr = "▪️ " + bodyStr;
+                bodyStr = bodyStr.map((b: any) => String(b).replace(/^[-*▪️■⬛\s]+/, "").trim()).join("\n\n");
             } else {
-                bodyStr = String(bodyStr || "").trim();
+                bodyStr = String(bodyStr || "").replace(/^[-*▪️■⬛\s]+/gm, "").trim();
             }
+            
             const insightStr = String(llmResult.insight || "").replace(/<[^>]*>/g, "").trim();
             let disclaimerStr = String(llmResult.disclaimer || "").trim();
 
@@ -784,11 +793,12 @@ ${cleanDesc}
                 return { headline: "", body: "", insight: "", disclaimer: "", importance: 0, is_ad: false, hashtag: "" };
             }
 
-            if (headlineStr && bodyStr) {
+            // Исправлен баг: если body есть, но headline пустой, берем fallbackHeadline, а не выкидываем всё
+            if (bodyStr) {
                 const isEnglish = (bodyStr.match(/[a-zA-Z]/g) || []).length > (bodyStr.match(/[а-яА-Я]/g) || []).length;
                 if (!isEnglish) {
                     return {
-                        headline: validateHeadline(headlineStr, fallbackHeadline),
+                        headline: validateHeadline(headlineStr || fallbackHeadline, fallbackHeadline),
                         body: bodyStr,
                         insight: insightStr,
                         disclaimer: disclaimerStr,
@@ -800,7 +810,7 @@ ${cleanDesc}
             }
         }
 
-        return { headline: fallbackHeadline, body: `▪️ ${fallbackBody}`, insight: "", disclaimer: "", importance: 5, is_ad: false, hashtag: "#Новости" };
+        return { headline: fallbackHeadline, body: `📍 ${fallbackBody}`, insight: "", disclaimer: "", importance: 5, is_ad: false, hashtag: "#Новости" };
     } catch (e) {
         return { headline: "", body: "", insight: "", disclaimer: "", importance: 0, is_ad: false, hashtag: "" };
     }
@@ -847,8 +857,6 @@ function getMediaPacket(item: any, candidates: any[]): any[] {
     return packet;
 }
 
-let publishesSinceCommit = 0;
-
 async function commitStateToGit() {
     try {
         const runGit = async (args: string[]) => { const p = new Deno.Command("git", { args, stdout: "piped", stderr: "piped" }); return await p.output(); };
@@ -870,7 +878,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v167: Запуск (Ultimate Polish) ===");
+    console.log("=== ФАКТОР v168: Запуск (Ultimate Clean) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
@@ -919,7 +927,6 @@ async function run(): Promise<boolean> {
     const topCandidates = uniqueCandidates.slice(0, 25);
     let skippedDup = 0, skippedImportance = 0, skippedNoMedia = 0, published = 0;
     const recentDescs: string[] = (await kv.get(["factor", "recent_descs"])).value || [];
-    const recentBodies: string[] = (await kv.get(["factor", "recent_bodies"])).value || [];
     const recentTitles: string[] = (await kv.get(["factor", "recent_titles"])).value || [];
     const lastPublishedTag: string = (await kv.get(["factor", "last_tag"])).value || "";
 
@@ -941,6 +948,15 @@ async function run(): Promise<boolean> {
             for (const pastDesc of recentDescs) { if (isSimilar(item.desc, pastDesc)) { isSimilarFound = true; break; } }
             if (isSimilarFound) { skippedDup++; continue; }
 
+            // 🚀 ЭКОНОМИЯ ИИ: Проверяем на экстренность и кулдаун ДО вызова LLM
+            const isBreaking = /(?:бунт|восстание|переворот|концлагерь|массов.*беспорядк|бомбят|бомбежка|прилет|пво|сбили.*над москвой|атака.*на москву|теракт)/i.test(item.desc);
+            
+            if (!isBreaking && isCooldownActive) {
+                console.log(`❌ Пропуск: кулдаун активен, новость не экстренная.`);
+                skippedImportance++;
+                continue;
+            }
+
             console.log("\nОбработка: " + item.title);
 
             const mediaPacket = getMediaPacket(item, mixedCandidates);
@@ -950,20 +966,12 @@ async function run(): Promise<boolean> {
             if (post.is_ad) { skippedImportance++; continue; }
 
             let finalImportance = post.importance;
-            const rawTextLower = item.desc.toLowerCase();
-            
-            if (/(?:бунт|восстание|переворот|концлагерь|массов.*беспорядк|бомбят|бомбежка|прилет|пво|сбили.*над москвой|атака.*на москву|теракт)/i.test(rawTextLower)) {
+            if (isBreaking) {
                 finalImportance = 10;
                 console.log("🔥 ЭПИЧЕСКАЯ НОВОСТЬ (Важность 10). Игнорируем задержки!");
             }
 
-            if (isCooldownActive && finalImportance < 9) {
-                console.log(`❌ Пропуск: кулдаун активен, важность ${finalImportance} < 9.`);
-                skippedImportance++;
-                continue;
-            }
-
-            // 🚀 УМНАЯ ПРОВЕРКА МЕДИА: Если нет медиа, публикуем только если важность 7+
+            // Если нет медиа, публикуем только если важность 7+
             if (mediaPacket.length === 0 && finalImportance < 7) {
                 console.log(`❌ Пропуск: нет медиа, важность ${finalImportance} < 7.`);
                 skippedNoMedia++;
@@ -1020,7 +1028,6 @@ async function run(): Promise<boolean> {
             if (sent) {
                 console.log("🔥 ОПУБЛИКОВАНО: " + post.headline);
                 published++;
-                publishesSinceCommit++;
                 
                 await kv.set(["factor", "last_post_time"], Date.now());
                 await kv.set(["factor", "last_tag"], post.hashtag);
@@ -1032,13 +1039,10 @@ async function run(): Promise<boolean> {
 
                 recentDescs.push(item.desc); if (recentDescs.length > RECENT_HISTORY_LIMIT) recentDescs.shift();
                 await kv.set(["factor", "recent_descs"], recentDescs, { expireIn: HISTORY_TTL_MS });
-                recentBodies.push(post.body); if (recentBodies.length > RECENT_HISTORY_LIMIT) recentBodies.shift();
-                await kv.set(["factor", "recent_bodies"], recentBodies, { expireIn: HISTORY_TTL_MS });
                 recentTitles.push(post.headline); if (recentTitles.length > RECENT_HISTORY_LIMIT) recentTitles.shift();
                 await kv.set(["factor", "recent_titles"], recentTitles, { expireIn: HISTORY_TTL_MS });
 
                 await commitStateToGit();
-                publishesSinceCommit = 0;
                 return true; 
             }
         } catch (itemError) { console.error("Ошибка при обработке:", itemError); }
@@ -1051,7 +1055,6 @@ const startTime = Date.now();
 while (Date.now() - startTime < MAX_RUNTIME_MS) {
     let posted = false;
     try { posted = await run(); } catch (globalError) { console.error("🚨 ГЛОБАЛЬНАЯ ОШИБКА:", globalError); }
-    if (publishesSinceCommit >= 3) { await commitStateToGit(); publishesSinceCommit = 0; }
     if (posted) {
         console.log(`\n😴 Ждем 15 минут...`);
         await new Promise(r => setTimeout(r, LOOP_SLEEP_MIN_MS));
