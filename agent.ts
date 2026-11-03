@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v159 - Diverse & Balance)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v163 - Breaking News)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -39,14 +39,15 @@ const NOW = new Date();
 const TODAY_STR = NOW.toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' });
 const CURRENT_YEAR = NOW.getFullYear();
 
-const I_AGENTS_REGEX = /(база|baza|bazabazon|новая газета|медуза|meduza|sota|сота|the bell|thebell|insider|инсайдер|dw|deutsche welle|радио свобода|svoboda|можем объяснить|reuters|bloomberg|bbc|cnn|голос америки|voa|дудь|дудя|yurydud)/i;
+const I_AGENTS_REGEX = /(база|baza|bazabazon|новая газета|медуза|meduza|sota|сота|the bell|thebell|insider|инсайдер|dw|deutsche welle|радио свобода|svoboda|можем объяснить|reuters|bloomberg|bbc|cnn|голос америки|voa|дудь|дудя|yurydud|макфа|mcfc|проект|proekt)/i;
 const I_AGENT_DISCLAIMER = "⚠️ * Данная организация/лицо признана иностранным агентом на территории РФ.";
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
 
-// Оставили базовые новостные каналы, но добавили разнообразия в RSS
 const TG_LIVE_CHANNELS = [
-    "government_rus", "news_kremlin",
+    "government_rus", "news_kremlin", "kremlinpress",
+    "mod_russia", "mchs_official", "mediamvd", "MID_Russia", "sledcom_press",
+    "genprocru", "rosgvardofficial",
     "duma_gov_ru", "sovfedofficial", "centralbank_russia", "minfin", "minec_russia",
     "mintsifry", "minenergo_official", "minpromtorg_ru", "mcx_ru", "mintrudrf",
     "minstroyrf", "minzdrav_ru", "minobrnaukiofficial", "minsport_russia",
@@ -54,7 +55,9 @@ const TG_LIVE_CHANNELS = [
     "rostecnews", "rosatominfo", "rzdtg", "GazpromNews", "rosneftinfo",
     "rian_ru", "tass_agency", "rbc_news", "vesti_news", "rt_russian",
     "1tv_news", "ntvru", "izvestya", "rgru_news",
-    "readovkanews" // Оставили один из самых быстрых новостных
+    "readovkanews", "shot_shot", "mash",
+    "realnuy_kiev", "ukraina_ru", "voenkor_kotenok", "rybar", "dva_majors",
+    "boris_rozhin", "wargonzo", "ukrainian_news", "truexanews"
 ];
 
 const NEWS_FEEDS = [
@@ -81,8 +84,6 @@ const NEWS_FEEDS = [
     { name: "БФМ", url: "https://www.bfm.ru/rss.xml" },
     { name: "URA.ру", url: "https://ura.news/rss" },
     { name: "Правда.ру", url: "https://www.pravda.ru/export.xml" },
-    
-    // 🚀 ДОБАВЛЯЕМ МИРНЫЕ И ИНТЕРЕСНЫЕ ИСТОЧНИКИ
     { name: "N+1", url: "https://nplus1.ru/rss" },
     { name: "TechInsider", url: "https://techinsider.ru/rss/" },
     { name: "Лайфхакер", url: "https://lifehacker.ru/feed/" },
@@ -230,10 +231,8 @@ function cleanText(val: any): string {
     t = t.replace(/<[^>]+>/g, " ");
     t = t.replace(/\s+/g, " ").trim();
     t = t.replace(/([а-я])([А-Я])/g, "$1 $2");
-    
     t = t.replace(/([a-zA-Z])\s+_([a-zA-Z])/g, "$1 $2");
     t = t.replace(/([a-zA-Z])_([a-zA-Z])/g, "$1 $2");
-    
     return t;
 }
 
@@ -429,7 +428,7 @@ function sanitizeRawText(raw: string): string {
 
     t = t.replace(/📢\s*Прямой Эфир/gi, "");
     t = t.replace(/⚡\s*ФАКТОР/gi, "");
-    t = t.replace(/[\s◆♦●○■▪▫▶➡⬛⬜⭐✔☑«»"'.,;:!?/\-–—]+$/g, "");
+    t = t.replace(/[\s◆♦●○■▪▫▶➡⬛⬜«»"'.,;:!?/\-–—]+$/g, "");
 
     return fixBrandNames(t.trim());
 }
@@ -483,6 +482,23 @@ async function extractMediaFromUrl(url: string): Promise<{ video: string[], imag
             ].map(m => m[1]);
             
             res.video = [...new Set(vMatches)].filter(u => !isTrashUrl(u));
+
+            const iframeMatches = [...html.matchAll(/<iframe[^>]+src=["']([^"']+)["']/gi)].map(m => m[1]);
+            for (const iframeSrc of iframeMatches) {
+                try {
+                    const iframeUrl = iframeSrc.startsWith("//") ? `https:${iframeSrc}` : iframeSrc;
+                    const ir = await fetch(iframeUrl, { headers: { "User-Agent": USER_AGENT }, signal: AbortSignal.timeout(10000) });
+                    if (ir.ok) {
+                        const iframeHtml = await ir.text();
+                        const iframeVideos = [
+                            ...iframeHtml.matchAll(/<video[^>]+src=["']([^"']+)["']/gi),
+                            ...iframeHtml.matchAll(/<source[^>]+src=["']([^"']+)["']/gi),
+                            ...iframeHtml.matchAll(/<meta[^>]+property=["']og:video["'][^>]+content=["']([^"']+)["']/gi)
+                        ].map(m => m[1]);
+                        res.video.push(...iframeVideos.filter(u => !isTrashUrl(u)));
+                    }
+                } catch (e) { }
+            }
 
             const mainImgMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/gi);
             if (mainImgMatch) {
@@ -667,10 +683,9 @@ async function formatNewsPost(title: string, desc: string, lastTag: string): Pro
             fallbackBody = cleanDesc; 
         }
 
-        // 🚀 ДОБАВЛЕНА ИНСТРУКЦИЯ О БАЛАНСЕ
-        const prompt = `Ты — главный редактор аналитического канала «ФАКТОР». Твоя цель — давать сбалансированную картину мира. 
+        const prompt = `Ты — главный редактор аналитического канала «ФАКТОР». Твоя цель — давать сбалансированную и интересную картину мира: политика, экономика, международные отношения, технологии, наука, общество и важные события в России. Твой стиль — эпичный, динамичный, с яркими акцентами и живым оформлением. 
 В прошлом посте ты публиковал новость с тегом: ${lastTag || "Нет данных"}. 
-Если прошлая новость была про военные действия или происшествия, СТАРАЙСЯ ВЫБРАТЬ другую тему (экономика, технологии, общество, наука), чтобы канал не был однобоким.
+Старайся чередовать темы (если прошлая была про войну или ЧП, выбери экономику, технологии или науку), чтобы канал не был однобоким.
 
 СЕГОДНЯШНЯЯ ДАТА: ${TODAY_STR}. ТЕКУЩИЙ ГОД: ${CURRENT_YEAR}.
 
@@ -680,14 +695,14 @@ ${cleanDesc}
 ТВОИ ЗАДАЧИ:
 1. is_absurd — true, если текст является шуткой, сатирой, бредом, фантастикой ИЛИ если в тексте НЕТ САМОГО СОБЫТИЯ, ЛИБО если новость абстрактна (например: "Рост показателя до 43 млн" без указания ЧЕГО ИМЕННО), ЛИБО если в тексте явно не хватает фактов. Если это нормальная новость с конкретикой — false.
 2. is_old — true, если в тексте упоминаются события ДАВНО ПРОШЕДШИХ лет. Если новость актуальна — false.
-3. headline — заголовок (до 8 слов) с 1 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨). КАТЕГОРИЧЕСКИ БЕЗ МНОГОТОЧИЙ. Ярко и точно.
-4. body — Оформи текст как список из 3-4 пунктов. 
-   - Каждый пункт начинай с маркера ▪️.
+3. headline — яркий и эпичный заголовок (до 9 слов) с 1-2 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨, 💥, 🔥). БЕЗ МНОГОТОЧИЙ. Точно передает суть.
+4. body — Оформи текст как структурированный список из 3-4 пунктов. 
+   - Каждый пункт начинай с эмодзи-маркера в зависимости от темы (📍 факт, 📊 цифры, 💰 деньги, ⚡️ срочно, 🛡 безопасность).
    - Включи ТОЛЬКО ключевые факты (имена, цифры, детали, контекст).
    - Выдели главные акценты тегами <b>жирный шрифт</b>.
-   - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Верни ОДНУ СТРОКУ с переносами \n. КАТЕГОРИЧЕСКИ НЕ ОБРЫВАЙ ПРЕДЛОЖЕНИЯ.
-5. insight — (Взгляд ФАКТОРА) — 1-2 предложения (до 20 слов). Оцени последствия для обычного человека: что будет с ценами, безопасностью или экономикой. БЕЗ ТЕГОВ HTML.
-6. importance — целое 1-10. (9-10 экстренно, 7-8 политика/экономика, 1-6 бытовуха). Обычные сводки о дронах ставь 6-7, если нет жертв. 
+   - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Верни ОДНУ СТРОКУ с переносами \\n. КАТЕГОРИЧЕСКИ НЕ ОБРЫВАЙ ПРЕДЛОЖЕНИЯ.
+5. insight — (Взгляд ФАКТОРА) — 1-2 предложения (до 20 слов). Оцени последствия для обычного человека: что будет с ценами, безопасностью или экономикой. Начинай со слова "💡 Взгляд ФАКТОРА:".
+6. importance — целое 1-10. (9-10 ЭПИЧЕСКИЕ НОВОСТИ: бунты, массированные атаки, теракты, важные геополитические сдвиги; 7-8 политика/экономика; 1-6 бытовуха).
 7. is_ad — true, если это реклама.
 8. hashtag — выбери один тег по теме: #Политика, #Экономика, #Мир, #Происшествия, #Технологии, #Наука, #Общество, #Россия.
 9. disclaimer — если в тексте упоминаются СМИ или лица, признанные иностранными агентами в РФ, ОБЯЗАТЕЛЬНО напиши: "⚠️ * Данная организация/лицо признана иностранным агентом на территории РФ." Если иноагентов нет — оставь пустую строку.
@@ -850,14 +865,15 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v159: Запуск (Diverse & Balance) ===");
+    console.log("=== ФАКТОР v163: Запуск (Breaking News) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
-    if (timeSinceLastPost < POST_COOLDOWN_MS) {
+    const isCooldownActive = timeSinceLastPost < POST_COOLDOWN_MS;
+
+    if (isCooldownActive) {
         const waitMin = Math.round((POST_COOLDOWN_MS - timeSinceLastPost) / 60000);
-        console.log(`⏳ Замок активен. Ждем ${waitMin} мин.`);
-        return false;
+        console.log(`⏳ Замок активен. Ждем ${waitMin} мин. Но ищем экстренные новости (9-10)...`);
     }
 
     try {
@@ -926,9 +942,21 @@ async function run(): Promise<boolean> {
             let finalImportance = post.importance;
             const rawTextLower = item.desc.toLowerCase();
             
-            // 🚀 УБРАНА ЖЕСТКАЯ ПРИВЯЗКА К ВОЕННЫМ СЛОВАМ. Важность теперь оценивает только ИИ.
+            // 🚀 ТРИГГЕРЫ BREAKING NEWS (Принудительно 10)
+            if (/(?:бунт|восстание|переворот|концлагерь|массов.*беспорядк|бомбят|бомбежка|прилет|пво|сбили.*над москвой|атака.*на москву|теракт)/i.test(rawTextLower)) {
+                finalImportance = 10;
+                console.log("🔥 ЭПИЧЕСКАЯ НОВОСТЬ (Важность 10). Игнорируем задержки!");
+            }
 
-            if (mediaPacket.length === 0 && finalImportance < 8) {
+            // Если кулдаун активен и новость НЕ экстренная (меньше 9), пропускаем
+            if (isCooldownActive && finalImportance < 9) {
+                console.log(`❌ Пропуск: кулдаун активен, важность ${finalImportance} < 9.`);
+                skippedImportance++;
+                continue;
+            }
+
+            // Для Breaking News (9-10) медиа необязательно, но желательно
+            if (mediaPacket.length === 0 && finalImportance < 9) {
                 console.log(`❌ Пропуск: нет медиа, важность ${finalImportance}.`);
                 skippedNoMedia++;
                 continue;
@@ -982,7 +1010,7 @@ async function run(): Promise<boolean> {
                 publishesSinceCommit++;
                 
                 await kv.set(["factor", "last_post_time"], Date.now());
-                await kv.set(["factor", "last_tag"], post.hashtag); // 🚀 ЗАПОМИНАЕМ ТЕГ
+                await kv.set(["factor", "last_tag"], post.hashtag);
                 
                 await kv.set(["factor", "pub", hash], true, { expireIn: HISTORY_TTL_MS });
                 await kv.set(["factor", "topic", hash], { title: item.title, roots: getRoots(item.title) }, { expireIn: HISTORY_TTL_MS });
