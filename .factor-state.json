@@ -96,53 +96,6 @@
       "value": 1793723624301,
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"6fd67bba4f5e5c61de4ac9ed38bc338428b902cf866fd0ee38170eae44b928bc\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "6fd67bba4f5e5c61de4ac9ed38bc338428b902cf866fd0ee38170eae44b928bc"
-      ],
-      "value": true,
-      "expiresAt": 1793723602130
-    },
-    "[\"factor\",\"topic\",\"6fd67bba4f5e5c61de4ac9ed38bc338428b902cf866fd0ee38170eae44b928bc\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "6fd67bba4f5e5c61de4ac9ed38bc338428b902cf866fd0ee38170eae44b928bc"
-      ],
-      "value": {
-        "title": "Рынок акций РФ начал ноябрь с падения вместе с нефтью",
-        "roots": [
-          "рынок",
-          "акций",
-          "начал",
-          "ноябрь",
-          "падени",
-          "вместе",
-          "нефтью"
-        ]
-      },
-      "expiresAt": 1793723602131
-    },
-    "[\"factor\",\"texthash\",\"47d569eea534eab3e36d514d08ac19e3aaf2e6059c409991eb0baacdf717b79f\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "47d569eea534eab3e36d514d08ac19e3aaf2e6059c409991eb0baacdf717b79f"
-      ],
-      "value": true,
-      "expiresAt": 1793723602132
-    },
-    "[\"factor\",\"content\",\"168814509153a58a04b5d27ef453721856d963529be2f4e14ec0989dd09eaf4c\"]": {
-      "key": [
-        "factor",
-        "content",
-        "168814509153a58a04b5d27ef453721856d963529be2f4e14ec0989dd09eaf4c"
-      ],
-      "value": true,
-      "expiresAt": 1793723602133
-    },
     "[\"factor\",\"pub\",\"2538f243b225c99775bf33393ad38e1d5132f8984f498165be4e0a508b8696bd\"]": {
       "key": [
         "factor",
