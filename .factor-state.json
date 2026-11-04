@@ -75,58 +75,6 @@
       "value": "#Политика",
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"555e796e65a8b5dcc5c9f52d0fa847ffb1b9445fb471ba08a2d51aa834d983d7\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "555e796e65a8b5dcc5c9f52d0fa847ffb1b9445fb471ba08a2d51aa834d983d7"
-      ],
-      "value": true,
-      "expiresAt": 1793781597987
-    },
-    "[\"factor\",\"topic\",\"555e796e65a8b5dcc5c9f52d0fa847ffb1b9445fb471ba08a2d51aa834d983d7\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "555e796e65a8b5dcc5c9f52d0fa847ffb1b9445fb471ba08a2d51aa834d983d7"
-      ],
-      "value": {
-        "title": "Первые заявления представителей Латвии говорят об их стремлении поставить Совет СБ ООН на службу своим эгоистическим интересам",
-        "roots": [
-          "первые",
-          "заявле",
-          "предст",
-          "латвии",
-          "говоря",
-          "стремл",
-          "постав",
-          "совет",
-          "службу",
-          "своим",
-          "эгоист",
-          "интере"
-        ]
-      },
-      "expiresAt": 1793781597988
-    },
-    "[\"factor\",\"texthash\",\"c51b200eee865462524297734900a74607f46e1ddb299f30ce8e6517ca02a282\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "c51b200eee865462524297734900a74607f46e1ddb299f30ce8e6517ca02a282"
-      ],
-      "value": true,
-      "expiresAt": 1793781597989
-    },
-    "[\"factor\",\"content\",\"0a27d2ae3db4f6fc9d24963cd555226631dba2b74c2944705c218e38c2d78013\"]": {
-      "key": [
-        "factor",
-        "content",
-        "0a27d2ae3db4f6fc9d24963cd555226631dba2b74c2944705c218e38c2d78013"
-      ],
-      "value": true,
-      "expiresAt": 1793781597990
-    },
     "[\"factor\",\"pub\",\"4603bbe5712b45febe7a18b5baa258d6941806192bd5b505b5a161aae357b185\"]": {
       "key": [
         "factor",
