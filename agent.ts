@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v168 - Ultimate Clean)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v169 - Ultimate Fix)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -39,7 +39,7 @@ const NOW = new Date();
 const TODAY_STR = NOW.toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' });
 const CURRENT_YEAR = NOW.getFullYear();
 
-// 🛡 РЕЕСТР ИНОАГЕНТОВ (Исправлено: убраны слишком общие слова вроде "проект" и "база")
+// 🛡 РЕЕСТР ИНОАГЕНТОВ
 const I_AGENTS_REGEX = /(медуза|meduza|dw|deutsche welle|радио свобода|svoboda|можем объяснить|the bell|thebell|insider|инсайдер|новая газета|дудь|yurydud|сота|sota)/i;
 const I_AGENT_DISCLAIMER = "⚠️ * Данная организация/лицо признана иностранным агентом на территории РФ.";
 
@@ -118,7 +118,7 @@ const BORING_TOPICS = [
     /(?:среди вернувшихся|обмене бойцов|предстоит лечение|сообщила Лантратова|реабилитация)/i,
     /(?:трек|релиз|альбом|певец|музыкант|рэпер|клип|анонс|концерт|фестиваль|туры|билет|bones|исполнител)/i,
     /(?:пятница|пятницу|13 населенных|освободили|наша территория|фортуна|отворачивается|свои готовы)/i,
-    /(?:илон маск|илона маска)/i, // Убрано просто "маск", чтобы не ловить "маскировку"
+    /(?:илон маск|илона маска)/i, 
     /(?:ситуация требует внимания|следим за развитием событий|ситуация подчеркивает)/i,
     /(?:туристка|умерла|скончалась|потеряла равновесие|упала с высоты|сорвалась)/i,
     /(?:чемпионат|соревновани[яе]|турнир|учени[яе]|тактика дронов|эк-министр|финансовый спор)/i,
@@ -126,10 +126,12 @@ const BORING_TOPICS = [
     /(?:десантировать|парашют|рамп\s+предлагает|инопланетян|магия|колдун)/i,
     /(?:пресс-служба|по\s+данным\s+источника|сообщили\s+в\s+ведомстве)/i,
     /(?:неизвестн|не\s+установлен|уточняются|подробности\s+позже|информация\s+отсутствует|детали\s+неизвестны)/i,
-    // 🚀 Новые фильтры от мусора со скриншотов
+    // 🚀 Новые фильтры от мусора
     /(?:сбор\s+на|собрано\s+всего|собрано\s+за|реквизиты\s+для|номер\s+карты|пожертвован)/i,
     /(?:ремонт\s+авто|диагностика\s+на|рул[яе]|домкрат|замен[аы]\s+диск|колодк|двигател|вибраци)/i,
-    /(?:смотреть\s+на|смотреть\s+в|rutube|youtube|vk\.com\/video)/i
+    /(?:смотреть\s+на|смотреть\s+в|rutube|youtube|vk\.com\/video)/i,
+    // 🚀 Фильтр постов-сборщиков видео (как на скрине 2)
+    /(?:присылайте|пришлите|отправляйте|сгенерированных|сгенерировано|конфиденциальность|оригиналы|записи\s+люди|увидите\s+что-то\s+подобное|за\s+настоящие\s+записи)/i
 ];
 
 class FileKV {
@@ -232,13 +234,13 @@ function decodeHtmlEntities(str: string): string {
 function cleanText(val: any): string {
     let t = String(val ?? "");
     t = t.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/gi, "$1");
-    t = t.replace(/<br\s*\/?>/gi, "\n"); // Сохраняем переносы строк
+    t = t.replace(/<br\s*\/?>/gi, "\n");
     t = decodeHtmlEntities(t); t = decodeHtmlEntities(t);
     t = t.replace(/<[^>]+>/g, " ");
-    t = t.replace(/[ \t]+/g, " "); // Схлопываем пробелы, но оставляем \n
-    t = t.replace(/\n\s+/g, "\n"); // Убираем пробелы после переноса
-    t = t.replace(/\s+\n/g, "\n"); // Убираем пробелы перед переносом
-    t = t.replace(/\n{3,}/g, "\n\n"); // Максимум 2 переноса подряд
+    t = t.replace(/[ \t]+/g, " ");
+    t = t.replace(/\n\s+/g, "\n");
+    t = t.replace(/\s+\n/g, "\n");
+    t = t.replace(/\n{3,}/g, "\n\n");
     t = t.replace(/([а-я])([А-Я])/g, "$1 $2");
     t = t.replace(/([a-zA-Z])\s+_([a-zA-Z])/g, "$1 $2");
     t = t.replace(/([a-zA-Z])_([a-zA-Z])/g, "$1 $2");
@@ -292,7 +294,7 @@ async function isDuplicate(title: string, desc?: string): Promise<boolean> {
 }
 
 async function getContentHash(text: string): Promise<string> {
-    const clean = text.toLowerCase().replace(/[^a-zа-я0-9]/gi, "").slice(0, 300); // Увеличено до 300
+    const clean = text.toLowerCase().replace(/[^a-zа-я0-9]/gi, "").slice(0, 300);
     if (!clean) return "";
     const hashBuffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(clean));
     return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, "0")).join("");
@@ -313,10 +315,10 @@ function isTrashUrl(url: string): boolean {
         low.includes("mc.yandex") || low.includes("counter") || low.includes("pixel") || 
         low.includes("banner") || low.includes("/card") || low.includes("textcard") || 
         low.includes("share") || low.includes("logo") || low.includes("avatar") || 
-        low.includes("stub") || low.includes("1x1") || low.endsWith(".svg") ||
+        low.includes("userpic") || low.includes("stub") || low.includes("1x1") || low.endsWith(".svg") ||
         low.includes("google.com") || low.includes("interfax.ru/ftproot") ||
         low.includes("data:image") || low.includes("base64,") ||
-        /\b(?:rt\.com|tass\.ru|ria\.ru)\b/.test(low) || // Точечная проверка доменов
+        /\b(?:rt\.com|tass\.ru|ria\.ru)\b/.test(low) ||
         low.includes("brand") || low.includes("icon") || low.includes("mockup")
     ) {
         return true;
@@ -384,11 +386,6 @@ async function downloadBuffer(url: string, isVideo = false): Promise<Uint8Array 
     return null;
 }
 
-// Удален неверный фикс Starshield -> Starlink (это разные вещи)
-function fixBrandNames(text: string): string {
-    return text;
-}
-
 function validateHeadline(llmHead: string, fallbackHead: string): string {
     let h = (llmHead || "").trim();
     h = h.replace(/\.+$/, "").replace(/…$/, "");
@@ -398,7 +395,7 @@ function validateHeadline(llmHead: string, fallbackHead: string): string {
     const vaguePhrases = ["работа сделана", "дело тонкое", "к ответу", "на частоте", "всем известно", "без комментариев", "шокирующая", "свершилось"];
     if (vaguePhrases.some(p => h.toLowerCase().includes(p))) return fallbackHead;
     if (!/[a-zA-Zа-яА-Я0-9]/.test(h)) return fallbackHead;
-    return fixBrandNames(h.charAt(0).toUpperCase() + h.slice(1));
+    return h.charAt(0).toUpperCase() + h.slice(1);
 }
 
 function sanitizeRawText(raw: string): string {
@@ -417,13 +414,12 @@ function sanitizeRawText(raw: string): string {
         "Подписаться", "Подпишись", "Подписывайтесь", "Мы в Максе", 'Мы в "Максе"', "Мы в «Максе»", 
         "Наш канал в Максе", "Читайте нас в Максе", "Читайте в Максе", "Канал Минобороны", 
         "Канал в МАКС", "Больше новостей", "Читайте также", "только для своих", 
-        "Источник:", "Фото:", "Видео:", "Прислать новость", "Предложить новость"
+        "Источник:", "Фото:", "Видео:", "Прислать новость", "Предложить новость", "Присылайте"
     ];
     
     for (const m of markers) {
         const idx = t.toLowerCase().indexOf(m.toLowerCase());
         if (idx > 10) { 
-            // Ищем последнюю точку перед маркером, чтобы не обрезать на полуслове
             let cutIdx = idx;
             const sub = t.slice(0, idx);
             const lastPunct = Math.max(sub.lastIndexOf('.'), sub.lastIndexOf('!'), sub.lastIndexOf('?'));
@@ -437,7 +433,7 @@ function sanitizeRawText(raw: string): string {
     t = t.replace(/⚡\s*ФАКТОР/gi, "");
     t = t.replace(/[\s◆♦●○■▪▫▶➡⬛⬜«»"'.,;:!?/\-–—]+$/g, "");
 
-    return fixBrandNames(t.trim());
+    return t.trim();
 }
 
 async function applyBrandOverlay(bytes: Uint8Array): Promise<Uint8Array> {
@@ -543,6 +539,9 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 if (isGibberish(textRaw)) continue;
                 if (BORING_TOPICS.some(r => r.test(textRaw))) continue;
 
+                // Пропускаем призывы присылать видео
+                if (/(?:присылайте|пришлите|отправляйте|сгенерированных|оригиналы|увидите\s+что-то\s+подобное)/i.test(textRaw)) continue;
+
                 const sanitized = sanitizeRawText(textRaw);
                 if (sanitized.length < 100) continue;
                 
@@ -552,10 +551,10 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 }
 
                 const firstSentence = sanitized.split(/[.!?]\s/)[0] || sanitized;
-                let truncatedTitle = firstSentence; // Убрана жесткая обрезка до 150 символов
+                let truncatedTitle = firstSentence;
                 
                 if (truncatedTitle.trim().length < 15) {
-                    truncatedTitle = sanitized; // Если первое предложение короткое, берем весь текст
+                    truncatedTitle = sanitized;
                 }
 
                 const postIdMatch = post.match(/data-post=["']([^"']+)["']/i);
@@ -564,7 +563,7 @@ async function fetchTelegramLiveFeed(): Promise<any[]> {
                 const images = [
                     ...post.matchAll(/<a[^>]+class="tgme_widget_message_photo_wrap[^"]*"[^>]+style="[^"]*background-image:url\('([^']+)'\)/gi),
                     ...post.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)
-                ].map(m => m[1]).filter(u => !isTrashUrl(u));
+                ].map(m => m[1]).filter(u => !isTrashUrl(u) && !u.includes("avatar") && !u.includes("userpic"));
 
                 let videos: string[] = [];
                 
@@ -643,7 +642,7 @@ async function fetchRssFeeds(): Promise<any[]> {
                     continue;
                 }
 
-                const truncatedTitle = title; // Убрана обрезка
+                const truncatedTitle = title;
                 const postKey = `${feed.name.toLowerCase()}_${simpleHash(title + (link || ""))}`;
                 
                 const enclosureImg = raw.match(/<enclosure[^>]+url=["']([^"']+)["'][^>]+type=["']image/i)?.[1];
@@ -679,7 +678,7 @@ async function fetchRssFeeds(): Promise<any[]> {
 async function formatNewsPost(title: string, desc: string, lastTag: string): Promise<{ headline: string, body: string, insight: string, importance: number, is_ad: boolean, hashtag: string, disclaimer: string }> {
     try {
         let cleanDesc = sanitizeRawText(desc);
-        const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, ""); // Убрана обрезка
+        const fallbackHeadline = sanitizeRawText(title).replace(/\s+[-—]\s+.*$/, ""); 
         
         if (cleanDesc.toLowerCase().startsWith(fallbackHeadline.toLowerCase())) {
             cleanDesc = cleanDesc.slice(fallbackHeadline.length).trim();
@@ -704,17 +703,20 @@ async function formatNewsPost(title: string, desc: string, lastTag: string): Pro
 ${cleanDesc}
 
 ТВОИ ЗАДАЧИ:
-1. is_absurd — верни true ТОЛЬКО если текст является откровенным бредом, шуткой, мемом или набором несвязных символов. НЕ отклоняй реальные новости (даже если они короткие или кажутся тебе странными). Если это нормальная новость — false.
+1. is_absurd — верни true ТОЛЬКО если текст является откровенным бредом, шуткой, мемом или набором несвязных символов. НЕ отклоняй реальные новости. Если это нормальная новость — false.
 2. is_old — true, если в тексте упоминаются события ДАВНО ПРОШЕДШИХ лет. Если новость актуальна — false.
 3. headline — яркий и эпичный заголовок (до 9 слов) с 1-2 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨, 💥, 🔥). БЕЗ МНОГОТОЧИЙ. Точно передает суть.
+   🚨 ВАЖНО ПРО ЛОКАЦИЮ: Если новость о конкретном событии (обстрел, авария, происшествие), ОБЯЗАТЕЛЬНО добавь город или регион в заголовок (например: "Обстрел здания в Белгороде"). 
 4. body — Оформи текст как структурированный список из 2-4 пунктов. 
    - КАЖДЫЙ ПУНКТ начинай с одного из этих эмодзи: 📍 (факт), 📊 (цифры), 💰 (деньги), ⚡️ (срочно), 🛡 (безопасность). 
    - КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО использовать черные квадраты (▪️, ■, ⬛) и маркеры списка (-, *). Только эмодзи!
+   - 🚨 ОБЯЗАТЕЛЬНОЕ ПРАВИЛО: В самом первом пункте (с эмодзи 📍) ты ДОЛЖЕН указать географию события (Город, Регион, Страну). Если локации нет в тексте, напиши 'Место не уточняется'. 
    - Включи ТОЛЬКО ключевые факты (имена, цифры, детали, контекст).
    - Выдели главные акценты тегами <b>жирный шрифт</b>.
-   - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Верни ОДНУ СТРОКУ с переносами \\n. 
-   - КАТЕГОРИЧЕСКИ НЕ ОБРЫВАЙ ПРЕДЛОЖЕНИЯ. Каждая мысль должна быть закончена. Никаких "..." в конце.
-5. insight — (Взгляд ФАКТОРА) — 1-2 предложения (до 20 слов). Оцени последствия для обычного человека: что будет с ценами, безопасностью или экономикой. Начинай со слова "💡 Взгляд ФАКТОРА:".
+   - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Верни ОДНУ СТРОКУ с переносами \\n между пунктами.
+   - КАТЕГОРИЧЕСКИ НЕ ОБРЫВАЙ ПРЕДЛОЖЕНИЯ.
+5. insight — (Взгляд ФАКТОРА) — 1-2 предложения (до 20 слов). Оцени последствия для обычного человека: что будет с ценами, безопасностью или экономикой. 
+   - 🚨 ВАЖНО: Не пиши в начале текста "💡 Взгляд ФАКТОРА:", просто напиши сам текст оценки. Бот сам добавит заголовок.
 6. importance — целое 1-10. (9-10 БУНТЫ, ВОЙНЫ, ТЕРАКТЫ; 7-8 политика/экономика; 5-6 интересные факты, технологии, общество; 1-4 мусор/бытовуха).
 7. is_ad — true, если это реклама.
 8. hashtag — выбери один тег по теме: #Политика, #Экономика, #Мир, #Происшествия, #Технологии, #Наука, #Общество, #Россия.
@@ -777,14 +779,22 @@ ${cleanDesc}
             let headlineStr = String(llmResult.headline || "").trim();
             let bodyStr = llmResult.body;
             
-            // Очистка от квадратов и лишних маркеров, если ИИ ослушался
             if (Array.isArray(bodyStr)) {
                 bodyStr = bodyStr.map((b: any) => String(b).replace(/^[-*▪️■⬛\s]+/, "").trim()).join("\n\n");
             } else {
                 bodyStr = String(bodyStr || "").replace(/^[-*▪️■⬛\s]+/gm, "").trim();
+                // Делаем двойные переносы строк для красоты абзацев
+                if (!bodyStr.includes("\n\n") && bodyStr.includes("\n")) {
+                    bodyStr = bodyStr.replace(/\n/g, "\n\n");
+                }
             }
             
-            const insightStr = String(llmResult.insight || "").replace(/<[^>]*>/g, "").trim();
+            // Убираем дубль "Взгляд ФАКТОРА" из текста ИИ
+            const insightStr = String(llmResult.insight || "")
+                .replace(/<[^>]*>/g, "")
+                .replace(/💡\s*Взгляд\s+ФАКТОРА:?\s*/gi, "")
+                .trim();
+                
             let disclaimerStr = String(llmResult.disclaimer || "").trim();
 
             const metaPhrases = ["новость не подтверждена", "публикация невозможна", "отсутствуют детали", "нет фактов", "без первоисточника", "детали неизвестны", "подробности не раскрываются", "не установлен", "уточняются"];
@@ -793,7 +803,6 @@ ${cleanDesc}
                 return { headline: "", body: "", insight: "", disclaimer: "", importance: 0, is_ad: false, hashtag: "" };
             }
 
-            // Исправлен баг: если body есть, но headline пустой, берем fallbackHeadline, а не выкидываем всё
             if (bodyStr) {
                 const isEnglish = (bodyStr.match(/[a-zA-Z]/g) || []).length > (bodyStr.match(/[а-яА-Я]/g) || []).length;
                 if (!isEnglish) {
@@ -878,7 +887,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v168: Запуск (Ultimate Clean) ===");
+    console.log("=== ФАКТОР v169: Запуск (Ultimate Fix) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
@@ -948,7 +957,6 @@ async function run(): Promise<boolean> {
             for (const pastDesc of recentDescs) { if (isSimilar(item.desc, pastDesc)) { isSimilarFound = true; break; } }
             if (isSimilarFound) { skippedDup++; continue; }
 
-            // 🚀 ЭКОНОМИЯ ИИ: Проверяем на экстренность и кулдаун ДО вызова LLM
             const isBreaking = /(?:бунт|восстание|переворот|концлагерь|массов.*беспорядк|бомбят|бомбежка|прилет|пво|сбили.*над москвой|атака.*на москву|теракт)/i.test(item.desc);
             
             if (!isBreaking && isCooldownActive) {
@@ -971,7 +979,6 @@ async function run(): Promise<boolean> {
                 console.log("🔥 ЭПИЧЕСКАЯ НОВОСТЬ (Важность 10). Игнорируем задержки!");
             }
 
-            // Если нет медиа, публикуем только если важность 7+
             if (mediaPacket.length === 0 && finalImportance < 7) {
                 console.log(`❌ Пропуск: нет медиа, важность ${finalImportance} < 7.`);
                 skippedNoMedia++;
