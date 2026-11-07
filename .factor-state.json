@@ -75,55 +75,6 @@
       "value": "#Мир",
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"d50845fd2d5b10642d45eee821be0110386c02bde251c4ad5cb8c3c16d1fd3de\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "d50845fd2d5b10642d45eee821be0110386c02bde251c4ad5cb8c3c16d1fd3de"
-      ],
-      "value": true,
-      "expiresAt": 1794026298011
-    },
-    "[\"factor\",\"topic\",\"d50845fd2d5b10642d45eee821be0110386c02bde251c4ad5cb8c3c16d1fd3de\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "d50845fd2d5b10642d45eee821be0110386c02bde251c4ad5cb8c3c16d1fd3de"
-      ],
-      "value": {
-        "title": "Раскрыта месть Трампа Нетаньяху за провал: главная новость войны 6 ноября",
-        "roots": [
-          "раскры",
-          "месть",
-          "трампа",
-          "нетань",
-          "провал",
-          "главна",
-          "новост",
-          "войны",
-          "ноября"
-        ]
-      },
-      "expiresAt": 1794026298012
-    },
-    "[\"factor\",\"texthash\",\"62db189ebbd75530c6a76071057f16b7d385f42f7ecd9c5b24a586368434bbd6\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "62db189ebbd75530c6a76071057f16b7d385f42f7ecd9c5b24a586368434bbd6"
-      ],
-      "value": true,
-      "expiresAt": 1794026298013
-    },
-    "[\"factor\",\"content\",\"a60105620ec9c512bbe1ab0491968dea3acbe908d66d3ac2ca8bb41e5fb545e8\"]": {
-      "key": [
-        "factor",
-        "content",
-        "a60105620ec9c512bbe1ab0491968dea3acbe908d66d3ac2ca8bb41e5fb545e8"
-      ],
-      "value": true,
-      "expiresAt": 1794026298014
-    },
     "[\"factor\",\"pub\",\"97a8bbc72a01f51b930ea49c764354e90cc02cd72e54f13175e31d4de654e885\"]": {
       "key": [
         "factor",
