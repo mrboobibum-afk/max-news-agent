@@ -75,57 +75,6 @@
       "value": "#Актуально",
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"83d2b14c6242f12b940ec4c3f2760ea509419b373ac41f85c79652aac6aae90c\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "83d2b14c6242f12b940ec4c3f2760ea509419b373ac41f85c79652aac6aae90c"
-      ],
-      "value": true,
-      "expiresAt": 1794155931536
-    },
-    "[\"factor\",\"topic\",\"83d2b14c6242f12b940ec4c3f2760ea509419b373ac41f85c79652aac6aae90c\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "83d2b14c6242f12b940ec4c3f2760ea509419b373ac41f85c79652aac6aae90c"
-      ],
-      "value": {
-        "title": "Нападавший в Польше открыл огонь на Главной площади и проехал почти 1,5 км, беспорядочно стреляя в прохожих",
-        "roots": [
-          "напада",
-          "польше",
-          "открыл",
-          "огонь",
-          "главно",
-          "площад",
-          "проеха",
-          "почти",
-          "беспор",
-          "стреля",
-          "прохож"
-        ]
-      },
-      "expiresAt": 1794155931537
-    },
-    "[\"factor\",\"texthash\",\"c5d2a501fff72186ecd14ef64236251332ff5bd6b462b0a1d298ba61c2b45168\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "c5d2a501fff72186ecd14ef64236251332ff5bd6b462b0a1d298ba61c2b45168"
-      ],
-      "value": true,
-      "expiresAt": 1794155931538
-    },
-    "[\"factor\",\"content\",\"eb9ad7ad69ffa981a5fdf35d0add7da6f6c05937c0e0ea4179e66890c44558eb\"]": {
-      "key": [
-        "factor",
-        "content",
-        "eb9ad7ad69ffa981a5fdf35d0add7da6f6c05937c0e0ea4179e66890c44558eb"
-      ],
-      "value": true,
-      "expiresAt": 1794155931538
-    },
     "[\"factor\",\"pub\",\"e5938a39bd67831ee1ed203d6a000eaab48290e67635aedd1b3fb2940ddf99e0\"]": {
       "key": [
         "factor",
