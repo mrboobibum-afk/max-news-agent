@@ -75,57 +75,6 @@
       "value": "#Происшествия",
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"7679041ab23574be7b6dc0a4f045fdaa18787509209adfe05e95c22151a2d2de\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "7679041ab23574be7b6dc0a4f045fdaa18787509209adfe05e95c22151a2d2de"
-      ],
-      "value": true,
-      "expiresAt": 1794170406141
-    },
-    "[\"factor\",\"topic\",\"7679041ab23574be7b6dc0a4f045fdaa18787509209adfe05e95c22151a2d2de\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "7679041ab23574be7b6dc0a4f045fdaa18787509209adfe05e95c22151a2d2de"
-      ],
-      "value": {
-        "title": "Строители и банкиры резко подняли ставки: ситуация с наймом в Оренбуржье приняла новый оборот",
-        "roots": [
-          "строит",
-          "банкир",
-          "резко",
-          "поднял",
-          "ставки",
-          "ситуац",
-          "наймом",
-          "оренбу",
-          "принял",
-          "новый",
-          "оборот"
-        ]
-      },
-      "expiresAt": 1794170406142
-    },
-    "[\"factor\",\"texthash\",\"644c94f1fc6b4e354ee76c339127ba0b11c11b018c68bf0389985e87f41f655f\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "644c94f1fc6b4e354ee76c339127ba0b11c11b018c68bf0389985e87f41f655f"
-      ],
-      "value": true,
-      "expiresAt": 1794170406143
-    },
-    "[\"factor\",\"content\",\"a6e4e71f8625c46dc84e0ebd68547f3bb9a4ec706cde4dbe19e42e8fc50990e6\"]": {
-      "key": [
-        "factor",
-        "content",
-        "a6e4e71f8625c46dc84e0ebd68547f3bb9a4ec706cde4dbe19e42e8fc50990e6"
-      ],
-      "value": true,
-      "expiresAt": 1794170406144
-    },
     "[\"factor\",\"pub\",\"7d3ba92395df03873d5f01d6872dfead6d6836a289968e313d2f0a6cb334ca3d\"]": {
       "key": [
         "factor",
