@@ -75,53 +75,6 @@
       "value": "#Актуально",
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"27407fff3ef4c040983ceb0b2d119d7f9888efdd5c3dd878998763b86d58a3e4\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "27407fff3ef4c040983ceb0b2d119d7f9888efdd5c3dd878998763b86d58a3e4"
-      ],
-      "value": true,
-      "expiresAt": 1794198917695
-    },
-    "[\"factor\",\"topic\",\"27407fff3ef4c040983ceb0b2d119d7f9888efdd5c3dd878998763b86d58a3e4\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "27407fff3ef4c040983ceb0b2d119d7f9888efdd5c3dd878998763b86d58a3e4"
-      ],
-      "value": {
-        "title": "Средства ПВО Саудовской Аравии перехватили баллистическую ракету хуситов",
-        "roots": [
-          "средст",
-          "саудов",
-          "аравии",
-          "перехв",
-          "баллис",
-          "ракету",
-          "хусито"
-        ]
-      },
-      "expiresAt": 1794198917696
-    },
-    "[\"factor\",\"texthash\",\"45b72517d27f30e2774a51ed85f024de8117e83aed63e92e5219efc0e7b9de5f\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "45b72517d27f30e2774a51ed85f024de8117e83aed63e92e5219efc0e7b9de5f"
-      ],
-      "value": true,
-      "expiresAt": 1794198917696
-    },
-    "[\"factor\",\"content\",\"910fd5bf14929408f46b89f7b40508a37817825c4c8f8aaf13f79bd770f7ebf1\"]": {
-      "key": [
-        "factor",
-        "content",
-        "910fd5bf14929408f46b89f7b40508a37817825c4c8f8aaf13f79bd770f7ebf1"
-      ],
-      "value": true,
-      "expiresAt": 1794198917697
-    },
     "[\"factor\",\"pub\",\"83269876c2f100c9da2f24a307d397c16e5558e07e8fab3563111d99e499e12f\"]": {
       "key": [
         "factor",
