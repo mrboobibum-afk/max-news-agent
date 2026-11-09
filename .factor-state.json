@@ -75,54 +75,6 @@
       "value": "#Технологии",
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"06e71388335fe58e4925d6be2053a1a856d7c5ba0bf965dbaa36ff36cc1de4d7\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "06e71388335fe58e4925d6be2053a1a856d7c5ba0bf965dbaa36ff36cc1de4d7"
-      ],
-      "value": true,
-      "expiresAt": 1794184536837
-    },
-    "[\"factor\",\"topic\",\"06e71388335fe58e4925d6be2053a1a856d7c5ba0bf965dbaa36ff36cc1de4d7\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "06e71388335fe58e4925d6be2053a1a856d7c5ba0bf965dbaa36ff36cc1de4d7"
-      ],
-      "value": {
-        "title": "Можно бегать до седьмого пота и проиграть обычной прогулке: в чём подвох этих нагрузок",
-        "roots": [
-          "можно",
-          "бегать",
-          "седьмо",
-          "проигр",
-          "обычно",
-          "прогул",
-          "подвох",
-          "нагруз"
-        ]
-      },
-      "expiresAt": 1794184536849
-    },
-    "[\"factor\",\"texthash\",\"cacd054c772d5b148122d45fb579a49bbc503ab25cec752a7d9a5cba1e6117db\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "cacd054c772d5b148122d45fb579a49bbc503ab25cec752a7d9a5cba1e6117db"
-      ],
-      "value": true,
-      "expiresAt": 1794184536851
-    },
-    "[\"factor\",\"content\",\"b3e4aa00f61260a96af3e07a520e50c3858722d46909667277f18dbc43a6dd1b\"]": {
-      "key": [
-        "factor",
-        "content",
-        "b3e4aa00f61260a96af3e07a520e50c3858722d46909667277f18dbc43a6dd1b"
-      ],
-      "value": true,
-      "expiresAt": 1794184536863
-    },
     "[\"factor\",\"pub\",\"9a16a7f30a72c7ed48cc87ec2a94862f158a73456cbff09047dd5d8eade54706\"]": {
       "key": [
         "factor",
