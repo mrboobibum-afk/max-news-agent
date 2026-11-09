@@ -75,51 +75,6 @@
       "value": "#Политика",
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"b4a01d89181d7d165b58aeea7238a0674658a6a985bd056ae3a9c6dd20256798\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "b4a01d89181d7d165b58aeea7238a0674658a6a985bd056ae3a9c6dd20256798"
-      ],
-      "value": true,
-      "expiresAt": 1794242261256
-    },
-    "[\"factor\",\"topic\",\"b4a01d89181d7d165b58aeea7238a0674658a6a985bd056ae3a9c6dd20256798\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "b4a01d89181d7d165b58aeea7238a0674658a6a985bd056ae3a9c6dd20256798"
-      ],
-      "value": {
-        "title": "Новости СВО: Заградительные аэростаты с тросами поймали стокилограммовый дрон",
-        "roots": [
-          "заград",
-          "аэрост",
-          "тросам",
-          "поймал",
-          "стокил"
-        ]
-      },
-      "expiresAt": 1794242261258
-    },
-    "[\"factor\",\"texthash\",\"34eb792a1370ecadb2f39ff550601a62d763a3de1f0d17a31a023c145601b2df\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "34eb792a1370ecadb2f39ff550601a62d763a3de1f0d17a31a023c145601b2df"
-      ],
-      "value": true,
-      "expiresAt": 1794242261259
-    },
-    "[\"factor\",\"content\",\"5939054adcdd4ba67f2ab78a65012f5c43256d9740003cb9365cb00da4fa6214\"]": {
-      "key": [
-        "factor",
-        "content",
-        "5939054adcdd4ba67f2ab78a65012f5c43256d9740003cb9365cb00da4fa6214"
-      ],
-      "value": true,
-      "expiresAt": 1794242261260
-    },
     "[\"factor\",\"pub\",\"a40522ea06e8b419410430943aa8c5b07c33a1e4c8613f1aa71b34f38d3caed5\"]": {
       "key": [
         "factor",
