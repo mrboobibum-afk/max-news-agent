@@ -75,53 +75,6 @@
       "value": "#Мир",
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"3f0fce475c79b257b3a4ee187ee59fc49e7fa563038b08c96ea511a4200f4d2b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "3f0fce475c79b257b3a4ee187ee59fc49e7fa563038b08c96ea511a4200f4d2b"
-      ],
-      "value": true,
-      "expiresAt": 1794256716542
-    },
-    "[\"factor\",\"topic\",\"3f0fce475c79b257b3a4ee187ee59fc49e7fa563038b08c96ea511a4200f4d2b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "3f0fce475c79b257b3a4ee187ee59fc49e7fa563038b08c96ea511a4200f4d2b"
-      ],
-      "value": {
-        "title": "Генсек ООН осудил стрельбу в Кракове, унёсшую жизни шести человек",
-        "roots": [
-          "генсек",
-          "осудил",
-          "стрель",
-          "краков",
-          "жизни",
-          "шести",
-          "челове"
-        ]
-      },
-      "expiresAt": 1794256716544
-    },
-    "[\"factor\",\"texthash\",\"747a47bb423fd62d39f68ce8cb7f4bc0cfa8e7b6f7e736bc81811882fcd038d4\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "747a47bb423fd62d39f68ce8cb7f4bc0cfa8e7b6f7e736bc81811882fcd038d4"
-      ],
-      "value": true,
-      "expiresAt": 1794256716545
-    },
-    "[\"factor\",\"content\",\"c8da66d985530c09cc60a01c67eebb16e4188042bef0ce5feed14b15d730e935\"]": {
-      "key": [
-        "factor",
-        "content",
-        "c8da66d985530c09cc60a01c67eebb16e4188042bef0ce5feed14b15d730e935"
-      ],
-      "value": true,
-      "expiresAt": 1794256716546
-    },
     "[\"factor\",\"pub\",\"c733bb478aafd091ed44abf381ca5a95032fb3a34027569ee5308ec4ea48b29c\"]": {
       "key": [
         "factor",
