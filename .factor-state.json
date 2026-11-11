@@ -75,51 +75,6 @@
       "value": "#Политика",
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"fe990310dcb5151f4e3d3a4759bdca9e71c0089c70b6917b32275a7ce7d466b7\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "fe990310dcb5151f4e3d3a4759bdca9e71c0089c70b6917b32275a7ce7d466b7"
-      ],
-      "value": true,
-      "expiresAt": 1794371887189
-    },
-    "[\"factor\",\"topic\",\"fe990310dcb5151f4e3d3a4759bdca9e71c0089c70b6917b32275a7ce7d466b7\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "fe990310dcb5151f4e3d3a4759bdca9e71c0089c70b6917b32275a7ce7d466b7"
-      ],
-      "value": {
-        "title": "Кому в ЦФО легче всего платить ипотечные кредиты",
-        "roots": [
-          "легче",
-          "всего",
-          "платит",
-          "ипотеч",
-          "кредит"
-        ]
-      },
-      "expiresAt": 1794371887190
-    },
-    "[\"factor\",\"texthash\",\"7801b31a4c125825cf034380b9139be344c7538781325d80f6da9b2facf77a0c\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "7801b31a4c125825cf034380b9139be344c7538781325d80f6da9b2facf77a0c"
-      ],
-      "value": true,
-      "expiresAt": 1794371887191
-    },
-    "[\"factor\",\"content\",\"c6d528a3b02c30e364392cdff3e28a3ef11e43e49b88b527275d54f6d3cf1ddb\"]": {
-      "key": [
-        "factor",
-        "content",
-        "c6d528a3b02c30e364392cdff3e28a3ef11e43e49b88b527275d54f6d3cf1ddb"
-      ],
-      "value": true,
-      "expiresAt": 1794371887192
-    },
     "[\"factor\",\"pub\",\"bc293f8eaa62e857d26d52505305a3470447b11abaa3ea9d0324162f0173c782\"]": {
       "key": [
         "factor",
