@@ -75,53 +75,6 @@
       "value": "#Политика",
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"5fb3fad53e33fc431d9c1482bd5b3721d04e6aa4c69653d7a14427fcf95086dc\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "5fb3fad53e33fc431d9c1482bd5b3721d04e6aa4c69653d7a14427fcf95086dc"
-      ],
-      "value": true,
-      "expiresAt": 1794428846415
-    },
-    "[\"factor\",\"topic\",\"5fb3fad53e33fc431d9c1482bd5b3721d04e6aa4c69653d7a14427fcf95086dc\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "5fb3fad53e33fc431d9c1482bd5b3721d04e6aa4c69653d7a14427fcf95086dc"
-      ],
-      "value": {
-        "title": "МИД России заявил решительный протест послу Молдавии Лилиане Дарию",
-        "roots": [
-          "россии",
-          "решите",
-          "протес",
-          "послу",
-          "молдав",
-          "лилиан",
-          "дарию"
-        ]
-      },
-      "expiresAt": 1794428846417
-    },
-    "[\"factor\",\"texthash\",\"fd11c8eb1af620287626a3132cb035e2ce7be671be9e3be8ccad8dcef5d62445\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "fd11c8eb1af620287626a3132cb035e2ce7be671be9e3be8ccad8dcef5d62445"
-      ],
-      "value": true,
-      "expiresAt": 1794428846418
-    },
-    "[\"factor\",\"content\",\"9f61507bb68a9de22b82839434b7a139578945025d696c40b4f474bba6053099\"]": {
-      "key": [
-        "factor",
-        "content",
-        "9f61507bb68a9de22b82839434b7a139578945025d696c40b4f474bba6053099"
-      ],
-      "value": true,
-      "expiresAt": 1794428846419
-    },
     "[\"factor\",\"pub\",\"3240404330d19350d068c2f03a5a1916629299efd206d677bd78a8a73ef1f982\"]": {
       "key": [
         "factor",
