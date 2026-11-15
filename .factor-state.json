@@ -75,58 +75,6 @@
       "value": "#Наука",
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"d6ac250e9cc17a365a8d63be4bc7bfeb988f0dbe0e0f1b2353082d7ba511136b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "d6ac250e9cc17a365a8d63be4bc7bfeb988f0dbe0e0f1b2353082d7ba511136b"
-      ],
-      "value": true,
-      "expiresAt": 1794774730640
-    },
-    "[\"factor\",\"topic\",\"d6ac250e9cc17a365a8d63be4bc7bfeb988f0dbe0e0f1b2353082d7ba511136b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "d6ac250e9cc17a365a8d63be4bc7bfeb988f0dbe0e0f1b2353082d7ba511136b"
-      ],
-      "value": {
-        "title": "Кушнер заявил, что в ходе последних дискуссий возникло несколько идей, которые \"могут привести к прорывам\" в урегулировании украинского конфликта",
-        "roots": [
-          "кушнер",
-          "послед",
-          "дискус",
-          "возник",
-          "нескол",
-          "которы",
-          "могут",
-          "привес",
-          "прорыв",
-          "урегул",
-          "украин",
-          "конфли"
-        ]
-      },
-      "expiresAt": 1794774730641
-    },
-    "[\"factor\",\"texthash\",\"3c556a381c89f8d166673e3160bb7ddf2a3604ff63644a93fa9eaa9bac6e3bd9\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "3c556a381c89f8d166673e3160bb7ddf2a3604ff63644a93fa9eaa9bac6e3bd9"
-      ],
-      "value": true,
-      "expiresAt": 1794774730641
-    },
-    "[\"factor\",\"content\",\"34abf6828cfa5c455560e517bd82404e01ea40c2b23e7fed868adb1ec6c542ab\"]": {
-      "key": [
-        "factor",
-        "content",
-        "34abf6828cfa5c455560e517bd82404e01ea40c2b23e7fed868adb1ec6c542ab"
-      ],
-      "value": true,
-      "expiresAt": 1794774730642
-    },
     "[\"factor\",\"pub\",\"7f88b20e99064e4c0ae5448c86f7a1f7ed649c238291cda0379b3b63065d9cbc\"]": {
       "key": [
         "factor",
