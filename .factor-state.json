@@ -75,52 +75,6 @@
       "value": "#Актуально",
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"05cafed0605ec751aea9cd816674f451eb3317b56c73d67d52ae93934db5d9d7\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "05cafed0605ec751aea9cd816674f451eb3317b56c73d67d52ae93934db5d9d7"
-      ],
-      "value": true,
-      "expiresAt": 1794789816692
-    },
-    "[\"factor\",\"topic\",\"05cafed0605ec751aea9cd816674f451eb3317b56c73d67d52ae93934db5d9d7\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "05cafed0605ec751aea9cd816674f451eb3317b56c73d67d52ae93934db5d9d7"
-      ],
-      "value": {
-        "title": "Израильские военные нанесли удар по высокопоставленному командиру ХАМАС",
-        "roots": [
-          "израил",
-          "военны",
-          "нанесл",
-          "высоко",
-          "команд",
-          "хамас"
-        ]
-      },
-      "expiresAt": 1794789816693
-    },
-    "[\"factor\",\"texthash\",\"f882cac10c874856b97fa055266f103022c055a8725f7ad0fae5208deb08c77f\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "f882cac10c874856b97fa055266f103022c055a8725f7ad0fae5208deb08c77f"
-      ],
-      "value": true,
-      "expiresAt": 1794789816694
-    },
-    "[\"factor\",\"content\",\"7c32a575192d67a108bb984a3137b11e7c55953d532df8bfbcce2db70c821599\"]": {
-      "key": [
-        "factor",
-        "content",
-        "7c32a575192d67a108bb984a3137b11e7c55953d532df8bfbcce2db70c821599"
-      ],
-      "value": true,
-      "expiresAt": 1794789816694
-    },
     "[\"factor\",\"pub\",\"affb30e108315802eabf158ccb9c5d884eae0752703144d82779ab17a61e54e2\"]": {
       "key": [
         "factor",
