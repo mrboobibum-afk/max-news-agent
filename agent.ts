@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v172 - Strict Quality Control)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v174 - Zero Hallucination)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -129,7 +129,10 @@ const BORING_TOPICS = [
     /(?:сбор\s+на|собрано\s+всего|собрано\s+за|реквизиты\s+для|номер\s+карты|пожертвован)/i,
     /(?:ремонт\s+авто|диагностика\s+на|рул[яе]|домкрат|замен[аы]\s+диск|колодк|двигател|вибраци)/i,
     /(?:смотреть\s+на|смотреть\s+в|rutube|youtube|vk\.com\/video)/i,
-    /(?:присылайте|пришлите|отправляйте|сгенерированных|сгенерировано|конфиденциальность|оригиналы|записи\s+люди|увидите\s+что-то\s+подобное|за\s+настоящие\s+записи)/i
+    /(?:присылайте|пришлите|отправляйте|сгенерированных|сгенерировано|конфиденциальность|оригиналы|записи\s+люди|увидите\s+что-то\s+подобное|за\s+настоящие\s+записи)/i,
+    // 🚀 Фильтры пустых новостей
+    /(?:авария|дтп|пожар|происшествие)\s+(?:произошл|случил)[а-я]*\s+(?:сегодня\s+)?(?:утром|ночью|днем|вечером)[^,.!?]*\./i,
+    /(?:повестка\s+дня.*сформирована|встреча\s+лидеров.*заявил\s+лавров)/i
 ];
 
 class FileKV {
@@ -240,7 +243,6 @@ function cleanText(val: any): string {
     t = t.replace(/\s+\n/g, "\n");
     t = t.replace(/\n{3,}/g, "\n\n");
     
-    // Чиним слипшиеся предложения (Например: "трясти В Асунсьоне" -> "трясти. В Асунсьоне")
     t = t.replace(/([а-яё])([А-ЯЁ])/g, "$1 $2");
     t = t.replace(/\s+([ВвКкСсУуОоАаИи])\s+(?=[А-ЯЁ])/g, (match, p1) => " " + p1.toLowerCase() + " ");
     
@@ -482,8 +484,7 @@ async function extractMediaFromUrl(url: string): Promise<{ video: string[], imag
 
             const vMatches = [
                 ...html.matchAll(/<video[^>]+src=["']([^"']+)["']/gi),
-                ...html.matchAll(/<source[^>]+src=["']([^"']+)["']/gi),
-                ...html.matchAll(/<meta[^>]+property=["']og:video["'][^>]+content=["']([^"']+)["']/gi)
+                ...html.matchAll(/<source[^>]+src=["']([^"']+)["']/gi)
             ].map(m => m[1]);
             
             res.video = [...new Set(vMatches)].filter(u => !isTrashUrl(u));
@@ -497,8 +498,7 @@ async function extractMediaFromUrl(url: string): Promise<{ video: string[], imag
                         const iframeHtml = await ir.text();
                         const iframeVideos = [
                             ...iframeHtml.matchAll(/<video[^>]+src=["']([^"']+)["']/gi),
-                            ...iframeHtml.matchAll(/<source[^>]+src=["']([^"']+)["']/gi),
-                            ...iframeHtml.matchAll(/<meta[^>]+property=["']og:video["'][^>]+content=["']([^"']+)["']/gi)
+                            ...iframeHtml.matchAll(/<source[^>]+src=["']([^"']+)["']/gi)
                         ].map(m => m[1]);
                         res.video.push(...iframeVideos.filter(u => !isTrashUrl(u)));
                     }
@@ -644,6 +644,7 @@ async function fetchRssFeeds(): Promise<any[]> {
                 const truncatedTitle = title;
                 const postKey = `${feed.name.toLowerCase()}_${simpleHash(title + (link || ""))}`;
                 
+                // 🚀 Берем только явные картинки из RSS (enclosure/media), избегая og:image из HTML
                 const enclosureImg = raw.match(/<enclosure[^>]+url=["']([^"']+)["'][^>]+type=["']image/i)?.[1];
                 const mediaContent = raw.match(/<media:content[^>]+url=["']([^"']+)["']/i)?.[1];
                 const mediaThumbnail = raw.match(/<media:thumbnail[^>]+url=["']([^"']+)["']/i)?.[1];
@@ -651,10 +652,10 @@ async function fetchRssFeeds(): Promise<any[]> {
                 let uniqueImages = [...new Set([enclosureImg, mediaContent, mediaThumbnail].filter(Boolean).filter(u => !isTrashUrl(u)))];
                 let uniqueVideos: string[] = [];
 
-                if (link) {
+                if (link && uniqueImages.length === 0) {
                     const deepMedia = await extractMediaFromUrl(link);
                     if (deepMedia.video.length > 0) uniqueVideos = deepMedia.video;
-                    if (uniqueImages.length === 0 && deepMedia.image.length > 0) uniqueImages = deepMedia.image;
+                    if (deepMedia.image.length > 0) uniqueImages = deepMedia.image;
                 }
 
                 const mediaUrls: any[] = [];
@@ -702,10 +703,10 @@ async function formatNewsPost(title: string, desc: string, lastTag: string): Pro
 ${cleanDesc}
 
 ТВОИ ЗАДАЧИ:
-1. is_absurd — верни true ТОЛЬКО если текст является откровенным бредом, шуткой, мемом или набором несвязных символов. НЕ отклоняй реальные новости. Если это нормальная новость — false.
+1. is_absurd — верни true ТОЛЬКО если текст является откровенным бредом, шуткой, мемом, набором несвязных символов ИЛИ ЕСЛИ В ТЕКСТЕ НЕТ КОНКРЕТИКИ (например, "авария произошла утром" без указания города, или "повестка сформирована" без самих пунктов повестки). НЕ отклоняй реальные новости. Если это нормальная новость — false.
 2. is_old — true, если в тексте упоминаются события ДАВНО ПРОШЕДШИХ лет. Если новость актуальна — false.
 3. headline — яркий и эпичный заголовок (до 9 слов) с 1-2 эмодзи (⚡️, 📍, 📊, 💰, 🌍, ⚠️, 🚨, 💥, 🔥). БЕЗ МНОГОТОЧИЙ. Точно передает суть.
-   🚨 ВАЖНО ПРО ЛОКАЦИЮ: Если в тексте есть конкретное место (город, регион), ОБЯЗАТЕЛЬНО добавь его в заголовок (например: "Обстрел здания в Белгороде"). Если места нет — не придумывай.
+   🚨 ВАЖНО ПРО ЛОКАЦИЮ: Если в тексте есть конкретное место (город, регион), ОБЯЗАТЕЛЬНО добавь его в заголовок (например: "Крупное ДТП произошло в [Город]"). Если места нет — не придумывай.
 4. body — Оформи текст как структурированный список из 3-4 пунктов. (Если фактов мало, можно 2 пункта, но не 1).
    - КАЖДЫЙ ПУНКТ начинай с одного из этих эмодзи: 📍 (факт), 📊 (цифры), 💰 (деньги), ⚡️ (срочно), 🛡 (безопасность). 
    - КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО использовать черные квадраты (▪️, ■, ⬛) и маркеры списка (-, *). Только эмодзи!
@@ -722,10 +723,10 @@ ${cleanDesc}
 8. hashtag — выбери СТРОГО один тег из этого списка: #Политика, #Экономика, #Мир, #Происшествия, #Технологии, #Наука, #Общество, #Россия. НЕ ИСПОЛЬЗУЙ тег #Новости.
 9. disclaimer — если в тексте упоминаются СМИ или лица, признанные иностранными агентами в РФ, ОБЯЗАТЕЛЬНО напиши: "⚠️ * Данная организация/лицо признана иностранным агентом на территории РФ." Если иноагентов нет — оставь пустую строку.
 
-ВНИМАНИЕ, ЖЕСТКИЕ ПРАВИЛА:
-- КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО искажать имена (Трамп, Путин, Байден). Пиши так, как в тексте.
+ВНИМАНИЕ, ЖЕСТКИЕ ПРАВИЛА (ЗАПРЕТ НА ГАЛЛЮЦИНАЦИИ):
+- 🚨 КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО выдумывать имена политиков, названия стран или локации, если их НЕТ в исходном тексте. 
+- Если в тексте сказано "лидеры трех держав" — пиши именно так. НЕ СМЕЙ перечислять страны (РФ, США, Китай), если они не указаны в тексте.
 - Если не уверен в факте — не пиши.
-- Если в исходном тексте мало подробностей (кто, где, когда), не выдумывай их. Опиши только то, что есть.
 
 Верни ТОЛЬКО JSON: {"is_absurd": false, "is_old": false, "headline": "...", "body": "...", "insight": "...", "importance": 8, "is_ad": false, "hashtag": "#Политика", "disclaimer": ""}`;
 
@@ -748,7 +749,7 @@ ${cleanDesc}
                     bodyPayload = { contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json", maxOutputTokens: 2500 } };
                 } else {
                     headers["Authorization"] = `Bearer ${provider.key}`;
-                    bodyPayload = { model: provider.model, messages: [{ role: "user", content: prompt }], temperature: 0.2, max_tokens: 2500 };
+                    bodyPayload = { model: provider.model, messages: [{ role: "user", content: prompt }], temperature: 0.1, max_tokens: 2500 };
                 }
 
                 const r = await fetch(provider.url, { method: "POST", headers: headers, body: JSON.stringify(bodyPayload), signal: AbortSignal.timeout(LLM_TIMEOUT_MS) });
@@ -905,7 +906,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v172: Запуск (Strict Quality Control) ===");
+    console.log("=== ФАКТОР v174: Запуск (Zero Hallucination) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
@@ -1035,7 +1036,6 @@ async function run(): Promise<boolean> {
                 if (uploaded.length >= MEDIA_PACKET_MAX) break;
             }
 
-            // 🚀 БАГФИКС: Если медиа были, но не скачались, проверяем важность
             if (uploaded.length === 0 && mediaPacket.length > 0) {
                 console.log(`⚠️ Медиа не скачалось.`);
                 if (finalImportance < 7) {
