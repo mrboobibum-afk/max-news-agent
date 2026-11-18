@@ -1,5 +1,5 @@
 // ============================================================
-// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v174 - Zero Hallucination)
+// MAX NEWS AGENT — «ФАКТОР» (Internal Loop v176 - Legal Compliance)
 // ============================================================
 
 import { Image } from "https://deno.land/x/imagescript@1.2.15/mod.ts";
@@ -42,6 +42,10 @@ const CURRENT_YEAR = NOW.getFullYear();
 // 🛡 РЕЕСТР ИНОАГЕНТОВ
 const I_AGENTS_REGEX = /(медуза|meduza|dw|deutsche welle|радио свобода|svoboda|можем объяснить|the bell|thebell|insider|инсайдер|новая газета|дудь|yurydud|сота|sota)/i;
 const I_AGENT_DISCLAIMER = "⚠️ * Данная организация/лицо признана иностранным агентом на территории РФ.";
+
+// 🛡 РЕЕСТР ЗАПРЕЩЕННЫХ ОРГАНИЗАЦИЙ (Террористические и экстремистские)
+const BANNED_ORGS_REGEX = /(исламское государство|игил|иг\b|аль-каида|аль каида|джебхат ан-нусра|хайят тахрир аш-шам|хтш|правый сектор|азов\b|уна-унсо|батальон азов|свобода россии|легион свобода россии|рдк|русский добровольческий корпус)/i;
+const BANNED_ORG_DISCLAIMER = "⚠️ * Организация признана террористической/экстремистской, ее деятельность запрещена на территории РФ.";
 
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
 
@@ -130,7 +134,6 @@ const BORING_TOPICS = [
     /(?:ремонт\s+авто|диагностика\s+на|рул[яе]|домкрат|замен[аы]\s+диск|колодк|двигател|вибраци)/i,
     /(?:смотреть\s+на|смотреть\s+в|rutube|youtube|vk\.com\/video)/i,
     /(?:присылайте|пришлите|отправляйте|сгенерированных|сгенерировано|конфиденциальность|оригиналы|записи\s+люди|увидите\s+что-то\s+подобное|за\s+настоящие\s+записи)/i,
-    // 🚀 Фильтры пустых новостей
     /(?:авария|дтп|пожар|происшествие)\s+(?:произошл|случил)[а-я]*\s+(?:сегодня\s+)?(?:утром|ночью|днем|вечером)[^,.!?]*\./i,
     /(?:повестка\s+дня.*сформирована|встреча\s+лидеров.*заявил\s+лавров)/i
 ];
@@ -644,7 +647,6 @@ async function fetchRssFeeds(): Promise<any[]> {
                 const truncatedTitle = title;
                 const postKey = `${feed.name.toLowerCase()}_${simpleHash(title + (link || ""))}`;
                 
-                // 🚀 Берем только явные картинки из RSS (enclosure/media), избегая og:image из HTML
                 const enclosureImg = raw.match(/<enclosure[^>]+url=["']([^"']+)["'][^>]+type=["']image/i)?.[1];
                 const mediaContent = raw.match(/<media:content[^>]+url=["']([^"']+)["']/i)?.[1];
                 const mediaThumbnail = raw.match(/<media:thumbnail[^>]+url=["']([^"']+)["']/i)?.[1];
@@ -715,13 +717,13 @@ ${cleanDesc}
    - Включи ТОЛЬКО ключевые факты (имена, цифры, детали, контекст).
    - Выдели главные акценты тегами <b>жирный шрифт</b>.
    - ПИШИ СТРОГО НА РУССКОМ ЯЗЫКЕ. Верни ОДНУ СТРОКУ с переносами \\n между пунктами.
-   - КАТЕГОРИЧЕСКИ НЕ ОБРЫВАЙ ПРЕДЛОЖЕНИЯ. ПИШИ ГРАМОТНО, без заглавных букв посреди предложения.
+   - КАТЕГОРИЧЕСКИ НЕ ОБРЫВАЙ ПРЕДЛОЖЕНИЯ. ПИШИ ГРАМОТНО, без заглавных букв посреди предложения. Фразы типа "в несообщении" исправляй на "за несообщение".
 5. insight — (Взгляд ФАКТОРА) — 1-2 предложения (до 20 слов). Оцени последствия для обычного человека: что будет с ценами, безопасностью или экономикой. 
    - 🚨 ВАЖНО: Не пиши в начале текста "💡 Взгляд ФАКТОРА:", просто напиши сам текст оценки. Бот сам добавит заголовок.
 6. importance — целое 1-10. (9-10 БУНТЫ, ВОЙНЫ, ТЕРАКТЫ; 7-8 политика/экономика; 5-6 интересные факты, технологии, общество; 1-4 мусор/бытовуха).
 7. is_ad — true, если это реклама.
 8. hashtag — выбери СТРОГО один тег из этого списка: #Политика, #Экономика, #Мир, #Происшествия, #Технологии, #Наука, #Общество, #Россия. НЕ ИСПОЛЬЗУЙ тег #Новости.
-9. disclaimer — если в тексте упоминаются СМИ или лица, признанные иностранными агентами в РФ, ОБЯЗАТЕЛЬНО напиши: "⚠️ * Данная организация/лицо признана иностранным агентом на территории РФ." Если иноагентов нет — оставь пустую строку.
+9. disclaimer — если в тексте упоминаются СМИ или лица, признанные иностранными агентами в РФ, ОБЯЗАТЕЛЬНО напиши: "⚠️ * Данная организация/лицо признана иностранным агентом на территории РФ." Если упоминаются запрещенные в РФ организации (ИГИЛ, Исламское государство, Аль-Каида, Правый сектор, Азов и т.д.), напиши: "⚠️ * Организация признана террористической/экстремистской, ее деятельность запрещена на территории РФ." Если ничего такого нет — оставь пустую строку.
 
 ВНИМАНИЕ, ЖЕСТКИЕ ПРАВИЛА (ЗАПРЕТ НА ГАЛЛЮЦИНАЦИИ):
 - 🚨 КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО выдумывать имена политиков, названия стран или локации, если их НЕТ в исходном тексте. 
@@ -906,7 +908,7 @@ async function commitStateToGit() {
 }
 
 async function run(): Promise<boolean> {
-    console.log("=== ФАКТОР v174: Запуск (Zero Hallucination) ===");
+    console.log("=== ФАКТОР v176: Запуск (Legal Compliance) ===");
     
     const lastPostTime = (await kv.get(["factor", "last_post_time"])).value || 0;
     const timeSinceLastPost = Date.now() - lastPostTime;
@@ -1017,11 +1019,22 @@ async function run(): Promise<boolean> {
             const textHash = await getTextHash(post.body);
             if ((await kv.get(["factor", "texthash", textHash])).value) { skippedDup++; continue; }
 
+            // 🚀 ПРИНУДИТЕЛЬНЫЕ СНОСКИ НА УРОВНЕ КОДА
             const combinedText = (post.headline + " " + post.body + " " + post.insight).toLowerCase();
-            if (I_AGENTS_REGEX.test(combinedText) && !post.disclaimer) {
-                console.log(`⚠️ Найден иноагент в тексте, принудительно добавляем сноску.`);
-                post.disclaimer = I_AGENT_DISCLAIMER;
+            let finalDisclaimer = post.disclaimer;
+
+            // Проверка на террористические/запрещенные организации
+            if (BANNED_ORGS_REGEX.test(combinedText) && !finalDisclaimer.includes("запрещена")) {
+                console.log(`⚠️ Найдена запрещенная организация. Добавляем сноску.`);
+                finalDisclaimer = finalDisclaimer ? `${finalDisclaimer}\n${BANNED_ORG_DISCLAIMER}` : BANNED_ORG_DISCLAIMER;
             }
+            // Проверка на иноагентов
+            if (I_AGENTS_REGEX.test(combinedText) && !finalDisclaimer.includes("иностранным агентом")) {
+                console.log(`⚠️ Найден иноагент. Добавляем сноску.`);
+                finalDisclaimer = finalDisclaimer ? `${finalDisclaimer}\n${I_AGENT_DISCLAIMER}` : I_AGENT_DISCLAIMER;
+            }
+
+            post.disclaimer = finalDisclaimer;
 
             const uploaded: Array<{ token: string; type: "image" | "video" }> = [];
             for (const media of mediaPacket) {
