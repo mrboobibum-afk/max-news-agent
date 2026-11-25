@@ -75,54 +75,6 @@
       "value": "#Политика",
       "expiresAt": null
     },
-    "[\"factor\",\"pub\",\"94fc837baa805908eb77a586a09b8d1795f0118a961e036cbc9893a4ea5a7c0b\"]": {
-      "key": [
-        "factor",
-        "pub",
-        "94fc837baa805908eb77a586a09b8d1795f0118a961e036cbc9893a4ea5a7c0b"
-      ],
-      "value": true,
-      "expiresAt": 1795581804866
-    },
-    "[\"factor\",\"topic\",\"94fc837baa805908eb77a586a09b8d1795f0118a961e036cbc9893a4ea5a7c0b\"]": {
-      "key": [
-        "factor",
-        "topic",
-        "94fc837baa805908eb77a586a09b8d1795f0118a961e036cbc9893a4ea5a7c0b"
-      ],
-      "value": {
-        "title": "Бренды переворачивают страницу // Крупнейшие рекламодатели сократили свое присутствие на маркетплейсах",
-        "roots": [
-          "бренды",
-          "перево",
-          "страни",
-          "крупне",
-          "реклам",
-          "сократ",
-          "присут",
-          "маркет"
-        ]
-      },
-      "expiresAt": 1795581804867
-    },
-    "[\"factor\",\"texthash\",\"41c421ada025ff1069ecb9d4f14a1f8e3628ef1fb1193577f0a95de151cbeb6d\"]": {
-      "key": [
-        "factor",
-        "texthash",
-        "41c421ada025ff1069ecb9d4f14a1f8e3628ef1fb1193577f0a95de151cbeb6d"
-      ],
-      "value": true,
-      "expiresAt": 1795581804867
-    },
-    "[\"factor\",\"content\",\"5264f02cc613c475abff6d38a7b7fb6f54e7deee8198cd2b451d50749a62d9a2\"]": {
-      "key": [
-        "factor",
-        "content",
-        "5264f02cc613c475abff6d38a7b7fb6f54e7deee8198cd2b451d50749a62d9a2"
-      ],
-      "value": true,
-      "expiresAt": 1795581804868
-    },
     "[\"factor\",\"pub\",\"756af0c1f3322dc3e6360c9967cbdb7bb48825fc1638f083ec8fcd848ec29786\"]": {
       "key": [
         "factor",
